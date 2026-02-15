@@ -372,7 +372,7 @@ export interface TimelineSolverOutput {
   constraints: (SinglePointConstraint | IntervalConstraint)[];
 }
 
-const promptExamples: { prompt: string, csl: CameraDirectionDSL }[] = [{
+export const promptExamples: { prompt: string, csl: CameraDirectionDSL }[] = [{
   prompt: "توپ رو دنبال کن و وقتی توپ نزدیک به دروازه شد، pedestal کن و از زاویه بالا توپ رو دنبال کن",
   csl: {
     sections: [
