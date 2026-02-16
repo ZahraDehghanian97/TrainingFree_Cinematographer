@@ -367,10 +367,29 @@ export enum LossFunctionType {
   MinPath = "minPath",
 }
 
-export interface TimelineSolverOutput {
+export interface SectionSolverOutput {
   initKeyframes: SinglePointConstraint[];
   constraints: (SinglePointConstraint | IntervalConstraint)[];
 }
+
+export interface TimelineSolverOutput {
+  sections: SectionSolverOutput[];
+}
+
+export type TimelineSegment =
+  | {
+      kind: "interval";
+      startTime: number;
+      endTime: number;
+      lossFunctions: LossFunction[];
+    }
+  | {
+      kind: "point";
+      time: number;
+      lossFunctions: LossFunction[];
+    };
+
+export type NormalizedTimeline = TimelineSegment[];
 
 export const promptExamples: { prompt: string, csl: CameraDirectionDSL }[] = [{
   prompt: "توپ رو دنبال کن و وقتی توپ نزدیک به دروازه شد، pedestal کن و از زاویه بالا توپ رو دنبال کن",
