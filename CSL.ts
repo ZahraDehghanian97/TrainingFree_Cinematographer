@@ -322,6 +322,7 @@ export interface Section {
 
 export interface CameraDirectionDSL {
   sections: Section[];
+  totalDuration: number;
 }
 
 
@@ -356,6 +357,8 @@ export enum LossFunctionType {
   PanMovement = "panMovement",
   TiltMovement = "tiltMovement",
   ArcMovement = "arcMovement",
+  Static = "Static",
+  FollowMovement = "followMovement",
 
   FramingPosition = "framingPosition",
   ShotSize = "shotSize",
@@ -367,14 +370,34 @@ export enum LossFunctionType {
   MinPath = "minPath",
 }
 
-export interface TimelineSolverOutput {
+export interface SectionSolverOutput {
   initKeyframes: SinglePointConstraint[];
   constraints: (SinglePointConstraint | IntervalConstraint)[];
 }
 
-const promptExamples: { prompt: string, csl: CameraDirectionDSL }[] = [{
+export interface TimelineSolverOutput {
+  sections: SectionSolverOutput[];
+}
+
+export type TimelineSegment =
+  | {
+      kind: "interval";
+      startTime: number;
+      endTime: number;
+      lossFunctions: LossFunction[];
+    }
+  | {
+      kind: "point";
+      time: number;
+      lossFunctions: LossFunction[];
+    };
+
+export type NormalizedTimeline = TimelineSegment[];
+
+export const promptExamples: { prompt: string, csl: CameraDirectionDSL }[] = [{
   prompt: "توپ رو دنبال کن و وقتی توپ نزدیک به دروازه شد، pedestal کن و از زاویه بالا توپ رو دنبال کن",
   csl: {
+    totalDuration: 10,
     sections: [
       {
         initCamera: {
@@ -414,7 +437,7 @@ const promptExamples: { prompt: string, csl: CameraDirectionDSL }[] = [{
               distance: 5
             },
             movement: {
-              act: CameraMovementType.PedestalUp
+              act: CameraMovementType.PedestalUp,
             }
           },
           {
@@ -448,9 +471,11 @@ const promptExamples: { prompt: string, csl: CameraDirectionDSL }[] = [{
     ]
   }
 },
+
 {
   prompt: "از زوم روی صورت مرد شروع کن، یک stop motion بزن و ۳ دور کامل دور صورت آن بچرخ",
   csl: {
+    totalDuration: 15,
     sections: [
       {
         initCamera: {
@@ -505,6 +530,7 @@ const promptExamples: { prompt: string, csl: CameraDirectionDSL }[] = [{
 {
   prompt: "ابتدا به صورت کلوزآپ گلدون رو نشون بده و بعد dolly out کن تا همزمان گلدون و مانیتور در صحنه دیده‌شوند.",
   csl: {
+    totalDuration:20,
     sections: [
       {
         initCamera: {
@@ -558,6 +584,7 @@ const promptExamples: { prompt: string, csl: CameraDirectionDSL }[] = [{
 {
   prompt: "به مدت ۲ ثانیه ماشین رو ترک کن و یک arc right دورش بزن و همزمان با arc روی راننده زوم کن",
   csl: {
+    totalDuration:15,
     sections: [
       {
         initCamera: {
@@ -642,9 +669,11 @@ const promptExamples: { prompt: string, csl: CameraDirectionDSL }[] = [{
     ]
   }
 },
+
 {
   prompt: "روی چهره بازیگر Dolly Out کن و همزمان Zoom In انجام بده تا پرسپکتیو پس‌زمینه تغییر کند اما اندازه صورت ثابت بماند.",
   csl: {
+    totalDuration:25,
     sections: [
       {
         initCamera: {
@@ -701,7 +730,7 @@ const promptExamples: { prompt: string, csl: CameraDirectionDSL }[] = [{
                 targets: [{ id: "actor_face", description: "The actor's face (چهره بازیگر)" }],
                 config: {
                   type: "subjectAware",
-                  shotSize: ShotSize.CloseUp,
+                  shotSize: ShotSize.ExtremeCloseUp,
                   subjectFraming: {
                     position: SubjectInFramePosition.Center
                   }
@@ -715,9 +744,11 @@ const promptExamples: { prompt: string, csl: CameraDirectionDSL }[] = [{
     ]
   }
 },
+
 {
   prompt: "زمان را روی ۲ ثانیه فریز کن و یک دور کامل ۳۶۰ درجه دور سوژه معلق در هوا بچرخ، سپس حرکت را با سرعت عادی ادامه بده.",
   csl: {
+    totalDuration:5,
     sections: [
       {
         initCamera: {
@@ -783,9 +814,11 @@ const promptExamples: { prompt: string, csl: CameraDirectionDSL }[] = [{
     ]
   }
 },
+
 {
   prompt: "از نمای بالا شروع کن و با یک حرکت حلزونی همزمان که می‌چرخی، به سوژه نزدیک شو تا به کلوزآپ چشم‌هایش برسی.",
   csl: {
+    totalDuration:9,
     sections: [
       {
         initCamera: {
@@ -861,9 +894,11 @@ const promptExamples: { prompt: string, csl: CameraDirectionDSL }[] = [{
     ]
   }
 },
+
 {
   prompt: "ابتدا صحنه مشت زدن را با Slow Motion (سرعت ۱۰٪) نشان بده و درست لحظه برخورد، سرعت را به Hyper Fast تغییر بده و روی محل ضربه زوم کن.",
   csl: {
+    totalDuration:12,
     sections: [
       {
         initCamera: {
@@ -952,9 +987,11 @@ const promptExamples: { prompt: string, csl: CameraDirectionDSL }[] = [{
     ]
   }
 },
+
 {
   prompt: "دو نفر را در نمای Long Shot دنبال کن؛ به محض اینکه فاصله آن‌ها به کمتر از ۱ متر رسید، کات بزن به Over-the-Shoulder (نمای روی شانه).",
   csl: {
+    totalDuration:24,
     sections: [
       {
         initCamera: {
@@ -1050,9 +1087,11 @@ const promptExamples: { prompt: string, csl: CameraDirectionDSL }[] = [{
     ]
   }
 },
+
 {
   prompt: "ماشین مسابقه را دنبال کن، اگر سرعت ماشین از ۱۰۰ کیلومتر بیشتر شد، دوربین را بلرزان و عقب بکش تا حس سرعت القا شود.",
   csl: {
+    totalDuration:13,
     sections: [
       {
         initCamera: {
@@ -1126,9 +1165,11 @@ const promptExamples: { prompt: string, csl: CameraDirectionDSL }[] = [{
     ]
   }
 },
+
 {
   prompt: "برای ایجاد حس ترس، دوربین را ۳۰ درجه کج کن و به صورت دستی و لرزان به سمت در نیمه‌باز حرکت کن.",
   csl: {
+    totalDuration:6,
     sections: [
       {
         initCamera: {
@@ -1190,9 +1231,11 @@ const promptExamples: { prompt: string, csl: CameraDirectionDSL }[] = [{
     ]
   }
 },
+
 {
   prompt: "از نمای داخل ماشین (Dashboard View) شروع کن، وقتی راننده ترمز کرد، دوربین از شیشه جلو بیرون بیاید و با یک Arc سریع، نمای جلوی ماشین را نشان دهد.",
   csl: {
+    totalDuration:18,
     sections: [
       {
         initCamera: {
@@ -1287,4 +1330,6 @@ const promptExamples: { prompt: string, csl: CameraDirectionDSL }[] = [{
       }
     ]
   }
-}]
+    
+}
+]
