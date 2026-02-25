@@ -1,0 +1,37 @@
+<svg width="1400" height="550" xmlns="http://www.w3.org/2000/svg">
+<rect width="100%" height="100%" fill="#f8f9fa" />
+<text x="100" y="40" font-family="Arial" font-size="16" fill="#333" font-weight="bold">Prompt: ابتدا صحنه مشت زدن را با Slow Motion (سرعت ۱۰٪) نشان بده و درست لحظه برخورد، سرعت را به Hyper Fast تغییر بده و...</text>
+<line x1="100" y1="400" x2="1300" y2="400" stroke="#333" stroke-width="3" />
+<line x1="100.0" y1="400" x2="100.0" y2="260" stroke="#c0392b" stroke-width="2" stroke-dasharray="4"/>
+<circle cx="100.0" cy="400" r="6" fill="#c0392b" />
+<text x="100.0" y="250" font-family="Arial" font-size="11" text-anchor="middle" fill="#c0392b" font-weight="bold">shotSize: mediumShot (0s)</text>
+<text x="100.0" y="230" font-family="Arial" font-size="11" text-anchor="middle" fill="#c0392b" font-weight="bold">subjectView: threeQuarterFrontRight (0s)</text>
+<text x="100.0" y="210" font-family="Arial" font-size="11" text-anchor="middle" fill="#c0392b" font-weight="bold">framingPosition: center (0s)</text>
+<rect x="100.0" y="385" width="500.0" height="30" fill="#3498db" fill-opacity="0.7" stroke="white" stroke-width="1" rx="4" />
+<text x="350.0" y="350" font-family="Arial" font-size="11" text-anchor="middle" fill="#3498db" font-weight="bold">followMovement: 2 [0s -> 5s]</text>
+<text x="350.0" y="330" font-family="Arial" font-size="11" text-anchor="middle" fill="#3498db" font-weight="bold">shotSize: mediumShot [0s -> 5s]</text>
+<text x="350.0" y="310" font-family="Arial" font-size="11" text-anchor="middle" fill="#3498db" font-weight="bold">framingPosition: center [0s -> 5s]</text>
+<rect x="600.0" y="385" width="700.0" height="30" fill="#e74c3c" fill-opacity="0.7" stroke="white" stroke-width="1" rx="4" />
+<text x="950.0" y="350" font-family="Arial" font-size="11" text-anchor="middle" fill="#e74c3c" font-weight="bold">followMovement: 2 [5s -> 12s]</text>
+<text x="950.0" y="330" font-family="Arial" font-size="11" text-anchor="middle" fill="#e74c3c" font-weight="bold">dollyMovement [5s -> 12s]</text>
+<line x1="1300.0" y1="400" x2="1300.0" y2="260" stroke="#c0392b" stroke-width="2" stroke-dasharray="4"/>
+<circle cx="1300.0" cy="400" r="6" fill="#c0392b" />
+<text x="1300.0" y="250" font-family="Arial" font-size="11" text-anchor="middle" fill="#c0392b" font-weight="bold">shotSize: extremeCloseUp (12s)</text>
+<text x="1300.0" y="230" font-family="Arial" font-size="11" text-anchor="middle" fill="#c0392b" font-weight="bold">framingPosition: center (12s)</text>
+<line x1="100.0" y1="400" x2="100.0" y2="415" stroke="#333" stroke-width="2" />
+<text x="100.0" y="435" font-family="Arial" font-size="12" text-anchor="middle" font-weight="bold">0s</text>
+<line x1="200.0" y1="400" x2="200.0" y2="408" stroke="#333" stroke-width="1" />
+<line x1="300.0" y1="400" x2="300.0" y2="408" stroke="#333" stroke-width="1" />
+<line x1="400.0" y1="400" x2="400.0" y2="408" stroke="#333" stroke-width="1" />
+<line x1="500.0" y1="400" x2="500.0" y2="408" stroke="#333" stroke-width="1" />
+<line x1="600.0" y1="400" x2="600.0" y2="415" stroke="#333" stroke-width="2" />
+<text x="600.0" y="435" font-family="Arial" font-size="12" text-anchor="middle" font-weight="bold">5s</text>
+<line x1="700.0" y1="400" x2="700.0" y2="408" stroke="#333" stroke-width="1" />
+<line x1="800.0" y1="400" x2="800.0" y2="408" stroke="#333" stroke-width="1" />
+<line x1="900.0" y1="400" x2="900.0" y2="408" stroke="#333" stroke-width="1" />
+<line x1="1000.0" y1="400" x2="1000.0" y2="408" stroke="#333" stroke-width="1" />
+<line x1="1100.0" y1="400" x2="1100.0" y2="415" stroke="#333" stroke-width="2" />
+<text x="1100.0" y="435" font-family="Arial" font-size="12" text-anchor="middle" font-weight="bold">10s</text>
+<line x1="1200.0" y1="400" x2="1200.0" y2="408" stroke="#333" stroke-width="1" />
+<line x1="1300.0" y1="400" x2="1300.0" y2="408" stroke="#333" stroke-width="1" />
+</svg>

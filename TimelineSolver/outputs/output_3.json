@@ -1,0 +1,61 @@
+{
+  "prompt": "ابتدا به صورت کلوزآپ گلدون رو نشون بده و بعد dolly out کن تا همزمان گلدون و مانیتور در صحنه دیده‌شوند.",
+  "totalDuration": 20,
+  "timeline": [
+    {
+      "kind": "point",
+      "time": 0,
+      "lossFunctions": [
+        {
+          "type": "shotSize",
+          "parameters": {
+            "shotSize": "closeUp"
+          }
+        },
+        {
+          "type": "subjectView",
+          "parameters": {
+            "view": "front"
+          }
+        },
+        {
+          "type": "framingPosition",
+          "parameters": {
+            "position": "center"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "interval",
+      "startTime": 0,
+      "endTime": 20,
+      "lossFunctions": [
+        {
+          "type": "dollyMovement",
+          "parameters": {
+            "distance": 2
+          }
+        }
+      ]
+    },
+    {
+      "kind": "point",
+      "time": 20,
+      "lossFunctions": [
+        {
+          "type": "shotSize",
+          "parameters": {
+            "shotSize": "mediumShot"
+          }
+        },
+        {
+          "type": "framingPosition",
+          "parameters": {
+            "position": "center"
+          }
+        }
+      ]
+    }
+  ]
+}

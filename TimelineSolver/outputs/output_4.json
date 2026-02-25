@@ -1,0 +1,83 @@
+{
+  "prompt": "به مدت ۲ ثانیه ماشین رو ترک کن و یک arc right دورش بزن و همزمان با arc روی راننده زوم کن",
+  "totalDuration": 15,
+  "timeline": [
+    {
+      "kind": "point",
+      "time": 0,
+      "lossFunctions": [
+        {
+          "type": "shotSize",
+          "parameters": {
+            "shotSize": "mediumShot"
+          }
+        },
+        {
+          "type": "subjectView",
+          "parameters": {
+            "view": "front"
+          }
+        },
+        {
+          "type": "framingPosition",
+          "parameters": {
+            "position": "center"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "interval",
+      "startTime": 0,
+      "endTime": 10,
+      "lossFunctions": [
+        {
+          "type": "dollyMovement",
+          "parameters": {}
+        }
+      ]
+    },
+    {
+      "kind": "interval",
+      "startTime": 10,
+      "endTime": 15,
+      "lossFunctions": [
+        {
+          "type": "arcMovement",
+          "parameters": {
+            "arcAngle": 45,
+            "arcRadius": 2
+          }
+        },
+        {
+          "type": "framingPosition",
+          "parameters": {
+            "position": "center"
+          }
+        },
+        {
+          "type": "dollyMovement",
+          "parameters": {}
+        }
+      ]
+    },
+    {
+      "kind": "point",
+      "time": 15,
+      "lossFunctions": [
+        {
+          "type": "shotSize",
+          "parameters": {
+            "shotSize": "closeUp"
+          }
+        },
+        {
+          "type": "framingPosition",
+          "parameters": {
+            "position": "center"
+          }
+        }
+      ]
+    }
+  ]
+}

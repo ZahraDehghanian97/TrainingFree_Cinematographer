@@ -1,0 +1,71 @@
+{
+  "prompt": "روی چهره بازیگر Dolly Out کن و همزمان Zoom In انجام بده تا پرسپکتیو پس‌زمینه تغییر کند اما اندازه صورت ثابت بماند.",
+  "totalDuration": 25,
+  "timeline": [
+    {
+      "kind": "point",
+      "time": 0,
+      "lossFunctions": [
+        {
+          "type": "shotSize",
+          "parameters": {
+            "shotSize": "closeUp"
+          }
+        },
+        {
+          "type": "subjectView",
+          "parameters": {
+            "view": "front"
+          }
+        },
+        {
+          "type": "framingPosition",
+          "parameters": {
+            "position": "center"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "interval",
+      "startTime": 0,
+      "endTime": 25,
+      "lossFunctions": [
+        {
+          "type": "dollyMovement",
+          "parameters": {
+            "distance": 2
+          }
+        },
+        {
+          "type": "shotSize",
+          "parameters": {
+            "shotSize": "closeUp"
+          }
+        },
+        {
+          "type": "framingPosition",
+          "parameters": {
+            "position": "center"
+          }
+        },
+        {
+          "type": "dollyMovement",
+          "parameters": {}
+        },
+        {
+          "type": "shotSize",
+          "parameters": {
+            "shotSize": "extremeCloseUp"
+          }
+        },
+        {
+          "type": "framingPosition",
+          "parameters": {
+            "position": "center"
+          }
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,80 @@
+{
+  "prompt": "ماشین مسابقه را دنبال کن، اگر سرعت ماشین از ۱۰۰ کیلومتر بیشتر شد، دوربین را بلرزان و عقب بکش تا حس سرعت القا شود.",
+  "totalDuration": 13,
+  "timeline": [
+    {
+      "kind": "point",
+      "time": 0,
+      "lossFunctions": [
+        {
+          "type": "shotSize",
+          "parameters": {
+            "shotSize": "mediumShot"
+          }
+        },
+        {
+          "type": "subjectView",
+          "parameters": {
+            "view": "threeQuarterFrontLeft"
+          }
+        },
+        {
+          "type": "framingPosition",
+          "parameters": {
+            "position": "center"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "interval",
+      "startTime": 0,
+      "endTime": 3,
+      "lossFunctions": [
+        {
+          "type": "followMovement",
+          "parameters": {
+            "distance": 2
+          }
+        },
+        {
+          "type": "shotSize",
+          "parameters": {
+            "shotSize": "mediumShot"
+          }
+        },
+        {
+          "type": "framingPosition",
+          "parameters": {
+            "position": "center"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "interval",
+      "startTime": 3,
+      "endTime": 13,
+      "lossFunctions": [
+        {
+          "type": "dollyMovement",
+          "parameters": {
+            "distance": 2
+          }
+        },
+        {
+          "type": "shotSize",
+          "parameters": {
+            "shotSize": "mediumLongShot"
+          }
+        },
+        {
+          "type": "framingPosition",
+          "parameters": {
+            "position": "center"
+          }
+        }
+      ]
+    }
+  ]
+}

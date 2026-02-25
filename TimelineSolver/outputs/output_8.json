@@ -1,0 +1,90 @@
+{
+  "prompt": "ابتدا صحنه مشت زدن را با Slow Motion (سرعت ۱۰٪) نشان بده و درست لحظه برخورد، سرعت را به Hyper Fast تغییر بده و روی محل ضربه زوم کن.",
+  "totalDuration": 12,
+  "timeline": [
+    {
+      "kind": "point",
+      "time": 0,
+      "lossFunctions": [
+        {
+          "type": "shotSize",
+          "parameters": {
+            "shotSize": "mediumShot"
+          }
+        },
+        {
+          "type": "subjectView",
+          "parameters": {
+            "view": "threeQuarterFrontRight"
+          }
+        },
+        {
+          "type": "framingPosition",
+          "parameters": {
+            "position": "center"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "interval",
+      "startTime": 0,
+      "endTime": 5,
+      "lossFunctions": [
+        {
+          "type": "followMovement",
+          "parameters": {
+            "distance": 2
+          }
+        },
+        {
+          "type": "shotSize",
+          "parameters": {
+            "shotSize": "mediumShot"
+          }
+        },
+        {
+          "type": "framingPosition",
+          "parameters": {
+            "position": "center"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "interval",
+      "startTime": 5,
+      "endTime": 12,
+      "lossFunctions": [
+        {
+          "type": "followMovement",
+          "parameters": {
+            "distance": 2
+          }
+        },
+        {
+          "type": "dollyMovement",
+          "parameters": {}
+        }
+      ]
+    },
+    {
+      "kind": "point",
+      "time": 12,
+      "lossFunctions": [
+        {
+          "type": "shotSize",
+          "parameters": {
+            "shotSize": "extremeCloseUp"
+          }
+        },
+        {
+          "type": "framingPosition",
+          "parameters": {
+            "position": "center"
+          }
+        }
+      ]
+    }
+  ]
+}

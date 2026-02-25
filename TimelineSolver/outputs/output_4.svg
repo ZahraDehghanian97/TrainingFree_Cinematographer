@@ -1,0 +1,40 @@
+<svg width="1400" height="550" xmlns="http://www.w3.org/2000/svg">
+<rect width="100%" height="100%" fill="#f8f9fa" />
+<text x="100" y="40" font-family="Arial" font-size="16" fill="#333" font-weight="bold">Prompt: به مدت ۲ ثانیه ماشین رو ترک کن و یک arc right دورش بزن و همزمان با arc روی راننده زوم کن...</text>
+<line x1="100" y1="400" x2="1300" y2="400" stroke="#333" stroke-width="3" />
+<line x1="100.0" y1="400" x2="100.0" y2="260" stroke="#c0392b" stroke-width="2" stroke-dasharray="4"/>
+<circle cx="100.0" cy="400" r="6" fill="#c0392b" />
+<text x="100.0" y="250" font-family="Arial" font-size="11" text-anchor="middle" fill="#c0392b" font-weight="bold">shotSize: mediumShot (0s)</text>
+<text x="100.0" y="230" font-family="Arial" font-size="11" text-anchor="middle" fill="#c0392b" font-weight="bold">subjectView: front (0s)</text>
+<text x="100.0" y="210" font-family="Arial" font-size="11" text-anchor="middle" fill="#c0392b" font-weight="bold">framingPosition: center (0s)</text>
+<rect x="100.0" y="385" width="160.0" height="30" fill="#3498db" fill-opacity="0.7" stroke="white" stroke-width="1" rx="4" />
+<text x="180.0" y="350" font-family="Arial" font-size="11" text-anchor="middle" fill="#3498db" font-weight="bold">dollyMovement [0s -> 2s]</text>
+<rect x="260.0" y="385" width="1040.0" height="30" fill="#e74c3c" fill-opacity="0.7" stroke="white" stroke-width="1" rx="4" />
+<text x="780.0" y="350" font-family="Arial" font-size="11" text-anchor="middle" fill="#e74c3c" font-weight="bold">arcMovement: 45, 2 [2s -> 15s]</text>
+<text x="780.0" y="330" font-family="Arial" font-size="11" text-anchor="middle" fill="#e74c3c" font-weight="bold">framingPosition: center [2s -> 15s]</text>
+<text x="780.0" y="310" font-family="Arial" font-size="11" text-anchor="middle" fill="#e74c3c" font-weight="bold">dollyMovement [2s -> 15s]</text>
+<line x1="1300.0" y1="400" x2="1300.0" y2="260" stroke="#c0392b" stroke-width="2" stroke-dasharray="4"/>
+<circle cx="1300.0" cy="400" r="6" fill="#c0392b" />
+<text x="1300.0" y="250" font-family="Arial" font-size="11" text-anchor="middle" fill="#c0392b" font-weight="bold">shotSize: closeUp (15s)</text>
+<text x="1300.0" y="230" font-family="Arial" font-size="11" text-anchor="middle" fill="#c0392b" font-weight="bold">framingPosition: center (15s)</text>
+<line x1="100.0" y1="400" x2="100.0" y2="415" stroke="#333" stroke-width="2" />
+<text x="100.0" y="435" font-family="Arial" font-size="12" text-anchor="middle" font-weight="bold">0s</text>
+<line x1="180.0" y1="400" x2="180.0" y2="408" stroke="#333" stroke-width="1" />
+<line x1="260.0" y1="400" x2="260.0" y2="408" stroke="#333" stroke-width="1" />
+<line x1="340.0" y1="400" x2="340.0" y2="408" stroke="#333" stroke-width="1" />
+<line x1="420.0" y1="400" x2="420.0" y2="408" stroke="#333" stroke-width="1" />
+<line x1="500.0" y1="400" x2="500.0" y2="415" stroke="#333" stroke-width="2" />
+<text x="500.0" y="435" font-family="Arial" font-size="12" text-anchor="middle" font-weight="bold">5s</text>
+<line x1="580.0" y1="400" x2="580.0" y2="408" stroke="#333" stroke-width="1" />
+<line x1="660.0" y1="400" x2="660.0" y2="408" stroke="#333" stroke-width="1" />
+<line x1="740.0" y1="400" x2="740.0" y2="408" stroke="#333" stroke-width="1" />
+<line x1="820.0" y1="400" x2="820.0" y2="408" stroke="#333" stroke-width="1" />
+<line x1="900.0" y1="400" x2="900.0" y2="415" stroke="#333" stroke-width="2" />
+<text x="900.0" y="435" font-family="Arial" font-size="12" text-anchor="middle" font-weight="bold">10s</text>
+<line x1="980.0" y1="400" x2="980.0" y2="408" stroke="#333" stroke-width="1" />
+<line x1="1060.0" y1="400" x2="1060.0" y2="408" stroke="#333" stroke-width="1" />
+<line x1="1140.0" y1="400" x2="1140.0" y2="408" stroke="#333" stroke-width="1" />
+<line x1="1220.0" y1="400" x2="1220.0" y2="408" stroke="#333" stroke-width="1" />
+<line x1="1300.0" y1="400" x2="1300.0" y2="415" stroke="#333" stroke-width="2" />
+<text x="1300.0" y="435" font-family="Arial" font-size="12" text-anchor="middle" font-weight="bold">15s</text>
+</svg>
