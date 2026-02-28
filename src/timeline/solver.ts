@@ -1,8 +1,5 @@
-import { log } from "console";
-import { Action, CameraConfig, CameraDirectionDSL, CameraMovementType, ConstraintConfig, InitCamera, IntervalConstraint, LossFunction, LossFunctionType, Movement, NormalizedTimeline, RelativeFPS, RelativeTimeReference, RelativeTimeTrigger, Section, SectionSolverOutput, SinglePointConstraint, SpeedKeyframe, TimelineSegment, TimelineSolverOutput, TriggerSpec } from "../CSL";
-import { promptExamples } from "../CSL";
-import * as util from "util";
-import * as fs from 'fs';
+import { Action, CameraConfig, CameraDirectionDSL, CameraMovementType, ConstraintConfig, InitCamera, IntervalConstraint, LossFunction, LossFunctionType, Movement, NormalizedTimeline, RelativeFPS, RelativeTimeReference, RelativeTimeTrigger, Section, SectionSolverOutput, SinglePointConstraint, SpeedKeyframe, TimelineSegment, TimelineSolverOutput, TriggerSpec } from "../types/CSL";
+import { LOSS_MAP } from "./constants";
 
 
 interface TimedAction extends Action {
@@ -11,91 +8,15 @@ interface TimedAction extends Action {
   endTime?: number;
 }
 
-const BASE_SPEED: Record<CameraMovementType, number> = {
-  // Some default speed values taken from Chat-GPT
-  dollyIn: 1.0,
-  dollyOut: 1.0,
-  panLeft: 0.6,
-  panRight: 0.6,
-  tiltUp: 0.5,
-  tiltDown: 0.5,
-  truckLeft: 0.9,
-  truckRight: 0.9,
-  pedestalUp: 0.7,
-  pedestalDown: 0.7,
-  arcLeft: 0.4,
-  arcRight: 0.4,
-  zoomIn: 0.8,
-  zoomOut: 0.8,
-  static: Infinity,
-  follow: 1.0,
-  track: 1.0,
-  orbit: 0.3,
-  craneUp: 0.6,
-  craneDown: 0.6,
-  dutchLeft: 0.4,
-  dutchRight: 0.4
-};
-
-const LOSS_MAP: Partial<Record<CameraMovementType, LossFunctionType>> = {
-    // Probably must change act from CameraMovementType to string 
-    [CameraMovementType.DollyIn]: LossFunctionType.DollyMovement,
-    [CameraMovementType.DollyOut]: LossFunctionType.DollyMovement,
-    [CameraMovementType.Follow]: LossFunctionType.FollowMovement, // Must be checked
-    [CameraMovementType.ZoomIn]: LossFunctionType.DollyMovement, // Must be checked
-    [CameraMovementType.ZoomOut]: LossFunctionType.DollyMovement, // Must be checked
-    [CameraMovementType.PanLeft]: LossFunctionType.PanMovement,
-    [CameraMovementType.PanRight]: LossFunctionType.PanMovement,
-    [CameraMovementType.TiltUp]: LossFunctionType.TiltMovement,
-    [CameraMovementType.TiltDown]: LossFunctionType.TiltMovement,
-    [CameraMovementType.TruckLeft]: LossFunctionType.TruckMovement,
-    [CameraMovementType.TruckRight]: LossFunctionType.TruckMovement,
-    [CameraMovementType.PedestalUp]: LossFunctionType.PedestalMovement,
-    [CameraMovementType.PedestalDown]: LossFunctionType.PedestalMovement,
-    [CameraMovementType.ArcLeft]: LossFunctionType.ArcMovement,
-    [CameraMovementType.ArcRight]: LossFunctionType.ArcMovement,
-    [CameraMovementType.Orbit]: LossFunctionType.ArcMovement, // Must be checked
-    [CameraMovementType.Track]: LossFunctionType.DollyMovement, // Must be checked
-    [CameraMovementType.Static]: LossFunctionType.Static, // Must be checked
-    
-  };
-
-  const FPS_WEIGHTS: Record<string, number> = {
-  frozen: 5.0,
-  verySlow: 3.0,
-  slow: 2.0,
-  normal: 1.0,
-  fast: 0.5,
-  veryFast: 0.2,
-};
-
-
-function indexActions(actions: Action[]): Map<string, Action> {
-  const map = new Map<string, Action>();
-
-  for (const action of actions) {
-    if (map.has(action.id)) {
-      throw new Error(`Duplicate action id: ${action.id}`);
-    }
-    map.set(action.id, action);
-  }
-
-  return map;
-}
-
 function tryResolveReferenceTime(
   action: TimedAction,
   reference: RelativeTimeReference
 ): number | undefined {
-
   switch (reference) {
-
     case RelativeTimeReference.Start:
       return action.startTime;
-
     case RelativeTimeReference.End:
       return action.endTime;
-
     case RelativeTimeReference.Middle:
       if (
         action.startTime !== undefined &&
@@ -108,14 +29,13 @@ function tryResolveReferenceTime(
 }
 
 export function solveTimeline(input_dsl: CameraDirectionDSL): TimelineSolverOutput {
-
-const sectionOutputs: SectionSolverOutput[] = [];
+  const sectionOutputs: SectionSolverOutput[] = [];
   let currentOffset = 0;
   const totalGlobalDuration = input_dsl.totalDuration;
 
   for (let i = 0; i < input_dsl.sections.length; i++) {
     const section = input_dsl.sections[i]!;
-    
+
     // 1. Determine how much time this section gets from the remaining budget
     // Formula: Remaining Time / Remaining Sections
     const remainingSections = input_dsl.sections.length - i;
@@ -125,7 +45,7 @@ const sectionOutputs: SectionSolverOutput[] = [];
 
     // 2. Resolve actions specifically within this section's "slice"
     const resolvedActions = resolveActionTimings(
-      [section], 
+      [section],
       sectionEnd, // The hard limit for these actions
       currentOffset
     );
@@ -138,7 +58,7 @@ const sectionOutputs: SectionSolverOutput[] = [];
 
     // 4. Move the offset to where this section actually ended
     // (Or where it was supposed to end, to prevent drift)
-    currentOffset = sectionEnd; 
+    currentOffset = sectionEnd;
   }
 
   return { sections: sectionOutputs };
@@ -165,20 +85,20 @@ function resolveIndependentTrigger(t: TriggerSpec): number {
   if (!("type" in t)) return 0;
 
   if (t.type === "absoluteTime") return t.time;
-  
-  if(t.type === "distance") return 5
-    
-  if(t.type === "velocity") return 3
-  
+
+  if (t.type === "distance") return 5
+
+  if (t.type === "velocity") return 3
+
   return 0;
 }
 /*
 function resolveTriggerTime(
-  trigger: TriggerSpec, 
+  trigger: TriggerSpec,
   actionsById: Map<string, Action>,
   getOrResolve: (id: string) => TimedAction
 ): number {
-  
+
   if ("type" in trigger) {
     if (trigger.type === "absoluteTime") return trigger.time;
 
@@ -188,10 +108,10 @@ function resolveTriggerTime(
       return anchorTime + trigger.offset;
     }
     if(trigger.type === "distance") return 5
-    
+
     if(trigger.type === "velocity") return 3
 
-    return 0; 
+    return 0;
   }
 
   if ("operator" in trigger) {
@@ -228,12 +148,12 @@ function normalizeConstraints(
     const end = sorted[i + 1]!;
 
     const activeLosses = constraints
-    .filter(isInterval)
-    .filter(iv => iv.startTime < end && iv.endTime > start)
-    .map(iv => iv.lossFunction);
+      .filter(isInterval)
+      .filter(iv => iv.startTime < end && iv.endTime > start)
+      .map(iv => iv.lossFunction);
 
     //console.log("active losses:", activeLosses);
-    
+
     if (activeLosses.length > 0) {
       timeline.push({
         kind: "interval",
@@ -244,7 +164,7 @@ function normalizeConstraints(
     }
   }
 
-  // Insert point segments 
+  // Insert point segments
   for (const c of constraints) {
     if (c.type === "singlePoint") {
       timeline.push({
@@ -255,7 +175,7 @@ function normalizeConstraints(
     }
   }
 
-  // Final sort 
+  // Final sort
   timeline.sort((a, b) => {
     const ta = a.kind === "interval" ? a.startTime : a.time;
     const tb = b.kind === "interval" ? b.startTime : b.time;
@@ -272,35 +192,13 @@ function normalizeConstraints(
   return timeline;
 }
 
-
-function normalizeTimeline(inputTimeLine: TimelineSolverOutput) : NormalizedTimeline{
-
-  
-  const allConstraints: (SinglePointConstraint | IntervalConstraint)[] = [];
-
-  for (const section of inputTimeLine.sections) {
-
-    allConstraints.push(...section.constraints);
-
-    for (const keyframe of section.initKeyframes) {
-      allConstraints.push(keyframe)
-    }
-  }
-
-  const normalized = normalizeConstraints(allConstraints);
-
-  return normalized;
-  
-}
-
-
 // Helper: Find the longest sequential chain waiting after this action
 function getSequentialDepth(actionId: string, allActions: Action[]): number {
-  const children = allActions.filter(a => 
+  const children = allActions.filter(a =>
     isRelativeTrigger(a.trigger) && a.trigger.actionId === actionId
   );
-  
-  const sequentialChildren = children.filter(c => 
+
+  const sequentialChildren = children.filter(c =>
     (c.trigger as RelativeTimeTrigger).reference === RelativeTimeReference.End
   );
 
@@ -312,20 +210,20 @@ function getSequentialDepth(actionId: string, allActions: Action[]): number {
 
 // The Recursive Resolver
 function resolveBranch(
-  current: TimedAction, 
-  windowEnd: number, 
-  state: Map<string, TimedAction>, 
+  current: TimedAction,
+  windowEnd: number,
+  state: Map<string, TimedAction>,
   allActions: Action[]
 ) {
   // Find all actions depending on this one
-  const deps = allActions.map(a => state.get(a.id)!).filter(a => 
+  const deps = allActions.map(a => state.get(a.id)!).filter(a =>
     isRelativeTrigger(a.trigger) && a.trigger.actionId === current.id
   );
 
   if (current.duration === undefined) {
     const available = windowEnd - current.startTime!;
     const seqDepth = getSequentialDepth(current.id, allActions);
-    
+
     // Allocate duration: Split available time by (1 + depth of sequential chain)
     // Formula: Duration = Available / (Sequential Steps + 1)
     current.duration = Math.max(0, available / (seqDepth + 1));
@@ -350,7 +248,7 @@ function resolveActionTimings(
   limitTime: number, // This is the section's end time (e.g., 12s)
   sectionOffset: number // This is the section's start time (e.g., 0s)
 ): TimedAction[] {
-  
+
   const allActions: Action[] = sections.flatMap(s => s.actions);
   const state = new Map<string, TimedAction>();
   for (const a of allActions) state.set(a.id, { ...a });
@@ -405,7 +303,7 @@ function resolveActionTimings(
   // PASS 4 — Global Window Allocation
 
   // console.log("PASS 4 begins:");
-  const ordered = Array.from(state.values()).sort((a, b) => 
+  const ordered = Array.from(state.values()).sort((a, b) =>
     (a.startTime ?? Infinity) - (b.startTime ?? Infinity)
   );
 
@@ -453,8 +351,8 @@ function estimateDistance(m: Movement): number {
         p.arcRadius ?? 2
       );
 
-    // Case: ZoomIn/out 
-    // Case: Crane  
+    // Case: ZoomIn/out
+    // Case: Crane
 
     default:
       return 1;
@@ -483,20 +381,20 @@ function averageSpeedMultiplier(
   return total;
 }
 
-function estimateDuration(initCamera:InitCamera, action: Action): number | undefined{
+function estimateDuration(initCamera: InitCamera, action: Action): number | undefined {
   if (action.movement.duration !== undefined) return action.movement.duration;
 
   //else if(action.movement.parameters){
-    // We have formula: (distance / (speed * speedMultiplier))
-   // const distance = estimateDistance(action.movement);
-    //const baseSpeed = BASE_SPEED[action.movement.act] ?? 1;
-    //const speedMultiplier = averageSpeedMultiplier(action.movement.speedKeyframes);
+  // We have formula: (distance / (speed * speedMultiplier))
+  // const distance = estimateDistance(action.movement);
+  //const baseSpeed = BASE_SPEED[action.movement.act] ?? 1;
+  //const speedMultiplier = averageSpeedMultiplier(action.movement.speedKeyframes);
 
-    //return (distance / (baseSpeed * speedMultiplier));
+  //return (distance / (baseSpeed * speedMultiplier));
   //}
 
 
-  return undefined 
+  return undefined
 
 
 }
@@ -511,7 +409,7 @@ function buildInitialKeyframe(init: InitCamera, time: number): SinglePointConstr
   };
 }
 
-// This function extracts lossFunction's parameters from movementParameters 
+// This function extracts lossFunction's parameters from movementParameters
 function buildMovementLossParameters(
   action: TimedAction
 ): Record<string, unknown> {
@@ -620,14 +518,14 @@ function buildMovementConstraint(action: TimedAction): IntervalConstraint[] {
   const lossType = LOSS_MAP[action.movement.act];
   if (!lossType) return [];
   //console.log("loss type:", lossType);
-  
+
   return [{
     type: "interval",
     startTime: action.startTime!,
     endTime: action.endTime!,
     lossFunction: {
       type: lossType,
-      parameters: buildMovementLossParameters(action) 
+      parameters: buildMovementLossParameters(action)
     },
     weight: 1
   }];
@@ -639,37 +537,8 @@ function buildActionConstraints(
   action: TimedAction
 ): (SinglePointConstraint | IntervalConstraint)[] {
   return [
-    // Other Constraint builders must be implemented 
+    // Other Constraint builders must be implemented
     ...buildMovementConstraint(action),
     ...buildConstraintConfigs(action)
   ];
-}
-
-
-for (let i = 0; i < promptExamples.length; i++) { 
-  console.log(`-------------------------------------------------------Example ${i + 1}-------------------------------------------------------`);
-  console.log("Prompt:", promptExamples[i]!.prompt);
-  
-  const res = solveTimeline(promptExamples[i]!.csl);
-  const finalRes = normalizeTimeline(res);
-
-  if (!fs.existsSync('./outputs')) fs.mkdirSync('./outputs');
-
-  // 1. Prepare the filename with the index
-  const fileName = `./outputs/output_${i + 1}.json`;
-
-  // 2. Convert the result to a JSON string
-
-  const outputWrapper = {
-    prompt: promptExamples[i]!.prompt,
-    totalDuration: promptExamples[i]!.csl.totalDuration,
-    timeline: finalRes
-  };
-  // 3. Write the file to disk
-  try {
-    fs.writeFileSync(fileName, JSON.stringify(outputWrapper, null, 2), 'utf8');
-    console.log(`✅ Successfully saved to ${fileName}`);
-  } catch (err) {
-    console.error(`❌ Error writing ${fileName}:`, err);
-  }
 }

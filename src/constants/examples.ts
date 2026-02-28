@@ -1,380 +1,9 @@
-export type Scale = 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10;
+import { CameraDirectionDSL, CameraMovementType, CameraVerticalAngle, ComparisonOperator, RelativeFPS, RelativeTimeReference, ShotSize, SubjectInFramePosition, SubjectView } from "../types/CSL";
 
-export enum CameraMovementType {
-  Static = "static",
-
-  // Subject-following movements
-  Follow = "follow", // Camera follows subject maintaining relative position
-  Track = "track", // Camera tracks subject movement
-
-  // Dolly movements (forward/backward along camera's Z-axis)
-  DollyIn = "dollyIn",
-  DollyOut = "dollyOut",
-
-  // Pan movements (rotation around camera's Y-axis, camera stays in place)
-  PanLeft = "panLeft",
-  PanRight = "panRight",
-
-  // Tilt movements (rotation around camera's X-axis, camera stays in place)
-  TiltUp = "tiltUp",
-  TiltDown = "tiltDown",
-
-  // Truck movements (lateral movement along camera's X-axis)
-  TruckLeft = "truckLeft",
-  TruckRight = "truckRight",
-
-  // Pedestal movements (vertical movement along camera's Y-axis)
-  PedestalUp = "pedestalUp",
-  PedestalDown = "pedestalDown",
-
-  // Arc movements (circular movement around subject)
-  ArcLeft = "arcLeft",
-  ArcRight = "arcRight",
-
-  // Crane movements (combined vertical + angular movement)
-  CraneUp = "craneUp",
-  CraneDown = "craneDown",
-
-  // Dutch angle movements (roll rotation around camera's Z-axis)
-  DutchLeft = "dutchLeft",
-  DutchRight = "dutchRight",
-
-  // Zoom (lens-based, not physical movement)
-  ZoomIn = "zoomIn",
-  ZoomOut = "zoomOut",
-
-  Orbit = "orbit", // Full 360° around subject
-}
-
-
-export enum CameraVerticalAngle {
-  WormsEye = "wormsEye",
-  Low = "low",
-  Eye = "eye",
-  High = "high",
-  Overhead = "overhead",
-  BirdsEye = "birdsEye",
-  TopDown = "topDown",
-}
-
-
-export enum ShotSize {
-  ExtremeCloseUp = "extremeCloseUp",
-  CloseUp = "closeUp",
-  MediumCloseUp = "mediumCloseUp",
-  MediumShot = "mediumShot",
-  MediumLongShot = "mediumLongShot",
-  FullShot = "fullShot",
-  LongShot = "longShot",
-  VeryLongShot = "veryLongShot",
-  ExtremeLongShot = "extremeLongShot",
-}
-
-
-export enum SubjectView {
-  Front = "front",
-  Back = "back",
-  Left = "left",
-  Right = "right",
-  ThreeQuarterFrontLeft = "threeQuarterFrontLeft",
-  ThreeQuarterFrontRight = "threeQuarterFrontRight",
-  ThreeQuarterBackLeft = "threeQuarterBackLeft",
-  ThreeQuarterBackRight = "threeQuarterBackRight",
-}
-
-
-export enum SubjectInFramePosition {
-  TopLeft = "topLeft",
-  Top = "top",
-  TopRight = "topRight",
-  Left = "left",
-  Center = "center",
-  Right = "right",
-  BottomLeft = "bottomLeft",
-  Bottom = "bottom",
-  BottomRight = "bottomRight",
-}
-
-
-export enum SpeedFunction {
-  Increase = "increase",
-  Decrease = "decrease",
-  Static = "static",
-}
-
-
-export enum RelativeFPS {
-  Frozen = "frozen", // Stop-motion effect
-  VerySlow = "verySlow", // Extreme slow-motion
-  Slow = "slow", // Slow-motion
-  Normal = "normal", // Real-time
-  Fast = "fast", // Slight speed-up
-  VeryFast = "veryFast", // Time-lapse effect
-}
-
-export enum ComparisonOperator {
-  LessThan = "lessThan",
-  LessThanOrEqual = "lessThanOrEqual",
-  Equal = "equal",
-  GreaterThanOrEqual = "greaterThanOrEqual",
-  GreaterThan = "greaterThan",
-  NotEqual = "notEqual",
-}
-
-export enum RelativeTimeReference {
-  Start = "start", // Start of referenced action
-  End = "end", // End of referenced action
-  Middle = "middle", // Middle point of referenced action
-}
-
-export enum EventType {
-  Distance = "distance", // Euclidean distance between objects
-  Velocity = "velocity", // Subject velocity threshold
-}
-
-export enum ConstraintType {
-  NoShake = "noShake", // Smooth, stabilized movement
-  KeepInFrame = "keepInFrame", // Keep subject(s) always visible
-  MaintainDistance = "maintainDistance", // Fixed distance to subject
-  MaintainAngle = "maintainAngle", // Fixed angle relative to subject
-  AvoidOcclusion = "avoidOcclusion", // Don't let objects block view
-  GroundLevel = "groundLevel", // Keep camera at ground level
-}
-
-
-export interface Vector3 {
-  x: number;
-  y: number;
-  z: number;
-}
-
-export interface Quaternion {
-  x: number;
-  y: number;
-  z: number;
-  w: number;
-}
-
-export interface EulerAngles {
-  pitch: number;
-  yaw: number;
-  roll: number;
-}
-
-export interface CameraPose {
-  position: Vector3;
-  rotation: Quaternion | EulerAngles;
-}
-
-export interface CameraExtrinsics {
-  pose: CameraPose;
-  transformMatrix?: [
-    [number, number, number, number],
-    [number, number, number, number],
-    [number, number, number, number],
-    [number, number, number, number]
-  ];
-}
-
-export interface CameraIntrinsics {
-  focalLength?: number; // in mm
-  fov?: number;
-  aspectRatio?: number;
-  sensorSize?: { width: number; height: number }; // in mm
-}
-
-
-export interface Target {
-  id: string;
-  description: string;
-}
-
-export interface SubjectFraming {
-  position?: SubjectInFramePosition;
-  dutchAngleScale?: Scale;
-}
-
-export interface SubjectAwareCameraConfig {
-  type: "subjectAware";
-  cameraAngle?: CameraVerticalAngle;
-  shotSize?: ShotSize;
-  subjectView?: SubjectView;
-  subjectFraming?: SubjectFraming;
-}
-
-export interface NonSubjectAwareCameraConfig {
-  type: "nonSubjectAware";
-  extrinsics: CameraExtrinsics;
-  intrinsics?: CameraIntrinsics;
-  lookAt?: Vector3 | Target[];
-}
-
-
-export type CameraConfig = SubjectAwareCameraConfig | NonSubjectAwareCameraConfig;
-
-export interface DistanceEventTrigger {
-  type: "distance";
-  object1: Target;
-  object2: Target;
-  operator: ComparisonOperator;
-  distance: number;
-}
-
-export interface VelocityEventTrigger {
-  type: "velocity";
-  subject: Target;
-  operator: ComparisonOperator;
-  speed: number; // units per second
-  direction?: Vector3; // Optional: specific direction
-}
-
-export type EventTrigger =
-  | DistanceEventTrigger
-  | VelocityEventTrigger;
-
-export interface AbsoluteTimeTrigger {
-  type: "absoluteTime";
-  time: number;
-}
-
-export interface RelativeTimeTrigger {
-  type: "relativeTime";
-  actionId: string;
-  reference: RelativeTimeReference;
-  offset: number; // in seconds (can be negative)
-}
-
-export type Trigger = EventTrigger | AbsoluteTimeTrigger | RelativeTimeTrigger;
-
-export interface CompoundTrigger {
-  operator: "and" | "or";
-  triggers: (Trigger | CompoundTrigger)[];
-}
-
-export type TriggerSpec = Trigger | CompoundTrigger;
-
-export interface SpeedKeyframe {
-  normalizedTime: number;
-  speedMultiplier: number;
-  easing?: SpeedFunction;
-}
-
-export interface Movement {
-  act: CameraMovementType;
-  duration?: number;
-  speedKeyframes?: SpeedKeyframe[];
-  relativeFPS?: RelativeFPS;
-  parameters?: MovementParameters;
-}
-
-export interface MovementParameters {
-  arcAngle?: number;
-  arcRadius?: number;
-
-  // For Pan/Tilt
-  rotationAngle?: number;
-
-  // For Dolly/Truck/Pedestal
-  distance?: number;
-
-  // For Crane
-  heightChange?: number; // Vertical distance
-  horizontalDistance?: number; // Horizontal distance
-
-  // For Zoom
-  zoomFactor?: number; // End focal length / start focal length
-
-  // For Follow/Track
-  followDelay?: number; // Seconds of lag behind subject
-  leadAmount?: number; // How far ahead to anticipate movement
-
-  // General
-  path?: "linear" | "curved" | "spline"; // Path interpolation type
-  curveIntensity?: Scale; // How curved the path is
-}
-
-
-
-export interface ConstraintConfig {
-  targets?: Target[];
-  config: CameraConfig;
-  allFrames: boolean; // true → enforce throughout the action; false → only at end
-}
-
-export interface Action {
-  id: string;
-  name?: string;
-  trigger: TriggerSpec;
-  movement: Movement;
-  priority?: number;
-  constraints?: ConstraintConfig[];
-}
-
-export interface InitCamera {
-  targets: Target[];
-  config: CameraConfig;
-}
-
-export interface Section {
-  initCamera: InitCamera;
-  actions: Action[];
-}
-
-export interface CameraDirectionDSL {
-  sections: Section[];
-}
-
-
-// ============================================================================
-// HELPER TYPES FOR TIMELINE SOLVER OUTPUT
-// ============================================================================
-
-export interface SinglePointConstraint {
-  type: "singlePoint";
-  time: number; // in seconds
-  config: CameraConfig;
-  weight?: number; // Importance in optimization (0.0 to 1.0)
-}
-
-export interface IntervalConstraint {
-  type: "interval";
-  startTime: number;
-  endTime: number;
-  lossFunction: LossFunction;
-  weight?: number;
-}
-
-export interface LossFunction {
-  type: LossFunctionType;
-  parameters: Record<string, unknown>;
-}
-
-export enum LossFunctionType {
-  PedestalMovement = "pedestalMovement",
-  DollyMovement = "dollyMovement",
-  TruckMovement = "truckMovement",
-  PanMovement = "panMovement",
-  TiltMovement = "tiltMovement",
-  ArcMovement = "arcMovement",
-
-  FramingPosition = "framingPosition",
-  ShotSize = "shotSize",
-  SubjectView = "subjectView",
-
-  // General losses
-  Collision = "collision",
-  Smoothness = "smoothness",
-  MinPath = "minPath",
-}
-
-export interface TimelineSolverOutput {
-  initKeyframes: SinglePointConstraint[];
-  constraints: (SinglePointConstraint | IntervalConstraint)[];
-}
-
-const promptExamples: { prompt: string, csl: CameraDirectionDSL }[] = [{
+export const promptExamples: { prompt: string, csl: CameraDirectionDSL }[] = [{
   prompt: "توپ رو دنبال کن و وقتی توپ نزدیک به دروازه شد، pedestal کن و از زاویه بالا توپ رو دنبال کن",
   csl: {
+    totalDuration: 10,
     sections: [
       {
         initCamera: {
@@ -414,7 +43,7 @@ const promptExamples: { prompt: string, csl: CameraDirectionDSL }[] = [{
               distance: 5
             },
             movement: {
-              act: CameraMovementType.PedestalUp
+              act: CameraMovementType.PedestalUp,
             }
           },
           {
@@ -451,6 +80,7 @@ const promptExamples: { prompt: string, csl: CameraDirectionDSL }[] = [{
 {
   prompt: "از زوم روی صورت مرد شروع کن، یک stop motion بزن و ۳ دور کامل دور صورت آن بچرخ",
   csl: {
+    totalDuration: 15,
     sections: [
       {
         initCamera: {
@@ -505,6 +135,7 @@ const promptExamples: { prompt: string, csl: CameraDirectionDSL }[] = [{
 {
   prompt: "ابتدا به صورت کلوزآپ گلدون رو نشون بده و بعد dolly out کن تا همزمان گلدون و مانیتور در صحنه دیده‌شوند.",
   csl: {
+    totalDuration: 20,
     sections: [
       {
         initCamera: {
@@ -558,6 +189,7 @@ const promptExamples: { prompt: string, csl: CameraDirectionDSL }[] = [{
 {
   prompt: "به مدت ۲ ثانیه ماشین رو ترک کن و یک arc right دورش بزن و همزمان با arc روی راننده زوم کن",
   csl: {
+    totalDuration: 15,
     sections: [
       {
         initCamera: {
@@ -645,6 +277,7 @@ const promptExamples: { prompt: string, csl: CameraDirectionDSL }[] = [{
 {
   prompt: "روی چهره بازیگر Dolly Out کن و همزمان Zoom In انجام بده تا پرسپکتیو پس‌زمینه تغییر کند اما اندازه صورت ثابت بماند.",
   csl: {
+    totalDuration: 25,
     sections: [
       {
         initCamera: {
@@ -701,7 +334,7 @@ const promptExamples: { prompt: string, csl: CameraDirectionDSL }[] = [{
                 targets: [{ id: "actor_face", description: "The actor's face (چهره بازیگر)" }],
                 config: {
                   type: "subjectAware",
-                  shotSize: ShotSize.CloseUp,
+                  shotSize: ShotSize.ExtremeCloseUp,
                   subjectFraming: {
                     position: SubjectInFramePosition.Center
                   }
@@ -718,6 +351,7 @@ const promptExamples: { prompt: string, csl: CameraDirectionDSL }[] = [{
 {
   prompt: "زمان را روی ۲ ثانیه فریز کن و یک دور کامل ۳۶۰ درجه دور سوژه معلق در هوا بچرخ، سپس حرکت را با سرعت عادی ادامه بده.",
   csl: {
+    totalDuration: 5,
     sections: [
       {
         initCamera: {
@@ -786,6 +420,7 @@ const promptExamples: { prompt: string, csl: CameraDirectionDSL }[] = [{
 {
   prompt: "از نمای بالا شروع کن و با یک حرکت حلزونی همزمان که می‌چرخی، به سوژه نزدیک شو تا به کلوزآپ چشم‌هایش برسی.",
   csl: {
+    totalDuration: 9,
     sections: [
       {
         initCamera: {
@@ -864,6 +499,7 @@ const promptExamples: { prompt: string, csl: CameraDirectionDSL }[] = [{
 {
   prompt: "ابتدا صحنه مشت زدن را با Slow Motion (سرعت ۱۰٪) نشان بده و درست لحظه برخورد، سرعت را به Hyper Fast تغییر بده و روی محل ضربه زوم کن.",
   csl: {
+    totalDuration: 12,
     sections: [
       {
         initCamera: {
@@ -955,6 +591,7 @@ const promptExamples: { prompt: string, csl: CameraDirectionDSL }[] = [{
 {
   prompt: "دو نفر را در نمای Long Shot دنبال کن؛ به محض اینکه فاصله آن‌ها به کمتر از ۱ متر رسید، کات بزن به Over-the-Shoulder (نمای روی شانه).",
   csl: {
+    totalDuration: 24,
     sections: [
       {
         initCamera: {
@@ -1053,6 +690,7 @@ const promptExamples: { prompt: string, csl: CameraDirectionDSL }[] = [{
 {
   prompt: "ماشین مسابقه را دنبال کن، اگر سرعت ماشین از ۱۰۰ کیلومتر بیشتر شد، دوربین را بلرزان و عقب بکش تا حس سرعت القا شود.",
   csl: {
+    totalDuration: 13,
     sections: [
       {
         initCamera: {
@@ -1129,6 +767,7 @@ const promptExamples: { prompt: string, csl: CameraDirectionDSL }[] = [{
 {
   prompt: "برای ایجاد حس ترس، دوربین را ۳۰ درجه کج کن و به صورت دستی و لرزان به سمت در نیمه‌باز حرکت کن.",
   csl: {
+    totalDuration: 6,
     sections: [
       {
         initCamera: {
@@ -1193,6 +832,7 @@ const promptExamples: { prompt: string, csl: CameraDirectionDSL }[] = [{
 {
   prompt: "از نمای داخل ماشین (Dashboard View) شروع کن، وقتی راننده ترمز کرد، دوربین از شیشه جلو بیرون بیاید و با یک Arc سریع، نمای جلوی ماشین را نشان دهد.",
   csl: {
+    totalDuration: 18,
     sections: [
       {
         initCamera: {
