@@ -1,4 +1,5 @@
-import { CameraDirectionDSL, CameraMovementType, CameraVerticalAngle, ComparisonOperator, RelativeFPS, RelativeTimeReference, ShotSize, SubjectInFramePosition, SubjectView } from "../types/CSL";
+import { CameraDirectionDSL } from "../types/dsl";
+import { ShotSize, SubjectView, SubjectInFramePosition, CameraMovementType, ComparisonOperator, RelativeTimeReference, CameraVerticalAngle, RelativeFPS } from "../types/enums";
 
 export const promptExamples: { prompt: string, csl: CameraDirectionDSL }[] = [{
   prompt: "توپ رو دنبال کن و وقتی توپ نزدیک به دروازه شد، pedestal کن و از زاویه بالا توپ رو دنبال کن",

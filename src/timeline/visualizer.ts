@@ -1,97 +1,178 @@
-import * as fs from 'fs';
-import { NormalizedTimeline, LossFunction } from '../types/CSL';
+import * as fs from "fs";
+import sharp from "sharp";
+import { FlattenedTimeline, LossFunction } from "../types/solver";
 
-interface TimelineWrapper {
+const SVG_WIDTH = 1400;
+const SVG_HEIGHT = 550;
+const MARGIN = 100;
+const TIMELINE_Y = 400;
+const TICK_MAJOR_INTERVAL = 5;
+const MAX_PROMPT_LENGTH = 200;
+
+const SEGMENT_COLORS = ["#3498db", "#e74c3c", "#2ecc71", "#f1c40f", "#9b59b6"];
+const POINT_COLOR = "#c0392b";
+
+// Persian/Arabic Unicode ranges for RTL detection
+const RTL_REGEX = /[\u0600-\u06FF\u0750-\u077F\u08A0-\u08FF\uFB50-\uFDFF\uFE70-\uFEFF]/;
+
+interface TimelineFile {
   prompt: string;
   totalDuration: number;
-  timeline: NormalizedTimeline;
-}
-
-function formatParams(loss: LossFunction): string {
-  const params = loss.parameters ?? {};
-  const values = Object.values(params);
-  if (values.length === 0) return "";
-  return `: ${values.map(String).join(', ')}`;
+  timeline: FlattenedTimeline;
 }
 
 function escapeXml(str: string): string {
   return str
-    .replace(/&/g, '&amp;')
-    .replace(/</g, '&lt;')
-    .replace(/>/g, '&gt;')
-    .replace(/"/g, '&quot;')
-    .replace(/'/g, '&apos;');
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&apos;");
+}
+
+function formatLossLabel(loss: LossFunction): string {
+  const vals = Object.values(loss.parameters ?? {});
+  const suffix = vals.length > 0 ? `: ${vals.map(String).join(", ")}` : "";
+  return `${loss.type}${suffix}`;
+}
+
+function truncate(text: string, max: number): string {
+  return text.length > max ? text.slice(0, max) + "…" : text;
+}
+
+function isRtlText(text: string): boolean {
+  return RTL_REGEX.test(text);
 }
 
 export function generateSvgTimeline(filePath: string): string {
-  let wrapper: TimelineWrapper;
-  const raw = fs.readFileSync(filePath, 'utf8');
-  wrapper = JSON.parse(raw) as TimelineWrapper;
+  const raw = fs.readFileSync(filePath, "utf8");
+  const wrapper = JSON.parse(raw) as TimelineFile;
 
   const totalDuration = wrapper.totalDuration ?? 24;
-  const data = wrapper.timeline ?? [];
-  const promptText = wrapper.prompt ?? 'Camera Timeline';
+  const segments = wrapper.timeline ?? [];
+  const promptText = wrapper.prompt ?? "Camera Timeline";
+  const rtl = isRtlText(promptText);
 
-  const WIDTH = 1400;
-  const HEIGHT = 550;
-  const MARGIN = 100;
-  const TIMELINE_Y = 400;
-  const SCALE = (WIDTH - 2 * MARGIN) / totalDuration;
+  const scale = (SVG_WIDTH - 2 * MARGIN) / totalDuration;
+  const lines: string[] = [];
 
-  const colors = ["#3498db", "#e74c3c", "#2ecc71", "#f1c40f", "#9b59b6"];
-  const svg: string[] = [];
+  lines.push(`<svg width="${SVG_WIDTH}" height="${SVG_HEIGHT}" xmlns="http://www.w3.org/2000/svg">`);
+  lines.push(`<defs><style>text { font-family: "Segoe UI", "Tahoma", "Arial", "Vazirmatn", sans-serif; }</style></defs>`);
+  lines.push(`<rect width="100%" height="100%" fill="#f8f9fa" />`);
 
-  svg.push(`<svg width="${WIDTH}" height="${HEIGHT}" xmlns="http://www.w3.org/2000/svg">`);
-  svg.push('<rect width="100%" height="100%" fill="#f8f9fa" />');
+  const title = escapeXml(truncate(promptText, MAX_PROMPT_LENGTH));
+  const titleX = MARGIN;
+  const titleAnchor = rtl ? "end" : "start";
+  const titleDir = rtl ? ' direction="rtl" unicode-bidi="embed"' : "";
+  lines.push(
+    `<text x="${titleX}" y="40" font-size="16" fill="#333" font-weight="bold" text-anchor="${titleAnchor}"${titleDir}>${title}</text>`
+  );
 
-  const truncatedPrompt = escapeXml(promptText.length > 110 ? promptText.slice(0, 110) + '...' : promptText);
-  svg.push(`<text x="${MARGIN}" y="40" font-family="Arial" font-size="16" fill="#333" font-weight="bold">${truncatedPrompt}</text>`);
-
-  svg.push(`<line x1="${MARGIN}" y1="${TIMELINE_Y}" x2="${WIDTH - MARGIN}" y2="${TIMELINE_Y}" stroke="#333" stroke-width="3" />`);
+  lines.push(
+    `<line x1="${MARGIN}" y1="${TIMELINE_Y}" x2="${SVG_WIDTH - MARGIN}" y2="${TIMELINE_Y}" stroke="#333" stroke-width="3" />`
+  );
 
   let colorIdx = 0;
-
-  for (const segment of data) {
-    if (segment.kind === 'point') {
-      const x = MARGIN + segment.time * SCALE;
-      svg.push(`<line x1="${x}" y1="${TIMELINE_Y}" x2="${x}" y2="${TIMELINE_Y - 140}" stroke="#c0392b" stroke-width="2" stroke-dasharray="4"/>`);
-      svg.push(`<circle cx="${x}" cy="${TIMELINE_Y}" r="6" fill="#c0392b" />`);
-
-      for (let i = 0; i < segment.lossFunctions.length; i++) {
-        const loss = segment.lossFunctions[i]!;
-        const label = escapeXml(`${loss.type}${formatParams(loss)} (${segment.time}s)`);
-        svg.push(`<text x="${x}" y="${TIMELINE_Y - 150 - i * 20}" font-family="Arial" font-size="11" text-anchor="middle" fill="#c0392b" font-weight="bold">${label}</text>`);
-      }
-    } else if (segment.kind === 'interval') {
-      const sT = segment.startTime;
-      const eT = segment.endTime;
-      const xStart = MARGIN + sT * SCALE;
-      const xEnd = MARGIN + eT * SCALE;
-      const w = Math.max(xEnd - xStart, 2);
-      const color = colors[colorIdx % colors.length]!;
+  for (const seg of segments) {
+    if (seg.kind === "point") {
+      renderPointSegment(lines, seg, scale);
+    } else {
+      const color = SEGMENT_COLORS[colorIdx % SEGMENT_COLORS.length]!;
+      renderIntervalSegment(lines, seg, scale, color);
       colorIdx++;
-
-      svg.push(`<rect x="${xStart}" y="${TIMELINE_Y - 15}" width="${w}" height="30" fill="${color}" fill-opacity="0.7" stroke="white" stroke-width="1" rx="4" />`);
-
-      const midX = xStart + w / 2;
-      for (let i = 0; i < segment.lossFunctions.length; i++) {
-        const loss = segment.lossFunctions[i]!;
-        const label = escapeXml(`${loss.type}${formatParams(loss)} [${sT}s -> ${eT}s]`);
-        svg.push(`<text x="${midX}" y="${TIMELINE_Y - 50 - i * 20}" font-family="Arial" font-size="11" text-anchor="middle" fill="${color}" font-weight="bold">${label}</text>`);
-      }
     }
   }
 
+  renderTickMarks(lines, totalDuration, scale);
+  lines.push("</svg>");
+
+  const svgContent = lines.join("\n");
+
+  const svgPath = filePath.replace(/\.json$/, ".svg");
+  fs.writeFileSync(svgPath, svgContent, "utf8");
+  console.log(`  SVG saved: ${svgPath}`);
+
+  return svgContent;
+}
+
+export async function generatePngTimeline(filePath: string): Promise<void> {
+  const svgPath = filePath.replace(/\.json$/, ".svg");
+  const pngPath = filePath.replace(/\.json$/, ".png");
+
+  if (!fs.existsSync(svgPath)) {
+    console.warn(`  ⚠ SVG file not found at ${svgPath} – generate SVG first.`);
+    return;
+  }
+
+  const svgBuffer = fs.readFileSync(svgPath);
+
+  await sharp(svgBuffer)
+    .png()
+    .toFile(pngPath);
+
+  console.log(`  PNG saved: ${pngPath}`);
+}
+
+function renderPointSegment(
+  lines: string[],
+  seg: { time: number; lossFunctions: LossFunction[] },
+  scale: number,
+): void {
+  const x = MARGIN + seg.time * scale;
+
+  lines.push(
+    `<line x1="${x}" y1="${TIMELINE_Y}" x2="${x}" y2="${TIMELINE_Y - 140}" stroke="${POINT_COLOR}" stroke-width="2" stroke-dasharray="4"/>`
+  );
+  lines.push(`<circle cx="${x}" cy="${TIMELINE_Y}" r="6" fill="${POINT_COLOR}" />`);
+
+  seg.lossFunctions.forEach((loss, i) => {
+    const label = escapeXml(`${formatLossLabel(loss)} (${seg.time}s)`);
+    const y = TIMELINE_Y - 150 - i * 20;
+    lines.push(
+      `<text x="${x}" y="${y}" font-size="11" text-anchor="middle" fill="${POINT_COLOR}" font-weight="bold">${label}</text>`
+    );
+  });
+}
+
+function renderIntervalSegment(
+  lines: string[],
+  seg: { startTime: number; endTime: number; lossFunctions: LossFunction[] },
+  scale: number,
+  color: string,
+): void {
+  const xStart = MARGIN + seg.startTime * scale;
+  const xEnd = MARGIN + seg.endTime * scale;
+  const width = Math.max(xEnd - xStart, 2);
+  const midX = xStart + width / 2;
+
+  lines.push(
+    `<rect x="${xStart}" y="${TIMELINE_Y - 15}" width="${width}" height="30" fill="${color}" fill-opacity="0.7" stroke="white" stroke-width="1" rx="4" />`
+  );
+
+  seg.lossFunctions.forEach((loss, i) => {
+    const label = escapeXml(`${formatLossLabel(loss)} [${seg.startTime}s → ${seg.endTime}s]`);
+    const y = TIMELINE_Y - 50 - i * 20;
+    lines.push(
+      `<text x="${midX}" y="${y}" font-size="11" text-anchor="middle" fill="${color}" font-weight="bold">${label}</text>`
+    );
+  });
+}
+
+function renderTickMarks(lines: string[], totalDuration: number, scale: number): void {
   for (let t = 0; t <= Math.floor(totalDuration); t++) {
-    const x = MARGIN + t * SCALE;
-    const isMajor = t % 5 === 0;
-    svg.push(`<line x1="${x}" y1="${TIMELINE_Y}" x2="${x}" y2="${TIMELINE_Y + (isMajor ? 15 : 8)}" stroke="#333" stroke-width="${isMajor ? 2 : 1}" />`);
+    const x = MARGIN + t * scale;
+    const isMajor = t % TICK_MAJOR_INTERVAL === 0;
+    const tickHeight = isMajor ? 15 : 8;
+    const strokeWidth = isMajor ? 2 : 1;
+
+    lines.push(
+      `<line x1="${x}" y1="${TIMELINE_Y}" x2="${x}" y2="${TIMELINE_Y + tickHeight}" stroke="#333" stroke-width="${strokeWidth}" />`
+    );
+
     if (isMajor) {
-      svg.push(`<text x="${x}" y="${TIMELINE_Y + 35}" font-family="Arial" font-size="12" text-anchor="middle" font-weight="bold">${t}s</text>`);
+      lines.push(
+        `<text x="${x}" y="${TIMELINE_Y + 35}" font-size="12" text-anchor="middle" font-weight="bold">${t}s</text>`
+      );
     }
   }
-
-  svg.push('</svg>');
-
-  return svg.join('\n');
 }

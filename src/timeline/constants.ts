@@ -1,59 +1,81 @@
-import { CameraMovementType, LossFunctionType } from "../types/CSL";
-
+import { CameraMovementType, RelativeFPS } from "../types/enums";
+import { LossFunctionType } from "../types/solver";
 
 export const BASE_SPEED: Record<CameraMovementType, number> = {
-  // Some default speed values taken from Chat-GPT
-  dollyIn: 1.0,
-  dollyOut: 1.0,
-  panLeft: 0.6,
-  panRight: 0.6,
-  tiltUp: 0.5,
-  tiltDown: 0.5,
-  truckLeft: 0.9,
-  truckRight: 0.9,
-  pedestalUp: 0.7,
-  pedestalDown: 0.7,
-  arcLeft: 0.4,
-  arcRight: 0.4,
-  zoomIn: 0.8,
-  zoomOut: 0.8,
-  static: Infinity,
-  follow: 1.0,
-  track: 1.0,
-  orbit: 0.3,
-  craneUp: 0.6,
-  craneDown: 0.6,
-  dutchLeft: 0.4,
-  dutchRight: 0.4
+  [CameraMovementType.Static]: Infinity,
+  [CameraMovementType.Follow]: 1.0,
+  [CameraMovementType.Track]: 1.0,
+  [CameraMovementType.DollyIn]: 1.0,
+  [CameraMovementType.DollyOut]: 1.0,
+  [CameraMovementType.PanLeft]: 0.6,
+  [CameraMovementType.PanRight]: 0.6,
+  [CameraMovementType.TiltUp]: 0.5,
+  [CameraMovementType.TiltDown]: 0.5,
+  [CameraMovementType.TruckLeft]: 0.9,
+  [CameraMovementType.TruckRight]: 0.9,
+  [CameraMovementType.PedestalUp]: 0.7,
+  [CameraMovementType.PedestalDown]: 0.7,
+  [CameraMovementType.ArcLeft]: 0.4,
+  [CameraMovementType.ArcRight]: 0.4,
+  [CameraMovementType.Orbit]: 0.3,
+  [CameraMovementType.CraneUp]: 0.6,
+  [CameraMovementType.CraneDown]: 0.6,
+  [CameraMovementType.DutchLeft]: 0.4,
+  [CameraMovementType.DutchRight]: 0.4,
+  [CameraMovementType.ZoomIn]: 0.8,
+  [CameraMovementType.ZoomOut]: 0.8,
 };
 
-export const LOSS_MAP: Partial<Record<CameraMovementType, LossFunctionType>> = {
-  // Probably must change act from CameraMovementType to string
+export const MOVEMENT_TO_LOSS: Partial<Record<CameraMovementType, LossFunctionType>> = {
   [CameraMovementType.DollyIn]: LossFunctionType.DollyMovement,
   [CameraMovementType.DollyOut]: LossFunctionType.DollyMovement,
-  [CameraMovementType.Follow]: LossFunctionType.FollowMovement, // Must be checked
-  [CameraMovementType.ZoomIn]: LossFunctionType.DollyMovement, // Must be checked
-  [CameraMovementType.ZoomOut]: LossFunctionType.DollyMovement, // Must be checked
+  [CameraMovementType.ZoomIn]: LossFunctionType.DollyMovement,   // TODO: dedicated ZoomMovement?
+  [CameraMovementType.ZoomOut]: LossFunctionType.DollyMovement,   // TODO: dedicated ZoomMovement?
+  [CameraMovementType.Follow]: LossFunctionType.FollowMovement,
+  [CameraMovementType.Track]: LossFunctionType.DollyMovement,     // TODO: dedicated TrackMovement?
+  [CameraMovementType.Static]: LossFunctionType.Static,
+
   [CameraMovementType.PanLeft]: LossFunctionType.PanMovement,
   [CameraMovementType.PanRight]: LossFunctionType.PanMovement,
   [CameraMovementType.TiltUp]: LossFunctionType.TiltMovement,
   [CameraMovementType.TiltDown]: LossFunctionType.TiltMovement,
+
   [CameraMovementType.TruckLeft]: LossFunctionType.TruckMovement,
   [CameraMovementType.TruckRight]: LossFunctionType.TruckMovement,
+
   [CameraMovementType.PedestalUp]: LossFunctionType.PedestalMovement,
   [CameraMovementType.PedestalDown]: LossFunctionType.PedestalMovement,
+
   [CameraMovementType.ArcLeft]: LossFunctionType.ArcMovement,
   [CameraMovementType.ArcRight]: LossFunctionType.ArcMovement,
-  [CameraMovementType.Orbit]: LossFunctionType.ArcMovement, // Must be checked
-  [CameraMovementType.Track]: LossFunctionType.DollyMovement, // Must be checked
-  [CameraMovementType.Static]: LossFunctionType.Static, // Must be checked
+  [CameraMovementType.Orbit]: LossFunctionType.ArcMovement,       // TODO: dedicated OrbitMovement?
 };
 
-export const FPS_WEIGHTS: Record<string, number> = {
-  frozen: 5.0,
-  verySlow: 3.0,
-  slow: 2.0,
-  normal: 1.0,
-  fast: 0.5,
-  veryFast: 0.2,
+export const FPS_DURATION_WEIGHT: Record<RelativeFPS, number> = {
+  [RelativeFPS.Frozen]: 5.0,
+  [RelativeFPS.VerySlow]: 3.0,
+  [RelativeFPS.Slow]: 2.0,
+  [RelativeFPS.Normal]: 1.0,
+  [RelativeFPS.Fast]: 0.5,
+  [RelativeFPS.VeryFast]: 0.2,
 };
+
+// ─── Solver Defaults ────────────────────────────────
+
+/** Estimated time offset (seconds) when a distance trigger fires */
+export const DEFAULT_DISTANCE_TRIGGER_OFFSET = 5;
+
+/** Estimated time offset (seconds) when a velocity trigger fires */
+export const DEFAULT_VELOCITY_TRIGGER_OFFSET = 3;
+
+/** Default dolly/follow distance when not specified in movement parameters */
+export const DEFAULT_DOLLY_DISTANCE = 2;
+
+/** Default pan/tilt rotation angle (degrees) when not specified */
+export const DEFAULT_ROTATION_ANGLE = 30;
+
+/** Default arc sweep angle (degrees) when not specified */
+export const DEFAULT_ARC_ANGLE = 45;
+
+/** Default arc radius (meters) when not specified */
+export const DEFAULT_ARC_RADIUS = 2;

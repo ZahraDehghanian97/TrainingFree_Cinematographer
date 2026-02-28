@@ -1,4 +1,5 @@
-import { SinglePointConstraint, IntervalConstraint, CameraConfig, LossFunction, LossFunctionType, TimelineSolverOutput, NormalizedTimeline, TimelineSegment } from "../types/CSL";
+import { SinglePointConstraint, IntervalConstraint, TimelineSolverOutput, FlattenedTimeline, TimelineSegment } from "../types/solver";
+import { buildCameraConfigLosses } from "./solver";
 
 function isInterval(
   c: SinglePointConstraint | IntervalConstraint
@@ -6,28 +7,7 @@ function isInterval(
   return c.type === 'interval';
 }
 
-function buildCameraConfigLosses(
-  config: CameraConfig
-): LossFunction[] {
-  const losses: LossFunction[] = [];
-
-  if (config.type === 'subjectAware') {
-    if (config.shotSize)
-      losses.push({ type: LossFunctionType.ShotSize, parameters: { shotSize: config.shotSize } });
-    if (config.subjectView)
-      losses.push({ type: LossFunctionType.SubjectView, parameters: { view: config.subjectView } });
-    if (config.subjectFraming?.position)
-      losses.push({ type: LossFunctionType.FramingPosition, parameters: { position: config.subjectFraming.position } });
-  }
-
-  if (config.type === 'nonSubjectAware') {
-    losses.push({ type: LossFunctionType.MinPath, parameters: { targetPose: config.extrinsics.pose } });
-  }
-
-  return losses;
-}
-
-function normalizeTimeline(inputTimeLine: TimelineSolverOutput): NormalizedTimeline {
+export function flattenTimeline(inputTimeLine: TimelineSolverOutput): FlattenedTimeline {
   const allConstraints: (SinglePointConstraint | IntervalConstraint)[] = [];
 
   for (const section of inputTimeLine.sections) {
