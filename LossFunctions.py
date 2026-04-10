@@ -177,3 +177,16 @@ def min_path_interval(P: torch.Tensor, t0: int, t1: int) -> torch.Tensor:
         return torch.zeros((), device=P.device, dtype=P.dtype)
     d = P[t0+1:t1+1] - P[t0:t1]
     return torch.sqrt((d*d).sum(dim=-1) + 1e-8).mean()
+
+def loss_keep_rotation(Q: torch.Tensor, t0: int, t1: int) -> torch.Tensor:
+    
+    q0 = Q[t0:t0+1]                          
+    q_int = Q[t0:t1+1]                       
+    dots = (q_int * q0).sum(dim=-1).abs()    
+    return (1.0 - dots**2).mean()
+
+def loss_keep_translation(P: torch.Tensor, t0: int, t1: int) -> torch.Tensor:
+    
+    p0 = P[t0]                               
+    diff = P[t0:t1+1] - p0                   
+    return (diff.pow(2).sum(dim=-1)).mean()
