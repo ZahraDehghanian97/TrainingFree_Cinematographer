@@ -169,3 +169,11 @@ def clamp_interval(t0: int, t1: int, N: int) -> Tuple[int, int]:
     t0 = max(0, int(t0))
     t1 = min(N - 1, int(t1))
     return t0, t1
+
+def min_path_interval(P: torch.Tensor, t0: int, t1: int) -> torch.Tensor:
+    N = P.shape[0]
+    t0, t1 = clamp_interval(t0, t1, N)
+    if t1 <= t0:
+        return torch.zeros((), device=P.device, dtype=P.dtype)
+    d = P[t0+1:t1+1] - P[t0:t1]
+    return torch.sqrt((d*d).sum(dim=-1) + 1e-8).mean()
