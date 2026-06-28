@@ -7,56 +7,48 @@ function isInterval(
   return c.type === 'interval';
 }
 
-export function flattenTimeline(inputTimeLine: TimelineSolverOutput): FlattenedTimeline {
-  const allConstraints: (SinglePointConstraint | IntervalConstraint)[] = [];
+export function flattenTimeline(inputTimeline: TimelineSolverOutput): FlattenedTimeline {
 
-  for (const section of inputTimeLine.sections) {
-    allConstraints.push(...section.constraints);
-    for (const keyframe of section.initKeyframes) {
-      allConstraints.push(keyframe);
-    }
-  }
-
-  const boundaries = new Set<number>();
-  for (const c of allConstraints) {
-    if (c.type === 'interval') {
-      boundaries.add(c.startTime);
-      boundaries.add(c.endTime);
-    } else {
-      boundaries.add(c.time);
-    }
-  }
-
-  const sorted = Array.from(boundaries).sort((a, b) => a - b);
   const timeline: TimelineSegment[] = [];
 
-  for (let i = 0; i < sorted.length - 1; i++) {
-    const start = sorted[i]!;
-    const end = sorted[i + 1]!;
-    const activeLosses = allConstraints
-      .filter(isInterval)
-      .filter(iv => iv.startTime < end && iv.endTime > start)
-      .map(iv => iv.lossFunction);
+  for (const section of inputTimeline.sections) {
 
-    if (activeLosses.length > 0) {
-      timeline.push({ kind: 'interval', startTime: start, endTime: end, lossFunctions: activeLosses });
+    for (const c of section.constraints) {
+
+      if (c.type === "interval") {
+        timeline.push({
+          kind: "interval",
+          startTime: c.startTime,
+          endTime: c.endTime,
+          lossFunctions: [c.lossFunction]
+        });
+      }
+      if (c.type === "singlePoint") {
+        timeline.push({
+          kind: "point",
+          time: c.time,
+          lossFunctions: buildCameraConfigLosses(c.config)
+        });
+      }
     }
-  }
 
-  for (const c of allConstraints) {
-    if (c.type === 'singlePoint') {
-      timeline.push({ kind: 'point', time: c.time, lossFunctions: buildCameraConfigLosses(c.config) });
+    for (const kf of section.initKeyframes) {
+      timeline.push({
+        kind: "point",
+        time: kf.time,
+        lossFunctions: buildCameraConfigLosses(kf.config)
+      });
     }
   }
 
   timeline.sort((a, b) => {
-    const ta = a.kind === 'interval' ? a.startTime : a.time;
-    const tb = b.kind === 'interval' ? b.startTime : b.time;
-    if (ta !== tb) return ta - tb;
-    if (a.kind === 'point' && b.kind === 'interval') return -1;
-    if (a.kind === 'interval' && b.kind === 'point') return 1;
-    return 0;
+    const ta = a.kind === "interval" ? a.startTime : a.time;
+    const tb = b.kind === "interval" ? b.startTime : b.time;
+    return ta - tb;
   });
 
-  return timeline;
+    return {
+        timeline,
+        timeWarp: inputTimeline.timeWarp
+    };
 }
