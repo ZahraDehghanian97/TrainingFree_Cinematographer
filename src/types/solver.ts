@@ -6,9 +6,12 @@ export enum LossFunctionType {
   // Movement losses
   PedestalMovement = "pedestalMovement",
   DollyMovement = "dollyMovement",
+  ZoomIn = "zoomInMovement",
+  ZoomOut = "zoomOutMovement",
   TruckMovement = "truckMovement",
   PanMovement = "panMovement",
   TiltMovement = "tiltMovement",
+  DutchMovement = "dutchMovement",
   ArcMovement = "arcMovement",
   Static = "Static",
   FollowMovement = "followMovement",
@@ -55,8 +58,15 @@ export interface SectionSolverOutput {
   constraints: Constraint[];
 }
 
+export interface TimeWarpSegment {
+  startTimePlayback: number;
+  endTimePlayback: number;
+  rate: number;
+}
+
 export interface TimelineSolverOutput {
   sections: SectionSolverOutput[];
+  timeWarp: TimeWarpSegment[];
 }
 
 // ─── Normalized Timeline (final output) ──────────────────────────────────────
@@ -75,4 +85,8 @@ export interface PointSegment {
 }
 
 export type TimelineSegment = IntervalSegment | PointSegment;
-export type FlattenedTimeline = TimelineSegment[];
+
+export interface FlattenedTimeline {
+  timeline: TimelineSegment[];
+  timeWarp: TimeWarpSegment[];
+}
