@@ -29,8 +29,8 @@ export const BASE_SPEED: Record<CameraMovementType, number> = {
 export const MOVEMENT_TO_LOSS: Partial<Record<CameraMovementType, LossFunctionType>> = {
   [CameraMovementType.DollyIn]: LossFunctionType.DollyMovement,
   [CameraMovementType.DollyOut]: LossFunctionType.DollyMovement,
-  [CameraMovementType.ZoomIn]: LossFunctionType.DollyMovement,   // TODO: dedicated ZoomMovement?
-  [CameraMovementType.ZoomOut]: LossFunctionType.DollyMovement,   // TODO: dedicated ZoomMovement?
+  [CameraMovementType.ZoomIn]: LossFunctionType.ZoomIn,   //  dedicated ZoomMovement
+  [CameraMovementType.ZoomOut]: LossFunctionType.ZoomOut,   // dedicated ZoomMovement
   [CameraMovementType.Follow]: LossFunctionType.FollowMovement,
   [CameraMovementType.Track]: LossFunctionType.DollyMovement,     // TODO: dedicated TrackMovement?
   [CameraMovementType.Static]: LossFunctionType.Static,
@@ -39,6 +39,9 @@ export const MOVEMENT_TO_LOSS: Partial<Record<CameraMovementType, LossFunctionTy
   [CameraMovementType.PanRight]: LossFunctionType.PanMovement,
   [CameraMovementType.TiltUp]: LossFunctionType.TiltMovement,
   [CameraMovementType.TiltDown]: LossFunctionType.TiltMovement,
+  [CameraMovementType.DutchRight]: LossFunctionType.DutchMovement,
+  [CameraMovementType.DutchLeft]: LossFunctionType.DutchMovement,
+  
 
   [CameraMovementType.TruckLeft]: LossFunctionType.TruckMovement,
   [CameraMovementType.TruckRight]: LossFunctionType.TruckMovement,
@@ -52,7 +55,7 @@ export const MOVEMENT_TO_LOSS: Partial<Record<CameraMovementType, LossFunctionTy
 };
 
 export const FPS_DURATION_WEIGHT: Record<RelativeFPS, number> = {
-  [RelativeFPS.Frozen]: 5.0,
+  [RelativeFPS.Frozen]: 5.0, // TODO: Must change to explicit duration
   [RelativeFPS.VerySlow]: 3.0,
   [RelativeFPS.Slow]: 2.0,
   [RelativeFPS.Normal]: 1.0,
