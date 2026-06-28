@@ -1,5 +1,6 @@
 import {
   CameraMovementType,
+  RelativeFPS,
   RelativeTimeReference,
 } from "../types/enums";
 import {
@@ -20,6 +21,7 @@ import {
   TimelineSolverOutput,
   LossFunction,
   LossFunctionType,
+  TimeWarpSegment,
 } from "../types/solver";
 import { CameraDirectionDSL } from "../types/dsl";
 import {
@@ -30,8 +32,11 @@ import {
   DEFAULT_ROTATION_ANGLE,
   DEFAULT_ARC_ANGLE,
   DEFAULT_ARC_RADIUS,
+  FPS_DURATION_WEIGHT,
 } from "./constants";
 import { CameraConfig } from "../types/camera";
+import { log } from "node:console";
+import util from "util";
 
 interface TimedAction extends Action {
   startTime?: number;
@@ -57,36 +62,61 @@ function resolveAnchorTime(
 
 export function solveTimeline(dsl: CameraDirectionDSL): TimelineSolverOutput {
   const sections: SectionSolverOutput[] = [];
-  let currentOffset = 0;
+  const totalDuration: number = dsl.totalDuration
 
+  const allResolvedActions = resolveActionTimings(
+    dsl.sections,
+    totalDuration
+  );
+
+  let resolvedActions : TimedAction[] = []
   for (let i = 0; i < dsl.sections.length; i++) {
     const section = dsl.sections[i]!;
 
-    // 1. Determine how much time this section gets from the remaining budget
-    // Formula: Remaining Time / Remaining Sections
-    const remainingSections = dsl.sections.length - i;
-    const sectionDuration = (dsl.totalDuration - currentOffset) / remainingSections;
-    const sectionEnd = currentOffset + sectionDuration;
-
-    // 2. Resolve actions specifically within this section's "slice"
-    const resolvedActions = resolveActionTimings(
-      [section],
-      sectionEnd, // The hard limit for these actions
-      currentOffset,
+    resolvedActions = allResolvedActions.filter(a =>
+    section.actions.some(sa => sa.id === a.id)
     );
 
+    const initCameraStartTime =
+    resolvedActions.length > 0
+    ? Math.min(...resolvedActions.map(a => a.startTime!))
+    : 0;
+
     // 3. Build constraints
+    const initKeyframes: SinglePointConstraint[] = [
+    buildInitialKeyframe(
+    section.initCamera,
+    initCameraStartTime
+      ),
+    ];
+
+
     sections.push({
-      initKeyframes: [buildInitialKeyframe(section.initCamera, currentOffset)],
+      initKeyframes: initKeyframes,
       constraints: resolvedActions.flatMap(buildActionConstraints),
     });
 
-    // 4. Move the offset to where this section actually ended
-    // (Or where it was supposed to end, to prevent drift)
-    currentOffset = sectionEnd;
+
+  }
+  
+  const timeWarp: TimeWarpSegment[] = [];
+
+  for (const action of resolvedActions) {
+
+      const rate =
+          FPS_DURATION_WEIGHT[
+              action.movement.relativeFPS ??
+              RelativeFPS.Normal
+          ];
+
+      timeWarp.push({
+          startTimePlayback: action.startTime!,
+          endTimePlayback: action.endTime!,
+          rate
+      });
   }
 
-  return { sections };
+  return { sections, timeWarp };
 }
 
 function isIndependentTrigger(t: TriggerSpec): boolean {
@@ -106,41 +136,11 @@ function resolveIndependentTriggerOffset(t: TriggerSpec): number {
 
   switch (t.type) {
     case "absoluteTime": return t.time;
-    case "distance": return DEFAULT_DISTANCE_TRIGGER_OFFSET;
-    case "velocity": return DEFAULT_VELOCITY_TRIGGER_OFFSET;
+    case "distance": return DEFAULT_DISTANCE_TRIGGER_OFFSET; // TODO: Must be replaced with real function
+    case "velocity": return DEFAULT_VELOCITY_TRIGGER_OFFSET; // TODO: Must be replaced with real function
     default: return 0;
   }
 }
-/*
-function resolveTriggerTime(
-  trigger: TriggerSpec,
-  actionsById: Map<string, Action>,
-  getOrResolve: (id: string) => TimedAction
-): number {
-
-  if ("type" in trigger) {
-    if (trigger.type === "absoluteTime") return trigger.time;
-
-    if (trigger.type === "relativeTime") {
-      const referencedAction = getOrResolve(trigger.actionId);
-      const anchorTime = resolveReferenceTime(referencedAction, trigger.reference);
-      return anchorTime + trigger.offset;
-    }
-    if(trigger.type === "distance") return 5
-
-    if(trigger.type === "velocity") return 3
-
-    return 0;
-  }
-
-  if ("operator" in trigger) {
-    const times = trigger.triggers.map(t => resolveTriggerTime(t, actionsById, getOrResolve));
-    return trigger.operator === "and" ? Math.max(...times) : Math.min(...times);
-  }
-
-  return 0;
-}
-*/
 
 // Helper: Find the longest sequential chain waiting after this action
 function getSequentialChainDepth(actionId: string, allActions: Action[]): number {
@@ -190,8 +190,7 @@ function resolveBranch(
 
 function resolveActionTimings(
   sections: Section[],
-  sectionEnd: number, // This is the section's end time (e.g., 12s)
-  sectionOffset: number, // This is the section's start time (e.g., 0s)
+  totalDuration: number
 ): TimedAction[] {
 
   const allActions: Action[] = sections.flatMap(s => s.actions);
@@ -205,7 +204,7 @@ function resolveActionTimings(
     if (isIndependentTrigger(a.trigger)) {
       // Scale absolute time to fit within the section offset
       // If absolute time is 0, it starts at sectionOffset
-      a.startTime = sectionOffset + resolveIndependentTriggerOffset(a.trigger);
+      a.startTime = resolveIndependentTriggerOffset(a.trigger);
     }
   }
 
@@ -243,16 +242,52 @@ function resolveActionTimings(
 
   // PASS 4 — Global Window Allocation
 
-  // console.log("PASS 4 begins:");
   const roots = Array.from(state.values())
     .filter(a => a.startTime !== undefined && !isRelativeTrigger(a.trigger))
     .sort((a, b) => a.startTime! - b.startTime!);
+ 
+  interface RootGroup {
+  startTime: number;
+  actions: TimedAction[];
+  }
 
-  for (let i = 0; i < roots.length; i++) {
-    const root = roots[i]!;
-    const nextRootStart = roots[i + 1]?.startTime;
-    const windowEnd = nextRootStart ?? sectionEnd;
-    resolveBranch(root, windowEnd, state, allActions);
+  const groups: RootGroup[] = [];
+
+  for (const root of roots) {
+
+    const last = groups.at(-1);
+
+    if (
+      last &&
+      Math.abs(last.startTime - root.startTime!) < 1e-6
+    ) {
+      last.actions.push(root);
+    } else {
+      groups.push({
+        startTime: root.startTime!,
+        actions: [root]
+      });
+    }
+  }
+
+  for (let i = 0; i < groups.length; i++) {
+
+    const group = groups[i]!;
+
+    const nextGroupStart =
+      groups[i + 1]?.startTime;
+
+    const windowEnd =
+      nextGroupStart ?? totalDuration;
+
+    for (const root of group.actions) {
+      resolveBranch(
+        root,
+        windowEnd,
+        state,
+        allActions
+      );
+    }
   }
 
   return allActions.map(a => state.get(a.id)!);
@@ -321,15 +356,7 @@ function averageSpeedMultiplier(
 function estimateDuration(initCamera: InitCamera, action: Action): number | undefined {
   if (action.movement.duration !== undefined) return action.movement.duration;
 
-  //else if(action.movement.parameters){
-  // We have formula: (distance / (speed * speedMultiplier))
-  // const distance = estimateDistance(action.movement);
-  //const baseSpeed = BASE_SPEED[action.movement.act] ?? 1;
-  //const speedMultiplier = averageSpeedMultiplier(action.movement.speedKeyframes);
-
-  //return (distance / (baseSpeed * speedMultiplier));
-  //}
-
+  // TODO: estimate duration based on distanceEstimator function
 
   return undefined
 
@@ -401,6 +428,9 @@ export function buildCameraConfigLosses(
         type: LossFunctionType.FramingPosition,
         parameters: { position: config.subjectFraming.position }
       });
+
+    // TODO: CameraAngle must be supported (currently no corresponding loss function exists)
+
   }
 
   if (config.type === "nonSubjectAware") {
