@@ -928,4 +928,74 @@ export const promptExamples: { prompt: string, csl: CameraDirectionDSL }[] = [{
       }
     ]
   }
-}]
+},
+
+{
+  prompt: "ورژن ۲ برای ایجاد حس ترس، دوربین را ۳۰ درجه کج کن و به صورت دستی و لرزان به سمت در نیمه‌باز حرکت کن.",
+  csl: {
+    totalDuration: 7,
+    sections: [
+      {
+        initCamera: {
+          targets: [
+            {
+              id: "half_open_door",
+              description: "The half-open door (در نیمه‌باز)"
+            }
+          ],
+          config: {
+            type: "subjectAware",
+            shotSize: ShotSize.MediumShot,
+            subjectView: SubjectView.Front,
+            subjectFraming: {
+              position: SubjectInFramePosition.Center
+            }
+          }
+        },
+        actions: [
+          {
+            id: "dutch_tilt_30",
+            trigger: {
+              type: "absoluteTime",
+              time: 0
+            },
+            movement: {
+              act: CameraMovementType.DutchLeft,
+              parameters: {
+                rotationAngle: 30
+              },
+              duration: 5
+            }
+          },
+          {
+            id: "handheld_dolly_in",
+            trigger: {
+              type: "absoluteTime",
+              time: 2
+            },
+            movement: {
+              act: CameraMovementType.DollyIn,
+              duration: 5
+            },
+            constraints: [
+              {
+                targets: [{ id: "half_open_door", description: "The half-open door (در نیمه‌باز)" }],
+                config: {
+                  type: "subjectAware",
+                  shotSize: ShotSize.MediumCloseUp,
+                  subjectFraming: {
+                    position: SubjectInFramePosition.Center,
+                    dutchAngleScale: 7
+                  }
+                },
+                allFrames: false
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  }
+}
+
+]
