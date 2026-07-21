@@ -1,0 +1,97 @@
+{
+  "prompt": "زمان را روی ۲ ثانیه فریز کن و یک دور کامل ۳۶۰ درجه دور سوژه معلق در هوا بچرخ، سپس حرکت را با سرعت عادی ادامه بده.",
+  "totalDuration": 5,
+  "timeline": {
+    "timeline": [
+      {
+        "kind": "interval",
+        "startTime": 0,
+        "endTime": 2,
+        "lossFunctions": [
+          {
+            "type": "arcMovement",
+            "parameters": {
+              "arcAngle": 360,
+              "arcRadius": 2
+            }
+          }
+        ]
+      },
+      {
+        "kind": "interval",
+        "startTime": 0,
+        "endTime": 2,
+        "lossFunctions": [
+          {
+            "type": "shotSize",
+            "parameters": {
+              "shotSize": "mediumShot"
+            }
+          }
+        ]
+      },
+      {
+        "kind": "interval",
+        "startTime": 0,
+        "endTime": 2,
+        "lossFunctions": [
+          {
+            "type": "framingPosition",
+            "parameters": {
+              "position": "center"
+            }
+          }
+        ]
+      },
+      {
+        "kind": "point",
+        "time": 0,
+        "lossFunctions": [
+          {
+            "type": "shotSize",
+            "parameters": {
+              "shotSize": "mediumShot"
+            }
+          },
+          {
+            "type": "subjectView",
+            "parameters": {
+              "view": "front"
+            }
+          },
+          {
+            "type": "framingPosition",
+            "parameters": {
+              "position": "center"
+            }
+          }
+        ]
+      },
+      {
+        "kind": "interval",
+        "startTime": 2,
+        "endTime": 5,
+        "lossFunctions": [
+          {
+            "type": "followMovement",
+            "parameters": {
+              "distance": 2
+            }
+          }
+        ]
+      }
+    ],
+    "timeWarp": [
+      {
+        "startTimePlayback": 0,
+        "endTimePlayback": 2,
+        "rate": 5
+      },
+      {
+        "startTimePlayback": 2,
+        "endTimePlayback": 5,
+        "rate": 1
+      }
+    ]
+  }
+}

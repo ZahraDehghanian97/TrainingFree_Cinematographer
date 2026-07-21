@@ -1,0 +1,79 @@
+{
+  "prompt": "از زوم روی صورت مرد شروع کن، یک stop motion بزن و ۳ دور کامل دور صورت آن بچرخ",
+  "totalDuration": 15,
+  "timeline": {
+    "timeline": [
+      {
+        "kind": "interval",
+        "startTime": 0,
+        "endTime": 15,
+        "lossFunctions": [
+          {
+            "type": "arcMovement",
+            "parameters": {
+              "arcAngle": 1080,
+              "arcRadius": 2
+            }
+          }
+        ]
+      },
+      {
+        "kind": "interval",
+        "startTime": 0,
+        "endTime": 15,
+        "lossFunctions": [
+          {
+            "type": "shotSize",
+            "parameters": {
+              "shotSize": "extremeCloseUp"
+            }
+          }
+        ]
+      },
+      {
+        "kind": "interval",
+        "startTime": 0,
+        "endTime": 15,
+        "lossFunctions": [
+          {
+            "type": "framingPosition",
+            "parameters": {
+              "position": "center"
+            }
+          }
+        ]
+      },
+      {
+        "kind": "point",
+        "time": 0,
+        "lossFunctions": [
+          {
+            "type": "shotSize",
+            "parameters": {
+              "shotSize": "extremeCloseUp"
+            }
+          },
+          {
+            "type": "subjectView",
+            "parameters": {
+              "view": "front"
+            }
+          },
+          {
+            "type": "framingPosition",
+            "parameters": {
+              "position": "center"
+            }
+          }
+        ]
+      }
+    ],
+    "timeWarp": [
+      {
+        "startTimePlayback": 0,
+        "endTimePlayback": 15,
+        "rate": 5
+      }
+    ]
+  }
+}

@@ -1,0 +1,102 @@
+{
+  "prompt": "از نمای بالا شروع کن و با یک حرکت حلزونی همزمان که می‌چرخی، به سوژه نزدیک شو تا به کلوزآپ چشم‌هایش برسی.",
+  "totalDuration": 9,
+  "timeline": {
+    "timeline": [
+      {
+        "kind": "interval",
+        "startTime": 0,
+        "endTime": 9,
+        "lossFunctions": [
+          {
+            "type": "arcMovement",
+            "parameters": {
+              "arcAngle": 720,
+              "arcRadius": 2
+            }
+          }
+        ]
+      },
+      {
+        "kind": "interval",
+        "startTime": 0,
+        "endTime": 9,
+        "lossFunctions": [
+          {
+            "type": "framingPosition",
+            "parameters": {
+              "position": "center"
+            }
+          }
+        ]
+      },
+      {
+        "kind": "interval",
+        "startTime": 0,
+        "endTime": 9,
+        "lossFunctions": [
+          {
+            "type": "dollyInMovement",
+            "parameters": {
+              "distance": 2
+            }
+          }
+        ]
+      },
+      {
+        "kind": "point",
+        "time": 0,
+        "lossFunctions": [
+          {
+            "type": "shotSize",
+            "parameters": {
+              "shotSize": "longShot"
+            }
+          },
+          {
+            "type": "subjectView",
+            "parameters": {
+              "view": "front"
+            }
+          },
+          {
+            "type": "framingPosition",
+            "parameters": {
+              "position": "center"
+            }
+          }
+        ]
+      },
+      {
+        "kind": "point",
+        "time": 9,
+        "lossFunctions": [
+          {
+            "type": "shotSize",
+            "parameters": {
+              "shotSize": "extremeCloseUp"
+            }
+          },
+          {
+            "type": "framingPosition",
+            "parameters": {
+              "position": "center"
+            }
+          }
+        ]
+      }
+    ],
+    "timeWarp": [
+      {
+        "startTimePlayback": 0,
+        "endTimePlayback": 9,
+        "rate": 1
+      },
+      {
+        "startTimePlayback": 0,
+        "endTimePlayback": 9,
+        "rate": 1
+      }
+    ]
+  }
+}

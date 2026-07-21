@@ -1,0 +1,116 @@
+{
+  "prompt": "به مدت ۲ ثانیه ماشین رو ترک کن و یک arc right دورش بزن و همزمان با arc روی راننده زوم کن",
+  "totalDuration": 15,
+  "timeline": {
+    "timeline": [
+      {
+        "kind": "interval",
+        "startTime": 0,
+        "endTime": 2,
+        "lossFunctions": [
+          {
+            "type": "trackMovement",
+            "parameters": {}
+          }
+        ]
+      },
+      {
+        "kind": "point",
+        "time": 0,
+        "lossFunctions": [
+          {
+            "type": "shotSize",
+            "parameters": {
+              "shotSize": "mediumShot"
+            }
+          },
+          {
+            "type": "subjectView",
+            "parameters": {
+              "view": "front"
+            }
+          },
+          {
+            "type": "framingPosition",
+            "parameters": {
+              "position": "center"
+            }
+          }
+        ]
+      },
+      {
+        "kind": "interval",
+        "startTime": 2,
+        "endTime": 15,
+        "lossFunctions": [
+          {
+            "type": "arcMovement",
+            "parameters": {
+              "arcAngle": 45,
+              "arcRadius": 2
+            }
+          }
+        ]
+      },
+      {
+        "kind": "interval",
+        "startTime": 2,
+        "endTime": 15,
+        "lossFunctions": [
+          {
+            "type": "framingPosition",
+            "parameters": {
+              "position": "center"
+            }
+          }
+        ]
+      },
+      {
+        "kind": "interval",
+        "startTime": 2,
+        "endTime": 15,
+        "lossFunctions": [
+          {
+            "type": "zoomInMovement",
+            "parameters": {}
+          }
+        ]
+      },
+      {
+        "kind": "point",
+        "time": 15,
+        "lossFunctions": [
+          {
+            "type": "shotSize",
+            "parameters": {
+              "shotSize": "closeUp"
+            }
+          },
+          {
+            "type": "framingPosition",
+            "parameters": {
+              "position": "center"
+            }
+          }
+        ]
+      }
+    ],
+    "timeWarp": [
+      {
+        "startTimePlayback": 0,
+        "endTimePlayback": 2,
+        "rate": 1
+      },
+      {
+        "startTimePlayback": 2,
+        "endTimePlayback": 15,
+        "rate": 1
+      },
+      {
+        "startTimePlayback": 2,
+        "endTimePlayback": 15,
+        "rate": 1
+      }
+    ]
+  }
+}

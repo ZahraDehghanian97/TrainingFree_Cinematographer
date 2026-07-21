@@ -1,0 +1,152 @@
+{
+  "prompt": "دو نفر را در نمای Long Shot دنبال کن؛ به محض اینکه فاصله آن‌ها به کمتر از ۱ متر رسید، کات بزن به Over-the-Shoulder (نمای روی شانه).",
+  "totalDuration": 24,
+  "timeline": {
+    "timeline": [
+      {
+        "kind": "interval",
+        "startTime": 0,
+        "endTime": 5,
+        "lossFunctions": [
+          {
+            "type": "followMovement",
+            "parameters": {
+              "distance": 2
+            }
+          }
+        ]
+      },
+      {
+        "kind": "interval",
+        "startTime": 0,
+        "endTime": 5,
+        "lossFunctions": [
+          {
+            "type": "shotSize",
+            "parameters": {
+              "shotSize": "longShot"
+            }
+          }
+        ]
+      },
+      {
+        "kind": "interval",
+        "startTime": 0,
+        "endTime": 5,
+        "lossFunctions": [
+          {
+            "type": "framingPosition",
+            "parameters": {
+              "position": "center"
+            }
+          }
+        ]
+      },
+      {
+        "kind": "point",
+        "time": 0,
+        "lossFunctions": [
+          {
+            "type": "shotSize",
+            "parameters": {
+              "shotSize": "longShot"
+            }
+          },
+          {
+            "type": "subjectView",
+            "parameters": {
+              "view": "front"
+            }
+          },
+          {
+            "type": "framingPosition",
+            "parameters": {
+              "position": "center"
+            }
+          }
+        ]
+      },
+      {
+        "kind": "interval",
+        "startTime": 5,
+        "endTime": 24,
+        "lossFunctions": [
+          {
+            "type": "Static",
+            "parameters": {}
+          }
+        ]
+      },
+      {
+        "kind": "interval",
+        "startTime": 5,
+        "endTime": 24,
+        "lossFunctions": [
+          {
+            "type": "shotSize",
+            "parameters": {
+              "shotSize": "mediumCloseUp"
+            }
+          }
+        ]
+      },
+      {
+        "kind": "interval",
+        "startTime": 5,
+        "endTime": 24,
+        "lossFunctions": [
+          {
+            "type": "subjectView",
+            "parameters": {
+              "view": "threeQuarterFrontLeft"
+            }
+          }
+        ]
+      },
+      {
+        "kind": "interval",
+        "startTime": 5,
+        "endTime": 24,
+        "lossFunctions": [
+          {
+            "type": "framingPosition",
+            "parameters": {
+              "position": "center"
+            }
+          }
+        ]
+      },
+      {
+        "kind": "point",
+        "time": 5,
+        "lossFunctions": [
+          {
+            "type": "shotSize",
+            "parameters": {
+              "shotSize": "mediumCloseUp"
+            }
+          },
+          {
+            "type": "subjectView",
+            "parameters": {
+              "view": "threeQuarterFrontLeft"
+            }
+          },
+          {
+            "type": "framingPosition",
+            "parameters": {
+              "position": "center"
+            }
+          }
+        ]
+      }
+    ],
+    "timeWarp": [
+      {
+        "startTimePlayback": 5,
+        "endTimePlayback": 24,
+        "rate": 1
+      }
+    ]
+  }
+}

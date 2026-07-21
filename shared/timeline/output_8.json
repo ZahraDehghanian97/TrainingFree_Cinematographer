@@ -1,0 +1,130 @@
+{
+  "prompt": "ابتدا صحنه مشت زدن را با Slow Motion (سرعت ۱۰٪) نشان بده و درست لحظه برخورد، سرعت را به Hyper Fast تغییر بده و روی محل ضربه زوم کن.",
+  "totalDuration": 12,
+  "timeline": {
+    "timeline": [
+      {
+        "kind": "interval",
+        "startTime": 0,
+        "endTime": 5,
+        "lossFunctions": [
+          {
+            "type": "followMovement",
+            "parameters": {
+              "distance": 2
+            }
+          }
+        ]
+      },
+      {
+        "kind": "interval",
+        "startTime": 0,
+        "endTime": 5,
+        "lossFunctions": [
+          {
+            "type": "shotSize",
+            "parameters": {
+              "shotSize": "mediumShot"
+            }
+          }
+        ]
+      },
+      {
+        "kind": "interval",
+        "startTime": 0,
+        "endTime": 5,
+        "lossFunctions": [
+          {
+            "type": "framingPosition",
+            "parameters": {
+              "position": "center"
+            }
+          }
+        ]
+      },
+      {
+        "kind": "point",
+        "time": 0,
+        "lossFunctions": [
+          {
+            "type": "shotSize",
+            "parameters": {
+              "shotSize": "mediumShot"
+            }
+          },
+          {
+            "type": "subjectView",
+            "parameters": {
+              "view": "threeQuarterFrontRight"
+            }
+          },
+          {
+            "type": "framingPosition",
+            "parameters": {
+              "position": "center"
+            }
+          }
+        ]
+      },
+      {
+        "kind": "interval",
+        "startTime": 5,
+        "endTime": 12,
+        "lossFunctions": [
+          {
+            "type": "followMovement",
+            "parameters": {
+              "distance": 2
+            }
+          }
+        ]
+      },
+      {
+        "kind": "interval",
+        "startTime": 5,
+        "endTime": 12,
+        "lossFunctions": [
+          {
+            "type": "zoomInMovement",
+            "parameters": {}
+          }
+        ]
+      },
+      {
+        "kind": "point",
+        "time": 12,
+        "lossFunctions": [
+          {
+            "type": "shotSize",
+            "parameters": {
+              "shotSize": "extremeCloseUp"
+            }
+          },
+          {
+            "type": "framingPosition",
+            "parameters": {
+              "position": "center"
+            }
+          }
+        ]
+      }
+    ],
+    "timeWarp": [
+      {
+        "startTimePlayback": 0,
+        "endTimePlayback": 5,
+        "rate": 3
+      },
+      {
+        "startTimePlayback": 5,
+        "endTimePlayback": 12,
+        "rate": 0.2
+      },
+      {
+        "startTimePlayback": 5,
+        "endTimePlayback": 12,
+        "rate": 1
+      }
+    ]
+  }
+}
