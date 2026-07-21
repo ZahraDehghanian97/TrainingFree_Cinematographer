@@ -1,6 +1,26 @@
 import numpy as np
 import torch
 
+
+TRANSLATION_MOVES = {
+    "truckLeftMovement":  ("right", -1),
+    "truckRightMovement": ("right", +1),
+
+    "dollyInMovement":    ("forward", +1),
+    "dollyOutMovement":   ("forward", -1),
+
+    "pedestalUpMovement":   ("up", +1),
+    "pedestalDownMovement": ("up", -1),
+}
+
+ROTATION_MOVES = {
+    "panLeftMovement":  ("yaw",  +1),
+    "panRightMovement": ("yaw",  -1),
+
+    "tiltUpMovement":   ("pitch", +1),
+    "tiltDownMovement": ("pitch", -1),
+}
+
 def q_normalize(q, eps=1e-9):
     q = np.asarray(q, dtype=float)
     return q / (np.linalg.norm(q) + eps)
@@ -153,6 +173,7 @@ def initialize_control_points(
     constraints,
     subject_tracks,
     image_w, image_h,
+    subject_centers=None,
     default_k=4,
     default_radius=4.0,
     default_move_dist=1.0,
@@ -241,9 +262,31 @@ def initialize_control_points(
             if start_cp is None:
                 start_cp = {"t": to_tau(t0), "p": np.array([0,0,0], float), "q": np.array([1,0,0,0], float)}
                 insert_cp(t0, start_cp["p"], start_cp["q"], hard=False)
-            motion = [lf for lf in losses if lf["type"] in [
-                "arcMovement","truckMovement","dollyMovement","pedestalMovement","panMovement","tiltMovement"
-            ]]
+
+            motion_types = {
+                "arcMovement",
+
+                "truckLeftMovement",
+                "truckRightMovement",
+
+                "dollyInMovement",
+                "dollyOutMovement",
+
+                "pedestalUpMovement",
+                "pedestalDownMovement",
+
+                "panLeftMovement",
+                "panRightMovement",
+
+                "tiltUpMovement",
+                "tiltDownMovement",
+            }
+
+            motion = [
+                lf
+                for lf in losses
+                if lf["type"] in motion_types
+            ]
 
             if len(motion) == 0:
                 k = c.get("k", default_k)
@@ -257,6 +300,7 @@ def initialize_control_points(
             for lf in motion:
                 typ = lf["type"]
 
+
                 if typ == "arcMovement":
                     subj_id = lf["subjectId"]
                     radius = float(lf.get("radius", default_radius))
@@ -268,7 +312,11 @@ def initialize_control_points(
                     ts = np.linspace(to_tau(t0), to_tau(t1), npts)
                     mid = (to_tau(t0) + to_tau(t1)) / 2.0
                     mid_frame = int(mid) if time_mode == "frame" else int(round(mid * (total_frames-1)))
-                    center = estimate_subject_world_center(subject_tracks[subj_id], mid_frame)
+                    # Use real subject centers if available; otherwise use the dummy origin.
+                    if subject_centers is not None and subj_id in subject_centers:
+                        center = np.asarray(subject_centers[subj_id][mid_frame], dtype=float)
+                    else:
+                        center = np.zeros(3, dtype=float)
                     p0 = generated[-1]["p"]
                     v0 = p0 - center
                     v0_xy = np.array([v0[0], v0[1]], float) 
@@ -289,51 +337,69 @@ def initialize_control_points(
                         cam_q = look_at_quat(cam_pos, center)
                         generated.append({"t": tt, "p": cam_pos, "q": cam_q})
 
-                elif typ in ("truckMovement","dollyMovement","pedestalMovement"):
+                elif typ in TRANSLATION_MOVES:
+
                     dist = float(lf.get("distance", default_move_dist))
-                    k = c.get("k", default_k)
-                    ts = np.linspace(to_tau(t0), to_tau(t1), k)
-                    q0 = generated[-1]["q"]
-                    right = q_rotate(q0, np.array([1,0,0], float))
-                    up    = q_rotate(q0, np.array([0,1,0], float))
-                    fwd   = q_rotate(q0, np.array([0,0,1], float))
 
-                    axis = fwd
-                    if typ == "pedestalMovement":
-                        axis = fwd
-                        sign = +1.0 if lf.get("direction","in") == "in" else -1.0
-                    elif typ == "truckMovement":
-                        axis = right
-                        sign = +1.0 if lf.get("direction","right") == "right" else -1.0
-                    else:
-                        axis = up
-                        sign = +1.0 if lf.get("direction","up") == "up" else -1.0
-
-                    p_start = generated[-1]["p"]
-                    for i, tt in enumerate(ts):
-                        u = i / (len(ts)-1)
-                        cam_pos = p_start + sign * u * dist * axis
-                        generated.append({"t": tt, "p": cam_pos, "q": q0})
-
-                elif typ in ("panMovement","tiltMovement"):
-                    angle_deg = float(lf.get("angleDeg", 30.0))
-                    angle_rad = np.deg2rad(angle_deg)
                     k = c.get("k", default_k)
                     ts = np.linspace(to_tau(t0), to_tau(t1), k)
 
                     q0 = generated[-1]["q"]
                     p0 = generated[-1]["p"]
-                    if typ == "panMovement":
-                        local_axis = np.array([0,1,0], float) 
+
+                    right = q_rotate(q0, np.array([1,0,0], float))
+                    up = q_rotate(q0, np.array([0,1,0], float))
+                    forward = q_rotate(q0, np.array([0,0,1], float))
+
+                    axis_name, sign = TRANSLATION_MOVES[typ]
+
+                    axis = {
+                        "right": right,
+                        "up": up,
+                        "forward": forward,
+                    }[axis_name]
+
+                    for i, tt in enumerate(ts):
+                        u = i / (len(ts)-1)
+                        generated.append({
+                            "t": tt,
+                            "p": p0 + sign * u * dist * axis,
+                            "q": q0,
+                        })
+
+
+                elif typ in ROTATION_MOVES:
+
+                    angle = np.deg2rad(float(lf.get("angleDeg", 30.0)))
+
+                    k = c.get("k", default_k)
+                    ts = np.linspace(to_tau(t0), to_tau(t1), k)
+
+                    p0 = generated[-1]["p"]
+                    q0 = generated[-1]["q"]
+
+                    axis_type, sign = ROTATION_MOVES[typ]
+
+                    if axis_type == "yaw":
+                        local_axis = np.array([0,1,0], float)
                     else:
-                        local_axis = np.array([1,0,0], float) 
+                        local_axis = np.array([1,0,0], float)
+
                     axis_world = q_rotate(q0, local_axis)
 
                     for i, tt in enumerate(ts):
                         u = i / (len(ts)-1)
-                        dq = q_from_axis_angle(axis_world, u * angle_rad)
-                        q = q_mul(dq, q0)
-                        generated.append({"t": tt, "p": p0, "q": q})
+
+                        dq = q_from_axis_angle(
+                            axis_world,
+                            sign * u * angle
+                        )
+
+                        generated.append({
+                            "t": tt,
+                            "p": p0,
+                            "q": q_mul(dq, q0),
+                        })
             for g in generated:
                 insert_cp(g["t"], g["p"], g["q"], hard=False)
 

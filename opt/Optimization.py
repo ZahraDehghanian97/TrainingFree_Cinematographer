@@ -50,6 +50,7 @@ def optimize(
     cps = initialize_control_points(
         constraints=constraints,
         subject_tracks=subject_tracks,
+        subject_centers=subject_centers,
         image_w=image_w, image_h=image_h,
         default_k=default_k,
         time_mode="frame",
@@ -61,8 +62,8 @@ def optimize(
         t_list.append(cp["t"])
         P_list.append(cp["p"])
         Q_list.append(cp["q"])
-    P0 = torch.tensor(P_list, dtype=torch.float64, device=device)
-    Q0 = torch.tensor(Q_list, dtype=torch.float64, device=device)
+    P0 = torch.tensor(np.asarray(P_list), dtype=torch.float64, device=device)
+    Q0 = torch.tensor(np.asarray(Q_list), dtype=torch.float64, device=device)
     t_ctrl = torch.tensor(t_list, dtype=torch.float64, device=device)
     if init_mode == "constant":
         Q0 = torch.tensor([[1, 0, 0, 0]] * len(Q0), dtype=torch.float64, device=device)
@@ -125,16 +126,21 @@ def optimize(
 
         if tot <= loss_thresh:
             break
+    print("\nFinal loss breakdown:")
+    print(f"{'TOTAL':40} {report.total.detach().item():.4f}")
+
+    for k, v in sorted(report.terms.items()):
+        print(f"{k:40} {v.detach().item():.4f}")
     with torch.no_grad():
         P_final = eval_translation(P_ctrl).detach().cpu()
         Q_ctrl = Q_ctrl_raw / (Q_ctrl_raw.norm(dim=-1, keepdim=True) + 1e-8)
         Q_final = slerp_piecewise_torch(t_ctrl, Q_ctrl, t_query).detach().cpu()
 
     return {
-        "t_ctrl": t_ctrl.detach().cpu(),
-        "t_query": t_query.detach().cpu(),
-        "P": P_final,
-        "Q": Q_final,
-        "history": loss_history,
-        "traj_mode": traj_mode
+    "t_ctrl": t_ctrl.detach().cpu().tolist(),
+    "t_query": t_query.detach().cpu().tolist(),
+    "P": P_final.tolist(),
+    "Q": Q_final.tolist(),
+    "history": loss_history,
+    "traj_mode": traj_mode,
     }

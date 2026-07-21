@@ -8,8 +8,6 @@ import torch
 import torch.nn.functional as F
 
 
-
-
 W = {
     "trans_keep_rot" : 5000,
     "rot_keep_trans" : 5000,
@@ -101,6 +99,25 @@ VIEW_AZIMUTH_DEG = {
     "threeQuarterBackLeft": 135.0,
     "threeQuarterBackRight": -135.0,
     "back": 180.0,
+}
+
+TRANSLATION_MOVES = {
+    "dollyInMovement": ("dolly", +1),
+    "dollyOutMovement": ("dolly", -1),
+
+    "truckLeftMovement": ("truck", -1),
+    "truckRightMovement": ("truck", +1),
+
+    "pedestalUpMovement": ("pedestal", +1),
+    "pedestalDownMovement": ("pedestal", -1),
+}
+
+ROTATION_MOVES = {
+    "panLeftMovement": ("pan", -1),
+    "panRightMovement": ("pan", +1),
+
+    "tiltUpMovement": ("tilt", +1),
+    "tiltDownMovement": ("tilt", -1),
 }
 
 
@@ -207,74 +224,125 @@ def loss_keep_translation(P: torch.Tensor, t0: int, t1: int) -> torch.Tensor:
     diff = P[t0:t1+1] - p0                   
     return (diff.pow(2).sum(dim=-1)).mean()
 
+
 def loss_translate_local_axis(
-    P: torch.Tensor, Q: torch.Tensor,
-    t0: int, t1: int,
-    move_type: str,         
-    direction: str,            
-    distance: Optional[float], 
+    P: torch.Tensor,
+    Q: torch.Tensor,
+    t0: int,
+    t1: int,
+    axis_name: str,
+    sign: float,
+    distance: Optional[float] = None,
 ) -> Dict[str, torch.Tensor]:
-    
+
     device, dtype = P.device, P.dtype
-    N = P.shape[0]
-    t0, t1 = clamp_interval(t0, t1, N)
+
+    t0, t1 = clamp_interval(t0, t1, P.shape[0])
     if t1 <= t0:
         return {}
 
+    # ------------------------------------------------------------------
+    # Reference frame at start
+    # ------------------------------------------------------------------
+
     P0 = P[t0]
-    Q0 = Q[t0:t0+1]
-    f0, r0, u0 = axis_from_q(Q0)  
-    f0, r0, u0 = f0[0], r0[0], u0[0]
 
-    dlow = direction.lower()
+    forward, right, up = (
+        v[0] for v in axis_from_q(Q[t0:t0 + 1])
+    )
 
-    if move_type == "truckMovement":
-        axis = r0
-        sign = -1.0 if dlow in ("left", "truckleft") else 1.0
-        w_target = W["truck_target"]
-    elif move_type == "dollyMovement":
-        axis = f0
-        sign = 1.0 if dlow in ("in", "dollyin") else -1.0
-        w_target = W["dolly_target"]
-    elif move_type == "pedestalMovement":
-        axis = u0
-        sign = 1.0 if dlow in ("up", "pedestalup") else -1.0
-        w_target = W["pedestal_target"]
-    else:
-        raise ValueError(f"Unknown move_type: {move_type}")
+    axis_lookup = {
+        "truck": right,
+        "dolly": forward,
+        "pedestal": up,
+    }
 
-   
-    dP = P[t0+1:t1+1] - P[t0:t1]        
-    step = sign * (dP * axis).sum(dim=-1)  
+    weight_lookup = {
+        "truck": W["truck_target"],
+        "dolly": W["dolly_target"],
+        "pedestal": W["pedestal_target"],
+    }
 
-    
-    net = sign * ((P[t1] - P0) * axis).sum()  
+    axis = axis_lookup[axis_name]
+    target_weight = weight_lookup[axis_name]
 
-    out: Dict[str, torch.Tensor] = {}
+    # ------------------------------------------------------------------
+    # Motion along desired axis
+    # ------------------------------------------------------------------
 
-    
+    delta = P[t0 + 1:t1 + 1] - P[t0:t1]
+
+    step_progress = sign * (delta * axis).sum(dim=-1)
+
+    total_progress = sign * ((P[t1] - P0) * axis).sum()
+
+    losses: Dict[str, torch.Tensor] = {}
+
+    # ------------------------------------------------------------------
+    # Desired translation
+    # ------------------------------------------------------------------
+
+    prefix = f"{axis_name}Movement"
+
     if distance is None:
-        out[f"{move_type}/dir"] = W["move_dir"] * (F.relu(-step) ** 2).mean()
-        tau = float(W["move_progress_tau"])
-        out[f"{move_type}/progress"] = W["move_progress"] * (F.relu(tau - net) ** 2)
+
+        losses[f"{prefix}/direction"] = (
+            W["move_dir"]
+            * (F.relu(-step_progress) ** 2).mean()
+        )
+
+        losses[f"{prefix}/progress"] = (
+            W["move_progress"]
+            * (
+                F.relu(
+                    float(W["move_progress_tau"]) - total_progress
+                ) ** 2
+            )
+        )
+
     else:
-        dist = float(distance)
-        out[f"{move_type}/target_end"] = w_target * ((net - dist) ** 2)
-        out[f"{move_type}/monotonic"] = W["move_dir"] * (F.relu(-step) ** 2).mean()
 
-    
+        losses[f"{prefix}/target"] = (
+            target_weight
+            * (total_progress - float(distance)) ** 2
+        )
+
+        losses[f"{prefix}/direction"] = (
+            W["move_dir"]
+            * (F.relu(-step_progress) ** 2).mean()
+        )
+
+    # ------------------------------------------------------------------
+    # Penalize drift on orthogonal axes
+    # ------------------------------------------------------------------
+
     if W["orth_drift"] > 0:
-        disp = P[t0:t1+1] - P0
-        drift = 0.0
-        if move_type != "truckMovement":
-            drift += (project_onto(disp, r0.unsqueeze(0)).squeeze(-1) ** 2).mean()
-        if move_type != "pedestalMovement":
-            drift += (project_onto(disp, u0.unsqueeze(0)).squeeze(-1) ** 2).mean()
-        if move_type != "dollyMovement":
-            drift += (project_onto(disp, f0.unsqueeze(0)).squeeze(-1) ** 2).mean()
-        out[f"{move_type}/drift"] = W["orth_drift"] * drift
 
-    return out
+        displacement = P[t0:t1 + 1] - P0
+
+        orth_axes = {
+            "truck": [forward, up],
+            "dolly": [right, up],
+            "pedestal": [forward, right],
+        }
+
+        drift = torch.zeros((), device=device, dtype=dtype)
+
+        for orth in orth_axes[axis_name]:
+            drift += (
+                project_onto(
+                    displacement,
+                    orth.unsqueeze(0)
+                ).squeeze(-1).pow(2).mean()
+            )
+
+        losses[f"{prefix}/drift"] = (
+            W["orth_drift"] * drift
+        )
+    print("Losses:", losses)
+    print("total_progress =", total_progress.item())
+    print("target =", distance)
+    return losses
 
 def loss_static_interval(P: torch.Tensor, Q: torch.Tensor, t0: int, t1: int) -> Dict[str, torch.Tensor]:
     N = P.shape[0]
@@ -316,57 +384,89 @@ def loss_static_interval(P: torch.Tensor, Q: torch.Tensor, t0: int, t1: int) -> 
 
 def loss_pan_tilt_framewise(
     Q: torch.Tensor,
-    t0: int, t1: int,
-    rot_type: str,             
-    angle_deg: Optional[float],  
-    direction: Optional[str] = None,
+    t0: int,
+    t1: int,
+    move_type: str,
+    angle_deg: Optional[float] = None,
 ) -> Dict[str, torch.Tensor]:
-    
+
     device, dtype = Q.device, Q.dtype
+
     N = Q.shape[0]
     t0, t1 = clamp_interval(t0, t1, N)
+
     if t1 <= t0:
         return {}
 
-    f, _, _ = axis_from_q(Q[t0:t1+1])  
-    yaw = yaw_from_forward(f)         
-    pitch = pitch_from_forward(f)     
+    f, _, _ = axis_from_q(Q[t0:t1 + 1])
 
-    if rot_type == "panMovement":
-        a = unwrap_angle(yaw)         
-        w_target = W["pan_target"]
-        
-        if direction is not None:
-            sign = 1.0 if direction.lower() in ("left", "panleft") else -1.0
-        else:
-            sign = 1.0  
-    elif rot_type == "tiltMovement":
-        a = unwrap_angle(pitch)
-        w_target = W["tilt_target"]
-        
-        if direction is not None:
-            sign = 1.0 if direction.lower() in ("up", "tiltup") else -1.0
-        else:
-            sign = 1.0
-    else:
-        raise ValueError(f"Unknown rot_type: {rot_type}")
+    yaw = unwrap_angle(yaw_from_forward(f))
+    pitch = unwrap_angle(pitch_from_forward(f))
 
-    da = a[1:] - a[:-1]  
-    total = a[-1] - a[0]
+    configs = {
+        "panLeftMovement": {
+            "angles": yaw,
+            "sign": 1.0,
+            "weight": W["pan_target"],
+        },
+        "panRightMovement": {
+            "angles": yaw,
+            "sign": -1.0,
+            "weight": W["pan_target"],
+        },
+        "tiltUpMovement": {
+            "angles": pitch,
+            "sign": 1.0,
+            "weight": W["tilt_target"],
+        },
+        "tiltDownMovement": {
+            "angles": pitch,
+            "sign": -1.0,
+            "weight": W["tilt_target"],
+        },
+    }
+
+    if move_type not in configs:
+        raise ValueError(f"Unknown movement type: {move_type}")
+
+    cfg = configs[move_type]
+
+    a = cfg["angles"]
+    sign = cfg["sign"]
+    target_weight = cfg["weight"]
+
+    delta = a[1:] - a[:-1]
+    total = sign * (a[-1] - a[0])
 
     out: Dict[str, torch.Tensor] = {}
 
     if angle_deg is None:
-        out[f"{rot_type}/dir"] = W["rot_dir"] * (F.relu(-sign * da) ** 2).mean()
+
+        out[f"{move_type}/dir"] = (
+            W["rot_dir"]
+            * (F.relu(-sign * delta) ** 2).mean()
+        )
+
         tau = math.radians(float(W["rot_progress_tau_deg"]))
-        out[f"{rot_type}/progress"] = W["rot_progress"] * (F.relu(tau - (sign * total)) ** 2)
+
+        out[f"{move_type}/progress"] = (
+            W["rot_progress"]
+            * (F.relu(tau - total) ** 2)
+        )
+
     else:
+
         target = math.radians(float(angle_deg))
-        
-        if direction is None and abs(target) > 1e-12:
-            sign = 1.0 if target >= 0 else -1.0
-        out[f"{rot_type}/target_end"] = w_target * ((total - target) ** 2)
-        out[f"{rot_type}/monotonic"] = W["rot_dir"] * (F.relu(-sign * da) ** 2).mean()
+
+        out[f"{move_type}/target_end"] = (
+            target_weight
+            * ((total - target) ** 2)
+        )
+
+        out[f"{move_type}/monotonic"] = (
+            W["rot_dir"]
+            * (F.relu(-sign * delta) ** 2).mean()
+        )
 
     return out
 
@@ -797,7 +897,6 @@ def compute_total_loss_frames(
     subject_bbox_world = None,
 
 ) -> LossReport:
-    
     device, dtype = P.device, P.dtype
     N = P.shape[0]
 
@@ -828,29 +927,74 @@ def compute_total_loss_frames(
                 typ = lf["type"]
 
                 
-                if typ in ("truckMovement", "dollyMovement", "pedestalMovement"):
-                    direction = lf.get("direction", "right" if typ=="truckMovement" else ("in" if typ=="dollyMovement" else "up"))
-                    dist = lf.get("distance", None) 
-                    dist = None if dist is None else float(dist)
-                    add_terms(loss_translate_local_axis(P, Q, t0c, t1c, typ, direction, dist))
+                if typ in (
+                    "truckLeftMovement",
+                    "truckRightMovement",
+                    "dollyInMovement",
+                    "dollyOutMovement",
+                    "pedestalUpMovement",
+                    "pedestalDownMovement",
+                ):
+
+                    axis_name, sign = TRANSLATION_MOVES[typ]
+
+                    distance = lf.get("distance")
+                    if distance is not None:
+                        distance = float(distance)
+
+                    
+                    add_terms(
+                        loss_translate_local_axis(
+                            P=P,
+                            Q=Q,
+                            t0=t0c,
+                            t1=t1c,
+                            axis_name=axis_name,
+                            sign=sign,
+                            distance=distance,
+                        )
+                    )
+
                     w_rot = float(W.get("trans_keep_rot", 0.0))
                     if w_rot > 0:
-                        key = f"{typ}/keepRot"
-                        terms[key] = terms.get(key, torch.zeros((), device=device, dtype=dtype)) \
-                                    + w_rot * loss_keep_rotation(Q, t0c, t1c)
+                        terms[f"{typ}/keepRot"] = (
+                            terms.get(
+                                f"{typ}/keepRot",
+                                torch.zeros((), device=device, dtype=dtype),
+                            )
+                            + w_rot * loss_keep_rotation(Q, t0c, t1c)
+                        )
 
                 
-                elif typ in ("panMovement", "tiltMovement"):
-                    ang = lf.get("angleDeg", None)  
-                    ang = None if ang is None else float(ang)
-                    direction = lf.get("direction", None)  
-                    add_terms(loss_pan_tilt_framewise(Q, t0c, t1c, typ, ang, direction))
+                elif typ in (
+                    "panLeftMovement",
+                    "panRightMovement",
+                    "tiltUpMovement",
+                    "tiltDownMovement",
+                ):
+                    angle = lf.get("angleDeg")
+                    if angle is not None:
+                        angle = float(angle)
+
+                    add_terms(
+                        loss_pan_tilt_framewise(
+                            Q=Q,
+                            t0=t0c,
+                            t1=t1c,
+                            move_type=typ,
+                            angle=angle,
+                        )
+                    )
 
                     w_pos = float(W.get("rot_keep_trans", 0.0))
                     if w_pos > 0:
-                        key = f"{typ}/keepTrans"
-                        terms[key] = terms.get(key, torch.zeros((), device=device, dtype=dtype)) \
-                                    + w_pos * loss_keep_translation(P, t0c, t1c)
+                        terms[f"{typ}/keepTrans"] = (
+                            terms.get(
+                                f"{typ}/keepTrans",
+                                torch.zeros((), device=device, dtype=dtype),
+                            )
+                            + w_pos * loss_keep_translation(P, t0c, t1c)
+                        )
 
                 
                 elif typ == "arcMovement":
