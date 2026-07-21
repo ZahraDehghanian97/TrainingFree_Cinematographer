@@ -4,17 +4,24 @@ import { CameraConfig } from "./camera";
 
 export enum LossFunctionType {
   // Movement losses
-  PedestalMovement = "pedestalMovement",
-  DollyMovement = "dollyMovement",
+  PedestalUpMovement = "pedestalUpMovement",
+  PedestalDownMovement = "pedestalDownMovement",
+  DollyInMovement = "dollyInMovement",
+  DollyOutMovement = "dollyOutMovement",
   ZoomIn = "zoomInMovement",
   ZoomOut = "zoomOutMovement",
-  TruckMovement = "truckMovement",
-  PanMovement = "panMovement",
-  TiltMovement = "tiltMovement",
-  DutchMovement = "dutchMovement",
+  TruckLeftMovement = "truckLeftMovement",
+  TruckRightMovement = "truckRightMovement",
+  PanLeftMovement = "panLeftMovement",
+  PanRightMovement = "panRightMovement",
+  TiltUpMovement = "tiltUpMovement",
+  TiltDownMovement = "tiltDownMovement",
+  DutchLeftMovement = "dutchLeftMovement",
+  DutchRightMovement = "dutchRightMovement",
   ArcMovement = "arcMovement",
   Static = "Static",
   FollowMovement = "followMovement",
+  TrackMovement = "trackMovement",
 
   // Framing losses
   FramingPosition = "framingPosition",
