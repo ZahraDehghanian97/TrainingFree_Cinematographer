@@ -9,7 +9,8 @@
       "prompt": "توپ رو دنبال کن و وقتی توپ نزدیک به دروازه شد، pedestal کن و از زاویه بالا توپ رو دنبال کن",
       "durationSeconds": 10,
       "url": "/environments/example-01.json",
-      "sampleTrajectoryUrl": "/trajectories/example-01-camera.json"
+      "optimizedTrajectoryUrl": "/trajectories/ai-generated/example-01-camera.json",
+      "sampleTrajectoryUrl": "/trajectories/ai-generated/example-01-camera.json"
     },
     {
       "id": "example-02-face-orbit",
@@ -18,7 +19,8 @@
       "prompt": "از زوم روی صورت مرد شروع کن، یک stop motion بزن و ۳ دور کامل دور صورت آن بچرخ",
       "durationSeconds": 15,
       "url": "/environments/example-02.json",
-      "sampleTrajectoryUrl": "/trajectories/example-02-camera.json"
+      "optimizedTrajectoryUrl": "/trajectories/ai-generated/example-02-camera.json",
+      "sampleTrajectoryUrl": "/trajectories/ai-generated/example-02-camera.json"
     },
     {
       "id": "example-03-vase-reveal",
@@ -27,7 +29,8 @@
       "prompt": "ابتدا به صورت کلوزآپ گلدون رو نشون بده و بعد dolly out کن تا همزمان گلدون و مانیتور در صحنه دیده‌شوند.",
       "durationSeconds": 20,
       "url": "/environments/example-03.json",
-      "sampleTrajectoryUrl": "/trajectories/example-03-camera.json"
+      "optimizedTrajectoryUrl": "/trajectories/ai-generated/example-03-camera.json",
+      "sampleTrajectoryUrl": "/trajectories/ai-generated/example-03-camera.json"
     },
     {
       "id": "example-04-car-arc",
@@ -36,7 +39,8 @@
       "prompt": "به مدت ۲ ثانیه ماشین رو ترک کن و یک arc right دورش بزن و همزمان با arc روی راننده زوم کن",
       "durationSeconds": 15,
       "url": "/environments/example-04.json",
-      "sampleTrajectoryUrl": "/trajectories/example-04-camera.json"
+      "optimizedTrajectoryUrl": "/trajectories/ai-generated/example-04-camera.json",
+      "sampleTrajectoryUrl": "/trajectories/ai-generated/example-04-camera.json"
     },
     {
       "id": "example-05-dolly-zoom",
@@ -45,7 +49,8 @@
       "prompt": "روی چهره بازیگر Dolly Out کن و همزمان Zoom In انجام بده تا پرسپکتیو پس‌زمینه تغییر کند اما اندازه صورت ثابت بماند.",
       "durationSeconds": 25,
       "url": "/environments/example-05.json",
-      "sampleTrajectoryUrl": "/trajectories/example-05-camera.json"
+      "optimizedTrajectoryUrl": "/trajectories/ai-generated/example-05-camera.json",
+      "sampleTrajectoryUrl": "/trajectories/ai-generated/example-05-camera.json"
     },
     {
       "id": "example-06-frozen-orbit",
@@ -54,7 +59,8 @@
       "prompt": "زمان را روی ۲ ثانیه فریز کن و یک دور کامل ۳۶۰ درجه دور سوژه معلق در هوا بچرخ، سپس حرکت را با سرعت عادی ادامه بده.",
       "durationSeconds": 5,
       "url": "/environments/example-06.json",
-      "sampleTrajectoryUrl": "/trajectories/example-06-camera.json"
+      "optimizedTrajectoryUrl": "/trajectories/ai-generated/example-06-camera.json",
+      "sampleTrajectoryUrl": "/trajectories/ai-generated/example-06-camera.json"
     },
     {
       "id": "example-07-spiral-closeup",
@@ -63,7 +69,8 @@
       "prompt": "از نمای بالا شروع کن و با یک حرکت حلزونی همزمان که می‌چرخی، به سوژه نزدیک شو تا به کلوزآپ چشم‌هایش برسی.",
       "durationSeconds": 9,
       "url": "/environments/example-07.json",
-      "sampleTrajectoryUrl": "/trajectories/example-07-camera.json"
+      "optimizedTrajectoryUrl": "/trajectories/ai-generated/example-07-camera.json",
+      "sampleTrajectoryUrl": "/trajectories/ai-generated/example-07-camera.json"
     },
     {
       "id": "example-08-punch-impact",
@@ -72,7 +79,8 @@
       "prompt": "ابتدا صحنه مشت زدن را با Slow Motion (سرعت ۱۰٪) نشان بده و درست لحظه برخورد، سرعت را به Hyper Fast تغییر بده و روی محل ضربه زوم کن.",
       "durationSeconds": 12,
       "url": "/environments/example-08.json",
-      "sampleTrajectoryUrl": "/trajectories/example-08-camera.json"
+      "optimizedTrajectoryUrl": "/trajectories/ai-generated/example-08-camera.json",
+      "sampleTrajectoryUrl": "/trajectories/ai-generated/example-08-camera.json"
     },
     {
       "id": "example-09-two-people",
@@ -81,7 +89,8 @@
       "prompt": "دو نفر را در نمای Long Shot دنبال کن؛ به محض اینکه فاصله آن‌ها به کمتر از ۱ متر رسید، کات بزن به Over-the-Shoulder (نمای روی شانه).",
       "durationSeconds": 24,
       "url": "/environments/example-09.json",
-      "sampleTrajectoryUrl": "/trajectories/example-09-camera.json"
+      "optimizedTrajectoryUrl": "/trajectories/ai-generated/example-09-camera.json",
+      "sampleTrajectoryUrl": "/trajectories/ai-generated/example-09-camera.json"
     },
     {
       "id": "example-10-race-car",
@@ -90,7 +99,8 @@
       "prompt": "ماشین مسابقه را دنبال کن، اگر سرعت ماشین از ۱۰۰ کیلومتر بیشتر شد، دوربین را بلرزان و عقب بکش تا حس سرعت القا شود.",
       "durationSeconds": 13,
       "url": "/environments/example-10.json",
-      "sampleTrajectoryUrl": "/trajectories/example-10-camera.json"
+      "optimizedTrajectoryUrl": "/trajectories/ai-generated/example-10-camera.json",
+      "sampleTrajectoryUrl": "/trajectories/ai-generated/example-10-camera.json"
     },
     {
       "id": "example-11-horror-door",
@@ -99,7 +109,8 @@
       "prompt": "برای ایجاد حس ترس، دوربین را ۳۰ درجه کج کن و به صورت دستی و لرزان به سمت در نیمه‌باز حرکت کن.",
       "durationSeconds": 6,
       "url": "/environments/example-11.json",
-      "sampleTrajectoryUrl": "/trajectories/example-11-camera.json"
+      "optimizedTrajectoryUrl": "/trajectories/ai-generated/example-11-camera.json",
+      "sampleTrajectoryUrl": "/trajectories/ai-generated/example-11-camera.json"
     },
     {
       "id": "example-12-dashboard-exit",
@@ -108,7 +119,8 @@
       "prompt": "از نمای داخل ماشین (Dashboard View) شروع کن، وقتی راننده ترمز کرد، دوربین از شیشه جلو بیرون بیاید و با یک Arc سریع، نمای جلوی ماشین را نشان دهد.",
       "durationSeconds": 18,
       "url": "/environments/example-12.json",
-      "sampleTrajectoryUrl": "/trajectories/example-12-camera.json"
+      "optimizedTrajectoryUrl": "/trajectories/ai-generated/example-12-camera.json",
+      "sampleTrajectoryUrl": "/trajectories/ai-generated/example-12-camera.json"
     },
     {
       "id": "example-13-horror-door-v2",
@@ -117,7 +129,8 @@
       "prompt": "ورژن ۲ برای ایجاد حس ترس، دوربین را ۳۰ درجه کج کن و به صورت دستی و لرزان به سمت در نیمه‌باز حرکت کن.",
       "durationSeconds": 7,
       "url": "/environments/example-13.json",
-      "sampleTrajectoryUrl": "/trajectories/example-13-camera.json"
+      "optimizedTrajectoryUrl": "/trajectories/ai-generated/example-13-camera.json",
+      "sampleTrajectoryUrl": "/trajectories/ai-generated/example-13-camera.json"
     }
   ]
 }

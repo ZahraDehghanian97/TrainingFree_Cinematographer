@@ -9,7 +9,11 @@ npm install
 npm run visualizer
 ```
 
-Open `http://127.0.0.1:4173` and choose one of the 13 prompt environments. Each example loads a generated optimized trajectory when one exists, otherwise it falls back to the bundled reference trajectory. You can still upload or paste another camera JSON file. God view shows the environment, path, and moving camera frustum. Director POV renders through the camera.
+Open `http://127.0.0.1:4173` and choose one of the 13 prompt environments. Each
+catalog entry loads its scene-matched bundled trajectory by default. You can
+still request, upload, or paste generated optimizer output. God view shows the
+environment, path, and moving camera frustum. Director POV renders through the
+camera.
 
 The visualizer is data-driven:
 
@@ -17,7 +21,8 @@ The visualizer is data-driven:
 - `web/public/environments/example-01.json` through `example-13.json` contain scene geometry, semantic targets, and object tracks.
 - `src/types/environment.ts` defines the environment contract.
 - `src/types/trajectory.ts` defines accepted camera documents.
-- `web/public/trajectories/example-01-camera.json` through `example-13-camera.json` are complete reference trajectories.
+- `web/public/trajectories/ai-generated/example-01-camera.json` through
+  `example-13-camera.json` are complete reference trajectories.
 
 ### Compact 4D camera input
 

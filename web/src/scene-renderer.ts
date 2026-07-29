@@ -190,6 +190,16 @@ export function createPrimitiveVisual(visual: PrimitiveVisualV1): THREE.Object3D
       mesh.castShadow = false;
       return mesh;
     }
+    case "torus": {
+      const radius = primitiveNumber(visual, "radius", 0.5);
+      const tube = primitiveNumber(visual, "tube", Math.max(0.01, radius * 0.08));
+      const radialSegments = Math.max(6, Math.round(primitiveNumber(visual, "radialSegments", 16)));
+      const tubularSegments = Math.max(12, Math.round(primitiveNumber(visual, "tubularSegments", 64)));
+      return basicMesh(
+        new THREE.TorusGeometry(radius, tube, radialSegments, tubularSegments),
+        material,
+      );
+    }
   }
 }
 
@@ -885,10 +895,16 @@ export class SceneRenderer {
     const groundSize = this.environment?.world?.ground?.size;
     const gridSize = this.environment?.world?.grid?.size;
     const extent = Math.max(8, groundSize?.[0] ?? 0, groundSize?.[1] ?? 0, gridSize ?? 0);
-    const distance = extent * 0.58;
     const groundY = this.environment?.world?.ground?.y ?? 0;
-    this.controls.target.set(0, groundY + Math.min(2, extent * 0.035), 0);
-    this.godCamera.position.set(distance * 0.85, distance * 0.62, distance);
+    const overviewCamera = this.environment?.world?.overviewCamera;
+    if (overviewCamera) {
+      this.controls.target.fromArray(overviewCamera.target);
+      this.godCamera.position.fromArray(overviewCamera.position);
+    } else {
+      const distance = extent * 0.58;
+      this.controls.target.set(0, groundY + Math.min(2, extent * 0.035), 0);
+      this.godCamera.position.set(distance * 0.85, distance * 0.62, distance);
+    }
     this.godCamera.near = Math.max(0.02, extent / 10_000);
     this.godCamera.far = Math.max(5000, extent * 12);
     this.godCamera.updateProjectionMatrix();
@@ -1021,10 +1037,14 @@ export class SceneRenderer {
   private syncHelperCamera(): void {
     const groundSize = this.environment?.world?.ground?.size;
     const gridSize = this.environment?.world?.grid?.size;
-    const worldExtent = Math.max(8, groundSize?.[0] ?? 0, groundSize?.[1] ?? 0, gridSize ?? 0);
+    const displayExtent = Math.max(
+      8,
+      gridSize ?? 0,
+      groundSize ? Math.min(groundSize[0], groundSize[1]) : 0,
+    );
     const displayFar = Math.max(
       this.directorCamera.near * 1.5,
-      Math.min(this.directorCamera.far, worldExtent * 0.15),
+      Math.min(this.directorCamera.far, 5, displayExtent * 0.15),
     );
     this.helperCamera.position.copy(this.directorCamera.position);
     this.helperCamera.quaternion.copy(this.directorCamera.quaternion);
@@ -1081,12 +1101,13 @@ export class SceneRenderer {
     this.boundsObjects.forEach((object) => {
       object.visible = this.showBounds;
     });
+    const showSemanticOverlays = this.showLabels && this.viewMode === "god";
     this.labels.forEach(({ sprite }) => {
-      sprite.visible = this.showLabels;
+      sprite.visible = showSemanticOverlays;
     });
     this.targetMarkers.forEach(({ marker }) => {
       // Keep semantic target dots tied to the labels toggle too.
-      marker.visible = this.showLabels;
+      marker.visible = showSemanticOverlays;
     });
     const showCameraOverlay = this.viewMode === "god" && this.trajectory !== null;
     this.currentCameraMarker.visible = showCameraOverlay;

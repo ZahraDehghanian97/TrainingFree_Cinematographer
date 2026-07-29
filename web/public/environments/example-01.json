@@ -22,8 +22,12 @@
   },
   "world": {
     "background": "#09131b",
-    "ground": { "y": 0, "size": [48, 48], "color": "#173b2a" },
-    "grid": { "size": 48, "divisions": 48 }
+    "overviewCamera": {
+      "position": [12, 8, 14],
+      "target": [0, 0.8, -1]
+    },
+    "ground": { "y": 0, "size": [22, 32], "color": "#173b2a" },
+    "grid": { "size": 22, "divisions": 22 }
   },
   "entities": [
     {
@@ -61,7 +65,7 @@
       "label": "Goal",
       "transform": { "space": "world", "position": [0, 0, -8] },
       "visual": { "type": "preset", "name": "soccerGoal", "params": { "width": 6, "height": 2.5, "depth": 1.2 } },
-      "bounds": { "type": "box", "min": [-3, 0, -0.6], "max": [3, 2.5, 0.6] }
+      "bounds": { "type": "box", "min": [-3, 0, -1.2], "max": [3, 2.5, 0.05] }
     }
   ],
   "targets": [
@@ -77,7 +81,7 @@
       "entityId": "goal-entity",
       "label": "The goal",
       "localAnchor": [0, 1.25, 0],
-      "localBounds": { "type": "box", "min": [-3, 0, -0.6], "max": [3, 2.5, 0.6] }
+      "localBounds": { "type": "box", "min": [-3, 0, -1.2], "max": [3, 2.5, 0.05] }
     }
   ]
 }

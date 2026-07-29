@@ -37,9 +37,13 @@ export function automaticTrajectorySources(
   if (requested) {
     sources.push({ kind: "requested", label: "Requested trajectory", url: requested });
   }
-  sources.push({ kind: "optimized", label: "Optimized trajectory", url: optimized });
-  if (sample) {
+  if (sample === optimized) {
     sources.push({ kind: "sample", label: "Bundled demo", url: sample });
+  } else {
+    sources.push({ kind: "optimized", label: "Optimized trajectory", url: optimized });
+    if (sample) {
+      sources.push({ kind: "sample", label: "Bundled demo", url: sample });
+    }
   }
 
   const seen = new Set<string>();

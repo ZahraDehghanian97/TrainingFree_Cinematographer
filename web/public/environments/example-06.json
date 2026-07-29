@@ -19,6 +19,10 @@
   "evaluation": { "distanceMetric": "anchorCenter" },
   "world": {
     "background": "#09101c",
+    "overviewCamera": {
+      "position": [7, 5, 8],
+      "target": [0.4, 1.5, -0.4]
+    },
     "ground": { "y": 0, "size": [20, 20], "color": "#121b28" },
     "grid": { "size": 20, "divisions": 20 }
   },
@@ -44,8 +48,22 @@
     {
       "id": "orbit-reference-ring",
       "label": "Orbit reference",
-      "transform": { "space": "world", "position": [0, 0.03, 0] },
-      "visual": { "type": "primitive", "shape": "cylinder", "params": { "radius": 3.6, "height": 0.025 }, "color": "#243c56" }
+      "transform": {
+        "space": "world",
+        "position": [0, 0.035, 0],
+        "rotation": [0.7071068, 0, 0, 0.7071068]
+      },
+      "visual": {
+        "type": "primitive",
+        "shape": "torus",
+        "params": {
+          "radius": 3.2,
+          "tube": 0.035,
+          "radialSegments": 12,
+          "tubularSegments": 96
+        },
+        "color": "#3487b8"
+      }
     }
   ],
   "targets": [

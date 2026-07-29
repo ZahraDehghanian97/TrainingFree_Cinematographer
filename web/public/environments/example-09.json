@@ -22,8 +22,12 @@
   },
   "world": {
     "background": "#10141a",
-    "ground": { "y": 0, "size": [70, 50], "color": "#242a29" },
-    "grid": { "size": 70, "divisions": 70 }
+    "overviewCamera": {
+      "position": [16, 11, 18],
+      "target": [0, 0.9, 0]
+    },
+    "ground": { "y": 0, "size": [22, 30], "color": "#242a29" },
+    "grid": { "size": 22, "divisions": 22 }
   },
   "entities": [
     {
@@ -41,7 +45,8 @@
             { "t": 14, "value": [-0.44, 0, -4] },
             { "t": 24, "value": [-0.35, 0, -10] }
           ]
-        }
+        },
+        "rotation": [0, 1, 0, 0]
       },
       "visual": { "type": "preset", "name": "humanoid", "params": { "color": "#c89e80", "shirtColor": "#3d78a6" } },
       "bounds": { "type": "box", "min": [-0.42, 0, -0.3], "max": [0.42, 1.82, 0.3] }
@@ -61,7 +66,8 @@
             { "t": 14, "value": [0.44, 0, -4] },
             { "t": 24, "value": [0.35, 0, -10] }
           ]
-        }
+        },
+        "rotation": [0, 1, 0, 0]
       },
       "visual": { "type": "preset", "name": "humanoid", "params": { "color": "#d4ad8e", "shirtColor": "#9b4e49" } },
       "bounds": { "type": "box", "min": [-0.42, 0, -0.3], "max": [0.42, 1.82, 0.3] }
@@ -86,8 +92,8 @@
       "id": "person1_shoulder",
       "entityId": "person1-entity",
       "label": "First person's shoulder (شانه نفر اول)",
-      "localAnchor": [0.31, 1.47, 0.05],
-      "localBounds": { "type": "sphere", "center": [0.31, 1.47, 0.05], "radius": 0.16 }
+      "localAnchor": [-0.31, 1.47, -0.05],
+      "localBounds": { "type": "sphere", "center": [-0.31, 1.47, -0.05], "radius": 0.16 }
     }
   ]
 }

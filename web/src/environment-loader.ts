@@ -45,7 +45,7 @@ const PRESET_NAMES = [
   "monitor",
   "genericObject",
 ] as const;
-const PRIMITIVE_SHAPES = ["box", "sphere", "cylinder", "cone", "plane"] as const;
+const PRIMITIVE_SHAPES = ["box", "sphere", "cylinder", "cone", "plane", "torus"] as const;
 
 export const CANONICAL_COORDINATES_V1: CoordinateSystemV1 = {
   handedness: "right",
@@ -329,6 +329,22 @@ export function assertEnvironmentV1(value: unknown): asserts value is Environmen
     const world = expectObject(environment.world, "$.world");
     if (world.background !== undefined) {
       expectNonEmptyString(world.background, "$.world.background");
+    }
+    if (world.overviewCamera !== undefined) {
+      const overviewCamera = expectObject(world.overviewCamera, "$.world.overviewCamera");
+      assertVec3(overviewCamera.position, "$.world.overviewCamera.position");
+      assertVec3(overviewCamera.target, "$.world.overviewCamera.target");
+      if (
+        overviewCamera.position.every(
+          (component, index) => component === overviewCamera.target[index],
+        )
+      ) {
+        fail(
+          "$.world.overviewCamera",
+          "position and target must not be identical",
+          "invalid-camera-pose",
+        );
+      }
     }
     if (world.ground !== undefined) {
       const ground = expectObject(world.ground, "$.world.ground");

@@ -19,6 +19,10 @@
   "evaluation": { "distanceMetric": "anchorCenter" },
   "world": {
     "background": "#141620",
+    "overviewCamera": {
+      "position": [5, 3.5, 5.5],
+      "target": [0, 0.9, 0]
+    },
     "ground": { "y": 0, "size": [16, 16], "color": "#20232d" },
     "grid": { "size": 16, "divisions": 16 }
   },

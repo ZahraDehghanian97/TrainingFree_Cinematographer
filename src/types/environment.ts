@@ -67,7 +67,7 @@ export interface PresetVisualV1 {
 
 export interface PrimitiveVisualV1 {
   type: "primitive";
-  shape: "box" | "sphere" | "cylinder" | "cone" | "plane";
+  shape: "box" | "sphere" | "cylinder" | "cone" | "plane" | "torus";
   params: Record<string, number | Vec3>;
   color?: string;
 }
@@ -113,6 +113,11 @@ export interface EnvironmentV1 {
   };
   world?: {
     background?: string;
+    /** Preferred starting pose for the orbitable environment overview. */
+    overviewCamera?: {
+      position: Vec3;
+      target: Vec3;
+    };
     ground?: {
       y: number;
       size: [number, number];

@@ -19,8 +19,12 @@
   "evaluation": { "distanceMetric": "anchorCenter" },
   "world": {
     "background": "#05070b",
-    "ground": { "y": 0, "size": [28, 16], "color": "#17171b" },
-    "grid": { "size": 28, "divisions": 28 }
+    "overviewCamera": {
+      "position": [0, 4.5, 6],
+      "target": [0, 1, -6]
+    },
+    "ground": { "y": 0, "size": [5, 20], "color": "#17171b" },
+    "grid": { "size": 5, "divisions": 10 }
   },
   "entities": [
     {
@@ -48,6 +52,21 @@
       "id": "doorway-darkness",
       "transform": { "space": "world", "position": [0, 1.1, -8.18] },
       "visual": { "type": "primitive", "shape": "box", "params": { "size": [1.25, 2.3, 0.05] }, "color": "#010203" }
+    },
+    {
+      "id": "doorframe-left",
+      "transform": { "space": "world", "position": [-0.64, 1.15, -8.08] },
+      "visual": { "type": "primitive", "shape": "box", "params": { "size": [0.12, 2.3, 0.16] }, "color": "#57463c" }
+    },
+    {
+      "id": "doorframe-right",
+      "transform": { "space": "world", "position": [0.64, 1.15, -8.08] },
+      "visual": { "type": "primitive", "shape": "box", "params": { "size": [0.12, 2.3, 0.16] }, "color": "#57463c" }
+    },
+    {
+      "id": "doorframe-header",
+      "transform": { "space": "world", "position": [0, 2.3, -8.08] },
+      "visual": { "type": "primitive", "shape": "box", "params": { "size": [1.4, 0.12, 0.16] }, "color": "#57463c" }
     }
   ],
   "targets": [

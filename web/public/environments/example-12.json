@@ -19,8 +19,12 @@
   "evaluation": { "distanceMetric": "anchorCenter" },
   "world": {
     "background": "#0a1118",
-    "ground": { "y": 0, "size": [110, 46], "color": "#222931" },
-    "grid": { "size": 110, "divisions": 110 }
+    "overviewCamera": {
+      "position": [16, 12, 45],
+      "target": [0, 0.8, 22]
+    },
+    "ground": { "y": 0, "size": [18, 110], "color": "#222931" },
+    "grid": { "size": 18, "divisions": 18 }
   },
   "entities": [
     {
@@ -43,6 +47,36 @@
       },
       "visual": { "type": "preset", "name": "car", "params": { "color": "#426d8c", "interior": true, "length": 4.6 } },
       "bounds": { "type": "box", "min": [-1, 0, -2.3], "max": [1, 1.5, 2.3] }
+    },
+    {
+      "id": "steering-wheel-entity",
+      "label": "Steering wheel",
+      "transform": {
+        "space": "world",
+        "position": {
+          "interpolation": "linear",
+          "extrapolation": "hold",
+          "keyframes": [
+            { "t": 0, "value": [0.34, 1.08, 29.38] },
+            { "t": 4, "value": [0.34, 1.08, -0.62] },
+            { "t": 8, "value": [0.49, 1.08, -24.62] },
+            { "t": 10, "value": [0.49, 1.08, -30.62] },
+            { "t": 13, "value": [0.49, 1.08, -32.62] },
+            { "t": 18, "value": [0.49, 1.08, -33.62] }
+          ]
+        }
+      },
+      "visual": {
+        "type": "primitive",
+        "shape": "torus",
+        "params": {
+          "radius": 0.2,
+          "tube": 0.028,
+          "radialSegments": 10,
+          "tubularSegments": 32
+        },
+        "color": "#12161b"
+      }
     },
     {
       "id": "center-road-line",
