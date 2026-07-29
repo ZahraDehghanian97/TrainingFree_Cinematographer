@@ -10,33 +10,24 @@ LOSS_TYPE_MAP = {
     # Translation
     "dollyInMovement": "dollyInMovement",
     "dollyOutMovement": "dollyOutMovement",
-
     "truckLeftMovement": "truckLeftMovement",
     "truckRightMovement": "truckRightMovement",
-
     "pedestalUpMovement": "pedestalUpMovement",
     "pedestalDownMovement": "pedestalDownMovement",
-
     # Rotation
     "panLeftMovement": "panLeftMovement",
     "panRightMovement": "panRightMovement",
-
     "tiltUpMovement": "tiltUpMovement",
     "tiltDownMovement": "tiltDownMovement",
-
     "dutchLeftMovement": "dutchLeftMovement",
     "dutchRightMovement": "dutchRightMovement",
-
     "zoomInMovement": "zoomInMovement",
     "zoomOutMovement": "zoomOutMovement",
-
     "arcMovement": "arcMovement",
     "followMovement": "followMovement",
     "trackMovement": "trackMovement",
-
     "static": "static",
     "Static": "static",
-
     # Framing
     "shotSize": "shotSize",
     "framingPosition": "framingPosition",
@@ -54,83 +45,89 @@ SUBJECT_AWARE_LOSSES = {
 }
 
 
-def convert_loss(loss):
-    typ = LOSS_TYPE_MAP.get(loss["type"], loss["type"])
+def convert_timeline_loss_to_optimizer_loss(timeline_loss):
+    """Translate one timeline loss definition into optimizer parameters."""
+    source_loss_type = timeline_loss["type"]
+    optimizer_loss_type = LOSS_TYPE_MAP.get(
+        source_loss_type,
+        source_loss_type,
+    )
 
-    out = {"type": typ}
+    optimizer_loss = {"type": optimizer_loss_type}
 
-    params = deepcopy(loss.get("parameters", {}))
+    parameters = deepcopy(timeline_loss.get("parameters", {}))
 
-    if "rotationAngle" in params:
-        params["angleDeg"] = params.pop("rotationAngle")
+    if "rotationAngle" in parameters:
+        parameters["angleDeg"] = parameters.pop("rotationAngle")
 
-    if "arcAngle" in params:
-        params["angleDeg"] = params.pop("arcAngle")
+    if "arcAngle" in parameters:
+        parameters["angleDeg"] = parameters.pop("arcAngle")
 
-    if "arcRadius" in params:
-        params["radius"] = params.pop("arcRadius")
+    if "arcRadius" in parameters:
+        parameters["radius"] = parameters.pop("arcRadius")
 
-    if "view" not in params and "subjectView" in params:
-        params["view"] = params.pop("subjectView")
+    if "view" not in parameters and "subjectView" in parameters:
+        parameters["view"] = parameters.pop("subjectView")
 
     #
     # Temporary assumption:
     # Every subject-aware loss refers to subject C0.
     #
-    if typ in SUBJECT_AWARE_LOSSES:
-        params.setdefault("subjectId", DEFAULT_SUBJECT_ID)
+    if optimizer_loss_type in SUBJECT_AWARE_LOSSES:
+        parameters.setdefault("subjectId", DEFAULT_SUBJECT_ID)
 
-    out.update(params)
+    optimizer_loss.update(parameters)
 
-    return out
+    return optimizer_loss
 
 
-def build_constraints_from_timeline(flattened):
-
-    constraints = []
+def build_optimizer_constraints_from_timeline(flattened_timeline):
+    """Build optimizer constraints from the flattened timeline document."""
+    optimizer_constraints = []
 
     #
     # Temporary default starting pose.
     #
-    constraints.append({
-        "kind": "point",
-        "t": 0,
-        "position": DEFAULT_CAMERA_POSITION,
-        "quaternion": DEFAULT_CAMERA_QUATERNION,
-        "losses": [],
-    })
+    optimizer_constraints.append(
+        {
+            "kind": "point",
+            "t": 0,
+            "position": DEFAULT_CAMERA_POSITION,
+            "quaternion": DEFAULT_CAMERA_QUATERNION,
+            "losses": [],
+        }
+    )
 
-    for seg in flattened["timeline"]:
+    for timeline_segment in flattened_timeline["timeline"]:
+        if timeline_segment["kind"] == "interval":
+            optimizer_constraints.append(
+                {
+                    "kind": "interval",
+                    "t0": timeline_segment["startTime"],
+                    "t1": timeline_segment["endTime"],
+                    "losses": [
+                        convert_timeline_loss_to_optimizer_loss(timeline_loss)
+                        for timeline_loss in timeline_segment["lossFunctions"]
+                    ],
+                }
+            )
 
-        if seg["kind"] == "interval":
+        elif timeline_segment["kind"] == "point":
+            optimizer_constraints.append(
+                {
+                    "kind": "point",
+                    "t": timeline_segment["time"],
+                    #
+                    # Temporary default pose.
+                    # Later this will come from the DSL.
+                    #
+                    "position": DEFAULT_CAMERA_POSITION,
+                    "quaternion": DEFAULT_CAMERA_QUATERNION,
+                    "losses": [
+                        convert_timeline_loss_to_optimizer_loss(timeline_loss)
+                        for timeline_loss in timeline_segment["lossFunctions"]
+                    ],
+                }
+            )
 
-            constraints.append({
-                "kind": "interval",
-                "t0": seg["startTime"],
-                "t1": seg["endTime"],
-                "losses": [
-                    convert_loss(loss)
-                    for loss in seg["lossFunctions"]
-                ],
-            })
-
-        elif seg["kind"] == "point":
-
-            constraints.append({
-                "kind": "point",
-                "t": seg["time"],
-
-                #
-                # Temporary default pose.
-                # Later this will come from the DSL.
-                #
-                "position": DEFAULT_CAMERA_POSITION,
-                "quaternion": DEFAULT_CAMERA_QUATERNION,
-
-                "losses": [
-                    convert_loss(loss)
-                    for loss in seg["lossFunctions"]
-                ],
-            })
-
-    return constraints
+    return optimizer_constraints

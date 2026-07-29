@@ -1,124 +1,215 @@
+"""Differentiable spherical quadrangle interpolation for quaternions."""
+
 import torch
-import torch.nn.functional as F
 
-# reuse your q_* if you want; included here for completeness
-def q_normalize(q: torch.Tensor, eps: float = 1e-8) -> torch.Tensor:
-    return q / (q.norm(dim=-1, keepdim=True) + eps)
+try:
+    from .math3d.torch_quaternions import (
+        conjugate_quaternion,
+        multiply_quaternions,
+        normalize_quaternion,
+    )
+except ImportError:
+    from math3d.torch_quaternions import (
+        conjugate_quaternion,
+        multiply_quaternions,
+        normalize_quaternion,
+    )
 
-def q_conj(q: torch.Tensor) -> torch.Tensor:
-    return torch.cat([q[..., :1], -q[..., 1:]], dim=-1)
 
-def q_mul(a: torch.Tensor, b: torch.Tensor) -> torch.Tensor:
-    aw, ax, ay, az = a.unbind(dim=-1)
-    bw, bx, by, bz = b.unbind(dim=-1)
-    w = aw*bw - ax*bx - ay*by - az*bz
-    x = aw*bx + ax*bw + ay*bz - az*by
-    y = aw*by - ax*bz + ay*bw + az*bx
-    z = aw*bz + ax*by - ay*bx + az*bw
-    return torch.stack([w, x, y, z], dim=-1)
+def invert_unit_quaternions(quaternions: torch.Tensor) -> torch.Tensor:
+    """Invert quaternions after normalizing them to unit length."""
+    return conjugate_quaternion(normalize_quaternion(quaternions))
 
-def q_inv_unit(q: torch.Tensor) -> torch.Tensor:
-    # inverse of unit quaternion = conjugate
-    return q_conj(q_normalize(q))
 
-def q_log_unit(q: torch.Tensor, eps: float = 1e-8) -> torch.Tensor:
-    """
-    Log map for unit quaternion q=[w, v].
-    If q = [cos(a), u sin(a)] where a = rotation_angle/2,
-    then log(q) = u * a  (3-vector)
-    """
-    q = q_normalize(q)
-    w = q[..., 0].clamp(-1.0, 1.0)
-    v = q[..., 1:]
-    vnorm = torch.linalg.norm(v, dim=-1, keepdim=True).clamp_min(eps)
-    a = torch.atan2(vnorm, w.unsqueeze(-1))  # a in [0, pi]
-    return v * (a / vnorm)
+def unit_quaternion_logarithm(
+    quaternions: torch.Tensor,
+    epsilon: float = 1e-8,
+) -> torch.Tensor:
+    """Map unit quaternions to their three-dimensional logarithms."""
+    normalized_quaternions = normalize_quaternion(quaternions)
+    scalar_components = normalized_quaternions[..., 0].clamp(-1.0, 1.0)
+    vector_components = normalized_quaternions[..., 1:]
+    vector_norms = torch.linalg.norm(
+        vector_components,
+        dim=-1,
+        keepdim=True,
+    ).clamp_min(epsilon)
+    half_angles = torch.atan2(
+        vector_norms,
+        scalar_components.unsqueeze(-1),
+    )
+    return vector_components * (half_angles / vector_norms)
 
-def q_exp_vec(v: torch.Tensor, eps: float = 1e-8) -> torch.Tensor:
-    """
-    Exp map from 3-vector (u*a) to unit quaternion [cos(a), u sin(a)]
-    """
-    a = torch.linalg.norm(v, dim=-1, keepdim=True).clamp_min(eps)
-    u = v / a
-    w = torch.cos(a)
-    xyz = u * torch.sin(a)
-    return torch.cat([w, xyz], dim=-1)
 
-def slerp(q0: torch.Tensor, q1: torch.Tensor, t: torch.Tensor, eps: float = 1e-8) -> torch.Tensor:
-    q0 = q_normalize(q0)
-    q1 = q_normalize(q1)
+def quaternion_exponential(
+    logarithm_vectors: torch.Tensor,
+    epsilon: float = 1e-8,
+) -> torch.Tensor:
+    """Map three-dimensional logarithm vectors to unit quaternions."""
+    half_angles = torch.linalg.norm(
+        logarithm_vectors,
+        dim=-1,
+        keepdim=True,
+    ).clamp_min(epsilon)
+    rotation_axes = logarithm_vectors / half_angles
+    scalar_components = torch.cos(half_angles)
+    vector_components = rotation_axes * torch.sin(half_angles)
+    return torch.cat(
+        [scalar_components, vector_components],
+        dim=-1,
+    )
 
-    if t.dim() == q0.dim() - 1:
-        t = t.unsqueeze(-1)
 
-    # shortest path
-    dot = (q0 * q1).sum(dim=-1, keepdim=True)
-    q1 = torch.where(dot < 0, -q1, q1)
-    dot = (q0 * q1).sum(dim=-1, keepdim=True).clamp(-1.0, 1.0)
+def spherical_linear_interpolate(
+    start_quaternions: torch.Tensor,
+    end_quaternions: torch.Tensor,
+    interpolation_fractions: torch.Tensor,
+    epsilon: float = 1e-8,
+) -> torch.Tensor:
+    """Interpolate quaternion pairs along their shortest spherical paths."""
+    start_quaternions = normalize_quaternion(start_quaternions)
+    end_quaternions = normalize_quaternion(end_quaternions)
 
-    close = dot > (1.0 - 1e-6)
-    theta = torch.acos(dot)
-    sin_theta = torch.sin(theta).clamp_min(eps)
+    if interpolation_fractions.dim() == start_quaternions.dim() - 1:
+        interpolation_fractions = interpolation_fractions.unsqueeze(-1)
 
-    w0 = torch.sin((1 - t) * theta) / sin_theta
-    w1 = torch.sin(t * theta) / sin_theta
+    quaternion_similarity = (start_quaternions * end_quaternions).sum(
+        dim=-1, keepdim=True
+    )
+    end_quaternions = torch.where(
+        quaternion_similarity < 0,
+        -end_quaternions,
+        end_quaternions,
+    )
+    quaternion_similarity = (
+        (start_quaternions * end_quaternions).sum(dim=-1, keepdim=True).clamp(-1.0, 1.0)
+    )
 
-    out = w0 * q0 + w1 * q1
-    out_close = q_normalize((1 - t) * q0 + t * q1)
+    nearly_identical = quaternion_similarity > (1.0 - 1e-6)
+    angular_distance = torch.acos(quaternion_similarity)
+    sine_angular_distance = torch.sin(angular_distance).clamp_min(epsilon)
 
-    return torch.where(close, out_close, out)
+    start_weights = (
+        torch.sin((1 - interpolation_fractions) * angular_distance)
+        / sine_angular_distance
+    )
+    end_weights = (
+        torch.sin(interpolation_fractions * angular_distance) / sine_angular_distance
+    )
 
-def squad_tangent(q_prev: torch.Tensor, q: torch.Tensor, q_next: torch.Tensor) -> torch.Tensor:
-    """
-    Shoemake tangent:
-      a_i = q_i * exp( -0.25 * ( log(q_i^{-1} q_{i+1}) + log(q_i^{-1} q_{i-1}) ) )
-    """
-    qi_inv = q_inv_unit(q)
-    log1 = q_log_unit(q_mul(qi_inv, q_next))
-    log2 = q_log_unit(q_mul(qi_inv, q_prev))
-    v = -0.25 * (log1 + log2)
-    return q_mul(q, q_exp_vec(v))
+    spherical_interpolation = (
+        start_weights * start_quaternions + end_weights * end_quaternions
+    )
+    linear_interpolation = normalize_quaternion(
+        (1 - interpolation_fractions) * start_quaternions
+        + interpolation_fractions * end_quaternions
+    )
 
-def squad(q1: torch.Tensor, q2: torch.Tensor, a1: torch.Tensor, a2: torch.Tensor, t: torch.Tensor) -> torch.Tensor:
-    s1 = slerp(q1, q2, t)
-    s2 = slerp(a1, a2, t)
-    h = 2 * t * (1 - t)
-    return slerp(s1, s2, h)
+    return torch.where(
+        nearly_identical,
+        linear_interpolation,
+        spherical_interpolation,
+    )
 
-def squad_sample_torch(t_ctrl: torch.Tensor, Q_ctrl: torch.Tensor, t_query: torch.Tensor) -> torch.Tensor:
-    """
-    Differentiable SQUAD sampling.
-    t_ctrl:  (K,)
-    Q_ctrl:  (K,4)  (requires_grad OK)
-    t_query: (N,)
-    returns: (N,4)
-    """
-    device = Q_ctrl.device
-    t_ctrl = t_ctrl.to(device)
-    t_query = t_query.to(device)
 
-    Q_ctrl = q_normalize(Q_ctrl)
-    K = Q_ctrl.shape[0]
+def compute_squad_tangents(
+    previous_quaternions: torch.Tensor,
+    current_quaternions: torch.Tensor,
+    next_quaternions: torch.Tensor,
+) -> torch.Tensor:
+    """Compute Shoemake tangent quaternions for SQUAD interpolation."""
+    inverse_current_quaternions = invert_unit_quaternions(current_quaternions)
+    logarithm_to_next = unit_quaternion_logarithm(
+        multiply_quaternions(
+            inverse_current_quaternions,
+            next_quaternions,
+        )
+    )
+    logarithm_to_previous = unit_quaternion_logarithm(
+        multiply_quaternions(
+            inverse_current_quaternions,
+            previous_quaternions,
+        )
+    )
+    tangent_logarithm = -0.25 * (logarithm_to_next + logarithm_to_previous)
+    return multiply_quaternions(
+        current_quaternions,
+        quaternion_exponential(tangent_logarithm),
+    )
 
-    # tangents
-    A = torch.zeros_like(Q_ctrl)
-    A[0] = Q_ctrl[0]
-    A[-1] = Q_ctrl[-1]
-    if K > 2:
-        A[1:-1] = squad_tangent(Q_ctrl[:-2], Q_ctrl[1:-1], Q_ctrl[2:])
 
-    # segment indices
-    i = torch.searchsorted(t_ctrl, t_query, right=True) - 1
-    i = i.clamp(0, K - 2)
+def spherical_quadrangle_interpolate(
+    start_quaternions: torch.Tensor,
+    end_quaternions: torch.Tensor,
+    start_tangents: torch.Tensor,
+    end_tangents: torch.Tensor,
+    interpolation_fractions: torch.Tensor,
+) -> torch.Tensor:
+    """Blend endpoint and tangent SLERPs using the SQUAD curve."""
+    endpoint_interpolation = spherical_linear_interpolate(
+        start_quaternions,
+        end_quaternions,
+        interpolation_fractions,
+    )
+    tangent_interpolation = spherical_linear_interpolate(
+        start_tangents,
+        end_tangents,
+        interpolation_fractions,
+    )
+    tangent_blend_fractions = (
+        2 * interpolation_fractions * (1 - interpolation_fractions)
+    )
+    return spherical_linear_interpolate(
+        endpoint_interpolation,
+        tangent_interpolation,
+        tangent_blend_fractions,
+    )
 
-    t0 = t_ctrl[i]
-    t1 = t_ctrl[i + 1]
-    u = (t_query - t0) / (t1 - t0 + 1e-8)
-    u = u.clamp(0.0, 1.0)
 
-    q1 = Q_ctrl[i]
-    q2 = Q_ctrl[i + 1]
-    a1 = A[i]
-    a2 = A[i + 1]
+def sample_squad_quaternions(
+    control_times: torch.Tensor,
+    control_quaternions: torch.Tensor,
+    query_times: torch.Tensor,
+) -> torch.Tensor:
+    """Sample a differentiable SQUAD curve at the requested times."""
+    device = control_quaternions.device
+    control_times = control_times.to(device)
+    query_times = query_times.to(device)
 
-    return q_normalize(squad(q1, q2, a1, a2, u))
+    control_quaternions = normalize_quaternion(control_quaternions)
+    control_count = control_quaternions.shape[0]
+
+    tangent_quaternions = torch.zeros_like(control_quaternions)
+    tangent_quaternions[0] = control_quaternions[0]
+    tangent_quaternions[-1] = control_quaternions[-1]
+    if control_count > 2:
+        tangent_quaternions[1:-1] = compute_squad_tangents(
+            control_quaternions[:-2],
+            control_quaternions[1:-1],
+            control_quaternions[2:],
+        )
+
+    segment_indices = torch.searchsorted(control_times, query_times, right=True) - 1
+    segment_indices = segment_indices.clamp(0, control_count - 2)
+
+    segment_start_times = control_times[segment_indices]
+    segment_end_times = control_times[segment_indices + 1]
+    interpolation_fractions = (
+        (query_times - segment_start_times)
+        / (segment_end_times - segment_start_times + 1e-8)
+    ).clamp(0.0, 1.0)
+
+    segment_start_quaternions = control_quaternions[segment_indices]
+    segment_end_quaternions = control_quaternions[segment_indices + 1]
+    segment_start_tangents = tangent_quaternions[segment_indices]
+    segment_end_tangents = tangent_quaternions[segment_indices + 1]
+
+    return normalize_quaternion(
+        spherical_quadrangle_interpolate(
+            segment_start_quaternions,
+            segment_end_quaternions,
+            segment_start_tangents,
+            segment_end_tangents,
+            interpolation_fractions,
+        )
+    )
