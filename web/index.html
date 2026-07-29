@@ -1,0 +1,146 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="Preview 4D camera trajectories inside the TrainingFree Cinematographer prompt environments."
+    />
+    <title>Camera Lab · 4D trajectory visualizer</title>
+  </head>
+  <body>
+    <canvas id="scene" aria-label="Interactive 3D scene"></canvas>
+
+    <div class="app-shell">
+      <header class="topbar glass">
+        <a class="brand" href="#" aria-label="Camera Lab home">
+          <span class="brand-mark" aria-hidden="true"><i></i></span>
+          <span>
+            <strong>Camera Lab</strong>
+            <small>4D trajectory viewer</small>
+          </span>
+        </a>
+
+        <label class="environment-picker">
+          <span>Environment</span>
+          <select id="environmentSelect" aria-label="Prompt environment"></select>
+        </label>
+
+        <div class="top-actions">
+          <div class="segmented" id="viewMode" aria-label="View mode">
+            <button type="button" data-view="god" class="is-active">God view</button>
+            <button type="button" data-view="director" disabled>Director POV</button>
+          </div>
+          <button class="icon-button" id="dataButton" type="button" aria-label="Open JSON inspector" title="JSON inspector">
+            <span>{ }</span>
+          </button>
+        </div>
+      </header>
+
+      <aside class="scene-panel glass" aria-label="Scene information">
+        <div class="panel-kicker"><span class="status-dot"></span><span id="sceneStatus">Loading scene</span></div>
+        <h1 id="sceneTitle">Prompt environment</h1>
+        <p class="prompt" id="promptText" dir="auto"></p>
+
+        <dl class="facts">
+          <div><dt>Duration</dt><dd id="durationValue">—</dd></div>
+          <div><dt>Entities</dt><dd id="entityValue">—</dd></div>
+          <div><dt>Camera samples</dt><dd id="sampleValue">None</dd></div>
+          <div><dt>Orientation</dt><dd id="orientationValue">—</dd></div>
+          <div><dt>Action</dt><dd id="actionValue">—</dd></div>
+          <div><dt>Scene speed</dt><dd id="sceneRateValue">Normal · 1×</dd></div>
+          <div><dt>Scene time</dt><dd id="sceneTimeValue">0.00 s</dd></div>
+        </dl>
+
+        <div class="coordinates" aria-label="Current 4D camera coordinate">
+          <span>Camera coordinate</span>
+          <output id="coordinateValue">x — · y — · z — · t 0.00</output>
+        </div>
+
+        <div class="visibility-controls">
+          <label><input id="pathToggle" type="checkbox" checked /><span>Camera path</span></label>
+          <label><input id="boundsToggle" type="checkbox" /><span>Object bounds</span></label>
+          <label><input id="labelsToggle" type="checkbox" checked /><span>Target labels</span></label>
+        </div>
+      </aside>
+
+      <aside class="upload-panel glass" aria-label="Camera trajectory upload">
+        <div class="upload-heading">
+          <div>
+            <span class="eyebrow">Model output</span>
+            <h2>Load camera movement</h2>
+          </div>
+          <span class="format-pill">JSON</span>
+        </div>
+
+        <label class="dropzone" id="dropzone">
+          <input id="trajectoryInput" type="file" accept="application/json,.json" />
+          <span class="upload-icon" aria-hidden="true">↥</span>
+          <strong>Drop trajectory here</strong>
+          <small>or click to choose a JSON file</small>
+        </label>
+
+        <div class="upload-status" id="uploadStatus" role="status">
+          <span class="status-icon">i</span>
+          <p>Select an environment, then upload model output as frames or <code>[x,y,z,t]</code> points.</p>
+        </div>
+
+        <div class="upload-actions">
+          <button type="button" class="text-button" id="pasteButton">Paste JSON</button>
+          <button type="button" class="text-button" id="templateButton">Download template</button>
+        </div>
+      </aside>
+
+      <div class="viewport-hint" id="viewportHint">Drag to orbit · scroll to zoom · right-drag to pan</div>
+
+      <section class="transport glass" aria-label="Playback controls">
+        <button class="play-button" id="playButton" type="button" aria-label="Play">
+          <span class="play-icon"></span>
+        </button>
+        <div class="timeline-wrap">
+          <input id="timeline" class="timeline" type="range" min="0" max="1" value="0" step="0.001" aria-label="Timeline" />
+          <div class="rate-band" id="rateBand" aria-hidden="true"></div>
+          <div class="timeline-labels"><span>0:00</span><span id="endTime">0:00</span></div>
+        </div>
+        <output id="clockValue" class="clock">0.00 / 0.00</output>
+        <button id="speedButton" class="speed-button" type="button" title="Viewer transport speed">1×</button>
+      </section>
+    </div>
+
+    <div class="scrim" id="scrim" hidden></div>
+
+    <aside class="drawer" id="dataDrawer" aria-hidden="true" aria-label="JSON inspector">
+      <header>
+        <div><span class="eyebrow">Source of truth</span><h2>Pipeline data</h2></div>
+        <button id="closeDrawer" class="close-button" type="button" aria-label="Close">×</button>
+      </header>
+      <div class="drawer-tabs" id="drawerTabs">
+        <button class="is-active" data-tab="environment" type="button">Environment</button>
+        <button data-tab="trajectory" type="button">Trajectory</button>
+      </div>
+      <p class="drawer-note" id="drawerNote"></p>
+      <pre id="jsonPreview" class="json-preview"></pre>
+    </aside>
+
+    <dialog id="pasteDialog" class="paste-dialog">
+      <form method="dialog">
+        <header>
+          <div><span class="eyebrow">Camera input</span><h2>Paste trajectory JSON</h2></div>
+          <button value="cancel" class="close-button" aria-label="Close">×</button>
+        </header>
+        <p>Canonical trajectories, prototype <code>frames</code>, and compact <code>[x,y,z,t]</code> paths are accepted.</p>
+        <textarea id="pasteValue" spellcheck="false" aria-label="Trajectory JSON"></textarea>
+        <div class="dialog-actions">
+          <button value="cancel" class="secondary-button">Cancel</button>
+          <button id="loadPastedButton" value="default" class="primary-button">Visualize</button>
+        </div>
+      </form>
+    </dialog>
+
+    <div class="toast" id="toast" role="alert" hidden></div>
+    <div class="fatal-error" id="fatalError" hidden></div>
+
+    <script type="module" src="/src/main.ts"></script>
+  </body>
+</html>

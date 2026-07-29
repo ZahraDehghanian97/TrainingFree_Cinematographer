@@ -1,0 +1,67 @@
+{
+  "schemaVersion": "1.0",
+  "kind": "environment",
+  "id": "example-10-race-car",
+  "promptExampleId": "example-10",
+  "prompt": "ماشین مسابقه را دنبال کن، اگر سرعت ماشین از ۱۰۰ کیلومتر بیشتر شد، دوربین را بلرزان و عقب بکش تا حس سرعت القا شود.",
+  "clock": {
+    "durationSeconds": 13,
+    "timeDomain": "playback",
+    "fpsHint": 30
+  },
+  "coordinates": {
+    "handedness": "right",
+    "upAxis": "+Y",
+    "cameraForwardAxis": "-Z",
+    "lengthUnit": "meter",
+    "rotationOrder": "quaternion-xyzw"
+  },
+  "evaluation": { "distanceMetric": "anchorCenter" },
+  "world": {
+    "background": "#090d12",
+    "ground": { "y": 0, "size": [420, 90], "color": "#1d232a" },
+    "grid": { "size": 420, "divisions": 84 }
+  },
+  "entities": [
+    {
+      "id": "race-car-entity",
+      "label": "Accelerating race car",
+      "transform": {
+        "space": "world",
+        "position": {
+          "interpolation": "linear",
+          "extrapolation": "hold",
+          "keyframes": [
+            { "t": 0, "value": [0, 0, 80] },
+            { "t": 4, "value": [0.4, 0, 40] },
+            { "t": 7, "value": [-0.2, 0, -5] },
+            { "t": 8, "value": [0.1, 0, -35] },
+            { "t": 10, "value": [1.1, 0, -100] },
+            { "t": 13, "value": [2.4, 0, -205] }
+          ]
+        }
+      },
+      "visual": { "type": "preset", "name": "car", "params": { "color": "#e34b35", "style": "race", "length": 4.8 } },
+      "bounds": { "type": "box", "min": [-1.05, 0, -2.4], "max": [1.05, 1.25, 2.4] }
+    },
+    {
+      "id": "track-left-edge",
+      "transform": { "space": "world", "position": [-5.5, 0.02, -62] },
+      "visual": { "type": "primitive", "shape": "box", "params": { "size": [0.18, 0.04, 330] }, "color": "#e9e6d3" }
+    },
+    {
+      "id": "track-right-edge",
+      "transform": { "space": "world", "position": [5.5, 0.02, -62] },
+      "visual": { "type": "primitive", "shape": "box", "params": { "size": [0.18, 0.04, 330] }, "color": "#e9e6d3" }
+    }
+  ],
+  "targets": [
+    {
+      "id": "race_car",
+      "entityId": "race-car-entity",
+      "label": "The racing car (ماشین مسابقه)",
+      "localAnchor": [0, 0.65, 0],
+      "localBounds": { "type": "box", "min": [-1.05, 0, -2.4], "max": [1.05, 1.25, 2.4] }
+    }
+  ]
+}

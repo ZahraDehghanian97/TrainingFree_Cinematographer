@@ -1,0 +1,83 @@
+{
+  "schemaVersion": "1.0",
+  "kind": "environment",
+  "id": "example-01-football",
+  "promptExampleId": "example-01",
+  "prompt": "توپ رو دنبال کن و وقتی توپ نزدیک به دروازه شد، pedestal کن و از زاویه بالا توپ رو دنبال کن",
+  "clock": {
+    "durationSeconds": 10,
+    "timeDomain": "playback",
+    "fpsHint": 24
+  },
+  "coordinates": {
+    "handedness": "right",
+    "upAxis": "+Y",
+    "cameraForwardAxis": "-Z",
+    "lengthUnit": "meter",
+    "rotationOrder": "quaternion-xyzw"
+  },
+  "evaluation": {
+    "distanceMetric": "boundsSurface",
+    "epsilon": 0.001
+  },
+  "world": {
+    "background": "#09131b",
+    "ground": { "y": 0, "size": [48, 48], "color": "#173b2a" },
+    "grid": { "size": 48, "divisions": 48 }
+  },
+  "entities": [
+    {
+      "id": "ball-entity",
+      "label": "Football",
+      "transform": {
+        "space": "world",
+        "position": {
+          "interpolation": "catmullRom",
+          "extrapolation": "hold",
+          "keyframes": [
+            { "t": 0, "value": [1.5, 0.35, 8] },
+            { "t": 2, "value": [1.9, 0.51, 5.1] },
+            { "t": 4, "value": [1.45, 0.4, 2.2] },
+            { "t": 6, "value": [0.85, 0.53, -0.8] },
+            { "t": 7.5, "value": [0.35, 0.42, -3.7] },
+            { "t": 10, "value": [0, 0.35, -8.3] }
+          ]
+        },
+        "rotation": {
+          "interpolation": "slerp",
+          "extrapolation": "hold",
+          "keyframes": [
+            { "t": 0, "value": [0, 0, 0, 1] },
+            { "t": 5, "value": [0.7071, 0, 0, 0.7071] },
+            { "t": 10, "value": [0, 0, 0, -1] }
+          ]
+        }
+      },
+      "visual": { "type": "preset", "name": "soccerBall", "params": { "radius": 0.35 } },
+      "bounds": { "type": "sphere", "center": [0, 0, 0], "radius": 0.35 }
+    },
+    {
+      "id": "goal-entity",
+      "label": "Goal",
+      "transform": { "space": "world", "position": [0, 0, -8] },
+      "visual": { "type": "preset", "name": "soccerGoal", "params": { "width": 6, "height": 2.5, "depth": 1.2 } },
+      "bounds": { "type": "box", "min": [-3, 0, -0.6], "max": [3, 2.5, 0.6] }
+    }
+  ],
+  "targets": [
+    {
+      "id": "ball",
+      "entityId": "ball-entity",
+      "label": "The ball",
+      "localAnchor": [0, 0, 0],
+      "localBounds": { "type": "sphere", "center": [0, 0, 0], "radius": 0.35 }
+    },
+    {
+      "id": "goal",
+      "entityId": "goal-entity",
+      "label": "The goal",
+      "localAnchor": [0, 1.25, 0],
+      "localBounds": { "type": "box", "min": [-3, 0, -0.6], "max": [3, 2.5, 0.6] }
+    }
+  ]
+}

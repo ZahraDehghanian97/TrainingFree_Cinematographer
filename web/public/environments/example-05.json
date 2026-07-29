@@ -1,0 +1,60 @@
+{
+  "schemaVersion": "1.0",
+  "kind": "environment",
+  "id": "example-05-dolly-zoom",
+  "promptExampleId": "example-05",
+  "prompt": "روی چهره بازیگر Dolly Out کن و همزمان Zoom In انجام بده تا پرسپکتیو پس‌زمینه تغییر کند اما اندازه صورت ثابت بماند.",
+  "clock": {
+    "durationSeconds": 25,
+    "timeDomain": "playback",
+    "fpsHint": 24
+  },
+  "coordinates": {
+    "handedness": "right",
+    "upAxis": "+Y",
+    "cameraForwardAxis": "-Z",
+    "lengthUnit": "meter",
+    "rotationOrder": "quaternion-xyzw"
+  },
+  "evaluation": { "distanceMetric": "anchorCenter" },
+  "world": {
+    "background": "#15141c",
+    "ground": { "y": 0, "size": [36, 36], "color": "#26252e" },
+    "grid": { "size": 36, "divisions": 36 }
+  },
+  "entities": [
+    {
+      "id": "actor-entity",
+      "label": "Actor",
+      "transform": { "space": "world", "position": [0, 0, 0] },
+      "visual": { "type": "preset", "name": "humanoid", "params": { "color": "#d6ad8c", "shirtColor": "#213b57" } },
+      "bounds": { "type": "box", "min": [-0.45, 0, -0.3], "max": [0.45, 1.85, 0.3] }
+    },
+    {
+      "id": "background-column-left",
+      "label": "Near background column",
+      "transform": { "space": "world", "position": [-2.5, 2, -5] },
+      "visual": { "type": "primitive", "shape": "box", "params": { "size": [0.8, 4, 0.8] }, "color": "#4aa8ff" }
+    },
+    {
+      "id": "background-column-right",
+      "label": "Far background column",
+      "transform": { "space": "world", "position": [4.5, 3, -12] },
+      "visual": { "type": "primitive", "shape": "box", "params": { "size": [1.2, 6, 1.2] }, "color": "#ff9e3d" }
+    },
+    {
+      "id": "background-wall",
+      "transform": { "space": "world", "position": [0, 3, -16] },
+      "visual": { "type": "primitive", "shape": "box", "params": { "size": [22, 6, 0.3] }, "color": "#34384a" }
+    }
+  ],
+  "targets": [
+    {
+      "id": "actor_face",
+      "entityId": "actor-entity",
+      "label": "The actor's face (چهره بازیگر)",
+      "localAnchor": [0, 1.65, 0.12],
+      "localBounds": { "type": "sphere", "center": [0, 1.65, 0.12], "radius": 0.18 }
+    }
+  ]
+}

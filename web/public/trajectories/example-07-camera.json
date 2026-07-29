@@ -1,0 +1,147 @@
+{
+  "schemaVersion": "1.0",
+  "kind": "cameraTrajectory",
+  "environmentId": "example-07-spiral-closeup",
+  "clock": {
+    "durationSeconds": 9,
+    "timeUnit": "second"
+  },
+  "coordinates": {
+    "handedness": "right",
+    "upAxis": "+Y",
+    "cameraForwardAxis": "-Z",
+    "lengthUnit": "meter",
+    "rotationOrder": "quaternion-xyzw"
+  },
+  "intrinsics": {
+    "projection": "perspective",
+    "fovYDegrees": 52,
+    "near": 0.02,
+    "far": 80
+  },
+  "orientation": {
+    "mode": "perSampleLookAt",
+    "up": [0, 1, 0]
+  },
+  "samples": [
+    {
+      "t": 0,
+      "position": [0, 8.4, 2.8],
+      "lookAt": [0, 0.95, 0],
+      "fovYDegrees": 52,
+      "actionId": "spiral_orbit"
+    },
+    {
+      "t": 0.5625,
+      "position": [1.962031, 8.324756, 1.962031],
+      "lookAt": [0, 0.958198, 0.002078],
+      "fovYDegrees": 51.663086,
+      "actionId": "spiral_orbit"
+    },
+    {
+      "t": 1.125,
+      "position": [2.70332, 8.112109, 0],
+      "lookAt": [0, 0.981367, 0.007949],
+      "fovYDegrees": 50.710938,
+      "actionId": "spiral_orbit"
+    },
+    {
+      "t": 1.6875,
+      "position": [1.833074, 7.781689, -1.833074],
+      "lookAt": [0, 1.017368, 0.017073],
+      "fovYDegrees": 49.231445,
+      "actionId": "spiral_orbit"
+    },
+    {
+      "t": 2.25,
+      "position": [0, 7.353125, -2.448437],
+      "lookAt": [0, 1.064062, 0.028906],
+      "fovYDegrees": 47.3125,
+      "actionId": "spiral_orbit"
+    },
+    {
+      "t": 2.8125,
+      "position": [-1.610895, 6.846045, -1.610895],
+      "lookAt": [0, 1.119312, 0.042908],
+      "fovYDegrees": 45.041992,
+      "actionId": "spiral_orbit"
+    },
+    {
+      "t": 3.375,
+      "position": [-2.088086, 6.280078, 0],
+      "lookAt": [0, 1.180977, 0.058535],
+      "fovYDegrees": 42.507813,
+      "actionId": "spiral_orbit"
+    },
+    {
+      "t": 3.9375,
+      "position": [-1.332782, 5.674854, 1.332782],
+      "lookAt": [0, 1.246919, 0.075247],
+      "fovYDegrees": 39.797852,
+      "actionId": "spiral_orbit"
+    },
+    {
+      "t": 4.5,
+      "position": [0, 5.05, 1.675],
+      "lookAt": [0, 1.315, 0.0925],
+      "fovYDegrees": 37,
+      "actionId": "spiral_dolly_in"
+    },
+    {
+      "t": 5.0625,
+      "position": [1.036025, 4.425146, 1.036025],
+      "lookAt": [0, 1.383081, 0.109753],
+      "fovYDegrees": 34.202148,
+      "actionId": "spiral_dolly_in"
+    },
+    {
+      "t": 5.625,
+      "position": [1.261914, 3.819922, 0],
+      "lookAt": [0, 1.449023, 0.126465],
+      "fovYDegrees": 31.492188,
+      "actionId": "spiral_dolly_in"
+    },
+    {
+      "t": 6.1875,
+      "position": [0.757913, 3.253955, -0.757913],
+      "lookAt": [0, 1.510688, 0.142092],
+      "fovYDegrees": 28.958008,
+      "actionId": "spiral_dolly_in"
+    },
+    {
+      "t": 6.75,
+      "position": [0, 2.746875, -0.901562],
+      "lookAt": [0, 1.565937, 0.156094],
+      "fovYDegrees": 26.6875,
+      "actionId": "spiral_dolly_in"
+    },
+    {
+      "t": 7.3125,
+      "position": [-0.535734, 2.318311, -0.535734],
+      "lookAt": [0, 1.612632, 0.167927],
+      "fovYDegrees": 24.768555,
+      "actionId": "spiral_dolly_in"
+    },
+    {
+      "t": 7.875,
+      "position": [-0.64668, 1.987891, 0],
+      "lookAt": [0, 1.648633, 0.177051],
+      "fovYDegrees": 23.289063,
+      "actionId": "spiral_dolly_in"
+    },
+    {
+      "t": 8.4375,
+      "position": [-0.406776, 1.775244, 0.406776],
+      "lookAt": [0, 1.671802, 0.182922],
+      "fovYDegrees": 22.336914,
+      "actionId": "spiral_dolly_in"
+    },
+    {
+      "t": 9,
+      "position": [0, 1.7, 0.55],
+      "lookAt": [0, 1.68, 0.185],
+      "fovYDegrees": 22,
+      "actionId": "spiral_dolly_in"
+    }
+  ]
+}

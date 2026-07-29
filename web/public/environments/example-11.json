@@ -1,0 +1,62 @@
+{
+  "schemaVersion": "1.0",
+  "kind": "environment",
+  "id": "example-11-horror-door",
+  "promptExampleId": "example-11",
+  "prompt": "برای ایجاد حس ترس، دوربین را ۳۰ درجه کج کن و به صورت دستی و لرزان به سمت در نیمه‌باز حرکت کن.",
+  "clock": {
+    "durationSeconds": 6,
+    "timeDomain": "playback",
+    "fpsHint": 24
+  },
+  "coordinates": {
+    "handedness": "right",
+    "upAxis": "+Y",
+    "cameraForwardAxis": "-Z",
+    "lengthUnit": "meter",
+    "rotationOrder": "quaternion-xyzw"
+  },
+  "evaluation": { "distanceMetric": "anchorCenter" },
+  "world": {
+    "background": "#05070b",
+    "ground": { "y": 0, "size": [28, 16], "color": "#17171b" },
+    "grid": { "size": 28, "divisions": 28 }
+  },
+  "entities": [
+    {
+      "id": "half-open-door-entity",
+      "label": "Half-open door",
+      "transform": {
+        "space": "world",
+        "position": [0, 0, -8],
+        "rotation": [0, 0.1305, 0, 0.9914]
+      },
+      "visual": { "type": "preset", "name": "door", "params": { "color": "#342820", "width": 1.05, "height": 2.2 } },
+      "bounds": { "type": "box", "min": [-0.53, 0, -0.08], "max": [0.53, 2.2, 0.08] }
+    },
+    {
+      "id": "corridor-left-wall",
+      "transform": { "space": "world", "position": [-2.2, 1.6, -1] },
+      "visual": { "type": "primitive", "shape": "box", "params": { "size": [0.2, 3.2, 16] }, "color": "#25262c" }
+    },
+    {
+      "id": "corridor-right-wall",
+      "transform": { "space": "world", "position": [2.2, 1.6, -1] },
+      "visual": { "type": "primitive", "shape": "box", "params": { "size": [0.2, 3.2, 16] }, "color": "#25262c" }
+    },
+    {
+      "id": "doorway-darkness",
+      "transform": { "space": "world", "position": [0, 1.1, -8.18] },
+      "visual": { "type": "primitive", "shape": "box", "params": { "size": [1.25, 2.3, 0.05] }, "color": "#010203" }
+    }
+  ],
+  "targets": [
+    {
+      "id": "half_open_door",
+      "entityId": "half-open-door-entity",
+      "label": "The half-open door (در نیمه‌باز)",
+      "localAnchor": [0, 1.1, 0],
+      "localBounds": { "type": "box", "min": [-0.53, 0, -0.08], "max": [0.53, 2.2, 0.08] }
+    }
+  ]
+}

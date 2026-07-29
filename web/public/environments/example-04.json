@@ -1,0 +1,74 @@
+{
+  "schemaVersion": "1.0",
+  "kind": "environment",
+  "id": "example-04-car-arc",
+  "promptExampleId": "example-04",
+  "prompt": "به مدت ۲ ثانیه ماشین رو ترک کن و یک arc right دورش بزن و همزمان با arc روی راننده زوم کن",
+  "clock": {
+    "durationSeconds": 15,
+    "timeDomain": "playback",
+    "fpsHint": 24
+  },
+  "coordinates": {
+    "handedness": "right",
+    "upAxis": "+Y",
+    "cameraForwardAxis": "-Z",
+    "lengthUnit": "meter",
+    "rotationOrder": "quaternion-xyzw"
+  },
+  "evaluation": { "distanceMetric": "anchorCenter" },
+  "world": {
+    "background": "#0c121a",
+    "ground": { "y": 0, "size": [70, 32], "color": "#242933" },
+    "grid": { "size": 70, "divisions": 70 }
+  },
+  "entities": [
+    {
+      "id": "car-entity",
+      "label": "Moving car",
+      "transform": {
+        "space": "world",
+        "position": {
+          "interpolation": "catmullRom",
+          "extrapolation": "hold",
+          "keyframes": [
+            { "t": 0, "value": [-1.5, 0, 12] },
+            { "t": 2, "value": [-1.2, 0, 7.5] },
+            { "t": 6, "value": [-0.3, 0, -1] },
+            { "t": 10, "value": [1.2, 0, -9] },
+            { "t": 15, "value": [2.4, 0, -18] }
+          ]
+        },
+        "rotation": [0, 1, 0, 0]
+      },
+      "visual": { "type": "preset", "name": "car", "params": { "color": "#d34f3f", "length": 4.4 } },
+      "bounds": { "type": "box", "min": [-1, 0, -2.2], "max": [1, 1.45, 2.2] }
+    },
+    {
+      "id": "road-marker-left",
+      "transform": { "space": "world", "position": [-4.5, 0.02, -3] },
+      "visual": { "type": "primitive", "shape": "box", "params": { "size": [0.12, 0.03, 55] }, "color": "#d8d6bd" }
+    },
+    {
+      "id": "road-marker-right",
+      "transform": { "space": "world", "position": [4.5, 0.02, -3] },
+      "visual": { "type": "primitive", "shape": "box", "params": { "size": [0.12, 0.03, 55] }, "color": "#d8d6bd" }
+    }
+  ],
+  "targets": [
+    {
+      "id": "car",
+      "entityId": "car-entity",
+      "label": "The car (ماشین)",
+      "localAnchor": [0, 0.75, 0],
+      "localBounds": { "type": "box", "min": [-1, 0, -2.2], "max": [1, 1.45, 2.2] }
+    },
+    {
+      "id": "driver",
+      "entityId": "car-entity",
+      "label": "The driver (راننده)",
+      "localAnchor": [-0.34, 1.08, 0.15],
+      "localBounds": { "type": "sphere", "center": [-0.34, 1.08, 0.15], "radius": 0.22 }
+    }
+  ]
+}
