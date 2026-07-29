@@ -1,4 +1,8 @@
 {
+  "schemaVersion": "1.0",
+  "kind": "timelineSolverOutput",
+  "exampleId": "example-04",
+  "environmentId": "example-04-car-arc",
   "prompt": "به مدت ۲ ثانیه ماشین رو ترک کن و یک arc right دورش بزن و همزمان با arc روی راننده زوم کن",
   "totalDuration": 15,
   "timeline": {
@@ -95,22 +99,6 @@
         ]
       }
     ],
-    "timeWarp": [
-      {
-        "startTimePlayback": 0,
-        "endTimePlayback": 2,
-        "rate": 1
-      },
-      {
-        "startTimePlayback": 2,
-        "endTimePlayback": 15,
-        "rate": 1
-      },
-      {
-        "startTimePlayback": 2,
-        "endTimePlayback": 15,
-        "rate": 1
-      }
-    ]
+    "timeWarp": []
   }
 }

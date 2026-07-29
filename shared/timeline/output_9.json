@@ -1,4 +1,8 @@
 {
+  "schemaVersion": "1.0",
+  "kind": "timelineSolverOutput",
+  "exampleId": "example-09",
+  "environmentId": "example-09-two-people",
   "prompt": "دو نفر را در نمای Long Shot دنبال کن؛ به محض اینکه فاصله آن‌ها به کمتر از ۱ متر رسید، کات بزن به Over-the-Shoulder (نمای روی شانه).",
   "totalDuration": 24,
   "timeline": {
@@ -141,12 +145,6 @@
         ]
       }
     ],
-    "timeWarp": [
-      {
-        "startTimePlayback": 5,
-        "endTimePlayback": 24,
-        "rate": 1
-      }
-    ]
+    "timeWarp": []
   }
 }

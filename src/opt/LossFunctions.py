@@ -149,6 +149,17 @@ def safe_norm(x: torch.Tensor, eps: float = 1e-8) -> torch.Tensor:
 def normalize_vec(x: torch.Tensor, eps: float = 1e-8) -> torch.Tensor:
     return x / safe_norm(x, eps)
 
+def stable_atan2(
+    y: torch.Tensor,
+    x: torch.Tensor,
+    eps: float = 1e-12,
+) -> Tuple[torch.Tensor, torch.Tensor]:
+    """Evaluate atan2 with finite gradients when both planar components are zero."""
+    valid = (x.square() + y.square()) > eps
+    safe_y = torch.where(valid, y, torch.zeros_like(y))
+    safe_x = torch.where(valid, x, torch.ones_like(x))
+    return torch.atan2(safe_y, safe_x), valid
+
 def dot(a: torch.Tensor, b: torch.Tensor) -> torch.Tensor:
     return (a * b).sum(dim=-1, keepdim=True)
 
@@ -186,8 +197,8 @@ def axis_from_q(
     return normalize_vec(f), normalize_vec(r), normalize_vec(u)
 
 def yaw_from_forward(f: torch.Tensor) -> torch.Tensor:
-    
-    return torch.atan2(f[..., 0], -f[..., 2])
+    yaw, _ = stable_atan2(f[..., 0], -f[..., 2])
+    return yaw
 
 def pitch_from_forward(f: torch.Tensor) -> torch.Tensor:
     
@@ -339,9 +350,6 @@ def loss_translate_local_axis(
         losses[f"{prefix}/drift"] = (
             W["orth_drift"] * drift
         )
-    print("Losses:", losses)
-    print("total_progress =", total_progress.item())
-    print("target =", distance)
     return losses
 
 def loss_static_interval(P: torch.Tensor, Q: torch.Tensor, t0: int, t1: int) -> Dict[str, torch.Tensor]:
@@ -828,9 +836,10 @@ def loss_subject_view_azimuth(Ps: torch.Tensor, Ss: torch.Tensor, view: str) -> 
         return {"subjectView/azimuth": zero}
     target = math.radians(VIEW_AZIMUTH_DEG.get(view, 0.0))
     v = Ps - Ss
-    az = torch.atan2(v[:,0], -v[:,2])
+    az, valid = stable_atan2(v[:, 0], -v[:, 2])
     err = torch.atan2(torch.sin(az - target), torch.cos(az - target))
-    loss = (err**2).mean()
+    valid_weight = valid.to(dtype=Ps.dtype)
+    loss = (err.square() * valid_weight).sum() / valid_weight.sum().clamp_min(1.0)
     return {"subjectView/azimuth": W['subject_view'] * loss}
 
 def loss_subject_view_orientation(Ps, Qs, Ss, view):

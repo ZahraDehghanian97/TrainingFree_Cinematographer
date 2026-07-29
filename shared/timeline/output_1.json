@@ -1,4 +1,8 @@
 {
+  "schemaVersion": "1.0",
+  "kind": "timelineSolverOutput",
+  "exampleId": "example-01",
+  "environmentId": "example-01-football",
   "prompt": "توپ رو دنبال کن و وقتی توپ نزدیک به دروازه شد، pedestal کن و از زاویه بالا توپ رو دنبال کن",
   "totalDuration": 10,
   "timeline": {
@@ -91,22 +95,6 @@
         ]
       }
     ],
-    "timeWarp": [
-      {
-        "startTimePlayback": 0,
-        "endTimePlayback": 5,
-        "rate": 1
-      },
-      {
-        "startTimePlayback": 5,
-        "endTimePlayback": 7.5,
-        "rate": 1
-      },
-      {
-        "startTimePlayback": 7.5,
-        "endTimePlayback": 10,
-        "rate": 1
-      }
-    ]
+    "timeWarp": []
   }
 }

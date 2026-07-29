@@ -54,13 +54,18 @@ export const MOVEMENT_TO_LOSS: Partial<Record<CameraMovementType, LossFunctionTy
   [CameraMovementType.Orbit]: LossFunctionType.ArcMovement,       
 };
 
-export const FPS_DURATION_WEIGHT: Record<RelativeFPS, number> = {
-  [RelativeFPS.Frozen]: 5.0, // TODO: Must change to explicit duration
-  [RelativeFPS.VerySlow]: 3.0,
-  [RelativeFPS.Slow]: 2.0,
+/**
+ * Scene-time rate used by Camera Lab while camera playback keeps advancing.
+ * These are rates, not duration multipliers: 0 freezes the scene, values below
+ * 1 slow it down, and values above 1 speed it up.
+ */
+export const SCENE_PLAYBACK_RATE: Record<RelativeFPS, number> = {
+  [RelativeFPS.Frozen]: 0,
+  [RelativeFPS.VerySlow]: 0.1,
+  [RelativeFPS.Slow]: 0.5,
   [RelativeFPS.Normal]: 1.0,
-  [RelativeFPS.Fast]: 0.5,
-  [RelativeFPS.VeryFast]: 0.2,
+  [RelativeFPS.Fast]: 2.0,
+  [RelativeFPS.VeryFast]: 4.0,
 };
 
 // ─── Solver Defaults ────────────────────────────────

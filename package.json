@@ -8,6 +8,7 @@
     "build:node": "tsc -p tsconfig.json",
     "build:web": "vite build --config web/vite.config.ts",
     "start": "ts-node ./src/index.ts",
+    "pipeline": "ts-node ./src/index.ts",
     "visualizer": "vite --config web/vite.config.ts",
     "preview:visualizer": "vite preview --config web/vite.config.ts",
     "test": "vitest run --config web/vitest.config.ts"

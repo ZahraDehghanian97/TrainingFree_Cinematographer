@@ -1,4 +1,8 @@
 {
+  "schemaVersion": "1.0",
+  "kind": "timelineSolverOutput",
+  "exampleId": "example-07",
+  "environmentId": "example-07-spiral-closeup",
   "prompt": "از نمای بالا شروع کن و با یک حرکت حلزونی همزمان که می‌چرخی، به سوژه نزدیک شو تا به کلوزآپ چشم‌هایش برسی.",
   "totalDuration": 9,
   "timeline": {
@@ -86,17 +90,6 @@
         ]
       }
     ],
-    "timeWarp": [
-      {
-        "startTimePlayback": 0,
-        "endTimePlayback": 9,
-        "rate": 1
-      },
-      {
-        "startTimePlayback": 0,
-        "endTimePlayback": 9,
-        "rate": 1
-      }
-    ]
+    "timeWarp": []
   }
 }

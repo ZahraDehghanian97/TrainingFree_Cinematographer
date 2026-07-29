@@ -35,6 +35,7 @@ LOSS_TYPE_MAP = {
     "trackMovement": "trackMovement",
 
     "static": "static",
+    "Static": "static",
 
     # Framing
     "shotSize": "shotSize",

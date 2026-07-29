@@ -9,7 +9,7 @@ npm install
 npm run visualizer
 ```
 
-Open `http://127.0.0.1:4173` and choose one of the 13 prompt environments. Each example loads a bundled reference trajectory automatically; upload or paste another camera JSON file to compare your model output. God view shows the environment, path, and moving camera frustum. Director POV renders through the camera.
+Open `http://127.0.0.1:4173` and choose one of the 13 prompt environments. Each example loads a generated optimized trajectory when one exists, otherwise it falls back to the bundled reference trajectory. You can still upload or paste another camera JSON file. God view shows the environment, path, and moving camera frustum. Director POV renders through the camera.
 
 The visualizer is data-driven:
 
@@ -68,9 +68,36 @@ All v1 data uses a right-handed, Y-up coordinate system, meters for distance, se
 ```bash
 npm run build          # Type-check/build the Node library and browser app
 npm test               # Run schema, interpolation, and upload tests
-npm start              # Generate the existing timeline JSON/SVG/PNG outputs
+npm start              # Run timeline solver + optimizer for all examples
+npm run pipeline       # Alias for the same end-to-end pipeline
 npm run visualizer     # Start Camera Lab in development mode
 npm run preview:visualizer
 ```
 
-The existing solver emits camera constraints/loss functions rather than final poses. Camera Lab is the evaluation surface for trajectories produced by a downstream solver or model.
+Install the Python optimizer dependencies once, then run either every example or
+one example by number/id:
+
+```bash
+python3 -m pip install -r src/opt/requirements.txt
+npm run pipeline
+npm run pipeline -- --example 1
+npm run pipeline -- --example example-01
+```
+
+Set `PYTHON_BIN` if the dependencies are installed in a particular interpreter,
+for example `PYTHON_BIN=.venv/bin/python npm run pipeline -- --example example-01`.
+
+For each example, the pipeline writes:
+
+- Timeline JSON/SVG/PNG diagnostics to `src/outputs/`.
+- The optimizer handoff document to `shared/timeline/`.
+- Optimizer diagnostics and a canonical archive to `shared/optimized/`.
+- A viewer-ready camera trajectory to
+  `web/public/trajectories/optimized/<example-id>-camera.json`.
+
+Start Camera Lab with `npm run visualizer` and choose the matching environment;
+the generated trajectory loads automatically. The pipeline also prints a direct
+Camera Lab URL for every processed example. A specific trajectory URL can be
+requested with `?environment=<environment-id>&trajectory=<json-url>`. Optimizer
+launch errors, non-zero exits, and missing viewer trajectories stop the pipeline
+with a non-zero exit status.

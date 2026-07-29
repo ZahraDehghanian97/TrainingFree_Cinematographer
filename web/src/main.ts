@@ -10,6 +10,11 @@ import {
   playbackRateAt,
   sampleCameraTrajectory,
 } from "./trajectory-loader";
+import {
+  automaticTrajectorySources,
+  isAbsoluteTrajectoryUrl,
+  type AutomaticTrajectorySource,
+} from "./trajectory-source";
 
 interface EnvironmentManifestEntry {
   id: string;
@@ -18,6 +23,7 @@ interface EnvironmentManifestEntry {
   prompt: string;
   durationSeconds: number;
   url: string;
+  optimizedTrajectoryUrl?: string;
   sampleTrajectoryUrl?: string;
 }
 
@@ -89,6 +95,10 @@ function publicUrl(path: string): string {
   const cleanPath = path.replace(/^\/+/, "");
   const base = import.meta.env.BASE_URL.endsWith("/") ? import.meta.env.BASE_URL : `${import.meta.env.BASE_URL}/`;
   return `${base}${cleanPath}`;
+}
+
+function trajectoryUrl(path: string): string {
+  return isAbsoluteTrajectoryUrl(path) ? path : publicUrl(path);
 }
 
 function isManifest(value: unknown): value is EnvironmentManifest {
@@ -176,12 +186,83 @@ function resetTrajectory(): void {
   sceneTimeValue.textContent = "0.00 s";
   rateBand.replaceChildren();
   coordinateValue.textContent = `x — · y — · z — · t ${currentTime.toFixed(2)}`;
-  setUploadMessage("Upload model output as canonical frames or [x,y,z,t] points.");
+  setUploadMessage("Looking for generated optimizer output. You can also upload or paste a trajectory.");
   if (activeView === "director") setView("god");
   refreshDrawer();
 }
 
-async function selectEnvironment(entry: EnvironmentManifestEntry, loadBundledTrajectory = true): Promise<void> {
+interface AutomaticTrajectoryFailure {
+  source: AutomaticTrajectorySource;
+  message: string;
+  status?: number;
+}
+
+function describeFallback(
+  loadedSource: AutomaticTrajectorySource,
+  failures: AutomaticTrajectoryFailure[],
+): void {
+  const reportable = failures.find(({ source, status }) =>
+    source.kind === "requested" || status !== 404);
+  if (!reportable) return;
+  showToast(
+    `${reportable.source.label} could not be loaded; using ${loadedSource.label.toLowerCase()}.`,
+    "warning",
+  );
+}
+
+async function loadAutomaticTrajectory(
+  entry: EnvironmentManifestEntry,
+  requestedTrajectoryUrl: string | null,
+  request: number,
+): Promise<void> {
+  const failures: AutomaticTrajectoryFailure[] = [];
+
+  for (const source of automaticTrajectorySources(entry, requestedTrajectoryUrl)) {
+    if (request !== environmentRequest) return;
+    try {
+      const response = await fetch(trajectoryUrl(source.url));
+      if (request !== environmentRequest) return;
+      if (!response.ok) {
+        failures.push({
+          source,
+          status: response.status,
+          message: `HTTP ${response.status}${response.statusText ? ` ${response.statusText}` : ""}`,
+        });
+        continue;
+      }
+
+      const value: unknown = await response.json();
+      if (request !== environmentRequest) return;
+      await applyTrajectory(value, source.label);
+      describeFallback(source, failures);
+      return;
+    } catch (error) {
+      if (request !== environmentRequest) return;
+      failures.push({
+        source,
+        message: error instanceof Error ? error.message : String(error),
+      });
+    }
+  }
+
+  if (request !== environmentRequest) return;
+  const reportable = failures.find(({ source, status }) =>
+    source.kind === "requested" || status !== 404);
+  if (reportable) {
+    setUploadMessage(
+      `${reportable.source.label} could not be loaded. You can still upload or paste a trajectory.`,
+      "warning",
+    );
+    showToast(`${reportable.source.label}: ${reportable.message}`, "warning");
+  } else {
+    setUploadMessage("No generated trajectory found. Upload or paste camera movement to preview it.");
+  }
+}
+
+async function selectEnvironment(
+  entry: EnvironmentManifestEntry,
+  requestedTrajectoryUrl: string | null = null,
+): Promise<void> {
   const request = ++environmentRequest;
   environmentSelect.disabled = true;
   sceneStatus.textContent = "Loading environment";
@@ -212,14 +293,7 @@ async function selectEnvironment(entry: EnvironmentManifestEntry, loadBundledTra
     sceneStatus.textContent = "Environment ready";
     document.title = `${shortEnvironmentName(environment)} · Camera Lab`;
 
-    if (loadBundledTrajectory && entry.sampleTrajectoryUrl) {
-      try {
-        const response = await fetch(publicUrl(entry.sampleTrajectoryUrl));
-        if (response.ok && request === environmentRequest) await applyTrajectory(await response.json(), "Bundled demo");
-      } catch {
-        // The viewer remains useful in God view if the optional demo cannot load.
-      }
-    }
+    await loadAutomaticTrajectory(entry, requestedTrajectoryUrl, request);
     refreshDrawer();
   } catch (error) {
     const message = error instanceof Error ? error.message : String(error);
@@ -500,10 +574,12 @@ async function bootstrap(): Promise<void> {
     populateEnvironmentPicker();
     bindEvents();
 
-    const requestedId = new URLSearchParams(location.search).get("environment");
+    const search = new URLSearchParams(location.search);
+    const requestedId = search.get("environment");
+    const requestedTrajectoryUrl = search.get("trajectory");
     const first = manifest.environments.find((entry) => entry.id === requestedId) ?? manifest.environments[0]!;
     environmentSelect.value = first.id;
-    await selectEnvironment(first, true);
+    await selectEnvironment(first, requestedTrajectoryUrl);
 
     lastFrameAt = performance.now();
     requestAnimationFrame(animationFrame);

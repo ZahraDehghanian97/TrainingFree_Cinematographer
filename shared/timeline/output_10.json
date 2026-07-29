@@ -1,4 +1,8 @@
 {
+  "schemaVersion": "1.0",
+  "kind": "timelineSolverOutput",
+  "exampleId": "example-10",
+  "environmentId": "example-10-race-car",
   "prompt": "ماشین مسابقه را دنبال کن، اگر سرعت ماشین از ۱۰۰ کیلومتر بیشتر شد، دوربین را بلرزان و عقب بکش تا حس سرعت القا شود.",
   "totalDuration": 13,
   "timeline": {
@@ -106,17 +110,6 @@
         ]
       }
     ],
-    "timeWarp": [
-      {
-        "startTimePlayback": 0,
-        "endTimePlayback": 3,
-        "rate": 1
-      },
-      {
-        "startTimePlayback": 3,
-        "endTimePlayback": 13,
-        "rate": 1
-      }
-    ]
+    "timeWarp": []
   }
 }

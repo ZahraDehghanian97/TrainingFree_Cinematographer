@@ -5,6 +5,8 @@ node_modules/
 dist/
 dist-web/
 outputs/
+web/public/trajectories/optimized/
+shared/optimized/*_camera.json
 
 # Python environments and caches
 .venv/

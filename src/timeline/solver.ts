@@ -1,6 +1,5 @@
 import {
   CameraMovementType,
-  RelativeFPS,
   RelativeTimeReference,
 } from "../types/enums";
 import {
@@ -32,11 +31,9 @@ import {
   DEFAULT_ROTATION_ANGLE,
   DEFAULT_ARC_ANGLE,
   DEFAULT_ARC_RADIUS,
-  FPS_DURATION_WEIGHT,
+  SCENE_PLAYBACK_RATE,
 } from "./constants";
 import { CameraConfig } from "../types/camera";
-import { log } from "node:console";
-import util from "util";
 
 interface TimedAction extends Action {
   startTime?: number;
@@ -101,20 +98,28 @@ export function solveTimeline(dsl: CameraDirectionDSL): TimelineSolverOutput {
   
   const timeWarp: TimeWarpSegment[] = [];
 
-  for (const action of resolvedActions) {
+  for (const action of allResolvedActions) {
+    const label = action.movement.relativeFPS;
+    if (
+      label === undefined
+      || action.startTime === undefined
+      || action.endTime === undefined
+    ) {
+      continue;
+    }
 
-      const rate =
-          FPS_DURATION_WEIGHT[
-              action.movement.relativeFPS ??
-              RelativeFPS.Normal
-          ];
-
-      timeWarp.push({
-          startTimePlayback: action.startTime!,
-          endTimePlayback: action.endTime!,
-          rate
-      });
+    timeWarp.push({
+      startTimePlayback: action.startTime,
+      endTimePlayback: action.endTime,
+      rate: SCENE_PLAYBACK_RATE[label],
+      label,
+    });
   }
+
+  timeWarp.sort((a, b) =>
+    a.startTimePlayback - b.startTimePlayback
+    || a.endTimePlayback - b.endTimePlayback
+  );
 
   return { sections, timeWarp };
 }

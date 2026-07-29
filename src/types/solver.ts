@@ -1,4 +1,5 @@
 import { CameraConfig } from "./camera";
+import type { RelativeFPS } from "./enums";
 
 // ─── Loss Functions ──────────────────────────────────────────────────────────
 
@@ -69,6 +70,7 @@ export interface TimeWarpSegment {
   startTimePlayback: number;
   endTimePlayback: number;
   rate: number;
+  label: RelativeFPS;
 }
 
 export interface TimelineSolverOutput {

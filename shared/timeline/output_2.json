@@ -1,4 +1,8 @@
 {
+  "schemaVersion": "1.0",
+  "kind": "timelineSolverOutput",
+  "exampleId": "example-02",
+  "environmentId": "example-02-face-orbit",
   "prompt": "از زوم روی صورت مرد شروع کن، یک stop motion بزن و ۳ دور کامل دور صورت آن بچرخ",
   "totalDuration": 15,
   "timeline": {
@@ -72,7 +76,8 @@
       {
         "startTimePlayback": 0,
         "endTimePlayback": 15,
-        "rate": 5
+        "rate": 0,
+        "label": "frozen"
       }
     ]
   }

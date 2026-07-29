@@ -1,6 +1,8 @@
 import numpy as np
 import torch
 
+from timebase import seconds_to_frame_index
+
 
 TRANSLATION_MOVES = {
     "truckLeftMovement":  ("right", -1),
@@ -178,16 +180,29 @@ def initialize_control_points(
     default_radius=4.0,
     default_move_dist=1.0,
     time_mode="frame",   
-    total_frames=None
+    total_frames=None,
+    total_duration=None,
 ):
     
     cp_map = {}  
 
     def to_tau(t):
+        return float(t)
+
+    def to_frame_index(t):
+        if total_frames is None:
+            raise ValueError("total_frames is required for subject-aware initialization")
         if time_mode == "frame":
-            return float(t)
+            index = int(round(float(t)))
+        elif time_mode == "seconds":
+            if total_duration is None:
+                raise ValueError("total_duration is required when time_mode='seconds'")
+            index = seconds_to_frame_index(t, total_duration, total_frames)
+        elif time_mode == "normalized":
+            index = int(round(float(t) * (total_frames - 1)))
         else:
-            return float(t)
+            raise ValueError(f"Unknown time_mode: {time_mode}")
+        return min(max(index, 0), total_frames - 1)
 
     def insert_cp(t, p, q, hard=False):
         t = to_tau(t)
@@ -214,6 +229,15 @@ def initialize_control_points(
 
             subj_id = c.get("subjectId", None)
             if subj_id is None:
+                subj_id = next(
+                    (
+                        loss.get("subjectId")
+                        for loss in losses
+                        if loss.get("subjectId") is not None
+                    ),
+                    None,
+                )
+            if subj_id is None:
                 
                 p = np.array(c["position"], float)
                 q = np.array(c["quaternion"], float)
@@ -223,7 +247,7 @@ def initialize_control_points(
                 continue
 
             
-            frame_idx = int(t) if time_mode == "frame" else int(round(t * (total_frames-1)))
+            frame_idx = to_frame_index(t)
             track = subject_tracks[subj_id]
             subj_center = estimate_subject_world_center(track, frame_idx)
 
@@ -311,7 +335,7 @@ def initialize_control_points(
                     npts = quarters * pts_per_quarter + 1 
                     ts = np.linspace(to_tau(t0), to_tau(t1), npts)
                     mid = (to_tau(t0) + to_tau(t1)) / 2.0
-                    mid_frame = int(mid) if time_mode == "frame" else int(round(mid * (total_frames-1)))
+                    mid_frame = to_frame_index(mid)
                     # Use real subject centers if available; otherwise use the dummy origin.
                     if subject_centers is not None and subj_id in subject_centers:
                         center = np.asarray(subject_centers[subj_id][mid_frame], dtype=float)
@@ -407,4 +431,3 @@ def initialize_control_points(
             raise ValueError(f"Unknown constraint kind: {kind}")
     cps = [cp_map[k] for k in sorted(cp_map.keys())]
     return cps
-

@@ -2,12 +2,10 @@ import numpy as np
 import torch
 import torch.optim as optim
 from interpolation import build_linear_interp_matrix_torch , slerp_piecewise_torch
-import matplotlib.pyplot as plt
 from LossFunctions import *
-import torch
-import torch.optim as optim
 from Bspline import *
 from initialization import initialize_control_points
+from timebase import constraints_seconds_to_frames, frame_count_for_duration
 
 
 
@@ -46,15 +44,26 @@ def optimize(
     traj_mode="matrix",     
     default_k=50,
 ):
-    total_frames = int(fps * total_duration)
+    total_duration = float(total_duration)
+    fps = float(fps)
+    if max_iter <= 0:
+        raise ValueError("max_iter must be positive")
+
+    total_frames = frame_count_for_duration(total_duration, fps)
     cps = initialize_control_points(
         constraints=constraints,
         subject_tracks=subject_tracks,
         subject_centers=subject_centers,
         image_w=image_w, image_h=image_h,
         default_k=default_k,
-        time_mode="frame",
-        total_frames=total_frames
+        time_mode="seconds",
+        total_frames=total_frames,
+        total_duration=total_duration,
+    )
+    loss_constraints = constraints_seconds_to_frames(
+        constraints,
+        total_duration,
+        total_frames,
     )
 
     P_list, Q_list, t_list = [], [], []
@@ -74,7 +83,13 @@ def optimize(
         raise ValueError(f"Need at least degree+1 control points. Got M={M}, degree={degree}")
     P_ctrl = torch.nn.Parameter(P0.clone())
     Q_ctrl_raw = torch.nn.Parameter(Q0.clone())
-    t_query = torch.linspace(t_ctrl[0], t_ctrl[-1], total_frames, device=device, dtype=torch.float64)
+    t_query = torch.linspace(
+        0.0,
+        total_duration,
+        total_frames,
+        device=device,
+        dtype=torch.float64,
+    )
 
     if traj_mode == "matrix":
         knots = make_open_uniform_knots(M, degree , device=device , dtype=torch.float)
@@ -106,7 +121,7 @@ def optimize(
         report = compute_total_loss_frames(
             P=P_traj,
             Q=Q_traj,
-            constraints=constraints,
+            constraints=loss_constraints,
             subject_centers=subject_centers
         )
         loss = report.total
@@ -114,6 +129,14 @@ def optimize(
             raise RuntimeError(f"Loss became non-finite at iter {it}: {loss.item()}")
 
         loss.backward()
+        for parameter_name, parameter in (
+            ("camera position control points", P_ctrl),
+            ("camera rotation control points", Q_ctrl_raw),
+        ):
+            if parameter.grad is not None and not torch.isfinite(parameter.grad).all():
+                raise RuntimeError(
+                    f"Non-finite gradient for {parameter_name} at iter {it}"
+                )
         optimizer.step()
         with torch.no_grad():
             Q_ctrl_raw[:] = Q_ctrl_raw / (Q_ctrl_raw.norm(dim=-1, keepdim=True) + 1e-8)

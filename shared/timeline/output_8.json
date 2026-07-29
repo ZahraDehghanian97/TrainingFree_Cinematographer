@@ -1,4 +1,8 @@
 {
+  "schemaVersion": "1.0",
+  "kind": "timelineSolverOutput",
+  "exampleId": "example-08",
+  "environmentId": "example-08-punch-impact",
   "prompt": "ابتدا صحنه مشت زدن را با Slow Motion (سرعت ۱۰٪) نشان بده و درست لحظه برخورد، سرعت را به Hyper Fast تغییر بده و روی محل ضربه زوم کن.",
   "totalDuration": 12,
   "timeline": {
@@ -113,17 +117,14 @@
       {
         "startTimePlayback": 0,
         "endTimePlayback": 5,
-        "rate": 3
+        "rate": 0.1,
+        "label": "verySlow"
       },
       {
         "startTimePlayback": 5,
         "endTimePlayback": 12,
-        "rate": 0.2
-      },
-      {
-        "startTimePlayback": 5,
-        "endTimePlayback": 12,
-        "rate": 1
+        "rate": 4,
+        "label": "veryFast"
       }
     ]
   }

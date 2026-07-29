@@ -1,4 +1,8 @@
 {
+  "schemaVersion": "1.0",
+  "kind": "timelineSolverOutput",
+  "exampleId": "example-06",
+  "environmentId": "example-06-frozen-orbit",
   "prompt": "زمان را روی ۲ ثانیه فریز کن و یک دور کامل ۳۶۰ درجه دور سوژه معلق در هوا بچرخ، سپس حرکت را با سرعت عادی ادامه بده.",
   "totalDuration": 5,
   "timeline": {
@@ -85,12 +89,14 @@
       {
         "startTimePlayback": 0,
         "endTimePlayback": 2,
-        "rate": 5
+        "rate": 0,
+        "label": "frozen"
       },
       {
         "startTimePlayback": 2,
         "endTimePlayback": 5,
-        "rate": 1
+        "rate": 1,
+        "label": "normal"
       }
     ]
   }

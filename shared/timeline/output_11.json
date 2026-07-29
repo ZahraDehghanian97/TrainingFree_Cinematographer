@@ -1,4 +1,8 @@
 {
+  "schemaVersion": "1.0",
+  "kind": "timelineSolverOutput",
+  "exampleId": "example-11",
+  "environmentId": "example-11-horror-door",
   "prompt": "برای ایجاد حس ترس، دوربین را ۳۰ درجه کج کن و به صورت دستی و لرزان به سمت در نیمه‌باز حرکت کن.",
   "totalDuration": 6,
   "timeline": {
@@ -78,17 +82,6 @@
         ]
       }
     ],
-    "timeWarp": [
-      {
-        "startTimePlayback": 0,
-        "endTimePlayback": 6,
-        "rate": 1
-      },
-      {
-        "startTimePlayback": 0,
-        "endTimePlayback": 6,
-        "rate": 1
-      }
-    ]
+    "timeWarp": []
   }
 }
