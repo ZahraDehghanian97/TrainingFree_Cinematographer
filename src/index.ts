@@ -87,7 +87,7 @@ function runOptimizer(
   timelinePath: string,
   trajectoryOutputPath: string
 ): Promise<void> {
-  const pythonCommand = process.env.PYTHON_BIN?.trim() || "python3.10";
+  const pythonCommand = process.env.PYTHON_BIN?.trim() || "python3";
 
   return new Promise((resolve, reject) => {
     const child = spawn(
