@@ -1,0 +1,272 @@
+{
+  "schemaVersion": "1.0",
+  "kind": "cameraTrajectory",
+  "environmentId": "example-09-two-people",
+  "clock": {
+    "durationSeconds": 24,
+    "timeUnit": "second"
+  },
+  "coordinates": {
+    "handedness": "right",
+    "upAxis": "+Y",
+    "cameraForwardAxis": "-Z",
+    "lengthUnit": "meter",
+    "rotationOrder": "quaternion-xyzw"
+  },
+  "intrinsics": {
+    "projection": "perspective",
+    "fovYDegrees": 40,
+    "near": 0.1,
+    "far": 250
+  },
+  "orientation": {
+    "mode": "perSampleLookAt",
+    "up": [
+      0,
+      1,
+      0
+    ]
+  },
+  "samples": [
+    {
+      "t": 0,
+      "position": [
+        0,
+        3.92,
+        24.8
+      ],
+      "lookAt": [
+        0,
+        0.92,
+        10
+      ],
+      "fovYDegrees": 40,
+      "actionId": "long_shot_follow"
+    },
+    {
+      "t": 2,
+      "position": [
+        0,
+        3.92,
+        21.2
+      ],
+      "lookAt": [
+        0,
+        0.92,
+        8
+      ],
+      "fovYDegrees": 40,
+      "actionId": "long_shot_follow"
+    },
+    {
+      "t": 4,
+      "position": [
+        0,
+        3.92,
+        17.6
+      ],
+      "lookAt": [
+        0,
+        0.92,
+        6
+      ],
+      "fovYDegrees": 40,
+      "actionId": "long_shot_follow"
+    },
+    {
+      "t": 6,
+      "position": [
+        0,
+        3.92,
+        14
+      ],
+      "lookAt": [
+        0,
+        0.92,
+        4
+      ],
+      "fovYDegrees": 40,
+      "actionId": "long_shot_follow"
+    },
+    {
+      "t": 8,
+      "position": [
+        0,
+        3.92,
+        10.4
+      ],
+      "lookAt": [
+        0,
+        0.92,
+        2
+      ],
+      "fovYDegrees": 40,
+      "actionId": "long_shot_follow"
+    },
+    {
+      "t": 10,
+      "position": [
+        0,
+        3.92,
+        6.376
+      ],
+      "lookAt": [
+        0,
+        0.92,
+        0
+      ],
+      "fovYDegrees": 40,
+      "actionId": "long_shot_follow"
+    },
+    {
+      "t": 12,
+      "position": [
+        0,
+        3.92,
+        2.35
+      ],
+      "lookAt": [
+        0,
+        0.92,
+        -2
+      ],
+      "fovYDegrees": 40,
+      "actionId": "long_shot_follow"
+    },
+    {
+      "t": 13.5,
+      "position": [
+        0,
+        3.92,
+        -0.668
+      ],
+      "lookAt": [
+        0,
+        0.92,
+        -3.5
+      ],
+      "fovYDegrees": 40,
+      "actionId": "long_shot_follow"
+    },
+    {
+      "t": 13.75,
+      "position": [
+        0,
+        3.92,
+        -0.982
+      ],
+      "lookAt": [
+        0,
+        0.92,
+        -3.75
+      ],
+      "fovYDegrees": 40,
+      "actionId": "long_shot_follow"
+    },
+    {
+      "t": 13.90,
+      "position": [
+        -0.17,
+        1.47,
+        -3.7
+      ],
+      "lookAt": [
+        0.48,
+        0.92,
+        -3.75
+      ],
+      "fovYDegrees": 30,
+      "actionId": "over_the_shoulder"
+    },
+    {
+      "t": 14,
+      "position": [
+        -0.13,
+        1.47,
+        -3.95
+      ],
+      "lookAt": [
+        0.44,
+        0.92,
+        -4
+      ],
+      "fovYDegrees": 30,
+      "actionId": "over_the_shoulder"
+    },
+    {
+      "t": 16,
+      "position": [
+        -0.112,
+        1.47,
+        -5.15
+      ],
+      "lookAt": [
+        0.422,
+        0.92,
+        -5.2
+      ],
+      "fovYDegrees": 30,
+      "actionId": "over_the_shoulder"
+    },
+    {
+      "t": 18,
+      "position": [
+        -0.094,
+        1.47,
+        -6.35
+      ],
+      "lookAt": [
+        0.404,
+        0.92,
+        -6.4
+      ],
+      "fovYDegrees": 30,
+      "actionId": "over_the_shoulder"
+    },
+    {
+      "t": 20,
+      "position": [
+        -0.076,
+        1.47,
+        -7.55
+      ],
+      "lookAt": [
+        0.386,
+        0.92,
+        -7.6
+      ],
+      "fovYDegrees": 30,
+      "actionId": "over_the_shoulder"
+    },
+    {
+      "t": 22,
+      "position": [
+        -0.058,
+        1.47,
+        -8.75
+      ],
+      "lookAt": [
+        0.368,
+        0.92,
+        -8.8
+      ],
+      "fovYDegrees": 30,
+      "actionId": "over_the_shoulder"
+    },
+    {
+      "t": 24,
+      "position": [
+        -0.04,
+        1.47,
+        -9.95
+      ],
+      "lookAt": [
+        0.35,
+        0.92,
+        -10
+      ],
+      "fovYDegrees": 30,
+      "actionId": "over_the_shoulder"
+    }
+  ]
+}

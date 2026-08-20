@@ -1,0 +1,407 @@
+{
+  "schemaVersion": "1.0",
+  "kind": "cameraTrajectory",
+  "environmentId": "example-11-horror-door",
+  "clock": {
+    "durationSeconds": 6,
+    "timeUnit": "second"
+  },
+  "coordinates": {
+    "handedness": "right",
+    "upAxis": "+Y",
+    "cameraForwardAxis": "-Z",
+    "lengthUnit": "meter",
+    "rotationOrder": "quaternion-xyzw"
+  },
+  "intrinsics": {
+    "projection": "perspective",
+    "fovYDegrees": 50,
+    "near": 0.1,
+    "far": 250
+  },
+  "orientation": {
+    "mode": "perSampleLookAt",
+    "up": [
+      0.5,
+      0.8660254037844386,
+      0
+    ]
+  },
+  "samples": [
+    {
+      "t": 0,
+      "position": [
+        0,
+        1.6,
+        2
+      ],
+      "lookAt": [
+        0,
+        1.1,
+        -8
+      ],
+      "fovYDegrees": 50,
+      "actionId": "handheld_dolly"
+    },
+    {
+      "t": 0.25,
+      "position": [
+        0.142,
+        1.679,
+        1.625
+      ],
+      "lookAt": [
+        0.098768832,
+        1.198,
+        -8
+      ],
+      "fovYDegrees": 50,
+      "actionId": "handheld_dolly"
+    },
+    {
+      "t": 0.5,
+      "position": [
+        0.142,
+        1.679,
+        1.625
+      ],
+      "lookAt": [
+        0.098768832,
+        1.198,
+        -8
+      ],
+      "fovYDegrees": 50,
+      "actionId": "handheld_dolly"
+    },
+    {
+      "t": 0.75,
+      "position": [
+        0.142,
+        1.679,
+        1.625
+      ],
+      "lookAt": [
+        0.098768832,
+        1.198,
+        -8
+      ],
+      "fovYDegrees": 50,
+      "actionId": "handheld_dolly"
+    },
+    {
+      "t": 1,
+      "position": [
+        0.142,
+        1.679,
+        1.625
+      ],
+      "lookAt": [
+        0.098768832,
+        1.198,
+        -8
+      ],
+      "fovYDegrees": 50,
+      "actionId": "handheld_dolly"
+    },
+    {
+      "t": 1.25,
+      "position": [
+        0.142,
+        1.679,
+        1.625
+      ],
+      "lookAt": [
+        0.098768832,
+        1.198,
+        -8
+      ],
+      "fovYDegrees": 50,
+      "actionId": "handheld_dolly"
+    },
+    {
+      "t": 1.5,
+      "position": [
+        0.142,
+        1.679,
+        1.625
+      ],
+      "lookAt": [
+        0.098768832,
+        1.198,
+        -8
+      ],
+      "fovYDegrees": 50,
+      "actionId": "handheld_dolly"
+    },
+    {
+      "t": 1.75,
+      "position": [
+        0.142,
+        1.679,
+        1.625
+      ],
+      "lookAt": [
+        0.098768832,
+        1.198,
+        -8
+      ],
+      "fovYDegrees": 50,
+      "actionId": "handheld_dolly"
+    },
+    {
+      "t": 2,
+      "position": [
+        0.142,
+        1.679,
+        1.625
+      ],
+      "lookAt": [
+        0.098768832,
+        1.198,
+        -8
+      ],
+      "fovYDegrees": 50,
+      "actionId": "handheld_dolly"
+    },
+    {
+      "t": 2.25,
+      "position": [
+        0.142,
+        1.679,
+        1.625
+      ],
+      "lookAt": [
+        0.098768832,
+        1.198,
+        -8
+      ],
+      "fovYDegrees": 50,
+      "actionId": "handheld_dolly"
+    },
+    {
+      "t": 2.5,
+      "position": [
+        0.142,
+        1.679,
+        1.625
+      ],
+      "lookAt": [
+        0.098768832,
+        1.198,
+        -8
+      ],
+      "fovYDegrees": 50,
+      "actionId": "handheld_dolly"
+    },
+    {
+      "t": 2.75,
+      "position": [
+        0.142,
+        1.679,
+        1.625
+      ],
+      "lookAt": [
+        0.098768832,
+        1.198,
+        -8
+      ],
+      "fovYDegrees": 50,
+      "actionId": "handheld_dolly"
+    },
+    {
+      "t": 3,
+      "position": [
+        0.142,
+        1.679,
+        1.625
+      ],
+      "lookAt": [
+        0.098768832,
+        1.198,
+        -8
+      ],
+      "fovYDegrees": 50,
+      "actionId": "handheld_dolly"
+    },
+    {
+      "t": 3.25,
+      "position": [
+        0.142,
+        1.679,
+        1.625
+      ],
+      "lookAt": [
+        0.098768832,
+        1.198,
+        -8
+      ],
+      "fovYDegrees": 50,
+      "actionId": "handheld_dolly"
+    },
+    {
+      "t": 3.5,
+      "position": [
+        0.142,
+        1.679,
+        1.625
+      ],
+      "lookAt": [
+        0.098768832,
+        1.198,
+        -8
+      ],
+      "fovYDegrees": 50,
+      "actionId": "handheld_dolly"
+    },
+    {
+      "t": 3.75,
+      "position": [
+        0.142,
+        1.679,
+        1.625
+      ],
+      "lookAt": [
+        0.098768832,
+        1.198,
+        -8
+      ],
+      "fovYDegrees": 50,
+      "actionId": "handheld_dolly"
+    },
+    {
+      "t": 4,
+      "position": [
+        0.142,
+        1.679,
+        1.625
+      ],
+      "lookAt": [
+        0.098768832,
+        1.198,
+        -8
+      ],
+      "fovYDegrees": 50,
+      "actionId": "handheld_dolly"
+    },
+    {
+      "t": 4.25,
+      "position": [
+        0.142,
+        1.679,
+        1.625
+      ],
+      "lookAt": [
+        0.098768832,
+        1.198,
+        -8
+      ],
+      "fovYDegrees": 50,
+      "actionId": "handheld_dolly"
+    },
+    {
+      "t": 4.5,
+      "position": [
+        0.142,
+        1.679,
+        1.625
+      ],
+      "lookAt": [
+        0.098768832,
+        1.198,
+        -8
+      ],
+      "fovYDegrees": 50,
+      "actionId": "handheld_dolly"
+    },
+    {
+      "t": 4.75,
+      "position": [
+        0.142,
+        1.679,
+        1.625
+      ],
+      "lookAt": [
+        0.098768832,
+        1.198,
+        -8
+      ],
+      "fovYDegrees": 50,
+      "actionId": "handheld_dolly"
+    },
+    {
+      "t": 5,
+      "position": [
+        0.142,
+        1.679,
+        1.625
+      ],
+      "lookAt": [
+        0.098768832,
+        1.198,
+        -8
+      ],
+      "fovYDegrees": 50,
+      "actionId": "handheld_dolly"
+    },
+    {
+      "t": 5.25,
+      "position": [
+        0.142,
+        1.679,
+        1.625
+      ],
+      "lookAt": [
+        0.098768832,
+        1.198,
+        -8
+      ],
+      "fovYDegrees": 50,
+      "actionId": "handheld_dolly"
+    },
+    {
+      "t": 5.5,
+      "position": [
+        0.142,
+        1.679,
+        1.625
+      ],
+      "lookAt": [
+        0.098768832,
+        1.198,
+        -8
+      ],
+      "fovYDegrees": 50,
+      "actionId": "handheld_dolly"
+    },
+    {
+      "t": 5.75,
+      "position": [
+        0.142,
+        1.679,
+        1.625
+      ],
+      "lookAt": [
+        0.098768832,
+        1.198,
+        -8
+      ],
+      "fovYDegrees": 50,
+      "actionId": "handheld_dolly"
+    },
+    {
+      "t": 6,
+      "position": [
+        0.142,
+        1.679,
+        1.625
+      ],
+      "lookAt": [
+        0.098768832,
+        1.198,
+        -8
+      ],
+      "fovYDegrees": 50,
+      "actionId": "handheld_dolly"
+    }
+  ]
+}
