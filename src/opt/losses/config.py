@@ -5,17 +5,21 @@ The dictionaries in this module are intentionally mutable, so callers can tune
 """
 
 LOSS_WEIGHTS = {
-    "trans_keep_rot": 5000,
-    "rot_keep_trans": 5000,
+    "trans_keep_rot": 300,
+    "rot_keep_trans": 300,
     "truck_target": 2000,
     "dolly_target": 2000,
     "pedestal_target": 2000,
+    "move_step_smooth": 200,
+    "rot_step_smooth": 20,
     # translation motion when magnitude missing
     "move_dir": 1000,
     "move_progress": 3000,
     "move_progress_tau": 0.025,
+    "move_step_pacing": 500,
     # Drift penalties
-    "orth_drift": 1000.0,
+    "orth_drift": 50.0,
+    "orth_drift_tol": 0.08,
     # Rotation motion when angle provided
     "pan_target": 500.0,
     "tilt_target": 500.0,
@@ -23,23 +27,28 @@ LOSS_WEIGHTS = {
     "rot_dir": 2000,
     "rot_progress": 200,
     "rot_progress_tau_deg": 0.08,
+    
     # Arc
-    "arc_radius_target": 10000.0,
-    "arc_radius_const": 10000.0,
-    "arc_angle_target": 5000.0,
-    "arc_angle_uniform": 1000.0,
-    "arc_angle_dir": 2000.0,
-    "arc_angle_progress_spec": 1000.0,
-    "arc_angle_progress_margin_deg": 500.0,
-    "arc_angle_step_cap": 50,
-    "arc_angle_step_cap_mult": 250,
-    "arc_angle_step_cap_min_deg": 600,
-    "arc_plane_fit": 1000,
-    "arc_plane_step": 0.1,
-    "arc_plane_detach_normal": 1.0,
-    "arc_angle_tau_deg": 30,
-    "arc_lookat": 2000,
-    "arc_y_hold": 0,
+    "arc_angle_target": 100.0,
+    
+    # Per-step pacing target (primary velocity uniformizer)
+    "arc_angle_step_target": 50.0,
+    
+    # Direction & Lookat
+    "arc_angle_dir": 50.0,
+    "arc_lookat": 40.0,
+    
+    # Plane constraint
+    "arc_plane_fit": 100.0,
+    "arc_y_hold": 100.0,
+    
+    # Radius constraint (matched in scale to arc_plane_fit)
+    "arc_radius_reg": 50.0,
+    
+    # Local smoothness (keep low so it doesn't freeze initial non-uniform steps)
+    "arc_angle_smooth": 5.0,
+    
+    
     # follow/track
     "follow_keep_trans": 500,
     "follow_lookat": 20,
@@ -51,15 +60,17 @@ LOSS_WEIGHTS = {
     "inframe_buttom": 50,
     "inframe_depth": 200,
     # Subject-aware framing / view / shot
-    "lookat": 80,
-    "framing_ray": 100,
-    "shot_distance": 500,
-    "subject_view": 300,
-    "subject_view_orient": 30,
+    "lookat": 5,
+    "framing_ray": 5,
+    "framing_lookat_tol": 1.0,
+    "shot_distance": 0,
+    "subject_view": 70,
+    "subject_view_orient": 80,
+    "orientation/levelHorizon": 60,
     # MinPath per-interval
-    "min_path_interval": 100,
-    "point_position": 1000.0,
-    "point_rotation": 1000.0,
+    "min_path_interval": 5,
+    "point_position": 0,
+    "point_rotation": 0,
 }
 
 SHOT_DISTANCE_BY_SIZE = {
