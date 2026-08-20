@@ -412,3 +412,40 @@ def point_pose_anchor_losses(
         )
 
     return losses
+
+def level_horizon_roll_loss(
+    camera_quaternions: torch.Tensor,
+    world_up: tuple[float, float, float] = (0.0, 1.0, 0.0),
+    eps: float = 1e-7,
+) -> Dict[str, torch.Tensor]:
+    """
+    Penalizes camera roll (rotation around camera forward axis) to maintain a level horizon.
+    """
+    if camera_quaternions.numel() == 0:
+        zero = torch.zeros((), device=camera_quaternions.device, dtype=camera_quaternions.dtype)
+        return {"orientation/levelHorizon": zero}
+
+    device, dtype = camera_quaternions.device, camera_quaternions.dtype
+
+    # Extract forward, right, up vectors (matches camera.py convention: index 0=f, 1=r, 2=u)
+    forward_axes, _, up_axes = camera_axes_from_quaternions(camera_quaternions)
+
+    world_up_vec = torch.tensor(world_up, device=device, dtype=dtype).expand_as(up_axes)
+
+    # Project world up perpendicular to camera forward axis
+    dot_up_f = (world_up_vec * forward_axes).sum(dim=-1, keepdim=True)
+    up_projected = world_up_vec - dot_up_f * forward_axes
+    up_projected_norm = torch.linalg.vector_norm(up_projected, dim=-1, keepdim=True)
+
+    valid_mask = (up_projected_norm > eps).squeeze(-1)
+    if not valid_mask.any():
+        zero = torch.zeros((), device=device, dtype=dtype)
+        return {"orientation/levelHorizon": zero}
+
+    up_target = up_projected / (up_projected_norm + eps)
+
+    # Cosine alignment error (1 - cos(theta))
+    dot_alignment = (up_axes * up_target).sum(dim=-1)
+    roll_loss = (1.0 - dot_alignment)[valid_mask].mean()
+
+    return {"orientation/levelHorizon": LOSS_WEIGHTS.get("level_horizon", 1.0) * roll_loss}
