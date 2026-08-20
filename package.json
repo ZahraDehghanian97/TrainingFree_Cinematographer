@@ -11,7 +11,8 @@
     "pipeline": "ts-node ./src/index.ts",
     "visualizer": "vite --config web/vite.config.ts",
     "preview:visualizer": "vite preview --config web/vite.config.ts",
-    "test": "vitest run --config web/vitest.config.ts"
+    "test": "vitest run --config web/vitest.config.ts",
+    "ai_trajectory": "ts-node src/opt/ai_trajectory_generator_pipeline/index.ts"
   },
   "keywords": [],
   "author": "",
@@ -25,7 +26,11 @@
     "vitest": "^4.1.10"
   },
   "dependencies": {
+    "global-agent": "^3.0.0",
     "sharp": "^0.34.5",
-    "three": "^0.185.1"
+    "three": "^0.185.1",
+    "undici": "^6.28.0",
+    "zod": "^3.25.76",
+    "zod-to-json-schema": "^3.24.6"
   }
 }
