@@ -15,18 +15,19 @@ from .interval import (
     mean_path_step_distance,
     pan_tilt_movement_losses,
     position_hold_loss,
-    rotation_hold_loss,
     static_interval_losses,
 )
 from .subject import (
     follow_movement_losses,
     framing_alignment_losses,
     point_pose_anchor_losses,
+    level_horizon_roll_loss,
     shot_size_distance_losses,
     subject_view_orientation_losses,
     track_movement_losses,
 )
 
+DEFAULT_SUBJECT_ID = "C0"
 
 _TRANSLATION_LOSS_TYPES = (
     "truckLeftMovement",
@@ -70,6 +71,15 @@ class _TrajectoryLossContext:
     principal_point_x: Optional[float]
     principal_point_y: Optional[float]
     loss_terms: Dict[str, torch.Tensor] = field(default_factory=dict)
+    # Keyed by id(loss_spec): per-arc-constraint persisted state (currently
+    # just the previous iteration's fitted plane normal, for sign
+    # stability — see arc.arc_movement_losses). Normally passed in from
+    # outside (owned by the long-lived training loop, e.g.
+    # OptimizationTensors) so it actually persists across iterations;
+    # _TrajectoryLossContext itself is rebuilt fresh every
+    # compute_trajectory_loss() call and would NOT provide persistence on
+    # its own if left at the default empty dict.
+    arc_plane_states: Dict[int, Dict[str, torch.Tensor]] = field(default_factory=dict)
 
     @property
     def device(self) -> torch.device:
@@ -115,15 +125,97 @@ class _TrajectoryLossContext:
 def _subject_id(
     constraint: Dict[str, Any],
     loss_spec: Dict[str, Any],
-) -> Optional[str]:
-    return loss_spec.get(
-        "subjectId",
-        constraint.get("subjectId", None),
+) -> str:
+    """Resolve subject ID with default fallback to 'C0' for DSL inputs."""
+    subject_id = loss_spec.get("subjectId") or constraint.get("subjectId")
+    if subject_id:
+        return str(subject_id)
+    
+    return DEFAULT_SUBJECT_ID  # Always returns "C0" instead of None
+
+def _subject_anchored_reference_frame(
+    camera_positions: torch.Tensor,
+    subject_positions: torch.Tensor,
+    start_frame: int,
+    end_frame: int,
+    track_per_frame: bool = False,
+) -> Dict[str, torch.Tensor]:
+    """Build a forward/right/up frame from subject geometry.
+
+    Detached either way — a reference direction the camera moves ALONG,
+    not something gradients should bend by moving the camera or subject.
+
+    ``track_per_frame=False`` (default): anchored ONCE at start_frame and
+    held fixed for the whole interval, mirroring arc.py's frame-0-anchored
+    plane normal. This is the stable choice and should stay the default —
+    for a plain translation move toward/around a subject, "which way is
+    toward the subject" should read as one consistent target for the whole
+    interval. Recomputing it every frame from the camera's OWN
+    still-optimizing position turns it into a moving goalpost: before the
+    trajectory has converged, the per-frame direction is itself derived
+    from a currently-wobbly path, which showed up as a large regression in
+    dollyMovement/stepPacing (and, via the shared control points, in
+    framing/lookat and framing/ray too) the one time this was tried
+    unconditionally on a plain dolly with no arc involved.
+
+    ``track_per_frame=True``: recomputed at every frame instead. Only
+    reach for this when the camera's relationship to the subject is
+    DELIBERATELY changing throughout the interval — the one confirmed case
+    is a same-interval arcMovement + dollyInMovement (a spiral), where the
+    camera's angular position around the subject is intentionally moving,
+    so a frame-0-anchored "forward" would only be correct for an instant.
+    See the dispatcher call site for the arcMovement co-occurrence check
+    that decides this.
+    """
+    device = camera_positions.device
+    dtype = camera_positions.dtype
+    world_up = torch.tensor([0.0, 1.0, 0.0], device=device, dtype=dtype)
+
+    if track_per_frame:
+        interval_positions = camera_positions[start_frame : end_frame + 1].detach()
+        interval_subject_positions = subject_positions[
+            start_frame : end_frame + 1
+        ].detach()
+    else:
+        # Single start-frame snapshot, expanded to interval length below —
+        # every frame in the interval shares this one fixed direction.
+        interval_positions = camera_positions[start_frame : start_frame + 1].detach()
+        interval_subject_positions = subject_positions[
+            start_frame : start_frame + 1
+        ].detach()
+
+    look_direction = interval_subject_positions - interval_positions  # (t, 3)
+    horizontal = (
+        look_direction
+        - (look_direction * world_up).sum(dim=-1, keepdim=True) * world_up
     )
+    horizontal_norm = horizontal.norm(dim=-1, keepdim=True)
+    fallback_forward = torch.tensor(
+        [0.0, 0.0, 1.0], device=device, dtype=dtype
+    ).expand_as(horizontal)
+    forward = torch.where(
+        horizontal_norm > 1e-6,
+        horizontal / horizontal_norm.clamp_min(1e-6),
+        fallback_forward,
+    )
+
+    right = torch.cross(forward, world_up.expand_as(forward), dim=-1)
+    right = right / (right.norm(dim=-1, keepdim=True) + 1e-8)
+
+    up = world_up.expand_as(forward)
+
+    if not track_per_frame:
+        interval_length = end_frame - start_frame + 1
+        forward = forward.expand(interval_length, 3)
+        right = right.expand(interval_length, 3)
+        up = up.expand(interval_length, 3)
+
+    return {"forward": forward, "right": right, "up": up}
 
 
 def _add_translation_movement_loss(
     context: _TrajectoryLossContext,
+    constraint: Dict[str, Any],
     loss_spec: Dict[str, Any],
     loss_type: str,
     start_frame: int,
@@ -135,6 +227,52 @@ def _add_translation_movement_loss(
     if target_distance is not None:
         target_distance = float(target_distance)
 
+    if context.subject_centers is None:
+        return
+    subject_id = _subject_id(constraint, loss_spec)
+    if subject_id is None:
+        return
+
+    interval_positions = context.camera_positions[start_frame : end_frame + 1]
+    interval_quaternions = context.camera_quaternions[start_frame : end_frame + 1]
+    interval_subject_positions = context.subject_centers[subject_id][
+        start_frame : end_frame + 1
+    ]
+
+    framing_terms = framing_alignment_losses(camera_positions=interval_positions,
+                                             camera_quaternions=interval_quaternions,
+                                             subject_positions=interval_subject_positions)
+    
+    context.accumulate_terms(framing_terms) 
+    
+    context.accumulate_terms(
+        level_horizon_roll_loss(interval_quaternions)
+    )
+
+    # A same-interval arcMovement means this translation is (deliberately)
+    # orbiting rather than moving in a straight line — e.g. a spiral
+    # (arc + dollyIn together). Two things follow from that, both gated on
+    # the SAME check: (1) the reference frame needs to track the subject
+    # per-frame rather than stay fixed, since the camera's angular position
+    # is intentionally changing throughout; (2) orth_drift's premise —
+    # "don't leave the plane/line this move started on" — directly
+    # contradicts that, since an orbit's right/up displacement IS the arc
+    # doing its job, not drift to be penalized. Without a co-occurring arc,
+    # neither applies — see _subject_anchored_reference_frame's docstring
+    # for why unconditional per-frame tracking regressed a plain dolly.
+    constraint_loss_types = {
+        other_loss_spec.get("type") for other_loss_spec in constraint.get("losses", [])
+    }
+    has_co_occurring_arc = "arcMovement" in constraint_loss_types
+
+    reference_frame = _subject_anchored_reference_frame(
+        context.camera_positions,
+        context.subject_centers[subject_id],
+        start_frame,
+        end_frame,
+        track_per_frame=has_co_occurring_arc,
+    )
+
     context.accumulate_terms(
         local_axis_translation_losses(
             camera_positions=context.camera_positions,
@@ -144,20 +282,28 @@ def _add_translation_movement_loss(
             axis_name=axis_name,
             movement_sign=movement_sign,
             target_distance=target_distance,
+            reference_frame=reference_frame,
+            suppress_drift=has_co_occurring_arc,
         )
     )
 
-    rotation_hold_weight = float(LOSS_WEIGHTS.get("trans_keep_rot", 0.0))
-    if rotation_hold_weight > 0:
-        context.accumulate_term(
-            f"{loss_type}/keepRot",
-            rotation_hold_weight
-            * rotation_hold_loss(
-                context.camera_quaternions,
-                start_frame,
-                end_frame,
-            ),
-        )
+    # trans_keep_rot ("hold the starting orientation") intentionally does
+    # NOT apply here. This function only ever reaches this point when a
+    # subject is in scope (see the early returns above) — meaning framing
+    # has ALWAYS already been applied by this line, every time. keepRot and
+    # framing were previously both pulling on orientation unconditionally
+    # and independently for the whole duration of every translation move,
+    # with nothing coordinating between "hold still" and "look at the
+    # subject" — that's what showed up as a persistently large
+    # dollyOutMovement/keepRot residual sitting alongside framing/lookat
+    # and framing/ray in the loss breakdown. Framing owns orientation
+    # whenever a subject is present; keepRot's actual job — don't let
+    # orientation drift for no reason — only makes sense when nothing else
+    # has a legitimate claim on it, i.e. a genuine no-subject translation
+    # move. That path doesn't exist yet (subject_centers/subject_id is
+    # required just to reach this function at all); trans_keep_rot stays
+    # defined in LOSS_WEIGHTS for when one is added, but has no consumer
+    # until then.
 
 
 def _add_rotation_movement_loss(
@@ -212,6 +358,7 @@ def _add_arc_movement_loss(
     radius = None if radius is None else float(radius)
     angle = loss_spec.get("angleDeg", None)
     angle = None if angle is None else float(angle)
+    arc_state = context.arc_plane_states.setdefault(id(loss_spec), {})
     context.accumulate_terms(
         arc_movement_losses(
             context.camera_positions,
@@ -221,7 +368,8 @@ def _add_arc_movement_loss(
             end_frame,
             radius,
             angle,
-            hold_y=True,
+            state=arc_state,
+            hold_y=True
         )
     )
 
@@ -245,6 +393,8 @@ def _add_subject_composition_loss(
     interval_subject_positions = context.subject_centers[subject_id][
         start_frame : end_frame + 1
     ]
+
+    # 1. Subject composition loss for this interval
     context.accumulate_terms(
         _subject_composition_terms(
             loss_type,
@@ -255,6 +405,10 @@ def _add_subject_composition_loss(
         )
     )
 
+    # 2. Exactly ONE horizon roll loss term for this interval
+    context.accumulate_terms(
+        level_horizon_roll_loss(interval_quaternions)
+    )
 
 def _subject_composition_terms(
     loss_type: str,
@@ -372,6 +526,7 @@ def _process_interval_loss(
     if loss_type in _TRANSLATION_LOSS_TYPES:
         _add_translation_movement_loss(
             context,
+            constraint,
             loss_spec,
             loss_type,
             start_frame,
@@ -543,7 +698,15 @@ def compute_trajectory_loss(
     focal_length_y: Optional[float] = None,
     principal_point_x: Optional[float] = None,
     principal_point_y: Optional[float] = None,
+    arc_plane_states: Optional[Dict[int, Dict[str, torch.Tensor]]] = None,
 ) -> LossReport:
+    """
+    `arc_plane_states`, if provided, should be a dict the CALLER creates
+    ONCE and passes back in on every call for the lifetime of one
+    optimization run (e.g. stored on OptimizationTensors) — it's used to
+    stabilize each arc constraint's fitted plane-normal sign across
+    iterations (see arc.arc_movement_losses). Leave as None to opt out.
+    """
     context = _TrajectoryLossContext(
         camera_positions=camera_positions,
         camera_quaternions=camera_quaternions,
@@ -555,6 +718,7 @@ def compute_trajectory_loss(
         focal_length_y=focal_length_y,
         principal_point_x=principal_point_x,
         principal_point_y=principal_point_y,
+        arc_plane_states=arc_plane_states if arc_plane_states is not None else {},
     )
 
     for constraint in constraints:
