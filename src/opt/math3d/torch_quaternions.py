@@ -97,11 +97,21 @@ def look_at_alignment_loss(
     forward_unit_vectors: torch.Tensor,
     target_direction_unit_vectors: torch.Tensor,
 ) -> torch.Tensor:
+    """(1 - cos(theta)) between forward and the desired look direction.
+
+    NOT squared-alignment (1 - cos^2) — that form is zero both when
+    forward exactly matches target_direction AND when it points exactly
+    AWAY from it, since cos(180 deg) = -1 squares to the same 1 as
+    cos(0 deg). That let the optimizer treat "facing the subject" and
+    "facing directly away from the subject" as equally loss-free, which is
+    never the intent of a look-at loss. Matches arc.py's arc/lookat
+    formulation ((1 - cos_theta) ** 2), which never had this ambiguity.
+    """
     alignment = vector_dot_product(
         forward_unit_vectors,
         target_direction_unit_vectors,
     ).clamp(-1.0, 1.0)
-    return 1.0 - alignment * alignment
+    return (1.0 - alignment) ** 2
 
 
 def scalar_projection(
