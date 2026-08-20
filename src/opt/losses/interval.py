@@ -32,6 +32,7 @@ except ImportError:  # pragma: no cover - top-level ``losses`` import mode
     )
 
 from .config import LOSS_WEIGHTS
+from .robust import huber_loss as _huber_loss
 
 
 def clamp_frame_interval(
@@ -97,7 +98,34 @@ def local_axis_translation_losses(
     axis_name: str,
     movement_sign: float,
     target_distance: Optional[float] = None,
+    reference_frame: Optional[Dict[str, torch.Tensor]] = None,
+    suppress_drift: bool = False,
 ) -> Dict[str, torch.Tensor]:
+    """Translation-movement losses along a dolly/truck/pedestal axis.
+
+    ``reference_frame``, when given, is a dict with ``forward``/``right``/
+    ``up`` PER-FRAME unit vectors (each shape (T, 3), T = end_frame -
+    start_frame + 1) that replaces the camera's OWN orientation as the
+    source of the movement axis and the orth_drift orthogonal axes. Pass
+    this whenever a subject is available so the move tracks "parallel to
+    the subject's forward/up" at every frame, independent of whatever
+    framing_alignment_losses is doing to the camera's actual orientation in
+    parallel — see the dispatcher's _subject_anchored_reference_frame for
+    how it's built (subject-anchored, per-frame, NOT fixed — unlike
+    arc.py's frame-0-anchored plane normal, since a translation axis is
+    expected to keep tracking the subject as the camera moves, e.g. during
+    a combined arc+dolly spiral).
+
+    ``suppress_drift``: set when this same interval also has an
+    arcMovement loss active. orth_drift's premise ("don't leave the
+    line/plane this move started on") directly contradicts an orbit, whose
+    entire job is exactly the off-axis displacement drift would otherwise
+    penalize — see the dispatcher call site for the co-occurrence check.
+
+    Falls back to the previous per-frame camera-orientation-derived axes
+    when reference_frame is omitted, e.g. for movements with no subject in
+    scope.
+    """
     device, dtype = camera_positions.device, camera_positions.dtype
 
     start_frame, end_frame = clamp_frame_interval(
@@ -110,39 +138,62 @@ def local_axis_translation_losses(
 
     initial_position = camera_positions[start_frame]
 
-    forward_axis, right_axis, up_axis = (
-        axis_vectors[0]
-        for axis_vectors in camera_axes_from_quaternions(
-            camera_quaternions[start_frame : start_frame + 1]
+    if reference_frame is not None:
+        # Per-frame, subject-tracked frame: same axis triple used for both
+        # the movement axis and orth_drift's orthogonal pair. This is what
+        # actually decouples "which way the camera translates" from "which
+        # way framing points the camera" — the two were previously sharing
+        # camera orientation as their only reference, which is what let
+        # framing silently pull the "dolly axis" itself off-line. Already
+        # shaped (T, 3) for this exact interval — no broadcasting needed.
+        interval_forward_axes = reference_frame["forward"]
+        interval_right_axes = reference_frame["right"]
+        interval_up_axes = reference_frame["up"]
+    else:
+        # Per-frame local axes across the WHOLE interval, not a single
+        # frozen snapshot from start_frame. Only used as a fallback now
+        # (no subject in scope) — with a subject available, prefer passing
+        # reference_frame instead, since deriving the axis from the
+        # camera's OWN orientation is what let framing quietly redefine
+        # "forward" mid-interval in the first place.
+        interval_forward_axes, interval_right_axes, interval_up_axes = (
+            camera_axes_from_quaternions(
+                camera_quaternions[start_frame : end_frame + 1]
+            )
         )
-    )
 
     axis_lookup = {
-        "truck": right_axis,
-        "dolly": forward_axis,
-        "pedestal": up_axis,
+        "truck": interval_right_axes,
+        "dolly": interval_forward_axes,
+        "pedestal": interval_up_axes,
     }
-
     weight_lookup = {
         "truck": LOSS_WEIGHTS["truck_target"],
         "dolly": LOSS_WEIGHTS["dolly_target"],
         "pedestal": LOSS_WEIGHTS["pedestal_target"],
     }
 
-    movement_axis = axis_lookup[axis_name]
+    interval_movement_axes = axis_lookup[axis_name]  # (T, 3), T = end-start+1
     target_weight = weight_lookup[axis_name]
 
     position_steps = (
         camera_positions[start_frame + 1 : end_frame + 1]
         - camera_positions[start_frame:end_frame]
-    )
+    )  # (T-1, 3)
 
-    step_progress = movement_sign * (position_steps * movement_axis).sum(dim=-1)
+    # Each step is measured against the movement axis at the frame the step
+    # originates FROM — consecutive, frame-by-frame — mirroring how arc.py's
+    # angle steps are computed between consecutive samples rather than
+    # against one fixed global reference.
+    step_axes = interval_movement_axes[:-1]
+    step_progress = movement_sign * (position_steps * step_axes).sum(dim=-1)  # (T-1,)
 
-    total_progress = (
-        movement_sign
-        * ((camera_positions[end_frame] - initial_position) * movement_axis).sum()
-    )
+    # total_progress is now literally the sum of the per-step progress
+    # above, not a separate displacement-vs-single-fixed-axis computation —
+    # so the per-step ("direction") and cumulative ("target"/"progress")
+    # losses can never quietly disagree with each other even while the
+    # movement axis itself changes across the interval.
+    total_progress = step_progress.sum()
 
     losses: Dict[str, torch.Tensor] = {}
     prefix = f"{axis_name}Movement"
@@ -165,27 +216,80 @@ def local_axis_translation_losses(
             LOSS_WEIGHTS["move_dir"] * (F.relu(-step_progress) ** 2).mean()
         )
 
-    if LOSS_WEIGHTS["orth_drift"] > 0:
+    # Per-frame displacement scale used to non-dimensionalize the raw-meter
+    # residuals below before squaring — without this, stepPacing/orth_drift
+    # (a few mm-to-cm per frame) are numerically swamped by frame-level
+    # losses like framing/lookat and framing/ray, no matter how high their
+    # LOSS_WEIGHTS entry is set, because weight alone can't fix a units
+    # mismatch. Mirrors arc.py's arc_tol_ang/arc_tol_plane/arc_tol_radius
+    # pattern. Reuses move_progress_tau by default since it's already a
+    # small-per-frame-displacement scale in this module; override with
+    # move_pacing_tol / orth_drift_tol / move_smooth_tol if pacing, drift,
+    # and smoothness need independently tuned tolerances.
+    base_tolerance = float(LOSS_WEIGHTS["move_progress_tau"])
+
+    # Smoothness — consecutive step_progress values shouldn't jump around,
+    # mirroring arc.py's arc_angle_smooth. Off by default (weight 0) unless
+    # "move_step_smooth" is set in LOSS_WEIGHTS.
+    smoothness_weight = float(LOSS_WEIGHTS.get("move_step_smooth", 0.0))
+    if smoothness_weight > 0 and step_progress.numel() >= 2:
+        smooth_tolerance = float(LOSS_WEIGHTS.get("move_smooth_tol", base_tolerance))
+        step_deltas = (step_progress[1:] - step_progress[:-1]) / smooth_tolerance
+        losses[f"{prefix}/stepSmooth"] = (
+            smoothness_weight * _huber_loss(step_deltas, 1.0).mean()
+        )
+
+    # Pacing — each step's progress should equal a constant
+    # target_distance / num_steps, i.e. constant velocity along the
+    # movement axis.
+    pacing_weight = float(LOSS_WEIGHTS.get("move_step_pacing", 0.0))
+    if pacing_weight > 0 and target_distance is not None and step_progress.numel() > 0:
+        step_count = step_progress.numel()
+        pacing_tolerance = float(LOSS_WEIGHTS.get("move_pacing_tol", base_tolerance))
+
+        per_step_targets = float(target_distance) / step_count
+
+        pacing_residuals = (step_progress - per_step_targets) / pacing_tolerance
+        losses[f"{prefix}/stepPacing"] = (
+            pacing_weight * _huber_loss(pacing_residuals, 1.0).mean()
+        )
+
+    if LOSS_WEIGHTS["orth_drift"] > 0 and not suppress_drift:
         displacement = camera_positions[start_frame : end_frame + 1] - initial_position
+        drift_tolerance = float(LOSS_WEIGHTS.get("orth_drift_tol", base_tolerance))
+
+        # Orthogonal pair drawn from the reference frame's FIRST frame only
+        # — deliberately, even though the reference frame itself now
+        # tracks the subject per-frame above. orth_drift's job ("don't
+        # drift sideways off the line the move started on") is only a
+        # coherent concept relative to a FIXED reference; using the
+        # per-frame-tracked axes for drift too would silently redefine it
+        # into "no sideways component relative to wherever forward points
+        # right now," which — for a subject-tracking reference — is a much
+        # weaker constraint that stops meaning "stay on line" at all. This
+        # is exactly why arcMovement co-occurrence suppresses this term
+        # instead of trying to make it track too: there is no fixed
+        # reference that's simultaneously "the line this dolly started on"
+        # and "compatible with an orbit," so the two are mutually
+        # exclusive rather than reconcilable by picking a different frame.
+        start_forward_axis = interval_forward_axes[0]
+        start_right_axis = interval_right_axes[0]
+        start_up_axis = interval_up_axes[0]
 
         orthogonal_axes = {
-            "truck": [forward_axis, up_axis],
-            "dolly": [right_axis, up_axis],
-            "pedestal": [forward_axis, right_axis],
+            "truck": [start_forward_axis, start_up_axis],
+            "dolly": [start_right_axis, start_up_axis],
+            "pedestal": [start_forward_axis, start_right_axis],
         }
 
         drift_loss = torch.zeros((), device=device, dtype=dtype)
 
         for orthogonal_axis in orthogonal_axes[axis_name]:
-            drift_loss += (
-                scalar_projection(
-                    displacement,
-                    orthogonal_axis.unsqueeze(0),
-                )
-                .squeeze(-1)
-                .pow(2)
-                .mean()
-            )
+            projected = scalar_projection(
+                displacement,
+                orthogonal_axis.unsqueeze(0),
+            ).squeeze(-1)
+            drift_loss += _huber_loss(projected / drift_tolerance, 1.0).mean()
 
         losses[f"{prefix}/drift"] = LOSS_WEIGHTS["orth_drift"] * drift_loss
     return losses
@@ -345,6 +449,19 @@ def pan_tilt_movement_losses(
 
         losses[f"{movement_type}/monotonic"] = (
             LOSS_WEIGHTS["rot_dir"] * (F.relu(-movement_sign * angle_steps) ** 2).mean()
+        )
+
+    # New: smoothness on consecutive yaw/pitch steps, mirroring arc.py's
+    # arc_angle_smooth. Off by default (weight 0) — set "rot_step_smooth"
+    # in LOSS_WEIGHTS to enable. Unlike the translation fix above, this
+    # function already used per-frame angles (yaw/pitch are derived from
+    # each frame's own forward vector, not a frozen snapshot) — it wasn't
+    # missing per-step evaluation, just the smoothness term itself.
+    rotation_smoothness_weight = float(LOSS_WEIGHTS.get("rot_step_smooth", 0.0))
+    if rotation_smoothness_weight > 0 and angle_steps.numel() >= 2:
+        angle_step_deltas = angle_steps[1:] - angle_steps[:-1]
+        losses[f"{movement_type}/stepSmooth"] = (
+            rotation_smoothness_weight * (angle_step_deltas**2).mean()
         )
 
     return losses
