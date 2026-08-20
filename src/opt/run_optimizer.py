@@ -15,11 +15,13 @@ try:
         write_json_atomically as _write_json_atomically,
     )
     from .pipeline.metadata import (
+        resolve_environment as _resolve_environment,
         resolve_optimizer_metadata as _resolve_optimizer_metadata,
     )
     from .pipeline.execution import (
         build_optimizer_options as _build_optimizer_options,
         build_placeholder_subject_data as _build_placeholder_subject_data,
+        build_subject_data_from_environment as _build_subject_data_from_environment,
         publish_trajectory_documents as _publish_trajectory_documents,
     )
     from .timebase import calculate_inclusive_frame_count
@@ -31,16 +33,18 @@ except ImportError:
         write_json_atomically as _write_json_atomically,
     )
     from pipeline.metadata import (
+        resolve_environment as _resolve_environment,
         resolve_optimizer_metadata as _resolve_optimizer_metadata,
     )
     from pipeline.execution import (
         build_optimizer_options as _build_optimizer_options,
         build_placeholder_subject_data as _build_placeholder_subject_data,
+        build_subject_data_from_environment as _build_subject_data_from_environment,
         publish_trajectory_documents as _publish_trajectory_documents,
     )
     from timebase import calculate_inclusive_frame_count
     from trajectory_pipeline import build_camera_trajectory_document
-
+    
 def _parse_positive_float(value: str) -> float:
     number = float(value)
     if not math.isfinite(number) or number <= 0:
@@ -118,6 +122,7 @@ def _load_optimizer_runtime():
 
 
 def _optimize_timeline(
+    timeline_wrapper: dict[str, Any],
     pipeline_metadata: dict[str, Any],
     *,
     max_iterations: int | None,
@@ -125,18 +130,33 @@ def _optimize_timeline(
     torch_module, optimize_camera_trajectory, build_constraints = (
         _load_optimizer_runtime()
     )
+    
+        # Attempt to resolve environment JSON and extract trajectory keyframes
+    try:
+        environment_json = _resolve_environment(
+            timeline_wrapper, pipeline_metadata["exampleId"]
+        )
+    except (FileNotFoundError, KeyError, ValueError):
+        environment_json = None
+        
+    # If you want to use overviewCamera coords from environment files just pass environment_json to the build_constraints function    
     optimizer_constraints = build_constraints(pipeline_metadata["timeline"])
 
-    # Placeholder subject data remains until tracking/environment channels are
-    # connected. Its length matches the optimizer's inclusive sample clock.
     frame_count = calculate_inclusive_frame_count(
         pipeline_metadata["durationSeconds"],
         pipeline_metadata["fps"],
     )
-    subject_centers, subject_tracks = _build_placeholder_subject_data(
-        torch_module,
+
+    subject_centers, subject_tracks = _build_subject_data_from_environment(
+        environment_json,
         frame_count,
+        pipeline_metadata["fps"],
+        torch_module,
+        constraints=optimizer_constraints,
+        timewarp_segments=pipeline_metadata["timeline"].get("timeWarp"),
+        duration_seconds=pipeline_metadata["durationSeconds"],
     )
+
     optimize_options = _build_optimizer_options(
         optimizer_constraints,
         pipeline_metadata,
@@ -188,6 +208,7 @@ def process_timeline_file(
         frames_per_second_override,
     )
     optimizer_result = _optimize_timeline(
+        timeline_wrapper,
         pipeline_metadata,
         max_iterations=max_iterations,
     )
