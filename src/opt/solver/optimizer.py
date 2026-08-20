@@ -3,7 +3,7 @@
 from __future__ import annotations
 
 from dataclasses import dataclass
-from typing import Any, Callable
+from typing import Any, Callable, Dict
 
 import numpy as np
 import torch
@@ -47,6 +47,12 @@ class OptimizationTensors:
     control_times: torch.Tensor
     query_times: torch.Tensor
     frame_constraints: list
+    # Created once per optimization run and passed unchanged into every
+    # compute_trajectory_loss() call, so arc constraints' fitted plane
+    # normals stay stable in sign across iterations instead of being
+    # re-derived from scratch (and potentially flipping) every step. Keyed
+    # by id(loss_spec) inside the dispatcher — see dispatcher.py.
+    arc_plane_states: Dict[int, Dict[str, torch.Tensor]]
 
 
 @dataclass(frozen=True)
@@ -164,6 +170,7 @@ def setup_control_tensors(
             dtype=torch.float64,
         ),
         frame_constraints=frame_constraints,
+        arc_plane_states={},
     )
 
 
@@ -297,6 +304,7 @@ def run_optimization_step(
         camera_quaternions=trajectory_quaternions,
         constraints=tensors.frame_constraints,
         subject_centers=subject_centers,
+        arc_plane_states=tensors.arc_plane_states,
     )
     total_loss = loss_report.total
     if not torch.isfinite(total_loss):
@@ -436,7 +444,7 @@ def optimize_camera_trajectory(
     subject_centers=None,
     device="cpu",
     learning_rate=1e-2,
-    max_iterations=2000,
+    max_iterations=7000,
     loss_threshold=1,
     spline_degree=30,
     initialization_mode="constraint",
