@@ -12,11 +12,15 @@
     "visualizer": "vite --config web/vite.config.ts",
     "preview:visualizer": "vite preview --config web/vite.config.ts",
     "test": "vitest run --config web/vitest.config.ts",
-    "ai_trajectory": "ts-node src/opt/ai_trajectory_generator_pipeline/index.ts"
+    "ai_trajectory": "ts-node src/opt/ai_trajectory_generator_pipeline/index.ts",
+    "test:node": "node --test -r ts-node/register tests/environment-query.test.ts"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
+  "engines": {
+    "node": ">=22"
+  },
   "devDependencies": {
     "@types/node": "^25.3.2",
     "@types/three": "^0.185.1",
@@ -26,6 +30,7 @@
     "vitest": "^4.1.10"
   },
   "dependencies": {
+    "ai": "^7.0.70",
     "global-agent": "^3.0.0",
     "sharp": "^0.34.5",
     "three": "^0.185.1",

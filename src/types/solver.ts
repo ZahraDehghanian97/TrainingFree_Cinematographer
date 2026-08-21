@@ -1,5 +1,6 @@
-import { CameraConfig } from "./camera";
+import { CameraConfig, type Target } from "./camera";
 import type { RelativeFPS } from "./enums";
+import type { PointConstraintEasing } from "./dsl";
 
 // ─── Loss Functions ──────────────────────────────────────────────────────────
 
@@ -46,7 +47,9 @@ export interface SinglePointConstraint {
   type: "singlePoint";
   time: number;
   config: CameraConfig;
+  targets?: Target[];
   weight?: number; // 0.0 – 1.0
+  easing?: PointConstraintEasing;
 }
 
 export interface IntervalConstraint {
@@ -91,6 +94,8 @@ export interface PointSegment {
   kind: "point";
   time: number;
   lossFunctions: LossFunction[];
+  weight?: number;
+  easing?: PointConstraintEasing;
 }
 
 export type TimelineSegment = IntervalSegment | PointSegment;

@@ -613,22 +613,84 @@ def _process_interval_constraint(
         )
 
 
+def _point_easing_curve(progress: float, curve: str) -> float:
+    progress = min(1.0, max(0.0, float(progress)))
+    if curve == "linear":
+        return progress
+    if curve == "easeIn":
+        return progress * progress
+    if curve == "easeOut":
+        return 1.0 - (1.0 - progress) * (1.0 - progress)
+    if curve == "easeInOut":
+        if progress < 0.5:
+            return 2.0 * progress * progress
+        return 1.0 - ((-2.0 * progress + 2.0) ** 2) / 2.0
+    raise ValueError(f"Unknown point easing curve: {curve}")
+
+
+def _point_frame_weights(
+    constraint: Dict[str, Any],
+    frame_count: int,
+) -> List[tuple[int, float]]:
+    point_frame = int(constraint["t"])
+    base_weight = float(constraint.get("weight", 1.0))
+    easing = constraint.get("easing")
+    if easing is None:
+        return [(point_frame, base_weight)]
+
+    in_frames = max(0, int(easing.get("inFrames", 0)))
+    out_frames = max(0, int(easing.get("outFrames", 0)))
+    curve = easing.get("curve", "easeInOut")
+    weighted_frames: List[tuple[int, float]] = []
+
+    start_frame = max(0, point_frame - in_frames)
+    end_frame = min(frame_count - 1, point_frame + out_frames)
+    for frame_index in range(start_frame, end_frame + 1):
+        if frame_index < point_frame:
+            if in_frames <= 0:
+                continue
+            progress = (frame_index - (point_frame - in_frames)) / float(in_frames)
+            weight = base_weight * _point_easing_curve(progress, curve)
+        elif frame_index > point_frame:
+            if out_frames <= 0:
+                continue
+            progress = (frame_index - point_frame) / float(out_frames)
+            weight = base_weight * (1.0 - _point_easing_curve(progress, curve))
+        else:
+            weight = base_weight
+
+        if weight > 0.0:
+            weighted_frames.append((frame_index, weight))
+
+    return weighted_frames
+
+
+def _scale_loss_terms(
+    terms: Dict[str, torch.Tensor],
+    weight: float,
+) -> Dict[str, torch.Tensor]:
+    return {name: value * float(weight) for name, value in terms.items()}
+
+
 def _add_default_point_anchor(
     context: _TrajectoryLossContext,
     constraint: Dict[str, Any],
     frame_index: int,
+    weight: float,
 ) -> None:
-    frame_index = constraint.get("t")
     target_position = constraint.get("position")
     target_rotation = constraint.get("quaternion")
     point_positions = context.camera_positions[frame_index : frame_index + 1]
     point_quaternions = context.camera_quaternions[frame_index : frame_index + 1]
     context.accumulate_terms(
-        point_pose_anchor_losses(
-            point_positions,
-            point_quaternions,
-            target_position,
-            target_rotation,
+        _scale_loss_terms(
+            point_pose_anchor_losses(
+                point_positions,
+                point_quaternions,
+                target_position,
+                target_rotation,
+            ),
+            weight,
         )
     )
 
@@ -638,37 +700,41 @@ def _process_point_constraint(
     constraint: Dict[str, Any],
     constraint_losses: List[Dict[str, Any]],
 ) -> None:
-    frame_index = int(constraint["t"])
-    if frame_index < 0 or frame_index >= context.frame_count:
+    point_frame = int(constraint["t"])
+    if point_frame < 0 or point_frame >= context.frame_count:
         return
 
-    if len(constraint_losses) == 0:
-        _add_default_point_anchor(context, constraint, frame_index)
+    for frame_index, weight in _point_frame_weights(constraint, context.frame_count):
+        if len(constraint_losses) == 0:
+            _add_default_point_anchor(context, constraint, frame_index, weight)
 
-    for loss_spec in constraint_losses:
-        loss_type = loss_spec["type"]
-        if loss_type not in _SUBJECT_COMPOSITION_LOSS_TYPES:
-            continue
-        if context.subject_centers is None:
-            continue
-        subject_id = _subject_id(constraint, loss_spec)
-        if subject_id is None:
-            continue
+        for loss_spec in constraint_losses:
+            loss_type = loss_spec["type"]
+            if loss_type not in _SUBJECT_COMPOSITION_LOSS_TYPES:
+                continue
+            if context.subject_centers is None:
+                continue
+            subject_id = _subject_id(constraint, loss_spec)
+            if subject_id is None:
+                continue
 
-        point_positions = context.camera_positions[frame_index : frame_index + 1]
-        point_quaternions = context.camera_quaternions[frame_index : frame_index + 1]
-        point_subject_positions = context.subject_centers[subject_id][
-            frame_index : frame_index + 1
-        ]
-        context.accumulate_terms(
-            _subject_composition_terms(
-                loss_type,
-                loss_spec,
-                point_positions,
-                point_quaternions,
-                point_subject_positions,
+            point_positions = context.camera_positions[frame_index : frame_index + 1]
+            point_quaternions = context.camera_quaternions[frame_index : frame_index + 1]
+            point_subject_positions = context.subject_centers[subject_id][
+                frame_index : frame_index + 1
+            ]
+            context.accumulate_terms(
+                _scale_loss_terms(
+                    _subject_composition_terms(
+                        loss_type,
+                        loss_spec,
+                        point_positions,
+                        point_quaternions,
+                        point_subject_positions,
+                    ),
+                    weight,
+                )
             )
-        )
 
 
 def _process_constraint(

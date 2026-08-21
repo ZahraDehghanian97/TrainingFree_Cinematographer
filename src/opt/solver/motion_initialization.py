@@ -105,7 +105,7 @@ def generate_arc_movement(
     initial_planar_offset = np.array(
         [
             initial_offset[0],
-            initial_offset[1],
+            -initial_offset[2],
         ],
         float,
     )
@@ -121,13 +121,13 @@ def generate_arc_movement(
     for sample_index, sample_time in enumerate(sample_times):
         interpolation_fraction = sample_index / (len(sample_times) - 1)
         current_angle = start_angle + interpolation_fraction * angle_radians
-        constant_z = start_position[2]
+        constant_y = start_position[1]
 
         camera_position = np.array(
             [
                 subject_center[0] + np.cos(current_angle) * radius,
-                subject_center[1] + np.sin(current_angle) * radius,
-                constant_z,
+                constant_y,
+                subject_center[2] - np.sin(current_angle) * radius,
             ],
             dtype=float,
         )

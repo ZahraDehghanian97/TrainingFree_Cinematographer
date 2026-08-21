@@ -27,7 +27,9 @@ export function flattenTimeline(inputTimeline: TimelineSolverOutput): FlattenedT
         timeline.push({
           kind: "point",
           time: c.time,
-          lossFunctions: buildCameraConfigLosses(c.config)
+          lossFunctions: buildCameraConfigLosses(c.config, c.targets),
+          ...(c.weight === undefined ? {} : { weight: c.weight }),
+          ...(c.easing ? { easing: c.easing } : {}),
         });
       }
     }
@@ -36,7 +38,9 @@ export function flattenTimeline(inputTimeline: TimelineSolverOutput): FlattenedT
       timeline.push({
         kind: "point",
         time: kf.time,
-        lossFunctions: buildCameraConfigLosses(kf.config)
+        lossFunctions: buildCameraConfigLosses(kf.config, kf.targets),
+        ...(kf.weight === undefined ? {} : { weight: kf.weight }),
+        ...(kf.easing ? { easing: kf.easing } : {}),
       });
     }
   }

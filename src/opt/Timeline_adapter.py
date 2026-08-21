@@ -1,11 +1,12 @@
 from copy import deepcopy
-from scipy.spatial.transform import Rotation as R
 import numpy as np
 from typing import Any
 
 try:
+    from .math3d.numpy_quaternions import look_at_quaternion
     from .subject_ids import canonical_subject_id
 except ImportError:
+    from math3d.numpy_quaternions import look_at_quaternion
     from subject_ids import canonical_subject_id
 
 DEFAULT_SUBJECT_ID = "C0"
@@ -112,31 +113,10 @@ def extract_overview_camera(env_json: dict | None) -> tuple[list[float] | None, 
     pos = np.array(overview["position"], dtype=np.float32)
     target = np.array(overview["target"], dtype=np.float32)
 
-    forward = target - pos
-    norm = np.linalg.norm(forward)
-    if norm < 1e-6:
-        forward = np.array([0.0, 0.0, -1.0], dtype=np.float32)
-    else:
-        forward /= norm
+    # Optimizer rotations are wxyz quaternions whose local +Z axis is forward.
+    quat_wxyz = look_at_quaternion(pos, target)
 
-    world_up = np.array([0.0, 1.0, 0.0], dtype=np.float32)
-    right = np.cross(forward, world_up)
-    if np.linalg.norm(right) < 1e-6:
-        right = np.array([1.0, 0.0, 0.0], dtype=np.float32)
-    else:
-        right /= np.linalg.norm(right)
-
-    cam_up = np.cross(right, forward)
-    cam_up /= np.linalg.norm(cam_up)
-
-    # Convert orientation frame [-Forward, Up, Right] into quaternion
-    rot_matrix = np.column_stack([right, cam_up, -forward])
-    quat_xyzw = R.from_matrix(rot_matrix).as_quat() # [x, y, z, w]
-    
-    # Convert to [w, x, y, z] to match DEFAULT_CAMERA_QUATERNION
-    quat_wxyz = [float(quat_xyzw[3]), float(quat_xyzw[0]), float(quat_xyzw[1]), float(quat_xyzw[2])]
-
-    return pos.tolist(), quat_wxyz
+    return pos.tolist(), quat_wxyz.tolist()
 
 
 def build_optimizer_constraints_from_timeline(
@@ -179,17 +159,20 @@ def build_optimizer_constraints_from_timeline(
             )
 
         elif kind == "point":
-            optimizer_constraints.append(
-                {
-                    "kind": "point",
-                    "t": timeline_segment["time"],
-                    "position": initial_position,
-                    "quaternion": initial_quaternion,
-                    "losses": [
-                        convert_timeline_loss_to_optimizer_loss(timeline_loss)
-                        for timeline_loss in timeline_segment.get("lossFunctions", [])
-                    ],
-                }
-            )
+            point_constraint = {
+                "kind": "point",
+                "t": timeline_segment["time"],
+                "position": initial_position,
+                "quaternion": initial_quaternion,
+                "losses": [
+                    convert_timeline_loss_to_optimizer_loss(timeline_loss)
+                    for timeline_loss in timeline_segment.get("lossFunctions", [])
+                ],
+            }
+            if "weight" in timeline_segment:
+                point_constraint["weight"] = timeline_segment["weight"]
+            if "easing" in timeline_segment:
+                point_constraint["easing"] = deepcopy(timeline_segment["easing"])
+            optimizer_constraints.append(point_constraint)
 
     return optimizer_constraints

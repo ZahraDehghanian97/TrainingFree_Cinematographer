@@ -1,0 +1,151 @@
+{
+  "schemaVersion": "1.0",
+  "kind": "environment",
+  "id": "example-18-eye-zoom",
+  "promptExampleId": "example-18",
+  "prompt": "بعد از تمام شدن Tilt Up نیم ثانیه صبر کن، Zoom In کن و در پایان به نمای Extreme Close Up چشم برس؛ ورود و خروج محدودیت نرم باشد.",
+  "clock": {
+    "durationSeconds": 10,
+    "timeDomain": "playback",
+    "fpsHint": 24
+  },
+  "coordinates": {
+    "handedness": "right",
+    "upAxis": "+Y",
+    "cameraForwardAxis": "-Z",
+    "lengthUnit": "meter",
+    "rotationOrder": "quaternion-xyzw"
+  },
+  "evaluation": {
+    "distanceMetric": "boundsSurface",
+    "epsilon": 0.001
+  },
+  "world": {
+    "background": "#1a1717",
+    "overviewCamera": {
+      "position": [
+        10,
+        6,
+        12
+      ],
+      "target": [
+        0,
+        1,
+        0
+      ]
+    },
+    "ground": {
+      "y": 0,
+      "size": [
+        24,
+        24
+      ],
+      "color": "#263238"
+    },
+    "grid": {
+      "size": 20,
+      "divisions": 20
+    }
+  },
+  "entities": [
+    {
+      "id": "subject-entity",
+      "label": "Portrait subject",
+      "transform": {
+        "space": "world",
+        "position": {
+          "interpolation": "catmullRom",
+          "extrapolation": "hold",
+          "keyframes": [
+            {
+              "t": 0,
+              "value": [
+                0,
+                0,
+                0
+              ]
+            },
+            {
+              "t": 5,
+              "value": [
+                0.1,
+                0,
+                0.1
+              ]
+            },
+            {
+              "t": 10,
+              "value": [
+                0.2,
+                0,
+                0.2
+              ]
+            }
+          ]
+        }
+      },
+      "visual": {
+        "type": "preset",
+        "name": "humanoid",
+        "params": {}
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.45,
+          0,
+          -0.25
+        ],
+        "max": [
+          0.45,
+          1.8,
+          0.25
+        ]
+      }
+    }
+  ],
+  "targets": [
+    {
+      "id": "subject",
+      "entityId": "subject-entity",
+      "label": "The subject",
+      "localAnchor": [
+        0,
+        1.35,
+        0
+      ],
+      "localBounds": {
+        "type": "box",
+        "min": [
+          -0.45,
+          0,
+          -0.25
+        ],
+        "max": [
+          0.45,
+          1.8,
+          0.25
+        ]
+      }
+    },
+    {
+      "id": "eye",
+      "entityId": "subject-entity",
+      "label": "The subject's eye",
+      "localAnchor": [
+        0.12,
+        1.66,
+        0.22
+      ],
+      "localBounds": {
+        "type": "sphere",
+        "center": [
+          0.12,
+          1.66,
+          0.22
+        ],
+        "radius": 0.08
+      }
+    }
+  ]
+}

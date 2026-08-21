@@ -93,11 +93,28 @@ export interface Movement {
 
 // ─── Constraints & Actions ───────────────────────────────────────────────────
 
+export type PointConstraintEasingCurve = "linear" | "easeIn" | "easeOut" | "easeInOut";
+
+/**
+ * Optional temporal falloff for a point-only constraint (`allFrames: false`).
+ * Durations are measured in seconds around the action end-time point.
+ */
+export interface PointConstraintEasing {
+  /** Fade the point constraint in during this many seconds before the point. */
+  inDuration?: number;
+  /** Fade the point constraint out during this many seconds after the point. */
+  outDuration?: number;
+  /** Defaults to `easeInOut`. */
+  curve?: PointConstraintEasingCurve;
+}
+
 export interface ConstraintConfig {
   targets?: Target[];
   config: CameraConfig;
-  /** true → enforce on every frame; false → enforce only at the action's end */
+  /** true → enforce on every frame; false → enforce at the action end point. */
   allFrames: boolean;
+  /** Optional soft temporal window for point-only constraints. Invalid when allFrames=true. */
+  easing?: PointConstraintEasing;
 }
 
 export interface Action {

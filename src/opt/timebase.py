@@ -55,6 +55,24 @@ def convert_constraint_times_to_frame_indices(
                 duration_seconds,
                 frame_count,
             )
+            easing = constraint.get("easing")
+            if easing is not None:
+                in_duration = float(easing.get("inDuration", 0.0))
+                out_duration = float(easing.get("outDuration", 0.0))
+                if in_duration < 0 or out_duration < 0:
+                    raise ValueError("point easing durations must be non-negative")
+                curve = easing.get("curve", "easeInOut")
+                if curve not in {"linear", "easeIn", "easeOut", "easeInOut"}:
+                    raise ValueError(f"Unknown point easing curve: {curve}")
+                frame_scale = (frame_count - 1) / float(duration_seconds)
+                easing["inFrames"] = max(
+                    0,
+                    int(round(in_duration * frame_scale)),
+                )
+                easing["outFrames"] = max(
+                    0,
+                    int(round(out_duration * frame_scale)),
+                )
         elif constraint_kind == "interval":
             constraint["t0"] = timestamp_to_frame_index(
                 constraint["t0"],

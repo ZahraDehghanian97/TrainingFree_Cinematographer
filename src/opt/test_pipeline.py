@@ -3,6 +3,7 @@ from __future__ import annotations
 from contextlib import redirect_stdout
 import io
 import unittest
+from unittest.mock import patch
 
 try:
     import torch
@@ -10,7 +11,12 @@ except ModuleNotFoundError:
     torch = None
 
 try:
-    from .Timeline_adapter import convert_timeline_loss_to_optimizer_loss
+    from .Timeline_adapter import (
+        build_optimizer_constraints_from_timeline,
+        convert_timeline_loss_to_optimizer_loss,
+        extract_overview_camera,
+    )
+    from .math3d.numpy_quaternions import rotate_vector_by_quaternion
     from .pipeline.metadata import (
         infer_example_id_from_wrapper,
         resolve_optimizer_metadata,
@@ -26,7 +32,12 @@ try:
         build_playback_metadata_from_timeline,
     )
 except ImportError:
-    from Timeline_adapter import convert_timeline_loss_to_optimizer_loss
+    from Timeline_adapter import (
+        build_optimizer_constraints_from_timeline,
+        convert_timeline_loss_to_optimizer_loss,
+        extract_overview_camera,
+    )
+    from math3d.numpy_quaternions import rotate_vector_by_quaternion
     from pipeline.metadata import (
         infer_example_id_from_wrapper,
         resolve_optimizer_metadata,
@@ -46,6 +57,7 @@ if torch is not None:
     try:
         from .initialization import initialize_camera_control_points
         from .losses.arc import arc_movement_losses
+        from .losses.config import LOSS_WEIGHTS
         from .losses.dispatcher import compute_trajectory_loss
         from .losses.subject import subject_view_azimuth_losses
         from .math3d.camera import yaw_from_forward_vectors
@@ -53,6 +65,7 @@ if torch is not None:
     except ImportError:
         from initialization import initialize_camera_control_points
         from losses.arc import arc_movement_losses
+        from losses.config import LOSS_WEIGHTS
         from losses.dispatcher import compute_trajectory_loss
         from losses.subject import subject_view_azimuth_losses
         from math3d.camera import yaw_from_forward_vectors
@@ -66,6 +79,29 @@ class TimebaseTests(unittest.TestCase):
         self.assertEqual(timestamp_to_frame_index(0, 10, frame_count), 0)
         self.assertEqual(timestamp_to_frame_index(5, 10, frame_count), 120)
         self.assertEqual(timestamp_to_frame_index(10, 10, frame_count), 240)
+
+    def test_point_easing_durations_convert_to_frame_spans(self):
+        constraints = [
+            {
+                "kind": "point",
+                "t": 5,
+                "losses": [],
+                "easing": {
+                    "inDuration": 2,
+                    "outDuration": 1,
+                    "curve": "linear",
+                },
+            }
+        ]
+        converted = convert_constraint_times_to_frame_indices(
+            constraints,
+            10,
+            101,
+        )
+        self.assertEqual(converted[0]["t"], 50)
+        self.assertEqual(converted[0]["easing"]["inFrames"], 20)
+        self.assertEqual(converted[0]["easing"]["outFrames"], 10)
+        self.assertNotIn("inFrames", constraints[0]["easing"])
 
     def test_constraint_conversion_does_not_mutate_seconds_input(self):
         constraints = [
@@ -195,6 +231,60 @@ class WrapperMetadataTests(unittest.TestCase):
 
 
 class TimelineAdapterTests(unittest.TestCase):
+    def test_point_easing_is_preserved_by_timeline_adapter(self):
+        constraints = build_optimizer_constraints_from_timeline(
+            {
+                "timeline": [
+                    {
+                        "kind": "point",
+                        "time": 4,
+                        "weight": 0.75,
+                        "easing": {
+                            "inDuration": 1.5,
+                            "outDuration": 0.5,
+                            "curve": "easeInOut",
+                        },
+                        "lossFunctions": [],
+                    }
+                ]
+            },
+            environment_json={
+                "world": {
+                    "overviewCamera": {
+                        "position": [0, 0, 10],
+                        "target": [0, 0, 0],
+                    }
+                }
+            },
+        )
+        point = constraints[-1]
+        self.assertEqual(point["position"], [0.0, 0.0, 10.0])
+        self.assertEqual(point["weight"], 0.75)
+        self.assertEqual(
+            point["easing"],
+            {
+                "inDuration": 1.5,
+                "outDuration": 0.5,
+                "curve": "easeInOut",
+            },
+        )
+
+    def test_overview_camera_quaternion_uses_optimizer_forward_axis(self):
+        position, quaternion = extract_overview_camera(
+            {
+                "world": {
+                    "overviewCamera": {
+                        "position": [0, 0, 10],
+                        "target": [0, 0, 0],
+                    }
+                }
+            }
+        )
+        self.assertEqual(position, [0.0, 0.0, 10.0])
+        forward = rotate_vector_by_quaternion(quaternion, [0, 0, 1])
+        for actual, expected in zip(forward, [0.0, 0.0, -1.0]):
+            self.assertAlmostEqual(actual, expected, places=6)
+
     def test_typescript_static_loss_maps_to_optimizer_static_loss(self):
         self.assertEqual(
             convert_timeline_loss_to_optimizer_loss(
@@ -206,6 +296,52 @@ class TimelineAdapterTests(unittest.TestCase):
 
 @unittest.skipUnless(torch is not None, "PyTorch is not installed")
 class OptimizerNumericsTests(unittest.TestCase):
+    def test_point_easing_spreads_loss_to_neighboring_frames(self):
+        camera_positions = torch.zeros((5, 3), dtype=torch.float64)
+        camera_quaternions = torch.tensor(
+            [[1.0, 0.0, 0.0, 0.0]] * 5,
+            dtype=torch.float64,
+        )
+        with patch.dict(
+            LOSS_WEIGHTS,
+            {"point_position": 1.0, "point_rotation": 0.0},
+        ):
+            exact = compute_trajectory_loss(
+                camera_positions,
+                camera_quaternions,
+                constraints=[
+                    {
+                        "kind": "point",
+                        "t": 2,
+                        "position": [1.0, 0.0, 0.0],
+                        "losses": [],
+                    }
+                ],
+            )
+            eased = compute_trajectory_loss(
+                camera_positions,
+                camera_quaternions,
+                constraints=[
+                    {
+                        "kind": "point",
+                        "t": 2,
+                        "position": [1.0, 0.0, 0.0],
+                        "losses": [],
+                        "easing": {
+                            "inFrames": 2,
+                            "outFrames": 2,
+                            "curve": "linear",
+                        },
+                    }
+                ],
+            )
+        self.assertGreater(exact.terms["point/position"].item(), 0.0)
+        self.assertAlmostEqual(
+            eased.terms["point/position"].item(),
+            exact.terms["point/position"].item() * 2.0,
+            places=6,
+        )
+
     def test_initialization_builds_local_axis_translation_samples(self):
         control_points = initialize_camera_control_points(
             constraints=[
@@ -255,6 +391,58 @@ class OptimizerNumericsTests(unittest.TestCase):
             atol=1e-8,
         )
 
+    def test_arc_initialization_orbits_in_the_horizontal_xz_plane(self):
+        control_points = initialize_camera_control_points(
+            constraints=[
+                {
+                    "kind": "point",
+                    "t": 0,
+                    "position": [2, 1, 0],
+                    "quaternion": [1, 0, 0, 0],
+                    "losses": [],
+                },
+                {
+                    "kind": "interval",
+                    "t0": 0,
+                    "t1": 2,
+                    "losses": [
+                        {
+                            "type": "arcMovement",
+                            "subjectId": "actor",
+                            "radius": 2,
+                            "angleDeg": 90,
+                        }
+                    ],
+                },
+            ],
+            subject_tracks={},
+            subject_centers={
+                "actor": torch.zeros((3, 3), dtype=torch.float64),
+            },
+            total_frame_count=3,
+            image_width=1920,
+            image_height=1080,
+        )
+
+        positions = torch.tensor(
+            [point["p"].tolist() for point in control_points],
+            dtype=torch.float64,
+        )
+        torch.testing.assert_close(
+            positions[:, 1],
+            torch.ones_like(positions[:, 1]),
+        )
+        torch.testing.assert_close(
+            torch.linalg.vector_norm(positions[:, [0, 2]], dim=-1),
+            torch.full((len(control_points),), 2.0, dtype=torch.float64),
+        )
+        torch.testing.assert_close(
+            positions[-1],
+            torch.tensor([0.0, 1.0, -2.0], dtype=torch.float64),
+            atol=1e-8,
+            rtol=0,
+        )
+
     def test_arc_loss_helpers_preserve_finite_gradients(self):
         angles = torch.linspace(
             0.0,
@@ -290,7 +478,7 @@ class OptimizerNumericsTests(unittest.TestCase):
         )
         total_loss.backward()
 
-        self.assertIn("arc/radius_target", loss_terms)
+        self.assertIn("arc/radius_reg", loss_terms)
         self.assertIn("arc/angle_target", loss_terms)
         self.assertIn("arc/lookat", loss_terms)
         self.assertTrue(torch.isfinite(total_loss))

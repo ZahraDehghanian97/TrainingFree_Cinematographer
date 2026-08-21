@@ -1,0 +1,132 @@
+{
+  "schemaVersion": "1.0",
+  "kind": "environment",
+  "id": "example-14-soft-closeup",
+  "promptExampleId": "example-14",
+  "prompt": "به‌آرامی Dolly In کن تا در پایان روی صورت بازیگر به Close Up برسی؛ محدودیت نهایی از دو ثانیه قبل نرم وارد شود.",
+  "clock": {
+    "durationSeconds": 8,
+    "timeDomain": "playback",
+    "fpsHint": 24
+  },
+  "coordinates": {
+    "handedness": "right",
+    "upAxis": "+Y",
+    "cameraForwardAxis": "-Z",
+    "lengthUnit": "meter",
+    "rotationOrder": "quaternion-xyzw"
+  },
+  "evaluation": {
+    "distanceMetric": "boundsSurface",
+    "epsilon": 0.001
+  },
+  "world": {
+    "background": "#151a24",
+    "overviewCamera": {
+      "position": [
+        10,
+        6,
+        12
+      ],
+      "target": [
+        0,
+        1,
+        0
+      ]
+    },
+    "ground": {
+      "y": 0,
+      "size": [
+        24,
+        24
+      ],
+      "color": "#263238"
+    },
+    "grid": {
+      "size": 20,
+      "divisions": 20
+    }
+  },
+  "entities": [
+    {
+      "id": "actor-entity",
+      "label": "Actor",
+      "transform": {
+        "space": "world",
+        "position": {
+          "interpolation": "catmullRom",
+          "extrapolation": "hold",
+          "keyframes": [
+            {
+              "t": 0,
+              "value": [
+                0,
+                0,
+                0
+              ]
+            },
+            {
+              "t": 4,
+              "value": [
+                0.3,
+                0,
+                0.4
+              ]
+            },
+            {
+              "t": 8,
+              "value": [
+                0.6,
+                0,
+                0.8
+              ]
+            }
+          ]
+        }
+      },
+      "visual": {
+        "type": "preset",
+        "name": "humanoid",
+        "params": {}
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.45,
+          0,
+          -0.25
+        ],
+        "max": [
+          0.45,
+          1.8,
+          0.25
+        ]
+      }
+    }
+  ],
+  "targets": [
+    {
+      "id": "actor",
+      "entityId": "actor-entity",
+      "label": "The actor",
+      "localAnchor": [
+        0,
+        1.55,
+        0
+      ],
+      "localBounds": {
+        "type": "box",
+        "min": [
+          -0.32,
+          1.15,
+          -0.22
+        ],
+        "max": [
+          0.32,
+          1.82,
+          0.22
+        ]
+      }
+    }
+  ]
+}

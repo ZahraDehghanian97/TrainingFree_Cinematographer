@@ -33,7 +33,8 @@ import {
   DEFAULT_ARC_RADIUS,
   SCENE_PLAYBACK_RATE,
 } from "./constants";
-import { CameraConfig } from "../types/camera";
+import { CameraConfig, type Target } from "../types/camera";
+import { validatePointConstraintEasing } from "./easing";
 
 interface TimedAction extends Action {
   startTime?: number;
@@ -374,6 +375,7 @@ function buildInitialKeyframe(init: InitCamera, time: number): SinglePointConstr
     type: "singlePoint",
     time: time,
     config: init.config,
+    targets: init.targets,
     weight: 1
   };
 }
@@ -398,8 +400,14 @@ function buildMovementLossParameters(
     case CameraMovementType.ArcLeft:
     case CameraMovementType.ArcRight:
     case CameraMovementType.Orbit:
+      const requestedArcAngle = p.arcAngle ?? DEFAULT_ARC_ANGLE;
+      const arcAngleMagnitude = Math.abs(requestedArcAngle);
       return {
-        arcAngle: p.arcAngle ?? DEFAULT_ARC_ANGLE,
+        arcAngle: action.movement.act === CameraMovementType.ArcRight
+          ? -arcAngleMagnitude
+          : action.movement.act === CameraMovementType.ArcLeft
+            ? arcAngleMagnitude
+            : requestedArcAngle,
         arcRadius: p.arcRadius ?? DEFAULT_ARC_RADIUS,
       };
 
@@ -409,29 +417,36 @@ function buildMovementLossParameters(
 }
 
 export function buildCameraConfigLosses(
-  config: CameraConfig
+  config: CameraConfig,
+  targets: Target[] = [],
 ): LossFunction[] {
 
   const losses: LossFunction[] = [];
+  const targetIds = [...new Set(targets.map((target) => target.id))];
+  const targetParameters: Record<string, unknown> = targetIds.length > 1
+    ? { subjectIds: targetIds }
+    : targetIds.length === 1
+      ? { subjectId: targetIds[0] }
+      : {};
 
   if (config.type === "subjectAware") {
 
     if (config.shotSize)
       losses.push({
         type: LossFunctionType.ShotSize,
-        parameters: { shotSize: config.shotSize }
+        parameters: { shotSize: config.shotSize, ...targetParameters }
       });
 
     if (config.subjectView)
       losses.push({
         type: LossFunctionType.SubjectView,
-        parameters: { view: config.subjectView }
+        parameters: { view: config.subjectView, ...targetParameters }
       });
 
     if (config.subjectFraming?.position)
       losses.push({
         type: LossFunctionType.FramingPosition,
-        parameters: { position: config.subjectFraming.position }
+        parameters: { position: config.subjectFraming.position, ...targetParameters }
       });
 
     // TODO: CameraAngle must be supported (currently no corresponding loss function exists)
@@ -455,9 +470,12 @@ function buildConstraintConfigEntries(
   action: TimedAction,
 ): Constraint[] {
 
-  const losses = buildCameraConfigLosses(cfg.config);
+  const losses = buildCameraConfigLosses(cfg.config, cfg.targets);
 
   if (cfg.allFrames) {
+    if (cfg.easing) {
+      throw new Error("Point constraint easing can only be used when allFrames is false");
+    }
     return losses.map(loss => ({
       type: "interval",
       startTime: action.startTime!,
@@ -467,11 +485,14 @@ function buildConstraintConfigEntries(
     }));
   }
 
+  validatePointConstraintEasing(cfg.easing);
   return [{
     type: "singlePoint",
     time: action.endTime!,
     config: cfg.config,
+    ...(cfg.targets ? { targets: cfg.targets } : {}),
     weight: 1,
+    ...(cfg.easing ? { easing: cfg.easing } : {}),
   }];
 }
 

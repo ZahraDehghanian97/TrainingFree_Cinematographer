@@ -1029,6 +1029,222 @@ export const promptExamples: PromptExample[] = [{
       }
     ]
   }
+},
+{
+  id: "example-14",
+  environmentId: "example-14-soft-closeup",
+  prompt: "به‌آرامی Dolly In کن تا در پایان روی صورت بازیگر به Close Up برسی؛ محدودیت نهایی از دو ثانیه قبل نرم وارد شود.",
+  csl: {
+    totalDuration: 8,
+    sections: [{
+      initCamera: {
+        targets: [{ id: "actor", description: "The actor" }],
+        config: {
+          type: "subjectAware",
+          shotSize: ShotSize.MediumShot,
+          subjectView: SubjectView.Front,
+          subjectFraming: { position: SubjectInFramePosition.Center }
+        }
+      },
+      actions: [{
+        id: "soft_dolly_to_closeup",
+        trigger: { type: "absoluteTime", time: 0 },
+        movement: {
+          act: CameraMovementType.DollyIn,
+          duration: 6,
+          parameters: { distance: 3 }
+        },
+        constraints: [{
+          targets: [{ id: "actor", description: "The actor" }],
+          config: {
+            type: "subjectAware",
+            shotSize: ShotSize.CloseUp,
+            subjectView: SubjectView.Front,
+            subjectFraming: { position: SubjectInFramePosition.Center }
+          },
+          allFrames: false,
+          easing: { inDuration: 2, curve: "easeInOut" }
+        }]
+      }]
+    }]
+  }
+},
+{
+  id: "example-15",
+  environmentId: "example-15-dancer-arc",
+  prompt: "از مدیوم شات شروع کن، Arc Left بزن و در انتها سوژه را یک‌سوم سمت راست قاب نگه دار؛ بعد از نقطه نهایی محدودیت طی یک ثانیه آزاد شود.",
+  csl: {
+    totalDuration: 9,
+    sections: [{
+      initCamera: {
+        targets: [{ id: "dancer", description: "The dancer" }],
+        config: {
+          type: "subjectAware",
+          shotSize: ShotSize.MediumShot,
+          subjectView: SubjectView.Front,
+          subjectFraming: { position: SubjectInFramePosition.Center }
+        }
+      },
+      actions: [{
+        id: "arc_left_reframe",
+        trigger: { type: "absoluteTime", time: 0 },
+        movement: {
+          act: CameraMovementType.ArcLeft,
+          duration: 6,
+          parameters: { arcAngle: 120, arcRadius: 3 }
+        },
+        constraints: [{
+          targets: [{ id: "dancer", description: "The dancer" }],
+          config: {
+            type: "subjectAware",
+            shotSize: ShotSize.MediumShot,
+            subjectFraming: { position: SubjectInFramePosition.Right }
+          },
+          allFrames: false,
+          easing: { inDuration: 1.5, outDuration: 1, curve: "easeOut" }
+        }]
+      }]
+    }]
+  }
+},
+{
+  id: "example-16",
+  environmentId: "example-16-two-actor-truck",
+  prompt: "دو بازیگر را در تمام حرکت داخل قاب نگه دار و همزمان Truck Right کن تا ترکیب‌بندی آن‌ها ثابت بماند.",
+  csl: {
+    totalDuration: 8,
+    sections: [{
+      initCamera: {
+        targets: [
+          { id: "actor_a", description: "Actor A" },
+          { id: "actor_b", description: "Actor B" }
+        ],
+        config: {
+          type: "subjectAware",
+          shotSize: ShotSize.MediumLongShot,
+          subjectView: SubjectView.Front,
+          subjectFraming: { position: SubjectInFramePosition.Center }
+        }
+      },
+      actions: [{
+        id: "truck_right_two_shot",
+        trigger: { type: "absoluteTime", time: 0 },
+        movement: {
+          act: CameraMovementType.TruckRight,
+          duration: 8,
+          parameters: { distance: 5 }
+        },
+        constraints: [{
+          targets: [
+            { id: "actor_a", description: "Actor A" },
+            { id: "actor_b", description: "Actor B" }
+          ],
+          config: {
+            type: "subjectAware",
+            shotSize: ShotSize.MediumLongShot,
+            subjectFraming: { position: SubjectInFramePosition.Center }
+          },
+          allFrames: true
+        }]
+      }]
+    }]
+  }
+},
+{
+  id: "example-17",
+  environmentId: "example-17-runner-speed",
+  prompt: "وقتی دونده به سرعت ۸ متر بر ثانیه رسید Pan Right را شروع کن و در پایان با easing خطی او را سمت چپ قاب بنشان.",
+  csl: {
+    totalDuration: 10,
+    sections: [{
+      initCamera: {
+        targets: [{ id: "runner", description: "The runner" }],
+        config: {
+          type: "subjectAware",
+          shotSize: ShotSize.FullShot,
+          subjectView: SubjectView.Front,
+          subjectFraming: { position: SubjectInFramePosition.Center }
+        }
+      },
+      actions: [{
+        id: "pan_on_speed",
+        trigger: {
+          type: "velocity",
+          subject: { id: "runner", description: "The runner" },
+          operator: ComparisonOperator.GreaterThanOrEqual,
+          speed: 8
+        },
+        movement: {
+          act: CameraMovementType.PanRight,
+          duration: 3,
+          parameters: { rotationAngle: 45 }
+        },
+        constraints: [{
+          targets: [{ id: "runner", description: "The runner" }],
+          config: {
+            type: "subjectAware",
+            shotSize: ShotSize.FullShot,
+            subjectFraming: { position: SubjectInFramePosition.Left }
+          },
+          allFrames: false,
+          easing: { inDuration: 1, curve: "linear" }
+        }]
+      }]
+    }]
+  }
+},
+{
+  id: "example-18",
+  environmentId: "example-18-eye-zoom",
+  prompt: "بعد از تمام شدن Tilt Up نیم ثانیه صبر کن، Zoom In کن و در پایان به نمای Extreme Close Up چشم برس؛ ورود و خروج محدودیت نرم باشد.",
+  csl: {
+    totalDuration: 10,
+    sections: [{
+      initCamera: {
+        targets: [{ id: "eye", description: "The subject's eye" }],
+        config: {
+          type: "subjectAware",
+          shotSize: ShotSize.CloseUp,
+          subjectFraming: { position: SubjectInFramePosition.Center }
+        }
+      },
+      actions: [
+        {
+          id: "tilt_up_to_eye",
+          trigger: { type: "absoluteTime", time: 0 },
+          movement: {
+            act: CameraMovementType.TiltUp,
+            duration: 3,
+            parameters: { rotationAngle: 25 }
+          }
+        },
+        {
+          id: "zoom_eye_soft_point",
+          trigger: {
+            type: "relativeTime",
+            actionId: "tilt_up_to_eye",
+            reference: RelativeTimeReference.End,
+            offset: 0.5
+          },
+          movement: {
+            act: CameraMovementType.ZoomIn,
+            duration: 4,
+            parameters: { zoomFactor: 2.5 }
+          },
+          constraints: [{
+            targets: [{ id: "eye", description: "The subject's eye" }],
+            config: {
+              type: "subjectAware",
+              shotSize: ShotSize.ExtremeCloseUp,
+              subjectFraming: { position: SubjectInFramePosition.Center }
+            },
+            allFrames: false,
+            easing: { inDuration: 1.25, outDuration: 0.75, curve: "easeInOut" }
+          }]
+        }
+      ]
+    }]
+  }
 }
 
 ]

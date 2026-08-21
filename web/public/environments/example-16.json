@@ -1,0 +1,210 @@
+{
+  "schemaVersion": "1.0",
+  "kind": "environment",
+  "id": "example-16-two-actor-truck",
+  "promptExampleId": "example-16",
+  "prompt": "دو بازیگر را در تمام حرکت داخل قاب نگه دار و همزمان Truck Right کن تا ترکیب‌بندی آن‌ها ثابت بماند.",
+  "clock": {
+    "durationSeconds": 8,
+    "timeDomain": "playback",
+    "fpsHint": 24
+  },
+  "coordinates": {
+    "handedness": "right",
+    "upAxis": "+Y",
+    "cameraForwardAxis": "-Z",
+    "lengthUnit": "meter",
+    "rotationOrder": "quaternion-xyzw"
+  },
+  "evaluation": {
+    "distanceMetric": "boundsSurface",
+    "epsilon": 0.001
+  },
+  "world": {
+    "background": "#121c1a",
+    "overviewCamera": {
+      "position": [
+        10,
+        6,
+        12
+      ],
+      "target": [
+        0,
+        1,
+        0
+      ]
+    },
+    "ground": {
+      "y": 0,
+      "size": [
+        24,
+        24
+      ],
+      "color": "#263238"
+    },
+    "grid": {
+      "size": 20,
+      "divisions": 20
+    }
+  },
+  "entities": [
+    {
+      "id": "actor-a-entity",
+      "label": "Actor A",
+      "transform": {
+        "space": "world",
+        "position": {
+          "interpolation": "catmullRom",
+          "extrapolation": "hold",
+          "keyframes": [
+            {
+              "t": 0,
+              "value": [
+                -2,
+                0,
+                0
+              ]
+            },
+            {
+              "t": 4,
+              "value": [
+                -0.5,
+                0,
+                1
+              ]
+            },
+            {
+              "t": 8,
+              "value": [
+                1.5,
+                0,
+                1.4
+              ]
+            }
+          ]
+        }
+      },
+      "visual": {
+        "type": "preset",
+        "name": "humanoid",
+        "params": {}
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.45,
+          0,
+          -0.25
+        ],
+        "max": [
+          0.45,
+          1.8,
+          0.25
+        ]
+      }
+    },
+    {
+      "id": "actor-b-entity",
+      "label": "Actor B",
+      "transform": {
+        "space": "world",
+        "position": {
+          "interpolation": "catmullRom",
+          "extrapolation": "hold",
+          "keyframes": [
+            {
+              "t": 0,
+              "value": [
+                2,
+                0,
+                0.5
+              ]
+            },
+            {
+              "t": 4,
+              "value": [
+                0.8,
+                0,
+                0.8
+              ]
+            },
+            {
+              "t": 8,
+              "value": [
+                -0.5,
+                0,
+                1.2
+              ]
+            }
+          ]
+        }
+      },
+      "visual": {
+        "type": "preset",
+        "name": "humanoid",
+        "params": {}
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.45,
+          0,
+          -0.25
+        ],
+        "max": [
+          0.45,
+          1.8,
+          0.25
+        ]
+      }
+    }
+  ],
+  "targets": [
+    {
+      "id": "actor_a",
+      "entityId": "actor-a-entity",
+      "label": "Actor A",
+      "localAnchor": [
+        0,
+        1.2,
+        0
+      ],
+      "localBounds": {
+        "type": "box",
+        "min": [
+          -0.45,
+          0,
+          -0.25
+        ],
+        "max": [
+          0.45,
+          1.8,
+          0.25
+        ]
+      }
+    },
+    {
+      "id": "actor_b",
+      "entityId": "actor-b-entity",
+      "label": "Actor B",
+      "localAnchor": [
+        0,
+        1.2,
+        0
+      ],
+      "localBounds": {
+        "type": "box",
+        "min": [
+          -0.45,
+          0,
+          -0.25
+        ],
+        "max": [
+          0.45,
+          1.8,
+          0.25
+        ]
+      }
+    }
+  ]
+}
