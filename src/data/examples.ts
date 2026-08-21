@@ -1033,91 +1033,256 @@ export const promptExamples: PromptExample[] = [{
 {
   id: "example-14",
   environmentId: "example-14-soft-closeup",
-  prompt: "به‌آرامی Dolly In کن تا در پایان روی صورت بازیگر به Close Up برسی؛ محدودیت نهایی از دو ثانیه قبل نرم وارد شود.",
+  prompt: "از یک مدیوم‌شات سه‌رخ و سکوت ۱.۵ ثانیه‌ای شروع کن؛ بعد همزمان با Dolly In آهسته و یک Arc Right کوتاه به صورت نزدیک شو. در دو ثانیه آخر یک Zoom In خیلی نرم اضافه کن و چهره را روی یک‌سوم چپ قاب در Close Up قفل کن.",
   csl: {
-    totalDuration: 8,
+    totalDuration: 10,
     sections: [{
       initCamera: {
         targets: [{ id: "actor", description: "The actor" }],
         config: {
           type: "subjectAware",
           shotSize: ShotSize.MediumShot,
-          subjectView: SubjectView.Front,
+          subjectView: SubjectView.ThreeQuarterFrontLeft,
           subjectFraming: { position: SubjectInFramePosition.Center }
         }
       },
-      actions: [{
-        id: "soft_dolly_to_closeup",
-        trigger: { type: "absoluteTime", time: 0 },
-        movement: {
-          act: CameraMovementType.DollyIn,
-          duration: 6,
-          parameters: { distance: 3 }
-        },
-        constraints: [{
-          targets: [{ id: "actor", description: "The actor" }],
-          config: {
-            type: "subjectAware",
-            shotSize: ShotSize.CloseUp,
-            subjectView: SubjectView.Front,
-            subjectFraming: { position: SubjectInFramePosition.Center }
+      actions: [
+        {
+          id: "confession_hold",
+          trigger: { type: "absoluteTime", time: 0 },
+          movement: {
+            act: CameraMovementType.Static,
+            duration: 1.5
           },
-          allFrames: false,
-          easing: { inDuration: 2, curve: "easeInOut" }
-        }]
-      }]
+          constraints: [{
+            targets: [{ id: "actor", description: "The actor" }],
+            config: {
+              type: "subjectAware",
+              shotSize: ShotSize.MediumShot,
+              subjectView: SubjectView.ThreeQuarterFrontLeft,
+              subjectFraming: { position: SubjectInFramePosition.Center }
+            },
+            allFrames: true
+          }]
+        },
+        {
+          id: "confession_push_in",
+          trigger: {
+            type: "relativeTime",
+            actionId: "confession_hold",
+            reference: RelativeTimeReference.End,
+            offset: 0
+          },
+          movement: {
+            act: CameraMovementType.DollyIn,
+            duration: 8.5,
+            speedKeyframes: [
+              { normalizedTime: 0, speedMultiplier: 0.35 },
+              { normalizedTime: 0.65, speedMultiplier: 0.9 },
+              { normalizedTime: 1, speedMultiplier: 0.45 }
+            ],
+            parameters: {
+              distance: 3.6,
+              path: "spline",
+              curveIntensity: 2
+            }
+          },
+          constraints: [{
+            targets: [{ id: "actor_face", description: "The actor's face" }],
+            config: {
+              type: "subjectAware",
+              shotSize: ShotSize.CloseUp,
+              subjectView: SubjectView.ThreeQuarterFrontLeft,
+              subjectFraming: { position: SubjectInFramePosition.Left }
+            },
+            allFrames: false,
+            easing: { inDuration: 2, curve: "easeInOut" }
+          }]
+        },
+        {
+          id: "confession_arc_right",
+          trigger: {
+            type: "relativeTime",
+            actionId: "confession_hold",
+            reference: RelativeTimeReference.End,
+            offset: 0
+          },
+          movement: {
+            act: CameraMovementType.ArcRight,
+            duration: 8.5,
+            parameters: {
+              arcAngle: 38,
+              arcRadius: 3.8,
+              path: "spline",
+              curveIntensity: 1
+            }
+          }
+        },
+        {
+          id: "last_breath_zoom",
+          trigger: {
+            type: "relativeTime",
+            actionId: "confession_push_in",
+            reference: RelativeTimeReference.End,
+            offset: -2
+          },
+          movement: {
+            act: CameraMovementType.ZoomIn,
+            duration: 2,
+            parameters: { zoomFactor: 1.18 }
+          },
+          constraints: [{
+            targets: [{ id: "actor_face", description: "The actor's face" }],
+            config: {
+              type: "subjectAware",
+              shotSize: ShotSize.CloseUp,
+              subjectView: SubjectView.ThreeQuarterFrontLeft,
+              subjectFraming: { position: SubjectInFramePosition.Left }
+            },
+            allFrames: false,
+            easing: { inDuration: 2, curve: "easeInOut" }
+          }]
+        }
+      ]
     }]
   }
 },
 {
   id: "example-15",
   environmentId: "example-15-dancer-arc",
-  prompt: "از مدیوم شات شروع کن، Arc Left بزن و در انتها سوژه را یک‌سوم سمت راست قاب نگه دار؛ بعد از نقطه نهایی محدودیت طی یک ثانیه آزاد شود.",
+  prompt: "از نمای Low Medium Long شروع کن. چهار ثانیه اول با Arc Left آرام و اسلوموشن دور رقصنده بچرخ؛ روی ضرب موسیقی حرکت را به Arc Left سریع همراه Pedestal Up تبدیل کن و در دو ثانیه آخر با یک فرود نرم، رقصنده را روی یک‌سوم راست قاب نگه دار.",
   csl: {
-    totalDuration: 9,
+    totalDuration: 10,
     sections: [{
       initCamera: {
         targets: [{ id: "dancer", description: "The dancer" }],
         config: {
           type: "subjectAware",
-          shotSize: ShotSize.MediumShot,
+          cameraAngle: CameraVerticalAngle.Low,
+          shotSize: ShotSize.MediumLongShot,
           subjectView: SubjectView.Front,
           subjectFraming: { position: SubjectInFramePosition.Center }
         }
       },
-      actions: [{
-        id: "arc_left_reframe",
-        trigger: { type: "absoluteTime", time: 0 },
-        movement: {
-          act: CameraMovementType.ArcLeft,
-          duration: 6,
-          parameters: { arcAngle: 120, arcRadius: 3 }
-        },
-        constraints: [{
-          targets: [{ id: "dancer", description: "The dancer" }],
-          config: {
-            type: "subjectAware",
-            shotSize: ShotSize.MediumShot,
-            subjectFraming: { position: SubjectInFramePosition.Right }
+      actions: [
+        {
+          id: "slow_arc_intro",
+          trigger: { type: "absoluteTime", time: 0 },
+          movement: {
+            act: CameraMovementType.ArcLeft,
+            duration: 4,
+            relativeFPS: RelativeFPS.Slow,
+            speedKeyframes: [
+              { normalizedTime: 0, speedMultiplier: 0.35 },
+              { normalizedTime: 1, speedMultiplier: 0.75 }
+            ],
+            parameters: {
+              arcAngle: 100,
+              arcRadius: 5.2,
+              path: "curved",
+              curveIntensity: 2
+            }
           },
-          allFrames: false,
-          easing: { inDuration: 1.5, outDuration: 1, curve: "easeOut" }
-        }]
-      }]
+          constraints: [{
+            targets: [{ id: "dancer", description: "The dancer" }],
+            config: {
+              type: "subjectAware",
+              cameraAngle: CameraVerticalAngle.Low,
+              shotSize: ShotSize.MediumLongShot,
+              subjectFraming: { position: SubjectInFramePosition.Center }
+            },
+            allFrames: true
+          }]
+        },
+        {
+          id: "beat_arc_accelerate",
+          trigger: {
+            type: "relativeTime",
+            actionId: "slow_arc_intro",
+            reference: RelativeTimeReference.End,
+            offset: 0
+          },
+          movement: {
+            act: CameraMovementType.ArcLeft,
+            duration: 4,
+            relativeFPS: RelativeFPS.Fast,
+            speedKeyframes: [
+              { normalizedTime: 0, speedMultiplier: 0.8 },
+              { normalizedTime: 0.55, speedMultiplier: 2.2 },
+              { normalizedTime: 1, speedMultiplier: 0.55 }
+            ],
+            parameters: {
+              arcAngle: 150,
+              arcRadius: 4.1,
+              path: "spline",
+              curveIntensity: 4
+            }
+          },
+          constraints: [{
+            targets: [{ id: "dancer", description: "The dancer" }],
+            config: {
+              type: "subjectAware",
+              shotSize: ShotSize.MediumShot,
+              subjectView: SubjectView.ThreeQuarterFrontRight,
+              subjectFraming: { position: SubjectInFramePosition.Right }
+            },
+            allFrames: false,
+            easing: { inDuration: 1.25, outDuration: 1, curve: "easeInOut" }
+          }]
+        },
+        {
+          id: "beat_pedestal_rise",
+          trigger: {
+            type: "relativeTime",
+            actionId: "beat_arc_accelerate",
+            reference: RelativeTimeReference.Start,
+            offset: 0
+          },
+          movement: {
+            act: CameraMovementType.PedestalUp,
+            duration: 4,
+            parameters: { distance: 2.4 }
+          }
+        },
+        {
+          id: "hero_pose_settle",
+          trigger: {
+            type: "relativeTime",
+            actionId: "beat_arc_accelerate",
+            reference: RelativeTimeReference.End,
+            offset: 0
+          },
+          movement: {
+            act: CameraMovementType.Static,
+            duration: 2,
+            relativeFPS: RelativeFPS.Slow
+          },
+          constraints: [{
+            targets: [{ id: "dancer", description: "The dancer" }],
+            config: {
+              type: "subjectAware",
+              shotSize: ShotSize.MediumShot,
+              subjectView: SubjectView.ThreeQuarterFrontRight,
+              subjectFraming: { position: SubjectInFramePosition.Right }
+            },
+            allFrames: true
+          }]
+        }
+      ]
     }]
   }
 },
 {
   id: "example-16",
   environmentId: "example-16-two-actor-truck",
-  prompt: "دو بازیگر را در تمام حرکت داخل قاب نگه دار و همزمان Truck Right کن تا ترکیب‌بندی آن‌ها ثابت بماند.",
+  prompt: "در یک پلان بدون کات، هر دو مأمور را با Truck Right داخل یک Two Shot نگه دار. وقتی فاصله‌شان به کمتر از یک متر رسید، یک Zoom In کوتاه روی کیف بزن؛ بلافاصله با Arc Right سریع از خط نگاه عبور کن و همزمان Zoom Out کن تا در پایان جای دو بازیگر در قاب عوض شود: A راست و B چپ.",
   csl: {
-    totalDuration: 8,
+    totalDuration: 10,
     sections: [{
       initCamera: {
         targets: [
-          { id: "actor_a", description: "Actor A" },
-          { id: "actor_b", description: "Actor B" }
+          { id: "actor_a", description: "Agent A" },
+          { id: "actor_b", description: "Agent B" }
         ],
         config: {
           type: "subjectAware",
@@ -1126,121 +1291,596 @@ export const promptExamples: PromptExample[] = [{
           subjectFraming: { position: SubjectInFramePosition.Center }
         }
       },
-      actions: [{
-        id: "truck_right_two_shot",
-        trigger: { type: "absoluteTime", time: 0 },
-        movement: {
-          act: CameraMovementType.TruckRight,
-          duration: 8,
-          parameters: { distance: 5 }
-        },
-        constraints: [{
-          targets: [
-            { id: "actor_a", description: "Actor A" },
-            { id: "actor_b", description: "Actor B" }
-          ],
-          config: {
-            type: "subjectAware",
-            shotSize: ShotSize.MediumLongShot,
-            subjectFraming: { position: SubjectInFramePosition.Center }
+      actions: [
+        {
+          id: "truck_right_exchange_setup",
+          trigger: { type: "absoluteTime", time: 0 },
+          movement: {
+            act: CameraMovementType.TruckRight,
+            duration: 5,
+            parameters: {
+              distance: 5,
+              path: "spline",
+              curveIntensity: 1
+            }
           },
-          allFrames: true
-        }]
-      }]
+          constraints: [{
+            targets: [
+              { id: "actor_a", description: "Agent A" },
+              { id: "actor_b", description: "Agent B" }
+            ],
+            config: {
+              type: "subjectAware",
+              shotSize: ShotSize.MediumLongShot,
+              subjectFraming: { position: SubjectInFramePosition.Center }
+            },
+            allFrames: true
+          }]
+        },
+        {
+          id: "briefcase_punch_in",
+          trigger: {
+            type: "distance",
+            object1: { id: "actor_a", description: "Agent A" },
+            object2: { id: "actor_b", description: "Agent B" },
+            operator: ComparisonOperator.LessThan,
+            distance: 1
+          },
+          movement: {
+            act: CameraMovementType.ZoomIn,
+            duration: 1,
+            parameters: { zoomFactor: 1.55 }
+          },
+          constraints: [{
+            targets: [{ id: "briefcase", description: "The exchanged briefcase" }],
+            config: {
+              type: "subjectAware",
+              shotSize: ShotSize.CloseUp,
+              subjectFraming: { position: SubjectInFramePosition.Center }
+            },
+            allFrames: false,
+            easing: { inDuration: 0.4, outDuration: 0.25, curve: "easeInOut" }
+          }]
+        },
+        {
+          id: "axis_flip_arc_right",
+          trigger: {
+            type: "distance",
+            object1: { id: "actor_a", description: "Agent A" },
+            object2: { id: "actor_b", description: "Agent B" },
+            operator: ComparisonOperator.LessThan,
+            distance: 1
+          },
+          movement: {
+            act: CameraMovementType.ArcRight,
+            duration: 5,
+            speedKeyframes: [
+              { normalizedTime: 0, speedMultiplier: 1.9 },
+              { normalizedTime: 0.45, speedMultiplier: 1.25 },
+              { normalizedTime: 1, speedMultiplier: 0.45 }
+            ],
+            parameters: {
+              arcAngle: 165,
+              arcRadius: 4.2,
+              path: "spline",
+              curveIntensity: 4
+            }
+          },
+          constraints: [{
+            targets: [
+              { id: "actor_a", description: "Agent A" },
+              { id: "actor_b", description: "Agent B" }
+            ],
+            config: {
+              type: "subjectAware",
+              shotSize: ShotSize.MediumLongShot,
+              subjectFraming: { position: SubjectInFramePosition.Center }
+            },
+            allFrames: true
+          }]
+        },
+        {
+          id: "exchange_zoom_out",
+          trigger: {
+            type: "relativeTime",
+            actionId: "briefcase_punch_in",
+            reference: RelativeTimeReference.End,
+            offset: 0
+          },
+          movement: {
+            act: CameraMovementType.ZoomOut,
+            duration: 4,
+            parameters: { zoomFactor: 1.45 }
+          },
+          constraints: [
+            {
+              targets: [{ id: "actor_a", description: "Agent A" }],
+              config: {
+                type: "subjectAware",
+                shotSize: ShotSize.MediumShot,
+                subjectFraming: { position: SubjectInFramePosition.Right }
+              },
+              allFrames: false,
+              easing: { inDuration: 1.5, curve: "easeOut" }
+            },
+            {
+              targets: [{ id: "actor_b", description: "Agent B" }],
+              config: {
+                type: "subjectAware",
+                shotSize: ShotSize.MediumShot,
+                subjectFraming: { position: SubjectInFramePosition.Left }
+              },
+              allFrames: false,
+              easing: { inDuration: 1.5, curve: "easeOut" }
+            }
+          ]
+        }
+      ]
     }]
   }
 },
 {
   id: "example-17",
   environmentId: "example-17-runner-speed",
-  prompt: "وقتی دونده به سرعت ۸ متر بر ثانیه رسید Pan Right را شروع کن و در پایان با easing خطی او را سمت چپ قاب بنشان.",
+  prompt: "از Low Full Shot در کنار دونده با Track شروع کن و برای مسیرش lead room بده. لحظه‌ای که سرعتش به ۸ متر بر ثانیه رسید، صحنه را به ۱۰٪ ببر و با Arc Left صدوبیست درجه از کنار به روبه‌رویش برس. بعد سرعت عادی را برگردان، Dolly Out و Follow کن تا با فضای باز جلوی حرکت در قاب چپ تمام شود.",
   csl: {
-    totalDuration: 10,
+    totalDuration: 11,
     sections: [{
       initCamera: {
         targets: [{ id: "runner", description: "The runner" }],
         config: {
           type: "subjectAware",
+          cameraAngle: CameraVerticalAngle.Low,
           shotSize: ShotSize.FullShot,
-          subjectView: SubjectView.Front,
-          subjectFraming: { position: SubjectInFramePosition.Center }
+          subjectView: SubjectView.Right,
+          subjectFraming: { position: SubjectInFramePosition.Left }
         }
       },
-      actions: [{
-        id: "pan_on_speed",
-        trigger: {
-          type: "velocity",
-          subject: { id: "runner", description: "The runner" },
-          operator: ComparisonOperator.GreaterThanOrEqual,
-          speed: 8
-        },
-        movement: {
-          act: CameraMovementType.PanRight,
-          duration: 3,
-          parameters: { rotationAngle: 45 }
-        },
-        constraints: [{
-          targets: [{ id: "runner", description: "The runner" }],
-          config: {
-            type: "subjectAware",
-            shotSize: ShotSize.FullShot,
-            subjectFraming: { position: SubjectInFramePosition.Left }
+      actions: [
+        {
+          id: "side_track_acceleration",
+          trigger: { type: "absoluteTime", time: 0 },
+          movement: {
+            act: CameraMovementType.Track,
+            duration: 3,
+            parameters: {
+              followDelay: 0.1,
+              leadAmount: 0.55,
+              path: "spline",
+              curveIntensity: 1
+            }
           },
-          allFrames: false,
-          easing: { inDuration: 1, curve: "linear" }
-        }]
-      }]
+          constraints: [{
+            targets: [{ id: "runner", description: "The runner" }],
+            config: {
+              type: "subjectAware",
+              cameraAngle: CameraVerticalAngle.Low,
+              shotSize: ShotSize.FullShot,
+              subjectView: SubjectView.Right,
+              subjectFraming: { position: SubjectInFramePosition.Left }
+            },
+            allFrames: true
+          }]
+        },
+        {
+          id: "bullet_time_arc",
+          trigger: {
+            type: "velocity",
+            subject: { id: "runner", description: "The runner" },
+            operator: ComparisonOperator.GreaterThanOrEqual,
+            speed: 8
+          },
+          movement: {
+            act: CameraMovementType.ArcLeft,
+            duration: 3,
+            relativeFPS: RelativeFPS.VerySlow,
+            speedKeyframes: [
+              { normalizedTime: 0, speedMultiplier: 1.5 },
+              { normalizedTime: 0.6, speedMultiplier: 0.65 },
+              { normalizedTime: 1, speedMultiplier: 0.35 }
+            ],
+            parameters: {
+              arcAngle: 120,
+              arcRadius: 3.2,
+              path: "spline",
+              curveIntensity: 3
+            }
+          },
+          constraints: [{
+            targets: [{ id: "runner", description: "The runner" }],
+            config: {
+              type: "subjectAware",
+              shotSize: ShotSize.MediumCloseUp,
+              subjectView: SubjectView.ThreeQuarterFrontRight,
+              subjectFraming: { position: SubjectInFramePosition.Center }
+            },
+            allFrames: true
+          }]
+        },
+        {
+          id: "release_follow",
+          trigger: {
+            type: "relativeTime",
+            actionId: "bullet_time_arc",
+            reference: RelativeTimeReference.End,
+            offset: 0
+          },
+          movement: {
+            act: CameraMovementType.Follow,
+            duration: 5,
+            relativeFPS: RelativeFPS.Normal,
+            parameters: {
+              followDelay: 0.15,
+              leadAmount: 0.65,
+              path: "spline",
+              curveIntensity: 2
+            }
+          },
+          constraints: [{
+            targets: [{ id: "runner", description: "The runner" }],
+            config: {
+              type: "subjectAware",
+              shotSize: ShotSize.MediumLongShot,
+              subjectView: SubjectView.ThreeQuarterFrontRight,
+              subjectFraming: { position: SubjectInFramePosition.Left }
+            },
+            allFrames: true
+          }]
+        },
+        {
+          id: "release_dolly_out",
+          trigger: {
+            type: "relativeTime",
+            actionId: "bullet_time_arc",
+            reference: RelativeTimeReference.End,
+            offset: 0
+          },
+          movement: {
+            act: CameraMovementType.DollyOut,
+            duration: 5,
+            parameters: {
+              distance: 5,
+              path: "spline",
+              curveIntensity: 2
+            }
+          },
+          constraints: [{
+            targets: [{ id: "runner", description: "The runner" }],
+            config: {
+              type: "subjectAware",
+              shotSize: ShotSize.LongShot,
+              subjectFraming: { position: SubjectInFramePosition.Left }
+            },
+            allFrames: false,
+            easing: { inDuration: 2, curve: "easeOut" }
+          }]
+        }
+      ]
     }]
   }
 },
 {
   id: "example-18",
   environmentId: "example-18-eye-zoom",
-  prompt: "بعد از تمام شدن Tilt Up نیم ثانیه صبر کن، Zoom In کن و در پایان به نمای Extreme Close Up چشم برس؛ ورود و خروج محدودیت نرم باشد.",
+  prompt: "از Close Up دست لرزان شروع کن و در ۲.۵ ثانیه با Tilt Up به چشم برس. نیم‌ثانیه مکث کن؛ سپس Dolly In و Zoom In را همزمان اجرا کن تا وارد مردمک شوی. در یک‌ونیم ثانیه آخر ۱۰ درجه Dutch Right بده و ضرب پایانی را داخل مردمک فریز کن.",
   csl: {
     totalDuration: 10,
     sections: [{
       initCamera: {
-        targets: [{ id: "eye", description: "The subject's eye" }],
+        targets: [{ id: "hand", description: "The subject's trembling hand" }],
         config: {
           type: "subjectAware",
           shotSize: ShotSize.CloseUp,
-          subjectFraming: { position: SubjectInFramePosition.Center }
+          subjectView: SubjectView.Front,
+          subjectFraming: { position: SubjectInFramePosition.Bottom }
         }
       },
       actions: [
         {
-          id: "tilt_up_to_eye",
+          id: "tilt_hand_to_eye",
           trigger: { type: "absoluteTime", time: 0 },
           movement: {
             act: CameraMovementType.TiltUp,
-            duration: 3,
-            parameters: { rotationAngle: 25 }
-          }
-        },
-        {
-          id: "zoom_eye_soft_point",
-          trigger: {
-            type: "relativeTime",
-            actionId: "tilt_up_to_eye",
-            reference: RelativeTimeReference.End,
-            offset: 0.5
-          },
-          movement: {
-            act: CameraMovementType.ZoomIn,
-            duration: 4,
-            parameters: { zoomFactor: 2.5 }
+            duration: 2.5,
+            parameters: { rotationAngle: 28 }
           },
           constraints: [{
             targets: [{ id: "eye", description: "The subject's eye" }],
+            config: {
+              type: "subjectAware",
+              shotSize: ShotSize.CloseUp,
+              subjectFraming: { position: SubjectInFramePosition.Center }
+            },
+            allFrames: false,
+            easing: { inDuration: 1, curve: "easeInOut" }
+          }]
+        },
+        {
+          id: "eye_breath_hold",
+          trigger: {
+            type: "relativeTime",
+            actionId: "tilt_hand_to_eye",
+            reference: RelativeTimeReference.End,
+            offset: 0
+          },
+          movement: {
+            act: CameraMovementType.Static,
+            duration: 0.5
+          },
+          constraints: [{
+            targets: [{ id: "eye", description: "The subject's eye" }],
+            config: {
+              type: "subjectAware",
+              shotSize: ShotSize.CloseUp,
+              subjectFraming: { position: SubjectInFramePosition.Center }
+            },
+            allFrames: true
+          }]
+        },
+        {
+          id: "pupil_dolly_in",
+          trigger: {
+            type: "relativeTime",
+            actionId: "eye_breath_hold",
+            reference: RelativeTimeReference.End,
+            offset: 0
+          },
+          movement: {
+            act: CameraMovementType.DollyIn,
+            duration: 6,
+            speedKeyframes: [
+              { normalizedTime: 0, speedMultiplier: 0.45 },
+              { normalizedTime: 0.7, speedMultiplier: 1.35 },
+              { normalizedTime: 1, speedMultiplier: 0.35 }
+            ],
+            parameters: {
+              distance: 3.8,
+              path: "spline",
+              curveIntensity: 2
+            }
+          },
+          constraints: [{
+            targets: [{ id: "pupil", description: "The subject's pupil" }],
             config: {
               type: "subjectAware",
               shotSize: ShotSize.ExtremeCloseUp,
               subjectFraming: { position: SubjectInFramePosition.Center }
             },
             allFrames: false,
-            easing: { inDuration: 1.25, outDuration: 0.75, curve: "easeInOut" }
+            easing: { inDuration: 2, curve: "easeInOut" }
           }]
+        },
+        {
+          id: "pupil_zoom_in",
+          trigger: {
+            type: "relativeTime",
+            actionId: "eye_breath_hold",
+            reference: RelativeTimeReference.End,
+            offset: 0
+          },
+          movement: {
+            act: CameraMovementType.ZoomIn,
+            duration: 6,
+            parameters: { zoomFactor: 3.2 }
+          },
+          constraints: [{
+            targets: [{ id: "pupil", description: "The subject's pupil" }],
+            config: {
+              type: "subjectAware",
+              shotSize: ShotSize.ExtremeCloseUp,
+              subjectFraming: { position: SubjectInFramePosition.Center }
+            },
+            allFrames: false,
+            easing: { inDuration: 2, curve: "easeInOut" }
+          }]
+        },
+        {
+          id: "pupil_dutch_right",
+          trigger: {
+            type: "relativeTime",
+            actionId: "pupil_dolly_in",
+            reference: RelativeTimeReference.End,
+            offset: -1.5
+          },
+          movement: {
+            act: CameraMovementType.DutchRight,
+            duration: 1.5,
+            parameters: { rotationAngle: 10 }
+          }
+        },
+        {
+          id: "frozen_inside_pupil",
+          trigger: {
+            type: "relativeTime",
+            actionId: "pupil_dolly_in",
+            reference: RelativeTimeReference.End,
+            offset: 0
+          },
+          movement: {
+            act: CameraMovementType.Static,
+            duration: 1,
+            relativeFPS: RelativeFPS.Frozen
+          },
+          constraints: [{
+            targets: [{ id: "pupil", description: "The subject's pupil" }],
+            config: {
+              type: "subjectAware",
+              shotSize: ShotSize.ExtremeCloseUp,
+              subjectFraming: { position: SubjectInFramePosition.Center }
+            },
+            allFrames: true
+          }]
+        }
+      ]
+    }]
+  }
+},
+{
+  id: "example-19",
+  environmentId: "example-19-stairwell-ambush",
+  prompt: "از نمای Overhead روی کارآگاه شروع کن؛ همزمان Pedestal Down و Tilt Down کن تا در دو ثانیه هم‌سطح او شوی. بعد با Truck Left در راهرو همراهش برو. وقتی به انتهای مسیر رسید، یک Pan Left سریع بزن، Zoom Out کن و با Dutch Right مهاجم پشت ستون را آشکار کن؛ سپس با یک Counter Pan Right کوتاه هر دو را در قاب نهایی جمع کن.",
+  csl: {
+    totalDuration: 10,
+    sections: [{
+      initCamera: {
+        targets: [{ id: "detective", description: "The detective" }],
+        config: {
+          type: "subjectAware",
+          cameraAngle: CameraVerticalAngle.Overhead,
+          shotSize: ShotSize.LongShot,
+          subjectView: SubjectView.ThreeQuarterFrontLeft,
+          subjectFraming: { position: SubjectInFramePosition.Center }
+        }
+      },
+      actions: [
+        {
+          id: "descent_pedestal_down",
+          trigger: { type: "absoluteTime", time: 0 },
+          movement: {
+            act: CameraMovementType.PedestalDown,
+            duration: 2,
+            parameters: { distance: 3.8 }
+          },
+          constraints: [{
+            targets: [{ id: "detective", description: "The detective" }],
+            config: {
+              type: "subjectAware",
+              cameraAngle: CameraVerticalAngle.Eye,
+              shotSize: ShotSize.FullShot,
+              subjectFraming: { position: SubjectInFramePosition.Center }
+            },
+            allFrames: false,
+            easing: { inDuration: 1, curve: "easeInOut" }
+          }]
+        },
+        {
+          id: "descent_tilt_down",
+          trigger: { type: "absoluteTime", time: 0 },
+          movement: {
+            act: CameraMovementType.TiltDown,
+            duration: 2,
+            parameters: { rotationAngle: 45 }
+          }
+        },
+        {
+          id: "corridor_truck_left",
+          trigger: {
+            type: "relativeTime",
+            actionId: "descent_pedestal_down",
+            reference: RelativeTimeReference.End,
+            offset: 0
+          },
+          movement: {
+            act: CameraMovementType.TruckLeft,
+            duration: 5,
+            parameters: {
+              distance: 7,
+              path: "spline",
+              curveIntensity: 2
+            }
+          },
+          constraints: [{
+            targets: [{ id: "detective", description: "The detective" }],
+            config: {
+              type: "subjectAware",
+              shotSize: ShotSize.MediumLongShot,
+              subjectView: SubjectView.ThreeQuarterFrontLeft,
+              subjectFraming: { position: SubjectInFramePosition.Left }
+            },
+            allFrames: true
+          }]
+        },
+        {
+          id: "ambush_pan_left",
+          trigger: {
+            type: "relativeTime",
+            actionId: "corridor_truck_left",
+            reference: RelativeTimeReference.End,
+            offset: 0
+          },
+          movement: {
+            act: CameraMovementType.PanLeft,
+            duration: 1.2,
+            parameters: { rotationAngle: 75 }
+          },
+          constraints: [{
+            targets: [{ id: "pursuer", description: "The hidden pursuer" }],
+            config: {
+              type: "subjectAware",
+              shotSize: ShotSize.MediumShot,
+              subjectFraming: { position: SubjectInFramePosition.Right }
+            },
+            allFrames: false,
+            easing: { inDuration: 0.35, outDuration: 0.4, curve: "easeOut" }
+          }]
+        },
+        {
+          id: "ambush_counter_pan_right",
+          trigger: {
+            type: "relativeTime",
+            actionId: "ambush_pan_left",
+            reference: RelativeTimeReference.End,
+            offset: 0
+          },
+          movement: {
+            act: CameraMovementType.PanRight,
+            duration: 1.8,
+            parameters: { rotationAngle: 30 }
+          },
+          constraints: [{
+            targets: [
+              { id: "detective", description: "The detective" },
+              { id: "pursuer", description: "The hidden pursuer" }
+            ],
+            config: {
+              type: "subjectAware",
+              shotSize: ShotSize.LongShot,
+              subjectFraming: { position: SubjectInFramePosition.Center }
+            },
+            allFrames: false,
+            easing: { inDuration: 1, curve: "easeOut" }
+          }]
+        },
+        {
+          id: "ambush_zoom_out",
+          trigger: {
+            type: "relativeTime",
+            actionId: "corridor_truck_left",
+            reference: RelativeTimeReference.End,
+            offset: 0
+          },
+          movement: {
+            act: CameraMovementType.ZoomOut,
+            duration: 3,
+            parameters: { zoomFactor: 1.55 }
+          },
+          constraints: [{
+            targets: [
+              { id: "detective", description: "The detective" },
+              { id: "pursuer", description: "The hidden pursuer" }
+            ],
+            config: {
+              type: "subjectAware",
+              shotSize: ShotSize.LongShot,
+              subjectFraming: { position: SubjectInFramePosition.Center }
+            },
+            allFrames: false,
+            easing: { inDuration: 1.5, curve: "easeOut" }
+          }]
+        },
+        {
+          id: "ambush_dutch_right",
+          trigger: {
+            type: "relativeTime",
+            actionId: "corridor_truck_left",
+            reference: RelativeTimeReference.End,
+            offset: 0
+          },
+          movement: {
+            act: CameraMovementType.DutchRight,
+            duration: 3,
+            parameters: { rotationAngle: 14 }
+          }
         }
       ]
     }]

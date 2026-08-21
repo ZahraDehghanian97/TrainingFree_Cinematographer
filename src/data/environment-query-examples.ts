@@ -98,6 +98,15 @@ export const environmentQueryExamples: EnvironmentQueryExample[] = [
     },
   },
   {
+    environmentId: "example-19-stairwell-ambush",
+    request: "در ثانیه ۸ باکس کارآگاه و مهاجم پشت ستون رو بده",
+    expectedQuery: {
+      type: "subjectBoxesAtTime",
+      subjectIds: ["detective", "pursuer"],
+      timeSeconds: 8,
+    },
+  },
+  {
     environmentId: "example-03-vase-reveal",
     request: "رنگ دیوار چیه؟",
     expectedQuery: {
