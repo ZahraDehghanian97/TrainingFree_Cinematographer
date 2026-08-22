@@ -1,5 +1,9 @@
 import { z } from "zod";
 import type { Vec3 } from "./environment";
+import {
+  subjectBindingSchema,
+  type SubjectBinding,
+} from "./subject-binding";
 
 /** A world-space axis-aligned bounding box in the environment coordinate system. */
 export interface WorldAabbV1 {
@@ -34,6 +38,11 @@ const nonNegativeNumberSchema = z.number().finite().nonnegative();
  * dependent checks, such as whether a subject ID exists, outside this schema.
  */
 export const environmentQuerySchema = z.discriminatedUnion("type", [
+  z.strictObject({
+    type: z.literal("resolveSubjectReferences"),
+    bindings: z.array(subjectBindingSchema).min(1)
+      .describe("Bindings from CSL-local semantic refs to runtime environment target IDs"),
+  }),
   z.strictObject({
     type: z.literal("subjectBoxesAtTime"),
     subjectIds: z.array(subjectIdSchema).min(1),
@@ -76,6 +85,11 @@ export type EnvironmentQuery = z.infer<typeof environmentQuerySchema>;
 export type EnvironmentDistanceMetric = "boundsSurface" | "anchorCenter";
 
 export type EnvironmentQueryResult =
+  | {
+      type: "resolveSubjectReferences";
+      environmentId: string;
+      bindings: SubjectBinding[];
+    }
   | {
       type: "subjectBoxesAtTime";
       environmentId: string;

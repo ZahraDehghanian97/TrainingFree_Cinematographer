@@ -70,16 +70,56 @@ All v1 data uses a right-handed, Y-up coordinate system, meters for distance, se
 
 ## LLM-powered environment queries
 
-`src/environment/` exposes a typed query layer over the existing `EnvironmentV1` schema. The LLM is only used to map natural language to a structured query; box interpolation, transforms, distance, speed, and crossing calculations are deterministic.
+`src/environment/` exposes a typed query layer over the existing `EnvironmentV1` schema. It currently simulates the future 4D recognition module. The director-to-CSL model never receives or invents runtime scene IDs: it emits CSL-local semantic references, which are bound after generation and before timeline solving.
 
 ```ts
-import { queryEnvironment } from "./src/environment";
+import { createEnvironmentSubjectResolver, queryEnvironment } from "./src/environment";
+import { bindCameraDirectionDraft } from "./src/grounding";
+import { solveTimeline } from "./src/timeline/solver";
 
 const answer = await queryEnvironment(environment, "توپ اولین بار کی به دو متری دروازه رسید؟");
+const resolver = createEnvironmentSubjectResolver(environment);
+const { csl, bindings } = await bindCameraDirectionDraft(
+  draftCsl,
+  { directorPrompt, scene: { id: environment.id } },
+  resolver,
+);
+const timeline = solveTimeline(csl);
 ```
+
+The grounding boundary is:
+
+```text
+director prompt -> semantic CameraDirectionDraft -> 4D/env binding
+                -> resolved CameraDirectionDSL -> timeline solver -> optimizer
+```
+
+The example pipeline has an explicit `EXAMPLE_BINDING_MODE` hyperparameter:
+
+- `resolved` (default) reads `resolvedCsl` directly from
+  `src/data/resolved-example-fixtures.ts` and skips draft creation and subject
+  binding entirely. This is the deterministic path when runtime IDs are known.
+- `llm` converts the selected fixture into an opaque semantic draft, loads the
+  matching `EnvironmentV1`, and calls the real environment-backed LLM resolver.
+  The returned bindings are compared with the fixture ground truth for
+  evaluation, but a valid mismatch is not replaced: the timeline continues
+  with the IDs selected by the LLM.
+
+`src/data/examples.ts` only contains the conversion/evaluation helpers for the
+`llm` experiment; it is no longer the canonical example catalog.
+
+A draft subject is `{ ref, description }`, where `ref` is only a CSL-local
+correlation key. A resolved target is `{ id, description }`, where `id` is an
+optimizer-addressable runtime target/track ID returned by the 4D module.
+Exact groups can declare `cardinality: { min: 2, max: 2 }`. Movement-axis
+references remain independent from framing references. Truck (camera-right) and
+Pedestal (world-up) are subjectless translations and therefore do not carry
+movement subject references; use framing constraints when a subject must remain
+composed during those moves.
 
 Supported requests include:
 
+- batch-binding semantic CSL references to runtime environment targets,
 - world-space 3D subject boxes at one playback time,
 - subject boxes over a time range,
 - the first time two subjects are within a requested distance,
@@ -91,6 +131,7 @@ For local development, configure Vercel AI Gateway in `.env` (see `.env.example`
 ```dotenv
 AI_GATEWAY_API_KEY=...
 LLM_MODEL=google/gemini-3.7-flash
+EXAMPLE_BINDING_MODE=resolved
 ```
 
 `LLM_MODEL` is optional; `google/gemini-3.7-flash` is the default. On Vercel,
@@ -102,6 +143,19 @@ response and supplies the TypeScript `EnvironmentQuery` type.
 separately when callers want to inspect/cache the parsed intent or execute a
 query without an LLM call. Development/few-shot coverage lives in
 `src/data/environment-query-examples.ts`.
+
+`bindCameraDirectionDraft()` resolves all unique references in one batch and
+hydrates every target-bearing CSL slot: initial camera targets, movement axes,
+framing constraints, distance/velocity triggers, compound triggers, and
+target-based `lookAt`. Its resolver is injectable: `EnvironmentV1` plus
+`parseEnvironmentQuery()` is the simulator adapter today; production can swap
+in the real 4D module without changing the binder, solver, or optimizer.
+Resolver responses are runtime-validated and must identify the same scene (and,
+when supplied, scene revision) requested by the binding pass.
+
+`src/data/resolved-example-fixtures.ts` contains the executable, already-bound
+replay fixtures. Those IDs model the output of the grounding stage and are not
+part of the director-to-CSL examples.
 
 ## Point-constraint easing
 
@@ -129,8 +183,8 @@ Supported curves are `linear`, `easeIn`, `easeOut`, and `easeInOut`. Without `ea
 
 ```bash
 npm run build          # Type-check/build the Node library and browser app
-npm test               # Run browser/schema/interpolation/upload tests
-npm run test:node      # Run Node environment-query tests
+npm test               # Run Node tests, then the web Vitest suite
+npm run test:node      # Run Node grounding/binding tests
 npm start              # Run timeline solver + optimizer for all examples
 npm run pipeline       # Alias for the same end-to-end pipeline
 npm run visualizer     # Start Camera Lab in development mode
@@ -145,7 +199,14 @@ python3 -m pip install -r src/opt/requirements.txt
 npm run pipeline
 npm run pipeline -- --example 1
 npm run pipeline -- --example example-01
+npm run pipeline -- --example example-01 --binding-mode resolved
+npm run pipeline -- --example example-01 --binding-mode llm
 ```
+
+`--binding-mode` overrides `EXAMPLE_BINDING_MODE`. The `llm` mode makes one
+Gateway request per selected example, while `resolved` performs no binding API
+call. LLM-mode output persists the selected bindings and their comparison with
+fixture ground truth under `subjectBinding` in the timeline wrapper.
 
 Set `PYTHON_BIN` if the dependencies are installed in a particular interpreter,
 for example `PYTHON_BIN=.venv/bin/python npm run pipeline -- --example example-01`.

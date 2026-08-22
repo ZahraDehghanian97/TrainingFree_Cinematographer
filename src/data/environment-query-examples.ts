@@ -8,6 +8,25 @@ export interface EnvironmentQueryExample {
 
 export const environmentQueryExamples: EnvironmentQueryExample[] = [
   {
+    environmentId: "example-18-eye-zoom",
+    request: "CSL ref pupil_ref با توصیف «مردمک سوژه» را به target محیط bind کن",
+    expectedQuery: {
+      type: "resolveSubjectReferences",
+      bindings: [{ ref: "pupil_ref", status: "resolved", subjectIds: ["pupil"] }],
+    },
+  },
+  {
+    environmentId: "example-03-vase-reveal",
+    request: "refهای vase_ref=گلدان و monitor_ref=مانیتور را به targetهای محیط bind کن",
+    expectedQuery: {
+      type: "resolveSubjectReferences",
+      bindings: [
+        { ref: "vase_ref", status: "resolved", subjectIds: ["vase"] },
+        { ref: "monitor_ref", status: "resolved", subjectIds: ["monitor"] },
+      ],
+    },
+  },
+  {
     environmentId: "example-01-football",
     request: "باکس توپ در ثانیه ۳ کجاست؟",
     expectedQuery: { type: "subjectBoxesAtTime", subjectIds: ["ball"], timeSeconds: 3 },

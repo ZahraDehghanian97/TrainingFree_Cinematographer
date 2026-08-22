@@ -38,6 +38,11 @@ _TRANSLATION_LOSS_TYPES = (
     "pedestalDownMovement",
 )
 
+_SUBJECT_ANCHORED_TRANSLATION_LOSS_TYPES = (
+    "dollyInMovement",
+    "dollyOutMovement",
+)
+
 _ROTATION_LOSS_TYPES = (
     "panLeftMovement",
     "panRightMovement",
@@ -213,6 +218,21 @@ def _subject_anchored_reference_frame(
     return {"forward": forward, "right": right, "up": up}
 
 
+def _world_axis_reference_frame(
+    context: _TrajectoryLossContext,
+    start_frame: int,
+    end_frame: int,
+) -> Dict[str, torch.Tensor]:
+    """Return the fixed Y-up world frame used by pedestal movement."""
+    interval_length = end_frame - start_frame + 1
+    basis = torch.eye(3, device=context.device, dtype=context.dtype)
+    return {
+        "right": basis[0].expand(interval_length, 3),
+        "up": basis[1].expand(interval_length, 3),
+        "forward": basis[2].expand(interval_length, 3),
+    }
+
+
 def _add_translation_movement_loss(
     context: _TrajectoryLossContext,
     constraint: Dict[str, Any],
@@ -227,6 +247,32 @@ def _add_translation_movement_loss(
     if target_distance is not None:
         target_distance = float(target_distance)
 
+    # Truck and pedestal do not acquire a subject merely because legacy
+    # environment data happens to expose C0 (or because a constraint-level
+    # subject is present). Truck follows camera-right; pedestal follows the
+    # scene's fixed Y-up axis. Desired framing is a separate composition loss.
+    if loss_type not in _SUBJECT_ANCHORED_TRANSLATION_LOSS_TYPES:
+        reference_frame = (
+            _world_axis_reference_frame(context, start_frame, end_frame)
+            if axis_name == "pedestal"
+            else None
+        )
+        context.accumulate_terms(
+            local_axis_translation_losses(
+                camera_positions=context.camera_positions,
+                camera_quaternions=context.camera_quaternions,
+                start_frame=start_frame,
+                end_frame=end_frame,
+                axis_name=axis_name,
+                movement_sign=movement_sign,
+                target_distance=target_distance,
+                reference_frame=reference_frame,
+            )
+        )
+        return
+
+    # Dolly is defined relative to its target, so it retains the
+    # subject-anchored reference frame and automatic subject framing.
     if context.subject_centers is None:
         return
     subject_id = _subject_id(constraint, loss_spec)
@@ -287,23 +333,8 @@ def _add_translation_movement_loss(
         )
     )
 
-    # trans_keep_rot ("hold the starting orientation") intentionally does
-    # NOT apply here. This function only ever reaches this point when a
-    # subject is in scope (see the early returns above) — meaning framing
-    # has ALWAYS already been applied by this line, every time. keepRot and
-    # framing were previously both pulling on orientation unconditionally
-    # and independently for the whole duration of every translation move,
-    # with nothing coordinating between "hold still" and "look at the
-    # subject" — that's what showed up as a persistently large
-    # dollyOutMovement/keepRot residual sitting alongside framing/lookat
-    # and framing/ray in the loss breakdown. Framing owns orientation
-    # whenever a subject is present; keepRot's actual job — don't let
-    # orientation drift for no reason — only makes sense when nothing else
-    # has a legitimate claim on it, i.e. a genuine no-subject translation
-    # move. That path doesn't exist yet (subject_centers/subject_id is
-    # required just to reach this function at all); trans_keep_rot stays
-    # defined in LOSS_WEIGHTS for when one is added, but has no consumer
-    # until then.
+    # Translation movement does not add a keep-rotation term. Explicit
+    # framing/rotation constraints may independently own orientation.
 
 
 def _add_rotation_movement_loss(

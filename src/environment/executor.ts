@@ -268,6 +268,38 @@ export function executeEnvironmentQuery(
   query: EnvironmentQuery,
 ): EnvironmentQueryResult {
   switch (query.type) {
+    case "resolveSubjectReferences": {
+      const semanticTargetIds = new Set(env.targets.map((target) => target.id));
+      const referencedIds = query.bindings.flatMap((binding) => {
+        if (binding.status === "resolved") return binding.subjectIds;
+        if (binding.status === "ambiguous") return binding.candidateSubjectIds;
+        return [];
+      });
+      assertSubjectIds(env, referencedIds);
+      const invalidIds = referencedIds.filter((id) => !semanticTargetIds.has(id));
+      if (invalidIds.length > 0) {
+        throw new Error(
+          `CSL subject refs must bind to semantic target IDs: ${invalidIds.join(", ")}`,
+        );
+      }
+      return {
+        type: query.type,
+        environmentId: env.id,
+        bindings: query.bindings.map((binding) => {
+          if (binding.status === "resolved") {
+            return { ...binding, subjectIds: [...new Set(binding.subjectIds)] };
+          }
+          if (binding.status === "ambiguous") {
+            return {
+              ...binding,
+              candidateSubjectIds: [...new Set(binding.candidateSubjectIds)],
+            };
+          }
+          return binding;
+        }),
+      };
+    }
+
     case "subjectBoxesAtTime": {
       assertSubjectIds(env, query.subjectIds);
       assertTime(env, query.timeSeconds, "timeSeconds");

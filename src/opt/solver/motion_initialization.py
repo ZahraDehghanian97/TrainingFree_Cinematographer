@@ -156,7 +156,7 @@ def generate_translation_movement(
     default_move_distance,
     as_control_time,
 ):
-    """Sample a local-axis camera translation."""
+    """Sample a camera-relative translation (world-up for pedestal)."""
     movement_distance = float(
         loss_spec.get(
             "distance",
@@ -198,6 +198,12 @@ def generate_translation_movement(
 
 
 def _translation_axis(start_quaternion, movement_type):
+    axis_name, _ = TRANSLATION_MOVES[movement_type]
+    if axis_name == "up":
+        # The scene coordinate system is Y-up. A pedestal remains vertical
+        # even when the camera starts pitched or rolled.
+        return np.array([0, 1, 0], float)
+
     right_axis = rotate_vector_by_quaternion(
         start_quaternion,
         np.array([1, 0, 0], float),
@@ -210,7 +216,6 @@ def _translation_axis(start_quaternion, movement_type):
         start_quaternion,
         np.array([0, 0, 1], float),
     )
-    axis_name, _ = TRANSLATION_MOVES[movement_type]
     return {
         "right": right_axis,
         "up": up_axis,

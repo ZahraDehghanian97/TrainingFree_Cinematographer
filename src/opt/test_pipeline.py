@@ -21,7 +21,9 @@ try:
         infer_example_id_from_wrapper,
         resolve_optimizer_metadata,
     )
+    from .pipeline.execution import build_subject_data_from_environment
     from .pipeline.trajectory import convert_optimizer_quaternion_to_viewer
+    from .subject_ids import canonical_subject_id, split_subject_id
     from .timebase import (
         calculate_inclusive_frame_count,
         convert_constraint_times_to_frame_indices,
@@ -42,7 +44,9 @@ except ImportError:
         infer_example_id_from_wrapper,
         resolve_optimizer_metadata,
     )
+    from pipeline.execution import build_subject_data_from_environment
     from pipeline.trajectory import convert_optimizer_quaternion_to_viewer
+    from subject_ids import canonical_subject_id, split_subject_id
     from timebase import (
         calculate_inclusive_frame_count,
         convert_constraint_times_to_frame_indices,
@@ -293,9 +297,143 @@ class TimelineAdapterTests(unittest.TestCase):
             {"type": "static"},
         )
 
+    def test_explicit_dolly_subject_is_preserved_for_optimizer(self):
+        self.assertEqual(
+            convert_timeline_loss_to_optimizer_loss(
+                {
+                    "type": "dollyInMovement",
+                    "parameters": {
+                        "distance": 3.8,
+                        "subjectId": "pupil",
+                    },
+                }
+            ),
+            {
+                "type": "dollyInMovement",
+                "distance": 3.8,
+                "subjectId": "pupil",
+            },
+        )
+
+    def test_truck_and_pedestal_do_not_receive_default_subject(self):
+        for movement_type in (
+            "truckLeftMovement",
+            "truckRightMovement",
+            "pedestalUpMovement",
+            "pedestalDownMovement",
+        ):
+            with self.subTest(movement_type=movement_type):
+                self.assertEqual(
+                    convert_timeline_loss_to_optimizer_loss(
+                        {
+                            "type": movement_type,
+                            "parameters": {"distance": 2.5},
+                        }
+                    ),
+                    {
+                        "type": movement_type,
+                        "distance": 2.5,
+                    },
+                )
+
+    def test_truck_and_pedestal_strip_stale_explicit_subjects(self):
+        for movement_type in ("truckRightMovement", "pedestalUpMovement"):
+            for parameters in (
+                {"subjectId": "legacy-actor"},
+                {"subjectIds": ["legacy-actor", "legacy-prop"]},
+            ):
+                with self.subTest(
+                    movement_type=movement_type,
+                    parameters=parameters,
+                ):
+                    self.assertEqual(
+                        convert_timeline_loss_to_optimizer_loss(
+                            {
+                                "type": movement_type,
+                                "parameters": parameters,
+                            }
+                        ),
+                        {"type": movement_type},
+                    )
+
+    def test_multiple_movement_subjects_use_canonical_optimizer_key(self):
+        self.assertEqual(
+            convert_timeline_loss_to_optimizer_loss(
+                {
+                    "type": "followMovement",
+                    "parameters": {
+                        "subjectIds": ["person2", "person1", "person2"],
+                    },
+                }
+            ),
+            {
+                "type": "followMovement",
+                "subjectId": canonical_subject_id(["person1", "person2"]),
+            },
+        )
+
+    def test_compound_subject_id_encoding_handles_opaque_ids(self):
+        encoded = canonical_subject_id(["track+a", "track b", "track+a"])
+        self.assertEqual(split_subject_id(encoded), ["track b", "track+a"])
+        self.assertNotEqual(encoded, "track b+track+a")
+
 
 @unittest.skipUnless(torch is not None, "PyTorch is not installed")
 class OptimizerNumericsTests(unittest.TestCase):
+    def test_primary_target_track_keeps_real_id_and_legacy_alias(self):
+        subject_centers, subject_tracks = build_subject_data_from_environment(
+            {
+                "entities": [
+                    {
+                        "id": "actor-entity",
+                        "transform": {"position": [1.0, 0.0, 2.0]},
+                    }
+                ],
+                "targets": [
+                    {
+                        "id": "actor",
+                        "entityId": "actor-entity",
+                        "localAnchor": [0.0, 1.0, 0.0],
+                    }
+                ],
+            },
+            frame_count=3,
+            fps=24,
+            torch_module=torch,
+        )
+
+        self.assertIn("actor", subject_centers)
+        self.assertIn("actor", subject_tracks)
+        self.assertIn("C0", subject_tracks)
+        self.assertIs(subject_tracks["actor"], subject_tracks["C0"])
+
+    def test_opaque_target_id_with_plus_is_not_treated_as_a_legacy_group(self):
+        subject_centers, _ = build_subject_data_from_environment(
+            {
+                "entities": [
+                    {
+                        "id": "actor-entity",
+                        "transform": {"position": [1.0, 0.0, 2.0]},
+                    }
+                ],
+                "targets": [
+                    {
+                        "id": "track+17",
+                        "entityId": "actor-entity",
+                        "localAnchor": [0.0, 1.0, 0.0],
+                    }
+                ],
+            },
+            frame_count=3,
+            fps=24,
+            torch_module=torch,
+            constraints=[{
+                "losses": [{"type": "dollyInMovement", "subjectId": "track+17"}],
+            }],
+        )
+
+        self.assertIn("track+17", subject_centers)
+
     def test_point_easing_spreads_loss_to_neighboring_frames(self):
         camera_positions = torch.zeros((5, 3), dtype=torch.float64)
         camera_quaternions = torch.tensor(
@@ -384,6 +522,174 @@ class OptimizerNumericsTests(unittest.TestCase):
                     [0.0, 0.0, 0.0],
                     [1.0, 0.0, 0.0],
                     [2.0, 0.0, 0.0],
+                ],
+                dtype=torch.float64,
+            ),
+            rtol=0,
+            atol=1e-8,
+        )
+
+    def test_truck_and_pedestal_losses_are_subjectless(self):
+        identity_quaternions = torch.tensor(
+            [[1.0, 0.0, 0.0, 0.0]] * 3,
+            dtype=torch.float64,
+            requires_grad=True,
+        )
+        subject_centers = {
+            "C0": torch.tensor(
+                [[10.0, 0.0, 10.0]] * 3,
+                dtype=torch.float64,
+            )
+        }
+
+        cases = (
+            (
+                "truckRightMovement",
+                torch.tensor(
+                    [[0.0, 0.0, 0.0], [1.0, 0.0, 0.0], [2.0, 0.0, 0.0]],
+                    dtype=torch.float64,
+                    requires_grad=True,
+                ),
+                "truckMovement/target",
+            ),
+            (
+                "pedestalUpMovement",
+                torch.tensor(
+                    [[0.0, 0.0, 0.0], [0.0, 1.0, 0.0], [0.0, 2.0, 0.0]],
+                    dtype=torch.float64,
+                    requires_grad=True,
+                ),
+                "pedestalMovement/target",
+            ),
+        )
+
+        for movement_type, camera_positions, target_term in cases:
+            with self.subTest(movement_type=movement_type):
+                loss_report = compute_trajectory_loss(
+                    camera_positions,
+                    identity_quaternions,
+                    constraints=[
+                        {
+                            "kind": "interval",
+                            "t0": 0,
+                            "t1": 2,
+                            "losses": [
+                                {
+                                    "type": movement_type,
+                                    "distance": 2,
+                                }
+                            ],
+                        }
+                    ],
+                    subject_centers=subject_centers,
+                )
+
+                self.assertIn(target_term, loss_report.terms)
+                self.assertNotIn("framing/lookat", loss_report.terms)
+                self.assertNotIn("framing/ray", loss_report.terms)
+                self.assertNotIn("orientation/levelHorizon", loss_report.terms)
+                self.assertNotIn(f"{movement_type}/keepRot", loss_report.terms)
+
+    def test_truck_loss_uses_camera_local_right_axis(self):
+        half_sqrt_two = 2 ** -0.5
+        camera_quaternions = torch.tensor(
+            [[half_sqrt_two, 0.0, half_sqrt_two, 0.0]] * 3,
+            dtype=torch.float64,
+            requires_grad=True,
+        )
+        camera_positions = torch.tensor(
+            [[0.0, 0.0, 0.0], [0.0, 0.0, -1.0], [0.0, 0.0, -2.0]],
+            dtype=torch.float64,
+            requires_grad=True,
+        )
+
+        loss_report = compute_trajectory_loss(
+            camera_positions,
+            camera_quaternions,
+            constraints=[
+                {
+                    "kind": "interval",
+                    "t0": 0,
+                    "t1": 2,
+                    "losses": [
+                        {
+                            "type": "truckRightMovement",
+                            "distance": 2,
+                        }
+                    ],
+                }
+            ],
+        )
+
+        self.assertLess(loss_report.terms["truckMovement/target"].item(), 1e-8)
+
+    def test_pedestal_uses_world_up_when_camera_is_pitched(self):
+        half_sqrt_two = 2 ** -0.5
+        pitched_quaternions = torch.tensor(
+            [[half_sqrt_two, half_sqrt_two, 0.0, 0.0]] * 3,
+            dtype=torch.float64,
+            requires_grad=True,
+        )
+        world_up_positions = torch.tensor(
+            [[0.0, 0.0, 0.0], [0.0, 1.0, 0.0], [0.0, 2.0, 0.0]],
+            dtype=torch.float64,
+            requires_grad=True,
+        )
+        loss_report = compute_trajectory_loss(
+            world_up_positions,
+            pitched_quaternions,
+            constraints=[
+                {
+                    "kind": "interval",
+                    "t0": 0,
+                    "t1": 2,
+                    "losses": [
+                        {
+                            "type": "pedestalUpMovement",
+                            "distance": 2,
+                        }
+                    ],
+                }
+            ],
+        )
+        self.assertLess(loss_report.terms["pedestalMovement/target"].item(), 1e-8)
+
+        control_points = initialize_camera_control_points(
+            constraints=[
+                {
+                    "kind": "point",
+                    "t": 0,
+                    "position": [0, 0, 0],
+                    "quaternion": [half_sqrt_two, half_sqrt_two, 0, 0],
+                    "losses": [],
+                },
+                {
+                    "kind": "interval",
+                    "t0": 0,
+                    "t1": 2,
+                    "k": 3,
+                    "losses": [
+                        {
+                            "type": "pedestalUpMovement",
+                            "distance": 2,
+                        }
+                    ],
+                },
+            ],
+            subject_tracks={},
+            image_width=1920,
+            image_height=1080,
+        )
+        torch.testing.assert_close(
+            torch.tensor(
+                [point["p"].tolist() for point in control_points],
+                dtype=torch.float64,
+            ),
+            torch.tensor(
+                [
+                    [0.0, 0.0, 0.0],
+                    [0.0, 1.0, 0.0],
+                    [0.0, 2.0, 0.0],
                 ],
                 dtype=torch.float64,
             ),

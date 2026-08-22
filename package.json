@@ -11,9 +11,9 @@
     "pipeline": "ts-node ./src/index.ts",
     "visualizer": "vite --config web/vite.config.ts",
     "preview:visualizer": "vite preview --config web/vite.config.ts",
-    "test": "vitest run --config web/vitest.config.ts",
+    "test": "npm run test:node && vitest run --config web/vitest.config.ts --passWithNoTests",
     "ai_trajectory": "ts-node src/opt/ai_trajectory_generator_pipeline/index.ts",
-    "test:node": "node --test -r ts-node/register tests/environment-query.test.ts"
+    "test:node": "node --test -r ts-node/register tests/*.test.ts"
   },
   "keywords": [],
   "author": "",

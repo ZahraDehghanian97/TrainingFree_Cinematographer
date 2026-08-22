@@ -6,7 +6,13 @@ import {
   SpeedFunction,
   RelativeFPS,
 } from "./enums";
-import { CameraConfig, Target, Vector3 } from "./camera";
+import {
+  type CameraConfig,
+  type CameraTargetDescriptor,
+  type SubjectReference,
+  type Target,
+  type Vector3,
+} from "./camera";
 
 // ─── Triggers ────────────────────────────────────────────────────────────────
 
@@ -22,31 +28,44 @@ export interface RelativeTimeTrigger {
   offset: number; // seconds (can be negative)
 }
 
-export interface DistanceEventTrigger {
+export interface DistanceEventTrigger<
+  TTarget extends CameraTargetDescriptor = Target,
+> {
   type: "distance";
-  object1: Target;
-  object2: Target;
+  object1: TTarget;
+  object2: TTarget;
   operator: ComparisonOperator;
   distance: number;
 }
 
-export interface VelocityEventTrigger {
+export interface VelocityEventTrigger<
+  TTarget extends CameraTargetDescriptor = Target,
+> {
   type: "velocity";
-  subject: Target;
+  subject: TTarget;
   operator: ComparisonOperator;
   speed: number;       // m/s
   direction?: Vector3;
 }
 
-export type EventTrigger = DistanceEventTrigger | VelocityEventTrigger;
-export type Trigger = EventTrigger | AbsoluteTimeTrigger | RelativeTimeTrigger;
+export type EventTrigger<TTarget extends CameraTargetDescriptor = Target> =
+  | DistanceEventTrigger<TTarget>
+  | VelocityEventTrigger<TTarget>;
+export type Trigger<TTarget extends CameraTargetDescriptor = Target> =
+  | EventTrigger<TTarget>
+  | AbsoluteTimeTrigger
+  | RelativeTimeTrigger;
 
-export interface CompoundTrigger {
+export interface CompoundTrigger<
+  TTarget extends CameraTargetDescriptor = Target,
+> {
   operator: "and" | "or";
-  triggers: (Trigger | CompoundTrigger)[];
+  triggers: (Trigger<TTarget> | CompoundTrigger<TTarget>)[];
 }
 
-export type TriggerSpec = Trigger | CompoundTrigger;
+export type TriggerSpec<TTarget extends CameraTargetDescriptor = Target> =
+  | Trigger<TTarget>
+  | CompoundTrigger<TTarget>;
 
 // ─── Movement ────────────────────────────────────────────────────────────────
 
@@ -83,8 +102,15 @@ export interface MovementParameters {
   curveIntensity?: Scale;
 }
 
-export interface Movement {
+export interface Movement<TTarget extends CameraTargetDescriptor = Target> {
   act: CameraMovementType;
+  /**
+   * Subjects that define a subject-anchored movement's axis or center. Truck
+   * and Pedestal use intrinsic translation directions and do not need targets.
+   * Movement targets are independent from ConstraintConfig.targets, which
+   * describe framing/composition.
+   */
+  targets?: TTarget[];
   duration?: number;
   speedKeyframes?: SpeedKeyframe[];
   relativeFPS?: RelativeFPS;
@@ -108,37 +134,47 @@ export interface PointConstraintEasing {
   curve?: PointConstraintEasingCurve;
 }
 
-export interface ConstraintConfig {
-  targets?: Target[];
-  config: CameraConfig;
+export interface ConstraintConfig<
+  TTarget extends CameraTargetDescriptor = Target,
+> {
+  targets?: TTarget[];
+  config: CameraConfig<TTarget>;
   /** true → enforce on every frame; false → enforce at the action end point. */
   allFrames: boolean;
   /** Optional soft temporal window for point-only constraints. Invalid when allFrames=true. */
   easing?: PointConstraintEasing;
 }
 
-export interface Action {
+export interface Action<TTarget extends CameraTargetDescriptor = Target> {
   id: string;
   name?: string;
-  trigger: TriggerSpec;
-  movement: Movement;
+  trigger: TriggerSpec<TTarget>;
+  movement: Movement<TTarget>;
   priority?: number;
-  constraints?: ConstraintConfig[];
+  constraints?: ConstraintConfig<TTarget>[];
 }
 
 // ─── Section & Top-level DSL ─────────────────────────────────────────────────
 
-export interface InitCamera {
-  targets: Target[];
-  config: CameraConfig;
+export interface InitCamera<TTarget extends CameraTargetDescriptor = Target> {
+  targets: TTarget[];
+  config: CameraConfig<TTarget>;
 }
 
-export interface Section {
-  initCamera: InitCamera;
-  actions: Action[];
+export interface Section<TTarget extends CameraTargetDescriptor = Target> {
+  initCamera: InitCamera<TTarget>;
+  actions: Action<TTarget>[];
 }
 
-export interface CameraDirectionDSL {
-  sections: Section[];
+export interface CameraDirectionDSL<
+  TTarget extends CameraTargetDescriptor = Target,
+> {
+  sections: Section<TTarget>[];
   totalDuration: number;
 }
+
+/** Semantic CSL emitted before the 4D recognition module binds runtime IDs. */
+export type CameraDirectionDraft = CameraDirectionDSL<SubjectReference>;
+
+/** Executable CSL whose subject references have runtime 4D IDs. */
+export type ResolvedCameraDirectionDSL = CameraDirectionDSL<Target>;

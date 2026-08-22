@@ -35,6 +35,7 @@ import {
 } from "./constants";
 import { CameraConfig, type Target } from "../types/camera";
 import { validatePointConstraintEasing } from "./easing";
+import { assertResolvedCameraDirection } from "../grounding/validation";
 
 interface TimedAction extends Action {
   startTime?: number;
@@ -59,6 +60,7 @@ function resolveAnchorTime(
 }
 
 export function solveTimeline(dsl: CameraDirectionDSL): TimelineSolverOutput {
+  assertResolvedCameraDirection(dsl);
   const sections: SectionSolverOutput[] = [];
   const totalDuration: number = dsl.totalDuration
 
@@ -385,13 +387,31 @@ function buildMovementLossParameters(
 ): Record<string, unknown> {
 
   const p = action.movement.parameters ?? {};
+  const targetParameters = buildTargetParameters(action.movement.targets);
 
   switch (action.movement.act) {
 
     case CameraMovementType.DollyIn:
     case CameraMovementType.DollyOut:
+      return {
+        distance: p.distance ?? DEFAULT_DOLLY_DISTANCE,
+        ...targetParameters,
+      };
+
+    case CameraMovementType.TruckLeft:
+    case CameraMovementType.TruckRight:
+    case CameraMovementType.PedestalUp:
+    case CameraMovementType.PedestalDown:
+      return p.distance === undefined ? {} : { distance: p.distance };
+
     case CameraMovementType.Follow:
-      return { distance: p.distance ?? DEFAULT_DOLLY_DISTANCE };
+      return {
+        distance: p.distance ?? DEFAULT_DOLLY_DISTANCE,
+        ...targetParameters,
+      };
+
+    case CameraMovementType.Track:
+      return targetParameters;
 
     case CameraMovementType.PanLeft:
     case CameraMovementType.PanRight:
@@ -409,11 +429,31 @@ function buildMovementLossParameters(
             ? arcAngleMagnitude
             : requestedArcAngle,
         arcRadius: p.arcRadius ?? DEFAULT_ARC_RADIUS,
+        ...targetParameters,
       };
 
     default:
       return {};
   }
+}
+
+function buildTargetParameters(
+  targets: Target[] = [],
+): Record<string, unknown> {
+  const targetIds = [...new Set(targets.map((target, index) => {
+    const id = (target as Partial<Target>).id;
+    if (typeof id !== "string" || !id.trim()) {
+      throw new Error(
+        `Unbound target at index ${index}; bind semantic CSL references before solving`,
+      );
+    }
+    return id.trim();
+  }))];
+  return targetIds.length > 1
+    ? { subjectIds: targetIds }
+    : targetIds.length === 1
+      ? { subjectId: targetIds[0] }
+      : {};
 }
 
 export function buildCameraConfigLosses(
@@ -422,12 +462,7 @@ export function buildCameraConfigLosses(
 ): LossFunction[] {
 
   const losses: LossFunction[] = [];
-  const targetIds = [...new Set(targets.map((target) => target.id))];
-  const targetParameters: Record<string, unknown> = targetIds.length > 1
-    ? { subjectIds: targetIds }
-    : targetIds.length === 1
-      ? { subjectId: targetIds[0] }
-      : {};
+  const targetParameters = buildTargetParameters(targets);
 
   if (config.type === "subjectAware") {
 

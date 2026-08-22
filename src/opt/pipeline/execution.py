@@ -228,15 +228,21 @@ def _resolve_world_bounds_series(
 
 def _referenced_compound_subject_ids(
     constraints: list[dict[str, Any]] | None,
+    known_subject_ids: set[str] | None = None,
 ) -> set[str]:
     """Collect every compound subjectId actually used across constraints."""
     referenced: set[str] = set()
+    known_subject_ids = known_subject_ids or set()
     if not constraints:
         return referenced
     for constraint in constraints:
         for loss_spec in constraint.get("losses", []):
             subject_id = loss_spec.get("subjectId")
-            if isinstance(subject_id, str) and is_compound_subject_id(subject_id):
+            if (
+                isinstance(subject_id, str)
+                and subject_id not in known_subject_ids
+                and is_compound_subject_id(subject_id)
+            ):
                 referenced.add(subject_id)
     return referenced
 
@@ -404,14 +410,17 @@ def build_subject_data_from_environment(
             if world_bounds is not None:
                 subject_world_bounds[target_id] = world_bounds
 
-        track_key = "C0" if idx == 0 else (target_id or f"target_{idx}")
-        subject_tracks[track_key] = [
+        track_entries = [
             {
                 "bbox": dict(PLACEHOLDER_BBOX),
                 "center3d": centers_list[i],
             }
             for i in range(frame_count)
         ]
+        subject_tracks[target_id or f"target_{idx}"] = track_entries
+        if idx == 0:
+            # Preserve the legacy alias without dropping the real semantic ID.
+            subject_tracks["C0"] = track_entries
 
     # 2. Extract entity positions directly if targets list was empty
     if not subject_centers and entities:
@@ -427,7 +436,10 @@ def build_subject_data_from_environment(
     if not subject_centers:
         return build_placeholder_subject_data(torch_module, frame_count)
 
-    compound_ids = _referenced_compound_subject_ids(constraints)
+    compound_ids = _referenced_compound_subject_ids(
+        constraints,
+        set(subject_centers),
+    )
     if compound_ids:
         _synthesize_compound_subjects(
             compound_ids,

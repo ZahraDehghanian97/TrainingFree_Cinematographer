@@ -45,12 +45,21 @@ LOSS_TYPE_MAP = {
 
 
 SUBJECT_AWARE_LOSSES = {
+    "dollyInMovement",
+    "dollyOutMovement",
     "arcMovement",
     "followMovement",
     "trackMovement",
     "shotSize",
     "framingPosition",
     "subjectView",
+}
+
+SUBJECTLESS_TRANSLATION_LOSSES = {
+    "truckLeftMovement",
+    "truckRightMovement",
+    "pedestalUpMovement",
+    "pedestalDownMovement",
 }
 
 
@@ -86,13 +95,17 @@ def convert_timeline_loss_to_optimizer_loss(timeline_loss):
     # pipeline/execution.py knows how to recognize and synthesize a union
     # entry for. If both "subjectId" and "subjectIds" are present,
     # "subjectIds" wins — it's the more specific instruction.
-    if "subjectIds" in parameters:
+    if optimizer_loss_type in SUBJECTLESS_TRANSLATION_LOSSES:
+        # Normalize stale/legacy timelines too: these moves are defined by
+        # camera/world axes and must not cause subject-data synthesis.
+        parameters.pop("subjectId", None)
+        parameters.pop("subjectIds", None)
+    elif "subjectIds" in parameters:
         parameters["subjectId"] = canonical_subject_id(parameters.pop("subjectIds"))
 
-    #
-    # Temporary assumption:
-    # Every subject-aware loss refers to subject C0.
-    #
+    # Legacy flattened timelines did not carry target IDs. Keep C0 only as a
+    # backwards-compatible fallback; newly solved timelines provide explicit
+    # subjectId/subjectIds values from movement.targets or framing targets.
     if optimizer_loss_type in SUBJECT_AWARE_LOSSES:
         parameters.setdefault("subjectId", DEFAULT_SUBJECT_ID)
 

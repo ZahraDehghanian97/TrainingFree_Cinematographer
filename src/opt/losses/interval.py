@@ -106,15 +106,10 @@ def local_axis_translation_losses(
     ``reference_frame``, when given, is a dict with ``forward``/``right``/
     ``up`` PER-FRAME unit vectors (each shape (T, 3), T = end_frame -
     start_frame + 1) that replaces the camera's OWN orientation as the
-    source of the movement axis and the orth_drift orthogonal axes. Pass
-    this whenever a subject is available so the move tracks "parallel to
-    the subject's forward/up" at every frame, independent of whatever
-    framing_alignment_losses is doing to the camera's actual orientation in
-    parallel — see the dispatcher's _subject_anchored_reference_frame for
-    how it's built (subject-anchored, per-frame, NOT fixed — unlike
-    arc.py's frame-0-anchored plane normal, since a translation axis is
-    expected to keep tracking the subject as the camera moves, e.g. during
-    a combined arc+dolly spiral).
+    source of the movement axis and the orth_drift orthogonal axes. The
+    dispatcher supplies it for subject-anchored dolly moves and for the
+    fixed world-up pedestal frame. Truck omits it and uses camera-local
+    axes.
 
     ``suppress_drift``: set when this same interval also has an
     arcMovement loss active. orth_drift's premise ("don't leave the
@@ -151,11 +146,8 @@ def local_axis_translation_losses(
         interval_up_axes = reference_frame["up"]
     else:
         # Per-frame local axes across the WHOLE interval, not a single
-        # frozen snapshot from start_frame. Only used as a fallback now
-        # (no subject in scope) — with a subject available, prefer passing
-        # reference_frame instead, since deriving the axis from the
-        # camera's OWN orientation is what let framing quietly redefine
-        # "forward" mid-interval in the first place.
+        # frozen snapshot from start_frame. This is the intended frame for
+        # subjectless truck moves.
         interval_forward_axes, interval_right_axes, interval_up_axes = (
             camera_axes_from_quaternions(
                 camera_quaternions[start_frame : end_frame + 1]
