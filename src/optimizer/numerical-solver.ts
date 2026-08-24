@@ -1,6 +1,7 @@
 import type { Quat } from "../types/environment";
 import { clamp, lookAtQuaternion, normalizeQuat } from "./math";
 import { ObjectiveEvaluator } from "./objective";
+import { crossesCut } from "./time";
 import type {
   CameraStateSample,
   UserCameraKeyframe,
@@ -25,6 +26,7 @@ export interface NumericalSolveResult {
 interface NumericalSolveOptions {
   iterations: number;
   randomSeed: number;
+  cutTimes?: readonly number[];
 }
 
 function nearestStateIndex(states: readonly CameraStateSample[], time: number): number {
@@ -188,6 +190,59 @@ class StateCodec {
     }
     return states;
   }
+
+  /**
+   * Removes high-frequency noise from an optimizer step while retaining the
+   * same state variables. SPSA estimates every trajectory coordinate at once;
+   * without this temporal filter its random cross-talk appears as camera
+   * shake, even when the scalar objective improves.
+   */
+  public smoothDirection(
+    direction: Float64Array,
+    cutTimes: readonly number[],
+    passes = 2,
+  ): Float64Array {
+    const dimensionsByComponent = new Map<StateComponent, Map<number, number>>();
+    this.references.forEach((reference, dimension) => {
+      const dimensions = dimensionsByComponent.get(reference.component) ?? new Map<number, number>();
+      dimensions.set(reference.stateIndex, dimension);
+      dimensionsByComponent.set(reference.component, dimensions);
+    });
+
+    let filtered = new Float64Array(direction);
+    for (let pass = 0; pass < passes; pass += 1) {
+      const next = new Float64Array(filtered);
+      this.references.forEach((reference, dimension) => {
+        const componentDimensions = dimensionsByComponent.get(reference.component)!;
+        const leftDimension = componentDimensions.get(reference.stateIndex - 1);
+        const rightDimension = componentDimensions.get(reference.stateIndex + 1);
+        const state = this.template[reference.stateIndex]!;
+        const hasLeft = leftDimension !== undefined
+          && !crossesCut(
+            this.template[reference.stateIndex - 1]!.time,
+            state.time,
+            cutTimes,
+          );
+        const hasRight = rightDimension !== undefined
+          && !crossesCut(
+            state.time,
+            this.template[reference.stateIndex + 1]!.time,
+            cutTimes,
+          );
+        if (hasLeft && hasRight) {
+          next[dimension] = 0.25 * filtered[leftDimension]!
+            + 0.5 * filtered[dimension]!
+            + 0.25 * filtered[rightDimension]!;
+        } else if (hasLeft) {
+          next[dimension] = 0.25 * filtered[leftDimension]! + 0.75 * filtered[dimension]!;
+        } else if (hasRight) {
+          next[dimension] = 0.75 * filtered[dimension]! + 0.25 * filtered[rightDimension]!;
+        }
+      });
+      filtered = next;
+    }
+    return filtered;
+  }
 }
 
 function xorshift32(seed: number): () => number {
@@ -237,8 +292,10 @@ export function solveNumerically(
   let bestLoss = initialLoss;
   let bestVector = copyVector(vector);
   let learningRate = 0.04;
-  let stallIterations = 0;
+  let rejectedIterations = 0;
+  let smallImprovementIterations = 0;
   let completedIterations = 0;
+  let terminationReason: NumericalSolveResult["terminationReason"] = "maxIterations";
   const perturbationsPerIteration = 2;
 
   for (let iteration = 1; iteration <= options.iterations; iteration += 1) {
@@ -264,7 +321,7 @@ export function solveNumerically(
 
     const beta1 = 0.9;
     const beta2 = 0.999;
-    const direction = new Float64Array(vector.length);
+    let direction = new Float64Array(vector.length);
     let maximumDirection = 0;
     for (let dimension = 0; dimension < vector.length; dimension += 1) {
       const value = clamp(gradient[dimension]!, -1e4, 1e4);
@@ -276,10 +333,17 @@ export function solveNumerically(
       maximumDirection = Math.max(maximumDirection, Math.abs(direction[dimension]!));
     }
     if (!Number.isFinite(maximumDirection) || maximumDirection <= 1e-12) {
-      stallIterations += 1;
-      if (stallIterations >= 12) break;
+      rejectedIterations += 1;
+      smallImprovementIterations = 0;
+      if (rejectedIterations >= 12) {
+        terminationReason = "stalled";
+        break;
+      }
       continue;
     }
+    direction = new Float64Array(codec.smoothDirection(direction, options.cutTimes ?? []));
+    maximumDirection = 0;
+    for (const value of direction) maximumDirection = Math.max(maximumDirection, Math.abs(value));
     const directionScale = maximumDirection > 1 ? 1 / maximumDirection : 1;
 
     let accepted = false;
@@ -302,16 +366,27 @@ export function solveNumerically(
           bestLoss = candidateLoss;
           bestVector = copyVector(candidate);
         }
-        stallIterations = relativeImprovement < 1e-7 ? stallIterations + 1 : 0;
+        rejectedIterations = 0;
+        smallImprovementIterations = relativeImprovement < 1e-7
+          ? smallImprovementIterations + 1
+          : 0;
         break;
       }
       step *= 0.5;
     }
     if (!accepted) {
       learningRate = Math.max(1e-4, learningRate * 0.5);
-      stallIterations += 1;
+      rejectedIterations += 1;
+      smallImprovementIterations = 0;
     }
-    if (stallIterations >= 18) break;
+    if (smallImprovementIterations >= 12) {
+      terminationReason = "converged";
+      break;
+    }
+    if (rejectedIterations >= 18) {
+      terminationReason = "stalled";
+      break;
+    }
   }
 
   // SPSA can be too noisy when a long trajectory has many unrelated active
@@ -351,15 +426,13 @@ export function solveNumerically(
   }
 
   states = codec.decode(bestVector);
-  const converged = stallIterations >= 18 && bestLoss < initialLoss;
+  const converged = terminationReason === "converged";
   return {
     states,
     initialLoss,
     finalLoss: bestLoss,
     iterations: completedIterations,
     converged,
-    terminationReason: completedIterations >= options.iterations
-      ? "maxIterations"
-      : converged ? "converged" : "stalled",
+    terminationReason,
   };
 }

@@ -1,5 +1,5 @@
 import type { ResolvedCameraDirectionDSL } from "../types/dsl";
-import { ShotSize, SubjectView, SubjectInFramePosition, CameraMovementType, ComparisonOperator, RelativeTimeReference, CameraVerticalAngle, RelativeFPS } from "../types/enums";
+import { ShotSize, SubjectView, SubjectInFramePosition, CameraMovementType, ComparisonOperator, RelativeTimeReference, CameraVerticalAngle, RelativeFPS, SpeedFunction } from "../types/enums";
 
 export interface ResolvedPromptExampleFixture {
   id: string;
@@ -180,7 +180,13 @@ export const resolvedPromptExampleFixtures: ResolvedPromptExampleFixture[] = [{
             },
             movement: {
               act: CameraMovementType.DollyOut,
-              targets: [{ id: "vase", description: "The vase (گلدون)" }]
+              targets: [{ id: "vase", description: "The vase (گلدون)" }],
+              speedKeyframes: [
+                { normalizedTime: 0, speedMultiplier: 0 },
+                { normalizedTime: 0.1, speedMultiplier: 1, easing: SpeedFunction.Increase },
+                { normalizedTime: 0.9, speedMultiplier: 1, easing: SpeedFunction.Static },
+                { normalizedTime: 1, speedMultiplier: 0, easing: SpeedFunction.Decrease }
+              ]
             },
             constraints: [
               {
@@ -897,7 +903,7 @@ export const resolvedPromptExampleFixtures: ResolvedPromptExampleFixture[] = [{
           config: {
             type: "subjectAware",
             shotSize: ShotSize.CloseUp,
-            subjectView: SubjectView.Back,
+            subjectView: SubjectView.Front,
             subjectFraming: {
               position: SubjectInFramePosition.Center
             }
@@ -911,31 +917,40 @@ export const resolvedPromptExampleFixtures: ResolvedPromptExampleFixture[] = [{
               time: 0
             },
             movement: {
-              act: CameraMovementType.Static
+              act: CameraMovementType.Static,
+              targets: [
+                {
+                  id: "dashboard",
+                  description: "The car's dashboard interior view (نمای داخل ماشین از داشبورد)"
+                }
+              ]
             }
           },
           {
             id: "exit_through_windshield",
             trigger: {
-              type: "velocity",
-              subject: { id: "car", description: "The car (ماشین)" },
-              operator: ComparisonOperator.LessThan,
-              speed: 5
+              type: "absoluteTime",
+              time: 8
             },
             movement: {
               act: CameraMovementType.DollyIn,
               targets: [{ id: "car", description: "The car (ماشین)" }],
+              duration: 2.5,
               speedKeyframes: [
                 { normalizedTime: 0, speedMultiplier: 1 },
                 { normalizedTime: 1, speedMultiplier: 2 }
-              ]
+              ],
+              parameters: {
+                distance: 5.5,
+                allowSubjectIntersection: true
+              }
             },
             constraints: [{
               targets: [{ id: "car", description: "The car (ماشین)" }],
               config: {
                 type: "subjectAware",
                 shotSize: ShotSize.MediumShot,
-                subjectView: SubjectView.Front,
+                subjectView: SubjectView.Back,
                 subjectFraming: {
                   position: SubjectInFramePosition.Center
                 }
@@ -959,7 +974,8 @@ export const resolvedPromptExampleFixtures: ResolvedPromptExampleFixture[] = [{
                 { normalizedTime: 1, speedMultiplier: 1 }
               ],
               parameters: {
-                arcAngle: 180
+                arcAngle: 180,
+                arcRadius: 5.5
               }
             },
             constraints: [

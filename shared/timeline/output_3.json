@@ -15,7 +15,28 @@
           {
             "type": "dollyOutMovement",
             "parameters": {
-              "distance": 2
+              "distance": 2,
+              "speedKeyframes": [
+                {
+                  "normalizedTime": 0,
+                  "speedMultiplier": 0
+                },
+                {
+                  "normalizedTime": 0.1,
+                  "speedMultiplier": 1,
+                  "easing": "increase"
+                },
+                {
+                  "normalizedTime": 0.9,
+                  "speedMultiplier": 1,
+                  "easing": "static"
+                },
+                {
+                  "normalizedTime": 1,
+                  "speedMultiplier": 0,
+                  "easing": "decrease"
+                }
+              ]
             }
           }
         ]

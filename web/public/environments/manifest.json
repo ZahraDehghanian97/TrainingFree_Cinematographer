@@ -9,7 +9,7 @@
       "prompt": "توپ رو دنبال کن و وقتی توپ نزدیک به دروازه شد، pedestal کن و از زاویه بالا توپ رو دنبال کن",
       "durationSeconds": 10,
       "url": "/environments/example-01.json",
-      "optimizedTrajectoryUrl": "/trajectories/ai-generated/example-01-camera.json",
+      "optimizedTrajectoryUrl": "/trajectories/optimized/example-01-camera.json",
       "sampleTrajectoryUrl": "/trajectories/ai-generated/example-01-camera.json"
     },
     {
@@ -19,7 +19,7 @@
       "prompt": "از زوم روی صورت مرد شروع کن، یک stop motion بزن و ۳ دور کامل دور صورت آن بچرخ",
       "durationSeconds": 15,
       "url": "/environments/example-02.json",
-      "optimizedTrajectoryUrl": "/trajectories/ai-generated/example-02-camera.json",
+      "optimizedTrajectoryUrl": "/trajectories/optimized/example-02-camera.json",
       "sampleTrajectoryUrl": "/trajectories/ai-generated/example-02-camera.json"
     },
     {
@@ -29,7 +29,7 @@
       "prompt": "ابتدا به صورت کلوزآپ گلدون رو نشون بده و بعد dolly out کن تا همزمان گلدون و مانیتور در صحنه دیده‌شوند.",
       "durationSeconds": 20,
       "url": "/environments/example-03.json",
-      "optimizedTrajectoryUrl": "/trajectories/ai-generated/example-03-camera.json",
+      "optimizedTrajectoryUrl": "/trajectories/optimized/example-03-camera.json",
       "sampleTrajectoryUrl": "/trajectories/ai-generated/example-03-camera.json"
     },
     {
@@ -39,7 +39,7 @@
       "prompt": "به مدت ۲ ثانیه ماشین رو ترک کن و یک arc right دورش بزن و همزمان با arc روی راننده زوم کن",
       "durationSeconds": 15,
       "url": "/environments/example-04.json",
-      "optimizedTrajectoryUrl": "/trajectories/ai-generated/example-04-camera.json",
+      "optimizedTrajectoryUrl": "/trajectories/optimized/example-04-camera.json",
       "sampleTrajectoryUrl": "/trajectories/ai-generated/example-04-camera.json"
     },
     {
@@ -49,7 +49,7 @@
       "prompt": "روی چهره بازیگر Dolly Out کن و همزمان Zoom In انجام بده تا پرسپکتیو پس‌زمینه تغییر کند اما اندازه صورت ثابت بماند.",
       "durationSeconds": 25,
       "url": "/environments/example-05.json",
-      "optimizedTrajectoryUrl": "/trajectories/ai-generated/example-05-camera.json",
+      "optimizedTrajectoryUrl": "/trajectories/optimized/example-05-camera.json",
       "sampleTrajectoryUrl": "/trajectories/ai-generated/example-05-camera.json"
     },
     {
@@ -59,7 +59,7 @@
       "prompt": "زمان را روی ۲ ثانیه فریز کن و یک دور کامل ۳۶۰ درجه دور سوژه معلق در هوا بچرخ، سپس حرکت را با سرعت عادی ادامه بده.",
       "durationSeconds": 5,
       "url": "/environments/example-06.json",
-      "optimizedTrajectoryUrl": "/trajectories/ai-generated/example-06-camera.json",
+      "optimizedTrajectoryUrl": "/trajectories/optimized/example-06-camera.json",
       "sampleTrajectoryUrl": "/trajectories/ai-generated/example-06-camera.json"
     },
     {
@@ -69,7 +69,7 @@
       "prompt": "از نمای بالا شروع کن و با یک حرکت حلزونی همزمان که می‌چرخی، به سوژه نزدیک شو تا به کلوزآپ چشم‌هایش برسی.",
       "durationSeconds": 9,
       "url": "/environments/example-07.json",
-      "optimizedTrajectoryUrl": "/trajectories/ai-generated/example-07-camera.json",
+      "optimizedTrajectoryUrl": "/trajectories/optimized/example-07-camera.json",
       "sampleTrajectoryUrl": "/trajectories/ai-generated/example-07-camera.json"
     },
     {
@@ -79,7 +79,7 @@
       "prompt": "ابتدا صحنه مشت زدن را با Slow Motion (سرعت ۱۰٪) نشان بده و درست لحظه برخورد، سرعت را به Hyper Fast تغییر بده و روی محل ضربه زوم کن.",
       "durationSeconds": 12,
       "url": "/environments/example-08.json",
-      "optimizedTrajectoryUrl": "/trajectories/ai-generated/example-08-camera.json",
+      "optimizedTrajectoryUrl": "/trajectories/optimized/example-08-camera.json",
       "sampleTrajectoryUrl": "/trajectories/ai-generated/example-08-camera.json"
     },
     {
@@ -89,7 +89,7 @@
       "prompt": "دو نفر را در نمای Long Shot دنبال کن؛ به محض اینکه فاصله آن‌ها به کمتر از ۱ متر رسید، کات بزن به Over-the-Shoulder (نمای روی شانه).",
       "durationSeconds": 24,
       "url": "/environments/example-09.json",
-      "optimizedTrajectoryUrl": "/trajectories/ai-generated/example-09-camera.json",
+      "optimizedTrajectoryUrl": "/trajectories/optimized/example-09-camera.json",
       "sampleTrajectoryUrl": "/trajectories/ai-generated/example-09-camera.json"
     },
     {
@@ -99,7 +99,7 @@
       "prompt": "ماشین مسابقه را دنبال کن، اگر سرعت ماشین از ۱۰۰ کیلومتر بیشتر شد، دوربین را بلرزان و عقب بکش تا حس سرعت القا شود.",
       "durationSeconds": 13,
       "url": "/environments/example-10.json",
-      "optimizedTrajectoryUrl": "/trajectories/ai-generated/example-10-camera.json",
+      "optimizedTrajectoryUrl": "/trajectories/optimized/example-10-camera.json",
       "sampleTrajectoryUrl": "/trajectories/ai-generated/example-10-camera.json"
     },
     {
@@ -109,7 +109,7 @@
       "prompt": "برای ایجاد حس ترس، دوربین را ۳۰ درجه کج کن و به صورت دستی و لرزان به سمت در نیمه‌باز حرکت کن.",
       "durationSeconds": 6,
       "url": "/environments/example-11.json",
-      "optimizedTrajectoryUrl": "/trajectories/ai-generated/example-11-camera.json",
+      "optimizedTrajectoryUrl": "/trajectories/optimized/example-11-camera.json",
       "sampleTrajectoryUrl": "/trajectories/ai-generated/example-11-camera.json"
     },
     {
@@ -119,7 +119,7 @@
       "prompt": "از نمای داخل ماشین (Dashboard View) شروع کن، وقتی راننده ترمز کرد، دوربین از شیشه جلو بیرون بیاید و با یک Arc سریع، نمای جلوی ماشین را نشان دهد.",
       "durationSeconds": 18,
       "url": "/environments/example-12.json",
-      "optimizedTrajectoryUrl": "/trajectories/ai-generated/example-12-camera.json",
+      "optimizedTrajectoryUrl": "/trajectories/optimized/example-12-camera.json",
       "sampleTrajectoryUrl": "/trajectories/ai-generated/example-12-camera.json"
     },
     {
@@ -129,7 +129,7 @@
       "prompt": "ورژن ۲ برای ایجاد حس ترس، دوربین را ۳۰ درجه کج کن و به صورت دستی و لرزان به سمت در نیمه‌باز حرکت کن.",
       "durationSeconds": 7,
       "url": "/environments/example-13.json",
-      "optimizedTrajectoryUrl": "/trajectories/ai-generated/example-13-camera.json",
+      "optimizedTrajectoryUrl": "/trajectories/optimized/example-13-camera.json",
       "sampleTrajectoryUrl": "/trajectories/ai-generated/example-13-camera.json"
     },
     {
@@ -139,7 +139,7 @@
       "prompt": "از یک مدیوم‌شات سه‌رخ و سکوت ۱.۵ ثانیه‌ای شروع کن؛ بعد همزمان با Dolly In آهسته و یک Arc Right کوتاه به صورت نزدیک شو. در دو ثانیه آخر یک Zoom In خیلی نرم اضافه کن و چهره را روی یک‌سوم چپ قاب در Close Up قفل کن.",
       "durationSeconds": 10,
       "url": "/environments/example-14.json",
-      "optimizedTrajectoryUrl": "/trajectories/ai-generated/example-14-camera.json",
+      "optimizedTrajectoryUrl": "/trajectories/optimized/example-14-camera.json",
       "sampleTrajectoryUrl": "/trajectories/ai-generated/example-14-camera.json"
     },
     {
@@ -149,7 +149,7 @@
       "prompt": "از نمای Low Medium Long شروع کن. چهار ثانیه اول با Arc Left آرام و اسلوموشن دور رقصنده بچرخ؛ روی ضرب موسیقی حرکت را به Arc Left سریع همراه Pedestal Up تبدیل کن و در دو ثانیه آخر با یک فرود نرم، رقصنده را روی یک‌سوم راست قاب نگه دار.",
       "durationSeconds": 10,
       "url": "/environments/example-15.json",
-      "optimizedTrajectoryUrl": "/trajectories/ai-generated/example-15-camera.json",
+      "optimizedTrajectoryUrl": "/trajectories/optimized/example-15-camera.json",
       "sampleTrajectoryUrl": "/trajectories/ai-generated/example-15-camera.json"
     },
     {
@@ -159,7 +159,7 @@
       "prompt": "در یک پلان بدون کات، هر دو مأمور را با Truck Right داخل یک Two Shot نگه دار. وقتی فاصله‌شان به کمتر از یک متر رسید، یک Zoom In کوتاه روی کیف بزن؛ بلافاصله با Arc Right سریع از خط نگاه عبور کن و همزمان Zoom Out کن تا در پایان جای دو بازیگر در قاب عوض شود: A راست و B چپ.",
       "durationSeconds": 10,
       "url": "/environments/example-16.json",
-      "optimizedTrajectoryUrl": "/trajectories/ai-generated/example-16-camera.json",
+      "optimizedTrajectoryUrl": "/trajectories/optimized/example-16-camera.json",
       "sampleTrajectoryUrl": "/trajectories/ai-generated/example-16-camera.json"
     },
     {
@@ -169,7 +169,7 @@
       "prompt": "از Low Full Shot در کنار دونده با Track شروع کن و برای مسیرش lead room بده. لحظه‌ای که سرعتش به ۸ متر بر ثانیه رسید، صحنه را به ۱۰٪ ببر و با Arc Left صدوبیست درجه از کنار به روبه‌رویش برس. بعد سرعت عادی را برگردان، Dolly Out و Follow کن تا با فضای باز جلوی حرکت در قاب چپ تمام شود.",
       "durationSeconds": 11,
       "url": "/environments/example-17.json",
-      "optimizedTrajectoryUrl": "/trajectories/ai-generated/example-17-camera.json",
+      "optimizedTrajectoryUrl": "/trajectories/optimized/example-17-camera.json",
       "sampleTrajectoryUrl": "/trajectories/ai-generated/example-17-camera.json"
     },
     {
@@ -179,7 +179,7 @@
       "prompt": "از Close Up دست لرزان شروع کن و در ۲.۵ ثانیه با Tilt Up به چشم برس. نیم‌ثانیه مکث کن؛ سپس Dolly In و Zoom In را همزمان اجرا کن تا وارد مردمک شوی. در یک‌ونیم ثانیه آخر ۱۰ درجه Dutch Right بده و ضرب پایانی را داخل مردمک فریز کن.",
       "durationSeconds": 10,
       "url": "/environments/example-18.json",
-      "optimizedTrajectoryUrl": "/trajectories/ai-generated/example-18-camera.json",
+      "optimizedTrajectoryUrl": "/trajectories/optimized/example-18-camera.json",
       "sampleTrajectoryUrl": "/trajectories/ai-generated/example-18-camera.json"
     },
     {
@@ -189,7 +189,7 @@
       "prompt": "از نمای Overhead روی کارآگاه شروع کن؛ همزمان Pedestal Down و Tilt Down کن تا در دو ثانیه هم‌سطح او شوی. بعد با Truck Left در راهرو همراهش برو. وقتی به انتهای مسیر رسید، یک Pan Left سریع بزن، Zoom Out کن و با Dutch Right مهاجم پشت ستون را آشکار کن؛ سپس با یک Counter Pan Right کوتاه هر دو را در قاب نهایی جمع کن.",
       "durationSeconds": 10,
       "url": "/environments/example-19.json",
-      "optimizedTrajectoryUrl": "/trajectories/ai-generated/example-19-camera.json",
+      "optimizedTrajectoryUrl": "/trajectories/optimized/example-19-camera.json",
       "sampleTrajectoryUrl": "/trajectories/ai-generated/example-19-camera.json"
     }
   ]

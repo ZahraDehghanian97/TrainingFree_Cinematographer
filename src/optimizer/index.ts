@@ -82,7 +82,11 @@ export function optimizeCameraTrajectory(input: CameraOptimizerInput): CameraOpt
     initialStates,
     effectiveInput.userKeyframes ?? [],
     evaluator,
-    { iterations: options.iterations, randomSeed: options.randomSeed },
+    {
+      iterations: options.iterations,
+      randomSeed: options.randomSeed,
+      cutTimes: effectiveInput.timeline.cutTimes ?? [],
+    },
   );
   const finalEvaluation = evaluator.evaluate(solved.states, true);
   const mandatoryOutputTimes = [

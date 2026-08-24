@@ -98,6 +98,9 @@ export interface MovementParameters {
   followDelay?: number;
   leadAmount?: number;
 
+  // Permit an explicitly targeted camera move through its subject geometry.
+  allowSubjectIntersection?: boolean;
+
   // General
   path?: "linear" | "curved" | "spline";
   curveIntensity?: Scale;

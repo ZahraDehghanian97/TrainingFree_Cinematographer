@@ -247,18 +247,40 @@ function translationRecipe(
     ...(context.loss.parameters.curveIntensity === undefined
       ? {}
       : { curveIntensity: context.loss.parameters.curveIntensity }),
+    ...(context.loss.parameters.allowSubjectIntersection === true
+      ? { allowSubjectIntersection: true }
+      : {}),
     ...withSubjects(context.loss.parameters),
   };
   const path = context.loss.parameters.path;
   const shapeDescriptor: PrimitiveDescriptor = path === "curved" || path === "spline"
     ? { type: "pathProfile", channel: "position", role: "stabilizer", parameters: shared }
-    : { type: "orthogonalDrift", channel: "position", role: "stabilizer", parameters: shared };
+    : {
+        type: "orthogonalDrift",
+        channel: "position",
+        role: "stabilizer",
+        parameters: shared,
+        // A straight move is a geometric promise. Give it enough authority to
+        // resist the small per-sample cross-talk introduced by SPSA.
+        weightScale: 4,
+        tolerance: 0.02,
+      };
   return [
     { type: "axisProgress", channel: "position", role: "primary", parameters: shared },
     { type: "totalProgressTarget", channel: "position", role: "primary", parameters: shared },
     shapeDescriptor,
-    { type: "stepPacing", channel: "regularity", role: "stabilizer", parameters: shared, weightScale: 0.8 },
-    { type: "stepSmoothness", channel: "regularity", role: "stabilizer", parameters: shared, weightScale: 0.55 },
+    { type: "stepPacing", channel: "regularity", role: "stabilizer", parameters: shared, weightScale: 1.2 },
+    { type: "stepSmoothness", channel: "regularity", role: "stabilizer", parameters: shared, weightScale: 1.2 },
+    // Physical camera translation does not implicitly change the lens or roll
+    // the rig. Explicit zoom/dutch actions remove these stabilizers below.
+    { type: "fovHold", channel: "intrinsics", role: "stabilizer", weightScale: 2 },
+    {
+      type: "levelHorizon",
+      channel: "rotation",
+      role: "stabilizer",
+      weightScale: 24,
+      tolerance: Math.PI / 180,
+    },
   ];
 }
 
@@ -293,9 +315,9 @@ function recipeFor(context: CompileBandContext): PrimitiveDescriptor[] {
   const subjects = withSubjects(p);
   switch (loss.type) {
     case LossFunctionType.DollyInMovement:
-      return translationRecipe(context, "towardSubject", 1, finiteNumber(p.distance, 2));
+      return translationRecipe(context, "cameraForward", 1, finiteNumber(p.distance, 2));
     case LossFunctionType.DollyOutMovement:
-      return translationRecipe(context, "towardSubject", -1, finiteNumber(p.distance, 2));
+      return translationRecipe(context, "cameraForward", -1, finiteNumber(p.distance, 2));
     case LossFunctionType.TruckLeftMovement:
       return translationRecipe(context, "cameraRight", -1, finiteNumber(p.distance, 2));
     case LossFunctionType.TruckRightMovement:
@@ -379,7 +401,7 @@ function recipeFor(context: CompileBandContext): PrimitiveDescriptor[] {
         { type: "angularProgress", channel: "subjectRelative", role: "primary", parameters: { mode: "orbit", ...shared } },
         { type: "angularDirection", channel: "subjectRelative", role: "primary", parameters: { mode: "orbit", ...shared } },
         { type: "angularPacing", channel: "regularity", role: "stabilizer", parameters: { mode: "orbit", ...shared } },
-        { type: "lookAt", channel: "composition", role: "stabilizer", parameters: subjects },
+        { type: "lookAt", channel: "composition", role: "primary", parameters: subjects },
         { type: "levelHorizon", channel: "rotation", role: "stabilizer" },
       ];
     }
@@ -413,12 +435,33 @@ function recipeFor(context: CompileBandContext): PrimitiveDescriptor[] {
         { type: "orientationHold", channel: "rotation", role: "stabilizer" },
       ];
     }
-    case LossFunctionType.Static:
+    case LossFunctionType.Static: {
+      const mountedStatic = subjectIdsFromParameters(subjects).length > 0;
       return [
-        { type: "positionHold", channel: "position", role: "primary" },
-        { type: "orientationHold", channel: "rotation", role: "primary" },
-        { type: "fovHold", channel: "intrinsics", role: "primary" },
+        mountedStatic
+          ? {
+              type: "relativeOffsetHold",
+              channel: "subjectRelative",
+              role: "primary",
+              parameters: subjects,
+              tolerance: 0.04,
+              weightScale: 4,
+            }
+          : { type: "positionHold", channel: "position", role: "primary" },
+        {
+          type: "orientationHold",
+          channel: "rotation",
+          role: "primary",
+          ...(mountedStatic ? { weightScale: 4 } : {}),
+        },
+        {
+          type: "fovHold",
+          channel: "intrinsics",
+          role: "primary",
+          ...(mountedStatic ? { weightScale: 2 } : {}),
+        },
       ];
+    }
     case LossFunctionType.FollowMovement: {
       const follow = {
         ...subjects,
@@ -815,7 +858,13 @@ export function compileLossPlan(input: CameraOptimizerInput): CompiledLossPlan {
 
     if (highLevelTypes.some((type) => TRANSLATION_TYPES.has(type))) {
       const removed = removeWhere((primitive) =>
-        primitive.type === "positionHold"
+        (
+          primitive.type === "positionHold"
+          || (
+            primitive.type === "relativeOffsetHold"
+            && primitive.sourceType === LossFunctionType.Static
+          )
+        )
         && (primitive.role === "stabilizer" || primitive.sourceType === LossFunctionType.Static),
       );
       if (removed.length > 0) conflicts.push({
@@ -848,7 +897,8 @@ export function compileLossPlan(input: CameraOptimizerInput): CompiledLossPlan {
     }
     if (highLevelTypes.some((type) => FOV_DRIVING_TYPES.has(type))) {
       const removed = removeWhere((primitive) =>
-        primitive.type === "fovHold" && primitive.sourceType === LossFunctionType.Static,
+        primitive.type === "fovHold"
+        && (primitive.role === "stabilizer" || primitive.sourceType === LossFunctionType.Static),
       );
       if (removed.length > 0) conflicts.push({
         interval: [band.startTime, band.endTime],

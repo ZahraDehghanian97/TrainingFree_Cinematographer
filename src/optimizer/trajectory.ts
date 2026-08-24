@@ -4,7 +4,14 @@ import type {
   CameraTrajectoryV1,
   PlaybackRateLabelV1,
 } from "../types/trajectory";
-import { lerp3, lookAtQuaternion, normalizeQuat, slerpQuat } from "./math";
+import {
+  lookAtQuaternion,
+  normalizeQuat,
+  scale3,
+  sub3,
+  slerpQuat,
+} from "./math";
+import { crossesCut } from "./time";
 import type {
   CameraOptimizerInput,
   CameraStateSample,
@@ -35,7 +42,79 @@ function bracket(states: readonly CameraStateSample[], time: number): [number, n
   return [low, high, span <= 0 ? 0 : (time - states[low]!.time) / span];
 }
 
-function interpolateState(states: readonly CameraStateSample[], time: number): CameraStateSample {
+function positionTangent(
+  states: readonly CameraStateSample[],
+  index: number,
+  cutTimes: readonly number[],
+): Vec3 {
+  const current = states[index]!;
+  const previous = index > 0 ? states[index - 1] : undefined;
+  const next = index + 1 < states.length ? states[index + 1] : undefined;
+  const canUsePrevious = previous !== undefined
+    && !crossesCut(previous.time, current.time, cutTimes);
+  const canUseNext = next !== undefined
+    && !crossesCut(current.time, next.time, cutTimes);
+  if (canUsePrevious && canUseNext) {
+    return scale3(
+      sub3(next.position, previous.position),
+      1 / Math.max(1e-9, next.time - previous.time),
+    );
+  }
+  if (canUseNext) {
+    return scale3(
+      sub3(next.position, current.position),
+      1 / Math.max(1e-9, next.time - current.time),
+    );
+  }
+  if (canUsePrevious) {
+    return scale3(
+      sub3(current.position, previous.position),
+      1 / Math.max(1e-9, current.time - previous.time),
+    );
+  }
+  return [0, 0, 0];
+}
+
+function cubicPosition(
+  left: Vec3,
+  right: Vec3,
+  leftTangent: Vec3,
+  rightTangent: Vec3,
+  span: number,
+  alpha: number,
+): Vec3 {
+  const chord = sub3(right, left);
+  const chordLength = Math.hypot(...chord);
+  const maximumTangentLength = chordLength <= 1e-9 || span <= 1e-9
+    ? 0
+    : 2 * chordLength / span;
+  const boundedTangent = (tangent: Vec3): Vec3 => {
+    const length = Math.hypot(...tangent);
+    return length > maximumTangentLength
+      ? scale3(tangent, maximumTangentLength / length)
+      : tangent;
+  };
+  const boundedLeftTangent = boundedTangent(leftTangent);
+  const boundedRightTangent = boundedTangent(rightTangent);
+  const alpha2 = alpha * alpha;
+  const alpha3 = alpha2 * alpha;
+  const h00 = 2 * alpha3 - 3 * alpha2 + 1;
+  const h10 = alpha3 - 2 * alpha2 + alpha;
+  const h01 = -2 * alpha3 + 3 * alpha2;
+  const h11 = alpha3 - alpha2;
+  return [0, 1, 2].map((component) =>
+    h00 * left[component]!
+    + h10 * span * boundedLeftTangent[component]!
+    + h01 * right[component]!
+    + h11 * span * boundedRightTangent[component]!,
+  ) as Vec3;
+}
+
+function interpolateState(
+  states: readonly CameraStateSample[],
+  time: number,
+  cutTimes: readonly number[],
+): CameraStateSample {
   const [leftIndex, rightIndex, alpha] = bracket(states, time);
   const left = states[leftIndex]!;
   if (leftIndex === rightIndex) return {
@@ -45,9 +124,25 @@ function interpolateState(states: readonly CameraStateSample[], time: number): C
     fovYDegrees: left.fovYDegrees,
   };
   const right = states[rightIndex]!;
+  if (crossesCut(left.time, right.time, cutTimes)) {
+    return {
+      time,
+      position: [...left.position],
+      rotation: [...left.rotation],
+      fovYDegrees: left.fovYDegrees,
+    };
+  }
+  const span = right.time - left.time;
   return {
     time,
-    position: lerp3(left.position, right.position, alpha),
+    position: cubicPosition(
+      left.position,
+      right.position,
+      positionTangent(states, leftIndex, cutTimes),
+      positionTangent(states, rightIndex, cutTimes),
+      span,
+      alpha,
+    ),
     rotation: slerpQuat(left.rotation, right.rotation, alpha),
     fovYDegrees: left.fovYDegrees + (right.fovYDegrees - left.fovYDegrees) * alpha,
   };
@@ -107,7 +202,7 @@ export function buildCameraTrajectory(
     ...userKeyframes.filter((keyframe) => keyframe.cutBefore).map((keyframe) => keyframe.time),
   ];
   const samples: CameraSampleV1[] = outputTimes.map((time) => {
-    const state = interpolateState(optimizedStates, time);
+    const state = interpolateState(optimizedStates, time, cutTimes);
     applyHardOutput(state, userKeyframes);
     const sample: CameraSampleV1 = {
       t: time,

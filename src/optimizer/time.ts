@@ -1,7 +1,9 @@
 import type { EnvironmentV1 } from "../types/environment";
-import type { FlattenedTimeline, TimeWarpSegment } from "../types/solver";
+import { LossFunctionType, type FlattenedTimeline, type TimeWarpSegment } from "../types/solver";
 import type { UserCameraKeyframe } from "./types";
 import { clamp } from "./math";
+
+const MAX_ARC_STEP_DEGREES = 15;
 
 function sortedUnique(values: number[], epsilon = 1e-9): number[] {
   const sorted = values.filter(Number.isFinite).sort((a, b) => a - b);
@@ -57,8 +59,29 @@ export function buildOptimizationTimes(
     index === uniformCount ? duration : index / samplesPerSecond,
   );
   for (const segment of timeline.timeline) {
-    if (segment.kind === "interval") values.push(segment.startTime, segment.endTime);
-    else {
+    if (segment.kind === "interval") {
+      values.push(segment.startTime, segment.endTime);
+      for (const loss of segment.lossFunctions) {
+        if (loss.type !== LossFunctionType.ArcMovement) continue;
+        const angle = loss.parameters.arcAngle;
+        if (typeof angle !== "number" || !Number.isFinite(angle)) continue;
+        const baseSampleCount = Math.max(
+          1,
+          Math.ceil((segment.endTime - segment.startTime) * samplesPerSecond),
+        );
+        const subdivisions = Math.max(
+          1,
+          Math.ceil(Math.abs(angle) / baseSampleCount / MAX_ARC_STEP_DEGREES),
+        );
+        const arcSampleCount = baseSampleCount * subdivisions;
+        for (let index = 1; index < arcSampleCount; index += 1) {
+          values.push(
+            segment.startTime
+              + (segment.endTime - segment.startTime) * index / arcSampleCount,
+          );
+        }
+      }
+    } else {
       values.push(segment.time);
       if (segment.easing?.inDuration) values.push(segment.time - segment.easing.inDuration);
       if (segment.easing?.outDuration) values.push(segment.time + segment.easing.outDuration);
@@ -132,4 +155,3 @@ export function pointEasingWeight(
     default: throw new Error(`Unknown point easing curve: ${String(easing.curve)}`);
   }
 }
-

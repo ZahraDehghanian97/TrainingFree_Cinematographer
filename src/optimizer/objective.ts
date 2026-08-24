@@ -1,5 +1,6 @@
 import type { EnvironmentV1, Quat, Vec3 } from "../types/environment";
 import type { WorldAabbV1 } from "../types/environment-query";
+import { LossFunctionType } from "../types/solver";
 import {
   aabbCorners,
   projectWorldBox,
@@ -25,6 +26,7 @@ import {
   lerp3,
   lookAtQuaternion,
   mean,
+  multiplyQuat,
   normalize3,
   normalizeQuat,
   pitchFromQuaternion,
@@ -129,6 +131,25 @@ function cutTimesFrom(primitive: PrimitiveLoss): number[] {
   return Array.isArray(primitive.parameters.cutTimes)
     ? primitive.parameters.cutTimes.filter((value): value is number => typeof value === "number")
     : [];
+}
+
+/** Shortest-path world-space angular velocity from one camera pose to another. */
+function quaternionAngularVelocity(from: Quat, to: Quat, dt: number): Vec3 {
+  let delta = multiplyQuat(to, conjugateQuat(from));
+  // q and -q encode the same pose. Choosing a non-negative scalar component
+  // keeps the logarithm on the shortest arc and avoids sign-flip spikes.
+  if (delta[3] < 0) delta = [-delta[0], -delta[1], -delta[2], -delta[3]];
+  const sineHalfAngle = Math.hypot(delta[0], delta[1], delta[2]);
+  if (sineHalfAngle <= 1e-9) return [0, 0, 0];
+  const angle = 2 * Math.atan2(sineHalfAngle, clamp(delta[3], -1, 1));
+  return scale3(
+    [
+      delta[0] / sineHalfAngle,
+      delta[1] / sineHalfAngle,
+      delta[2] / sineHalfAngle,
+    ],
+    angle / Math.max(1e-6, dt),
+  );
 }
 
 export class ObjectiveEvaluator {
@@ -317,6 +338,106 @@ export class ObjectiveEvaluator {
     }
   }
 
+  /** Camera displacement measured in a moving subject's frame when present. */
+  private relativeStep(
+    primitive: PrimitiveLoss,
+    previousIndex: number,
+    currentIndex: number,
+    states: readonly CameraStateSample[],
+  ): Vec3 {
+    const cameraDelta = sub3(
+      states[currentIndex]!.position,
+      states[previousIndex]!.position,
+    );
+    const previousSubject = this.subject(primitive, previousIndex);
+    const currentSubject = this.subject(primitive, currentIndex);
+    return previousSubject && currentSubject
+      ? sub3(cameraDelta, sub3(currentSubject.center, previousSubject.center))
+      : cameraDelta;
+  }
+
+  /** Camera offset change measured from the same moving subject. */
+  private relativeDisplacement(
+    primitive: PrimitiveLoss,
+    firstIndex: number,
+    currentIndex: number,
+    states: readonly CameraStateSample[],
+  ): Vec3 {
+    const cameraDelta = sub3(states[currentIndex]!.position, states[firstIndex]!.position);
+    const firstSubject = this.subject(primitive, firstIndex);
+    const currentSubject = this.subject(primitive, currentIndex);
+    return firstSubject && currentSubject
+      ? sub3(cameraDelta, sub3(currentSubject.center, firstSubject.center))
+      : cameraDelta;
+  }
+
+  private motionPrimitiveForStep(
+    previousIndex: number,
+    currentIndex: number,
+  ): PrimitiveLoss | undefined {
+    const midpoint = (this.times[previousIndex]! + this.times[currentIndex]!) / 2;
+    const active = this.plan.primitives.filter((primitive) =>
+      primitive.startTime <= midpoint + 1e-9
+      && primitive.endTime >= midpoint - 1e-9
+      && subjectIdsFromParameters(primitive.parameters).length > 0,
+    );
+    return active.find((primitive) => primitive.type === "relativeOffsetHold")
+      ?? active.find((primitive) =>
+        primitive.type === "angularProgress" && primitive.parameters.mode === "orbit",
+      )
+      ?? active.find((primitive) => primitive.type === "totalProgressTarget")
+      ?? active.find((primitive) => primitive.type === "velocityMatch");
+  }
+
+  private collisionExemptEntityIdsAt(index: number): Set<string> {
+    const time = this.times[index]!;
+    const result = new Set<string>();
+    for (const primitive of this.plan.primitives) {
+      const mountedStatic = primitive.type === "relativeOffsetHold"
+        && primitive.sourceType === LossFunctionType.Static;
+      const allowedIntersection = primitive.parameters.allowSubjectIntersection === true;
+      if (
+        (!mountedStatic && !allowedIntersection)
+        || primitive.startTime > time + 1e-9
+        || primitive.endTime < time - 1e-9
+      ) continue;
+      for (const entityId of this.subject(primitive, index)?.entityIds ?? []) {
+        result.add(entityId);
+      }
+    }
+    return result;
+  }
+
+  private collisionExemptEntityIdsAtPlaybackTime(time: number): Set<string> {
+    const result = new Set<string>();
+    for (const primitive of this.plan.primitives) {
+      const mountedStatic = primitive.type === "relativeOffsetHold"
+        && primitive.sourceType === LossFunctionType.Static;
+      const allowedIntersection = primitive.parameters.allowSubjectIntersection === true;
+      if (
+        (!mountedStatic && !allowedIntersection)
+        || primitive.startTime > time + 1e-9
+        || primitive.endTime < time - 1e-9
+      ) continue;
+      for (const entityId of this.subjectAtPlaybackTime(primitive, time)?.entityIds ?? []) {
+        result.add(entityId);
+      }
+    }
+    return result;
+  }
+
+  /** Step used by global regularizers, excluding inherited subject translation. */
+  private regularizedStep(
+    previousIndex: number,
+    currentIndex: number,
+    states: readonly CameraStateSample[],
+  ): Vec3 {
+    const primitive = this.motionPrimitiveForStep(previousIndex, currentIndex);
+    return primitive
+      ? this.relativeStep(primitive, previousIndex, currentIndex, states)
+      : sub3(states[currentIndex]!.position, states[previousIndex]!.position);
+  }
+
   private angularSeries(
     primitive: PrimitiveLoss,
     indices: readonly number[],
@@ -418,7 +539,7 @@ export class ObjectiveEvaluator {
           const currentIndex = indices[localIndex]!;
           const dt = Math.max(1e-6, this.times[currentIndex]! - this.times[previousIndex]!);
           const progressRate = sign * dot3(
-            sub3(states[currentIndex]!.position, states[previousIndex]!.position),
+            this.relativeStep(primitive, previousIndex, currentIndex, states),
             this.axis(primitive, previousIndex, states),
           ) / dt;
           result.push(weighted(currentIndex, Math.max(0, -progressRate)));
@@ -433,7 +554,7 @@ export class ObjectiveEvaluator {
           const previousIndex = indices[localIndex - 1]!;
           const currentIndex = indices[localIndex]!;
           progress += sign * dot3(
-            sub3(states[currentIndex]!.position, states[previousIndex]!.position),
+            this.relativeStep(primitive, previousIndex, currentIndex, states),
             this.axis(primitive, previousIndex, states),
           );
         }
@@ -442,7 +563,7 @@ export class ObjectiveEvaluator {
       case "orthogonalDrift": {
         const axis = this.axis(primitive, firstIndex, states);
         return indices.map((index) => {
-          const displacement = sub3(states[index]!.position, first.position);
+          const displacement = this.relativeDisplacement(primitive, firstIndex, index, states);
           const orthogonal = sub3(displacement, scale3(axis, dot3(displacement, axis)));
           return weighted(index, length3(orthogonal));
         });
@@ -466,7 +587,7 @@ export class ObjectiveEvaluator {
           const phase = primitive.parameters.path === "spline"
             ? Math.sin(2 * Math.PI * progress)
             : Math.sin(Math.PI * progress);
-          const displacement = sub3(states[index]!.position, first.position);
+          const displacement = this.relativeDisplacement(primitive, firstIndex, index, states);
           const orthogonal = sub3(displacement, scale3(axis, dot3(displacement, axis)));
           return weighted(index, distance3(orthogonal, scale3(lateral, amplitude * phase)));
         });
@@ -488,7 +609,7 @@ export class ObjectiveEvaluator {
             primitive.parameters.speedKeyframes,
           );
           const progress = sign * dot3(
-            sub3(states[index]!.position, states[previousIndex]!.position),
+            this.relativeStep(primitive, previousIndex, index, states),
             this.axis(primitive, previousIndex, states),
           );
           return weighted(index, (progress - target) / dt);
@@ -502,7 +623,7 @@ export class ObjectiveEvaluator {
           return {
             index,
             value: dot3(
-              sub3(states[index]!.position, states[previousIndex]!.position),
+              this.relativeStep(primitive, previousIndex, index, states),
               this.axis(primitive, previousIndex, states),
             ) / dt,
           };
@@ -788,8 +909,11 @@ export class ObjectiveEvaluator {
       case "collisionClearance": {
         const requested = this.options.cameraRadius + this.options.collisionMargin;
         const result = indices.map((index) => {
+          const exemptEntityIds = this.collisionExemptEntityIdsAt(index);
           const minimum = Math.min(
-            ...this.obstacles(index).map((obstacle) => signedDistanceToAabb(states[index]!.position, obstacle.box)),
+            ...this.obstacles(index)
+              .filter((obstacle) => !exemptEntityIds.has(obstacle.entityId))
+              .map((obstacle) => signedDistanceToAabb(states[index]!.position, obstacle.box)),
             Infinity,
           );
           return weighted(index, Math.max(0, requested - minimum));
@@ -808,10 +932,11 @@ export class ObjectiveEvaluator {
             states[index]!.position,
             0.5,
           );
+          const exemptEntityIds = this.collisionExemptEntityIdsAtPlaybackTime(midpointTime);
           const minimum = Math.min(
-            ...this.obstaclesAtPlaybackTime(midpointTime).map((obstacle) =>
-              signedDistanceToAabb(midpointPosition, obstacle.box),
-            ),
+            ...this.obstaclesAtPlaybackTime(midpointTime)
+              .filter((obstacle) => !exemptEntityIds.has(obstacle.entityId))
+              .map((obstacle) => signedDistanceToAabb(midpointPosition, obstacle.box)),
             Infinity,
           );
           result.push(weighted(index, Math.max(0, requested - minimum)));
@@ -880,8 +1005,8 @@ export class ObjectiveEvaluator {
           if (crossesCut(this.times[aIndex]!, this.times[cIndex]!, cutTimes)) continue;
           const dt0 = Math.max(1e-6, this.times[bIndex]! - this.times[aIndex]!);
           const dt1 = Math.max(1e-6, this.times[cIndex]! - this.times[bIndex]!);
-          const v0 = scale3(sub3(states[bIndex]!.position, states[aIndex]!.position), 1 / dt0);
-          const v1 = scale3(sub3(states[cIndex]!.position, states[bIndex]!.position), 1 / dt1);
+          const v0 = scale3(this.regularizedStep(aIndex, bIndex, states), 1 / dt0);
+          const v1 = scale3(this.regularizedStep(bIndex, cIndex, states), 1 / dt1);
           result.push(weighted(bIndex, length3(scale3(sub3(v1, v0), 2 / (dt0 + dt1)))));
         }
         return result;
@@ -896,9 +1021,20 @@ export class ObjectiveEvaluator {
           if (crossesCut(this.times[aIndex]!, this.times[cIndex]!, cutTimes)) continue;
           const dt0 = Math.max(1e-6, this.times[bIndex]! - this.times[aIndex]!);
           const dt1 = Math.max(1e-6, this.times[cIndex]! - this.times[bIndex]!);
-          const w0 = quaternionAngle(states[aIndex]!.rotation, states[bIndex]!.rotation) / dt0;
-          const w1 = quaternionAngle(states[bIndex]!.rotation, states[cIndex]!.rotation) / dt1;
-          result.push(weighted(bIndex, 2 * (w1 - w0) / (dt0 + dt1)));
+          const w0 = quaternionAngularVelocity(
+            states[aIndex]!.rotation,
+            states[bIndex]!.rotation,
+            dt0,
+          );
+          const w1 = quaternionAngularVelocity(
+            states[bIndex]!.rotation,
+            states[cIndex]!.rotation,
+            dt1,
+          );
+          result.push(weighted(
+            bIndex,
+            length3(scale3(sub3(w1, w0), 2 / (dt0 + dt1))),
+          ));
         }
         return result;
       }
@@ -912,8 +1048,8 @@ export class ObjectiveEvaluator {
           if (crossesCut(this.times[a]!, this.times[c]!, cutTimes)) continue;
           const dt0 = Math.max(1e-6, this.times[b]! - this.times[a]!);
           const dt1 = Math.max(1e-6, this.times[c]! - this.times[b]!);
-          const v0 = scale3(sub3(states[b]!.position, states[a]!.position), 1 / dt0);
-          const v1 = scale3(sub3(states[c]!.position, states[b]!.position), 1 / dt1);
+          const v0 = scale3(this.regularizedStep(a, b, states), 1 / dt0);
+          const v1 = scale3(this.regularizedStep(b, c, states), 1 / dt1);
           accelerations.push({ index: b, value: scale3(sub3(v1, v0), 2 / (dt0 + dt1)) });
         }
         return accelerations.slice(1).map((entry, index) => {
@@ -931,7 +1067,7 @@ export class ObjectiveEvaluator {
           const dt = Math.max(1e-6, this.times[index]! - this.times[previousIndex]!);
           result.push(weighted(
             index,
-            distance3(states[index]!.position, states[previousIndex]!.position) / dt,
+            length3(this.regularizedStep(previousIndex, index, states)) / dt,
           ));
         }
         return result;

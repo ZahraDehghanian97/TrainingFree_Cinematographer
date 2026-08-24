@@ -71,6 +71,12 @@ direction.
 - Dutch -> level-horizon is released.
 - Off-center framing -> centered look-at stabilizers are released.
 - Static releases only channels explicitly driven by simultaneous movement.
+- Targeted Static shots remain mounted in the subject's translating frame;
+  untargeted Static shots remain locked in world space.
+- Targeted Dolly/Crane translations and global path regularizers measure
+  camera motion relative to inherited subject translation.
+- `allowSubjectIntersection` explicitly permits an interior/exit move through
+  its targeted subject without disabling collision checks for other geometry.
 - Smoothness and interpolation never bridge section/user cuts.
 
 ## User keyframes
@@ -98,14 +104,20 @@ same time/channel fail validation.
 ## Numerical method
 
 The state grid contains uniform optimization samples plus timeline boundaries,
-easing boundaries, cuts, and user-keyframe times. Position and FOV are linearly
-resampled; quaternion orientation uses shortest-arc SLERP, matching the viewer.
+easing boundaries, cuts, user-keyframe times, and adaptive arc samples that keep
+orbit steps at or below 15 degrees. Position uses time-aware cubic Hermite
+resampling within each cut segment, FOV remains linear, and quaternion
+orientation uses shortest-arc SLERP. Dense output therefore does not turn a
+coarse orbit into a polygon or interpolate toward a post-cut pose.
 
 Refinement uses deterministic simultaneous-perturbation gradient estimates,
-Adam scaling, and monotone backtracking. Objective-evaluation count is
-independent of the number of free variables. The solver retains the best finite
-state and never returns a worse state than initialization. Defaults are 3 Hz,
-120 iterations, environment `fpsHint` for output, and a fixed seed.
+Adam scaling, cut-aware temporal filtering, and monotone backtracking. The
+filter removes high-frequency cross-talk from whole-trajectory perturbations
+without coupling separate shots. Objective-evaluation count is independent of
+the number of free variables. The solver retains the best finite state and
+never returns a worse state than initialization. Rejected-step exhaustion is
+reported as `stalled`, not `converged`. Defaults are 3 Hz plus adaptive arc
+samples, 120 iterations, environment `fpsHint` for output, and a fixed seed.
 
 Scene time is obtained by integrating timeline rate segments over the camera
 playback clock. Target centers, rotated/scaled bounds, subject orientation,

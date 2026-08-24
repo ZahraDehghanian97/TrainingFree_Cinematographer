@@ -349,6 +349,7 @@ function buildMovementLossParameters(
     ...(action.movement.speedKeyframes ? { speedKeyframes: action.movement.speedKeyframes } : {}),
     ...(p.path ? { path: p.path } : {}),
     ...(p.curveIntensity === undefined ? {} : { curveIntensity: p.curveIntensity }),
+    ...(p.allowSubjectIntersection === true ? { allowSubjectIntersection: true } : {}),
   };
 
   switch (action.movement.act) {
@@ -420,11 +421,18 @@ function buildMovementLossParameters(
           : action.movement.act === CameraMovementType.ArcLeft
             ? arcAngleMagnitude
             : requestedArcAngle,
-        arcRadius: p.arcRadius ?? DEFAULT_ARC_RADIUS,
+        ...(p.arcRadius !== undefined
+          ? { arcRadius: p.arcRadius }
+          : action.movement.act === CameraMovementType.Orbit
+            ? { arcRadius: DEFAULT_ARC_RADIUS }
+            : {}),
         ...targetParameters,
         ...generalParameters,
       };
     }
+
+    case CameraMovementType.Static:
+      return targetParameters;
 
     default:
       return {};
