@@ -1,6 +1,5 @@
 import * as fs from "fs";
 import * as path from "path";
-import { spawn } from "child_process";
 import { loadEnvFile } from "node:process";
 
 import { solveTimeline } from "./timeline/solver";
@@ -20,10 +19,17 @@ import {
   getEnvironmentQueryModel,
 } from "./environment";
 import type { EnvironmentV1 } from "./types/environment";
+import {
+  optimizeCameraTrajectory,
+  type CameraOptimizerDiagnosticsDocumentV1,
+  type CameraOptimizerResult,
+  type UserCameraKeyframe,
+} from "./optimizer";
+import type { FlattenedTimeline } from "./types/solver";
 
 const OUTPUT_DIR = path.resolve(__dirname, "./outputs");
 const SHARED_DIR = path.resolve(__dirname, "../shared/timeline");
-const OPTIMIZER_DIR = path.resolve(__dirname, "./opt");
+const SHARED_OPTIMIZED_DIR = path.resolve(__dirname, "../shared/optimized");
 const VIEWER_TRAJECTORY_DIR = path.resolve(
   __dirname,
   "../web/public/trajectories/optimized"
@@ -38,6 +44,8 @@ interface SelectedExample {
 interface PipelineOptions {
   bindingMode: ExampleBindingMode;
   selectedExamples: SelectedExample[];
+  keyframesPath?: string;
+  optimizerIterations?: number;
 }
 
 function loadProjectEnv(): void {
@@ -51,13 +59,14 @@ function loadProjectEnv(): void {
 function printUsage(): void {
   console.log(
     [
-      "Usage: npm run pipeline -- [--example <number|example-id>] [--binding-mode <resolved|llm>]",
+      "Usage: npm run pipeline -- [--example <number|example-id>] [--binding-mode <resolved|llm>] [--keyframes <json>] [--optimizer-iterations <n>]",
       "",
       "Examples:",
       "  npm run pipeline",
       "  npm run pipeline -- --example 1",
       "  npm run pipeline -- --example example-01 --binding-mode resolved",
       "  npm run pipeline -- --example example-01 --binding-mode llm",
+      "  npm run pipeline -- --example example-07 --keyframes ./my-keyframes.json",
       "",
       "EXAMPLE_BINDING_MODE can set the default mode; --binding-mode overrides it.",
     ].join("\n")
@@ -67,6 +76,8 @@ function printUsage(): void {
 function parsePipelineOptions(args: string[]): PipelineOptions | undefined {
   let selector: string | undefined;
   let bindingModeValue: string | undefined;
+  let keyframesPath: string | undefined;
+  let optimizerIterations: number | undefined;
 
   for (let i = 0; i < args.length; i++) {
     const argument = args[i]!;
@@ -77,7 +88,7 @@ function parsePipelineOptions(args: string[]): PipelineOptions | undefined {
     }
 
     let value: string | undefined;
-    let option: "example" | "bindingMode";
+    let option: "example" | "bindingMode" | "keyframes" | "optimizerIterations";
     if (argument === "--example") {
       value = args[++i];
       option = "example";
@@ -90,15 +101,25 @@ function parsePipelineOptions(args: string[]): PipelineOptions | undefined {
     } else if (argument.startsWith("--binding-mode=")) {
       value = argument.slice("--binding-mode=".length);
       option = "bindingMode";
+    } else if (argument === "--keyframes") {
+      value = args[++i];
+      option = "keyframes";
+    } else if (argument.startsWith("--keyframes=")) {
+      value = argument.slice("--keyframes=".length);
+      option = "keyframes";
+    } else if (argument === "--optimizer-iterations") {
+      value = args[++i];
+      option = "optimizerIterations";
+    } else if (argument.startsWith("--optimizer-iterations=")) {
+      value = argument.slice("--optimizer-iterations=".length);
+      option = "optimizerIterations";
     } else {
       throw new Error(`Unknown argument: ${argument}`);
     }
 
     if (!value || value.startsWith("--")) {
       throw new Error(
-        option === "example"
-          ? "--example requires an example number or id."
-          : "--binding-mode requires resolved or llm.",
+        `--${option === "bindingMode" ? "binding-mode" : option === "optimizerIterations" ? "optimizer-iterations" : option} requires a value.`,
       );
     }
     if (option === "example") {
@@ -106,11 +127,22 @@ function parsePipelineOptions(args: string[]): PipelineOptions | undefined {
         throw new Error("--example can only be provided once.");
       }
       selector = value;
-    } else {
+    } else if (option === "bindingMode") {
       if (bindingModeValue !== undefined) {
         throw new Error("--binding-mode can only be provided once.");
       }
       bindingModeValue = value;
+    } else if (option === "keyframes") {
+      if (keyframesPath !== undefined) throw new Error("--keyframes can only be provided once.");
+      keyframesPath = path.resolve(value);
+    } else {
+      if (optimizerIterations !== undefined) {
+        throw new Error("--optimizer-iterations can only be provided once.");
+      }
+      optimizerIterations = Number(value);
+      if (!Number.isInteger(optimizerIterations) || optimizerIterations < 0) {
+        throw new Error("--optimizer-iterations must be a non-negative integer.");
+      }
     }
   }
 
@@ -120,6 +152,8 @@ function parsePipelineOptions(args: string[]): PipelineOptions | undefined {
   if (selector === undefined) {
     return {
       bindingMode,
+      ...(keyframesPath ? { keyframesPath } : {}),
+      ...(optimizerIterations === undefined ? {} : { optimizerIterations }),
       selectedExamples: resolvedPromptExampleFixtures.map(
         (fixture, index) => ({ fixture, index }),
       ),
@@ -142,8 +176,42 @@ function parsePipelineOptions(args: string[]): PipelineOptions | undefined {
 
   return {
     bindingMode,
+    ...(keyframesPath ? { keyframesPath } : {}),
+    ...(optimizerIterations === undefined ? {} : { optimizerIterations }),
     selectedExamples: [{ fixture: resolvedPromptExampleFixtures[index]!, index }],
   };
+}
+
+function loadUserKeyframes(
+  keyframesPath: string | undefined,
+  environmentId: string,
+): UserCameraKeyframe[] {
+  if (!keyframesPath) return [];
+  let document: unknown;
+  try {
+    document = JSON.parse(fs.readFileSync(keyframesPath, "utf8"));
+  } catch (error) {
+    const detail = error instanceof Error ? error.message : String(error);
+    throw new Error(`Could not load user keyframes ${keyframesPath}: ${detail}`);
+  }
+  if (Array.isArray(document)) return document as UserCameraKeyframe[];
+  if (document && typeof document === "object") {
+    const object = document as { environmentId?: unknown; keyframes?: unknown };
+    if (object.environmentId !== undefined && object.environmentId !== environmentId) {
+      throw new Error(
+        `Keyframe environment mismatch: expected ${environmentId}, received ${String(object.environmentId)}`,
+      );
+    }
+    if (Array.isArray(object.keyframes)) return object.keyframes as UserCameraKeyframe[];
+  }
+  throw new Error("Keyframe JSON must be an array or { environmentId, keyframes: [...] }");
+}
+
+function writeJsonAtomically(filePath: string, document: unknown): void {
+  fs.mkdirSync(path.dirname(filePath), { recursive: true });
+  const temporaryPath = path.join(path.dirname(filePath), `.${path.basename(filePath)}.tmp`);
+  fs.writeFileSync(temporaryPath, `${JSON.stringify(document, null, 2)}\n`, "utf8");
+  fs.renameSync(temporaryPath, filePath);
 }
 
 function loadExampleEnvironment(fixture: ResolvedPromptExampleFixture): EnvironmentV1 {
@@ -187,46 +255,29 @@ function loadExampleEnvironment(fixture: ResolvedPromptExampleFixture): Environm
 }
 
 function runOptimizer(
-  timelinePath: string,
-  trajectoryOutputPath: string
-): Promise<void> {
-  const pythonCommand = process.env.PYTHON_BIN?.trim() || "python3";
-
-  return new Promise((resolve, reject) => {
-    const child = spawn(
-      pythonCommand,
-      [
-        "run_optimizer.py",
-        timelinePath,
-        "--trajectory-output",
-        trajectoryOutputPath,
-      ],
-      {
-        cwd: OPTIMIZER_DIR,
-        stdio: "inherit",
-      }
-    );
-
-    child.once("error", (error) => {
-      reject(
-        new Error(
-          `Could not start optimizer with ${JSON.stringify(pythonCommand)}: ${error.message}`
-        )
-      );
-    });
-
-    child.once("close", (code, signal) => {
-      if (code === 0) {
-        resolve();
-        return;
-      }
-
-      const reason = signal
-        ? `it was terminated by signal ${signal}`
-        : `it exited with status ${code ?? "unknown"}`;
-      reject(new Error(`Optimizer failed because ${reason}.`));
-    });
+  environment: EnvironmentV1,
+  timeline: FlattenedTimeline,
+  userKeyframes: UserCameraKeyframe[],
+  trajectoryOutputPath: string,
+  diagnosticsOutputPath: string,
+  optimizerIterations?: number,
+): CameraOptimizerResult {
+  const result = optimizeCameraTrajectory({
+    environment,
+    timeline,
+    userKeyframes,
+    ...(optimizerIterations === undefined ? {} : { options: { iterations: optimizerIterations } }),
   });
+  writeJsonAtomically(trajectoryOutputPath, result.trajectory);
+  writeJsonAtomically(diagnosticsOutputPath, {
+    schemaVersion: "1.0",
+    kind: "cameraOptimizerDiagnostics",
+    environmentId: environment.id,
+    trajectory: result.trajectory,
+    diagnostics: result.diagnostics,
+    compiledPlan: result.compiledPlan,
+  } satisfies CameraOptimizerDiagnosticsDocumentV1);
+  return result;
 }
 
 async function main(): Promise<void> {
@@ -236,8 +287,11 @@ async function main(): Promise<void> {
     return;
   }
   const { bindingMode, selectedExamples } = options;
+  if (options.keyframesPath && selectedExamples.length !== 1) {
+    throw new Error("--keyframes requires selecting exactly one --example");
+  }
 
-  for (const directory of [OUTPUT_DIR, SHARED_DIR, VIEWER_TRAJECTORY_DIR]) {
+  for (const directory of [OUTPUT_DIR, SHARED_DIR, SHARED_OPTIMIZED_DIR, VIEWER_TRAJECTORY_DIR]) {
     fs.mkdirSync(directory, { recursive: true });
   }
 
@@ -251,13 +305,14 @@ async function main(): Promise<void> {
     console.log(`Example ${exampleNumber}: ${fixture.prompt.slice(0, 80)}...`);
     console.log("=".repeat(80));
 
+    const environment = loadExampleEnvironment(fixture);
     const model = bindingMode === "llm" ? getEnvironmentQueryModel() : undefined;
     const run = bindingMode === "resolved"
       ? await resolvePromptExampleForRun(fixture, bindingMode)
       : await resolvePromptExampleForRun(
           fixture,
           bindingMode,
-          createEnvironmentSubjectResolver(loadExampleEnvironment(fixture)),
+          createEnvironmentSubjectResolver(environment),
         );
     const { csl } = run;
 
@@ -313,6 +368,14 @@ async function main(): Promise<void> {
       VIEWER_TRAJECTORY_DIR,
       `${fixture.id}-camera.json`
     );
+    const optimizerDiagnosticsPath = path.join(
+      SHARED_OPTIMIZED_DIR,
+      `${outputStem}_optimized.json`,
+    );
+    const optimizerArchivePath = path.join(
+      SHARED_OPTIMIZED_DIR,
+      `${outputStem}_camera.json`,
+    );
 
     fs.writeFileSync(
       outputJsonPath,
@@ -331,7 +394,15 @@ async function main(): Promise<void> {
 
     console.log("-".repeat(80));
     console.log(`Running optimizer on ${outputStem}.json`);
-    await runOptimizer(sharedJsonPath, viewerTrajectoryPath);
+    const optimizerResult = runOptimizer(
+      environment,
+      flattened,
+      loadUserKeyframes(options.keyframesPath, environment.id),
+      viewerTrajectoryPath,
+      optimizerDiagnosticsPath,
+      options.optimizerIterations,
+    );
+    writeJsonAtomically(optimizerArchivePath, optimizerResult.trajectory);
 
     if (!fs.existsSync(viewerTrajectoryPath)) {
       throw new Error(
@@ -340,6 +411,10 @@ async function main(): Promise<void> {
     }
 
     console.log(`Viewer trajectory: ${viewerTrajectoryPath}`);
+    console.log(
+      `Optimizer: ${optimizerResult.diagnostics.terminationReason}; `
+      + `${optimizerResult.diagnostics.initialLoss.toFixed(3)} → ${optimizerResult.diagnostics.finalLoss.toFixed(3)}`,
+    );
     console.log(
       "Camera Lab: "
       + `http://127.0.0.1:4173/?environment=${encodeURIComponent(fixture.environmentId)}`

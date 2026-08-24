@@ -1,17 +1,20 @@
-import { SinglePointConstraint, IntervalConstraint, TimelineSolverOutput, FlattenedTimeline, TimelineSegment } from "../types/solver";
+import type {
+  TimelineSolverOutput,
+  FlattenedTimeline,
+  TimelineSegment,
+} from "../types/solver";
 import { buildCameraConfigLosses } from "./solver";
-
-function isInterval(
-  c: SinglePointConstraint | IntervalConstraint
-): c is IntervalConstraint {
-  return c.type === 'interval';
-}
 
 export function flattenTimeline(inputTimeline: TimelineSolverOutput): FlattenedTimeline {
 
   const timeline: TimelineSegment[] = [];
+  const cutTimes: number[] = [];
 
-  for (const section of inputTimeline.sections) {
+  for (let sectionIndex = 0; sectionIndex < inputTimeline.sections.length; sectionIndex += 1) {
+    const section = inputTimeline.sections[sectionIndex]!;
+    if (sectionIndex > 0 && section.initKeyframes.length > 0) {
+      cutTimes.push(Math.min(...section.initKeyframes.map((keyframe) => keyframe.time)));
+    }
 
     for (const c of section.constraints) {
 
@@ -20,7 +23,8 @@ export function flattenTimeline(inputTimeline: TimelineSolverOutput): FlattenedT
           kind: "interval",
           startTime: c.startTime,
           endTime: c.endTime,
-          lossFunctions: [c.lossFunction]
+          lossFunctions: [c.lossFunction],
+          ...(c.weight === undefined ? {} : { weight: c.weight }),
         });
       }
       if (c.type === "singlePoint") {
@@ -28,6 +32,15 @@ export function flattenTimeline(inputTimeline: TimelineSolverOutput): FlattenedT
           kind: "point",
           time: c.time,
           lossFunctions: buildCameraConfigLosses(c.config, c.targets),
+          ...(c.weight === undefined ? {} : { weight: c.weight }),
+          ...(c.easing ? { easing: c.easing } : {}),
+        });
+      }
+      if (c.type === "lossPoint") {
+        timeline.push({
+          kind: "point",
+          time: c.time,
+          lossFunctions: c.lossFunctions,
           ...(c.weight === undefined ? {} : { weight: c.weight }),
           ...(c.easing ? { easing: c.easing } : {}),
         });
@@ -53,6 +66,7 @@ export function flattenTimeline(inputTimeline: TimelineSolverOutput): FlattenedT
 
     return {
         timeline,
-        timeWarp: inputTimeline.timeWarp
+        timeWarp: inputTimeline.timeWarp,
+        ...(cutTimes.length > 0 ? { cutTimes: [...new Set(cutTimes)].sort((a, b) => a - b) } : {}),
     };
 }

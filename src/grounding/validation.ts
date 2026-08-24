@@ -112,7 +112,9 @@ export function assertResolvedCameraDirection(
       action.constraints?.forEach((constraint, constraintIndex) => {
         const constraintPath = `${actionPath}.constraints[${constraintIndex}]`;
         assertTargetList(constraint.targets, `${constraintPath}.targets`);
-        assertConfig(constraint.config, `${constraintPath}.config`);
+        if (!("kind" in constraint) || constraint.kind !== "general") {
+          assertConfig(constraint.config, `${constraintPath}.config`);
+        }
       });
     });
   });

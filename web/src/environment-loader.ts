@@ -332,11 +332,13 @@ export function assertEnvironmentV1(value: unknown): asserts value is Environmen
     }
     if (world.overviewCamera !== undefined) {
       const overviewCamera = expectObject(world.overviewCamera, "$.world.overviewCamera");
-      assertVec3(overviewCamera.position, "$.world.overviewCamera.position");
-      assertVec3(overviewCamera.target, "$.world.overviewCamera.target");
+      const position = overviewCamera.position;
+      const target = overviewCamera.target;
+      assertVec3(position, "$.world.overviewCamera.position");
+      assertVec3(target, "$.world.overviewCamera.target");
       if (
-        overviewCamera.position.every(
-          (component, index) => component === overviewCamera.target[index],
+        position.every(
+          (component, index) => component === target[index],
         )
       ) {
         fail(

@@ -4,6 +4,7 @@ import type {
   Target,
 } from "../types/camera";
 import type {
+  ActionConstraintConfig,
   CameraDirectionDraft,
   CompoundTrigger,
   ResolvedCameraDirectionDSL,
@@ -181,12 +182,14 @@ export function collectSubjectReferences(
           "framing",
           action.id,
         );
-        collectConfigReferences(
-          references,
-          constraint.config,
-          `${constraintPath}.config`,
-          action.id,
-        );
+        if (!("kind" in constraint) || constraint.kind !== "general") {
+          collectConfigReferences(
+            references,
+            constraint.config,
+            `${constraintPath}.config`,
+            action.id,
+          );
+        }
       });
     });
   });
@@ -340,6 +343,29 @@ function bindTrigger(
   return { ...trigger };
 }
 
+function bindConstraint(
+  constraint: ActionConstraintConfig<SubjectReference>,
+  bindings: Map<string, ResolvedSubjectBinding>,
+): ActionConstraintConfig<Target> {
+  if ("kind" in constraint && constraint.kind === "general") {
+    const { targets, ...rest } = constraint;
+    return {
+      ...rest,
+      ...(targets === undefined
+        ? {}
+        : { targets: bindTargetList(targets, bindings) }),
+    };
+  }
+  const { targets, ...rest } = constraint;
+  return {
+    ...rest,
+    ...(targets === undefined
+      ? {}
+      : { targets: bindTargetList(targets, bindings) }),
+    config: bindConfig(constraint.config, bindings),
+  };
+}
+
 function hydrateDraft(
   draft: CameraDirectionDraft,
   bindings: Map<string, ResolvedSubjectBinding>,
@@ -368,19 +394,9 @@ function hydrateDraft(
           ...(constraints === undefined
             ? {}
             : {
-                constraints: constraints.map((constraint) => {
-                  const {
-                    targets: constraintReferences,
-                    ...constraintWithoutTargets
-                  } = constraint;
-                  return {
-                    ...constraintWithoutTargets,
-                    ...(constraintReferences === undefined
-                      ? {}
-                      : { targets: bindTargetList(constraintReferences, bindings) }),
-                    config: bindConfig(constraint.config, bindings),
-                  };
-                }),
+                constraints: constraints.map((constraint) =>
+                  bindConstraint(constraint, bindings),
+                ),
               }),
         };
       }),

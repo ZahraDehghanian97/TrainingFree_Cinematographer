@@ -34,6 +34,8 @@ export const MOVEMENT_TO_LOSS: Partial<Record<CameraMovementType, LossFunctionTy
   [CameraMovementType.Follow]: LossFunctionType.FollowMovement,
   [CameraMovementType.Track]: LossFunctionType.TrackMovement,     
   [CameraMovementType.Static]: LossFunctionType.Static,
+  [CameraMovementType.CraneUp]: LossFunctionType.CraneUpMovement,
+  [CameraMovementType.CraneDown]: LossFunctionType.CraneDownMovement,
 
   [CameraMovementType.PanLeft]: LossFunctionType.PanLeftMovement,
   [CameraMovementType.PanRight]: LossFunctionType.PanRightMovement,

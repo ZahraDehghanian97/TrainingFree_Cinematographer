@@ -1,10 +1,11 @@
-import {
+import type {
   CameraMovementType,
   ComparisonOperator,
   RelativeTimeReference,
   Scale,
   SpeedFunction,
   RelativeFPS,
+  ConstraintType,
 } from "./enums";
 import {
   type CameraConfig,
@@ -137,6 +138,8 @@ export interface PointConstraintEasing {
 export interface ConstraintConfig<
   TTarget extends CameraTargetDescriptor = Target,
 > {
+  /** Discriminates this camera-config constraint from `kind: "general"`. */
+  kind?: never;
   targets?: TTarget[];
   config: CameraConfig<TTarget>;
   /** true → enforce on every frame; false → enforce at the action end point. */
@@ -145,13 +148,30 @@ export interface ConstraintConfig<
   easing?: PointConstraintEasing;
 }
 
+/** Environment/safety/regularity constraint compiled directly to a loss. */
+export interface GeneralConstraintConfig<
+  TTarget extends CameraTargetDescriptor = Target,
+> {
+  kind: "general";
+  constraint: ConstraintType;
+  targets?: TTarget[];
+  parameters?: Record<string, unknown>;
+  allFrames: boolean;
+  weight?: number;
+  easing?: PointConstraintEasing;
+}
+
+export type ActionConstraintConfig<
+  TTarget extends CameraTargetDescriptor = Target,
+> = ConstraintConfig<TTarget> | GeneralConstraintConfig<TTarget>;
+
 export interface Action<TTarget extends CameraTargetDescriptor = Target> {
   id: string;
   name?: string;
   trigger: TriggerSpec<TTarget>;
   movement: Movement<TTarget>;
   priority?: number;
-  constraints?: ConstraintConfig<TTarget>[];
+  constraints?: ActionConstraintConfig<TTarget>[];
 }
 
 // ─── Section & Top-level DSL ─────────────────────────────────────────────────

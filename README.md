@@ -47,7 +47,7 @@ For position-only model output, declare the point layout explicitly. Here, 4D me
 }
 ```
 
-The canonical `cameraTrajectory` format additionally supports per-sample quaternion or look-at orientation, FOV, cuts, and action IDs. The upload adapter also accepts the pasted prototype's `{ "frames": [...] }` shape and normalizes it before playback.
+The canonical `cameraTrajectory` format additionally supports per-sample quaternion or look-at orientation, FOV, cuts, and action IDs. The upload adapter also accepts self-contained `cameraOptimizerDiagnostics` output, the pasted prototype's `{ "frames": [...] }` shape, and normalizes each supported input before playback.
 
 ### Slow motion, frozen time, and fast motion
 
@@ -177,30 +177,87 @@ Point-only DSL constraints (`allFrames: false`) can optionally fade in before th
 }
 ```
 
-Supported curves are `linear`, `easeIn`, `easeOut`, and `easeInOut`. Without `easing`, point constraints keep the original exact-point behavior. Easing metadata is preserved through the solver/flattener and converted to per-frame weights by the Python optimizer.
+Supported curves are `linear`, `easeIn`, `easeOut`, and `easeInOut`. Without
+`easing`, point constraints keep the original exact-point behavior. Easing
+metadata is preserved through the solver/flattener and converted to per-sample
+weights by the TypeScript optimizer.
+
+## TypeScript trajectory optimizer
+
+`src/optimizer/` contains the complete dependency-free numerical optimizer. It
+optimizes camera position, quaternion orientation, and vertical FOV. Its inputs
+are the flattened timeline, the matching `EnvironmentV1` 4D scene, and optional
+user camera keyframes. Its output is a canonical `CameraTrajectoryV1` document.
+
+The optimizer compiles high-level requests into dimensionless primitive
+residuals, resolves semantic conflicts across all losses active in the same
+time band, adds global safety/regularity terms, and solves the weighted
+objective. For example, concurrent Arc and Dolly become a spiral radius
+schedule instead of contradictory constant-radius and dolly terms.
+
+```ts
+import { optimizeCameraTrajectory } from "./src/optimizer";
+
+const result = optimizeCameraTrajectory({
+  environment,
+  timeline: flattenedTimeline,
+  userKeyframes: [
+    {
+      time: 0,
+      position: [0, 2, 6],
+      lookAt: [0, 1, 0],
+      fovYDegrees: 50,
+      // mode defaults to "hard"
+    },
+    {
+      time: 4,
+      mode: "soft",
+      weight: 2,
+      position: [2, 2.5, 3],
+    },
+  ],
+});
+
+console.log(result.trajectory);
+console.log(result.diagnostics);
+```
+
+If the caller has the direct `solveTimeline()` result instead, use
+`optimizeTimelineSolverOutput()`; it performs the flattening step internally.
+
+Hard keyframes lock only the supplied channels exactly. Soft keyframes become
+high-priority anchor residuals. `rotation` and `lookAt` are mutually exclusive;
+`lookAt` uses world-up unless `up` is supplied. See
+`src/optimizer/README.md` for the primitive vocabulary, compound rules, public
+types, and numerical defaults.
 
 ## Commands
 
 ```bash
 npm run build          # Type-check/build the Node library and browser app
 npm test               # Run Node tests, then the web Vitest suite
-npm run test:node      # Run Node grounding/binding tests
+npm run test:node      # Run Node timeline, grounding, and optimizer tests
 npm start              # Run timeline solver + optimizer for all examples
 npm run pipeline       # Alias for the same end-to-end pipeline
+npm run generate:trajectories # Generate all 19 trajectories without LLM/visualizer work
 npm run visualizer     # Start Camera Lab in development mode
 npm run preview:visualizer
 ```
 
-Install the Python optimizer dependencies once, then run either every example or
-one example by number/id:
+Install the Node dependencies once, then run every example or one example by
+number/id. No second runtime or optimizer dependency is required:
 
 ```bash
-python3 -m pip install -r src/opt/requirements.txt
+npm install
 npm run pipeline
 npm run pipeline -- --example 1
 npm run pipeline -- --example example-01
 npm run pipeline -- --example example-01 --binding-mode resolved
 npm run pipeline -- --example example-01 --binding-mode llm
+npm run pipeline -- --example example-07 --keyframes ./my-keyframes.json
+npm run generate:trajectories
+npm run generate:trajectories -- --example example-09 --iterations 60
+npm run generate:trajectories -- --example example-07 --keyframes examples/user-keyframes.example.json
 ```
 
 `--binding-mode` overrides `EXAMPLE_BINDING_MODE`. The `llm` mode makes one
@@ -208,8 +265,16 @@ Gateway request per selected example, while `resolved` performs no binding API
 call. LLM-mode output persists the selected bindings and their comparison with
 fixture ground truth under `subjectBinding` in the timeline wrapper.
 
-Set `PYTHON_BIN` if the dependencies are installed in a particular interpreter,
-for example `PYTHON_BIN=.venv/bin/python npm run pipeline -- --example example-01`.
+`--keyframes` accepts either a JSON array or
+`{ "environmentId": "...", "keyframes": [...] }` and requires one selected
+example. `--optimizer-iterations <n>` is available for deterministic ablations
+and fast smoke tests.
+
+`generate:trajectories` is the dependency-light resolved-fixture path: it skips
+LLM binding and timeline image generation, writes viewer JSON under
+`web/public/trajectories/optimized/`, and writes self-contained, viewer-loadable
+plans/diagnostics under `shared/optimized/`. It accepts `--example`, `--iterations`,
+`--optimization-fps`, `--output-fps`, and `--keyframes` (with one example).
 
 For each example, the pipeline writes:
 
@@ -223,5 +288,5 @@ Start Camera Lab with `npm run visualizer` and choose the matching environment;
 the generated trajectory loads automatically. The pipeline also prints a direct
 Camera Lab URL for every processed example. A specific trajectory URL can be
 requested with `?environment=<environment-id>&trajectory=<json-url>`. Optimizer
-launch errors, non-zero exits, and missing viewer trajectories stop the pipeline
+validation/numeric failures and missing viewer trajectories stop the pipeline
 with a non-zero exit status.

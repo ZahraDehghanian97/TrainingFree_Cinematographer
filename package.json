@@ -1,7 +1,7 @@
 {
   "name": "trainingfree_cinematographer",
   "version": "1.0.0",
-  "description": "Training-free camera direction DSL, timeline solver, and 4D trajectory visualizer",
+  "description": "Training-free camera direction DSL, TypeScript trajectory optimizer, and 4D visualizer",
   "main": "./src/index.ts",
   "scripts": {
     "build": "npm run build:node && npm run build:web",
@@ -9,10 +9,10 @@
     "build:web": "vite build --config web/vite.config.ts",
     "start": "ts-node ./src/index.ts",
     "pipeline": "ts-node ./src/index.ts",
+    "generate:trajectories": "ts-node ./scripts/generate-optimized-trajectories.ts",
     "visualizer": "vite --config web/vite.config.ts",
     "preview:visualizer": "vite preview --config web/vite.config.ts",
     "test": "npm run test:node && vitest run --config web/vitest.config.ts --passWithNoTests",
-    "ai_trajectory": "ts-node src/opt/ai_trajectory_generator_pipeline/index.ts",
     "test:node": "node --test -r ts-node/register tests/*.test.ts"
   },
   "keywords": [],

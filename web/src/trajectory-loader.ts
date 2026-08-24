@@ -37,6 +37,7 @@ export type CompatibilityPolicy = "warn" | "error" | "ignore";
 export type TrajectorySourceKind =
   | "cameraTrajectory"
   | "cameraPath4d"
+  | "cameraOptimizerDiagnostics"
   | "prototypeFrames";
 
 export type TrajectoryDiagnosticCode =
@@ -360,6 +361,29 @@ export function assertCameraTrajectoryV1(
 function parseCanonical(value: unknown): CameraTrajectoryV1 {
   assertCameraTrajectoryV1(value);
   return value;
+}
+
+function parseOptimizerDiagnostics(root: JsonObject): CameraTrajectoryV1 {
+  expectLiteral(root.schemaVersion, "1.0", "$.schemaVersion");
+  const environmentId = expectNonEmptyString(root.environmentId, "$.environmentId");
+  if (root.trajectory === undefined) {
+    fail(
+      "$.trajectory",
+      "expected an embedded cameraTrajectory; regenerate this optimizer output",
+      "missing-trajectory",
+    );
+  }
+  const nested = expectObject(root.trajectory, "$.trajectory");
+  expectLiteral(nested.kind, "cameraTrajectory", "$.trajectory.kind");
+  const trajectory = parseCanonical(root.trajectory);
+  if (trajectory.environmentId !== environmentId) {
+    fail(
+      "$.trajectory.environmentId",
+      `must match optimizer output environmentId ${JSON.stringify(environmentId)}`,
+      "environment-id-mismatch",
+    );
+  }
+  return trajectory;
 }
 
 function assertPathPoint(
@@ -732,8 +756,9 @@ function assertTargetCompatibility(
 }
 
 /**
- * Accepts canonical cameraTrajectory, compact cameraPath4d, or prototype frames
- * and always returns a validated canonical CameraTrajectoryV1.
+ * Accepts canonical cameraTrajectory, compact cameraPath4d, a self-contained
+ * optimizer diagnostics document, or prototype frames, and always returns a
+ * validated canonical CameraTrajectoryV1.
  */
 export function parseCameraTrajectory(
   value: unknown,
@@ -749,13 +774,16 @@ export function parseCameraTrajectory(
   } else if (root.kind === "cameraPath4d") {
     sourceKind = "cameraPath4d";
     trajectory = parseCompact(value as CameraPath4dV1, options);
+  } else if (root.kind === "cameraOptimizerDiagnostics") {
+    sourceKind = "cameraOptimizerDiagnostics";
+    trajectory = parseOptimizerDiagnostics(root);
   } else if (Array.isArray(root.frames)) {
     sourceKind = "prototypeFrames";
     trajectory = parsePrototype(value, options);
   } else {
     fail(
       "$.kind",
-      'expected "cameraTrajectory", "cameraPath4d", or a prototype object containing frames[]',
+      'expected "cameraTrajectory", "cameraPath4d", "cameraOptimizerDiagnostics", or a prototype object containing frames[]',
       "invalid-document-kind",
     );
   }

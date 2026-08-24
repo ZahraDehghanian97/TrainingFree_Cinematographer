@@ -4,6 +4,7 @@ import type {
   Target,
 } from "../types/camera";
 import type {
+  ActionConstraintConfig,
   CameraDirectionDraft,
   CompoundTrigger,
   TriggerSpec,
@@ -94,6 +95,25 @@ function toDraftConfig(
   };
 }
 
+function toDraftConstraint(
+  constraint: ActionConstraintConfig<Target>,
+  toReference: (target: Target) => SubjectReference,
+): ActionConstraintConfig<SubjectReference> {
+  if ("kind" in constraint && constraint.kind === "general") {
+    const { targets, ...rest } = constraint;
+    return {
+      ...rest,
+      ...(targets === undefined ? {} : { targets: targets.map(toReference) }),
+    };
+  }
+  const { targets, ...rest } = constraint;
+  return {
+    ...rest,
+    ...(targets === undefined ? {} : { targets: targets.map(toReference) }),
+    config: toDraftConfig(constraint.config, toReference),
+  };
+}
+
 function toDraftTrigger(
   trigger: TriggerSpec<Target>,
   toReference: (target: Target) => SubjectReference,
@@ -151,19 +171,9 @@ export function createPromptExampleLlmInput(
           ...(constraints === undefined
             ? {}
             : {
-              constraints: constraints.map((constraint) => {
-                const {
-                  targets: constraintTargets,
-                  ...constraintWithoutTargets
-                } = constraint;
-                return {
-                  ...constraintWithoutTargets,
-                  ...(constraintTargets === undefined
-                    ? {}
-                    : { targets: constraintTargets.map(toReference) }),
-                  config: toDraftConfig(constraint.config, toReference),
-                };
-              }),
+              constraints: constraints.map((constraint) =>
+                toDraftConstraint(constraint, toReference),
+              ),
             }),
         };
       }),
