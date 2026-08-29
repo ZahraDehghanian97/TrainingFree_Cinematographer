@@ -26,7 +26,7 @@ export const DEFAULT_GLOBAL_LOSSES = {
 export const DEFAULT_OPTIONS: Required<Omit<OptimizerOptions, "weights" | "globalLosses">> = {
   optimizationFps: 3,
   outputFps: 24,
-  iterations: 120,
+  iterations: 5000,
   randomSeed: 0x51f15e,
   initialFovYDegrees: 50,
   aspectRatio: 16 / 9,
@@ -73,7 +73,7 @@ export const PRIMITIVE_TOLERANCES: Record<PrimitiveLossType, number> = {
   subjectElevation: Math.PI / 60,
   rollProgress: Math.PI / 90,
   rollTarget: Math.PI / 90,
-  levelHorizon: Math.PI / 120,
+  levelHorizon: Math.PI / 90,
   intrinsicsProgress: 0.75,
   intrinsicsPacing: 0.75,
   collisionClearance: 0.05,

@@ -2,6 +2,7 @@ import { LossFunctionType, type LossFunction, type TimelineSegment } from "../ty
 import {
   DEFAULT_GLOBAL_LOSSES,
   DEFAULT_OPTIMIZER_WEIGHTS,
+  DEFAULT_OPTIONS,
   PRIMITIVE_TOLERANCES,
 } from "./defaults";
 import { subjectIdsFromParameters } from "./environment";
@@ -923,6 +924,91 @@ export function compileLossPlan(input: CameraOptimizerInput): CompiledLossPlan {
         addedPrimitiveIds: [],
       });
     }
+
+    // level-horizon-removes-roll-hold: levelHorizon (always targets EXACTLY
+    // 0 degrees roll) and rollHold (targets whatever roll happened to be at
+    // THIS band's own start) can both be active on the same band whenever a
+    // pedestal/translation (which adds levelHorizon) and a tilt/pan (which
+    // adds rollHold) co-occur. Since bands get re-split at point-easing
+    // boundaries, rollHold re-anchors to a FRESH, not-necessarily-zero roll
+    // value at every new band start — creating a persistent, repeated
+    // tug-of-war with levelHorizon's fixed 0-degree target rather than a
+    // one-time correction: confirmed on descent_pedestal_down +
+    // descent_tilt_down, roll showed 6 distinct direction reversals across
+    // [0,2] even though the magnitude stayed small (~3 degrees).
+    // levelHorizon already does rollHold's job, more correctly — it holds
+    // roll at the RIGHT value (actual level) rather than an arbitrary one
+    // — so when both are active, levelHorizon wins outright and rollHold is
+    // removed. Same direction as dutch-removes-level-horizon above, just
+    // reversed.
+    {
+      const hasLevelHorizon = bandPrimitives().some((primitive) => primitive.type === "levelHorizon");
+      if (hasLevelHorizon) {
+        const removed = removeWhere((primitive) => primitive.type === "rollHold");
+        if (removed.length > 0) conflicts.push({
+          interval: [band.startTime, band.endTime],
+          rule: "level-horizon-removes-roll-hold",
+          removedPrimitiveIds: removed,
+          addedPrimitiveIds: [],
+        });
+      }
+    }
+
+    // under-constrained-hold-strengthened: yawHold/pitchHold (a pure
+    // tilt/pan's OFF axis, meant to stay put) default to plain stabilizer
+    // weight (2.5) at a tight 1-degree tolerance — fine when something else
+    // in the band also has an opinion about that axis (e.g. lookAt/
+    // subjectView during a tilt, which can legitimately want yaw to move a
+    // little), but far too weak when NOTHING in the band does. Confirmed on
+    // descent_pedestal_down+descent_tilt_down's [0,1] sub-band: yaw
+    // wandered ~21 degrees and reversed direction with only yawHold
+    // resisting it, since nothing else there has any opinion on yaw at all.
+    // Boosted only when the band has no plausible yaw/pitch-driving loss —
+    // deliberately NOT a blanket rotationRecipe change, since that would
+    // ALSO strengthen yawHold during a band where e.g. CameraVerticalAngle
+    // IS active and legitimately wants yaw to move toward the subject,
+    // which would fight that instead of helping it. Matched to
+    // levelHorizon's own weightScale (24) — same "resist small per-sample
+    // cross-talk" reasoning, same category of hold.
+    {
+      const yawPitchTargetingTypes = [
+        LossFunctionType.FramingPosition,
+        LossFunctionType.ShotSize,
+        LossFunctionType.SubjectView,
+        LossFunctionType.CameraVerticalAngle,
+        LossFunctionType.FollowMovement,
+        LossFunctionType.TrackMovement,
+        LossFunctionType.ArcMovement,
+      ];
+      const hasYawTarget = highLevelTypes.some((type) =>
+        type === LossFunctionType.PanLeftMovement
+        || type === LossFunctionType.PanRightMovement
+        || yawPitchTargetingTypes.includes(type),
+      );
+      const hasPitchTarget = highLevelTypes.some((type) =>
+        type === LossFunctionType.TiltUpMovement
+        || type === LossFunctionType.TiltDownMovement
+        || yawPitchTargetingTypes.includes(type),
+      );
+      const strengthenedIds: string[] = [];
+      const strengthenedWeight = roleWeight("stabilizer", weights) * 24;
+      for (const primitive of bandPrimitives()) {
+        if (
+          ((primitive.type === "yawHold" && !hasYawTarget) || (primitive.type === "pitchHold" && !hasPitchTarget))
+          && primitive.weight < strengthenedWeight
+        ) {
+          primitive.weight = strengthenedWeight;
+          strengthenedIds.push(primitive.id);
+        }
+      }
+      if (strengthenedIds.length > 0) conflicts.push({
+        interval: [band.startTime, band.endTime],
+        rule: "under-constrained-hold-strengthened",
+        removedPrimitiveIds: [],
+        addedPrimitiveIds: strengthenedIds,
+      });
+    }
+
     const offCenterFraming = bandPrimitives().filter((primitive) =>
       primitive.type === "screenPosition"
       && Array.isArray(primitive.parameters.target)
@@ -1030,6 +1116,48 @@ export function compileLossPlan(input: CameraOptimizerInput): CompiledLossPlan {
   ]);
   for (const [enabled, descriptor, weight] of globalDescriptors) {
     if (enabled) add(descriptor, 0, durationSeconds, "global", 1, undefined, weight);
+  }
+
+  // Fixed-point anchoring for zoom targets. intrinsicsProgress/intrinsicsPacing
+  // previously computed their target FOV from the CURRENT, still-optimizing
+  // fovYDegrees at their own start frame (see objective.ts) — a
+  // self-referential, moving-goalpost target, unlike every sibling
+  // progress-style primitive (totalProgressTarget, angularProgress,
+  // rollProgress), which all anchor to a FIXED number baked in at compile
+  // time. Because a single ZoomIn/ZoomOut action can be split across several
+  // sub-bands (e.g. by an unrelated point constraint's easing window edges
+  // landing inside its span), each sub-band's primitive re-anchored to
+  // whatever FOV the previous sub-band's optimization happened to reach —
+  // and since that value is itself unconverged mid-optimization, the chain
+  // could compound into runaway growth well past the intended total factor,
+  // rather than converging toward it. Fixed here by chaining a single
+  // running FOV forward across every intrinsicsProgress/intrinsicsPacing
+  // primitive in chronological order (primitives are already pushed in band
+  // order above) and baking each band's actual target as a fixed number,
+  // seeded from the same initial FOV the initializer itself starts from —
+  // so a custom input.options.initialFovYDegrees override stays consistent
+  // between the compiler's assumption and what the initializer will
+  // actually use.
+  {
+    const seedFovYDegrees = input.options?.initialFovYDegrees ?? DEFAULT_OPTIONS.initialFovYDegrees;
+    let runningFovYDegrees = seedFovYDegrees;
+    const resolvedTargetByBand = new Map<string, number>();
+
+    for (const primitive of primitives) {
+      if (primitive.type !== "intrinsicsProgress" && primitive.type !== "intrinsicsPacing") continue;
+
+      const bandKey = `${primitive.startTime}:${primitive.endTime}:${primitive.sourceActionId ?? ""}`;
+      let targetFovYDegrees = resolvedTargetByBand.get(bandKey);
+      if (targetFovYDegrees === undefined) {
+        const factor = typeof primitive.parameters.factor === "number" ? primitive.parameters.factor : 1;
+        runningFovYDegrees = primitive.parameters.direction === "in"
+          ? runningFovYDegrees / factor
+          : runningFovYDegrees * factor;
+        targetFovYDegrees = runningFovYDegrees;
+        resolvedTargetByBand.set(bandKey, targetFovYDegrees);
+      }
+      primitive.parameters = { ...primitive.parameters, targetFovYDegrees };
+    }
   }
 
   primitives.sort((a, b) => a.startTime - b.startTime || a.endTime - b.endTime || a.id.localeCompare(b.id));

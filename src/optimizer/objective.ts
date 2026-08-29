@@ -886,18 +886,31 @@ export class ObjectiveEvaluator {
         return indices.map((index) => weighted(index, wrapAngle(rollFromQuaternion(states[index]!.rotation) - target)));
       }
       case "intrinsicsProgress": {
+        // Fixed, compile-time target (see compiler.ts's fixed-point-anchoring
+        // pass) — NOT derived from first.fovYDegrees, which is a live,
+        // still-optimizing state value. Anchoring to a live value here was
+        // self-referential (the target moved as the variable it was meant to
+        // constrain moved) and could compound into runaway growth across a
+        // zoom action split into multiple sub-bands. Falls back to the old
+        // first-frame-relative computation only if targetFovYDegrees wasn't
+        // supplied (e.g. a hand-built primitive bypassing the compiler).
         const factor = typeof primitive.parameters.factor === "number" ? primitive.parameters.factor : 1;
-        const expected = primitive.parameters.direction === "in"
-          ? first.fovYDegrees / factor
-          : first.fovYDegrees * factor;
+        const expected = typeof primitive.parameters.targetFovYDegrees === "number"
+          ? primitive.parameters.targetFovYDegrees
+          : primitive.parameters.direction === "in"
+            ? first.fovYDegrees / factor
+            : first.fovYDegrees * factor;
         return [weighted(lastIndex, last.fovYDegrees - expected)];
       }
       case "intrinsicsPacing": {
         if (indices.length < 2) return [];
+        // Same fixed-target reasoning as intrinsicsProgress above.
         const factor = typeof primitive.parameters.factor === "number" ? primitive.parameters.factor : 1;
-        const end = primitive.parameters.direction === "in"
-          ? first.fovYDegrees / factor
-          : first.fovYDegrees * factor;
+        const end = typeof primitive.parameters.targetFovYDegrees === "number"
+          ? primitive.parameters.targetFovYDegrees
+          : primitive.parameters.direction === "in"
+            ? first.fovYDegrees / factor
+            : first.fovYDegrees * factor;
         return indices.map((index, localIndex) => {
           const normalizedTime = (this.times[index]! - primitive.startTime)
             / Math.max(1e-9, primitive.endTime - primitive.startTime);

@@ -112,7 +112,9 @@ export interface ConflictResolution {
     | "zoom-removes-fov-hold"
     | "framing-removes-fov-hold"
     | "dutch-removes-level-horizon"
-    | "screen-position-dominates-look-at";
+    | "screen-position-dominates-look-at"
+    | "under-constrained-hold-strengthened"
+    | "level-horizon-removes-roll-hold";
   removedPrimitiveIds: string[];
   addedPrimitiveIds: string[];
 }
