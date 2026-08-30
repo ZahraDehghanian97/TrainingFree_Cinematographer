@@ -1,5 +1,7 @@
 import { clamp } from "./math";
 
+/** Helpers for integrating authored speed profiles into normalized motion. */
+
 interface SpeedProfileKeyframe {
   normalizedTime: number;
   speedMultiplier: number;
@@ -90,4 +92,3 @@ export function motionProgressDelta(
   const end = (endTime - intervalStart) / duration;
   return motionProgress(end, rawKeyframes) - motionProgress(start, rawKeyframes);
 }
-

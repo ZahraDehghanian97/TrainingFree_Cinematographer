@@ -1,23 +1,25 @@
-import type { CoordinateSystemV1, Quat, Vec3 } from "../types/environment";
+import type { CoordinateSystemV1, Quat, Vec3 } from "../../types/environment";
 import type {
   CameraSampleV1,
   CameraTrajectoryV1,
   PlaybackRateLabelV1,
-} from "../types/trajectory";
+} from "../../types/trajectory";
 import {
-  lookAtQuaternion,
+  applyHardKeyframesToState,
+  hardKeyframesAtTime,
+} from "../shared/keyframes";
+import {
   normalizeQuat,
   scale3,
   sub3,
   slerpQuat,
-} from "./math";
-import { crossesCut } from "./time";
+} from "../shared/math";
+import { crossesCut } from "../shared/time";
 import type {
   CameraOptimizerInput,
   CameraStateSample,
   CompiledLossPlan,
-  UserCameraKeyframe,
-} from "./types";
+} from "../types";
 
 export const CANONICAL_COORDINATES: CoordinateSystemV1 = {
   handedness: "right",
@@ -148,33 +150,6 @@ function interpolateState(
   };
 }
 
-function hardKeyframesAt(
-  keyframes: readonly UserCameraKeyframe[],
-  time: number,
-): UserCameraKeyframe[] {
-  return keyframes.filter((keyframe) =>
-    (keyframe.mode ?? "hard") === "hard" && Math.abs(keyframe.time - time) <= 1e-8,
-  );
-}
-
-function applyHardOutput(sample: CameraStateSample, keyframes: readonly UserCameraKeyframe[]): void {
-  const hard = hardKeyframesAt(keyframes, sample.time);
-  for (const keyframe of hard) {
-    if (keyframe.position) sample.position = [...keyframe.position];
-    if (keyframe.fovYDegrees !== undefined) sample.fovYDegrees = keyframe.fovYDegrees;
-  }
-  for (const keyframe of hard) {
-    if (keyframe.rotation) sample.rotation = normalizeQuat(keyframe.rotation);
-    if (keyframe.lookAt) {
-      sample.rotation = lookAtQuaternion(
-        sample.position,
-        keyframe.lookAt,
-        keyframe.up ?? [0, 1, 0],
-      );
-    }
-  }
-}
-
 function sourceActionAt(plan: CompiledLossPlan, time: number): string | undefined {
   return plan.primitives.find((primitive) =>
     primitive.sourceActionId
@@ -203,7 +178,7 @@ export function buildCameraTrajectory(
   ];
   const samples: CameraSampleV1[] = outputTimes.map((time) => {
     const state = interpolateState(optimizedStates, time, cutTimes);
-    applyHardOutput(state, userKeyframes);
+    applyHardKeyframesToState(state, hardKeyframesAtTime(userKeyframes, state.time));
     const sample: CameraSampleV1 = {
       t: time,
       position: [...state.position] as Vec3,
@@ -216,7 +191,7 @@ export function buildCameraTrajectory(
     return sample;
   });
   for (let index = 1; index < samples.length; index += 1) {
-    const hardOrientation = hardKeyframesAt(userKeyframes, samples[index]!.t).some(
+    const hardOrientation = hardKeyframesAtTime(userKeyframes, samples[index]!.t).some(
       (keyframe) => keyframe.rotation !== undefined || keyframe.lookAt !== undefined,
     );
     if (hardOrientation) continue;

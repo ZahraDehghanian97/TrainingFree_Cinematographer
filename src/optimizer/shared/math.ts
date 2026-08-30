@@ -1,4 +1,4 @@
-import type { Quat, Vec3 } from "../types/environment";
+import type { Quat, Vec3 } from "../../types/environment";
 
 export const EPSILON = 1e-9;
 
@@ -252,4 +252,3 @@ export function huber(normalizedResidual: number, delta = 1): number {
 export function mean(values: readonly number[]): number {
   return values.length === 0 ? 0 : values.reduce((sum, value) => sum + value, 0) / values.length;
 }
-

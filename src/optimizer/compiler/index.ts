@@ -1,11 +1,15 @@
-import { LossFunctionType, type LossFunction, type TimelineSegment } from "../types/solver";
+import { LossFunctionType, type LossFunction, type TimelineSegment } from "../../types/solver";
 import {
   DEFAULT_GLOBAL_LOSSES,
   DEFAULT_OPTIMIZER_WEIGHTS,
   DEFAULT_OPTIONS,
   PRIMITIVE_TOLERANCES,
-} from "./defaults";
-import { subjectIdsFromParameters } from "./environment";
+} from "../config/defaults";
+import {
+  asVec3,
+  finiteNumber,
+  subjectIdsFromParameters,
+} from "../shared/parameter-values";
 import type {
   CameraOptimizerInput,
   CompiledLossPlan,
@@ -16,7 +20,7 @@ import type {
   PrimitiveLossType,
   PrimitiveRole,
   UserCameraKeyframe,
-} from "./types";
+} from "../types";
 
 interface CompileBandContext {
   startTime: number;
@@ -134,25 +138,6 @@ const VERTICAL_ANGLE_DEGREES: Record<string, number> = {
   birdsEye: 58,
   topDown: 88,
 };
-
-function finiteNumber(value: unknown, fallback: number): number {
-  return typeof value === "number" && Number.isFinite(value) ? value : fallback;
-}
-
-function asCompilerVec3(value: unknown): [number, number, number] | undefined {
-  if (Array.isArray(value) && value.length === 3 && value.every(Number.isFinite)) {
-    return [Number(value[0]), Number(value[1]), Number(value[2])];
-  }
-  if (value && typeof value === "object") {
-    const candidate = value as Record<string, unknown>;
-    if ([candidate.x, candidate.y, candidate.z].every(
-      (item) => typeof item === "number" && Number.isFinite(item),
-    )) {
-      return [candidate.x as number, candidate.y as number, candidate.z as number];
-    }
-  }
-  return undefined;
-}
 
 function uniqueSorted(values: number[]): number[] {
   return [...new Set(values.map((value) => Number(value.toFixed(9))))].sort((a, b) => a - b);
@@ -613,7 +598,7 @@ function recipeFor(context: CompileBandContext): PrimitiveDescriptor[] {
         role: "primary",
         parameters: { target: targetFov },
       });
-      const lookAt = asCompilerVec3(p.lookAt);
+      const lookAt = asVec3(p.lookAt);
       if (lookAt) descriptors.push({
         type: "rotationAnchor",
         channel: "rotation",

@@ -1,7 +1,7 @@
-import { LossFunctionType } from "../types/solver";
-import { RelativeFPS } from "../types/enums";
-import { distance3, quaternionAngle } from "./math";
-import type { CameraOptimizerInput, UserCameraKeyframe } from "./types";
+import { RelativeFPS } from "../../types/enums";
+import { LossFunctionType } from "../../types/solver";
+import { distance3, quaternionAngle } from "../shared/math";
+import type { CameraOptimizerInput, UserCameraKeyframe } from "../types";
 
 function assertFiniteTuple(value: readonly number[], length: number, field: string): void {
   if (value.length !== length || !value.every(Number.isFinite)) {

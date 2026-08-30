@@ -1,4 +1,4 @@
-import type { OptimizerOptions, OptimizerWeights, PrimitiveLossType } from "./types";
+import type { OptimizerOptions, OptimizerWeights, PrimitiveLossType } from "../types";
 
 export const DEFAULT_OPTIMIZER_WEIGHTS: OptimizerWeights = {
   userSoftKeyframe: 40,

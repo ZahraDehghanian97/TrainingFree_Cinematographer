@@ -1,6 +1,6 @@
-import type { EnvironmentV1 } from "../types/environment";
-import { LossFunctionType, type FlattenedTimeline, type TimeWarpSegment } from "../types/solver";
-import type { UserCameraKeyframe } from "./types";
+import type { EnvironmentV1 } from "../../types/environment";
+import { LossFunctionType, type FlattenedTimeline, type TimeWarpSegment } from "../../types/solver";
+import type { UserCameraKeyframe } from "../types";
 import { clamp } from "./math";
 
 const MAX_ARC_STEP_DEGREES = 15;

@@ -23,6 +23,24 @@ timeline; `optimizeTimelineSolverOutput()` accepts the direct `solveTimeline()`
 result. Both return the plan, canonical trajectory, loss breakdown, conflicts,
 warnings, and termination diagnostics.
 
+## Module layout
+
+```text
+optimizer/
+├── compiler/          semantic timeline -> primitive loss plan
+├── config/            defaults, option resolution, and validation
+├── initialization/    base pose, motion steps, and orientation transitions
+├── scene/             subjects, projection, and spatial queries
+├── solver/            objective evaluation and numerical refinement
+├── trajectory/        output interpolation and trajectory construction
+├── shared/            math, time, keyframe, and parameter helpers
+├── index.ts           public optimization pipeline
+└── types.ts           public optimizer contracts
+```
+
+Each folder exposes or contains one pipeline responsibility. Cross-stage helpers
+live in `shared/`; scene sampling stays isolated from solver and output logic.
+
 ## Primitive vocabulary
 
 - Anchors/holds: `positionAnchor`, `rotationAnchor`, `fovAnchor`,
@@ -69,6 +87,8 @@ direction.
 - Translation + Pan/Tilt/Dutch/Zoom -> position-hold stabilizers are released.
 - Explicit rotation/composition -> incompatible orientation holds are released.
 - Dutch -> level-horizon is released.
+- Level-horizon constraints replace simultaneous roll holds.
+- Under-constrained yaw/pitch holds are strengthened when no semantic loss owns that axis.
 - Off-center framing -> centered look-at stabilizers are released.
 - Static releases only channels explicitly driven by simultaneous movement.
 - Targeted Static shots remain mounted in the subject's translating frame;
@@ -77,6 +97,8 @@ direction.
   camera motion relative to inherited subject translation.
 - `allowSubjectIntersection` explicitly permits an interior/exit move through
   its targeted subject without disabling collision checks for other geometry.
+- Zoom sub-bands share fixed compile-time FOV targets instead of deriving a
+  moving target from the state currently being optimized.
 - Smoothness and interpolation never bridge section/user cuts.
 
 ## User keyframes
@@ -117,7 +139,7 @@ without coupling separate shots. Objective-evaluation count is independent of
 the number of free variables. The solver retains the best finite state and
 never returns a worse state than initialization. Rejected-step exhaustion is
 reported as `stalled`, not `converged`. Defaults are 3 Hz plus adaptive arc
-samples, 120 iterations, environment `fpsHint` for output, and a fixed seed.
+samples, 5000 iterations, environment `fpsHint` for output, and a fixed seed.
 
 Scene time is obtained by integrating timeline rate segments over the camera
 playback clock. Target centers, rotated/scaled bounds, subject orientation,

@@ -1,11 +1,16 @@
-import type { Quat } from "../types/environment";
-import { clamp, lookAtQuaternion, normalizeQuat } from "./math";
+import type { Quat } from "../../types/environment";
+import {
+  applyHardKeyframesToState,
+  indexHardKeyframesByState,
+  lockedKeyframeChannels,
+} from "../shared/keyframes";
+import { clamp, normalizeQuat } from "../shared/math";
 import { ObjectiveEvaluator } from "./objective";
-import { crossesCut } from "./time";
+import { crossesCut } from "../shared/time";
 import type {
   CameraStateSample,
   UserCameraKeyframe,
-} from "./types";
+} from "../types";
 
 type StateComponent = 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7;
 
@@ -29,68 +34,6 @@ interface NumericalSolveOptions {
   cutTimes?: readonly number[];
 }
 
-function nearestStateIndex(states: readonly CameraStateSample[], time: number): number {
-  let bestIndex = 0;
-  let bestDistance = Infinity;
-  states.forEach((state, index) => {
-    const distance = Math.abs(state.time - time);
-    if (distance < bestDistance) {
-      bestDistance = distance;
-      bestIndex = index;
-    }
-  });
-  if (bestDistance > 1e-7) throw new Error(`Hard keyframe time ${time} is missing from optimizer grid`);
-  return bestIndex;
-}
-
-function hardKeyframesAt(
-  states: readonly CameraStateSample[],
-  keyframes: readonly UserCameraKeyframe[],
-): Map<number, UserCameraKeyframe[]> {
-  const result = new Map<number, UserCameraKeyframe[]>();
-  for (const keyframe of keyframes) {
-    if ((keyframe.mode ?? "hard") !== "hard") continue;
-    const index = nearestStateIndex(states, keyframe.time);
-    const existing = result.get(index) ?? [];
-    existing.push(keyframe);
-    result.set(index, existing);
-  }
-  return result;
-}
-
-function lockedChannels(keyframes: readonly UserCameraKeyframe[]): Set<"position" | "rotation" | "fov"> {
-  const result = new Set<"position" | "rotation" | "fov">();
-  for (const keyframe of keyframes) {
-    if (keyframe.position) result.add("position");
-    if (keyframe.rotation || keyframe.lookAt) result.add("rotation");
-    if (keyframe.fovYDegrees !== undefined) result.add("fov");
-  }
-  return result;
-}
-
-function applyHardKeyframes(
-  states: CameraStateSample[],
-  hardByState: ReadonlyMap<number, readonly UserCameraKeyframe[]>,
-): void {
-  for (const [stateIndex, keyframes] of hardByState) {
-    const state = states[stateIndex]!;
-    for (const keyframe of keyframes) {
-      if (keyframe.position) state.position = [...keyframe.position];
-      if (keyframe.fovYDegrees !== undefined) state.fovYDegrees = keyframe.fovYDegrees;
-    }
-    for (const keyframe of keyframes) {
-      if (keyframe.rotation) state.rotation = normalizeQuat(keyframe.rotation);
-      if (keyframe.lookAt) {
-        state.rotation = lookAtQuaternion(
-          state.position,
-          keyframe.lookAt,
-          keyframe.up ?? [0, 1, 0],
-        );
-      }
-    }
-  }
-}
-
 function estimateSceneScale(states: readonly CameraStateSample[]): number {
   const stepDistances = states.slice(1).map((state, index) => Math.hypot(
     state.position[0] - states[index]!.position[0],
@@ -111,9 +54,9 @@ class StateCodec {
     keyframes: readonly UserCameraKeyframe[],
   ) {
     this.sceneScale = estimateSceneScale(template);
-    this.hardByState = hardKeyframesAt(template, keyframes);
+    this.hardByState = indexHardKeyframesByState(template, keyframes);
     template.forEach((_state, stateIndex) => {
-      const locked = lockedChannels(this.hardByState.get(stateIndex) ?? []);
+      const locked = lockedKeyframeChannels(this.hardByState.get(stateIndex) ?? []);
       if (!locked.has("position")) {
         this.references.push(
           { stateIndex, component: 0 },
@@ -176,7 +119,9 @@ class StateCodec {
       this.decodeValue(states[reference.stateIndex]!, reference.component, vector[index]!);
     });
     for (const state of states) state.rotation = normalizeQuat(state.rotation);
-    applyHardKeyframes(states, this.hardByState);
+    for (const [stateIndex, keyframes] of this.hardByState) {
+      applyHardKeyframesToState(states[stateIndex]!, keyframes);
+    }
     for (let index = 1; index < states.length; index += 1) {
       const hardOrientation = (this.hardByState.get(index) ?? []).some(
         (keyframe) => keyframe.rotation !== undefined || keyframe.lookAt !== undefined,

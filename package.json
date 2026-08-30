@@ -5,7 +5,8 @@
   "main": "./src/index.ts",
   "scripts": {
     "build": "npm run build:node && npm run build:web",
-    "build:node": "tsc -p tsconfig.json",
+    "clean:node": "ts-node ./scripts/clean-node-build.ts",
+    "build:node": "npm run clean:node && tsc -p tsconfig.json",
     "build:web": "vite build --config web/vite.config.ts",
     "start": "ts-node ./src/index.ts",
     "pipeline": "ts-node ./src/index.ts",

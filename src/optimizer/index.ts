@@ -1,64 +1,33 @@
 import { compileLossPlan } from "./compiler";
 import { flattenTimeline } from "../timeline/flattener";
-import { DEFAULT_OPTIONS } from "./defaults";
-import { initializeCameraStates } from "./initializer";
-import { solveNumerically } from "./numerical-solver";
-import { ObjectiveEvaluator } from "./objective";
-import { buildOptimizationTimes, buildOutputTimes } from "./time";
+import {
+  resolveOptimizerOptions,
+  validateResolvedOptimizerOptions,
+} from "./config/options";
+import { validateOptimizerInput } from "./config/validation";
+import { initializeCameraStates } from "./initialization";
+import { withKeyframeCuts } from "./shared/keyframes";
+import { buildOptimizationTimes, buildOutputTimes } from "./shared/time";
+import { solveNumerically } from "./solver/numerical-solver";
+import { ObjectiveEvaluator } from "./solver/objective";
 import { buildCameraTrajectory } from "./trajectory";
 import type {
   CameraOptimizerInput,
   CameraOptimizerResult,
-  OptimizerOptions,
   TimelineSolverCameraOptimizerInput,
 } from "./types";
-import { validateOptimizerInput } from "./validation";
 
 export * from "./compiler";
 export * from "./types";
-export * from "./validation";
-
-function resolveOptions(input: CameraOptimizerInput): Required<Omit<OptimizerOptions, "weights" | "globalLosses">> {
-  return {
-    optimizationFps: input.options?.optimizationFps ?? DEFAULT_OPTIONS.optimizationFps,
-    outputFps: input.options?.outputFps
-      ?? input.environment.clock.fpsHint
-      ?? DEFAULT_OPTIONS.outputFps,
-    iterations: input.options?.iterations ?? DEFAULT_OPTIONS.iterations,
-    randomSeed: input.options?.randomSeed ?? DEFAULT_OPTIONS.randomSeed,
-    initialFovYDegrees: input.options?.initialFovYDegrees ?? DEFAULT_OPTIONS.initialFovYDegrees,
-    aspectRatio: input.options?.aspectRatio ?? DEFAULT_OPTIONS.aspectRatio,
-    cameraRadius: input.options?.cameraRadius ?? DEFAULT_OPTIONS.cameraRadius,
-    collisionMargin: input.options?.collisionMargin ?? DEFAULT_OPTIONS.collisionMargin,
-    nearPlane: input.options?.nearPlane ?? DEFAULT_OPTIONS.nearPlane,
-    farPlane: input.options?.farPlane ?? DEFAULT_OPTIONS.farPlane,
-  };
-}
+export { validateOptimizerInput } from "./config/validation";
 
 /** Optimizes position, quaternion orientation, and FOV entirely in TypeScript. */
 export function optimizeCameraTrajectory(input: CameraOptimizerInput): CameraOptimizerResult {
   const startedAt = Date.now();
   validateOptimizerInput(input);
-  const options = resolveOptions(input);
-  if (options.iterations < 0 || !Number.isInteger(options.iterations)) {
-    throw new Error("options.iterations must be a non-negative integer");
-  }
-  if (!(options.nearPlane > 0 && options.farPlane > options.nearPlane)) {
-    throw new Error("Optimizer intrinsics must satisfy 0 < nearPlane < farPlane");
-  }
-
-  const keyframeCuts = (input.userKeyframes ?? [])
-    .filter((keyframe) => keyframe.cutBefore)
-    .map((keyframe) => keyframe.time);
-  const effectiveInput: CameraOptimizerInput = keyframeCuts.length === 0
-    ? input
-    : {
-        ...input,
-        timeline: {
-          ...input.timeline,
-          cutTimes: [...new Set([...(input.timeline.cutTimes ?? []), ...keyframeCuts])].sort((a, b) => a - b),
-        },
-      };
+  const options = resolveOptimizerOptions(input);
+  validateResolvedOptimizerOptions(options);
+  const effectiveInput = withKeyframeCuts(input);
   const plan = compileLossPlan(effectiveInput);
   const optimizationTimes = buildOptimizationTimes(
     effectiveInput.environment,

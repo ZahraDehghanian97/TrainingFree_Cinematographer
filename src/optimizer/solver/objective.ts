@@ -1,17 +1,20 @@
-import type { EnvironmentV1, Quat, Vec3 } from "../types/environment";
-import type { WorldAabbV1 } from "../types/environment-query";
-import { LossFunctionType } from "../types/solver";
+import type { EnvironmentV1, Quat, Vec3 } from "../../types/environment";
+import type { WorldAabbV1 } from "../../types/environment-query";
+import { LossFunctionType } from "../../types/solver";
 import {
   aabbCorners,
   projectWorldBox,
   projectWorldPoint,
+} from "../scene/projection";
+import {
   sampleObstacleBoxes,
-  sampleSubjectAggregate,
   segmentIntersectsAabb,
   signedDistanceToAabb,
-  subjectIdsFromParameters,
+} from "../scene/spatial-geometry";
+import {
+  sampleSubjectAggregate,
   type SubjectAggregate,
-} from "./environment";
+} from "../scene/subjects";
 import {
   add3,
   cameraForward,
@@ -28,7 +31,6 @@ import {
   mean,
   multiplyQuat,
   normalize3,
-  normalizeQuat,
   pitchFromQuaternion,
   quaternionAngle,
   rollFromQuaternion,
@@ -39,21 +41,30 @@ import {
   unwrapAngles,
   wrapAngle,
   yawFromQuaternion,
-} from "./math";
+} from "../shared/math";
+import {
+  asQuat,
+  asVec3,
+  subjectIdsFromParameters,
+} from "../shared/parameter-values";
+import {
+  primitivePlaybackTime,
+  samplePrimitiveSubject,
+} from "../scene/primitive-context";
 import {
   crossesCut,
   intervalIndices,
   playbackToSceneTime,
   pointEasingWeight,
-} from "./time";
-import { motionProgress, motionProgressDelta } from "./profiles";
+} from "../shared/time";
+import { motionProgress, motionProgressDelta } from "../shared/motion-profiles";
 import type {
   CameraOptimizerInput,
   CameraStateSample,
   CompiledLossPlan,
   LossBreakdownEntry,
   PrimitiveLoss,
-} from "./types";
+} from "../types";
 
 interface WeightedResidual {
   value: number;
@@ -70,61 +81,6 @@ interface ObjectiveOptions {
 interface ObjectiveResult {
   total: number;
   breakdown: LossBreakdownEntry[];
-}
-
-function asVec3(value: unknown): Vec3 | undefined {
-  if (Array.isArray(value) && value.length === 3 && value.every(Number.isFinite)) {
-    return [Number(value[0]), Number(value[1]), Number(value[2])];
-  }
-  if (value && typeof value === "object") {
-    const candidate = value as Record<string, unknown>;
-    if ([candidate.x, candidate.y, candidate.z].every((item) => typeof item === "number" && Number.isFinite(item))) {
-      return [candidate.x as number, candidate.y as number, candidate.z as number];
-    }
-  }
-  return undefined;
-}
-
-function quaternionFromEulerDegrees(value: Record<string, unknown>): Quat | undefined {
-  if (![value.pitch, value.yaw, value.roll].every((item) => typeof item === "number" && Number.isFinite(item))) {
-    return undefined;
-  }
-  const pitch = (value.pitch as number) * Math.PI / 180;
-  const yaw = (value.yaw as number) * Math.PI / 180;
-  const roll = (value.roll as number) * Math.PI / 180;
-  const cy = Math.cos(yaw / 2);
-  const sy = Math.sin(yaw / 2);
-  const cp = Math.cos(pitch / 2);
-  const sp = Math.sin(pitch / 2);
-  const cr = Math.cos(roll / 2);
-  const sr = Math.sin(roll / 2);
-  return normalizeQuat([
-    sp * cy * cr + cp * sy * sr,
-    cp * sy * cr - sp * cy * sr,
-    cp * cy * sr - sp * sy * cr,
-    cp * cy * cr + sp * sy * sr,
-  ]);
-}
-
-function asQuat(value: unknown): Quat | undefined {
-  if (Array.isArray(value) && value.length === 4 && value.every(Number.isFinite)) {
-    return normalizeQuat([Number(value[0]), Number(value[1]), Number(value[2]), Number(value[3])]);
-  }
-  if (value && typeof value === "object") {
-    const candidate = value as Record<string, unknown>;
-    if ([candidate.x, candidate.y, candidate.z, candidate.w].every(
-      (item) => typeof item === "number" && Number.isFinite(item),
-    )) {
-      return normalizeQuat([
-        candidate.x as number,
-        candidate.y as number,
-        candidate.z as number,
-        candidate.w as number,
-      ]);
-    }
-    return quaternionFromEulerDegrees(candidate);
-  }
-  return undefined;
 }
 
 function cutTimesFrom(primitive: PrimitiveLoss): number[] {
@@ -254,26 +210,12 @@ export class ObjectiveEvaluator {
   ): SubjectAggregate | undefined {
     const subjectIds = subjectIdsFromParameters(primitive.parameters);
     if (subjectIds.length === 0) return undefined;
-    const leadAmount = typeof primitive.parameters.leadAmount === "number"
-      ? primitive.parameters.leadAmount
-      : 0;
-    const followDelay = typeof primitive.parameters.followDelay === "number"
-      ? Math.max(0, primitive.parameters.followDelay)
-      : 0;
-    const effectivePlaybackTime = Math.max(0, playbackTime + leadAmount - followDelay);
+    const effectivePlaybackTime = primitivePlaybackTime(primitive, playbackTime);
     const key = `${subjectIds.join("|")}@playback:${effectivePlaybackTime.toFixed(9)}`;
     if (!this.subjectCache.has(key)) {
       this.subjectCache.set(
         key,
-        sampleSubjectAggregate(
-          this.input.environment,
-          subjectIds,
-          playbackToSceneTime(
-            effectivePlaybackTime,
-            this.input.timeline.timeWarp,
-            this.input.environment.clock.durationSeconds,
-          ),
-        ),
+        samplePrimitiveSubject(this.input, primitive, playbackTime),
       );
     }
     return this.subjectCache.get(key);
