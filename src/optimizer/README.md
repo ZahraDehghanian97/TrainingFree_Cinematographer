@@ -28,6 +28,17 @@ warnings, and termination diagnostics.
 ```text
 optimizer/
 ├── compiler/          semantic timeline -> primitive loss plan
+│   ├── index.ts                 readable compilation pipeline
+│   ├── timeline-bands.ts        overlap and easing band construction
+│   ├── loss-recipes.ts          high-level loss -> primitive recipes
+│   ├── conflict-resolution.ts   compound-shot and channel rules
+│   ├── constants.ts             cinematic targets and loss groups
+│   ├── global-losses.ts         whole-trajectory regularizers
+│   ├── keyframe-recipes.ts      user-authored anchors
+│   ├── primitive-store.ts       loss materialization and stable IDs
+│   ├── fov-targets.ts           fixed zoom-target chaining
+│   ├── subjects.ts              target/entity identity helpers
+│   └── types.ts                 compiler-private contracts
 ├── config/            defaults, option resolution, and validation
 ├── initialization/    base pose, motion steps, and orientation transitions
 ├── scene/             subjects, projection, and spatial queries
