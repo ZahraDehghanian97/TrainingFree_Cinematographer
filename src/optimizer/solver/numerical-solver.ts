@@ -32,6 +32,7 @@ interface NumericalSolveOptions {
   iterations: number;
   randomSeed: number;
   cutTimes?: readonly number[];
+  minimumCameraY?: number;
 }
 
 function estimateSceneScale(states: readonly CameraStateSample[]): number {
@@ -52,6 +53,7 @@ class StateCodec {
   public constructor(
     private readonly template: readonly CameraStateSample[],
     keyframes: readonly UserCameraKeyframe[],
+    private readonly minimumCameraY?: number,
   ) {
     this.sceneScale = estimateSceneScale(template);
     this.hardByState = indexHardKeyframesByState(template, keyframes);
@@ -92,7 +94,11 @@ class StateCodec {
   private decodeValue(state: CameraStateSample, component: StateComponent, value: number): void {
     switch (component) {
       case 0: state.position[0] = value * this.sceneScale; break;
-      case 1: state.position[1] = value * this.sceneScale; break;
+      case 1:
+        state.position[1] = this.minimumCameraY === undefined
+          ? value * this.sceneScale
+          : Math.max(value * this.sceneScale, this.minimumCameraY);
+        break;
       case 2: state.position[2] = value * this.sceneScale; break;
       case 3: state.rotation[0] = value; break;
       case 4: state.rotation[1] = value; break;
@@ -215,7 +221,7 @@ export function solveNumerically(
   evaluator: ObjectiveEvaluator,
   options: NumericalSolveOptions,
 ): NumericalSolveResult {
-  const codec = new StateCodec(initialStates, userKeyframes);
+  const codec = new StateCodec(initialStates, userKeyframes, options.minimumCameraY);
   let vector = codec.encode(initialStates);
   let states = codec.decode(vector);
   const initialLoss = evaluator.evaluate(states, false).total;

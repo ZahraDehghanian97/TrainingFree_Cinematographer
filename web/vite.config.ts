@@ -1,9 +1,18 @@
 import { defineConfig } from "vite";
+import * as path from "node:path";
+import { cameraPipelineApiPlugin } from "./pipeline-api-plugin";
+
+const webRoot = import.meta.dirname;
 
 export default defineConfig({
-  root: __dirname,
+  root: webRoot,
   base: "./",
   publicDir: "public",
+  plugins: [
+    cameraPipelineApiPlugin({
+      environmentsDirectory: path.resolve(webRoot, "public/environments"),
+    }),
+  ],
   build: {
     outDir: "../dist-web",
     emptyOutDir: true,

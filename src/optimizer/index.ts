@@ -5,7 +5,10 @@ import {
   validateResolvedOptimizerOptions,
 } from "./config/options";
 import { validateOptimizerInput } from "./config/validation";
-import { initializeCameraStates } from "./initialization";
+import {
+  clampToGroundClearance,
+  initializeCameraStates,
+} from "./initialization";
 import { withKeyframeCuts } from "./shared/keyframes";
 import { buildOptimizationTimes, buildOutputTimes } from "./shared/time";
 import { solveNumerically } from "./solver/numerical-solver";
@@ -35,11 +38,18 @@ export function optimizeCameraTrajectory(input: CameraOptimizerInput): CameraOpt
     effectiveInput.userKeyframes ?? [],
     options.optimizationFps,
   );
+  const minimumCameraY = effectiveInput.environment.world?.ground === undefined
+    || effectiveInput.options?.globalLosses?.ground === false
+    ? undefined
+    : effectiveInput.environment.world.ground.y
+      + options.cameraRadius
+      + options.collisionMargin;
   const initialStates = initializeCameraStates(
     effectiveInput,
     plan,
     optimizationTimes,
     options.initialFovYDegrees,
+    minimumCameraY,
   );
   const evaluator = new ObjectiveEvaluator(effectiveInput, plan, optimizationTimes, {
     aspectRatio: options.aspectRatio,
@@ -55,7 +65,11 @@ export function optimizeCameraTrajectory(input: CameraOptimizerInput): CameraOpt
       iterations: options.iterations,
       randomSeed: options.randomSeed,
       cutTimes: effectiveInput.timeline.cutTimes ?? [],
+      minimumCameraY,
     },
+  );
+  solved.states.forEach((state) =>
+    clampToGroundClearance(state, effectiveInput, minimumCameraY),
   );
   const finalEvaluation = evaluator.evaluate(solved.states, true);
   const mandatoryOutputTimes = [
@@ -76,6 +90,7 @@ export function optimizeCameraTrajectory(input: CameraOptimizerInput): CameraOpt
     outputTimes,
     options.nearPlane,
     options.farPlane,
+    minimumCameraY,
   );
   const warnings = [...plan.warnings, ...evaluator.warnings];
   const collisionLoss = finalEvaluation.breakdown

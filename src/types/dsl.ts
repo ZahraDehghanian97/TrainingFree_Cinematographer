@@ -108,12 +108,6 @@ export interface MovementParameters {
 
 export interface Movement<TTarget extends CameraTargetDescriptor = Target> {
   act: CameraMovementType;
-  /**
-   * Subjects that define a subject-anchored movement's axis or center. Truck
-   * and Pedestal use intrinsic translation directions and do not need targets.
-   * Movement targets are independent from ConstraintConfig.targets, which
-   * describe framing/composition.
-   */
   targets?: TTarget[];
   duration?: number;
   speedKeyframes?: SpeedKeyframe[];

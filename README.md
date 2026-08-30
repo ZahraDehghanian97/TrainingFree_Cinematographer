@@ -15,6 +15,67 @@ still request, upload, or paste generated optimizer output. God view shows the
 environment, path, and moving camera frustum. Director POV renders through the
 camera.
 
+### Interactive prompt-to-trajectory pipeline
+
+Camera Lab supports both paths after an environment is selected:
+
+- **Replay bundled** loads the checked-in trajectory immediately, without an LLM call.
+- **Run full pipeline** sends the example prompt through the same live pipeline as a custom request.
+- **Custom prompt** accepts up to 4,000 characters in any language and runs the complete flow.
+
+The live flow is:
+
+```text
+prompt
+  -> director LLM -> validated semantic CameraDirectionDraft (no runtime IDs)
+  -> grounding LLM + selected EnvironmentV1 -> validated target bindings
+  -> deterministic binder -> resolved CSL with environment target IDs
+  -> timeline solver + 4D environment events -> flattened timeline
+  -> trajectory optimizer -> CameraTrajectoryV1
+  -> Camera Lab 4D playback (God view / Director POV)
+```
+
+Every completed stage is inspectable in the JSON drawer. The UI receives real
+stage transitions over a same-origin SSE stream and supports cancellation,
+retry, and stale-run protection when the selected environment changes.
+
+For local LLM runs, copy `.env.example` to `.env`, set `AI_GATEWAY_API_KEY`, and
+start `npm run visualizer`. All production LLM calls use Vercel AI Gateway;
+`zai/glm-5.3-flash` is the shared default for director, grounding, repair, and
+environment-query parsing. `LLM_CSL_MODEL`, `LLM_GROUNDING_MODEL`,
+`LLM_REPAIR_MODEL`, and `LLM_ENVIRONMENT_QUERY_MODEL` can override individual
+stages, while `LLM_MODEL` remains their common fallback. Credentials stay in
+the Node/Vite server and are never sent to the browser.
+
+The local API exposes `POST /api/pipeline/runs`, an SSE stream at
+`GET /api/pipeline/runs/:runId/events`, run snapshots, and cancellation via
+`DELETE /api/pipeline/runs/:runId`. The included implementation is an in-memory
+development/preview backend. Its optimizer runs in a Node worker so the SSE loop
+stays responsive and cancellation can terminate a synchronous solve;
+`PIPELINE_MAX_CONCURRENT_RUNS` (default `2`) bounds simultaneous Gateway and
+worker load. Deploy the same API contract behind a persistent job store and
+worker pool when production runs must survive server restarts or scale across
+instances.
+
+#### Inspecting stage results and failures
+
+- Click any completed stage row marked **View** to open that stage's JSON result.
+- **Inspect details** opens the Run log with the run ID, ordered SSE events,
+  timings, available artifacts, and safe error metadata. A failed stage and its
+  **View details** action open the same log even when stage 1 produced no output.
+- Keep the `npm run visualizer` terminal open while debugging. Each non-cancelled
+  failure writes one redacted JSON record to stderr. Match its `errorId` to the
+  Run log to inspect the server-only cause chain and stack without logging API
+  keys, request bodies, response bodies, or the director prompt.
+- A retained run can also be inspected with
+  `GET /api/pipeline/runs/:runId` or replayed as SSE with
+  `GET /api/pipeline/runs/:runId/events`.
+
+`LLM_TIMEOUT_MS` is the total deadline across transport attempts (the example
+configuration uses `180000`), and `LLM_MAX_TRANSPORT_RETRIES` bounds retryable
+408/409/429/5xx or network failures (default `2`). Restart the visualizer after
+changing `.env`; environment settings are loaded once per server process.
+
 The visualizer is data-driven:
 
 - `web/public/environments/manifest.json` is the environment catalog.
@@ -84,7 +145,7 @@ const { csl, bindings } = await bindCameraDirectionDraft(
   { directorPrompt, scene: { id: environment.id } },
   resolver,
 );
-const timeline = solveTimeline(csl);
+const timeline = solveTimeline(csl, environment);
 ```
 
 The grounding boundary is:
@@ -126,15 +187,20 @@ Supported requests include:
 - the first time a subject reaches a requested speed, and
 - how many times the distance between two subjects crosses a requested value.
 
+An explicit movement duration on an environment-triggered action is a requested
+maximum. After the event is causally aligned to a playback frame, the timeline
+solver shortens that action only when needed to end at `totalDuration`;
+statically timed actions keep strict duration validation.
+
 For local development, configure Vercel AI Gateway in `.env` (see `.env.example`):
 
 ```dotenv
 AI_GATEWAY_API_KEY=...
-LLM_MODEL=google/gemini-3.7-flash
+LLM_MODEL=zai/glm-5.3-flash
 EXAMPLE_BINDING_MODE=resolved
 ```
 
-`LLM_MODEL` is optional; `google/gemini-3.7-flash` is the default. On Vercel,
+`LLM_MODEL` is optional; `zai/glm-5.3-flash` is the project-wide default. On Vercel,
 Gateway can authenticate through OIDC without an API key. The parser uses the
 AI SDK's built-in Vercel AI Gateway provider and `Output.object()` with the
 exported Zod `environmentQuerySchema`; the same schema validates the model

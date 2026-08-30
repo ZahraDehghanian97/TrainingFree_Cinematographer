@@ -1,5 +1,5 @@
 import type { ResolvedCameraDirectionDSL } from "../types/dsl";
-import { ShotSize, SubjectView, SubjectInFramePosition, CameraMovementType, ComparisonOperator, RelativeTimeReference, CameraVerticalAngle, RelativeFPS, SpeedFunction } from "../types/enums";
+import { ShotSize, SubjectView, SubjectInFramePosition, CameraMovementType, ComparisonOperator, RelativeTimeReference, CameraVerticalAngle, RelativeFPS, SpeedFunction, ConstraintType } from "../types/enums";
 
 export interface ResolvedPromptExampleFixture {
   id: string;
@@ -55,6 +55,13 @@ export const resolvedPromptExampleFixtures: ResolvedPromptExampleFixture[] = [{
             },
             movement: {
               act: CameraMovementType.PedestalUp,
+              duration: 3,
+              speedKeyframes: [
+                { normalizedTime: 0, speedMultiplier: 0 },
+                { normalizedTime: 0.2, speedMultiplier: 1, easing: SpeedFunction.Increase },
+                { normalizedTime: 0.8, speedMultiplier: 1 },
+                { normalizedTime: 1, speedMultiplier: 0, easing: SpeedFunction.Decrease }
+              ]
             }
           },
           {
@@ -62,12 +69,13 @@ export const resolvedPromptExampleFixtures: ResolvedPromptExampleFixture[] = [{
             trigger: {
               type: "relativeTime",
               actionId: "pedestal_up",
-              reference: RelativeTimeReference.End,
+              reference: RelativeTimeReference.Start,
               offset: 0
             },
             movement: {
               act: CameraMovementType.Follow,
-              targets: [{ id: "ball", description: "The ball" }]
+              targets: [{ id: "ball", description: "The ball" }],
+              duration: 3
             },
             constraints: [
               {
@@ -281,14 +289,21 @@ export const resolvedPromptExampleFixtures: ResolvedPromptExampleFixture[] = [{
               offset: 0
             },
             movement: {
-              act: CameraMovementType.ZoomIn
+              act: CameraMovementType.ZoomIn,
+              speedKeyframes: [
+                { normalizedTime: 0, speedMultiplier: 0 },
+                { normalizedTime: 0.15, speedMultiplier: 1, easing: SpeedFunction.Increase },
+                { normalizedTime: 0.85, speedMultiplier: 1 },
+                { normalizedTime: 1, speedMultiplier: 0, easing: SpeedFunction.Decrease }
+              ],
+              parameters: { zoomFactor: 6 }
             },
             constraints: [
               {
                 targets: [{ id: "driver", description: "The driver (راننده)" }],
                 config: {
                   type: "subjectAware",
-                  shotSize: ShotSize.CloseUp,
+                  shotSize: ShotSize.MediumCloseUp,
                   subjectFraming: {
                     position: SubjectInFramePosition.Center
                   }
@@ -365,7 +380,7 @@ export const resolvedPromptExampleFixtures: ResolvedPromptExampleFixture[] = [{
                 targets: [{ id: "actor_face", description: "The actor's face (چهره بازیگر)" }],
                 config: {
                   type: "subjectAware",
-                  shotSize: ShotSize.ExtremeCloseUp,
+                  shotSize: ShotSize.CloseUp,
                   subjectFraming: {
                     position: SubjectInFramePosition.Center
                   }
@@ -415,6 +430,12 @@ export const resolvedPromptExampleFixtures: ResolvedPromptExampleFixture[] = [{
               targets: [{ id: "subject", description: "The subject" }],
               duration: 2,
               relativeFPS: RelativeFPS.Frozen,
+              speedKeyframes: [
+                { normalizedTime: 0, speedMultiplier: 0 },
+                { normalizedTime: 0.15, speedMultiplier: 1, easing: SpeedFunction.Increase },
+                { normalizedTime: 0.85, speedMultiplier: 1 },
+                { normalizedTime: 1, speedMultiplier: 0, easing: SpeedFunction.Decrease }
+              ],
               parameters: {
                 arcAngle: 360
               }
@@ -444,7 +465,8 @@ export const resolvedPromptExampleFixtures: ResolvedPromptExampleFixture[] = [{
             movement: {
               act: CameraMovementType.Follow,
               targets: [{ id: "subject", description: "The subject" }],
-              relativeFPS: RelativeFPS.Normal
+              relativeFPS: RelativeFPS.Normal,
+              parameters: { followDelay: 0.1, leadAmount: 0.1 }
             }
           }
         ]
@@ -487,6 +509,12 @@ export const resolvedPromptExampleFixtures: ResolvedPromptExampleFixture[] = [{
             movement: {
               act: CameraMovementType.Orbit,
               targets: [{ id: "subject", description: "The subject" }],
+              speedKeyframes: [
+                { normalizedTime: 0, speedMultiplier: 0 },
+                { normalizedTime: 0.15, speedMultiplier: 1, easing: SpeedFunction.Increase },
+                { normalizedTime: 0.85, speedMultiplier: 1 },
+                { normalizedTime: 1, speedMultiplier: 0, easing: SpeedFunction.Decrease }
+              ],
               parameters: {
                 arcAngle: 720,
                 path: "spline"
@@ -513,7 +541,17 @@ export const resolvedPromptExampleFixtures: ResolvedPromptExampleFixture[] = [{
             },
             movement: {
               act: CameraMovementType.DollyIn,
-              targets: [{ id: "subject_eyes", description: "The subject's eyes (چشم‌های سوژه)" }]
+              targets: [{ id: "subject_eyes", description: "The subject's eyes (چشم‌های سوژه)" }],
+              speedKeyframes: [
+                { normalizedTime: 0, speedMultiplier: 0 },
+                { normalizedTime: 0.15, speedMultiplier: 1, easing: SpeedFunction.Increase },
+                { normalizedTime: 0.85, speedMultiplier: 1 },
+                { normalizedTime: 1, speedMultiplier: 0, easing: SpeedFunction.Decrease }
+              ],
+              parameters: {
+                distance: 7.1,
+                allowSubjectIntersection: true
+              }
             },
             constraints: [
               {
@@ -521,7 +559,7 @@ export const resolvedPromptExampleFixtures: ResolvedPromptExampleFixture[] = [{
                 config: {
                   type: "subjectAware",
                   cameraAngle: CameraVerticalAngle.Eye,
-                  shotSize: ShotSize.ExtremeCloseUp,
+                  shotSize: ShotSize.CloseUp,
                   subjectFraming: {
                     position: SubjectInFramePosition.Center
                   }
@@ -595,8 +633,8 @@ export const resolvedPromptExampleFixtures: ResolvedPromptExampleFixture[] = [{
               distance: 0
             },
             movement: {
-              act: CameraMovementType.Follow,
-              targets: [{ id: "fist", description: "The fist (مشت)" }],
+              act: CameraMovementType.Static,
+              targets: [{ id: "impact_point", description: "The point of impact (محل ضربه)" }],
               relativeFPS: RelativeFPS.VeryFast
             }
           },
@@ -711,7 +749,8 @@ export const resolvedPromptExampleFixtures: ResolvedPromptExampleFixture[] = [{
               distance: 1
             },
             movement: {
-              act: CameraMovementType.Static
+              act: CameraMovementType.Follow,
+              targets: [{ id: "person2", description: "Second person (نفر دوم)" }]
             },
             constraints: [
               {
@@ -722,10 +761,17 @@ export const resolvedPromptExampleFixtures: ResolvedPromptExampleFixture[] = [{
                 config: {
                   type: "subjectAware",
                   shotSize: ShotSize.MediumCloseUp,
-                  subjectView: SubjectView.ThreeQuarterFrontLeft,
                   subjectFraming: {
                     position: SubjectInFramePosition.Center
                   }
+                },
+                allFrames: true
+              },
+              {
+                targets: [{ id: "person2", description: "Second person (نفر دوم)" }],
+                config: {
+                  type: "subjectAware",
+                  subjectView: SubjectView.ThreeQuarterFrontLeft
                 },
                 allFrames: true
               }
@@ -795,7 +841,18 @@ export const resolvedPromptExampleFixtures: ResolvedPromptExampleFixture[] = [{
             },
             movement: {
               act: CameraMovementType.DollyOut,
-              targets: [{ id: "race_car", description: "The racing car (ماشین مسابقه)" }]
+              targets: [{ id: "race_car", description: "The racing car (ماشین مسابقه)" }],
+              speedKeyframes: [
+                { normalizedTime: 0, speedMultiplier: 0 },
+                { normalizedTime: 0.15, speedMultiplier: 1.25, easing: SpeedFunction.Increase },
+                { normalizedTime: 0.85, speedMultiplier: 1 },
+                { normalizedTime: 1, speedMultiplier: 0.15, easing: SpeedFunction.Decrease }
+              ],
+              parameters: {
+                distance: 4,
+                path: "spline",
+                curveIntensity: 2
+              }
             },
             constraints: [
               {
@@ -804,8 +861,7 @@ export const resolvedPromptExampleFixtures: ResolvedPromptExampleFixture[] = [{
                   type: "subjectAware",
                   shotSize: ShotSize.MediumLongShot,
                   subjectFraming: {
-                    position: SubjectInFramePosition.Center,
-                    dutchAngleScale: 4
+                    position: SubjectInFramePosition.Center
                   }
                 },
                 allFrames: true
@@ -863,7 +919,18 @@ export const resolvedPromptExampleFixtures: ResolvedPromptExampleFixture[] = [{
             },
             movement: {
               act: CameraMovementType.DollyIn,
-              targets: [{ id: "half_open_door", description: "The half-open door (در نیمه‌باز)" }]
+              targets: [{ id: "half_open_door", description: "The half-open door (در نیمه‌باز)" }],
+              speedKeyframes: [
+                { normalizedTime: 0, speedMultiplier: 0 },
+                { normalizedTime: 0.18, speedMultiplier: 1, easing: SpeedFunction.Increase },
+                { normalizedTime: 0.82, speedMultiplier: 0.85 },
+                { normalizedTime: 1, speedMultiplier: 0, easing: SpeedFunction.Decrease }
+              ],
+              parameters: {
+                distance: 2.8,
+                path: "spline",
+                curveIntensity: 1
+              }
             },
             constraints: [
               {
@@ -872,8 +939,7 @@ export const resolvedPromptExampleFixtures: ResolvedPromptExampleFixture[] = [{
                   type: "subjectAware",
                   shotSize: ShotSize.MediumCloseUp,
                   subjectFraming: {
-                    position: SubjectInFramePosition.Center,
-                    dutchAngleScale: 7
+                    position: SubjectInFramePosition.Center
                   }
                 },
                 allFrames: true
@@ -901,12 +967,19 @@ export const resolvedPromptExampleFixtures: ResolvedPromptExampleFixture[] = [{
             }
           ],
           config: {
-            type: "subjectAware",
-            shotSize: ShotSize.CloseUp,
-            subjectView: SubjectView.Front,
-            subjectFraming: {
-              position: SubjectInFramePosition.Center
-            }
+            type: "nonSubjectAware",
+            extrinsics: {
+              pose: {
+                position: { x: 0, y: 1.23, z: 30.75 },
+                rotation: {
+                  x: -0.08444990967903022,
+                  y: 0,
+                  z: 0,
+                  w: 0.9964277258061438
+                }
+              }
+            },
+            intrinsics: { fov: 48 }
           }
         },
         actions: [
@@ -975,7 +1048,9 @@ export const resolvedPromptExampleFixtures: ResolvedPromptExampleFixture[] = [{
               ],
               parameters: {
                 arcAngle: 180,
-                arcRadius: 5.5
+                arcRadius: 5.5,
+                path: "spline",
+                curveIntensity: 2
               }
             },
             constraints: [
@@ -1035,19 +1110,30 @@ export const resolvedPromptExampleFixtures: ResolvedPromptExampleFixture[] = [{
               parameters: {
                 rotationAngle: 30
               },
-              duration: 5
+              duration: 7
             }
           },
           {
             id: "handheld_dolly_in",
             trigger: {
               type: "absoluteTime",
-              time: 2
+              time: 0
             },
             movement: {
               act: CameraMovementType.DollyIn,
               targets: [{ id: "half_open_door", description: "The half-open door (در نیمه‌باز)" }],
-              duration: 5
+              duration: 7,
+              speedKeyframes: [
+                { normalizedTime: 0, speedMultiplier: 0 },
+                { normalizedTime: 0.18, speedMultiplier: 1, easing: SpeedFunction.Increase },
+                { normalizedTime: 0.82, speedMultiplier: 0.85 },
+                { normalizedTime: 1, speedMultiplier: 0, easing: SpeedFunction.Decrease }
+              ],
+              parameters: {
+                distance: 3.2,
+                path: "spline",
+                curveIntensity: 2
+              }
             },
             constraints: [
               {
@@ -1056,8 +1142,7 @@ export const resolvedPromptExampleFixtures: ResolvedPromptExampleFixture[] = [{
                   type: "subjectAware",
                   shotSize: ShotSize.MediumCloseUp,
                   subjectFraming: {
-                    position: SubjectInFramePosition.Center,
-                    dutchAngleScale: 7
+                    position: SubjectInFramePosition.Center
                   }
                 },
                 allFrames: false
@@ -1117,12 +1202,13 @@ export const resolvedPromptExampleFixtures: ResolvedPromptExampleFixture[] = [{
             targets: [{ id: "actor_face", description: "The actor's face" }],
             duration: 8.5,
             speedKeyframes: [
-              { normalizedTime: 0, speedMultiplier: 0.35 },
-              { normalizedTime: 0.65, speedMultiplier: 0.9 },
-              { normalizedTime: 1, speedMultiplier: 0.45 }
+              { normalizedTime: 0, speedMultiplier: 0 },
+              { normalizedTime: 0.15, speedMultiplier: 0.65, easing: SpeedFunction.Increase },
+              { normalizedTime: 0.7, speedMultiplier: 0.9 },
+              { normalizedTime: 1, speedMultiplier: 0.1, easing: SpeedFunction.Decrease }
             ],
             parameters: {
-              distance: 3.6,
+              distance: 3.7,
               path: "spline",
               curveIntensity: 2
             }
@@ -1151,9 +1237,14 @@ export const resolvedPromptExampleFixtures: ResolvedPromptExampleFixture[] = [{
             act: CameraMovementType.ArcRight,
             targets: [{ id: "actor_face", description: "The actor's face" }],
             duration: 8.5,
+            speedKeyframes: [
+              { normalizedTime: 0, speedMultiplier: 0 },
+              { normalizedTime: 0.15, speedMultiplier: 0.8, easing: SpeedFunction.Increase },
+              { normalizedTime: 0.85, speedMultiplier: 0.8 },
+              { normalizedTime: 1, speedMultiplier: 0.1, easing: SpeedFunction.Decrease }
+            ],
             parameters: {
               arcAngle: 38,
-              arcRadius: 3.8,
               path: "spline",
               curveIntensity: 1
             }
@@ -1171,18 +1262,7 @@ export const resolvedPromptExampleFixtures: ResolvedPromptExampleFixture[] = [{
             act: CameraMovementType.ZoomIn,
             duration: 2,
             parameters: { zoomFactor: 1.18 }
-          },
-          constraints: [{
-            targets: [{ id: "actor_face", description: "The actor's face" }],
-            config: {
-              type: "subjectAware",
-              shotSize: ShotSize.CloseUp,
-              subjectView: SubjectView.ThreeQuarterFrontLeft,
-              subjectFraming: { position: SubjectInFramePosition.Left }
-            },
-            allFrames: false,
-            easing: { inDuration: 2, curve: "easeInOut" }
-          }]
+          }
         }
       ]
     }]
@@ -1225,16 +1305,24 @@ export const resolvedPromptExampleFixtures: ResolvedPromptExampleFixture[] = [{
               curveIntensity: 2
             }
           },
-          constraints: [{
-            targets: [{ id: "dancer", description: "The dancer" }],
-            config: {
-              type: "subjectAware",
-              cameraAngle: CameraVerticalAngle.Low,
-              shotSize: ShotSize.MediumLongShot,
-              subjectFraming: { position: SubjectInFramePosition.Center }
+          constraints: [
+            {
+              targets: [{ id: "dancer", description: "The dancer" }],
+              config: {
+                type: "subjectAware",
+                cameraAngle: CameraVerticalAngle.Low,
+                shotSize: ShotSize.MediumLongShot,
+                subjectFraming: { position: SubjectInFramePosition.Center }
+              },
+              allFrames: true
             },
-            allFrames: true
-          }]
+            {
+              kind: "general",
+              constraint: ConstraintType.NoShake,
+              allFrames: true,
+              weight: 2
+            }
+          ]
         },
         {
           id: "beat_arc_accelerate",
@@ -1261,17 +1349,25 @@ export const resolvedPromptExampleFixtures: ResolvedPromptExampleFixture[] = [{
               curveIntensity: 4
             }
           },
-          constraints: [{
-            targets: [{ id: "dancer", description: "The dancer" }],
-            config: {
-              type: "subjectAware",
-              shotSize: ShotSize.MediumShot,
-              subjectView: SubjectView.ThreeQuarterFrontRight,
-              subjectFraming: { position: SubjectInFramePosition.Right }
+          constraints: [
+            {
+              targets: [{ id: "dancer", description: "The dancer" }],
+              config: {
+                type: "subjectAware",
+                shotSize: ShotSize.MediumShot,
+                subjectView: SubjectView.ThreeQuarterFrontRight,
+                subjectFraming: { position: SubjectInFramePosition.Right }
+              },
+              allFrames: false,
+              easing: { inDuration: 1.25, outDuration: 1, curve: "easeInOut" }
             },
-            allFrames: false,
-            easing: { inDuration: 1.25, outDuration: 1, curve: "easeInOut" }
-          }]
+            {
+              kind: "general",
+              constraint: ConstraintType.NoShake,
+              allFrames: true,
+              weight: 2
+            }
+          ]
         },
         {
           id: "beat_pedestal_rise",
@@ -1296,9 +1392,15 @@ export const resolvedPromptExampleFixtures: ResolvedPromptExampleFixture[] = [{
             offset: 0
           },
           movement: {
-            act: CameraMovementType.Static,
+            act: CameraMovementType.PedestalDown,
             duration: 2,
-            relativeFPS: RelativeFPS.Slow
+            relativeFPS: RelativeFPS.Slow,
+            speedKeyframes: [
+              { normalizedTime: 0, speedMultiplier: 0 },
+              { normalizedTime: 0.35, speedMultiplier: 0.7, easing: SpeedFunction.Increase },
+              { normalizedTime: 1, speedMultiplier: 0, easing: SpeedFunction.Decrease }
+            ],
+            parameters: { distance: 1.1 }
           },
           constraints: [{
             targets: [{ id: "dancer", description: "The dancer" }],
@@ -1330,7 +1432,6 @@ export const resolvedPromptExampleFixtures: ResolvedPromptExampleFixture[] = [{
         config: {
           type: "subjectAware",
           shotSize: ShotSize.MediumLongShot,
-          subjectView: SubjectView.Front,
           subjectFraming: { position: SubjectInFramePosition.Center }
         }
       },
@@ -1343,22 +1444,29 @@ export const resolvedPromptExampleFixtures: ResolvedPromptExampleFixture[] = [{
             duration: 5,
             parameters: {
               distance: 5,
-              path: "spline",
-              curveIntensity: 1
+              path: "linear"
             }
           },
-          constraints: [{
-            targets: [
-              { id: "actor_a", description: "Agent A" },
-              { id: "actor_b", description: "Agent B" }
-            ],
-            config: {
-              type: "subjectAware",
-              shotSize: ShotSize.MediumLongShot,
-              subjectFraming: { position: SubjectInFramePosition.Center }
+          constraints: [
+            {
+              targets: [
+                { id: "actor_a", description: "Agent A" },
+                { id: "actor_b", description: "Agent B" }
+              ],
+              config: {
+                type: "subjectAware",
+                shotSize: ShotSize.MediumLongShot,
+                subjectFraming: { position: SubjectInFramePosition.Center }
+              },
+              allFrames: true
             },
-            allFrames: true
-          }]
+            {
+              kind: "general",
+              constraint: ConstraintType.NoShake,
+              allFrames: true,
+              weight: 2
+            }
+          ]
         },
         {
           id: "briefcase_punch_in",
@@ -1378,7 +1486,6 @@ export const resolvedPromptExampleFixtures: ResolvedPromptExampleFixture[] = [{
             targets: [{ id: "briefcase", description: "The exchanged briefcase" }],
             config: {
               type: "subjectAware",
-              shotSize: ShotSize.CloseUp,
               subjectFraming: { position: SubjectInFramePosition.Center }
             },
             allFrames: false,
@@ -1388,11 +1495,10 @@ export const resolvedPromptExampleFixtures: ResolvedPromptExampleFixture[] = [{
         {
           id: "axis_flip_arc_right",
           trigger: {
-            type: "distance",
-            object1: { id: "actor_a", description: "Agent A" },
-            object2: { id: "actor_b", description: "Agent B" },
-            operator: ComparisonOperator.LessThan,
-            distance: 1
+            type: "relativeTime",
+            actionId: "briefcase_punch_in",
+            reference: RelativeTimeReference.End,
+            offset: 0
           },
           movement: {
             act: CameraMovementType.ArcRight,
@@ -1400,31 +1506,39 @@ export const resolvedPromptExampleFixtures: ResolvedPromptExampleFixture[] = [{
               { id: "actor_a", description: "Agent A" },
               { id: "actor_b", description: "Agent B" }
             ],
-            duration: 5,
+            duration: 4,
             speedKeyframes: [
-              { normalizedTime: 0, speedMultiplier: 1.9 },
-              { normalizedTime: 0.45, speedMultiplier: 1.25 },
-              { normalizedTime: 1, speedMultiplier: 0.45 }
+              { normalizedTime: 0, speedMultiplier: 0 },
+              { normalizedTime: 0.15, speedMultiplier: 1.9, easing: SpeedFunction.Increase },
+              { normalizedTime: 0.6, speedMultiplier: 1.15 },
+              { normalizedTime: 1, speedMultiplier: 0.2, easing: SpeedFunction.Decrease }
             ],
             parameters: {
               arcAngle: 165,
-              arcRadius: 4.2,
               path: "spline",
               curveIntensity: 4
             }
           },
-          constraints: [{
-            targets: [
-              { id: "actor_a", description: "Agent A" },
-              { id: "actor_b", description: "Agent B" }
-            ],
-            config: {
-              type: "subjectAware",
-              shotSize: ShotSize.MediumLongShot,
-              subjectFraming: { position: SubjectInFramePosition.Center }
+          constraints: [
+            {
+              targets: [
+                { id: "actor_a", description: "Agent A" },
+                { id: "actor_b", description: "Agent B" }
+              ],
+              config: {
+                type: "subjectAware",
+                shotSize: ShotSize.MediumLongShot,
+                subjectFraming: { position: SubjectInFramePosition.Center }
+              },
+              allFrames: true
             },
-            allFrames: true
-          }]
+            {
+              kind: "general",
+              constraint: ConstraintType.NoShake,
+              allFrames: true,
+              weight: 2
+            }
+          ]
         },
         {
           id: "exchange_zoom_out",
@@ -1437,14 +1551,13 @@ export const resolvedPromptExampleFixtures: ResolvedPromptExampleFixture[] = [{
           movement: {
             act: CameraMovementType.ZoomOut,
             duration: 4,
-            parameters: { zoomFactor: 1.45 }
+            parameters: { zoomFactor: 1.55 }
           },
           constraints: [
             {
               targets: [{ id: "actor_a", description: "Agent A" }],
               config: {
                 type: "subjectAware",
-                shotSize: ShotSize.MediumShot,
                 subjectFraming: { position: SubjectInFramePosition.Right }
               },
               allFrames: false,
@@ -1454,7 +1567,6 @@ export const resolvedPromptExampleFixtures: ResolvedPromptExampleFixture[] = [{
               targets: [{ id: "actor_b", description: "Agent B" }],
               config: {
                 type: "subjectAware",
-                shotSize: ShotSize.MediumShot,
                 subjectFraming: { position: SubjectInFramePosition.Left }
               },
               allFrames: false,
@@ -1498,17 +1610,25 @@ export const resolvedPromptExampleFixtures: ResolvedPromptExampleFixture[] = [{
               curveIntensity: 1
             }
           },
-          constraints: [{
-            targets: [{ id: "runner", description: "The runner" }],
-            config: {
-              type: "subjectAware",
-              cameraAngle: CameraVerticalAngle.Low,
-              shotSize: ShotSize.FullShot,
-              subjectView: SubjectView.Right,
-              subjectFraming: { position: SubjectInFramePosition.Left }
+          constraints: [
+            {
+              targets: [{ id: "runner", description: "The runner" }],
+              config: {
+                type: "subjectAware",
+                cameraAngle: CameraVerticalAngle.Low,
+                shotSize: ShotSize.FullShot,
+                subjectView: SubjectView.Right,
+                subjectFraming: { position: SubjectInFramePosition.Left }
+              },
+              allFrames: true
             },
-            allFrames: true
-          }]
+            {
+              kind: "general",
+              constraint: ConstraintType.NoShake,
+              allFrames: true,
+              weight: 2
+            }
+          ]
         },
         {
           id: "bullet_time_arc",
@@ -1524,9 +1644,10 @@ export const resolvedPromptExampleFixtures: ResolvedPromptExampleFixture[] = [{
             duration: 3,
             relativeFPS: RelativeFPS.VerySlow,
             speedKeyframes: [
-              { normalizedTime: 0, speedMultiplier: 1.5 },
+              { normalizedTime: 0, speedMultiplier: 0 },
+              { normalizedTime: 0.15, speedMultiplier: 1.5, easing: SpeedFunction.Increase },
               { normalizedTime: 0.6, speedMultiplier: 0.65 },
-              { normalizedTime: 1, speedMultiplier: 0.35 }
+              { normalizedTime: 1, speedMultiplier: 0.2, easing: SpeedFunction.Decrease }
             ],
             parameters: {
               arcAngle: 120,
@@ -1535,16 +1656,25 @@ export const resolvedPromptExampleFixtures: ResolvedPromptExampleFixture[] = [{
               curveIntensity: 3
             }
           },
-          constraints: [{
-            targets: [{ id: "runner", description: "The runner" }],
-            config: {
-              type: "subjectAware",
-              shotSize: ShotSize.MediumCloseUp,
-              subjectView: SubjectView.ThreeQuarterFrontRight,
-              subjectFraming: { position: SubjectInFramePosition.Center }
+          constraints: [
+            {
+              targets: [{ id: "runner", description: "The runner" }],
+              config: {
+                type: "subjectAware",
+                shotSize: ShotSize.MediumCloseUp,
+                subjectView: SubjectView.ThreeQuarterFrontLeft,
+                subjectFraming: { position: SubjectInFramePosition.Center }
+              },
+              allFrames: false,
+              easing: { inDuration: 0.9, curve: "easeInOut" }
             },
-            allFrames: true
-          }]
+            {
+              kind: "general",
+              constraint: ConstraintType.NoShake,
+              allFrames: true,
+              weight: 2
+            }
+          ]
         },
         {
           id: "release_follow",
@@ -1559,23 +1689,34 @@ export const resolvedPromptExampleFixtures: ResolvedPromptExampleFixture[] = [{
             targets: [{ id: "runner", description: "The runner" }],
             duration: 5,
             relativeFPS: RelativeFPS.Normal,
+            speedKeyframes: [
+              { normalizedTime: 0, speedMultiplier: 0.12 },
+              { normalizedTime: 0.25, speedMultiplier: 1, easing: SpeedFunction.Increase },
+              { normalizedTime: 1, speedMultiplier: 1 }
+            ],
             parameters: {
-              followDelay: 0.15,
-              leadAmount: 0.65,
+              followDelay: 0.1,
+              leadAmount: 0.1,
               path: "spline",
               curveIntensity: 2
             }
           },
-          constraints: [{
-            targets: [{ id: "runner", description: "The runner" }],
-            config: {
-              type: "subjectAware",
-              shotSize: ShotSize.MediumLongShot,
-              subjectView: SubjectView.ThreeQuarterFrontRight,
-              subjectFraming: { position: SubjectInFramePosition.Left }
+          constraints: [
+            {
+              targets: [{ id: "runner", description: "The runner" }],
+              config: {
+                type: "subjectAware",
+                subjectView: SubjectView.ThreeQuarterFrontLeft
+              },
+              allFrames: true
             },
-            allFrames: true
-          }]
+            {
+              kind: "general",
+              constraint: ConstraintType.NoShake,
+              allFrames: true,
+              weight: 0.25
+            }
+          ]
         },
         {
           id: "release_dolly_out",
@@ -1589,10 +1730,14 @@ export const resolvedPromptExampleFixtures: ResolvedPromptExampleFixture[] = [{
             act: CameraMovementType.DollyOut,
             targets: [{ id: "runner", description: "The runner" }],
             duration: 5,
+            speedKeyframes: [
+              { normalizedTime: 0, speedMultiplier: 0 },
+              { normalizedTime: 0.25, speedMultiplier: 1, easing: SpeedFunction.Increase },
+              { normalizedTime: 1, speedMultiplier: 1 }
+            ],
             parameters: {
               distance: 5,
-              path: "spline",
-              curveIntensity: 2
+              path: "linear"
             }
           },
           constraints: [{
@@ -1633,7 +1778,13 @@ export const resolvedPromptExampleFixtures: ResolvedPromptExampleFixture[] = [{
           movement: {
             act: CameraMovementType.TiltUp,
             duration: 2.5,
-            parameters: { rotationAngle: 28 }
+            speedKeyframes: [
+              { normalizedTime: 0, speedMultiplier: 0 },
+              { normalizedTime: 0.2, speedMultiplier: 1, easing: SpeedFunction.Increase },
+              { normalizedTime: 0.8, speedMultiplier: 1 },
+              { normalizedTime: 1, speedMultiplier: 0, easing: SpeedFunction.Decrease }
+            ],
+            parameters: { rotationAngle: 58 }
           },
           constraints: [{
             targets: [{ id: "eye", description: "The subject's eye" }],
@@ -1681,26 +1832,17 @@ export const resolvedPromptExampleFixtures: ResolvedPromptExampleFixture[] = [{
             targets: [{ id: "pupil", description: "The subject's pupil" }],
             duration: 6,
             speedKeyframes: [
-              { normalizedTime: 0, speedMultiplier: 0.45 },
+              { normalizedTime: 0, speedMultiplier: 0 },
+              { normalizedTime: 0.15, speedMultiplier: 0.75, easing: SpeedFunction.Increase },
               { normalizedTime: 0.7, speedMultiplier: 1.35 },
-              { normalizedTime: 1, speedMultiplier: 0.35 }
+              { normalizedTime: 1, speedMultiplier: 0.1, easing: SpeedFunction.Decrease }
             ],
             parameters: {
-              distance: 3.8,
-              path: "spline",
-              curveIntensity: 2
+              distance: 0.5,
+              path: "linear",
+              allowSubjectIntersection: true
             }
-          },
-          constraints: [{
-            targets: [{ id: "pupil", description: "The subject's pupil" }],
-            config: {
-              type: "subjectAware",
-              shotSize: ShotSize.ExtremeCloseUp,
-              subjectFraming: { position: SubjectInFramePosition.Center }
-            },
-            allFrames: false,
-            easing: { inDuration: 2, curve: "easeInOut" }
-          }]
+          }
         },
         {
           id: "pupil_zoom_in",
@@ -1770,7 +1912,7 @@ export const resolvedPromptExampleFixtures: ResolvedPromptExampleFixture[] = [{
 {
   id: "example-19",
   environmentId: "example-19-stairwell-ambush",
-  prompt: "از نمای Overhead روی کارآگاه شروع کن؛ همزمان Pedestal Down و Tilt Down کن تا در دو ثانیه هم‌سطح او شوی. بعد با Truck Left در راهرو همراهش برو. وقتی به انتهای مسیر رسید، یک Pan Left سریع بزن، Zoom Out کن و با Dutch Right مهاجم پشت ستون را آشکار کن؛ سپس با یک Counter Pan Right کوتاه هر دو را در قاب نهایی جمع کن.",
+  prompt: "از نمای Overhead روی کارآگاه شروع کن؛ همزمان Pedestal Down و Tilt Up کن تا در دو ثانیه هم‌سطح او شوی. بعد با Truck Left در راهرو همراهش برو. وقتی به انتهای مسیر رسید، یک Pan Left سریع بزن، Zoom Out کن و با Dutch Right مهاجم پشت ستون را آشکار کن؛ سپس با یک Counter Pan Right کوتاه هر دو را در قاب نهایی جمع کن.",
   resolvedCsl: {
     totalDuration: 10,
     sections: [{
@@ -1780,7 +1922,6 @@ export const resolvedPromptExampleFixtures: ResolvedPromptExampleFixture[] = [{
           type: "subjectAware",
           cameraAngle: CameraVerticalAngle.Overhead,
           shotSize: ShotSize.LongShot,
-          subjectView: SubjectView.ThreeQuarterFrontLeft,
           subjectFraming: { position: SubjectInFramePosition.Center }
         }
       },
@@ -1791,7 +1932,7 @@ export const resolvedPromptExampleFixtures: ResolvedPromptExampleFixture[] = [{
           movement: {
             act: CameraMovementType.PedestalDown,
             duration: 2,
-            parameters: { distance: 3.8 }
+            parameters: { distance: 7.45 }
           },
           constraints: [{
             targets: [{ id: "detective", description: "The detective" }],
@@ -1806,12 +1947,12 @@ export const resolvedPromptExampleFixtures: ResolvedPromptExampleFixture[] = [{
           }]
         },
         {
-          id: "descent_tilt_down",
+          id: "descent_tilt_up",
           trigger: { type: "absoluteTime", time: 0 },
           movement: {
-            act: CameraMovementType.TiltDown,
+            act: CameraMovementType.TiltUp,
             duration: 2,
-            parameters: { rotationAngle: 45 }
+            parameters: { rotationAngle: 42 }
           }
         },
         {
@@ -1827,20 +1968,25 @@ export const resolvedPromptExampleFixtures: ResolvedPromptExampleFixture[] = [{
             duration: 5,
             parameters: {
               distance: 7,
-              path: "spline",
-              curveIntensity: 2
+              path: "linear"
             }
           },
           constraints: [{
             targets: [{ id: "detective", description: "The detective" }],
-            config: {
-              type: "subjectAware",
-              shotSize: ShotSize.MediumLongShot,
-              subjectView: SubjectView.ThreeQuarterFrontLeft,
-              subjectFraming: { position: SubjectInFramePosition.Left }
+              config: {
+                type: "subjectAware",
+                shotSize: ShotSize.MediumLongShot,
+                subjectFraming: { position: SubjectInFramePosition.Left }
+              },
+              allFrames: true
             },
-            allFrames: true
-          }]
+            {
+              kind: "general",
+              constraint: ConstraintType.NoShake,
+              allFrames: true,
+              weight: 2
+            }
+          ]
         },
         {
           id: "ambush_pan_left",
@@ -1853,13 +1999,13 @@ export const resolvedPromptExampleFixtures: ResolvedPromptExampleFixture[] = [{
           movement: {
             act: CameraMovementType.PanLeft,
             duration: 1.2,
-            parameters: { rotationAngle: 75 }
+            parameters: { rotationAngle: 68 }
           },
           constraints: [{
-            targets: [{ id: "pursuer", description: "The hidden pursuer" }],
-            config: {
-              type: "subjectAware",
-              shotSize: ShotSize.MediumShot,
+              targets: [{ id: "pursuer", description: "The hidden pursuer" }],
+              config: {
+                type: "subjectAware",
+                shotSize: ShotSize.LongShot,
               subjectFraming: { position: SubjectInFramePosition.Right }
             },
             allFrames: false,
@@ -1877,7 +2023,7 @@ export const resolvedPromptExampleFixtures: ResolvedPromptExampleFixture[] = [{
           movement: {
             act: CameraMovementType.PanRight,
             duration: 1.8,
-            parameters: { rotationAngle: 30 }
+            parameters: { rotationAngle: 36 }
           },
           constraints: [{
             targets: [

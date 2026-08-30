@@ -29,7 +29,7 @@ function parsePositiveNumber(value: string | undefined, option: string): number 
 }
 
 function parseOptions(args: readonly string[]): GeneratorOptions {
-  const options: GeneratorOptions = { iterations: 120 };
+  const options: GeneratorOptions = { iterations: 500 };
   for (let index = 0; index < args.length; index += 1) {
     const argument = args[index]!;
     const [name, inlineValue] = argument.split("=", 2);
@@ -115,7 +115,7 @@ function main(): void {
 
   selected.forEach(({ fixture, index }) => {
     const environment = loadEnvironment(fixture.id);
-    const timeline = flattenTimeline(solveTimeline(fixture.resolvedCsl));
+    const timeline = flattenTimeline(solveTimeline(fixture.resolvedCsl, environment));
     const result = optimizeCameraTrajectory({
       environment,
       timeline,

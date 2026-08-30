@@ -265,7 +265,14 @@ export class ObjectiveEvaluator {
   }
 
   private axis(primitive: PrimitiveLoss, index: number, states: readonly CameraStateSample[]): Vec3 {
-    const firstIndex = this.primitiveIndices.get(primitive.id)?.[0] ?? index;
+    const referenceTime = typeof primitive.parameters.referenceTime === "number"
+      ? primitive.parameters.referenceTime
+      : primitive.startTime;
+    const firstIndex = this.times.reduce((best, time, candidateIndex) =>
+      Math.abs(time - referenceTime) < Math.abs(this.times[best]! - referenceTime)
+        ? candidateIndex
+        : best,
+    0);
     switch (primitive.parameters.axis) {
       case "worldUp": return [0, 1, 0];
       case "cameraRight": return cameraRight(states[firstIndex]!.rotation);
@@ -537,17 +544,25 @@ export class ObjectiveEvaluator {
       case "stepPacing": {
         if (indices.length < 2) return [];
         const sign = typeof primitive.parameters.sign === "number" ? primitive.parameters.sign : 1;
-        const targetDistance = typeof primitive.parameters.targetDistance === "number"
-          ? primitive.parameters.targetDistance
+        const targetDistance = typeof primitive.parameters.fullTargetDistance === "number"
+          ? primitive.parameters.fullTargetDistance
+          : typeof primitive.parameters.targetDistance === "number"
+            ? primitive.parameters.targetDistance
           : 0;
+        const motionStartTime = typeof primitive.parameters.motionStartTime === "number"
+          ? primitive.parameters.motionStartTime
+          : primitive.startTime;
+        const motionEndTime = typeof primitive.parameters.motionEndTime === "number"
+          ? primitive.parameters.motionEndTime
+          : primitive.endTime;
         return indices.slice(1).map((index, localIndex) => {
           const previousIndex = indices[localIndex]!;
           const dt = Math.max(1e-6, this.times[index]! - this.times[previousIndex]!);
           const target = targetDistance * motionProgressDelta(
             this.times[previousIndex]!,
             this.times[index]!,
-            primitive.startTime,
-            primitive.endTime,
+            motionStartTime,
+            motionEndTime,
             primitive.parameters.speedKeyframes,
           );
           const progress = sign * dot3(
@@ -605,6 +620,15 @@ export class ObjectiveEvaluator {
         const angles = this.angularSeries(primitive, indices, states);
         if (angles.length < 2) return [];
         const targetDelta = typeof primitive.parameters.targetDelta === "number" ? primitive.parameters.targetDelta : 0;
+        const fullTargetDelta = typeof primitive.parameters.fullTargetDelta === "number"
+          ? primitive.parameters.fullTargetDelta
+          : undefined;
+        const motionStartTime = typeof primitive.parameters.motionStartTime === "number"
+          ? primitive.parameters.motionStartTime
+          : primitive.startTime;
+        const motionEndTime = typeof primitive.parameters.motionEndTime === "number"
+          ? primitive.parameters.motionEndTime
+          : primitive.endTime;
         return angles.slice(1).map((angle, index) => {
           const dt = Math.max(
             1e-6,
@@ -612,11 +636,11 @@ export class ObjectiveEvaluator {
           );
           return weighted(
             indices[index + 1]!,
-            (angle - angles[index]! - targetDelta * motionProgressDelta(
+            (angle - angles[index]! - (fullTargetDelta ?? targetDelta) * motionProgressDelta(
             this.times[indices[index]!]!,
             this.times[indices[index + 1]!]!,
-            primitive.startTime,
-            primitive.endTime,
+            motionStartTime,
+            motionEndTime,
             primitive.parameters.speedKeyframes,
             )) / dt,
           );
@@ -642,22 +666,34 @@ export class ObjectiveEvaluator {
       }
       case "radiusHold":
       case "radiusSchedule": {
-        const initialSubject = this.subject(primitive, firstIndex);
+        const scheduleStartTime = typeof primitive.parameters.motionStartTime === "number"
+          ? primitive.parameters.motionStartTime
+          : primitive.startTime;
+        const scheduleEndTime = typeof primitive.parameters.motionEndTime === "number"
+          ? primitive.parameters.motionEndTime
+          : primitive.endTime;
+        const scheduleStartIndex = this.times.reduce((best, time, index) =>
+          Math.abs(time - scheduleStartTime) < Math.abs(this.times[best]! - scheduleStartTime)
+            ? index
+            : best,
+        0);
+        const scheduleStartState = states[scheduleStartIndex]!;
+        const initialSubject = this.subject(primitive, scheduleStartIndex);
         if (!initialSubject) return [];
         const initialRadius = Math.hypot(
-          first.position[0] - initialSubject.center[0],
-          first.position[2] - initialSubject.center[2],
+          scheduleStartState.position[0] - initialSubject.center[0],
+          scheduleStartState.position[2] - initialSubject.center[2],
         );
         const requestedRadius = primitive.parameters.targetRadius;
         const endRadius = primitive.type === "radiusSchedule"
           ? Math.max(0.2, initialRadius + (typeof primitive.parameters.deltaRadius === "number" ? primitive.parameters.deltaRadius : 0))
           : typeof requestedRadius === "number" ? requestedRadius : initialRadius;
-        const duration = Math.max(1e-9, primitive.endTime - primitive.startTime);
+        const duration = Math.max(1e-9, scheduleEndTime - scheduleStartTime);
         return indices.map((index) => {
           const subject = this.subject(primitive, index);
           if (!subject) return weighted(index, 0);
           const alpha = motionProgress(
-            clamp((this.times[index]! - primitive.startTime) / duration, 0, 1),
+            clamp((this.times[index]! - scheduleStartTime) / duration, 0, 1),
             primitive.parameters.speedKeyframes,
           );
           const expected = initialRadius + (endRadius - initialRadius) * alpha;
@@ -791,7 +827,28 @@ export class ObjectiveEvaluator {
           const dt = Math.max(1e-6, this.times[index]! - this.times[previousIndex]!);
           const cameraVelocity = scale3(sub3(states[index]!.position, states[previousIndex]!.position), 1 / dt);
           const subjectVelocity = scale3(sub3(subject.center, previousSubject.center), 1 / dt);
-          result.push(weighted(index, distance3(cameraVelocity, subjectVelocity)));
+          const motionStartTime = typeof primitive.parameters.motionStartTime === "number"
+            ? primitive.parameters.motionStartTime
+            : primitive.startTime;
+          const motionEndTime = typeof primitive.parameters.motionEndTime === "number"
+            ? primitive.parameters.motionEndTime
+            : primitive.endTime;
+          const duration = Math.max(1e-9, motionEndTime - motionStartTime);
+          const linearDelta = Math.max(
+            1e-9,
+            (this.times[index]! - this.times[previousIndex]!) / duration,
+          );
+          const speedScale = motionProgressDelta(
+            this.times[previousIndex]!,
+            this.times[index]!,
+            motionStartTime,
+            motionEndTime,
+            primitive.parameters.speedKeyframes,
+          ) / linearDelta;
+          result.push(weighted(
+            index,
+            distance3(cameraVelocity, scale3(subjectVelocity, speedScale)),
+          ));
         }
         return result;
       }

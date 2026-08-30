@@ -1,6 +1,4 @@
-import { loadEnvFile } from "node:process";
 import {
-  createGateway,
   generateText,
   jsonSchema,
   Output,
@@ -14,9 +12,14 @@ import {
 } from "../types/environment-query";
 import type { ZodTypeAny } from "zod";
 import { zodToJsonSchema } from "zod-to-json-schema";
+import {
+  DEFAULT_GATEWAY_MODEL,
+  loadProjectEnvOnce,
+  resolvePipelineModel,
+} from "../pipeline/model-provider";
 import { executeEnvironmentQuery } from "./executor";
 
-export const DEFAULT_ENVIRONMENT_QUERY_MODEL = "google/gemini-3.7-flash";
+export const DEFAULT_ENVIRONMENT_QUERY_MODEL = DEFAULT_GATEWAY_MODEL;
 
 const environmentQueryOutput = Output.object({
   name: "environment_query",
@@ -29,20 +32,8 @@ const environmentQueryOutput = Output.object({
   )),
 });
 
-let envLoadAttempted = false;
-
-function loadProjectEnvOnce(): void {
-  if (envLoadAttempted) return;
-  envLoadAttempted = true;
-  try {
-    loadEnvFile();
-  } catch (error) {
-    if ((error as NodeJS.ErrnoException).code !== "ENOENT") throw error;
-  }
-}
-
 export interface EnvironmentQueryOptions {
-  /** Overrides LLM_MODEL from .env. */
+  /** Overrides LLM_ENVIRONMENT_QUERY_MODEL/LLM_MODEL from .env. */
   model?: string;
   /** Overrides the Gateway's AI_GATEWAY_API_KEY/OIDC authentication. */
   apiKey?: string;
@@ -56,7 +47,9 @@ export interface EnvironmentQueryOptions {
 
 export function getEnvironmentQueryModel(): string {
   loadProjectEnvOnce();
-  return process.env.LLM_MODEL?.trim() || DEFAULT_ENVIRONMENT_QUERY_MODEL;
+  return process.env.LLM_ENVIRONMENT_QUERY_MODEL?.trim()
+    || process.env.LLM_MODEL?.trim()
+    || DEFAULT_ENVIRONMENT_QUERY_MODEL;
 }
 
 function availableSubjectIds(env: EnvironmentV1): Set<string> {
@@ -169,22 +162,7 @@ export async function parseEnvironmentQuery(
   request: string,
   options: EnvironmentQueryOptions = {},
 ): Promise<EnvironmentQuery> {
-  loadProjectEnvOnce();
-  const modelId = options.model?.trim() || getEnvironmentQueryModel();
-  const apiKey = options.apiKey?.trim() || undefined;
-  const baseURL = options.baseUrl?.trim()
-    || process.env.AI_GATEWAY_BASE_URL?.trim()
-    || undefined;
-  const useCustomGateway = apiKey !== undefined
-    || baseURL !== undefined
-    || options.fetchImpl !== undefined;
-  const model = options.languageModel ?? (useCustomGateway
-    ? createGateway({
-      ...(apiKey === undefined ? {} : { apiKey }),
-      ...(baseURL === undefined ? {} : { baseURL: baseURL.replace(/\/$/, "") }),
-      ...(options.fetchImpl === undefined ? {} : { fetch: options.fetchImpl }),
-    })(modelId)
-    : modelId);
+  const { model } = resolvePipelineModel(getEnvironmentQueryModel, options);
 
   const result = await generateText({
     model,

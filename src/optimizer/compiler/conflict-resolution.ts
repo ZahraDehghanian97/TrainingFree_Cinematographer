@@ -86,9 +86,7 @@ export function resolveBandConflicts({
           )
         ),
       );
-      const fraction = (band.endTime - band.startTime)
-        / Math.max(1e-9, dollySpan.sourceEndTime - dollySpan.sourceStartTime);
-      const distance = Math.abs(finiteNumber(dollyLoss.parameters.distance, 2)) * fraction;
+      const distance = Math.abs(finiteNumber(dollyLoss.parameters.distance, 2));
       const added = add(
         {
           type: "radiusSchedule",
@@ -96,6 +94,12 @@ export function resolveBandConflicts({
           role: "primary",
           parameters: {
             deltaRadius: dollyLoss.type === LossFunctionType.DollyInMovement ? -distance : distance,
+            motionStartTime: dollySpan.sourceStartTime,
+            motionEndTime: dollySpan.sourceEndTime,
+            scheduleKey: `${arcLoss.sourceActionId ?? "arc"}:${dollyLoss.sourceActionId ?? "dolly"}`,
+            ...(dollyLoss.parameters.speedKeyframes
+              ? { speedKeyframes: dollyLoss.parameters.speedKeyframes }
+              : {}),
             subjectIds: arcSubjects,
           },
         },
@@ -124,7 +128,16 @@ export function resolveBandConflicts({
     || highLevelTypes.includes(LossFunctionType.CraneUpMovement)
     || highLevelTypes.includes(LossFunctionType.CraneDownMovement);
   if (hasArc && hasPedestal) {
-    const removed = removeWhere((primitive) => primitive.type === "planeHold");
+    const removed = removeWhere((primitive) =>
+      primitive.type === "planeHold"
+      || (
+        primitive.type === "orthogonalDrift"
+        && (
+          primitive.sourceType === LossFunctionType.PedestalUpMovement
+          || primitive.sourceType === LossFunctionType.PedestalDownMovement
+        )
+      ),
+    );
     if (removed.length > 0) conflicts.push({
       interval: [band.startTime, band.endTime],
       rule: "arc+pedestal=>helical-crane",
@@ -164,6 +177,28 @@ export function resolveBandConflicts({
         `Follow and Dolly on ${band.startTime}-${band.endTime}s target different subjects; radial fusion was skipped`,
       );
     }
+  }
+
+  if (hasFollow && hasPedestal) {
+    const removed = removeWhere((primitive) =>
+      (
+        primitive.type === "relativeOffsetHold"
+        && primitive.sourceType === LossFunctionType.FollowMovement
+      )
+      || (
+        primitive.type === "orthogonalDrift"
+        && (
+          primitive.sourceType === LossFunctionType.PedestalUpMovement
+          || primitive.sourceType === LossFunctionType.PedestalDownMovement
+        )
+      ),
+    );
+    if (removed.length > 0) conflicts.push({
+      interval: [band.startTime, band.endTime],
+      rule: "follow+pedestal=>vertical-follow",
+      removedPrimitiveIds: removed,
+      addedPrimitiveIds: [],
+    });
   }
 
   // Release passive holds when an explicit action owns the same channel.
@@ -286,6 +321,7 @@ export function resolveBandConflicts({
   // Composition precedence and conflicting-target diagnostics.
   const offCenterFraming = bandPrimitives().filter((primitive) =>
     primitive.type === "screenPosition"
+    && primitive.sourceType === LossFunctionType.FramingPosition
     && Array.isArray(primitive.parameters.target)
     && (primitive.parameters.target[0] !== 0.5 || primitive.parameters.target[1] !== 0.5),
   );
@@ -293,6 +329,19 @@ export function resolveBandConflicts({
     const framingSubjects = new Set(offCenterFraming.map((primitive) =>
       subjectEntityKey(input, subjectIdsFromParameters(primitive.parameters)),
     ));
+    const removedDefaultCentering = removeWhere((primitive) =>
+      primitive.type === "screenPosition"
+      && primitive.sourceType === LossFunctionType.TrackMovement
+      && framingSubjects.has(
+        subjectEntityKey(input, subjectIdsFromParameters(primitive.parameters)),
+      ),
+    );
+    if (removedDefaultCentering.length > 0) conflicts.push({
+      interval: [band.startTime, band.endTime],
+      rule: "explicit-framing-removes-default-centering",
+      removedPrimitiveIds: removedDefaultCentering,
+      addedPrimitiveIds: [],
+    });
     const removed = removeWhere((primitive) =>
       primitive.type === "lookAt"
       && primitive.role === "stabilizer"

@@ -113,6 +113,8 @@ export interface ConflictResolution {
     | "framing-removes-fov-hold"
     | "dutch-removes-level-horizon"
     | "screen-position-dominates-look-at"
+    | "explicit-framing-removes-default-centering"
+    | "follow+pedestal=>vertical-follow"
     | "under-constrained-hold-strengthened"
     | "level-horizon-removes-roll-hold";
   removedPrimitiveIds: string[];

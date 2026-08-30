@@ -98,6 +98,24 @@ function cubicPosition(
   };
   const boundedLeftTangent = boundedTangent(leftTangent);
   const boundedRightTangent = boundedTangent(rightTangent);
+  // Fritsch-Carlson-style limiting on world Y prevents a cubic segment whose
+  // endpoints are safe from dipping below either endpoint between samples.
+  const verticalSlope = span <= 1e-9 ? 0 : (right[1] - left[1]) / span;
+  if (Math.abs(verticalSlope) <= 1e-12) {
+    boundedLeftTangent[1] = 0;
+    boundedRightTangent[1] = 0;
+  } else {
+    if (boundedLeftTangent[1] * verticalSlope <= 0) boundedLeftTangent[1] = 0;
+    if (boundedRightTangent[1] * verticalSlope <= 0) boundedRightTangent[1] = 0;
+    const leftRatio = boundedLeftTangent[1] / verticalSlope;
+    const rightRatio = boundedRightTangent[1] / verticalSlope;
+    const ratioLength = Math.hypot(leftRatio, rightRatio);
+    if (ratioLength > 3) {
+      const ratioScale = 3 / ratioLength;
+      boundedLeftTangent[1] = ratioScale * leftRatio * verticalSlope;
+      boundedRightTangent[1] = ratioScale * rightRatio * verticalSlope;
+    }
+  }
   const alpha2 = alpha * alpha;
   const alpha3 = alpha2 * alpha;
   const h00 = 2 * alpha3 - 3 * alpha2 + 1;
@@ -170,6 +188,7 @@ export function buildCameraTrajectory(
   outputTimes: readonly number[],
   nearPlane: number,
   farPlane: number,
+  minimumCameraY?: number,
 ): CameraTrajectoryV1 {
   const userKeyframes = input.userKeyframes ?? [];
   const cutTimes = [
@@ -179,6 +198,12 @@ export function buildCameraTrajectory(
   const samples: CameraSampleV1[] = outputTimes.map((time) => {
     const state = interpolateState(optimizedStates, time, cutTimes);
     applyHardKeyframesToState(state, hardKeyframesAtTime(userKeyframes, state.time));
+    const hasHardPosition = hardKeyframesAtTime(userKeyframes, state.time).some(
+      (keyframe) => keyframe.position !== undefined,
+    );
+    if (minimumCameraY !== undefined && !hasHardPosition) {
+      state.position[1] = Math.max(state.position[1], minimumCameraY);
+    }
     const sample: CameraSampleV1 = {
       t: time,
       position: [...state.position] as Vec3,

@@ -12,6 +12,7 @@ import {
 } from "./constants";
 import { subjectParameters } from "./subjects";
 import type { CompileBandContext, PrimitiveDescriptor } from "./types";
+import { motionProgress } from "../shared/motion-profiles";
 
 function movementFraction(context: CompileBandContext): number {
   const sourceDuration = context.sourceEndTime - context.sourceStartTime;
@@ -24,12 +25,22 @@ function translationRecipe(
   sign: number,
   distance: number,
 ): PrimitiveDescriptor[] {
-  const targetDistance = Math.abs(distance) * movementFraction(context);
+  const sourceDuration = Math.max(1e-9, context.sourceEndTime - context.sourceStartTime);
+  const sourceStart = (context.startTime - context.sourceStartTime) / sourceDuration;
+  const sourceEnd = (context.endTime - context.sourceStartTime) / sourceDuration;
+  const fullTargetDistance = Math.abs(distance);
+  const targetDistance = fullTargetDistance * (
+    motionProgress(sourceEnd, context.loss.parameters.speedKeyframes)
+    - motionProgress(sourceStart, context.loss.parameters.speedKeyframes)
+  );
   const shared = {
     axis,
     sign,
     targetDistance,
-    referenceTime: context.startTime,
+    fullTargetDistance,
+    referenceTime: context.sourceStartTime,
+    motionStartTime: context.sourceStartTime,
+    motionEndTime: context.sourceEndTime,
     ...(context.loss.parameters.speedKeyframes ? { speedKeyframes: context.loss.parameters.speedKeyframes } : {}),
     ...(context.loss.parameters.path ? { path: context.loss.parameters.path } : {}),
     ...(context.loss.parameters.curveIntensity === undefined
@@ -170,10 +181,20 @@ export function descriptorsForLoss(context: CompileBandContext): PrimitiveDescri
       ];
     }
     case LossFunctionType.ArcMovement: {
-      const angle = finiteNumber(p.arcAngle, 45) * Math.PI / 180 * movementFraction(context);
+      const sourceDuration = Math.max(1e-9, context.sourceEndTime - context.sourceStartTime);
+      const sourceStart = (context.startTime - context.sourceStartTime) / sourceDuration;
+      const sourceEnd = (context.endTime - context.sourceStartTime) / sourceDuration;
+      const fullAngle = finiteNumber(p.arcAngle, 45) * Math.PI / 180;
+      const angle = fullAngle * (
+        motionProgress(sourceEnd, p.speedKeyframes)
+        - motionProgress(sourceStart, p.speedKeyframes)
+      );
       const radius = finiteNumber(p.arcRadius, Number.NaN);
       const shared = {
         targetDelta: angle,
+        fullTargetDelta: fullAngle,
+        motionStartTime: context.sourceStartTime,
+        motionEndTime: context.sourceEndTime,
         sign: Math.sign(angle) || 1,
         ...(p.speedKeyframes ? { speedKeyframes: p.speedKeyframes } : {}),
         ...subjects,
@@ -184,7 +205,13 @@ export function descriptorsForLoss(context: CompileBandContext): PrimitiveDescri
           type: "radiusHold",
           channel: "subjectRelative",
           role: "primary",
-          parameters: { targetRadius: Number.isFinite(radius) ? radius : "initial", ...subjects },
+          parameters: {
+            targetRadius: Number.isFinite(radius) ? radius : "initial",
+            motionStartTime: context.sourceStartTime,
+            motionEndTime: context.sourceEndTime,
+            ...(p.speedKeyframes ? { speedKeyframes: p.speedKeyframes } : {}),
+            ...subjects,
+          },
         },
         { type: "angularProgress", channel: "subjectRelative", role: "primary", parameters: { mode: "orbit", ...shared } },
         { type: "angularDirection", channel: "subjectRelative", role: "primary", parameters: { mode: "orbit", ...shared } },
@@ -255,6 +282,9 @@ export function descriptorsForLoss(context: CompileBandContext): PrimitiveDescri
         ...subjects,
         followDelay: finiteNumber(p.followDelay, 0),
         leadAmount: finiteNumber(p.leadAmount, 0),
+        motionStartTime: context.sourceStartTime,
+        motionEndTime: context.sourceEndTime,
+        ...(p.speedKeyframes ? { speedKeyframes: p.speedKeyframes } : {}),
       };
       return [
         { type: "relativeOffsetHold", channel: "subjectRelative", role: "primary", parameters: follow },
@@ -282,7 +312,13 @@ export function descriptorsForLoss(context: CompileBandContext): PrimitiveDescri
       const positionName = typeof p.position === "string" ? p.position : "center";
       const target = FRAMING_TARGETS[positionName] ?? FRAMING_TARGETS.center!;
       return [
-        { type: "screenPosition", channel: "composition", role: "primary", parameters: { target, ...subjects } },
+        {
+          type: "screenPosition",
+          channel: "composition",
+          role: "primary",
+          parameters: { target, ...subjects },
+          weightScale: 3,
+        },
         { type: "bboxInFrame", channel: "composition", role: "stabilizer", parameters: subjects },
       ];
     }

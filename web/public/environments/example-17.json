@@ -173,112 +173,106 @@
     },
     {
       "id": "hurdle-a",
-      "label": "Hurdle A",
+      "label": "Track marker A",
       "transform": {
         "space": "world",
         "position": [
           9,
-          0.55,
-          0.9
+          0.275,
+          -1.3
         ]
       },
       "visual": {
         "type": "primitive",
-        "shape": "box",
+        "shape": "cone",
         "params": {
-          "size": [
-            0.18,
-            1.1,
-            2.4
-          ]
+          "radius": 0.18,
+          "height": 0.55,
+          "radialSegments": 20
         },
         "color": "#d9f0ff"
       },
       "bounds": {
         "type": "box",
         "min": [
-          -0.09,
-          -0.55,
-          -1.2
+          -0.18,
+          -0.275,
+          -0.18
         ],
         "max": [
-          0.09,
-          0.55,
-          1.2
+          0.18,
+          0.275,
+          0.18
         ]
       }
     },
     {
       "id": "hurdle-b",
-      "label": "Hurdle B",
+      "label": "Track marker B",
       "transform": {
         "space": "world",
         "position": [
           26,
-          0.55,
-          3.0
+          0.275,
+          0.8
         ]
       },
       "visual": {
         "type": "primitive",
-        "shape": "box",
+        "shape": "cone",
         "params": {
-          "size": [
-            0.18,
-            1.1,
-            2.4
-          ]
+          "radius": 0.18,
+          "height": 0.55,
+          "radialSegments": 20
         },
         "color": "#d9f0ff"
       },
       "bounds": {
         "type": "box",
         "min": [
-          -0.09,
-          -0.55,
-          -1.2
+          -0.18,
+          -0.275,
+          -0.18
         ],
         "max": [
-          0.09,
-          0.55,
-          1.2
+          0.18,
+          0.275,
+          0.18
         ]
       }
     },
     {
       "id": "hurdle-c",
-      "label": "Hurdle C",
+      "label": "Track marker C",
       "transform": {
         "space": "world",
         "position": [
           43,
-          0.55,
-          4.9
+          0.275,
+          2.7
         ]
       },
       "visual": {
         "type": "primitive",
-        "shape": "box",
+        "shape": "cone",
         "params": {
-          "size": [
-            0.18,
-            1.1,
-            2.4
-          ]
+          "radius": 0.18,
+          "height": 0.55,
+          "radialSegments": 20
         },
         "color": "#d9f0ff"
       },
       "bounds": {
         "type": "box",
         "min": [
-          -0.09,
-          -0.55,
-          -1.2
+          -0.18,
+          -0.275,
+          -0.18
         ],
         "max": [
-          0.09,
-          0.55,
-          1.2
+          0.18,
+          0.275,
+          0.18
         ]
       }
     },

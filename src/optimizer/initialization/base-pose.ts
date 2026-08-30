@@ -135,13 +135,15 @@ export function createInitialCameraState(
       Math.sin(elevation) * distance,
       Math.cos(azimuth) * horizontalDistance,
     ];
-    let worldDirection = add3(
-      scale3(cameraRight(semanticTarget.rotation), localDirection[0]),
-      add3(
-        scale3([0, 1, 0], localDirection[1]),
-        scale3(scale3(cameraForward(semanticTarget.rotation), -1), localDirection[2]),
-      ),
-    );
+    let worldDirection: Vec3 = viewPrimitive
+      ? add3(
+          scale3(cameraRight(semanticTarget.rotation), localDirection[0]),
+          add3(
+            scale3([0, 1, 0], localDirection[1]),
+            scale3(scale3(cameraForward(semanticTarget.rotation), -1), localDirection[2]),
+          ),
+        )
+      : [0, localDirection[1], localDirection[2]];
 
     if (scalePrimitive && semanticTarget.box.size[1] > 1e-6) {
       // Refine the flat-plane estimate against the projection model used by

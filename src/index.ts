@@ -333,7 +333,7 @@ async function main(): Promise<void> {
       }
     }
 
-    const solverOutput = solveTimeline(csl);
+    const solverOutput = solveTimeline(csl, environment);
     const flattened = flattenTimeline(solverOutput);
 
     const outputWrapper = {

@@ -618,7 +618,7 @@ export class SceneRenderer {
     this.renderer.toneMapping = THREE.ACESFilmicToneMapping;
     this.renderer.toneMappingExposure = 1.06;
     this.renderer.shadowMap.enabled = true;
-    this.renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+    this.renderer.shadowMap.type = THREE.PCFShadowMap;
     this.scene.background = new THREE.Color(DEFAULT_BACKGROUND);
 
     this.godCamera.position.set(10, 8, 12);
@@ -938,6 +938,9 @@ export class SceneRenderer {
       const material = standardMaterial(ground.color ?? "#171d24", {
         roughness: 0.94,
         metalness: 0,
+        polygonOffset: true,
+        polygonOffsetFactor: 1,
+        polygonOffsetUnits: 1,
       });
       const mesh = basicMesh(geometry, material, [0, ground.y, 0]);
       mesh.rotation.x = -Math.PI / 2;

@@ -37,6 +37,7 @@ export function initializeCameraStates(
   plan: CompiledLossPlan,
   times: readonly number[],
   initialFovYDegrees: number,
+  minimumCameraY?: number,
 ): CameraStateSample[] {
   if (times.length === 0) {
     throw new Error("Cannot initialize an empty optimizer time grid");
@@ -50,13 +51,17 @@ export function initializeCameraStates(
     times[0]!,
   );
   applyHardKeyframesAtTime(first, input);
+  clampToGroundClearance(first, input, minimumCameraY);
   states.push(first);
 
   const fixedAxes = new Map<string, Vec3>();
+  const initialOrbitRadii = new Map<string, number>();
   for (let index = 1; index < times.length; index += 1) {
     const previous = states[index - 1]!;
     const time = times[index]!;
     if (startsNewShot(input, time)) {
+      fixedAxes.clear();
+      initialOrbitRadii.clear();
       const cutSeed = createInitialCameraState(
         input,
         plan,
@@ -64,12 +69,21 @@ export function initializeCameraStates(
         time,
       );
       applyHardKeyframesAtTime(cutSeed, input);
+      clampToGroundClearance(cutSeed, input, minimumCameraY);
       states.push(cutSeed);
       continue;
     }
 
-    const state = advanceSeedState(input, plan, previous, time, fixedAxes);
+    const state = advanceSeedState(
+      input,
+      plan,
+      previous,
+      time,
+      fixedAxes,
+      initialOrbitRadii,
+    );
     applyHardKeyframesAtTime(state, input);
+    clampToGroundClearance(state, input, minimumCameraY);
     state.rotation = normalizeQuat(state.rotation);
     states.push(state);
   }
@@ -81,4 +95,17 @@ export function initializeCameraStates(
     input.timeline.cutTimes ?? [],
   );
   return states;
+}
+
+export function clampToGroundClearance(
+  state: CameraStateSample,
+  input: CameraOptimizerInput,
+  minimumCameraY: number | undefined,
+): void {
+  if (minimumCameraY === undefined) return;
+  const hasHardPosition = hardKeyframesAtTime(
+    input.userKeyframes ?? [],
+    state.time,
+  ).some((keyframe) => keyframe.position !== undefined);
+  if (!hasHardPosition) state.position[1] = Math.max(state.position[1], minimumCameraY);
 }

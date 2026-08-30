@@ -3,7 +3,7 @@ import type {
   CameraTargetDescriptor,
   Target,
 } from "../types/camera";
-import { CameraMovementType } from "../types/enums";
+import { CameraMovementType, ConstraintType } from "../types/enums";
 import type {
   CameraDirectionDSL,
   ResolvedCameraDirectionDSL,
@@ -27,11 +27,26 @@ export const SUBJECTLESS_TRANSLATION_MOVEMENTS = new Set<CameraMovementType>([
   CameraMovementType.PedestalDown,
 ]);
 
+export const SUBJECT_ANCHORED_GENERAL_CONSTRAINTS = new Set<ConstraintType>([
+  ConstraintType.KeepInFrame,
+  ConstraintType.MaintainDistance,
+  ConstraintType.MaintainAngle,
+  ConstraintType.AvoidOcclusion,
+]);
+
 export function assertMovementSubjectReferences(
   dsl: CameraDirectionDSL<CameraTargetDescriptor>,
 ): void {
-  dsl.sections.forEach((section) => {
-    section.actions.forEach((action) => {
+  dsl.sections.forEach((section, sectionIndex) => {
+    if (
+      section.initCamera.config.type === "subjectAware"
+      && section.initCamera.targets.length === 0
+    ) {
+      throw new Error(
+        `sections[${sectionIndex}].initCamera uses a subjectAware config but has no targets`,
+      );
+    }
+    section.actions.forEach((action, actionIndex) => {
       if (
         SUBJECTLESS_TRANSLATION_MOVEMENTS.has(action.movement.act)
         && action.movement.targets?.length
@@ -50,6 +65,29 @@ export function assertMovementSubjectReferences(
           + "but movement.targets is empty; declare its semantic movement subject before binding",
         );
       }
+      action.constraints?.forEach((constraint, constraintIndex) => {
+        if (
+          "kind" in constraint
+          && constraint.kind === "general"
+          && SUBJECT_ANCHORED_GENERAL_CONSTRAINTS.has(constraint.constraint)
+          && !constraint.targets?.length
+        ) {
+          throw new Error(
+            `sections[${sectionIndex}].actions[${actionIndex}].constraints[${constraintIndex}] `
+            + `uses ${constraint.constraint} but has no targets`,
+          );
+        }
+        if (
+          (!("kind" in constraint) || constraint.kind !== "general")
+          && constraint.config.type === "subjectAware"
+          && !constraint.targets?.length
+        ) {
+          throw new Error(
+            `sections[${sectionIndex}].actions[${actionIndex}].constraints[${constraintIndex}] `
+            + "uses a subjectAware config but has no targets",
+          );
+        }
+      });
     });
   });
 }
