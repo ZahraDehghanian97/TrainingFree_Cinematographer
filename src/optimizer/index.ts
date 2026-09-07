@@ -37,6 +37,7 @@ export function optimizeCameraTrajectory(input: CameraOptimizerInput): CameraOpt
     effectiveInput.timeline,
     effectiveInput.userKeyframes ?? [],
     options.optimizationFps,
+    plan.motionTransitions,
   );
   const minimumCameraY = effectiveInput.environment.world?.ground === undefined
     || effectiveInput.options?.globalLosses?.ground === false

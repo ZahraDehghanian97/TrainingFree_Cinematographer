@@ -2,6 +2,7 @@ import type { Vec3 } from "../../types/environment";
 import { createInitialCameraState } from "./base-pose";
 import { advanceSeedState } from "./motion-step";
 import { seedSparseCompositionTransitions } from "./orientation-transitions";
+import { seedMotionTransitions } from "./motion-transitions";
 import {
   applyHardKeyframesToState,
   hardKeyframesAtTime,
@@ -94,6 +95,11 @@ export function initializeCameraStates(
     input.userKeyframes ?? [],
     input.timeline.cutTimes ?? [],
   );
+  seedMotionTransitions(states, plan.motionTransitions ?? [], input.userKeyframes ?? [], input.timeline.cutTimes ?? []);
+  for (const state of states) {
+    applyHardKeyframesAtTime(state, input);
+    clampToGroundClearance(state, input, minimumCameraY);
+  }
   return states;
 }
 

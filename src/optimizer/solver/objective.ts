@@ -58,6 +58,7 @@ import {
   pointEasingWeight,
 } from "../shared/time";
 import { motionProgress, motionProgressDelta } from "../shared/motion-profiles";
+import { motionTransitionScale } from "../shared/motion-transitions";
 import type {
   CameraOptimizerInput,
   CameraStateSample,
@@ -387,6 +388,36 @@ export class ObjectiveEvaluator {
       : sub3(states[currentIndex]!.position, states[previousIndex]!.position);
   }
 
+  /** Keep every displacement in a derivative stencil in one physical frame. */
+  private regularizedSteps(
+    indices: readonly number[],
+    states: readonly CameraStateSample[],
+  ): Vec3[] {
+    const references = indices.slice(1).map((index, localIndex) =>
+      this.motionPrimitiveForStep(indices[localIndex]!, index),
+    );
+    const reference = references[0];
+    const referenceKey = (primitive: PrimitiveLoss): string => {
+      const subjectIds = subjectIdsFromParameters(primitive.parameters).sort();
+      const lead = typeof primitive.parameters.leadAmount === "number"
+        ? primitive.parameters.leadAmount : 0;
+      const delay = typeof primitive.parameters.followDelay === "number"
+        ? Math.max(0, primitive.parameters.followDelay) : 0;
+      return JSON.stringify([subjectIds, lead - delay]);
+    };
+    const commonReference = reference
+      && references.every((candidate) => candidate
+        && referenceKey(candidate) === referenceKey(reference))
+      && indices.every((index) => this.subject(reference, index) !== undefined)
+      ? reference : undefined;
+    // Switching subjects (or entering/leaving a follow) must not subtract a
+    // different subject velocity from each side of an acceleration or jerk.
+    return indices.slice(1).map((index, localIndex) => commonReference
+      ? this.relativeStep(commonReference, indices[localIndex]!, index, states)
+      : sub3(states[index]!.position, states[indices[localIndex]!]!.position),
+    );
+  }
+
   private angularSeries(
     primitive: PrimitiveLoss,
     indices: readonly number[],
@@ -424,7 +455,7 @@ export class ObjectiveEvaluator {
     const indices = this.primitiveIndices.get(primitive.id) ?? [];
     if (indices.length === 0) return [];
     const weighted = (index: number, value: number): WeightedResidual => ({
-      value,
+      value: value * motionTransitionScale(primitive, this.times[index]!),
       sampleWeight: this.sampleWeight(primitive, index),
     });
     const firstIndex = indices[0]!;
@@ -1008,7 +1039,7 @@ export class ObjectiveEvaluator {
         ));
       }
       case "accelerationSmoothness": {
-        const cutTimes = cutTimesFrom(primitive);
+        const cutTimes = [...(this.input.timeline.cutTimes ?? []), ...cutTimesFrom(primitive)];
         const result: WeightedResidual[] = [];
         for (let localIndex = 1; localIndex + 1 < indices.length; localIndex += 1) {
           const aIndex = indices[localIndex - 1]!;
@@ -1017,14 +1048,15 @@ export class ObjectiveEvaluator {
           if (crossesCut(this.times[aIndex]!, this.times[cIndex]!, cutTimes)) continue;
           const dt0 = Math.max(1e-6, this.times[bIndex]! - this.times[aIndex]!);
           const dt1 = Math.max(1e-6, this.times[cIndex]! - this.times[bIndex]!);
-          const v0 = scale3(this.regularizedStep(aIndex, bIndex, states), 1 / dt0);
-          const v1 = scale3(this.regularizedStep(bIndex, cIndex, states), 1 / dt1);
+          const steps = this.regularizedSteps([aIndex, bIndex, cIndex], states);
+          const v0 = scale3(steps[0]!, 1 / dt0);
+          const v1 = scale3(steps[1]!, 1 / dt1);
           result.push(weighted(bIndex, length3(scale3(sub3(v1, v0), 2 / (dt0 + dt1)))));
         }
         return result;
       }
       case "angularAccelerationSmoothness": {
-        const cutTimes = cutTimesFrom(primitive);
+        const cutTimes = [...(this.input.timeline.cutTimes ?? []), ...cutTimesFrom(primitive)];
         const result: WeightedResidual[] = [];
         for (let localIndex = 1; localIndex + 1 < indices.length; localIndex += 1) {
           const aIndex = indices[localIndex - 1]!;
@@ -1051,24 +1083,28 @@ export class ObjectiveEvaluator {
         return result;
       }
       case "jerkSmoothness": {
-        const cutTimes = cutTimesFrom(primitive);
-        const accelerations: Array<{ index: number; value: Vec3 }> = [];
-        for (let localIndex = 1; localIndex + 1 < indices.length; localIndex += 1) {
-          const a = indices[localIndex - 1]!;
-          const b = indices[localIndex]!;
-          const c = indices[localIndex + 1]!;
-          if (crossesCut(this.times[a]!, this.times[c]!, cutTimes)) continue;
+        const cutTimes = [...(this.input.timeline.cutTimes ?? []), ...cutTimesFrom(primitive)];
+        const result: WeightedResidual[] = [];
+        for (let localIndex = 0; localIndex + 3 < indices.length; localIndex += 1) {
+          const a = indices[localIndex]!;
+          const b = indices[localIndex + 1]!;
+          const c = indices[localIndex + 2]!;
+          const d = indices[localIndex + 3]!;
+          // Work on consecutive stencils: filtering accelerations first could
+          // pair the final acceleration of one shot with the next shot's first.
+          if (crossesCut(this.times[a]!, this.times[d]!, cutTimes)) continue;
           const dt0 = Math.max(1e-6, this.times[b]! - this.times[a]!);
           const dt1 = Math.max(1e-6, this.times[c]! - this.times[b]!);
-          const v0 = scale3(this.regularizedStep(a, b, states), 1 / dt0);
-          const v1 = scale3(this.regularizedStep(b, c, states), 1 / dt1);
-          accelerations.push({ index: b, value: scale3(sub3(v1, v0), 2 / (dt0 + dt1)) });
+          const dt2 = Math.max(1e-6, this.times[d]! - this.times[c]!);
+          const steps = this.regularizedSteps([a, b, c, d], states);
+          const v0 = scale3(steps[0]!, 1 / dt0);
+          const v1 = scale3(steps[1]!, 1 / dt1);
+          const v2 = scale3(steps[2]!, 1 / dt2);
+          const a0 = scale3(sub3(v1, v0), 2 / (dt0 + dt1));
+          const a1 = scale3(sub3(v2, v1), 2 / (dt1 + dt2));
+          result.push(weighted(c, length3(scale3(sub3(a1, a0), 1 / dt1))));
         }
-        return accelerations.slice(1).map((entry, index) => {
-          const previous = accelerations[index]!;
-          const dt = Math.max(1e-6, this.times[entry.index]! - this.times[previous.index]!);
-          return weighted(entry.index, length3(scale3(sub3(entry.value, previous.value), 1 / dt)));
-        });
+        return result;
       }
       case "pathLength": {
         const result: WeightedResidual[] = [];

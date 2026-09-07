@@ -24,6 +24,7 @@ export const DEFAULT_GLOBAL_LOSSES = {
 } as const;
 
 export const DEFAULT_OPTIONS: Required<Omit<OptimizerOptions, "weights" | "globalLosses">> = {
+  motionTransitionSeconds: 1,
   optimizationFps: 3,
   outputFps: 24,
   iterations: 5000,

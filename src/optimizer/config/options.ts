@@ -10,6 +10,7 @@ export function resolveOptimizerOptions(
   input: CameraOptimizerInput,
 ): ResolvedOptimizerOptions {
   return {
+    motionTransitionSeconds: input.options?.motionTransitionSeconds ?? DEFAULT_OPTIONS.motionTransitionSeconds,
     optimizationFps: input.options?.optimizationFps ?? DEFAULT_OPTIONS.optimizationFps,
     outputFps: input.options?.outputFps
       ?? input.environment.clock.fpsHint

@@ -169,7 +169,7 @@
     }
   
   ],
-  "targets": [
+  "semanticAnchors": [
     {
       "id": "worker",
       "entityId": "worker-entity",

@@ -17,6 +17,7 @@ import { descriptorsForUserKeyframe } from "./keyframe-recipes";
 import { descriptorsForLoss } from "./loss-recipes";
 import { createPrimitiveStore } from "./primitive-store";
 import { buildActiveLossBands } from "./timeline-bands";
+import { buildMotionTransitions } from "./motion-transitions";
 import type {
   CompileBandContext,
   PrimitiveDescriptor,
@@ -28,6 +29,7 @@ export function compileLossPlan(input: CameraOptimizerInput): CompiledLossPlan {
   const { primitives, add } = createPrimitiveStore(weights);
   const conflicts: ConflictResolution[] = [];
   const warnings: string[] = [];
+  const motionTransitions = buildMotionTransitions(input);
 
   // 1. Compile every active semantic band into primitive losses.
   for (const band of buildActiveLossBands(input.timeline.timeline, durationSeconds)) {
@@ -48,8 +50,18 @@ export function compileLossPlan(input: CameraOptimizerInput): CompiledLossPlan {
       };
 
       for (const descriptor of descriptorsForLoss(context)) {
+        const windows = span.pointTime === undefined ? motionTransitions.filter((window) =>
+          Math.abs(window.boundaryTime - span.sourceStartTime) <= 1e-8
+          || Math.abs(window.boundaryTime - span.sourceEndTime) <= 1e-8,
+        ) : [];
         const bandDescriptor: PrimitiveDescriptor = span.pointTime === undefined
-          ? descriptor
+          ? {
+              ...descriptor,
+              parameters: {
+                ...(descriptor.parameters ?? {}),
+                ...(windows.length > 0 ? { motionTransitions: windows } : {}),
+              },
+            }
           : {
               ...descriptor,
               parameters: {
@@ -163,6 +175,7 @@ export function compileLossPlan(input: CameraOptimizerInput): CompiledLossPlan {
 
   return {
     durationSeconds,
+    motionTransitions,
     primitives,
     conflicts,
     warnings: [...new Set(warnings)],

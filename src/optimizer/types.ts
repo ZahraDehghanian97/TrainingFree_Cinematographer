@@ -123,9 +123,17 @@ export interface ConflictResolution {
 
 export interface CompiledLossPlan {
   durationSeconds: number;
+  /** Automatic easing windows around changes of motion within a shot. */
+  motionTransitions?: MotionTransition[];
   primitives: PrimitiveLoss[];
   conflicts: ConflictResolution[];
   warnings: string[];
+}
+
+export interface MotionTransition {
+  startTime: number;
+  boundaryTime: number;
+  endTime: number;
 }
 
 export interface OptimizerWeights {
@@ -142,6 +150,8 @@ export interface OptimizerWeights {
 }
 
 export interface OptimizerOptions {
+  /** Total automatic motion transition window in seconds. Default 1; 0 disables. */
+  motionTransitionSeconds?: number;
   /** Internal samples per second. Timeline boundaries/keyframes are always added. */
   optimizationFps?: number;
   /** Output samples per second. Defaults to the environment fpsHint. */

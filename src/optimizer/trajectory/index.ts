@@ -9,10 +9,10 @@ import {
   hardKeyframesAtTime,
 } from "../shared/keyframes";
 import {
+  dot3,
   normalizeQuat,
   scale3,
   sub3,
-  slerpQuat,
 } from "../shared/math";
 import { crossesCut } from "../shared/time";
 import type {
@@ -20,6 +20,11 @@ import type {
   CameraStateSample,
   CompiledLossPlan,
 } from "../types";
+import {
+  angularVelocity,
+  cubicHermite,
+  interpolateRotationWithVelocities,
+} from "./interpolation";
 
 export const CANONICAL_COORDINATES: CoordinateSystemV1 = {
   handedness: "right",
@@ -44,11 +49,11 @@ function bracket(states: readonly CameraStateSample[], time: number): [number, n
   return [low, high, span <= 0 ? 0 : (time - states[low]!.time) / span];
 }
 
-function positionTangent(
+function tangentNeighbors(
   states: readonly CameraStateSample[],
   index: number,
   cutTimes: readonly number[],
-): Vec3 {
+) {
   const current = states[index]!;
   const previous = index > 0 ? states[index - 1] : undefined;
   const next = index + 1 < states.length ? states[index + 1] : undefined;
@@ -56,84 +61,91 @@ function positionTangent(
     && !crossesCut(previous.time, current.time, cutTimes);
   const canUseNext = next !== undefined
     && !crossesCut(current.time, next.time, cutTimes);
-  if (canUsePrevious && canUseNext) {
-    return scale3(
-      sub3(next.position, previous.position),
-      1 / Math.max(1e-9, next.time - previous.time),
-    );
-  }
-  if (canUseNext) {
-    return scale3(
-      sub3(next.position, current.position),
-      1 / Math.max(1e-9, next.time - current.time),
-    );
-  }
-  if (canUsePrevious) {
-    return scale3(
-      sub3(current.position, previous.position),
-      1 / Math.max(1e-9, current.time - previous.time),
-    );
-  }
-  return [0, 0, 0];
+  return {
+    current,
+    previous: canUsePrevious ? previous : undefined,
+    next: canUseNext ? next : undefined,
+  };
 }
 
-function cubicPosition(
-  left: Vec3,
-  right: Vec3,
-  leftTangent: Vec3,
-  rightTangent: Vec3,
-  span: number,
-  alpha: number,
-): Vec3 {
-  const chord = sub3(right, left);
-  const chordLength = Math.hypot(...chord);
-  const maximumTangentLength = chordLength <= 1e-9 || span <= 1e-9
-    ? 0
-    : 2 * chordLength / span;
-  const boundedTangent = (tangent: Vec3): Vec3 => {
-    const length = Math.hypot(...tangent);
-    return length > maximumTangentLength
-      ? scale3(tangent, maximumTangentLength / length)
-      : tangent;
-  };
-  const boundedLeftTangent = boundedTangent(leftTangent);
-  const boundedRightTangent = boundedTangent(rightTangent);
-  // Fritsch-Carlson-style limiting on world Y prevents a cubic segment whose
-  // endpoints are safe from dipping below either endpoint between samples.
-  const verticalSlope = span <= 1e-9 ? 0 : (right[1] - left[1]) / span;
-  if (Math.abs(verticalSlope) <= 1e-12) {
-    boundedLeftTangent[1] = 0;
-    boundedRightTangent[1] = 0;
-  } else {
-    if (boundedLeftTangent[1] * verticalSlope <= 0) boundedLeftTangent[1] = 0;
-    if (boundedRightTangent[1] * verticalSlope <= 0) boundedRightTangent[1] = 0;
-    const leftRatio = boundedLeftTangent[1] / verticalSlope;
-    const rightRatio = boundedRightTangent[1] / verticalSlope;
-    const ratioLength = Math.hypot(leftRatio, rightRatio);
-    if (ratioLength > 3) {
-      const ratioScale = 3 / ratioLength;
-      boundedLeftTangent[1] = ratioScale * leftRatio * verticalSlope;
-      boundedRightTangent[1] = ratioScale * rightRatio * verticalSlope;
-    }
+/** PCHIP slopes keep zoom and height within their neighboring sample values. */
+function monotoneTangent(
+  previousSlope: number | undefined,
+  nextSlope: number | undefined,
+  previousSpan: number,
+  nextSpan: number,
+): number {
+  if (previousSlope === undefined) return nextSlope ?? 0;
+  if (nextSlope === undefined) return previousSlope;
+  if (previousSlope * nextSlope <= 0) return 0;
+  const previousWeight = 2 * nextSpan + previousSpan;
+  const nextWeight = nextSpan + 2 * previousSpan;
+  return (previousWeight + nextWeight)
+    / (previousWeight / previousSlope + nextWeight / nextSlope);
+}
+
+function limitTangent(tangent: Vec3, previous?: Vec3, next?: Vec3): Vec3 {
+  const maximumLength = 2 * Math.min(
+    previous ? Math.hypot(...previous) : Infinity,
+    next ? Math.hypot(...next) : Infinity,
+  );
+  const length = Math.hypot(...tangent);
+  return length > maximumLength ? scale3(tangent, maximumLength / length) : tangent;
+}
+
+function sampleTangent(
+  states: readonly CameraStateSample[],
+  index: number,
+  cutTimes: readonly number[],
+): { position: Vec3; angularVelocity: Vec3; fov: number } {
+  const { current, previous, next } = tangentNeighbors(states, index, cutTimes);
+  // The interval immediately before a cut holds its last pre-cut sample.
+  if (!next && index + 1 < states.length) {
+    return { position: [0, 0, 0], angularVelocity: [0, 0, 0], fov: 0 };
   }
-  const alpha2 = alpha * alpha;
-  const alpha3 = alpha2 * alpha;
-  const h00 = 2 * alpha3 - 3 * alpha2 + 1;
-  const h10 = alpha3 - 2 * alpha2 + alpha;
-  const h01 = -2 * alpha3 + 3 * alpha2;
-  const h11 = alpha3 - alpha2;
-  return [0, 1, 2].map((component) =>
-    h00 * left[component]!
-    + h10 * span * boundedLeftTangent[component]!
-    + h01 * right[component]!
-    + h11 * span * boundedRightTangent[component]!,
-  ) as Vec3;
+  const previousSpan = previous ? Math.max(1e-9, current.time - previous.time) : 0;
+  const nextSpan = next ? Math.max(1e-9, next.time - current.time) : 0;
+  const previousPosition = previous
+    ? scale3(sub3(current.position, previous.position), 1 / previousSpan) : undefined;
+  const nextPosition = next
+    ? scale3(sub3(next.position, current.position), 1 / nextSpan) : undefined;
+  const previousRotation = previous
+    ? angularVelocity(previous.rotation, current.rotation, previousSpan) : undefined;
+  const nextRotation = next
+    ? angularVelocity(current.rotation, next.rotation, nextSpan) : undefined;
+  const average = (incoming?: Vec3, outgoing?: Vec3): Vec3 => {
+    if (!incoming) return outgoing ? [...outgoing] : [0, 0, 0];
+    if (!outgoing) return [...incoming];
+    return incoming.map((value, component) =>
+      (nextSpan * value + previousSpan * outgoing[component]!) / (previousSpan + nextSpan),
+    ) as Vec3;
+  };
+  const position = average(previousPosition, nextPosition);
+  position[1] = monotoneTangent(
+    previousPosition?.[1], nextPosition?.[1], previousSpan, nextSpan,
+  );
+  let rotation = average(previousRotation, nextRotation);
+  // Stop at reversals that would otherwise start a segment rotating away from
+  // its endpoint. Limit once per knot so both adjacent segments share a rate.
+  if ((previousRotation && dot3(rotation, previousRotation) < 0)
+    || (nextRotation && dot3(rotation, nextRotation) < 0)) rotation = [0, 0, 0];
+  return {
+    position: limitTangent(position, previousPosition, nextPosition),
+    angularVelocity: limitTangent(rotation, previousRotation, nextRotation),
+    fov: monotoneTangent(
+      previous ? (current.fovYDegrees - previous.fovYDegrees) / previousSpan : undefined,
+      next ? (next.fovYDegrees - current.fovYDegrees) / nextSpan : undefined,
+      previousSpan,
+      nextSpan,
+    ),
+  };
 }
 
 function interpolateState(
   states: readonly CameraStateSample[],
   time: number,
   cutTimes: readonly number[],
+  tangents: readonly ReturnType<typeof sampleTangent>[],
 ): CameraStateSample {
   const [leftIndex, rightIndex, alpha] = bracket(states, time);
   const left = states[leftIndex]!;
@@ -153,18 +165,29 @@ function interpolateState(
     };
   }
   const span = right.time - left.time;
+  const leftTangent = tangents[leftIndex]!;
+  const rightTangent = tangents[rightIndex]!;
   return {
     time,
-    position: cubicPosition(
-      left.position,
-      right.position,
-      positionTangent(states, leftIndex, cutTimes),
-      positionTangent(states, rightIndex, cutTimes),
+    position: left.position.map((value, component) => cubicHermite(
+      value,
+      right.position[component]!,
+      leftTangent.position[component]!,
+      rightTangent.position[component]!,
+      span,
+      alpha,
+    )) as Vec3,
+    rotation: interpolateRotationWithVelocities(
+      left.rotation,
+      right.rotation,
+      leftTangent.angularVelocity,
+      rightTangent.angularVelocity,
       span,
       alpha,
     ),
-    rotation: slerpQuat(left.rotation, right.rotation, alpha),
-    fovYDegrees: left.fovYDegrees + (right.fovYDegrees - left.fovYDegrees) * alpha,
+    fovYDegrees: cubicHermite(
+      left.fovYDegrees, right.fovYDegrees, leftTangent.fov, rightTangent.fov, span, alpha,
+    ),
   };
 }
 
@@ -195,8 +218,9 @@ export function buildCameraTrajectory(
     ...(input.timeline.cutTimes ?? []),
     ...userKeyframes.filter((keyframe) => keyframe.cutBefore).map((keyframe) => keyframe.time),
   ];
+  const tangents = optimizedStates.map((_, index) => sampleTangent(optimizedStates, index, cutTimes));
   const samples: CameraSampleV1[] = outputTimes.map((time) => {
-    const state = interpolateState(optimizedStates, time, cutTimes);
+    const state = interpolateState(optimizedStates, time, cutTimes, tangents);
     applyHardKeyframesToState(state, hardKeyframesAtTime(userKeyframes, state.time));
     const hasHardPosition = hardKeyframesAtTime(userKeyframes, state.time).some(
       (keyframe) => keyframe.position !== undefined,

@@ -6,6 +6,7 @@ import {
 import type {
   CameraOptimizerInput,
   ConflictResolution,
+  MotionTransition,
   OptimizerWeights,
   PrimitiveLoss,
 } from "../types";
@@ -73,6 +74,24 @@ export function resolveBandConflicts({
       && subjectEntityKey(input, arcSubjects) === subjectEntityKey(input, dollySubjects);
     if (sameSubject) {
       const sharedEntityKey = subjectEntityKey(input, arcSubjects);
+      // The fused schedule replaces both actions' local radius/path losses.
+      // Preserve the transition edges from either contributor, even when the
+      // other action continues through the handoff.
+      const motionTransitions = [...new Map(bandPrimitives()
+        .filter((primitive) =>
+          subjectEntityKey(input, subjectIdsFromParameters(primitive.parameters)) === sharedEntityKey
+          && (
+            (primitive.sourceType === arcLoss.type && primitive.sourceActionId === arcLoss.sourceActionId)
+            || (primitive.sourceType === dollyLoss.type && primitive.sourceActionId === dollyLoss.sourceActionId)
+          ),
+        )
+        .flatMap((primitive) => primitive.parameters.motionTransitions as MotionTransition[] | undefined ?? [])
+        .filter((window) => [
+          arcSpan.sourceStartTime, arcSpan.sourceEndTime,
+          dollySpan.sourceStartTime, dollySpan.sourceEndTime,
+        ].some((edge) => Math.abs(window.boundaryTime - edge) <= 1e-8))
+        .map((window) => [window.boundaryTime, window] as const)).values()]
+        .sort((left, right) => left.boundaryTime - right.boundaryTime);
       const removed = removeWhere((primitive) =>
         subjectEntityKey(input, subjectIdsFromParameters(primitive.parameters)) === sharedEntityKey
         && (
@@ -100,6 +119,7 @@ export function resolveBandConflicts({
             ...(dollyLoss.parameters.speedKeyframes
               ? { speedKeyframes: dollyLoss.parameters.speedKeyframes }
               : {}),
+            ...(motionTransitions.length > 0 ? { motionTransitions } : {}),
             subjectIds: arcSubjects,
           },
         },

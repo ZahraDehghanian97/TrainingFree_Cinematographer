@@ -69,7 +69,7 @@
       "bounds": { "type": "box", "min": [-0.09, 0, -0.09], "max": [0.09, 3.4, 0.09] }
     }
   ],
-  "targets": [
+  "semanticAnchors": [
     {
       "id": "jogger",
       "entityId": "jogger-entity",

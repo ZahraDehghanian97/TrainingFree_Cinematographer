@@ -1,6 +1,6 @@
 import type { EnvironmentV1 } from "../../types/environment";
 import { LossFunctionType, type FlattenedTimeline, type TimeWarpSegment } from "../../types/solver";
-import type { UserCameraKeyframe } from "../types";
+import type { MotionTransition, UserCameraKeyframe } from "../types";
 import { clamp } from "./math";
 
 const MAX_ARC_STEP_DEGREES = 15;
@@ -49,6 +49,7 @@ export function buildOptimizationTimes(
   timeline: FlattenedTimeline,
   userKeyframes: readonly UserCameraKeyframe[],
   samplesPerSecond: number,
+  motionTransitions: readonly MotionTransition[] = [],
 ): number[] {
   const duration = environment.clock.durationSeconds;
   if (!Number.isFinite(samplesPerSecond) || samplesPerSecond <= 0) {
@@ -89,6 +90,12 @@ export function buildOptimizationTimes(
   }
   values.push(...(timeline.cutTimes ?? []));
   values.push(...userKeyframes.map((keyframe) => keyframe.time));
+  for (const window of motionTransitions) {
+    // Even short actions need enough samples to represent a smooth handoff.
+    for (let index = 0; index <= 8; index += 1) {
+      values.push(window.startTime + (window.endTime - window.startTime) * index / 8);
+    }
+  }
   return sortedUnique(values
     .map((time) => clamp(time, 0, duration))
     .filter((time) => time >= 0 && time <= duration));

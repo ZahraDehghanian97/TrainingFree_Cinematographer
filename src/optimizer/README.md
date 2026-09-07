@@ -111,6 +111,19 @@ direction.
 - Zoom sub-bands share fixed compile-time FOV targets instead of deriving a
   moving target from the state currently being optimized.
 - Smoothness and interpolation never bridge section/user cuts.
+- Changes of motion within a shot get an automatic transition window (one second
+  by default, shortened for nearby boundaries). `options.motionTransitionSeconds`
+  controls its total duration; zero disables it. Local action constraints ease
+  near the handoff and the initial trajectory blends incoming/outgoing velocity.
+  Aggregate distance/angle/zoom targets and safety weights retain full strength.
+  Extra optimization samples resolve short windows. Hard keyframes stay exact;
+  a channel with a hard keyframe inside a window keeps its original seed.
+- Output position, rotation, and FOV share tangents across sample boundaries,
+  keeping velocity continuous within shots. Height and FOV remain bounded by
+  their neighboring samples; zoom reversals retain their lens extremum.
+- Acceleration and jerk use one subject reference for each derivative window.
+  When that reference changes, the entire window uses world coordinates so a
+  real camera speed jump cannot be hidden by switching moving subjects.
 
 ## User keyframes
 

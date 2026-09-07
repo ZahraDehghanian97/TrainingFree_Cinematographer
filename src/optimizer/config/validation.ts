@@ -94,6 +94,11 @@ export function validateOptimizerInput(input: CameraOptimizerInput): void {
   }
 
   const options = input.options;
+  if (options?.motionTransitionSeconds !== undefined && (
+    !Number.isFinite(options.motionTransitionSeconds) || options.motionTransitionSeconds < 0
+  )) {
+    throw new Error("options.motionTransitionSeconds must be non-negative and finite");
+  }
   const positiveOptions: Array<[string, number | undefined]> = [
     ["optimizationFps", options?.optimizationFps],
     ["outputFps", options?.outputFps],
