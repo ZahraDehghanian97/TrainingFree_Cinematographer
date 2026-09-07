@@ -1,0 +1,213 @@
+{
+  "schemaVersion": "1.0",
+  "kind": "environment",
+  "id": "example-21-rooftop-chase",
+  "promptExampleId": "example-21",
+  "prompt": "Track the runner across the rooftop until the pursuer gets within 2.5 meters, then arc around the runner to reveal the pursuer while zooming in, and finish with a stabilized locked shot maintaining the same angle and keeping both of them visible.",
+  "clock": {
+    "durationSeconds": 10,
+    "timeDomain": "playback",
+    "fpsHint": 24
+  },
+  "coordinates": {
+    "handedness": "right",
+    "upAxis": "+Y",
+    "cameraForwardAxis": "-Z",
+    "lengthUnit": "meter",
+    "rotationOrder": "quaternion-xyzw"
+  },
+  "evaluation": {
+    "distanceMetric": "boundsSurface",
+    "epsilon": 0.001
+  },
+  "world": {
+    "background": "#0a0e14",
+    "overviewCamera": {
+      "position": [5, 6, 9],
+      "target": [0, 1, -1]
+    },
+    "ground": {
+      "y": 0,
+      "size": [16, 16],
+      "color": "#252932"
+    },
+    "grid": {
+      "size": 16,
+      "divisions": 16
+    }
+  },
+  "entities": [
+    {
+      "id": "runner-entity",
+      "label": "Runner",
+      "transform": {
+        "space": "world",
+        "position": {
+          "interpolation": "catmullRom",
+          "extrapolation": "hold",
+          "keyframes": [
+            {
+              "t": 0,
+              "value": [1.2, 0, 6]
+            },
+            {
+              "t": 5,
+              "value": [0.6, 0, 1]
+            },
+            {
+              "t": 10,
+              "value": [0.2, 0, -3]
+            }
+          ]
+        },
+        "rotation": {
+          "interpolation": "slerp",
+          "extrapolation": "hold",
+          "keyframes": [
+            {
+              "t": 0,
+              "value": [0, 0.9998, 0, -0.0175]
+            },
+            {
+              "t": 10,
+              "value": [0, 0.9998, 0, -0.0175]
+            }
+          ]
+        }
+      },
+      "visual": {
+        "type": "preset",
+        "name": "humanoid",
+        "params": {
+          "color": "#3f6fa0",
+          "shirtColor": "#3f6fa0",
+          "trouserColor": "#20242b"
+        }
+      },
+      "bounds": {
+        "type": "box",
+        "min": [-0.35, 0, -0.25],
+        "max": [0.35, 1.75, 0.25]
+      }
+    },
+    {
+      "id": "pursuer-entity",
+      "label": "Pursuer",
+      "transform": {
+        "space": "world",
+        "position": {
+          "interpolation": "catmullRom",
+          "extrapolation": "hold",
+          "keyframes": [
+            {
+              "t": 0,
+              "value": [1.6, 0, 11]
+            },
+            {
+              "t": 5,
+              "value": [0.9, 0, 3.2]
+            },
+            {
+              "t": 10,
+              "value": [0.5, 0, -1.5]
+            }
+          ]
+        },
+        "rotation": {
+          "interpolation": "slerp",
+          "extrapolation": "hold",
+          "keyframes": [
+            {
+              "t": 0,
+              "value": [0, 0.9998, 0, -0.0175]
+            },
+            {
+              "t": 10,
+              "value": [0, 0.9998, 0, -0.0175]
+            }
+          ]
+        }
+      },
+      "visual": {
+        "type": "preset",
+        "name": "humanoid",
+        "params": {
+          "color": "#8a3a3a",
+          "shirtColor": "#8a3a3a",
+          "trouserColor": "#202020"
+        }
+      },
+      "bounds": {
+        "type": "box",
+        "min": [-0.35, 0, -0.25],
+        "max": [0.35, 1.75, 0.25]
+      }
+    },
+    {
+      "id": "ac-unit-entity",
+      "label": "Rooftop AC unit",
+      "transform": {
+        "space": "world",
+        "position": [-1.4, 0, 2]
+      },
+      "visual": {
+        "type": "primitive",
+        "shape": "box",
+        "params": {
+          "size": [1.1, 1.3, 0.9]
+        },
+        "color": "#555b63"
+      },
+      "bounds": {
+        "type": "box",
+        "min": [-0.55, 0, -0.45],
+        "max": [0.55, 1.3, 0.45]
+      }
+    },
+    {
+      "id": "vent-pipe-entity",
+      "label": "Vent pipe",
+      "transform": {
+        "space": "world",
+        "position": [1.8, 0, -2.5]
+      },
+      "visual": {
+        "type": "primitive",
+        "shape": "box",
+        "params": {
+          "size": [0.3, 2.0, 0.3]
+        },
+        "color": "#6b7075"
+      },
+      "bounds": {
+        "type": "box",
+        "min": [-0.15, 0, -0.15],
+        "max": [0.15, 2.0, 0.15]
+      }
+    }
+  ],
+  "targets": [
+    {
+      "id": "runner",
+      "entityId": "runner-entity",
+      "label": "The runner",
+      "localAnchor": [0, 1.4, 0],
+      "localBounds": {
+        "type": "box",
+        "min": [-0.35, 0, -0.25],
+        "max": [0.35, 1.75, 0.25]
+      }
+    },
+    {
+      "id": "pursuer",
+      "entityId": "pursuer-entity",
+      "label": "The pursuer",
+      "localAnchor": [0, 1.4, 0],
+      "localBounds": {
+        "type": "box",
+        "min": [-0.35, 0, -0.25],
+        "max": [0.35, 1.75, 0.25]
+      }
+    }
+  ]
+}

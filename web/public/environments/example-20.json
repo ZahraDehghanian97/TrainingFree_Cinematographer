@@ -1,0 +1,88 @@
+{
+  "schemaVersion": "1.0",
+  "kind": "environment",
+  "id": "example-20-jogger-reveal",
+  "promptExampleId": "example-20",
+  "prompt": "Follow the jogger along the path, keeping the tree from blocking the shot, then crane up to reveal the fountain plaza as they arrive, and hold on them from a locked distance and angle.",
+  "clock": { "durationSeconds": 10, "timeDomain": "playback", "fpsHint": 24 },
+  "coordinates": {
+    "handedness": "right",
+    "upAxis": "+Y",
+    "cameraForwardAxis": "-Z",
+    "lengthUnit": "meter",
+    "rotationOrder": "quaternion-xyzw"
+  },
+  "evaluation": { "distanceMetric": "boundsSurface", "epsilon": 0.001 },
+  "world": {
+    "background": "#0d1a12",
+    "overviewCamera": { "position": [6, 6, 10], "target": [0, 1, 3] },
+    "ground": { "y": 0, "size": [20, 20], "color": "#1c2b1e" },
+    "grid": { "size": 20, "divisions": 20 }
+  },
+  "entities": [
+    {
+      "id": "jogger-entity",
+      "label": "Jogger",
+      "transform": {
+        "space": "world",
+        "position": {
+          "interpolation": "catmullRom",
+          "extrapolation": "hold",
+          "keyframes": [
+            { "t": 0,  "value": [0, 0, 8] },
+            { "t": 4,  "value": [0, 0, 2] },
+            { "t": 7,  "value": [0.2, 0, -0.5] },
+            { "t": 10, "value": [0.4, 0, -2] }
+          ]
+        },
+        "rotation": {
+          "interpolation": "slerp",
+          "extrapolation": "hold",
+          "keyframes": [
+            { "t": 0, "value": [0, 1, 0, 0] },
+            { "t": 10, "value": [0, 0.99619, 0, -0.08716] }
+          ]
+        }
+      },
+      "visual": { "type": "preset", "name": "humanoid", "params": { "color": "#d69a5a", "shirtColor": "#3a6b4c", "trouserColor": "#1c1f27" } },
+      "bounds": { "type": "box", "min": [-0.35, 0, -0.25], "max": [0.35, 1.75, 0.25] }
+    },
+    {
+      "id": "tree-entity",
+      "label": "Roadside tree",
+      "transform": { "space": "world", "position": [-1.8, 0, 4] },
+      "visual": { "type": "primitive", "shape": "box", "params": { "size": [0.5, 4.2, 0.5] }, "color": "#3f2d20" },
+      "bounds": { "type": "box", "min": [-0.25, 0, -0.25], "max": [0.25, 4.2, 0.25] }
+    },
+    {
+      "id": "fountain-entity",
+      "label": "Plaza fountain",
+      "transform": { "space": "world", "position": [0.5, 0, -3.5] },
+      "visual": { "type": "primitive", "shape": "box", "params": { "size": [2.4, 1.0, 2.4] }, "color": "#4a7a8c" },
+      "bounds": { "type": "box", "min": [-1.2, 0, -1.2], "max": [1.2, 1.0, 1.2] }
+    },
+    {
+      "id": "lamppost-entity",
+      "label": "Park lamppost",
+      "transform": { "space": "world", "position": [1.9, 0, 0.5] },
+      "visual": { "type": "primitive", "shape": "box", "params": { "size": [0.18, 3.4, 0.18] }, "color": "#2a2a2a" },
+      "bounds": { "type": "box", "min": [-0.09, 0, -0.09], "max": [0.09, 3.4, 0.09] }
+    }
+  ],
+  "targets": [
+    {
+      "id": "jogger",
+      "entityId": "jogger-entity",
+      "label": "The jogger",
+      "localAnchor": [0, 1.4, 0],
+      "localBounds": { "type": "box", "min": [-0.35, 0, -0.25], "max": [0.35, 1.75, 0.25] }
+    },
+    {
+        "id": "fountain",
+        "entityId": "fountain-entity",
+        "label": "Plaza fountain",
+        "localAnchor" :[0, 0.5, 0],
+        "localBounds" : { "type": "box", "min": [-1.2, 0, -1.2], "max": [1.2, 1.0, 1.2] }
+    }
+  ]
+}

@@ -1,0 +1,196 @@
+{
+  "schemaVersion": "1.0",
+  "kind": "environment",
+  "id": "example-22-warehouse-onetake",
+  "promptExampleId": "example-22",
+  "prompt": "Follow the worker past the shelving, arc-and-dolly in as they slow at the crates, arc up around them as they climb to the mezzanine, follow them back down toward the loading bay, pull back to reveal the coworker once close, orbit both with a dutch tilt, crane up and zoom out over the whole floor, then lock a final stabilized hold.",
+  "clock": {
+    "durationSeconds": 22,
+    "timeDomain": "playback",
+    "fpsHint": 24
+  },
+  "coordinates": {
+    "handedness": "right",
+    "upAxis": "+Y",
+    "cameraForwardAxis": "-Z",
+    "lengthUnit": "meter",
+    "rotationOrder": "quaternion-xyzw"
+  },
+  "evaluation": {
+    "distanceMetric": "boundsSurface",
+    "epsilon": 0.001
+  },
+  "world": {
+    "background": "#14171c",
+    "overviewCamera": {
+      "position": [10, 8, 12],
+      "target": [0, 1.5, -1]
+    },
+    "ground": {
+      "y": 0,
+      "size": [24, 24],
+      "color": "#20242b"
+    },
+    "grid": {
+      "size": 24,
+      "divisions": 24
+    }
+  },
+  "entities": [
+    {
+      "id": "worker-entity",
+      "label": "Worker",
+      "transform": {
+        "space": "world",
+        "position": {
+          "interpolation": "catmullRom",
+          "extrapolation": "hold",
+          "keyframes": [
+            {"t": 0,    "value": [4.0, 0, 6.0]},
+            {"t": 2.5,  "value": [1.6, 0, 2.4]},
+            {"t": 3.3,  "value": [1.4, 0, 2.0]},
+            {"t": 4.2,  "value": [1.35, 0, 1.9]},
+            {"t": 5.7,  "value": [1.1, 0.3, 1.5]},
+            {"t": 7.2,  "value": [0.7, 2.2, 0.8]},
+            {"t": 9.0,  "value": [0.3, 2.2, 0.0]},
+            {"t": 10.5, "value": [0.0, 1.1, -0.8]},
+            {"t": 12.0, "value": [-0.2, 0.0, -1.6]},
+            {"t": 13.8, "value": [-0.4, 0, -2.2]},
+            {"t": 16.3, "value": [-0.55, 0, -2.6]},
+            {"t": 18.8, "value": [-0.6, 0, -2.7]},
+            {"t": 22.0, "value": [-0.6, 0, -2.7]}
+          ]
+        },
+        "rotation": {
+          "interpolation": "slerp",
+          "extrapolation": "hold",
+          "keyframes": [
+            {"t": 0,  "value": [0, 0.9998, 0, -0.0175]},
+            {"t": 22, "value": [0, 0.9998, 0, -0.0175]}
+          ]
+        }
+      },
+      "visual": {
+        "type": "preset",
+        "name": "humanoid",
+        "params": {
+          "color": "#c9a15a",
+          "shirtColor": "#3a5f7d",
+          "trouserColor": "#1c1f27"
+        }
+      },
+      "bounds": {
+        "type": "box",
+        "min": [-0.35, 0, -0.25],
+        "max": [0.35, 1.75, 0.25]
+      }
+    },
+    {
+      "id": "coworker-entity",
+      "label": "Coworker",
+      "transform": {
+        "space": "world",
+        "position": {
+          "interpolation": "catmullRom",
+          "extrapolation": "hold",
+          "keyframes": [
+            {"t": 0,  "value": [-3.0, 0, -1.0]},
+            {"t": 5,  "value": [-1.6, 0, -1.4]},
+            {"t": 9,  "value": [-1.2, 0, -1.5]},
+            {"t": 12, "value": [-1.2, 0, -1.5]},
+            {"t": 22, "value": [-1.2, 0, -1.6]}
+          ]
+        },
+        "rotation": {
+          "interpolation": "slerp",
+          "extrapolation": "hold",
+          "keyframes": [
+            {"t": 0,  "value": [0, 0.7071, 0, 0.7071]},
+            {"t": 22, "value": [0, 0.7071, 0, 0.7071]}
+          ]
+        }
+      },
+      "visual": {
+        "type": "preset",
+        "name": "humanoid",
+        "params": {
+          "color": "#8a6a4a",
+          "shirtColor": "#5a3a3a",
+          "trouserColor": "#161616"
+        }
+      },
+      "bounds": {
+        "type": "box",
+        "min": [-0.35, 0, -0.25],
+        "max": [0.35, 1.75, 0.25]
+      }
+    },
+    {
+      "id": "shelving-entity",
+      "label": "Shelving unit",
+      "transform": {
+        "space": "world",
+        "position": [-0.6, 0.0, 4.2]
+      },
+      "visual": {
+        "type": "primitive",
+        "shape": "box",
+        "params": {
+          "size": [0.6, 2.6, 3.0]
+        },
+        "color": "#4a4f57"
+      },
+      "bounds": {
+        "type": "box",
+        "min": [-0.3, 0, -1.5],
+        "max": [0.3, 2.6, 1.5]
+      }
+    },
+    {
+      "id": "crate-stack-entity",
+      "label": "Crate stack",
+      "transform": {
+        "space": "world",
+        "position": [3.1, 0, 2.6]
+      },
+      "visual": {
+        "type": "primitive",
+        "shape": "box",
+        "params": {
+          "size": [1.3, 0.6, 1.3]
+        },
+        "color": "#8a5a2e"
+      },
+      "bounds": {
+        "type": "box",
+        "min": [-0.65, 0, -0.65],
+        "max": [0.65, 1.6, 0.65]
+      }
+    }
+  
+  ],
+  "targets": [
+    {
+      "id": "worker",
+      "entityId": "worker-entity",
+      "label": "The worker",
+      "localAnchor": [0, 1.4, 0],
+      "localBounds": {
+        "type": "box",
+        "min": [-0.35, 0, -0.25],
+        "max": [0.35, 1.75, 0.25]
+      }
+    },
+    {
+      "id": "coworker",
+      "entityId": "coworker-entity",
+      "label": "The coworker",
+      "localAnchor": [0, 1.4, 0],
+      "localBounds": {
+        "type": "box",
+        "min": [-0.35, 0, -0.25],
+        "max": [0.35, 1.75, 0.25]
+      }
+    }
+  ]
+}
