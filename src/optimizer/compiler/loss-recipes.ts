@@ -158,6 +158,19 @@ export function descriptorsForLoss(context: CompileBandContext): PrimitiveDescri
         { type: "stepPacing", channel: "regularity", role: "stabilizer", parameters: vertical, weightScale: 0.6 },
         { type: "stepPacing", channel: "regularity", role: "stabilizer", parameters: horizontal, weightScale: 0.6 },
         { type: "stepSmoothness", channel: "regularity", role: "stabilizer", parameters: vertical, weightScale: 0.45 },
+        // Unlike Follow/Track/SubjectView, Crane previously had NOTHING
+        // driving orientation toward the subject — it moved the camera
+        // through both axes with zero pull to keep looking anywhere in
+        // particular. More noticeable here than on a plain Dolly/Truck,
+        // since Crane's combined vertical+horizontal sweep changes the
+        // angle to the subject substantially over the move, where a simple
+        // dolly toward something already faced barely does. Naturally a
+        // no-op when no subject is given (subjects is {} in that case, and
+        // lookAt/levelHorizon just produce no residuals), so this is safe
+        // to add unconditionally, same as every other subject-aware recipe
+        // here.
+        { type: "lookAt", channel: "composition", role: "primary", parameters: subjects },
+        { type: "levelHorizon", channel: "rotation", role: "stabilizer" },
       ];
     }
     case LossFunctionType.PanLeftMovement:

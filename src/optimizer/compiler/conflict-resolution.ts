@@ -202,16 +202,27 @@ export function resolveBandConflicts({
   }
 
   // Release passive holds when an explicit action owns the same channel.
+  //
+  // BUG FIX: all three rules below previously had a
+  // `|| primitive.sourceType === LossFunctionType.Static` carve-out in
+  // their removal predicate, which stripped Static's OWN holds
+  // (positionHold/relativeOffsetHold/orientationHold/fovHold — all
+  // deliberately role:"primary" in Static's own recipe, unlike every other
+  // stabilizer here) whenever practically any composition loss co-occurred.
+  // Since a Static hold's accompanying ShotSize/FramingPosition (there to
+  // reinforce the framing it's holding) is the NORMAL way Static gets
+  // authored — not an edge case — this meant Static's "don't move"
+  // declaration was almost always being silently discarded, precisely when
+  // it mattered most. Confirmed on eye_breath_hold (example-18):
+  // orientationHold was removed there, and with nothing left to resist it,
+  // pitch swung ~26 degrees during what's supposed to be a dead-stop hold.
+  // Fixed by removing the Static carve-out from all three: they now only
+  // ever remove role:"stabilizer" holds, which was almost certainly the
+  // original intent — role:"primary" existing specifically so Static's
+  // holds can't be casually overridden.
   if (highLevelTypes.some((type) => TRANSLATION_TYPES.has(type))) {
     const removed = removeWhere((primitive) =>
-      (
-        primitive.type === "positionHold"
-        || (
-          primitive.type === "relativeOffsetHold"
-          && primitive.sourceType === LossFunctionType.Static
-        )
-      )
-      && (primitive.role === "stabilizer" || primitive.sourceType === LossFunctionType.Static),
+      primitive.type === "positionHold" && primitive.role === "stabilizer",
     );
     if (removed.length > 0) conflicts.push({
       interval: [band.startTime, band.endTime],
@@ -232,7 +243,7 @@ export function resolveBandConflicts({
         primitive.type === "orientationHold"
         || (hasPanOrTilt && primitive.type === "forwardHold")
       )
-      && (primitive.role === "stabilizer" || primitive.sourceType === LossFunctionType.Static),
+      && primitive.role === "stabilizer",
     );
     if (removed.length > 0) conflicts.push({
       interval: [band.startTime, band.endTime],
@@ -243,8 +254,7 @@ export function resolveBandConflicts({
   }
   if (highLevelTypes.some((type) => FOV_DRIVING_TYPES.has(type))) {
     const removed = removeWhere((primitive) =>
-      primitive.type === "fovHold"
-      && (primitive.role === "stabilizer" || primitive.sourceType === LossFunctionType.Static),
+      primitive.type === "fovHold" && primitive.role === "stabilizer",
     );
     if (removed.length > 0) conflicts.push({
       interval: [band.startTime, band.endTime],
