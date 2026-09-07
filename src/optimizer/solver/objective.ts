@@ -141,7 +141,7 @@ export class ObjectiveEvaluator {
       }
       if (primitive.type === "subjectView" && subjectIds.length > 1) {
         const entityIds = [...new Set(subjectIds.map((subjectId) =>
-          input.environment.targets.find((target) => target.id === subjectId)?.entityId
+          input.environment.semanticAnchors.find((anchor) => anchor.id === subjectId)?.entityId
             ?? subjectId,
         ))];
         if (entityIds.length > 1) {

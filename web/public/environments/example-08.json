@@ -75,7 +75,7 @@
       "bounds": { "type": "box", "min": [-0.72, -0.25, -0.72], "max": [0.72, 0.25, 0.72] }
     }
   ],
-  "targets": [
+  "semanticAnchors": [
     {
       "id": "fist",
       "entityId": "fist-entity",

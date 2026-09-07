@@ -5,7 +5,7 @@ import type {
   Keyframe,
   Quat,
   SceneEntityV1,
-  SceneTargetV1,
+  SceneSemanticAnchorV1,
   Vec3,
 } from "../types/environment";
 import type {
@@ -24,7 +24,7 @@ interface ResolvedSubject {
   id: string;
   kind: EnvironmentSubjectKind;
   entity: SceneEntityV1;
-  target?: SceneTargetV1;
+  semanticAnchor?: SceneSemanticAnchorV1;
   label?: string;
 }
 
@@ -303,18 +303,21 @@ function worldAabbForBounds(bounds: BoundsV1, transform: SampledTransform): Worl
 }
 
 export function resolveEnvironmentSubject(env: EnvironmentV1, subjectId: string): ResolvedSubject {
-  const target = env.targets.find((candidate) => candidate.id === subjectId);
-  if (target) {
-    const entity = env.entities.find((candidate) => candidate.id === target.entityId);
+  const semanticAnchor = env.semanticAnchors.find((candidate) => candidate.id === subjectId);
+  if (semanticAnchor) {
+    const entity = env.entities.find((candidate) => candidate.id === semanticAnchor.entityId);
     if (!entity) {
-      throw new Error(`Target ${JSON.stringify(subjectId)} references missing entity ${JSON.stringify(target.entityId)}`);
+      throw new Error(
+        `Semantic anchor ${JSON.stringify(subjectId)} references missing entity `
+        + JSON.stringify(semanticAnchor.entityId),
+      );
     }
     return {
       id: subjectId,
-      kind: "target",
+      kind: "semanticAnchor",
       entity,
-      target,
-      label: target.label ?? entity.label,
+      semanticAnchor,
+      label: semanticAnchor.label ?? entity.label,
     };
   }
 
@@ -328,7 +331,10 @@ export function resolveEnvironmentSubject(env: EnvironmentV1, subjectId: string)
     };
   }
 
-  const available = [...env.targets.map((targetItem) => targetItem.id), ...env.entities.map((entityItem) => entityItem.id)];
+  const available = [
+    ...env.entities.map((entityItem) => entityItem.id),
+    ...env.semanticAnchors.map((anchor) => anchor.id),
+  ];
   throw new Error(
     `Unknown environment subject ${JSON.stringify(subjectId)}. Available IDs: ${available.join(", ")}`,
   );
@@ -355,11 +361,11 @@ export function sampleEnvironmentSubject(
 ): SubjectBoxSampleV1 {
   const subject = resolveEnvironmentSubject(env, subjectId);
   const transform = sampledEntityTransform(subject.entity, timeSeconds);
-  const center = subject.target
-    ? transformLocalPoint(subject.target.localAnchor, transform)
-    : transform.position;
-  const localBounds = subject.target?.localBounds ?? subject.entity.bounds;
+  const localBounds = subject.semanticAnchor?.localBounds ?? subject.entity.bounds;
   const box = localBounds ? worldAabbForBounds(localBounds, transform) : null;
+  const center = subject.semanticAnchor
+    ? transformLocalPoint(subject.semanticAnchor.localAnchor, transform)
+    : box?.center ?? transform.position;
 
   return {
     subjectId,

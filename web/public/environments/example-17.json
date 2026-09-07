@@ -388,7 +388,7 @@
       }
     }
   ],
-  "targets": [
+  "semanticAnchors": [
     {
       "id": "runner",
       "entityId": "runner-entity",

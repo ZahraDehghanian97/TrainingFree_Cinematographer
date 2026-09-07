@@ -293,7 +293,7 @@ function bindSingleTarget(
   const targets = bindTargetList([reference], bindings) ?? [];
   if (targets.length !== 1) {
     throw new Error(
-      `DSL slot for ref ${JSON.stringify(reference.ref)} accepts exactly one runtime target`,
+      `DSL slot for ref ${JSON.stringify(reference.ref)} accepts exactly one runtime subject`,
     );
   }
   return targets[0]!;

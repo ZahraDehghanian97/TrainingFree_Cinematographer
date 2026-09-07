@@ -68,7 +68,7 @@
       "bounds": { "type": "box", "min": [-3, 0, -1.2], "max": [3, 2.5, 0.05] }
     }
   ],
-  "targets": [
+  "semanticAnchors": [
     {
       "id": "ball",
       "entityId": "ball-entity",

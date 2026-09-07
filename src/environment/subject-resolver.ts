@@ -10,9 +10,9 @@ import {
 } from "./query";
 
 function subjectBindingRequest(request: ResolveSubjectsRequest): string {
-  return `Bind the following semantic CSL subject references to runtime targets.
+  return `Bind the following semantic CSL subject references to optimizer-addressable environment subjects.
 The CSL has already assigned movement/framing/event roles. Do not reinterpret
-the camera direction; only identify matching recognized environment targets.
+the camera direction; only identify matching recognized entities or semantic anchors.
 
 Director prompt context:
 ${request.directorPrompt}

@@ -75,7 +75,7 @@
       "bounds": { "type": "box", "min": [-0.7, -0.06, -0.08], "max": [0.7, 0.06, 0.08] }
     }
   ],
-  "targets": [
+  "semanticAnchors": [
     {
       "id": "half_open_door",
       "entityId": "half-open-door-entity",

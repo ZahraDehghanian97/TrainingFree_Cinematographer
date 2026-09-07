@@ -141,7 +141,7 @@ function assertTrustedEnvironment(
     || value.coordinates.lengthUnit !== "meter"
     || value.coordinates.rotationOrder !== "quaternion-xyzw"
     || !Array.isArray(value.entities)
-    || !Array.isArray(value.targets)
+    || !Array.isArray(value.semanticAnchors)
   ) {
     throw new Error(`Environment ${JSON.stringify(expectedId)} has an invalid document shape.`);
   }
@@ -179,19 +179,26 @@ function assertTrustedEnvironment(
     if (candidate.bounds !== undefined) assertBounds(candidate.bounds, `${entityPath}.bounds`);
   });
 
-  const targetIds = new Set<string>();
-  value.targets.forEach((candidate, index) => {
-    const targetPath = `targets[${index}]`;
-    if (!isRecord(candidate)) throw new Error(`${targetPath} must be an object.`);
-    assertNonEmptyString(candidate.id, `${targetPath}.id`);
-    assertNonEmptyString(candidate.entityId, `${targetPath}.entityId`);
-    if (targetIds.has(candidate.id)) throw new Error(`Duplicate target ID ${JSON.stringify(candidate.id)}.`);
-    if (!entityIds.has(candidate.entityId)) {
-      throw new Error(`${targetPath}.entityId references missing entity ${JSON.stringify(candidate.entityId)}.`);
+  const semanticAnchorIds = new Set<string>();
+  value.semanticAnchors.forEach((candidate, index) => {
+    const anchorPath = `semanticAnchors[${index}]`;
+    if (!isRecord(candidate)) throw new Error(`${anchorPath} must be an object.`);
+    assertNonEmptyString(candidate.id, `${anchorPath}.id`);
+    assertNonEmptyString(candidate.entityId, `${anchorPath}.entityId`);
+    if (semanticAnchorIds.has(candidate.id)) {
+      throw new Error(`Duplicate semantic anchor ID ${JSON.stringify(candidate.id)}.`);
     }
-    targetIds.add(candidate.id);
-    assertFiniteTuple(candidate.localAnchor, 3, `${targetPath}.localAnchor`);
-    if (candidate.localBounds !== undefined) assertBounds(candidate.localBounds, `${targetPath}.localBounds`);
+    if (entityIds.has(candidate.id)) {
+      throw new Error(
+        `Semantic anchor ID ${JSON.stringify(candidate.id)} conflicts with an entity ID.`,
+      );
+    }
+    if (!entityIds.has(candidate.entityId)) {
+      throw new Error(`${anchorPath}.entityId references missing entity ${JSON.stringify(candidate.entityId)}.`);
+    }
+    semanticAnchorIds.add(candidate.id);
+    assertFiniteTuple(candidate.localAnchor, 3, `${anchorPath}.localAnchor`);
+    if (candidate.localBounds !== undefined) assertBounds(candidate.localBounds, `${anchorPath}.localBounds`);
   });
 }
 

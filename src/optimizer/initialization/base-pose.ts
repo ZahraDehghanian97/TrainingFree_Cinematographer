@@ -36,7 +36,7 @@ function firstAvailableSubject(
     if (subject) return subject;
   }
 
-  const fallbackId = input.environment.targets[0]?.id
+  const fallbackId = input.environment.semanticAnchors[0]?.id
     ?? input.environment.entities[0]?.id;
   if (!fallbackId) return undefined;
   const sceneTime = playbackToSceneTime(

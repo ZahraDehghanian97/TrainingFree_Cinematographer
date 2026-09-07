@@ -45,7 +45,7 @@
       "visual": { "type": "primitive", "shape": "sphere", "params": { "radius": 0.018 }, "color": "#4aa8ff" }
     }
   ],
-  "targets": [
+  "semanticAnchors": [
     {
       "id": "subject",
       "entityId": "subject-entity",

@@ -221,7 +221,7 @@
       }
     }
   ],
-  "targets": [
+  "semanticAnchors": [
     {
       "id": "subject",
       "entityId": "subject-entity",

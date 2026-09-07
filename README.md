@@ -28,8 +28,8 @@ The live flow is:
 ```text
 prompt
   -> director LLM -> validated semantic CameraDirectionDraft (no runtime IDs)
-  -> grounding LLM + selected EnvironmentV1 -> validated target bindings
-  -> deterministic binder -> resolved CSL with environment target IDs
+  -> grounding LLM + selected EnvironmentV1 -> validated subject bindings
+  -> deterministic binder -> resolved CSL with environment subject IDs
   -> timeline solver + 4D environment events -> flattened timeline
   -> trajectory optimizer -> CameraTrajectoryV1
   -> Camera Lab 4D playback (God view / Director POV)
@@ -79,7 +79,7 @@ changing `.env`; environment settings are loaded once per server process.
 The visualizer is data-driven:
 
 - `web/public/environments/manifest.json` is the environment catalog.
-- `web/public/environments/example-01.json` through `example-19.json` contain scene geometry, semantic targets, and object tracks.
+- `web/public/environments/example-01.json` through `example-19.json` contain scene geometry, optional semantic anchors, and object tracks.
 - `src/types/environment.ts` defines the environment contract.
 - `src/types/trajectory.ts` defines accepted camera documents.
 - `web/public/trajectories/ai-generated/example-01-camera.json` through
@@ -170,8 +170,11 @@ The example pipeline has an explicit `EXAMPLE_BINDING_MODE` hyperparameter:
 `llm` experiment; it is no longer the canonical example catalog.
 
 A draft subject is `{ ref, description }`, where `ref` is only a CSL-local
-correlation key. A resolved target is `{ id, description }`, where `id` is an
-optimizer-addressable runtime target/track ID returned by the 4D module.
+correlation key. A resolved camera target is `{ id, description }`, where `id`
+is an optimizer-addressable runtime subject ID returned by the 4D module.
+Every environment entity is addressable by its own ID. Optional
+`semanticAnchors` add named points or regions within an entity—such as a face,
+eye, hand, or impact point—without acting as an allowlist for whole objects.
 Exact groups can declare `cardinality: { min: 2, max: 2 }`. Movement-axis
 references remain independent from framing references. Truck (camera-right) and
 Pedestal (world-up) are subjectless translations and therefore do not carry
@@ -180,7 +183,7 @@ composed during those moves.
 
 Supported requests include:
 
-- batch-binding semantic CSL references to runtime environment targets,
+- batch-binding semantic CSL references to runtime environment subjects,
 - world-space 3D subject boxes at one playback time,
 - subject boxes over a time range,
 - the first time two subjects are within a requested distance,

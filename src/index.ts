@@ -232,7 +232,7 @@ function loadExampleEnvironment(fixture: ResolvedPromptExampleFixture): Environm
     environment.schemaVersion !== "1.0"
     || environment.kind !== "environment"
     || !Array.isArray(environment.entities)
-    || !Array.isArray(environment.targets)
+    || !Array.isArray(environment.semanticAnchors)
   ) {
     throw new Error(`Environment ${environmentPath} is not an EnvironmentV1 document`);
   }

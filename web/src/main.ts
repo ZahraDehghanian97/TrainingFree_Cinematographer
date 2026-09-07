@@ -1030,7 +1030,7 @@ function refreshDrawer(): void {
   let empty: string;
   switch (activeDrawerTab) {
     case "environment":
-      note = "The selected environment is authoritative: renderable entities, semantic targets, and world-space motion over playback time.";
+      note = "The selected environment is authoritative: renderable entities, optional semantic anchors, and world-space motion over playback time.";
       value = environment;
       empty = "No environment loaded.";
       break;
@@ -1127,7 +1127,7 @@ function closeDrawer(): void {
 
 function cameraTemplate(env: EnvironmentV1): CameraPath4dV1 {
   const duration = env.clock.durationSeconds;
-  const targetId = env.targets[0]?.id;
+  const targetId = env.semanticAnchors[0]?.id ?? env.entities[0]?.id;
   return {
     schemaVersion: "1.0",
     kind: "cameraPath4d",

@@ -70,7 +70,7 @@ Timing and intent:
 Subject rules:
 - dollyIn, dollyOut, arcLeft, arcRight, orbit, follow, and track require movement.targets.
 - truckLeft, truckRight, pedestalUp, and pedestalDown must not have movement.targets; put subjects in framing constraints instead.
-- Subject-aware initial framing needs semantic targets. Use cardinality for explicit groups, such as {min:2,max:2} for exactly two actors.
+- Subject-aware initial framing needs semantic subject references in its targets list. Use cardinality for explicit groups, such as {min:2,max:2} for exactly two actors.
 - Every subjectAware camera constraint needs targets. keepInFrame, maintainDistance, maintainAngle, and avoidOcclusion general constraints also need targets.
 - A subjectAware config uses cameraAngle. Never emit cameraVerticalAngle; that is an internal optimizer loss name, not a CSL field.
 - Movement targets define motion axes/centers; constraint targets define framing and composition. Do not conflate them.

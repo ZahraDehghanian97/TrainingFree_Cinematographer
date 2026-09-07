@@ -330,7 +330,7 @@
       }
     }
   ],
-  "targets": [
+  "semanticAnchors": [
     {
       "id": "dancer",
       "entityId": "dancer-entity",

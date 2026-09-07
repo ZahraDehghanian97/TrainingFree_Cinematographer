@@ -14,7 +14,7 @@ export interface WorldAabbV1 {
   size: Vec3;
 }
 
-export type EnvironmentSubjectKind = "target" | "entity";
+export type EnvironmentSubjectKind = "semanticAnchor" | "entity";
 
 export interface SubjectBoxSampleV1 {
   subjectId: string;
@@ -41,7 +41,7 @@ export const environmentQuerySchema = z.discriminatedUnion("type", [
   z.strictObject({
     type: z.literal("resolveSubjectReferences"),
     bindings: z.array(subjectBindingSchema).min(1)
-      .describe("Bindings from CSL-local semantic refs to runtime environment target IDs"),
+      .describe("Bindings from CSL-local semantic refs to optimizer-addressable environment subject IDs"),
   }),
   z.strictObject({
     type: z.literal("subjectBoxesAtTime"),

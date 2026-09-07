@@ -13,6 +13,7 @@ export function subjectEntityKey(
   subjectIds: readonly string[],
 ): string {
   return [...new Set(subjectIds.map((subjectId) =>
-    input.environment.targets.find((target) => target.id === subjectId)?.entityId ?? subjectId,
+    input.environment.semanticAnchors.find((anchor) => anchor.id === subjectId)?.entityId
+      ?? subjectId,
   ))].sort().join("|");
 }

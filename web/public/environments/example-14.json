@@ -251,7 +251,7 @@
       }
     }
   ],
-  "targets": [
+  "semanticAnchors": [
     {
       "id": "actor",
       "entityId": "actor-entity",

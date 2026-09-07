@@ -738,7 +738,7 @@ export function trajectoryCompatibilityDiagnostics(
   return diagnostics;
 }
 
-function assertTargetCompatibility(
+function assertLookAtTargetCompatibility(
   trajectory: CameraTrajectoryV1,
   environment: EnvironmentV1 | undefined,
 ): void {
@@ -746,10 +746,14 @@ function assertTargetCompatibility(
     return;
   }
   const targetId = trajectory.orientation.targetId;
-  if (!environment.targets.some((target) => target.id === targetId)) {
+  const hasSemanticAnchor = environment.semanticAnchors.some(
+    (semanticAnchor) => semanticAnchor.id === targetId,
+  );
+  const hasEntity = environment.entities.some((entity) => entity.id === targetId);
+  if (!hasSemanticAnchor && !hasEntity) {
     throw new DataValidationError(
       "$.orientation.targetId",
-      `selected environment has no target ${JSON.stringify(targetId)}`,
+      `selected environment has no semantic anchor or entity ${JSON.stringify(targetId)}`,
       "missing-reference",
     );
   }
@@ -788,7 +792,7 @@ export function parseCameraTrajectory(
     );
   }
 
-  assertTargetCompatibility(trajectory, options.environment);
+  assertLookAtTargetCompatibility(trajectory, options.environment);
   const diagnostics = trajectoryCompatibilityDiagnostics(
     trajectory,
     options.environment,

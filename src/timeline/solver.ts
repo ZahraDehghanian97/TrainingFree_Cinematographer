@@ -170,7 +170,7 @@ function assignExplicitDuration(
 
 function resolvedTargetId(target: CameraTargetDescriptor): string {
   if ("id" in target && typeof target.id === "string") return target.id;
-  throw new Error("Environment event triggers require resolved target IDs");
+  throw new Error("Environment event triggers require resolved subject IDs");
 }
 
 function resolveEnvironmentEventSceneTime(

@@ -433,7 +433,7 @@
       }
     }
   ],
-  "targets": [
+  "semanticAnchors": [
     {
       "id": "detective",
       "entityId": "detective-entity",

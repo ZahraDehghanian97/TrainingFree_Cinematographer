@@ -54,8 +54,8 @@ export function getEnvironmentQueryModel(): string {
 
 function availableSubjectIds(env: EnvironmentV1): Set<string> {
   return new Set([
-    ...env.targets.map((target) => target.id),
     ...env.entities.map((entity) => entity.id),
+    ...env.semanticAnchors.map((semanticAnchor) => semanticAnchor.id),
   ]);
 }
 
@@ -64,17 +64,6 @@ function validateSubjectIds(env: EnvironmentV1, ids: string[]): void {
   const unknown = ids.filter((id) => !available.has(id));
   if (unknown.length > 0) {
     throw new Error(`LLM returned unknown environment subject ID(s): ${unknown.join(", ")}`);
-  }
-}
-
-function validateRuntimeTargetIds(env: EnvironmentV1, ids: string[]): void {
-  const availableTargets = new Set(env.targets.map((target) => target.id));
-  const invalid = ids.filter((id) => !availableTargets.has(id));
-  if (invalid.length > 0) {
-    throw new Error(
-      `LLM returned non-target runtime subject ID(s): ${invalid.join(", ")}. `
-      + "CSL references must bind to semantic environment target IDs.",
-    );
   }
 }
 
@@ -100,15 +89,18 @@ function referencedSubjectIds(query: EnvironmentQuery): string[] {
 }
 
 function subjectIndex(env: EnvironmentV1): string {
-  const targetLines = env.targets.map((target) => {
-    const entity = env.entities.find((candidate) => candidate.id === target.entityId);
-    return `- target ${target.id}: ${target.label ?? target.id} (entity: ${target.entityId}${entity?.label ? `, ${entity.label}` : ""})`;
+  const entitiesById = new Map(env.entities.map((entity) => [entity.id, entity]));
+  const semanticAnchorLines = env.semanticAnchors.map((semanticAnchor) => {
+    const entity = entitiesById.get(semanticAnchor.entityId);
+    return `- semanticAnchor ${semanticAnchor.id}: ${semanticAnchor.label ?? semanticAnchor.id} `
+      + `(parent entity: ${semanticAnchor.entityId}${entity?.label ? `, ${entity.label}` : ""}; `
+      + `local position: ${JSON.stringify(semanticAnchor.localAnchor)})`;
   });
-  const targetEntityIds = new Set(env.targets.map((target) => target.entityId));
-  const entityLines = env.entities
-    .filter((entity) => !targetEntityIds.has(entity.id))
-    .map((entity) => `- entity ${entity.id}: ${entity.label ?? entity.id}`);
-  return [...targetLines, ...entityLines].join("\n");
+  const entityLines = env.entities.map((entity) => (
+    `- entity ${entity.id}: ${entity.label ?? entity.id} (whole renderable object; visual: `
+    + `${entity.visual.type === "preset" ? entity.visual.name : entity.visual.shape})`
+  ));
+  return [...semanticAnchorLines, ...entityLines].join("\n");
 }
 
 function parserPrompt(env: EnvironmentV1, request: string): string {
@@ -117,16 +109,17 @@ Return only the structured query; do not calculate the answer yourself.
 
 Rules:
 - Use subject IDs exactly as listed below; never invent IDs.
-- Prefer semantic target IDs over entity IDs when both refer to the same subject.
+- Both entity and semanticAnchor IDs are optimizer-addressable.
+- Entity IDs address whole renderable objects without requiring an anchor. Prefer a semanticAnchor ID when its label is a more exact semantic match or it provides the requested focal feature/region; otherwise use the entity ID.
 - A request containing CSL-local subject refs and descriptions that need runtime
   IDs => resolveSubjectReferences.
 - For resolveSubjectReferences, preserve every supplied ref exactly and return
   one binding per ref. The CSL has already decided each subject's cinematic role;
-  only ground its description to optimizer-addressable environment targets.
-- A ref may resolve to multiple targets only when its description denotes a
-  group. If no target matches, use notFound. If multiple interpretations remain,
-  use ambiguous and list only plausible target IDs.
-- Resolved and candidate IDs must be semantic target IDs, never bare entity IDs.
+  only ground its description to optimizer-addressable environment subjects.
+- A ref may resolve to multiple subjects only when its description denotes a
+  group. If no subject matches, use notFound. If multiple interpretations remain,
+  use ambiguous and list only plausible subject IDs.
+- Resolved and candidate IDs may be entity or semanticAnchor IDs listed below.
 - All times are seconds.
 - Convert distance units to meters.
 - Convert speeds to meters/second (for example 72 km/h = 20 m/s).
@@ -141,7 +134,7 @@ Examples:
 - "Bind ref pupil_ref described as the subject's pupil" =>
   resolveSubjectReferences binding pupil_ref to pupil
 - "Bind ref actors_ref described as both actors" =>
-  resolveSubjectReferences binding actors_ref to both actor target IDs
+  resolveSubjectReferences binding actors_ref to both actor entity IDs
 - "باکس توپ در ثانیه 3 کجاست؟" => subjectBoxesAtTime
 - "باکس توپ و بازیکن را از ثانیه 2 تا 5 بده" => subjectBoxesInRange
 - "کی بازیکن به دو متری توپ رسید؟" => firstWithinDistance
@@ -173,9 +166,6 @@ export async function parseEnvironmentQuery(
 
   const query = environmentQuerySchema.parse(result.output);
   validateSubjectIds(env, referencedSubjectIds(query));
-  if (query.type === "resolveSubjectReferences") {
-    validateRuntimeTargetIds(env, referencedSubjectIds(query));
-  }
   return query;
 }
 

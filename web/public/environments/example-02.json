@@ -47,7 +47,7 @@
       "visual": { "type": "primitive", "shape": "box", "params": { "size": [0.25, 2.4, 0.25] }, "color": "#ff9e3d" }
     }
   ],
-  "targets": [
+  "semanticAnchors": [
     {
       "id": "man_face",
       "entityId": "man-entity",

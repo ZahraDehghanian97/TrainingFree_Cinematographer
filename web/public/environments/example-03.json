@@ -49,7 +49,7 @@
       "bounds": { "type": "box", "min": [-0.68, 0, -0.15], "max": [0.68, 1.15, 0.15] }
     }
   ],
-  "targets": [
+  "semanticAnchors": [
     {
       "id": "vase",
       "entityId": "vase-entity",

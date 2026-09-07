@@ -105,7 +105,7 @@
       "bounds": { "type": "sphere", "center": [0, 0, 0], "radius": 0.12 }
     }
   ],
-  "targets": [
+  "semanticAnchors": [
     {
       "id": "half_open_door",
       "entityId": "half-open-door-v2-entity",

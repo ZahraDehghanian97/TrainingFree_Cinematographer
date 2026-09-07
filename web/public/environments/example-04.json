@@ -84,7 +84,7 @@
       "visual": { "type": "primitive", "shape": "box", "params": { "size": [0.12, 0.03, 55] }, "color": "#d8d6bd" }
     }
   ],
-  "targets": [
+  "semanticAnchors": [
     {
       "id": "car",
       "entityId": "car-entity",

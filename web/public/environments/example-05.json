@@ -52,7 +52,7 @@
       "visual": { "type": "primitive", "shape": "box", "params": { "size": [22, 6, 0.3] }, "color": "#34384a" }
     }
   ],
-  "targets": [
+  "semanticAnchors": [
     {
       "id": "actor_face",
       "entityId": "actor-entity",

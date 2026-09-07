@@ -22,7 +22,7 @@ export function validateOptimizerInput(input: CameraOptimizerInput): void {
     input.environment?.schemaVersion !== "1.0"
     || input.environment?.kind !== "environment"
     || !Array.isArray(input.environment.entities)
-    || !Array.isArray(input.environment.targets)
+    || !Array.isArray(input.environment.semanticAnchors)
     || input.environment.coordinates?.handedness !== "right"
     || input.environment.coordinates?.upAxis !== "+Y"
     || input.environment.coordinates?.cameraForwardAxis !== "-Z"

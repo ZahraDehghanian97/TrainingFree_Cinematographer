@@ -59,7 +59,7 @@
       "visual": { "type": "primitive", "shape": "box", "params": { "size": [0.18, 0.04, 330] }, "color": "#e9e6d3" }
     }
   ],
-  "targets": [
+  "semanticAnchors": [
     {
       "id": "race_car",
       "entityId": "race-car-entity",

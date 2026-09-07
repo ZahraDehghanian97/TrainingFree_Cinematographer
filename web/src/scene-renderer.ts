@@ -41,7 +41,7 @@ interface LabelRecord {
   texture: THREE.CanvasTexture;
 }
 
-interface TargetMarkerRecord {
+interface SemanticAnchorMarkerRecord {
   entityId: string;
   localAnchor: THREE.Vector3;
   marker: THREE.Object3D;
@@ -54,6 +54,16 @@ const WORLD_UP = new THREE.Vector3(0, 1, 0);
 
 function vec3(value: Vec3): THREE.Vector3 {
   return new THREE.Vector3(value[0], value[1], value[2]);
+}
+
+function boundsCenter(bounds: BoundsV1 | undefined): THREE.Vector3 {
+  if (bounds === undefined) return new THREE.Vector3();
+  if (bounds.type === "sphere") return vec3(bounds.center);
+  return new THREE.Vector3(
+    (bounds.min[0] + bounds.max[0]) / 2,
+    (bounds.min[1] + bounds.max[1]) / 2,
+    (bounds.min[2] + bounds.max[2]) / 2,
+  );
 }
 
 function cloneSample(sample: CameraSampleV1): CameraSampleV1 {
@@ -584,9 +594,10 @@ export class SceneRenderer {
   private readonly trajectoryRoot = new THREE.Group();
   private readonly overlayRoot = new THREE.Group();
   private readonly entityObjects = new Map<string, THREE.Object3D>();
+  private readonly entitySubjectCenters = new Map<string, THREE.Vector3>();
   private readonly boundsObjects: THREE.Object3D[] = [];
   private readonly labels: LabelRecord[] = [];
-  private readonly targetMarkers = new Map<string, TargetMarkerRecord>();
+  private readonly semanticAnchorMarkers = new Map<string, SemanticAnchorMarkerRecord>();
   private readonly currentCameraMarker: THREE.Mesh;
   /** Display-only proxy: its capped far plane keeps the helper legible. */
   private readonly helperCamera = new THREE.PerspectiveCamera(50, 1, 0.05, 5);
@@ -698,12 +709,22 @@ export class SceneRenderer {
     return this.currentSample ? cloneSample(this.currentSample) : null;
   }
 
+  /** Resolves a lookAtTarget ID to either a semantic anchor or an entity origin. */
   getTargetPosition(targetId: string): THREE.Vector3 | null {
-    const record = this.targetMarkers.get(targetId);
-    const entity = record ? this.entityObjects.get(record.entityId) : undefined;
-    if (!record || !entity) return null;
+    const semanticAnchor = this.semanticAnchorMarkers.get(targetId);
+    if (semanticAnchor) {
+      const entity = this.entityObjects.get(semanticAnchor.entityId);
+      if (!entity) return null;
+      entity.updateWorldMatrix(true, false);
+      return semanticAnchor.localAnchor.clone().applyMatrix4(entity.matrixWorld);
+    }
+
+    const entity = this.entityObjects.get(targetId);
+    if (!entity) return null;
     entity.updateWorldMatrix(true, false);
-    return record.localAnchor.clone().applyMatrix4(entity.matrixWorld);
+    return (this.entitySubjectCenters.get(targetId) ?? new THREE.Vector3())
+      .clone()
+      .applyMatrix4(entity.matrixWorld);
   }
 
   setEnvironment(environment: EnvironmentV1): void {
@@ -723,6 +744,7 @@ export class SceneRenderer {
       root.add(createEntityVisual(entity));
       this.environmentRoot.add(root);
       this.entityObjects.set(entity.id, root);
+      this.entitySubjectCenters.set(entity.id, boundsCenter(entity.bounds));
 
       if (entity.bounds) {
         const bounds = createBoundsVisual(entity.bounds, 0x4aa8ff);
@@ -731,17 +753,17 @@ export class SceneRenderer {
       }
     }
 
-    for (const target of environment.targets) {
-      const entity = this.entityObjects.get(target.entityId);
+    for (const semanticAnchor of environment.semanticAnchors) {
+      const entity = this.entityObjects.get(semanticAnchor.entityId);
       if (!entity) continue;
-      if (target.localBounds) {
-        const bounds = createBoundsVisual(target.localBounds, 0xffb454);
+      if (semanticAnchor.localBounds) {
+        const bounds = createBoundsVisual(semanticAnchor.localBounds, 0xffb454);
         entity.add(bounds);
         this.boundsObjects.push(bounds);
       }
 
       const marker = new THREE.Group();
-      marker.name = `target:${target.id}`;
+      marker.name = `semantic-anchor:${semanticAnchor.id}`;
       const dot = basicMesh(
         new THREE.OctahedronGeometry(0.085, 0),
         standardMaterial("#ffb454", {
@@ -751,16 +773,16 @@ export class SceneRenderer {
       );
       dot.castShadow = false;
       marker.add(dot);
-      if (target.label) {
-        const label = createLabel(target.label);
+      if (semanticAnchor.label) {
+        const label = createLabel(semanticAnchor.label);
         label.sprite.position.set(0, 0.28, 0);
         marker.add(label.sprite);
         this.labels.push(label);
       }
       this.overlayRoot.add(marker);
-      this.targetMarkers.set(target.id, {
-        entityId: target.entityId,
-        localAnchor: vec3(target.localAnchor),
+      this.semanticAnchorMarkers.set(semanticAnchor.id, {
+        entityId: semanticAnchor.entityId,
+        localAnchor: vec3(semanticAnchor.localAnchor),
         marker,
       });
     }
@@ -849,7 +871,7 @@ export class SceneRenderer {
         object.scale.fromArray(transform.scale);
       }
       this.environmentRoot.updateMatrixWorld(true);
-      this.updateTargetMarkers();
+      this.updateSemanticAnchorMarkers();
     }
 
     if (this.trajectory) {
@@ -1091,8 +1113,8 @@ export class SceneRenderer {
     return tangent.normalize();
   }
 
-  private updateTargetMarkers(): void {
-    for (const record of this.targetMarkers.values()) {
+  private updateSemanticAnchorMarkers(): void {
+    for (const record of this.semanticAnchorMarkers.values()) {
       const entity = this.entityObjects.get(record.entityId);
       if (!entity) continue;
       record.marker.position.copy(record.localAnchor).applyMatrix4(entity.matrixWorld);
@@ -1108,8 +1130,8 @@ export class SceneRenderer {
     this.labels.forEach(({ sprite }) => {
       sprite.visible = showSemanticOverlays;
     });
-    this.targetMarkers.forEach(({ marker }) => {
-      // Keep semantic target dots tied to the labels toggle too.
+    this.semanticAnchorMarkers.forEach(({ marker }) => {
+      // Keep semantic anchor dots tied to the labels toggle too.
       marker.visible = showSemanticOverlays;
     });
     const showCameraOverlay = this.viewMode === "god" && this.trajectory !== null;
@@ -1122,9 +1144,10 @@ export class SceneRenderer {
     this.labels.length = 0;
     this.boundsObjects.length = 0;
     this.entityObjects.clear();
-    this.targetMarkers.clear();
+    this.entitySubjectCenters.clear();
+    this.semanticAnchorMarkers.clear();
     for (const child of [...this.environmentRoot.children]) disposeObject(child);
-    // Target marker objects are overlay children; preserve the camera overlays.
+    // Semantic anchor marker objects are overlay children; preserve the camera overlays.
     for (const child of [...this.overlayRoot.children]) {
       if (child !== this.currentCameraMarker && child !== this.cameraHelper) disposeObject(child);
     }

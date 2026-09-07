@@ -382,15 +382,26 @@ export function assertEnvironmentV1(value: unknown): asserts value is Environmen
     entityIds.add(candidate.id);
   });
 
-  const targets = expectArray(environment.targets, "$.targets");
-  const targetIds = new Set<string>();
-  targets.forEach((candidate, index) => {
-    const path = `$.targets[${index}]`;
-    const target = expectObject(candidate, path);
-    const id = expectNonEmptyString(target.id, `${path}.id`);
-    const entityId = expectNonEmptyString(target.entityId, `${path}.entityId`);
-    if (targetIds.has(id)) {
-      fail(`${path}.id`, `duplicate target id ${JSON.stringify(id)}`, "duplicate-id");
+  const semanticAnchors = expectArray(environment.semanticAnchors, "$.semanticAnchors");
+  const semanticAnchorIds = new Set<string>();
+  semanticAnchors.forEach((candidate, index) => {
+    const path = `$.semanticAnchors[${index}]`;
+    const semanticAnchor = expectObject(candidate, path);
+    const id = expectNonEmptyString(semanticAnchor.id, `${path}.id`);
+    const entityId = expectNonEmptyString(semanticAnchor.entityId, `${path}.entityId`);
+    if (semanticAnchorIds.has(id)) {
+      fail(
+        `${path}.id`,
+        `duplicate semantic anchor id ${JSON.stringify(id)}`,
+        "duplicate-id",
+      );
+    }
+    if (entityIds.has(id)) {
+      fail(
+        `${path}.id`,
+        `semantic anchor id ${JSON.stringify(id)} conflicts with an entity id`,
+        "duplicate-id",
+      );
     }
     if (!entityIds.has(entityId)) {
       fail(
@@ -399,13 +410,13 @@ export function assertEnvironmentV1(value: unknown): asserts value is Environmen
         "missing-reference",
       );
     }
-    targetIds.add(id);
-    if (target.label !== undefined) {
-      expectNonEmptyString(target.label, `${path}.label`);
+    semanticAnchorIds.add(id);
+    if (semanticAnchor.label !== undefined) {
+      expectNonEmptyString(semanticAnchor.label, `${path}.label`);
     }
-    assertVec3(target.localAnchor, `${path}.localAnchor`);
-    if (target.localBounds !== undefined) {
-      assertBounds(target.localBounds, `${path}.localBounds`);
+    assertVec3(semanticAnchor.localAnchor, `${path}.localAnchor`);
+    if (semanticAnchor.localBounds !== undefined) {
+      assertBounds(semanticAnchor.localBounds, `${path}.localBounds`);
     }
   });
 }

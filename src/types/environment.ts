@@ -83,14 +83,14 @@ export interface SceneEntityV1 {
 }
 
 /**
- * A semantic camera target. Targets are kept separate from renderable entities
- * so features such as a face or shoulder can be anchored to a larger object.
+ * An optional semantic point or region anchored to a renderable entity, such
+ * as a face or shoulder. Whole entities are addressable without defining one.
  */
-export interface SceneTargetV1 {
+export interface SceneSemanticAnchorV1 {
   id: string;
   entityId: string;
   label?: string;
-  /** Target position in the entity's local coordinate system. */
+  /** Anchor position in the entity's local coordinate system. */
   localAnchor: Vec3;
   localBounds?: BoundsV1;
 }
@@ -129,5 +129,5 @@ export interface EnvironmentV1 {
     };
   };
   entities: SceneEntityV1[];
-  targets: SceneTargetV1[];
+  semanticAnchors: SceneSemanticAnchorV1[];
 }

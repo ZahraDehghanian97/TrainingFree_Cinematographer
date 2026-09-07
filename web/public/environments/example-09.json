@@ -73,7 +73,7 @@
       "bounds": { "type": "box", "min": [-0.42, 0, -0.3], "max": [0.42, 1.82, 0.3] }
     }
   ],
-  "targets": [
+  "semanticAnchors": [
     {
       "id": "person1",
       "entityId": "person1-entity",
