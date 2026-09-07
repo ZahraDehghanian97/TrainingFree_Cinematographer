@@ -2,6 +2,7 @@ import { LossFunctionType } from "../../types/solver";
 import {
   asVec3,
   finiteNumber,
+  poseFromTransformMatrix,
   subjectIdsFromParameters,
 } from "../shared/parameter-values";
 import {
@@ -184,11 +185,21 @@ export function descriptorsForLoss(context: CompileBandContext): PrimitiveDescri
     case LossFunctionType.DutchLeftMovement:
     case LossFunctionType.DutchRightMovement: {
       const sign = loss.type === LossFunctionType.DutchLeftMovement ? -1 : 1;
-      const targetDelta = sign * Math.abs(finiteNumber(p.rotationAngle, 20)) * Math.PI / 180
-        * movementFraction(context);
+      const fullTargetDelta = sign * Math.abs(finiteNumber(p.rotationAngle, 20)) * Math.PI / 180;
+      const duration = Math.max(1e-9, context.sourceEndTime - context.sourceStartTime);
+      const targetDelta = fullTargetDelta * (
+        motionProgress((context.endTime - context.sourceStartTime) / duration, p.speedKeyframes)
+        - motionProgress((context.startTime - context.sourceStartTime) / duration, p.speedKeyframes)
+      );
+      const shared = {
+        sign, targetDelta, fullTargetDelta,
+        motionStartTime: context.sourceStartTime,
+        motionEndTime: context.sourceEndTime,
+        ...(p.speedKeyframes ? { speedKeyframes: p.speedKeyframes } : {}),
+      };
       return [
-        { type: "rollProgress", channel: "rotation", role: "primary", parameters: { sign, targetDelta } },
-        { type: "angularPacing", channel: "regularity", role: "stabilizer", parameters: { mode: "roll", sign, targetDelta } },
+        { type: "rollProgress", channel: "rotation", role: "primary", parameters: shared },
+        { type: "angularPacing", channel: "regularity", role: "stabilizer", parameters: { mode: "roll", ...shared } },
         { type: "positionHold", channel: "position", role: "stabilizer" },
         { type: "forwardHold", channel: "rotation", role: "stabilizer" },
       ];
@@ -312,6 +323,9 @@ export function descriptorsForLoss(context: CompileBandContext): PrimitiveDescri
         ...subjects,
         followDelay: finiteNumber(p.followDelay, 0),
         leadAmount: finiteNumber(p.leadAmount, 0),
+        motionStartTime: context.sourceStartTime,
+        motionEndTime: context.sourceEndTime,
+        ...(p.speedKeyframes ? { speedKeyframes: p.speedKeyframes } : {}),
       };
       return [
         { type: "distanceHold", channel: "subjectRelative", role: "primary", parameters: track },
@@ -421,7 +435,9 @@ export function descriptorsForLoss(context: CompileBandContext): PrimitiveDescri
         { type: "jerkSmoothness", channel: "regularity", role: "stabilizer" },
       ];
     case LossFunctionType.MinPath: {
-      const pose = p.targetPose as Record<string, unknown> | undefined;
+      const pose = p.targetTransformMatrix === undefined
+        ? p.targetPose as Record<string, unknown> | undefined
+        : poseFromTransformMatrix(p.targetTransformMatrix);
       if (!pose) return [{ type: "pathLength", channel: "regularity", role: "regularizer" }];
       const descriptors: PrimitiveDescriptor[] = [];
       if (pose.position) descriptors.push({

@@ -151,6 +151,9 @@ function assertIntrinsics(
   const intrinsics = expectObject(value, path);
   expectLiteral(intrinsics.projection, "perspective", `${path}.projection`);
   assertFov(intrinsics.fovYDegrees, `${path}.fovYDegrees`);
+  if (intrinsics.aspectRatio !== undefined) {
+    expectPositiveNumber(intrinsics.aspectRatio, `${path}.aspectRatio`);
+  }
   const near = expectPositiveNumber(intrinsics.near, `${path}.near`);
   const far = expectPositiveNumber(intrinsics.far, `${path}.far`);
   if (far <= near) {

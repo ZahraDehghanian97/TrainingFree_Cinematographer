@@ -33,7 +33,7 @@ import {
   type PipelineModelOptions,
 } from "./model-provider";
 
-const DIRECTOR_PROMPT_VERSION = "camera-director-csl-v3";
+const DIRECTOR_PROMPT_VERSION = "camera-director-csl-v4";
 const MAX_REPAIR_OUTPUT_CHARS = 16_000;
 
 // Keep the AI SDK generic boundary intentionally shallow. The domain parser
@@ -65,7 +65,9 @@ Timing and intent:
 - Start at least one action with absoluteTime. Use relativeTime for sequential actions and identical triggers for concurrent actions.
 - Durations and trigger times are seconds and must fit the supplied playback window.
 - For distance/velocity-triggered actions, omit duration unless the user explicitly requests one; their runtime event time is environment-dependent.
-- Distance event triggers only support lessThan/lessThanOrEqual. Velocity triggers only support greaterThan/greaterThanOrEqual and no direction.
+- Distance and velocity events support every comparison operator in the schema and fire on the first matching environment sample, including time zero.
+- Distance thresholds are nonnegative meters. Velocity thresholds are meters per second: without direction compare nonnegative speed magnitude; with a nonzero finite world-space direction vector, normalize it and compare the signed velocity projection. Signed thresholds are allowed only with direction.
+- Compound triggers latch child events: and fires at the latest child event, or at the earliest. Children need not remain true simultaneously; an or branch that never fires does not prevent another branch from firing. An and requires every branch to fire.
 
 Subject rules:
 - dollyIn, dollyOut, arcLeft, arcRight, orbit, follow, and track require movement.targets.
@@ -86,14 +88,8 @@ function enumVocabulary(): Record<string, string[]> {
     "subjectAware.config.subjectFraming.position": Object.values(SubjectInFramePosition),
     "movement.speedKeyframes[].easing": Object.values(SpeedFunction),
     "movement.relativeFPS": Object.values(RelativeFPS),
-    "distanceTrigger.operator": [
-      ComparisonOperator.LessThan,
-      ComparisonOperator.LessThanOrEqual,
-    ],
-    "velocityTrigger.operator": [
-      ComparisonOperator.GreaterThan,
-      ComparisonOperator.GreaterThanOrEqual,
-    ],
+    "distanceTrigger.operator": Object.values(ComparisonOperator),
+    "velocityTrigger.operator": Object.values(ComparisonOperator),
     "relativeTimeTrigger.reference": Object.values(RelativeTimeReference),
     "generalConstraint.constraint": Object.values(ConstraintType),
   };

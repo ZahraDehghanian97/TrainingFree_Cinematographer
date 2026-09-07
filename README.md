@@ -195,6 +195,20 @@ maximum. After the event is causally aligned to a playback frame, the timeline
 solver shortens that action only when needed to end at `totalDuration`;
 statically timed actions keep strict duration validation.
 
+DSL distance and velocity triggers support all six `ComparisonOperator` values.
+Values within `environment.evaluation.epsilon` of the threshold (default `1e-7`)
+compare equal; strict comparisons exclude that band. Velocity normally compares
+speed magnitude; `direction` selects the signed velocity along a normalized
+world-space vector and allows signed thresholds. A condition already true at
+scene time zero starts at playback time zero.
+
+Nested `and`/`or` triggers combine latched events: `and` waits for every child,
+while `or` uses the earliest reachable child. Conditions need not remain true
+simultaneously. Relative `start`/`middle`/`end` references work inside these
+expressions. Event times account for scene playback rates before being aligned
+to playback frames. Actions declaring `relativeFPS` must have non-overlapping
+intervals so the timeline and optimizer share one unambiguous scene clock.
+
 For local development, configure Vercel AI Gateway in `.env` (see `.env.example`):
 
 ```dotenv

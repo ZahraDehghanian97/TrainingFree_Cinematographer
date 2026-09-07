@@ -324,12 +324,15 @@ function applyRotationSteps(
   }
 
   for (const primitive of active.filter((item) => item.type === "rollProgress")) {
-    const delta = typeof primitive.parameters.targetDelta === "number"
-      ? primitive.parameters.targetDelta * motionProgressDelta(
+    const fullDelta = primitive.parameters.fullTargetDelta ?? primitive.parameters.targetDelta;
+    const delta = typeof fullDelta === "number"
+      ? fullDelta * motionProgressDelta(
           previous.time,
           state.time,
-          primitive.startTime,
-          primitive.endTime,
+          typeof primitive.parameters.motionStartTime === "number"
+            ? primitive.parameters.motionStartTime : primitive.startTime,
+          typeof primitive.parameters.motionEndTime === "number"
+            ? primitive.parameters.motionEndTime : primitive.endTime,
           primitive.parameters.speedKeyframes,
         )
       : 0;

@@ -43,12 +43,16 @@ export interface CameraPose {
 
 export interface CameraExtrinsics {
   pose: CameraPose;
+  /** Row-major rigid camera-to-world transform; translation is the last column.
+   * When supplied, this matrix overrides pose. Scale and shear are unsupported.
+   */
   transformMatrix?: TransformMatrix4x4;
 }
 
 export interface CameraIntrinsics {
   focalLength?: number;       // mm
   fov?: number;               // degrees
+  /** Width / height for the whole trajectory; optimizer options may override it. */
   aspectRatio?: number;
   sensorSize?: { width: number; height: number }; // mm
 }

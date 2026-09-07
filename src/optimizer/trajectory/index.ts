@@ -25,6 +25,7 @@ import {
   cubicHermite,
   interpolateRotationWithVelocities,
 } from "./interpolation";
+import { DEFAULT_OPTIONS } from "../config/defaults";
 
 export const CANONICAL_COORDINATES: CoordinateSystemV1 = {
   handedness: "right",
@@ -262,6 +263,7 @@ export function buildCameraTrajectory(
     intrinsics: {
       projection: "perspective",
       fovYDegrees: samples[0]?.fovYDegrees ?? 50,
+      aspectRatio: input.options?.aspectRatio ?? DEFAULT_OPTIONS.aspectRatio,
       near: nearPlane,
       far: farPlane,
     },

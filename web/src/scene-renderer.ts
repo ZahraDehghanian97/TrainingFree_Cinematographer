@@ -806,6 +806,8 @@ export class SceneRenderer {
 
     this.clearTrajectory();
     this.trajectory = trajectory;
+    this.directorCamera.aspect = trajectory?.intrinsics.aspectRatio ?? this.godCamera.aspect;
+    this.directorCamera.updateProjectionMatrix();
     if (!trajectory) {
       this.currentSample = null;
       this.applyVisibility();
@@ -890,7 +892,25 @@ export class SceneRenderer {
     this.assertUsable();
     if (this.viewMode === "god") this.controls.update();
     this.cameraHelper.update();
+    const size = this.renderer.getSize(new THREE.Vector2());
+    this.renderer.setViewport(0, 0, size.x, size.y);
+    const aspect = this.viewMode === "director" ? this.trajectory?.intrinsics.aspectRatio : undefined;
+    if (aspect !== undefined) {
+      // Preserve authored framing without stretching when the panel has a
+      // different shape. Clear the full canvas before drawing the fitted image.
+      this.renderer.setScissorTest(false);
+      this.renderer.clear();
+      const width = Math.min(size.x, size.y * aspect);
+      const height = width / aspect;
+      const x = (size.x - width) / 2;
+      const y = (size.y - height) / 2;
+      this.renderer.setViewport(x, y, width, height);
+      this.renderer.setScissor(x, y, width, height);
+      this.renderer.setScissorTest(true);
+    }
     this.renderer.render(this.scene, this.getActiveCamera());
+    this.renderer.setScissorTest(false);
+    this.renderer.setViewport(0, 0, size.x, size.y);
   }
 
   /** Resizes drawing buffers while preserving the canvas's CSS size. */
@@ -907,9 +927,9 @@ export class SceneRenderer {
     const aspect = resolvedWidth / resolvedHeight;
     this.godCamera.aspect = aspect;
     this.godCamera.updateProjectionMatrix();
-    this.directorCamera.aspect = aspect;
+    this.directorCamera.aspect = this.trajectory?.intrinsics.aspectRatio ?? aspect;
     this.directorCamera.updateProjectionMatrix();
-    this.helperCamera.aspect = aspect;
+    this.helperCamera.aspect = this.directorCamera.aspect;
     this.helperCamera.updateProjectionMatrix();
   }
 

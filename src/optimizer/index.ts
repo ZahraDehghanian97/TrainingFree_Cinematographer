@@ -30,7 +30,10 @@ export function optimizeCameraTrajectory(input: CameraOptimizerInput): CameraOpt
   validateOptimizerInput(input);
   const options = resolveOptimizerOptions(input);
   validateResolvedOptimizerOptions(options);
-  const effectiveInput = withKeyframeCuts(input);
+  const effectiveInput = withKeyframeCuts({
+    ...input,
+    options: { ...input.options, ...options },
+  });
   const plan = compileLossPlan(effectiveInput);
   const optimizationTimes = buildOptimizationTimes(
     effectiveInput.environment,

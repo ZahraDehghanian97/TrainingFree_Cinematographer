@@ -159,6 +159,7 @@ export interface OptimizerOptions {
   iterations?: number;
   randomSeed?: number;
   initialFovYDegrees?: number;
+  /** Overrides DSL intrinsics.aspectRatio; otherwise defaults to 16 / 9. */
   aspectRatio?: number;
   cameraRadius?: number;
   collisionMargin?: number;

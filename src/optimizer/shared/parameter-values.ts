@@ -1,5 +1,38 @@
 import type { Quat, Vec3 } from "../../types/environment";
-import { normalizeQuat } from "./math";
+import { cross3, dot3, normalizeQuat, quatFromRotationMatrix } from "./math";
+
+/** Decodes an authored row-major rigid camera-to-world transform. */
+export function poseFromTransformMatrix(value: unknown): { position: Vec3; rotation: Quat } {
+  if (!Array.isArray(value) || value.length !== 4 || !value.every((row) =>
+    Array.isArray(row) && row.length === 4 && row.every((item) =>
+      typeof item === "number" && Number.isFinite(item),
+    ),
+  )) {
+    throw new Error("extrinsics.transformMatrix must be a 4x4 matrix of finite numbers");
+  }
+  const rows = value as number[][];
+  const tolerance = 1e-5;
+  if (rows[3]!.some((item, index) => Math.abs(item - (index === 3 ? 1 : 0)) > tolerance)) {
+    throw new Error("extrinsics.transformMatrix must be affine with last row [0, 0, 0, 1]");
+  }
+  const columns = [0, 1, 2].map((column) =>
+    [rows[0]![column]!, rows[1]![column]!, rows[2]![column]!] as Vec3,
+  );
+  if (columns.some((column, index) =>
+    Math.abs(dot3(column, column) - 1) > tolerance
+    || columns.slice(index + 1).some((other) => Math.abs(dot3(column, other)) > tolerance),
+  ) || Math.abs(dot3(cross3(columns[0]!, columns[1]!), columns[2]!) - 1) > tolerance) {
+    throw new Error("extrinsics.transformMatrix must contain a rigid rotation without scale, shear, or reflection");
+  }
+  return {
+    position: [rows[0]![3]!, rows[1]![3]!, rows[2]![3]!],
+    rotation: quatFromRotationMatrix(
+      rows[0]![0]!, rows[0]![1]!, rows[0]![2]!,
+      rows[1]![0]!, rows[1]![1]!, rows[1]![2]!,
+      rows[2]![0]!, rows[2]![1]!, rows[2]![2]!,
+    ),
+  };
+}
 
 export function finiteNumber(value: unknown, fallback: number): number {
   return typeof value === "number" && Number.isFinite(value) ? value : fallback;

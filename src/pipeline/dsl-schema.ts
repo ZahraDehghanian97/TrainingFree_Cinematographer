@@ -150,21 +150,27 @@ const distanceTriggerSchema = z.strictObject({
   type: z.literal("distance"),
   object1: subjectReferenceSchema,
   object2: subjectReferenceSchema,
-  operator: z.union([
-    z.literal(ComparisonOperator.LessThan),
-    z.literal(ComparisonOperator.LessThanOrEqual),
-  ]),
+  operator: z.nativeEnum(ComparisonOperator),
   distance: nonNegativeNumberSchema,
 });
 
 const velocityTriggerSchema = z.strictObject({
   type: z.literal("velocity"),
   subject: subjectReferenceSchema,
-  operator: z.union([
-    z.literal(ComparisonOperator.GreaterThan),
-    z.literal(ComparisonOperator.GreaterThanOrEqual),
-  ]),
-  speed: nonNegativeNumberSchema,
+  operator: z.nativeEnum(ComparisonOperator),
+  speed: finiteNumberSchema,
+  direction: vector3Schema.refine(
+    (direction) => direction.x !== 0 || direction.y !== 0 || direction.z !== 0,
+    "direction must be a nonzero finite world-space vector",
+  ).optional(),
+}).superRefine((trigger, context) => {
+  if (trigger.direction === undefined && trigger.speed < 0) {
+    context.addIssue({
+      code: z.ZodIssueCode.custom,
+      path: ["speed"],
+      message: "speed must be nonnegative when direction is omitted",
+    });
+  }
 });
 
 const leafTriggerSchema = z.union([

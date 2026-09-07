@@ -85,6 +85,17 @@ vertical camera angles, projected bounds, and Dutch framing scale. General
 constraints cover no-shake, keep-in-frame, distance/angle maintenance,
 occlusion, ground clearance, collision, smoothness, and minimum path.
 
+Non-subject-aware configs accept a rigid camera-to-world `transformMatrix` in
+row-major order, with translation in the last column. A supplied matrix overrides
+`pose`; matrices containing scale, shear, reflection, or perspective fail explicitly.
+The optimizer reads `intrinsics.aspectRatio` from these configs and uses it for
+projection, trajectory output, and the visualizer's director view. A trajectory
+uses one aspect ratio: conflicting configs require an explicit `options.aspectRatio`
+override, which takes precedence over the DSL. Otherwise the default is 16:9.
+
+Dutch and Track movements preserve authored speed keyframes, including when an
+unrelated constraint splits their action into multiple optimizer bands.
+
 Shot size uses projected subject bounds rather than a distance proxy.
 FramingPosition uses the requested normalized screen location. SubjectView is
 relative to the sampled entity quaternion; entity-local `+Z` denotes its front

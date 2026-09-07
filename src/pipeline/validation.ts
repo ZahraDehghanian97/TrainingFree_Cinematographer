@@ -13,6 +13,7 @@ import {
 import { cameraDirectionDraftSchema } from "./dsl-schema";
 
 const TIME_EPSILON_SECONDS = 1e-9;
+const COMPARISON_OPERATORS = new Set<string>(Object.values(ComparisonOperator));
 
 interface IndexedAction {
   action: Action<SubjectReference>;
@@ -90,26 +91,28 @@ function validateTriggerSemantics(
         });
         break;
       case "distance":
-        if (
-          trigger.operator !== ComparisonOperator.LessThan
-          && trigger.operator !== ComparisonOperator.LessThanOrEqual
-        ) {
-          throw new Error(
-            `${path}.operator must be lessThan or lessThanOrEqual for a distance trigger`,
-          );
+        if (!COMPARISON_OPERATORS.has(trigger.operator)) {
+          throw new Error(`${path}.operator is not a supported comparison operator`);
+        }
+        if (!Number.isFinite(trigger.distance) || trigger.distance < 0) {
+          throw new Error(`${path}.distance must be nonnegative and finite`);
         }
         break;
       case "velocity":
-        if (
-          trigger.operator !== ComparisonOperator.GreaterThan
-          && trigger.operator !== ComparisonOperator.GreaterThanOrEqual
-        ) {
-          throw new Error(
-            `${path}.operator must be greaterThan or greaterThanOrEqual for a velocity trigger`,
-          );
+        if (!COMPARISON_OPERATORS.has(trigger.operator)) {
+          throw new Error(`${path}.operator is not a supported comparison operator`);
+        }
+        if (!Number.isFinite(trigger.speed)) {
+          throw new Error(`${path}.speed must be finite`);
+        }
+        if (trigger.direction === undefined && trigger.speed < 0) {
+          throw new Error(`${path}.speed must be nonnegative when direction is omitted`);
         }
         if (trigger.direction !== undefined) {
-          throw new Error(`${path}.direction is not supported by the timeline solver`);
+          const { x, y, z } = trigger.direction;
+          if (![x, y, z].every(Number.isFinite) || (x === 0 && y === 0 && z === 0)) {
+            throw new Error(`${path}.direction must be a nonzero finite world-space vector`);
+          }
         }
         break;
     }
@@ -204,6 +207,9 @@ function triggerStartTime(
     const childTimes = trigger.triggers.map((child) =>
       triggerStartTime(child, actions, cache),
     );
+    // Event times are unknown before environment sampling. In particular, an
+    // unknown OR branch could fire before every known branch, so a known branch
+    // alone cannot establish an exact start or prove the action ends too late.
     if (childTimes.some((time) => time === undefined)) return undefined;
     const resolvedTimes = childTimes as number[];
     return trigger.operator === "and"

@@ -3,6 +3,8 @@ import { CoordinateSystemV1, Quat, Vec3 } from "./environment";
 export interface CameraIntrinsicsV1 {
   projection: "perspective";
   fovYDegrees: number;
+  /** Authored width / height. Omitted on older trajectories that fit the viewport. */
+  aspectRatio?: number;
   near: number;
   far: number;
 }

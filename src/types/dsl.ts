@@ -36,6 +36,7 @@ export interface DistanceEventTrigger<
   object1: TTarget;
   object2: TTarget;
   operator: ComparisonOperator;
+  /** Nonnegative distance threshold in meters. Fires on the first matching sample. */
   distance: number;
 }
 
@@ -45,7 +46,13 @@ export interface VelocityEventTrigger<
   type: "velocity";
   subject: TTarget;
   operator: ComparisonOperator;
-  speed: number;       // m/s
+  /** Threshold in m/s; signed only when direction is supplied. */
+  speed: number;
+  /**
+   * Nonzero finite world-space vector, normalized before use. When present,
+   * compare signed velocity projected along this direction; otherwise compare
+   * speed magnitude. Fires on the first sample satisfying the comparison.
+   */
   direction?: Vector3;
 }
 
@@ -57,6 +64,11 @@ export type Trigger<TTarget extends CameraTargetDescriptor = Target> =
   | AbsoluteTimeTrigger
   | RelativeTimeTrigger;
 
+/**
+ * Latched events: AND fires at the latest child event, OR at the earliest.
+ * Children need not remain true simultaneously. An OR may fire even if another
+ * branch never fires. An AND requires every branch to fire.
+ */
 export interface CompoundTrigger<
   TTarget extends CameraTargetDescriptor = Target,
 > {
