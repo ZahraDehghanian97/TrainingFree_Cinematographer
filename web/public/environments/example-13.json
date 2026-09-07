@@ -1,0 +1,117 @@
+{
+  "schemaVersion": "1.0",
+  "kind": "environment",
+  "id": "example-13-horror-door-v2",
+  "promptExampleId": "example-13",
+  "prompt": "ورژن ۲ برای ایجاد حس ترس، دوربین را ۳۰ درجه کج کن و به صورت دستی و لرزان به سمت در نیمه‌باز حرکت کن.",
+  "clock": {
+    "durationSeconds": 7,
+    "timeDomain": "playback",
+    "fpsHint": 24
+  },
+  "coordinates": {
+    "handedness": "right",
+    "upAxis": "+Y",
+    "cameraForwardAxis": "-Z",
+    "lengthUnit": "meter",
+    "rotationOrder": "quaternion-xyzw"
+  },
+  "evaluation": { "distanceMetric": "anchorCenter" },
+  "world": {
+    "background": "#030509",
+    "overviewCamera": {
+      "position": [0, 4.8, 6.5],
+      "target": [0.2, 1, -6.5]
+    },
+    "ground": { "y": 0, "size": [5.5, 22], "color": "#111319" },
+    "grid": { "size": 5.5, "divisions": 11 }
+  },
+  "entities": [
+    {
+      "id": "half-open-door-v2-entity",
+      "label": "Slowly opening door",
+      "transform": {
+        "space": "world",
+        "position": [0.35, 0, -9],
+        "rotation": {
+          "interpolation": "slerp",
+          "extrapolation": "hold",
+          "keyframes": [
+            { "t": 0, "value": [0, 0.1045, 0, 0.9945] },
+            { "t": 2, "value": [0, 0.1219, 0, 0.9925] },
+            { "t": 5, "value": [0, 0.1392, 0, 0.9903] },
+            { "t": 7, "value": [0, 0.1736, 0, 0.9848] }
+          ]
+        }
+      },
+      "visual": { "type": "preset", "name": "door", "params": { "color": "#30241e", "width": 1.1, "height": 2.25 } },
+      "bounds": { "type": "box", "min": [-0.55, 0, -0.08], "max": [0.55, 2.25, 0.08] }
+    },
+    {
+      "id": "corridor-v2-left-wall",
+      "transform": { "space": "world", "position": [-2.45, 1.7, -1.5] },
+      "visual": { "type": "primitive", "shape": "box", "params": { "size": [0.18, 3.4, 18] }, "color": "#1e2028" },
+      "bounds": { "type": "box", "min": [-0.09, -1.7, -9], "max": [0.09, 1.7, 9] }
+    },
+    {
+      "id": "corridor-v2-right-wall",
+      "transform": { "space": "world", "position": [2.45, 1.7, -1.5] },
+      "visual": { "type": "primitive", "shape": "box", "params": { "size": [0.18, 3.4, 18] }, "color": "#1e2028" },
+      "bounds": { "type": "box", "min": [-0.09, -1.7, -9], "max": [0.09, 1.7, 9] }
+    },
+    {
+      "id": "doorway-v2-darkness",
+      "transform": { "space": "world", "position": [0.35, 1.12, -9.18] },
+      "visual": { "type": "primitive", "shape": "box", "params": { "size": [1.35, 2.4, 0.05] }, "color": "#000103" },
+      "bounds": { "type": "box", "min": [-0.675, -1.2, -0.025], "max": [0.675, 1.2, 0.025] }
+    },
+    {
+      "id": "doorframe-v2-left",
+      "transform": { "space": "world", "position": [-0.33, 1.18, -9.08] },
+      "visual": { "type": "primitive", "shape": "box", "params": { "size": [0.12, 2.36, 0.16] }, "color": "#514139" },
+      "bounds": { "type": "box", "min": [-0.06, -1.18, -0.08], "max": [0.06, 1.18, 0.08] }
+    },
+    {
+      "id": "doorframe-v2-right",
+      "transform": { "space": "world", "position": [1.03, 1.18, -9.08] },
+      "visual": { "type": "primitive", "shape": "box", "params": { "size": [0.12, 2.36, 0.16] }, "color": "#514139" },
+      "bounds": { "type": "box", "min": [-0.06, -1.18, -0.08], "max": [0.06, 1.18, 0.08] }
+    },
+    {
+      "id": "doorframe-v2-header",
+      "transform": { "space": "world", "position": [0.35, 2.36, -9.08] },
+      "visual": { "type": "primitive", "shape": "box", "params": { "size": [1.48, 0.12, 0.16] }, "color": "#514139" },
+      "bounds": { "type": "box", "min": [-0.74, -0.06, -0.08], "max": [0.74, 0.06, 0.08] }
+    },
+    {
+      "id": "flicker-marker",
+      "label": "Cold corridor light",
+      "transform": {
+        "space": "world",
+        "position": [0, 3.15, -4.2],
+        "scale": {
+          "interpolation": "step",
+          "extrapolation": "hold",
+          "keyframes": [
+            { "t": 0, "value": [1, 1, 1] },
+            { "t": 2, "value": [0.2, 0.2, 0.2] },
+            { "t": 2.2, "value": [1, 1, 1] },
+            { "t": 5.4, "value": [0.15, 0.15, 0.15] },
+            { "t": 5.6, "value": [1, 1, 1] }
+          ]
+        }
+      },
+      "visual": { "type": "primitive", "shape": "sphere", "params": { "radius": 0.12 }, "color": "#9cc7d9" },
+      "bounds": { "type": "sphere", "center": [0, 0, 0], "radius": 0.12 }
+    }
+  ],
+  "targets": [
+    {
+      "id": "half_open_door",
+      "entityId": "half-open-door-v2-entity",
+      "label": "The half-open door (در نیمه‌باز)",
+      "localAnchor": [0, 1.12, 0],
+      "localBounds": { "type": "box", "min": [-0.55, 0, -0.08], "max": [0.55, 2.25, 0.08] }
+    }
+  ]
+}

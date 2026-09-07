@@ -1,0 +1,484 @@
+{
+  "schemaVersion": "1.0",
+  "kind": "environment",
+  "id": "example-19-stairwell-ambush",
+  "promptExampleId": "example-19",
+  "prompt": "از نمای Overhead روی کارآگاه شروع کن؛ همزمان Pedestal Down و Tilt Down کن تا در دو ثانیه هم‌سطح او شوی. بعد با Truck Left در راهرو همراهش برو. وقتی به انتهای مسیر رسید، یک Pan Left سریع بزن، Zoom Out کن و با Dutch Right مهاجم پشت ستون را آشکار کن؛ سپس با یک Counter Pan Right کوتاه هر دو را در قاب نهایی جمع کن.",
+  "clock": {
+    "durationSeconds": 10,
+    "timeDomain": "playback",
+    "fpsHint": 24
+  },
+  "coordinates": {
+    "handedness": "right",
+    "upAxis": "+Y",
+    "cameraForwardAxis": "-Z",
+    "lengthUnit": "meter",
+    "rotationOrder": "quaternion-xyzw"
+  },
+  "evaluation": {
+    "distanceMetric": "boundsSurface",
+    "epsilon": 0.001
+  },
+  "world": {
+    "background": "#090d13",
+    "overviewCamera": {
+      "position": [
+        12,
+        9,
+        15
+      ],
+      "target": [
+        0,
+        1,
+        -0.5
+      ]
+    },
+    "ground": {
+      "y": 0,
+      "size": [
+        34,
+        24
+      ],
+      "color": "#171d25"
+    },
+    "grid": {
+      "size": 28,
+      "divisions": 28
+    }
+  },
+  "entities": [
+    {
+      "id": "detective-entity",
+      "label": "Detective",
+      "transform": {
+        "space": "world",
+        "position": {
+          "interpolation": "catmullRom",
+          "extrapolation": "hold",
+          "keyframes": [
+            {
+              "t": 0,
+              "value": [
+                4.2,
+                0,
+                0.2
+              ]
+            },
+            {
+              "t": 2,
+              "value": [
+                3.6,
+                0,
+                0.1
+              ]
+            },
+            {
+              "t": 4,
+              "value": [
+                1.6,
+                0,
+                0
+              ]
+            },
+            {
+              "t": 7,
+              "value": [
+                -2.5,
+                0,
+                0.2
+              ]
+            },
+            {
+              "t": 10,
+              "value": [
+                -3.0,
+                0,
+                0.4
+              ]
+            }
+          ]
+        },
+        "rotation": {
+          "interpolation": "slerp",
+          "extrapolation": "hold",
+          "keyframes": [
+            {
+              "t": 0,
+              "value": [
+                0,
+                -0.57357644,
+                0,
+                0.81915204
+              ]
+            },
+            {
+              "t": 7,
+              "value": [
+                0,
+                -0.70710678,
+                0,
+                0.70710678
+              ]
+            },
+            {
+              "t": 10,
+              "value": [
+                0,
+                -0.81915204,
+                0,
+                0.57357644
+              ]
+            }
+          ]
+        }
+      },
+      "visual": {
+        "type": "preset",
+        "name": "humanoid",
+        "params": {
+          "color": "#b8896d",
+          "shirtColor": "#24354b",
+          "trouserColor": "#10141b"
+        }
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.45,
+          0,
+          -0.25
+        ],
+        "max": [
+          0.45,
+          1.8,
+          0.25
+        ]
+      }
+    },
+    {
+      "id": "pursuer-entity",
+      "label": "Hidden pursuer",
+      "transform": {
+        "space": "world",
+        "position": {
+          "interpolation": "catmullRom",
+          "extrapolation": "hold",
+          "keyframes": [
+            {
+              "t": 0,
+              "value": [
+                -5.3,
+                0,
+                -1.1
+              ]
+            },
+            {
+              "t": 7,
+              "value": [
+                -5.3,
+                0,
+                -1.1
+              ]
+            },
+            {
+              "t": 8,
+              "value": [
+                -5.35,
+                0,
+                -0.2
+              ]
+            },
+            {
+              "t": 10,
+              "value": [
+                -5.3,
+                0,
+                0.45
+              ]
+            }
+          ]
+        },
+        "rotation": {
+          "interpolation": "slerp",
+          "extrapolation": "hold",
+          "keyframes": [
+            {
+              "t": 0,
+              "value": [
+                0,
+                0.46174861,
+                0,
+                0.88701083
+              ]
+            },
+            {
+              "t": 10,
+              "value": [
+                0,
+                0.3007058,
+                0,
+                0.95371695
+              ]
+            }
+          ]
+        }
+      },
+      "visual": {
+        "type": "preset",
+        "name": "humanoid",
+        "params": {
+          "color": "#8c6253",
+          "shirtColor": "#4b1824",
+          "trouserColor": "#141116"
+        }
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.45,
+          0,
+          -0.25
+        ],
+        "max": [
+          0.45,
+          1.8,
+          0.25
+        ]
+      }
+    },
+    {
+      "id": "ambush-column",
+      "label": "Ambush column",
+      "transform": {
+        "space": "world",
+        "position": [
+          -4.35,
+          1.7,
+          -0.45
+        ]
+      },
+      "visual": {
+        "type": "primitive",
+        "shape": "box",
+        "params": {
+          "size": [
+            0.72,
+            3.4,
+            0.72
+          ]
+        },
+        "color": "#2a303a"
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.36,
+          -1.7,
+          -0.36
+        ],
+        "max": [
+          0.36,
+          1.7,
+          0.36
+        ]
+      }
+    },
+    {
+      "id": "back-wall",
+      "label": "Corridor back wall",
+      "transform": {
+        "space": "world",
+        "position": [
+          0,
+          1.8,
+          -3.7
+        ]
+      },
+      "visual": {
+        "type": "primitive",
+        "shape": "box",
+        "params": {
+          "size": [
+            17,
+            3.6,
+            0.24
+          ]
+        },
+        "color": "#202834"
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -8.5,
+          -1.8,
+          -0.12
+        ],
+        "max": [
+          8.5,
+          1.8,
+          0.12
+        ]
+      }
+    },
+    {
+      "id": "red-exit-sign",
+      "label": "Red exit sign",
+      "transform": {
+        "space": "world",
+        "position": [
+          -1.8,
+          2.9,
+          -3.45
+        ]
+      },
+      "visual": {
+        "type": "primitive",
+        "shape": "box",
+        "params": {
+          "size": [
+            1.2,
+            0.42,
+            0.16
+          ]
+        },
+        "color": "#ff354d"
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.6,
+          -0.21,
+          -0.08
+        ],
+        "max": [
+          0.6,
+          0.21,
+          0.08
+        ]
+      }
+    },
+    {
+      "id": "stair-step-1",
+      "label": "Stair step 1",
+      "transform": {
+        "space": "world",
+        "position": [
+          5.4,
+          0.18,
+          -0.2
+        ]
+      },
+      "visual": {
+        "type": "primitive",
+        "shape": "box",
+        "params": {
+          "size": [
+            1.5,
+            0.36,
+            3.2
+          ]
+        },
+        "color": "#242b35"
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.75,
+          -0.18,
+          -1.6
+        ],
+        "max": [
+          0.75,
+          0.18,
+          1.6
+        ]
+      }
+    },
+    {
+      "id": "stair-step-2",
+      "label": "Stair step 2",
+      "transform": {
+        "space": "world",
+        "position": [
+          6.35,
+          0.42,
+          -0.2
+        ]
+      },
+      "visual": {
+        "type": "primitive",
+        "shape": "box",
+        "params": {
+          "size": [
+            1.3,
+            0.48,
+            3.2
+          ]
+        },
+        "color": "#2b323d"
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.65,
+          -0.24,
+          -1.6
+        ],
+        "max": [
+          0.65,
+          0.24,
+          1.6
+        ]
+      }
+    }
+  ],
+  "targets": [
+    {
+      "id": "detective",
+      "entityId": "detective-entity",
+      "label": "The detective",
+      "localAnchor": [
+        0,
+        1.18,
+        0
+      ],
+      "localBounds": {
+        "type": "box",
+        "min": [
+          -0.45,
+          0,
+          -0.25
+        ],
+        "max": [
+          0.45,
+          1.8,
+          0.25
+        ]
+      }
+    },
+    {
+      "id": "pursuer",
+      "entityId": "pursuer-entity",
+      "label": "The hidden pursuer",
+      "localAnchor": [
+        0,
+        1.18,
+        0
+      ],
+      "localBounds": {
+        "type": "box",
+        "min": [
+          -0.45,
+          0,
+          -0.25
+        ],
+        "max": [
+          0.45,
+          1.8,
+          0.25
+        ]
+      }
+    }
+  ]
+}

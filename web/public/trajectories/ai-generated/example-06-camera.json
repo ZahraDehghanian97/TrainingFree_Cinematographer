@@ -1,0 +1,135 @@
+{
+  "schemaVersion": "1.0",
+  "kind": "cameraTrajectory",
+  "environmentId": "example-06-frozen-orbit",
+  "clock": {
+    "durationSeconds": 5,
+    "timeUnit": "second"
+  },
+  "coordinates": {
+    "handedness": "right",
+    "upAxis": "+Y",
+    "cameraForwardAxis": "-Z",
+    "lengthUnit": "meter",
+    "rotationOrder": "quaternion-xyzw"
+  },
+  "intrinsics": {
+    "projection": "perspective",
+    "fovYDegrees": 34,
+    "near": 0.05,
+    "far": 80
+  },
+  "orientation": {
+    "mode": "perSampleLookAt",
+    "up": [0, 1, 0]
+  },
+  "playback": {
+    "rateSegments": [
+      {
+        "startTime": 0,
+        "endTime": 2,
+        "rate": 0,
+        "label": "frozen"
+      },
+      {
+        "startTime": 2,
+        "endTime": 5,
+        "rate": 1,
+        "label": "normal"
+      }
+    ]
+  },
+  "samples": [
+    {
+      "t": 0,
+      "position": [0, 2.55, 4.5],
+      "lookAt": [0, 2.2, 0],
+      "fovYDegrees": 34,
+      "actionId": "frozen_orbit_360"
+    },
+    {
+      "t": 0.25,
+      "position": [3.181981, 2.55, 3.181981],
+      "lookAt": [0, 2.2, 0],
+      "actionId": "frozen_orbit_360"
+    },
+    {
+      "t": 0.5,
+      "position": [4.5, 2.55, 0],
+      "lookAt": [0, 2.2, 0],
+      "actionId": "frozen_orbit_360"
+    },
+    {
+      "t": 0.75,
+      "position": [3.181981, 2.55, -3.181981],
+      "lookAt": [0, 2.2, 0],
+      "actionId": "frozen_orbit_360"
+    },
+    {
+      "t": 1,
+      "position": [0, 2.55, -4.5],
+      "lookAt": [0, 2.2, 0],
+      "actionId": "frozen_orbit_360"
+    },
+    {
+      "t": 1.25,
+      "position": [-3.181981, 2.55, -3.181981],
+      "lookAt": [0, 2.2, 0],
+      "actionId": "frozen_orbit_360"
+    },
+    {
+      "t": 1.5,
+      "position": [-4.5, 2.55, 0],
+      "lookAt": [0, 2.2, 0],
+      "actionId": "frozen_orbit_360"
+    },
+    {
+      "t": 1.75,
+      "position": [-3.181981, 2.55, 3.181981],
+      "lookAt": [0, 2.2, 0],
+      "actionId": "frozen_orbit_360"
+    },
+    {
+      "t": 2,
+      "position": [0, 2.55, 4.5],
+      "lookAt": [0, 2.2, 0],
+      "actionId": "resume_normal_speed"
+    },
+    {
+      "t": 2.5,
+      "position": [0.266667, 2.606667, 4.2],
+      "lookAt": [0.266667, 2.256667, -0.3],
+      "actionId": "resume_normal_speed"
+    },
+    {
+      "t": 3,
+      "position": [0.533333, 2.663333, 3.9],
+      "lookAt": [0.533333, 2.313333, -0.6],
+      "actionId": "resume_normal_speed"
+    },
+    {
+      "t": 3.5,
+      "position": [0.8, 2.72, 3.6],
+      "lookAt": [0.8, 2.37, -0.9],
+      "actionId": "resume_normal_speed"
+    },
+    {
+      "t": 4,
+      "position": [1.166667, 2.763333, 3.2],
+      "lookAt": [1.166667, 2.413333, -1.3],
+      "actionId": "resume_normal_speed"
+    },
+    {
+      "t": 4.5,
+      "position": [1.533333, 2.806667, 2.8],
+      "lookAt": [1.533333, 2.456667, -1.7],
+      "actionId": "resume_normal_speed"
+    },
+    {
+      "t": 5,
+      "position": [1.9, 2.85, 2.4],
+      "lookAt": [1.9, 2.5, -2.1],
+      "actionId": "resume_normal_speed"
+    }
+  ]
+}

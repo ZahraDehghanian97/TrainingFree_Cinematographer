@@ -1,0 +1,153 @@
+{
+  "schemaVersion": "1.0",
+  "kind": "cameraTrajectory",
+  "environmentId": "example-02-face-orbit",
+  "clock": {
+    "durationSeconds": 15,
+    "timeUnit": "second"
+  },
+  "coordinates": {
+    "handedness": "right",
+    "upAxis": "+Y",
+    "cameraForwardAxis": "-Z",
+    "lengthUnit": "meter",
+    "rotationOrder": "quaternion-xyzw"
+  },
+  "intrinsics": {
+    "projection": "perspective",
+    "fovYDegrees": 26,
+    "near": 0.03,
+    "far": 80
+  },
+  "orientation": {
+    "mode": "perSampleLookAt",
+    "up": [0, 1, 0]
+  },
+  "playback": {
+    "rateSegments": [
+      {
+        "startTime": 0,
+        "endTime": 15,
+        "rate": 0,
+        "label": "frozen"
+      }
+    ]
+  },
+  "samples": [
+    {
+      "t": 0,
+      "position": [0, 1.65, 1.07],
+      "lookAt": [0, 1.65, 0.12],
+      "fovYDegrees": 26,
+      "actionId": "orbit_stop_motion"
+    },
+    {
+      "t": 0.833333,
+      "position": [0.822724, 1.65, 0.595],
+      "lookAt": [0, 1.65, 0.12],
+      "actionId": "orbit_stop_motion"
+    },
+    {
+      "t": 1.666667,
+      "position": [0.822724, 1.65, -0.355],
+      "lookAt": [0, 1.65, 0.12],
+      "actionId": "orbit_stop_motion"
+    },
+    {
+      "t": 2.5,
+      "position": [0, 1.65, -0.83],
+      "lookAt": [0, 1.65, 0.12],
+      "actionId": "orbit_stop_motion"
+    },
+    {
+      "t": 3.333333,
+      "position": [-0.822724, 1.65, -0.355],
+      "lookAt": [0, 1.65, 0.12],
+      "actionId": "orbit_stop_motion"
+    },
+    {
+      "t": 4.166667,
+      "position": [-0.822724, 1.65, 0.595],
+      "lookAt": [0, 1.65, 0.12],
+      "actionId": "orbit_stop_motion"
+    },
+    {
+      "t": 5,
+      "position": [0, 1.65, 1.07],
+      "lookAt": [0, 1.65, 0.12],
+      "actionId": "orbit_stop_motion"
+    },
+    {
+      "t": 5.833333,
+      "position": [0.822724, 1.65, 0.595],
+      "lookAt": [0, 1.65, 0.12],
+      "actionId": "orbit_stop_motion"
+    },
+    {
+      "t": 6.666667,
+      "position": [0.822724, 1.65, -0.355],
+      "lookAt": [0, 1.65, 0.12],
+      "actionId": "orbit_stop_motion"
+    },
+    {
+      "t": 7.5,
+      "position": [0, 1.65, -0.83],
+      "lookAt": [0, 1.65, 0.12],
+      "actionId": "orbit_stop_motion"
+    },
+    {
+      "t": 8.333333,
+      "position": [-0.822724, 1.65, -0.355],
+      "lookAt": [0, 1.65, 0.12],
+      "actionId": "orbit_stop_motion"
+    },
+    {
+      "t": 9.166667,
+      "position": [-0.822724, 1.65, 0.595],
+      "lookAt": [0, 1.65, 0.12],
+      "actionId": "orbit_stop_motion"
+    },
+    {
+      "t": 10,
+      "position": [0, 1.65, 1.07],
+      "lookAt": [0, 1.65, 0.12],
+      "actionId": "orbit_stop_motion"
+    },
+    {
+      "t": 10.833333,
+      "position": [0.822724, 1.65, 0.595],
+      "lookAt": [0, 1.65, 0.12],
+      "actionId": "orbit_stop_motion"
+    },
+    {
+      "t": 11.666667,
+      "position": [0.822724, 1.65, -0.355],
+      "lookAt": [0, 1.65, 0.12],
+      "actionId": "orbit_stop_motion"
+    },
+    {
+      "t": 12.5,
+      "position": [0, 1.65, -0.83],
+      "lookAt": [0, 1.65, 0.12],
+      "actionId": "orbit_stop_motion"
+    },
+    {
+      "t": 13.333333,
+      "position": [-0.822724, 1.65, -0.355],
+      "lookAt": [0, 1.65, 0.12],
+      "actionId": "orbit_stop_motion"
+    },
+    {
+      "t": 14.166667,
+      "position": [-0.822724, 1.65, 0.595],
+      "lookAt": [0, 1.65, 0.12],
+      "actionId": "orbit_stop_motion"
+    },
+    {
+      "t": 15,
+      "position": [0, 1.65, 1.07],
+      "lookAt": [0, 1.65, 0.12],
+      "actionId": "orbit_stop_motion"
+    }
+  ]
+}

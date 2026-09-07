@@ -1,0 +1,87 @@
+{
+  "schemaVersion": "1.0",
+  "kind": "timelineSolverOutput",
+  "exampleId": "example-11",
+  "environmentId": "example-11-horror-door",
+  "prompt": "برای ایجاد حس ترس، دوربین را ۳۰ درجه کج کن و به صورت دستی و لرزان به سمت در نیمه‌باز حرکت کن.",
+  "totalDuration": 6,
+  "timeline": {
+    "timeline": [
+      {
+        "kind": "interval",
+        "startTime": 0,
+        "endTime": 6,
+        "lossFunctions": [
+          {
+            "type": "dutchLeftMovement",
+            "parameters": {}
+          }
+        ]
+      },
+      {
+        "kind": "interval",
+        "startTime": 0,
+        "endTime": 6,
+        "lossFunctions": [
+          {
+            "type": "dollyInMovement",
+            "parameters": {
+              "distance": 2
+            }
+          }
+        ]
+      },
+      {
+        "kind": "interval",
+        "startTime": 0,
+        "endTime": 6,
+        "lossFunctions": [
+          {
+            "type": "shotSize",
+            "parameters": {
+              "shotSize": "mediumCloseUp"
+            }
+          }
+        ]
+      },
+      {
+        "kind": "interval",
+        "startTime": 0,
+        "endTime": 6,
+        "lossFunctions": [
+          {
+            "type": "framingPosition",
+            "parameters": {
+              "position": "center"
+            }
+          }
+        ]
+      },
+      {
+        "kind": "point",
+        "time": 0,
+        "lossFunctions": [
+          {
+            "type": "shotSize",
+            "parameters": {
+              "shotSize": "mediumShot"
+            }
+          },
+          {
+            "type": "subjectView",
+            "parameters": {
+              "view": "front"
+            }
+          },
+          {
+            "type": "framingPosition",
+            "parameters": {
+              "position": "center"
+            }
+          }
+        ]
+      }
+    ],
+    "timeWarp": []
+  }
+}

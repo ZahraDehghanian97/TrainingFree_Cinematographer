@@ -1,0 +1,111 @@
+{
+  "schemaVersion": "1.0",
+  "kind": "cameraTrajectory",
+  "environmentId": "example-04-car-arc",
+  "clock": {
+    "durationSeconds": 15,
+    "timeUnit": "second"
+  },
+  "coordinates": {
+    "handedness": "right",
+    "upAxis": "+Y",
+    "cameraForwardAxis": "-Z",
+    "lengthUnit": "meter",
+    "rotationOrder": "quaternion-xyzw"
+  },
+  "intrinsics": {
+    "projection": "perspective",
+    "fovYDegrees": 42,
+    "near": 0.1,
+    "far": 180
+  },
+  "orientation": {
+    "mode": "perSampleLookAt",
+    "up": [0, 1, 0]
+  },
+  "samples": [
+    {
+      "t": 0,
+      "position": [-1.5, 2.6, 19],
+      "lookAt": [-1.5, 0.75, 12],
+      "fovYDegrees": 42,
+      "actionId": "track_car"
+    },
+    {
+      "t": 1,
+      "position": [-1.40625, 2.6, 17.28125],
+      "lookAt": [-1.40625, 0.75, 10.28125],
+      "actionId": "track_car"
+    },
+    {
+      "t": 2,
+      "position": [-1.2, 2.6, 14.5],
+      "lookAt": [-0.86, 1.08, 7.35],
+      "fovYDegrees": 42,
+      "actionId": "arc_right_car"
+    },
+    {
+      "t": 3.5,
+      "position": [1.149709, 2.6, 11.266542],
+      "lookAt": [-0.592812, 1.08, 4.433496],
+      "fovYDegrees": 38.308,
+      "actionId": "arc_right_car"
+    },
+    {
+      "t": 5,
+      "position": [3.395203, 2.6, 6.944481],
+      "lookAt": [-0.24125, 1.08, 1.033594],
+      "fovYDegrees": 34.615,
+      "actionId": "arc_right_car"
+    },
+    {
+      "t": 6.5,
+      "position": [5.371124, 2.6, 2.299942],
+      "lookAt": [0.20084, 1.08, -2.16709],
+      "fovYDegrees": 30.923,
+      "actionId": "arc_right_car"
+    },
+    {
+      "t": 8,
+      "position": [6.976364, 2.6, -2.486516],
+      "lookAt": [0.77125, 1.08, -5.11875],
+      "fovYDegrees": 27.231,
+      "actionId": "arc_right_car"
+    },
+    {
+      "t": 9.5,
+      "position": [8.009983, 2.6, -7.532917],
+      "lookAt": [1.362754, 1.08, -8.105566],
+      "fovYDegrees": 23.538,
+      "actionId": "arc_right_car"
+    },
+    {
+      "t": 11,
+      "position": [8.274993, 2.6, -12.55521],
+      "lookAt": [1.8184, 1.08, -11.03],
+      "fovYDegrees": 19.846,
+      "actionId": "arc_right_car"
+    },
+    {
+      "t": 12.5,
+      "position": [7.884219, 2.6, -17.621365],
+      "lookAt": [2.23375, 1.08, -14.15],
+      "fovYDegrees": 16.154,
+      "actionId": "arc_right_car"
+    },
+    {
+      "t": 14,
+      "position": [6.883459, 2.6, -21.999575],
+      "lookAt": [2.5816, 1.08, -16.91],
+      "fovYDegrees": 12.462,
+      "actionId": "arc_right_car"
+    },
+    {
+      "t": 15,
+      "position": [5.9, 2.6, -24.062178],
+      "lookAt": [2.74, 1.08, -18.15],
+      "fovYDegrees": 10,
+      "actionId": "arc_right_car"
+    }
+  ]
+}

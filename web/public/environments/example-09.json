@@ -1,0 +1,99 @@
+{
+  "schemaVersion": "1.0",
+  "kind": "environment",
+  "id": "example-09-two-people",
+  "promptExampleId": "example-09",
+  "prompt": "دو نفر را در نمای Long Shot دنبال کن؛ به محض اینکه فاصله آن‌ها به کمتر از ۱ متر رسید، کات بزن به Over-the-Shoulder (نمای روی شانه).",
+  "clock": {
+    "durationSeconds": 24,
+    "timeDomain": "playback",
+    "fpsHint": 24
+  },
+  "coordinates": {
+    "handedness": "right",
+    "upAxis": "+Y",
+    "cameraForwardAxis": "-Z",
+    "lengthUnit": "meter",
+    "rotationOrder": "quaternion-xyzw"
+  },
+  "evaluation": {
+    "distanceMetric": "anchorCenter",
+    "epsilon": 0.001
+  },
+  "world": {
+    "background": "#10141a",
+    "overviewCamera": {
+      "position": [16, 11, 18],
+      "target": [0, 0.9, 0]
+    },
+    "ground": { "y": 0, "size": [22, 30], "color": "#242a29" },
+    "grid": { "size": 22, "divisions": 22 }
+  },
+  "entities": [
+    {
+      "id": "person1-entity",
+      "label": "First person",
+      "transform": {
+        "space": "world",
+        "position": {
+          "interpolation": "linear",
+          "extrapolation": "hold",
+          "keyframes": [
+            { "t": 0, "value": [-8, 0, 10] },
+            { "t": 8, "value": [-4, 0, 2] },
+            { "t": 13.5, "value": [-0.49, 0, -3.5] },
+            { "t": 14, "value": [-0.49, 0, -4] },
+            { "t": 24, "value": [-0.49, 0, -10] }
+          ]
+        },
+        "rotation": [0, 1, 0, 0]
+      },
+      "visual": { "type": "preset", "name": "humanoid", "params": { "color": "#c89e80", "shirtColor": "#3d78a6" } },
+      "bounds": { "type": "box", "min": [-0.42, 0, -0.3], "max": [0.42, 1.82, 0.3] }
+    },
+    {
+      "id": "person2-entity",
+      "label": "Second person",
+      "transform": {
+        "space": "world",
+        "position": {
+          "interpolation": "linear",
+          "extrapolation": "hold",
+          "keyframes": [
+            { "t": 0, "value": [8, 0, 10] },
+            { "t": 8, "value": [4, 0, 2] },
+            { "t": 13.5, "value": [0.49, 0, -3.5] },
+            { "t": 14, "value": [0.49, 0, -4] },
+            { "t": 24, "value": [0.49, 0, -10] }
+          ]
+        },
+        "rotation": [0, 1, 0, 0]
+      },
+      "visual": { "type": "preset", "name": "humanoid", "params": { "color": "#d4ad8e", "shirtColor": "#9b4e49" } },
+      "bounds": { "type": "box", "min": [-0.42, 0, -0.3], "max": [0.42, 1.82, 0.3] }
+    }
+  ],
+  "targets": [
+    {
+      "id": "person1",
+      "entityId": "person1-entity",
+      "label": "First person (نفر اول)",
+      "localAnchor": [0, 0.92, 0],
+      "localBounds": { "type": "box", "min": [-0.42, 0, -0.3], "max": [0.42, 1.82, 0.3] }
+    },
+    {
+      "id": "person2",
+      "entityId": "person2-entity",
+      "label": "Second person (نفر دوم)",
+      "localAnchor": [0, 0.92, 0],
+      "localBounds": { "type": "box", "min": [-0.42, 0, -0.3], "max": [0.42, 1.82, 0.3] }
+    },
+    {
+      "id": "person1_shoulder",
+      "entityId": "person1-entity",
+      "label": "First person's shoulder (شانه نفر اول)",
+      "localAnchor": [-0.31, 1.47, -0.05],
+      "localBounds": { "type": "sphere", "center": [-0.31, 1.47, -0.05], "radius": 0.16 }
+    }
+  ]
+}

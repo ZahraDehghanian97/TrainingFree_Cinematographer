@@ -1,0 +1,531 @@
+{
+  "schemaVersion": "1.0",
+  "kind": "environment",
+  "id": "example-23-factory-convergence",
+  "promptExampleId": "example-23",
+  "prompt": "Film one continuous 20-second shot inside a busy factory. Start by following Worker A as he moves from the east side of the production floor toward the center, keeping him in a medium-long shot. Push closer, pan and tilt with his movement, then truck and pedestal as he changes direction. When he slows down near the central machinery, arc around him while gradually zooming in so that Worker B is revealed approaching from the opposite side. As the two workers converge, widen the shot and track both of them together while keeping them visible, maintaining a consistent distance and angle and avoiding the machinery and the passing forklift. When Worker B accelerates toward the loading bay, pan with him, move laterally across the floor, lower the camera, arc around him, correct the Dutch angle, and then pull back to reveal both workers, the mezzanine, the forklift, and the loading area. Finish by orbiting around the two workers, hold them both in frame in a stable wide composition, and end on a frozen locked-off shot. Throughout the take, keep the camera smooth, avoid occlusion, respect the ground level, and make each transition feel like a deliberate continuous cinematographic move rather than a cut.",
+  "clock": {
+    "durationSeconds": 20,
+    "timeDomain": "playback",
+    "fpsHint": 60
+  },
+  "coordinates": {
+    "handedness": "right",
+    "upAxis": "+Y",
+    "cameraForwardAxis": "-Z",
+    "lengthUnit": "meter",
+    "rotationOrder": "quaternion-xyzw"
+  },
+  "evaluation": {
+    "distanceMetric": "boundsSurface",
+    "epsilon": 0.05
+  },
+  "world": {
+    "background": "industrial_factory_interior",
+    "overviewCamera": {
+      "position": [
+        16,
+        12,
+        20
+      ],
+      "target": [
+        0,
+        2,
+        0
+      ]
+    },
+    "ground": {
+      "y": 0,
+      "size": [
+        32,
+        26
+      ],
+      "color": "#555555"
+    },
+    "grid": {
+      "size": 32,
+      "divisions": 32
+    }
+  },
+  "entities": [
+    {
+      "id": "worker_a",
+      "label": "Worker A",
+      "transform": {
+        "space": "world",
+        "position": {
+          "interpolation": "catmullRom",
+          "extrapolation": "hold",
+          "keyframes": [
+            {
+              "t": 0,
+              "value": [
+                6,
+                0,
+                6
+              ]
+            },
+            {
+              "t": 3,
+              "value": [
+                3.5,
+                0,
+                3.5
+              ]
+            },
+            {
+              "t": 6,
+              "value": [
+                1.0,
+                0,
+                1.5
+              ]
+            },
+            {
+              "t": 9,
+              "value": [
+                0.0,
+                1.2,
+                0.0
+              ]
+            },
+            {
+              "t": 12,
+              "value": [
+                -1.0,
+                2.8,
+                -0.5
+              ]
+            },
+            {
+              "t": 15,
+              "value": [
+                -3.5,
+                2.8,
+                -2.5
+              ]
+            },
+            {
+              "t": 20,
+              "value": [
+                -5.0,
+                2.8,
+                -4.0
+              ]
+            }
+          ]
+        }
+      },
+      "visual": {
+        "type": "preset",
+        "name": "humanoid",
+        "params": {
+          "height": 1.9,
+          "radius": 0.35
+        }
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.35,
+          0,
+          -0.35
+        ],
+        "max": [
+          0.35,
+          1.9,
+          0.35
+        ]
+      }
+    },
+    {
+      "id": "worker_b",
+      "label": "Worker B",
+      "transform": {
+        "space": "world",
+        "position": {
+          "interpolation": "catmullRom",
+          "extrapolation": "hold",
+          "keyframes": [
+            {
+              "t": 0,
+              "value": [
+                -6,
+                0,
+                -3
+              ]
+            },
+            {
+              "t": 3,
+              "value": [
+                -4.0,
+                0,
+                -1.5
+              ]
+            },
+            {
+              "t": 6,
+              "value": [
+                -2.0,
+                0,
+                0.5
+              ]
+            },
+            {
+              "t": 8,
+              "value": [
+                -0.5,
+                0,
+                2.0
+              ]
+            },
+            {
+              "t": 10,
+              "value": [
+                2.5,
+                0,
+                5
+              ]
+            },
+            {
+              "t": 12,
+              "value": [
+                5.5,
+                0,
+                6.8
+              ]
+            },
+            {
+              "t": 15,
+              "value": [
+                6.0,
+                0,
+                7.0
+              ]
+            },
+            {
+              "t": 20,
+              "value": [
+                9.0,
+                0,
+                9.0
+              ]
+            }
+          ]
+        }
+      },
+      "visual": {
+        "type": "preset",
+        "name": "humanoid",
+        "params": {
+          "height": 1.85,
+          "radius": 0.34
+        }
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.34,
+          0,
+          -0.34
+        ],
+        "max": [
+          0.34,
+          1.85,
+          0.34
+        ]
+      }
+    },
+    
+    {
+      "id": "central_machine",
+      "label": "Central machine",
+      "transform": {
+        "space": "world",
+        "position": [
+          0,
+          2.0,
+          -4.0
+        ]
+      },
+      "visual": {
+        "type": "primitive",
+        "shape": "box",
+        "params": {
+          "size": [
+            4,
+            4,
+            3
+          ]
+        },
+        "color": "#777777"
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -2,
+          0,
+          -1.5
+        ],
+        "max": [
+          2,
+          4,
+          1.5
+        ]
+      }
+    },
+    {
+      "id": "shelf_left",
+      "label": "Left shelving",
+      "transform": {
+        "space": "world",
+        "position": [
+          -7,
+          2.5,
+          2.5
+        ]
+      },
+      "visual": {
+        "type": "primitive",
+        "shape": "box",
+        "params": {
+          "size": [
+            2,
+            5,
+            8
+          ]
+        },
+        "color": "#8a6f4d"
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -8,
+          0,
+          -1.5
+        ],
+        "max": [
+          -6,
+          5,
+          6.5
+        ]
+      }
+    },
+    {
+      "id": "shelf_right",
+      "label": "Right shelving",
+      "transform": {
+        "space": "world",
+        "position": [
+          7,
+          2.5,
+          -2.5
+        ]
+      },
+      "visual": {
+        "type": "primitive",
+        "shape": "box",
+        "params": {
+          "size": [
+            2,
+            5,
+            8
+          ]
+        },
+        "color": "#8a6f4d"
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          6,
+          0,
+          -6.5
+        ],
+        "max": [
+          8,
+          5,
+          1.5
+        ]
+      }
+    },
+    {
+      "id": "pillar_a",
+      "label": "Support pillar A",
+      "transform": {
+        "space": "world",
+        "position": [
+          -4.5,
+          3.5,
+          5
+        ]
+      },
+      "visual": {
+        "type": "primitive",
+        "shape": "cylinder",
+        "params": {
+          "radius": 0.45,
+          "height": 7
+        },
+        "color": "#666666"
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -5,
+          0,
+          4.5
+        ],
+        "max": [
+          -4,
+          7,
+          5.5
+        ]
+      }
+    },
+    {
+      "id": "pillar_b",
+      "label": "Support pillar B",
+      "transform": {
+        "space": "world",
+        "position": [
+          4.5,
+          3.5,
+          -5
+        ]
+      },
+      "visual": {
+        "type": "primitive",
+        "shape": "cylinder",
+        "params": {
+          "radius": 0.45,
+          "height": 7
+        },
+        "color": "#666666"
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          4,
+          0,
+          -5.5
+        ],
+        "max": [
+          5,
+          7,
+          -4.5
+        ]
+      }
+    },
+    
+   
+  
+    {
+      "id": "loading_bay_frame",
+      "label": "Loading bay frame",
+      "transform": {
+        "space": "world",
+        "position": [
+          10,
+          3,
+          9
+        ]
+      },
+      "visual": {
+        "type": "primitive",
+        "shape": "box",
+        "params": {
+          "size": [
+            1,
+            6,
+            8
+          ]
+        },
+        "color": "#333333"
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          0.5,
+          0,
+          5
+        ],
+        "max": [
+          1.5,
+          6,
+          13
+        ]
+      }
+    }
+  ],
+  "targets": [
+    {
+      "id": "worker_a",
+      "entityId": "worker_a",
+      "label": "Worker A target",
+      "localAnchor": [
+        0,
+        0.95,
+        0
+      ],
+      "localBounds": {
+        "type": "box",
+        "min": [
+          -0.35,
+          0,
+          -0.35
+        ],
+        "max": [
+          0.35,
+          1.9,
+          0.35
+        ]
+      }
+    },
+    {
+      "id": "worker_b",
+      "entityId": "worker_b",
+      "label": "Worker B target",
+      "localAnchor": [
+        0,
+        0.925,
+        0
+      ],
+      "localBounds": {
+        "type": "box",
+        "min": [
+          -0.34,
+          0,
+          -0.34
+        ],
+        "max": [
+          0.34,
+          1.85,
+          0.34
+        ]
+      }
+    },
+    {
+      "id": "central_machine",
+      "entityId": "central_machine",
+      "label": "Central machine target",
+      "localAnchor": [
+        0,
+        2,
+        0
+      ],
+      "localBounds": {
+        "type": "box",
+        "min": [
+          -2,
+          0,
+          -1.5
+        ],
+        "max": [
+          2,
+          4,
+          1.5
+        ]
+      }
+    }
+  ]
+}

@@ -1,0 +1,78 @@
+{
+  "schemaVersion": "1.0",
+  "kind": "environment",
+  "id": "example-06-frozen-orbit",
+  "promptExampleId": "example-06",
+  "prompt": "زمان را روی ۲ ثانیه فریز کن و یک دور کامل ۳۶۰ درجه دور سوژه معلق در هوا بچرخ، سپس حرکت را با سرعت عادی ادامه بده.",
+  "clock": {
+    "durationSeconds": 5,
+    "timeDomain": "playback",
+    "fpsHint": 24
+  },
+  "coordinates": {
+    "handedness": "right",
+    "upAxis": "+Y",
+    "cameraForwardAxis": "-Z",
+    "lengthUnit": "meter",
+    "rotationOrder": "quaternion-xyzw"
+  },
+  "evaluation": { "distanceMetric": "anchorCenter" },
+  "world": {
+    "background": "#09101c",
+    "overviewCamera": {
+      "position": [7, 5, 8],
+      "target": [0.4, 1.5, -0.4]
+    },
+    "ground": { "y": 0, "size": [20, 20], "color": "#121b28" },
+    "grid": { "size": 20, "divisions": 20 }
+  },
+  "entities": [
+    {
+      "id": "floating-subject-entity",
+      "label": "Floating subject",
+      "transform": {
+        "space": "world",
+        "position": {
+          "interpolation": "linear",
+          "extrapolation": "hold",
+          "keyframes": [
+              { "t": 0, "value": [0, 1.25, 0] },
+              { "t": 1.5, "value": [0.8, 1.42, -0.9] },
+              { "t": 3, "value": [1.9, 1.55, -2.1] }
+          ]
+        }
+      },
+      "visual": { "type": "preset", "name": "humanoid", "params": { "color": "#c8d7e8", "shirtColor": "#653f89" } },
+      "bounds": { "type": "box", "min": [-0.45, 0, -0.3], "max": [0.45, 1.85, 0.3] }
+    },
+    {
+      "id": "orbit-reference-ring",
+      "label": "Orbit reference",
+      "transform": {
+        "space": "world",
+        "position": [0, 0.035, 0],
+        "rotation": [0.7071068, 0, 0, 0.7071068]
+      },
+      "visual": {
+        "type": "primitive",
+        "shape": "torus",
+        "params": {
+          "radius": 3.2,
+          "tube": 0.035,
+          "radialSegments": 12,
+          "tubularSegments": 96
+        },
+        "color": "#3487b8"
+      }
+    }
+  ],
+  "targets": [
+    {
+      "id": "subject",
+      "entityId": "floating-subject-entity",
+      "label": "The subject",
+      "localAnchor": [0, 0.95, 0],
+      "localBounds": { "type": "box", "min": [-0.45, 0, -0.3], "max": [0.45, 1.85, 0.3] }
+    }
+  ]
+}

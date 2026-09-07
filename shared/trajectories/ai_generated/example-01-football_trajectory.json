@@ -1,0 +1,167 @@
+{
+  "schemaVersion": "1.0",
+  "kind": "cameraTrajectory",
+  "environmentId": "example-01-football",
+  "clock": {
+    "durationSeconds": 10,
+    "timeUnit": "second"
+  },
+  "coordinates": {
+    "handedness": "right",
+    "upAxis": "+Y",
+    "cameraForwardAxis": "-Z",
+    "lengthUnit": "meter",
+    "rotationOrder": "quaternion-xyzw"
+  },
+  "intrinsics": {
+    "projection": "perspective",
+    "fovYDegrees": 40,
+    "near": 0.1,
+    "far": 250
+  },
+  "orientation": {
+    "mode": "perSampleLookAt",
+    "up": [
+      0,
+      1,
+      0
+    ]
+  },
+  "samples": [
+    {
+      "t": 0,
+      "position": [
+        5,
+        2.4,
+        13
+      ],
+      "lookAt": [
+        1.5,
+        0.35,
+        8
+      ],
+      "fovYDegrees": 40,
+      "actionId": "follow_ball"
+    },
+    {
+      "t": 2,
+      "position": [
+        5.4,
+        2.5,
+        10.1
+      ],
+      "lookAt": [
+        1.9,
+        0.51,
+        5.1
+      ],
+      "fovYDegrees": 40,
+      "actionId": "follow_ball"
+    },
+    {
+      "t": 4,
+      "position": [
+        4.95,
+        2.4,
+        7.2
+      ],
+      "lookAt": [
+        1.45,
+        0.4,
+        2.2
+      ],
+      "fovYDegrees": 40,
+      "actionId": "follow_ball"
+    },
+    {
+      "t": 6,
+      "position": [
+        4.35,
+        2.5,
+        4.2
+      ],
+      "lookAt": [
+        0.85,
+        0.53,
+        -0.8
+      ],
+      "fovYDegrees": 40,
+      "actionId": "follow_ball"
+    },
+    {
+      "t": 8,
+      "position": [
+        3.78,
+        2.406,
+        0.38
+      ],
+      "lookAt": [
+        0.28,
+        0.406,
+        -4.62
+      ],
+      "fovYDegrees": 40,
+      "actionId": "follow_ball"
+    },
+    {
+      "t": 8.5,
+      "position": [
+        3.71,
+        2.392,
+        -0.54
+      ],
+      "lookAt": [
+        0.21,
+        0.392,
+        -5.54
+      ],
+      "fovYDegrees": 40,
+      "actionId": "pedestal_up"
+    },
+    {
+      "t": 9,
+      "position": [
+        3.39,
+        3.878,
+        -2.46
+      ],
+      "lookAt": [
+        0.14,
+        0.378,
+        -6.46
+      ],
+      "fovYDegrees": 40,
+      "actionId": "pedestal_up"
+    },
+    {
+      "t": 9.5,
+      "position": [
+        3.07,
+        5.364,
+        -4.38
+      ],
+      "lookAt": [
+        0.07,
+        0.364,
+        -7.38
+      ],
+      "fovYDegrees": 40,
+      "actionId": "follow_high_angle"
+    },
+    {
+      "t": 10,
+      "position": [
+        3,
+        5.35,
+        -5.3
+      ],
+      "lookAt": [
+        0,
+        0.35,
+        -8.3
+      ],
+      "fovYDegrees": 40,
+      "actionId": "follow_high_angle"
+    }
+  ]
+}

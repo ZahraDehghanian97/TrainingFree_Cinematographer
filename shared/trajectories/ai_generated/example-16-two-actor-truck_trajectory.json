@@ -1,0 +1,647 @@
+{
+  "schemaVersion": "1.0",
+  "kind": "cameraTrajectory",
+  "environmentId": "example-16-two-actor-truck",
+  "clock": {
+    "durationSeconds": 10,
+    "timeUnit": "second"
+  },
+  "coordinates": {
+    "handedness": "right",
+    "upAxis": "+Y",
+    "cameraForwardAxis": "-Z",
+    "lengthUnit": "meter",
+    "rotationOrder": "quaternion-xyzw"
+  },
+  "intrinsics": {
+    "projection": "perspective",
+    "fovYDegrees": 52,
+    "near": 0.05,
+    "far": 160
+  },
+  "orientation": {
+    "mode": "perSampleLookAt",
+    "up": [
+      0,
+      1,
+      0
+    ]
+  },
+  "samples": [
+    {
+      "t": 0.0,
+      "position": [
+        -2.5,
+        2.15,
+        9.6
+      ],
+      "lookAt": [
+        0.0,
+        1.18,
+        0.04999999999999999
+      ],
+      "fovYDegrees": 54.0,
+      "actionId": "truck_right_exchange_setup"
+    },
+    {
+      "t": 0.25,
+      "position": [
+        -2.461575,
+        2.149275,
+        9.5923875
+      ],
+      "lookAt": [
+        0.0,
+        1.18,
+        0.04999999999999999
+      ],
+      "fovYDegrees": 53.971,
+      "actionId": "truck_right_exchange_setup"
+    },
+    {
+      "t": 0.5,
+      "position": [
+        -2.3516,
+        2.1471999999999998,
+        9.570599999999999
+      ],
+      "lookAt": [
+        0.0,
+        1.18,
+        0.04999999999999993
+      ],
+      "fovYDegrees": 53.888,
+      "actionId": "truck_right_exchange_setup"
+    },
+    {
+      "t": 0.75,
+      "position": [
+        -2.178025,
+        2.143925,
+        9.5362125
+      ],
+      "lookAt": [
+        0.0,
+        1.18,
+        0.04999999999999999
+      ],
+      "fovYDegrees": 53.757,
+      "actionId": "truck_right_exchange_setup"
+    },
+    {
+      "t": 1.0,
+      "position": [
+        -1.9487999999999999,
+        2.1395999999999997,
+        9.4908
+      ],
+      "lookAt": [
+        0.0,
+        1.18,
+        0.04999999999999999
+      ],
+      "fovYDegrees": 53.584,
+      "actionId": "truck_right_exchange_setup"
+    },
+    {
+      "t": 1.25,
+      "position": [
+        -1.671875,
+        2.134375,
+        9.4359375
+      ],
+      "lookAt": [
+        0.0,
+        1.18,
+        0.04999999999999999
+      ],
+      "fovYDegrees": 53.375,
+      "actionId": "truck_right_exchange_setup"
+    },
+    {
+      "t": 1.5,
+      "position": [
+        -1.3552,
+        2.1284,
+        9.3732
+      ],
+      "lookAt": [
+        0.0,
+        1.18,
+        0.050000000000000044
+      ],
+      "fovYDegrees": 53.136,
+      "actionId": "truck_right_exchange_setup"
+    },
+    {
+      "t": 1.75,
+      "position": [
+        -1.0067250000000003,
+        2.121825,
+        9.3041625
+      ],
+      "lookAt": [
+        0.0,
+        1.18,
+        0.04999999999999999
+      ],
+      "fovYDegrees": 52.873,
+      "actionId": "truck_right_exchange_setup"
+    },
+    {
+      "t": 2.0,
+      "position": [
+        -0.6343999999999996,
+        2.1148,
+        9.2304
+      ],
+      "lookAt": [
+        0.0,
+        1.18,
+        0.04999999999999999
+      ],
+      "fovYDegrees": 52.592,
+      "actionId": "truck_right_exchange_setup"
+    },
+    {
+      "t": 2.25,
+      "position": [
+        -0.2461749999999996,
+        2.107475,
+        9.1534875
+      ],
+      "lookAt": [
+        0.0,
+        1.18,
+        0.04687499999999997
+      ],
+      "fovYDegrees": 52.299,
+      "actionId": "truck_right_exchange_setup"
+    },
+    {
+      "t": 2.5,
+      "position": [
+        0.1499999999999999,
+        2.0999999999999996,
+        9.075
+      ],
+      "lookAt": [
+        0.0,
+        1.18,
+        0.04375000000000001
+      ],
+      "fovYDegrees": 52.0,
+      "actionId": "truck_right_exchange_setup"
+    },
+    {
+      "t": 2.75,
+      "position": [
+        0.5461750000000003,
+        2.0925249999999997,
+        8.9965125
+      ],
+      "lookAt": [
+        0.0,
+        1.18,
+        0.04062499999999997
+      ],
+      "fovYDegrees": 51.701,
+      "actionId": "truck_right_exchange_setup"
+    },
+    {
+      "t": 3.0,
+      "position": [
+        0.9344000000000001,
+        2.0852,
+        8.9196
+      ],
+      "lookAt": [
+        0.0,
+        1.18,
+        0.037500000000000006
+      ],
+      "fovYDegrees": 51.408,
+      "actionId": "truck_right_exchange_setup"
+    },
+    {
+      "t": 3.25,
+      "position": [
+        1.3067250000000001,
+        2.078175,
+        8.8458375
+      ],
+      "lookAt": [
+        0.0,
+        1.18,
+        0.03437499999999999
+      ],
+      "fovYDegrees": 51.127,
+      "actionId": "truck_right_exchange_setup"
+    },
+    {
+      "t": 3.5,
+      "position": [
+        1.6551999999999998,
+        2.0715999999999997,
+        8.776800000000001
+      ],
+      "lookAt": [
+        0.0,
+        1.18,
+        0.031249999999999972
+      ],
+      "fovYDegrees": 50.864,
+      "actionId": "truck_right_exchange_setup"
+    },
+    {
+      "t": 3.75,
+      "position": [
+        1.9718749999999998,
+        2.065625,
+        8.7140625
+      ],
+      "lookAt": [
+        0.0,
+        1.18,
+        0.028124999999999983
+      ],
+      "fovYDegrees": 50.625,
+      "actionId": "truck_right_exchange_setup"
+    },
+    {
+      "t": 4.0,
+      "position": [
+        2.2488,
+        2.0604,
+        8.6592
+      ],
+      "lookAt": [
+        0.0,
+        1.18,
+        0.02500000000000001
+      ],
+      "fovYDegrees": 50.416,
+      "actionId": "truck_right_exchange_setup"
+    },
+    {
+      "t": 4.25,
+      "position": [
+        2.4780249999999997,
+        2.056075,
+        8.6137875
+      ],
+      "lookAt": [
+        0.0,
+        1.18,
+        0.03333333333333334
+      ],
+      "fovYDegrees": 50.243,
+      "actionId": "truck_right_exchange_setup"
+    },
+    {
+      "t": 4.5,
+      "position": [
+        2.6515999999999993,
+        2.0528,
+        8.579400000000001
+      ],
+      "lookAt": [
+        0.0,
+        1.18,
+        0.04166666666666668
+      ],
+      "fovYDegrees": 50.112,
+      "actionId": "truck_right_exchange_setup"
+    },
+    {
+      "t": 4.75,
+      "position": [
+        2.7615749999999997,
+        2.050725,
+        8.557612500000001
+      ],
+      "lookAt": [
+        0.0,
+        1.18,
+        0.05
+      ],
+      "fovYDegrees": 50.028999999999996,
+      "actionId": "truck_right_exchange_setup"
+    },
+    {
+      "t": 5.0,
+      "position": [
+        2.8,
+        2.05,
+        8.55
+      ],
+      "lookAt": [
+        0.0,
+        1.18,
+        0.05
+      ],
+      "fovYDegrees": 50.0,
+      "actionId": "truck_right_exchange_setup"
+    },
+    {
+      "t": 5.25,
+      "position": [
+        5.6494283663901435,
+        2.0825375,
+        7.036234869177955
+      ],
+      "lookAt": [
+        0.0625,
+        0.8875,
+        0.065
+      ],
+      "fovYDegrees": 46.953125,
+      "actionId": "briefcase_punch_in"
+    },
+    {
+      "t": 5.5,
+      "position": [
+        7.592956622152557,
+        2.0898,
+        4.793323597875518
+      ],
+      "lookAt": [
+        0.125,
+        0.875,
+        0.05
+      ],
+      "fovYDegrees": 40.25,
+      "actionId": "briefcase_punch_in"
+    },
+    {
+      "t": 5.75,
+      "position": [
+        8.61603143296576,
+        2.1012625,
+        2.308570081543704
+      ],
+      "lookAt": [
+        0.1875,
+        0.8625,
+        0.035
+      ],
+      "fovYDegrees": 33.546875,
+      "actionId": "briefcase_punch_in"
+    },
+    {
+      "t": 6.0,
+      "position": [
+        8.848366444753761,
+        2.1164,
+        -0.09645739728682985
+      ],
+      "lookAt": [
+        0.25,
+        0.85,
+        0.02
+      ],
+      "fovYDegrees": 30.5,
+      "actionId": "briefcase_punch_in"
+    },
+    {
+      "t": 6.25,
+      "position": [
+        8.488656816397114,
+        2.1346875,
+        -2.212852502686275
+      ],
+      "lookAt": [
+        0.4068797831632653,
+        0.8743767082725947,
+        -0.02510152833454811
+      ],
+      "fovYDegrees": 30.763916015625,
+      "actionId": "exchange_zoom_out"
+    },
+    {
+      "t": 6.5,
+      "position": [
+        7.730596820616952,
+        2.1555999999999997,
+        -3.9551613821308624
+      ],
+      "lookAt": [
+        0.45528425655976673,
+        0.940896501457726,
+        -0.047565597667638494
+      ],
+      "fovYDegrees": 31.509765625,
+      "actionId": "exchange_zoom_out"
+    },
+    {
+      "t": 6.75,
+      "position": [
+        6.749651425352666,
+        2.1786125,
+        -5.3049314990775445
+      ],
+      "lookAt": [
+        0.38154723943148694,
+        1.0276251594387755,
+        -0.039021672284985445
+      ],
+      "fovYDegrees": 32.668701171875,
+      "actionId": "exchange_zoom_out"
+    },
+    {
+      "t": 7.0,
+      "position": [
+        5.683167200433594,
+        2.2032,
+        -6.291674676996792
+      ],
+      "lookAt": [
+        0.2232507288629737,
+        1.111603498542274,
+        -0.005619533527696813
+      ],
+      "fovYDegrees": 34.171875,
+      "actionId": "exchange_zoom_out"
+    },
+    {
+      "t": 7.25,
+      "position": [
+        4.628729947799826,
+        2.2288375,
+        -6.969679137819895
+      ],
+      "lookAt": [
+        0.06922489978134116,
+        1.1688473715379009,
+        0.03197072020772593
+      ],
+      "fovYDegrees": 35.950439453125,
+      "actionId": "exchange_zoom_out"
+    },
+    {
+      "t": 7.5,
+      "position": [
+        3.648999578240932,
+        2.255,
+        -7.401563680186053
+      ],
+      "lookAt": [
+        0.03750000000000009,
+        1.18,
+        0.043749999999999956
+      ],
+      "fovYDegrees": 37.935546875,
+      "actionId": "exchange_zoom_out"
+    },
+    {
+      "t": 7.75,
+      "position": [
+        2.7790948554402033,
+        2.2811624999999998,
+        -7.648022546229778
+      ],
+      "lookAt": [
+        0.043749999999999956,
+        1.18,
+        0.046874999999999944
+      ],
+      "fovYDegrees": 40.058349609375,
+      "actionId": "exchange_zoom_out"
+    },
+    {
+      "t": 8.0,
+      "position": [
+        2.03415098726727,
+        2.3068,
+        -7.762374352252093
+      ],
+      "lookAt": [
+        0.050000000000000044,
+        1.18,
+        0.04999999999999999
+      ],
+      "fovYDegrees": 42.25,
+      "actionId": "exchange_zoom_out"
+    },
+    {
+      "t": 8.25,
+      "position": [
+        1.4096080888520313,
+        2.3313875,
+        -7.791542257976705
+      ],
+      "lookAt": [
+        0.050000000000000044,
+        1.18,
+        0.04999999999999999
+      ],
+      "fovYDegrees": 44.441650390625,
+      "actionId": "exchange_zoom_out"
+    },
+    {
+      "t": 8.5,
+      "position": [
+        0.9050614166964647,
+        2.3544,
+        -7.76657112893352
+      ],
+      "lookAt": [
+        0.050000000000000266,
+        1.18,
+        0.04999999999999993
+      ],
+      "fovYDegrees": 46.564453125,
+      "actionId": "exchange_zoom_out"
+    },
+    {
+      "t": 8.75,
+      "position": [
+        0.5091890675808926,
+        2.3753124999999997,
+        -7.712993605344554
+      ],
+      "lookAt": [
+        0.04999999999999982,
+        1.18,
+        0.050000000000000044
+      ],
+      "fovYDegrees": 48.549560546875,
+      "actionId": "exchange_zoom_out"
+    },
+    {
+      "t": 9.0,
+      "position": [
+        0.20847373581325945,
+        2.3936,
+        -7.649169222393892
+      ],
+      "lookAt": [
+        0.050000000000000266,
+        1.18,
+        0.050000000000000044
+      ],
+      "fovYDegrees": 50.328125,
+      "actionId": "exchange_zoom_out"
+    },
+    {
+      "t": 9.25,
+      "position": [
+        -0.011255675744607799,
+        2.4087375,
+        -7.587841867952316
+      ],
+      "lookAt": [
+        0.04999999999999982,
+        1.18,
+        0.050000000000000044
+      ],
+      "fovYDegrees": 51.831298828125,
+      "actionId": "exchange_zoom_out"
+    },
+    {
+      "t": 9.5,
+      "position": [
+        -0.15150979851433916,
+        2.4202,
+        -7.537924759847234
+      ],
+      "lookAt": [
+        0.04999999999999982,
+        1.18,
+        0.050000000000000044
+      ],
+      "fovYDegrees": 52.990234375,
+      "actionId": "exchange_zoom_out"
+    },
+    {
+      "t": 9.75,
+      "position": [
+        -0.2548162285295515,
+        2.4274625,
+        -7.504365382312486
+      ],
+      "lookAt": [
+        0.04999999999999982,
+        1.18,
+        0.04999999999999993
+      ],
+      "fovYDegrees": 53.736083984375,
+      "actionId": "exchange_zoom_out"
+    },
+    {
+      "t": 10.0,
+      "position": [
+        -0.3582950380350541,
+        2.4299999999999997,
+        -7.488951860962898
+      ],
+      "lookAt": [
+        0.04999999999999982,
+        1.18,
+        0.050000000000000044
+      ],
+      "fovYDegrees": 54.0,
+      "actionId": "exchange_zoom_out"
+    }
+  ]
+}

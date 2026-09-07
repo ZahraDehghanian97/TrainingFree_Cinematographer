@@ -1,0 +1,170 @@
+{
+  "schemaVersion": "1.0",
+  "kind": "timelineSolverOutput",
+  "exampleId": "example-12",
+  "environmentId": "example-12-dashboard-exit",
+  "prompt": "از نمای داخل ماشین (Dashboard View) شروع کن، وقتی راننده ترمز کرد، دوربین از شیشه جلو بیرون بیاید و با یک Arc سریع، نمای جلوی ماشین را نشان دهد.",
+  "totalDuration": 18,
+  "subjectBinding": {
+    "mode": "resolved",
+    "source": "resolved-fixture"
+  },
+  "timeline": {
+    "timeline": [
+      {
+        "kind": "interval",
+        "startTime": 0,
+        "endTime": 8,
+        "lossFunctions": [
+          {
+            "type": "Static",
+            "parameters": {
+              "subjectId": "dashboard"
+            },
+            "sourceActionId": "dashboard_static"
+          }
+        ],
+        "weight": 1
+      },
+      {
+        "kind": "point",
+        "time": 0,
+        "lossFunctions": [
+          {
+            "type": "shotSize",
+            "parameters": {
+              "shotSize": "closeUp",
+              "subjectId": "dashboard"
+            }
+          },
+          {
+            "type": "subjectView",
+            "parameters": {
+              "view": "front",
+              "subjectId": "dashboard"
+            }
+          },
+          {
+            "type": "framingPosition",
+            "parameters": {
+              "position": "center",
+              "subjectId": "dashboard"
+            }
+          }
+        ],
+        "weight": 1
+      },
+      {
+        "kind": "interval",
+        "startTime": 8,
+        "endTime": 10.5,
+        "lossFunctions": [
+          {
+            "type": "dollyInMovement",
+            "parameters": {
+              "distance": 5.5,
+              "subjectId": "car",
+              "speedKeyframes": [
+                {
+                  "normalizedTime": 0,
+                  "speedMultiplier": 1
+                },
+                {
+                  "normalizedTime": 1,
+                  "speedMultiplier": 2
+                }
+              ],
+              "allowSubjectIntersection": true
+            },
+            "sourceActionId": "exit_through_windshield"
+          }
+        ],
+        "weight": 1
+      },
+      {
+        "kind": "point",
+        "time": 10.5,
+        "lossFunctions": [
+          {
+            "type": "shotSize",
+            "parameters": {
+              "shotSize": "mediumShot",
+              "subjectId": "car"
+            }
+          },
+          {
+            "type": "subjectView",
+            "parameters": {
+              "view": "back",
+              "subjectId": "car"
+            }
+          },
+          {
+            "type": "framingPosition",
+            "parameters": {
+              "position": "center",
+              "subjectId": "car"
+            }
+          }
+        ],
+        "weight": 1
+      },
+      {
+        "kind": "interval",
+        "startTime": 10.5,
+        "endTime": 18,
+        "lossFunctions": [
+          {
+            "type": "arcMovement",
+            "parameters": {
+              "arcAngle": -180,
+              "arcRadius": 5.5,
+              "subjectId": "car",
+              "speedKeyframes": [
+                {
+                  "normalizedTime": 0,
+                  "speedMultiplier": 2
+                },
+                {
+                  "normalizedTime": 1,
+                  "speedMultiplier": 1
+                }
+              ]
+            },
+            "sourceActionId": "arc_front_reveal"
+          }
+        ],
+        "weight": 1
+      },
+      {
+        "kind": "point",
+        "time": 18,
+        "lossFunctions": [
+          {
+            "type": "shotSize",
+            "parameters": {
+              "shotSize": "mediumShot",
+              "subjectId": "car"
+            }
+          },
+          {
+            "type": "subjectView",
+            "parameters": {
+              "view": "front",
+              "subjectId": "car"
+            }
+          },
+          {
+            "type": "framingPosition",
+            "parameters": {
+              "position": "center",
+              "subjectId": "car"
+            }
+          }
+        ],
+        "weight": 1
+      }
+    ],
+    "timeWarp": []
+  }
+}

@@ -1,0 +1,100 @@
+{
+  "schemaVersion": "1.0",
+  "kind": "timelineSolverOutput",
+  "exampleId": "example-01",
+  "environmentId": "example-01-football",
+  "prompt": "توپ رو دنبال کن و وقتی توپ نزدیک به دروازه شد، pedestal کن و از زاویه بالا توپ رو دنبال کن",
+  "totalDuration": 10,
+  "timeline": {
+    "timeline": [
+      {
+        "kind": "interval",
+        "startTime": 0,
+        "endTime": 5,
+        "lossFunctions": [
+          {
+            "type": "followMovement",
+            "parameters": {
+              "distance": 2
+            }
+          }
+        ]
+      },
+      {
+        "kind": "point",
+        "time": 0,
+        "lossFunctions": [
+          {
+            "type": "shotSize",
+            "parameters": {
+              "shotSize": "mediumShot"
+            }
+          },
+          {
+            "type": "subjectView",
+            "parameters": {
+              "view": "front"
+            }
+          },
+          {
+            "type": "framingPosition",
+            "parameters": {
+              "position": "center"
+            }
+          }
+        ]
+      },
+      {
+        "kind": "interval",
+        "startTime": 5,
+        "endTime": 7.5,
+        "lossFunctions": [
+          {
+            "type": "pedestalUpMovement",
+            "parameters": {}
+          }
+        ]
+      },
+      {
+        "kind": "interval",
+        "startTime": 7.5,
+        "endTime": 10,
+        "lossFunctions": [
+          {
+            "type": "followMovement",
+            "parameters": {
+              "distance": 2
+            }
+          }
+        ]
+      },
+      {
+        "kind": "interval",
+        "startTime": 7.5,
+        "endTime": 10,
+        "lossFunctions": [
+          {
+            "type": "shotSize",
+            "parameters": {
+              "shotSize": "mediumShot"
+            }
+          }
+        ]
+      },
+      {
+        "kind": "interval",
+        "startTime": 7.5,
+        "endTime": 10,
+        "lossFunctions": [
+          {
+            "type": "framingPosition",
+            "parameters": {
+              "position": "center"
+            }
+          }
+        ]
+      }
+    ],
+    "timeWarp": []
+  }
+}

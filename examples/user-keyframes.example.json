@@ -1,0 +1,28 @@
+{
+  "environmentId": "example-07-spiral-closeup",
+  "keyframes": [
+    {
+      "id": "opening-pose",
+      "time": 0,
+      "position": [0, 8.4, 2.8],
+      "lookAt": [0, 1, 0],
+      "up": [0, 1, 0],
+      "fovYDegrees": 52
+    },
+    {
+      "id": "soft-midpoint",
+      "time": 4.5,
+      "mode": "soft",
+      "weight": 1.5,
+      "position": [0, 5.1, 1.7],
+      "fovYDegrees": 37
+    },
+    {
+      "id": "closeup-pose",
+      "time": 9,
+      "position": [0, 1.7, 0.55],
+      "lookAt": [0, 1.68, 0.185],
+      "fovYDegrees": 22
+    }
+  ]
+}

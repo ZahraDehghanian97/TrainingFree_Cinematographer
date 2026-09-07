@@ -1,0 +1,381 @@
+{
+  "schemaVersion": "1.0",
+  "kind": "environment",
+  "id": "example-15-dancer-arc",
+  "promptExampleId": "example-15",
+  "prompt": "از نمای Low Medium Long شروع کن. چهار ثانیه اول با Arc Left آرام و اسلوموشن دور رقصنده بچرخ؛ روی ضرب موسیقی حرکت را به Arc Left سریع همراه Pedestal Up تبدیل کن و در دو ثانیه آخر با یک فرود نرم، رقصنده را روی یک‌سوم راست قاب نگه دار.",
+  "clock": {
+    "durationSeconds": 10,
+    "timeDomain": "playback",
+    "fpsHint": 24
+  },
+  "coordinates": {
+    "handedness": "right",
+    "upAxis": "+Y",
+    "cameraForwardAxis": "-Z",
+    "lengthUnit": "meter",
+    "rotationOrder": "quaternion-xyzw"
+  },
+  "evaluation": {
+    "distanceMetric": "boundsSurface",
+    "epsilon": 0.001
+  },
+  "world": {
+    "background": "#12091d",
+    "overviewCamera": {
+      "position": [
+        11,
+        8,
+        12
+      ],
+      "target": [
+        0,
+        1.4,
+        0
+      ]
+    },
+    "ground": {
+      "y": 0,
+      "size": [
+        28,
+        28
+      ],
+      "color": "#1b1225"
+    },
+    "grid": {
+      "size": 24,
+      "divisions": 24
+    }
+  },
+  "entities": [
+    {
+      "id": "dancer-entity",
+      "label": "Dancer",
+      "transform": {
+        "space": "world",
+        "position": {
+          "interpolation": "catmullRom",
+          "extrapolation": "hold",
+          "keyframes": [
+            {
+              "t": 0,
+              "value": [
+                0,
+                0.03,
+                0
+              ]
+            },
+            {
+              "t": 2,
+              "value": [
+                0.65,
+                0.03,
+                0.2
+              ]
+            },
+            {
+              "t": 4,
+              "value": [
+                0.2,
+                0.03,
+                1.05
+              ]
+            },
+            {
+              "t": 6,
+              "value": [
+                -0.75,
+                0.03,
+                0.55
+              ]
+            },
+            {
+              "t": 8,
+              "value": [
+                -0.2,
+                0.03,
+                -0.55
+              ]
+            },
+            {
+              "t": 10,
+              "value": [
+                0.25,
+                0.03,
+                0
+              ]
+            }
+          ]
+        },
+        "rotation": {
+          "interpolation": "slerp",
+          "extrapolation": "hold",
+          "keyframes": [
+            {
+              "t": 0,
+              "value": [
+                0,
+                0.0,
+                0,
+                1.0
+              ]
+            },
+            {
+              "t": 2,
+              "value": [
+                0,
+                0.70710678,
+                0,
+                0.70710678
+              ]
+            },
+            {
+              "t": 4,
+              "value": [
+                0,
+                1.0,
+                0,
+                0.0
+              ]
+            },
+            {
+              "t": 6,
+              "value": [
+                0,
+                0.70710678,
+                0,
+                -0.70710678
+              ]
+            },
+            {
+              "t": 8,
+              "value": [
+                0,
+                0.0,
+                0,
+                -1.0
+              ]
+            },
+            {
+              "t": 10,
+              "value": [
+                0,
+                -0.70710678,
+                0,
+                -0.70710678
+              ]
+            }
+          ]
+        }
+      },
+      "visual": {
+        "type": "preset",
+        "name": "humanoid",
+        "params": {
+          "color": "#d9a27f",
+          "shirtColor": "#ba2d8d",
+          "trouserColor": "#17131f"
+        }
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.45,
+          0,
+          -0.25
+        ],
+        "max": [
+          0.45,
+          1.8,
+          0.25
+        ]
+      }
+    },
+    {
+      "id": "stage",
+      "label": "Circular stage",
+      "transform": {
+        "space": "world",
+        "position": [
+          0,
+          -0.09,
+          0
+        ]
+      },
+      "visual": {
+        "type": "primitive",
+        "shape": "cylinder",
+        "params": {
+          "radius": 3.2,
+          "height": 0.24,
+          "radialSegments": 48
+        },
+        "color": "#30203e"
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -3.2,
+          -0.12,
+          -3.2
+        ],
+        "max": [
+          3.2,
+          0.12,
+          3.2
+        ]
+      }
+    },
+    {
+      "id": "light-a",
+      "label": "Magenta light tower",
+      "transform": {
+        "space": "world",
+        "position": [
+          -5.2,
+          2.3,
+          -3.8
+        ]
+      },
+      "visual": {
+        "type": "primitive",
+        "shape": "box",
+        "params": {
+          "size": [
+            0.22,
+            4.6,
+            0.22
+          ]
+        },
+        "color": "#d8279d"
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.11,
+          -2.3,
+          -0.11
+        ],
+        "max": [
+          0.11,
+          2.3,
+          0.11
+        ]
+      }
+    },
+    {
+      "id": "light-b",
+      "label": "Cyan light tower",
+      "transform": {
+        "space": "world",
+        "position": [
+          5.2,
+          2.3,
+          -3.8
+        ]
+      },
+      "visual": {
+        "type": "primitive",
+        "shape": "box",
+        "params": {
+          "size": [
+            0.22,
+            4.6,
+            0.22
+          ]
+        },
+        "color": "#27d4d8"
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.11,
+          -2.3,
+          -0.11
+        ],
+        "max": [
+          0.11,
+          2.3,
+          0.11
+        ]
+      }
+    },
+    {
+      "id": "light-c",
+      "label": "Amber light orb",
+      "transform": {
+        "space": "world",
+        "position": [
+          0,
+          4.8,
+          2.5
+        ]
+      },
+      "visual": {
+        "type": "primitive",
+        "shape": "sphere",
+        "params": {
+          "radius": 0.42
+        },
+        "color": "#ffb447"
+      },
+      "bounds": {
+        "type": "sphere",
+        "center": [
+          0,
+          0,
+          0
+        ],
+        "radius": 0.42
+      }
+    }
+  ],
+  "targets": [
+    {
+      "id": "dancer",
+      "entityId": "dancer-entity",
+      "label": "The dancer",
+      "localAnchor": [
+        0,
+        1.18,
+        0
+      ],
+      "localBounds": {
+        "type": "box",
+        "min": [
+          -0.5,
+          0,
+          -0.3
+        ],
+        "max": [
+          0.5,
+          1.85,
+          0.3
+        ]
+      }
+    },
+    {
+      "id": "dancer_face",
+      "entityId": "dancer-entity",
+      "label": "The dancer's face",
+      "localAnchor": [
+        0,
+        1.58,
+        0.16
+      ],
+      "localBounds": {
+        "type": "box",
+        "min": [
+          -0.25,
+          1.35,
+          -0.12
+        ],
+        "max": [
+          0.25,
+          1.82,
+          0.28
+        ]
+      }
+    }
+  ]
+}

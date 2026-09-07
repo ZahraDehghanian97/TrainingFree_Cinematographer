@@ -1,0 +1,167 @@
+{
+  "schemaVersion": "1.0",
+  "kind": "cameraTrajectory",
+  "environmentId": "example-12-dashboard-exit",
+  "clock": {
+    "durationSeconds": 18,
+    "timeUnit": "second"
+  },
+  "coordinates": {
+    "handedness": "right",
+    "upAxis": "+Y",
+    "cameraForwardAxis": "-Z",
+    "lengthUnit": "meter",
+    "rotationOrder": "quaternion-xyzw"
+  },
+  "intrinsics": {
+    "projection": "perspective",
+    "fovYDegrees": 50,
+    "near": 0.1,
+    "far": 250
+  },
+  "orientation": {
+    "mode": "perSampleLookAt",
+    "up": [
+      0,
+      1,
+      0
+    ]
+  },
+  "samples": [
+    {
+      "t": 0,
+      "position": [
+        0,
+        1.02,
+        29.52
+      ],
+      "lookAt": [
+        0,
+        0.8,
+        -70
+      ],
+      "fovYDegrees": 50,
+      "actionId": "dashboard_static"
+    },
+    {
+      "t": 8,
+      "position": [
+        0.15,
+        1.02,
+        -24.48
+      ],
+      "lookAt": [
+        0.15,
+        0.8,
+        -124
+      ],
+      "fovYDegrees": 50,
+      "actionId": "dashboard_static"
+    },
+    {
+      "t": 8.5,
+      "position": [
+        0.15,
+        1.1,
+        -28
+      ],
+      "lookAt": [
+        0.15,
+        0.8,
+        -125.5
+      ],
+      "fovYDegrees": 50,
+      "actionId": "exit_and_arc"
+    },
+    {
+      "t": 9,
+      "position": [
+        1.35,
+        1,
+        -30
+      ],
+      "lookAt": [
+        0.15,
+        0.7875,
+        -102
+      ],
+      "fovYDegrees": 50,
+      "actionId": "exit_and_arc"
+    },
+    {
+      "t": 9.5,
+      "position": [
+        1.15,
+        0.9,
+        -32
+      ],
+      "lookAt": [
+        0.15,
+        0.775,
+        -78.5
+      ],
+      "fovYDegrees": 50,
+      "actionId": "exit_and_arc"
+    },
+    {
+      "t": 10,
+      "position": [
+        0.65,
+        0.85,
+        -34
+      ],
+      "lookAt": [
+        0.15,
+        0.7625,
+        -55
+      ],
+      "fovYDegrees": 50,
+      "actionId": "exit_and_arc"
+    },
+    {
+      "t": 10.5,
+      "position": [
+        0.15,
+        0.8,
+        -34.533
+      ],
+      "lookAt": [
+        0.15,
+        0.75,
+        -30.333
+      ],
+      "fovYDegrees": 50,
+      "actionId": "exit_and_arc"
+    },
+    {
+      "t": 11,
+      "position": [
+        0.15,
+        0.8,
+        -34.667
+      ],
+      "lookAt": [
+        0.15,
+        0.75,
+        -30.667
+      ],
+      "fovYDegrees": 50,
+      "actionId": "front_view"
+    },
+    {
+      "t": 18,
+      "position": [
+        0.15,
+        0.8,
+        -37
+      ],
+      "lookAt": [
+        0.15,
+        0.75,
+        -33
+      ],
+      "fovYDegrees": 50,
+      "actionId": "front_view"
+    }
+  ]
+}

@@ -1,0 +1,101 @@
+{
+  "schemaVersion": "1.0",
+  "kind": "cameraTrajectory",
+  "environmentId": "example-09-two-people",
+  "clock": {
+    "durationSeconds": 24,
+    "timeUnit": "second"
+  },
+  "coordinates": {
+    "handedness": "right",
+    "upAxis": "+Y",
+    "cameraForwardAxis": "-Z",
+    "lengthUnit": "meter",
+    "rotationOrder": "quaternion-xyzw"
+  },
+  "intrinsics": {
+    "projection": "perspective",
+    "fovYDegrees": 48,
+    "near": 0.05,
+    "far": 180
+  },
+  "orientation": {
+    "mode": "perSampleLookAt",
+    "up": [0, 1, 0]
+  },
+  "samples": [
+    {
+      "t": 0,
+      "position": [0, 4.5, -4],
+      "lookAt": [0, 0.92, 10],
+      "fovYDegrees": 48,
+      "actionId": "follow_two_people"
+    },
+    {
+      "t": 4,
+      "position": [0, 4.5, -7.65625],
+      "lookAt": [0, 0.92, 6.34375],
+      "actionId": "follow_two_people"
+    },
+    {
+      "t": 8,
+      "position": [0, 4.5, -12],
+      "lookAt": [0, 0.92, 2],
+      "actionId": "follow_two_people"
+    },
+    {
+      "t": 10,
+      "position": [0, 4.5, -14.39444],
+      "lookAt": [0, 0.92, -0.39444],
+      "actionId": "follow_two_people"
+    },
+    {
+      "t": 12,
+      "position": [0, 4.5, -16.429752],
+      "lookAt": [0, 0.92, -2.429752],
+      "actionId": "follow_two_people"
+    },
+    {
+      "t": 13.5,
+      "position": [0, 4.5, -17.5],
+      "lookAt": [0, 0.92, -3.5],
+      "actionId": "follow_two_people"
+    },
+    {
+      "t": 13.51,
+      "position": [-0.855748, 1.6, -3.356942],
+      "lookAt": [0.485748, 1.4, -3.556942],
+      "fovYDegrees": 45,
+      "cutBefore": true,
+      "actionId": "ots_cut"
+    },
+    {
+      "t": 14,
+      "position": [-0.8, 1.6, -3.8],
+      "lookAt": [0.44, 1.4, -4],
+      "fovYDegrees": 45,
+      "actionId": "ots_cut"
+    },
+    {
+      "t": 16,
+      "position": [-0.7812, 1.6, -4.744],
+      "lookAt": [0.4212, 1.4, -4.944],
+      "fovYDegrees": 45,
+      "actionId": "ots_cut"
+    },
+    {
+      "t": 20,
+      "position": [-0.74, 1.6, -7.568],
+      "lookAt": [0.38, 1.4, -7.768],
+      "fovYDegrees": 45,
+      "actionId": "ots_cut"
+    },
+    {
+      "t": 24,
+      "position": [-0.71, 1.6, -9.8],
+      "lookAt": [0.35, 1.4, -10],
+      "fovYDegrees": 45,
+      "actionId": "ots_cut"
+    }
+  ]
+}

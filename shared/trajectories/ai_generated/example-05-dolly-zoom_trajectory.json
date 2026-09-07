@@ -1,0 +1,422 @@
+{
+  "schemaVersion": "1.0",
+  "kind": "cameraTrajectory",
+  "environmentId": "example-05-dolly-zoom",
+  "clock": {
+    "durationSeconds": 25,
+    "timeUnit": "second"
+  },
+  "coordinates": {
+    "handedness": "right",
+    "upAxis": "+Y",
+    "cameraForwardAxis": "-Z",
+    "lengthUnit": "meter",
+    "rotationOrder": "quaternion-xyzw"
+  },
+  "intrinsics": {
+    "projection": "perspective",
+    "fovYDegrees": 61.9,
+    "near": 0.1,
+    "far": 250
+  },
+  "orientation": {
+    "mode": "perSampleLookAt",
+    "up": [
+      0,
+      1,
+      0
+    ]
+  },
+  "samples": [
+    {
+      "t": 0,
+      "position": [
+        0,
+        1.65,
+        1.12
+      ],
+      "lookAt": [
+        0,
+        1.65,
+        0.12
+      ],
+      "fovYDegrees": 61.9,
+      "actionId": "dolly_zoom"
+    },
+    {
+      "t": 1,
+      "position": [
+        0,
+        1.65,
+        1.32
+      ],
+      "lookAt": [
+        0,
+        1.65,
+        0.12
+      ],
+      "fovYDegrees": 51.6,
+      "actionId": "dolly_zoom"
+    },
+    {
+      "t": 2,
+      "position": [
+        0,
+        1.65,
+        1.52
+      ],
+      "lookAt": [
+        0,
+        1.65,
+        0.12
+      ],
+      "fovYDegrees": 44.2,
+      "actionId": "dolly_zoom"
+    },
+    {
+      "t": 3,
+      "position": [
+        0,
+        1.65,
+        1.72
+      ],
+      "lookAt": [
+        0,
+        1.65,
+        0.12
+      ],
+      "fovYDegrees": 38.7,
+      "actionId": "dolly_zoom"
+    },
+    {
+      "t": 4,
+      "position": [
+        0,
+        1.65,
+        1.92
+      ],
+      "lookAt": [
+        0,
+        1.65,
+        0.12
+      ],
+      "fovYDegrees": 34.4,
+      "actionId": "dolly_zoom"
+    },
+    {
+      "t": 5,
+      "position": [
+        0,
+        1.65,
+        2.12
+      ],
+      "lookAt": [
+        0,
+        1.65,
+        0.12
+      ],
+      "fovYDegrees": 30.9,
+      "actionId": "dolly_zoom"
+    },
+    {
+      "t": 6,
+      "position": [
+        0,
+        1.65,
+        2.32
+      ],
+      "lookAt": [
+        0,
+        1.65,
+        0.12
+      ],
+      "fovYDegrees": 28.1,
+      "actionId": "dolly_zoom"
+    },
+    {
+      "t": 7,
+      "position": [
+        0,
+        1.65,
+        2.52
+      ],
+      "lookAt": [
+        0,
+        1.65,
+        0.12
+      ],
+      "fovYDegrees": 25.8,
+      "actionId": "dolly_zoom"
+    },
+    {
+      "t": 8,
+      "position": [
+        0,
+        1.65,
+        2.72
+      ],
+      "lookAt": [
+        0,
+        1.65,
+        0.12
+      ],
+      "fovYDegrees": 23.8,
+      "actionId": "dolly_zoom"
+    },
+    {
+      "t": 9,
+      "position": [
+        0,
+        1.65,
+        2.92
+      ],
+      "lookAt": [
+        0,
+        1.65,
+        0.12
+      ],
+      "fovYDegrees": 22.1,
+      "actionId": "dolly_zoom"
+    },
+    {
+      "t": 10,
+      "position": [
+        0,
+        1.65,
+        3.12
+      ],
+      "lookAt": [
+        0,
+        1.65,
+        0.12
+      ],
+      "fovYDegrees": 20.6,
+      "actionId": "dolly_zoom"
+    },
+    {
+      "t": 11,
+      "position": [
+        0,
+        1.65,
+        3.32
+      ],
+      "lookAt": [
+        0,
+        1.65,
+        0.12
+      ],
+      "fovYDegrees": 19.3,
+      "actionId": "dolly_zoom"
+    },
+    {
+      "t": 12,
+      "position": [
+        0,
+        1.65,
+        3.52
+      ],
+      "lookAt": [
+        0,
+        1.65,
+        0.12
+      ],
+      "fovYDegrees": 18.2,
+      "actionId": "dolly_zoom"
+    },
+    {
+      "t": 13,
+      "position": [
+        0,
+        1.65,
+        3.72
+      ],
+      "lookAt": [
+        0,
+        1.65,
+        0.12
+      ],
+      "fovYDegrees": 17.2,
+      "actionId": "dolly_zoom"
+    },
+    {
+      "t": 14,
+      "position": [
+        0,
+        1.65,
+        3.92
+      ],
+      "lookAt": [
+        0,
+        1.65,
+        0.12
+      ],
+      "fovYDegrees": 16.3,
+      "actionId": "dolly_zoom"
+    },
+    {
+      "t": 15,
+      "position": [
+        0,
+        1.65,
+        4.12
+      ],
+      "lookAt": [
+        0,
+        1.65,
+        0.12
+      ],
+      "fovYDegrees": 15.5,
+      "actionId": "dolly_zoom"
+    },
+    {
+      "t": 16,
+      "position": [
+        0,
+        1.65,
+        4.32
+      ],
+      "lookAt": [
+        0,
+        1.65,
+        0.12
+      ],
+      "fovYDegrees": 14.7,
+      "actionId": "dolly_zoom"
+    },
+    {
+      "t": 17,
+      "position": [
+        0,
+        1.65,
+        4.52
+      ],
+      "lookAt": [
+        0,
+        1.65,
+        0.12
+      ],
+      "fovYDegrees": 14.1,
+      "actionId": "dolly_zoom"
+    },
+    {
+      "t": 18,
+      "position": [
+        0,
+        1.65,
+        4.72
+      ],
+      "lookAt": [
+        0,
+        1.65,
+        0.12
+      ],
+      "fovYDegrees": 13.5,
+      "actionId": "dolly_zoom"
+    },
+    {
+      "t": 19,
+      "position": [
+        0,
+        1.65,
+        4.92
+      ],
+      "lookAt": [
+        0,
+        1.65,
+        0.12
+      ],
+      "fovYDegrees": 12.9,
+      "actionId": "dolly_zoom"
+    },
+    {
+      "t": 20,
+      "position": [
+        0,
+        1.65,
+        5.12
+      ],
+      "lookAt": [
+        0,
+        1.65,
+        0.12
+      ],
+      "fovYDegrees": 12.4,
+      "actionId": "dolly_zoom"
+    },
+    {
+      "t": 21,
+      "position": [
+        0,
+        1.65,
+        5.32
+      ],
+      "lookAt": [
+        0,
+        1.65,
+        0.12
+      ],
+      "fovYDegrees": 11.9,
+      "actionId": "dolly_zoom"
+    },
+    {
+      "t": 22,
+      "position": [
+        0,
+        1.65,
+        5.52
+      ],
+      "lookAt": [
+        0,
+        1.65,
+        0.12
+      ],
+      "fovYDegrees": 11.5,
+      "actionId": "dolly_zoom"
+    },
+    {
+      "t": 23,
+      "position": [
+        0,
+        1.65,
+        5.72
+      ],
+      "lookAt": [
+        0,
+        1.65,
+        0.12
+      ],
+      "fovYDegrees": 11.1,
+      "actionId": "dolly_zoom"
+    },
+    {
+      "t": 24,
+      "position": [
+        0,
+        1.65,
+        5.92
+      ],
+      "lookAt": [
+        0,
+        1.65,
+        0.12
+      ],
+      "fovYDegrees": 10.7,
+      "actionId": "dolly_zoom"
+    },
+    {
+      "t": 25,
+      "position": [
+        0,
+        1.65,
+        6.12
+      ],
+      "lookAt": [
+        0,
+        1.65,
+        0.12
+      ],
+      "fovYDegrees": 10.3,
+      "actionId": "dolly_zoom"
+    }
+  ]
+}

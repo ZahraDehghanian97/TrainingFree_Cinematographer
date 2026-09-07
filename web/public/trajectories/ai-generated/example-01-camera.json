@@ -1,0 +1,94 @@
+{
+  "schemaVersion": "1.0",
+  "kind": "cameraTrajectory",
+  "environmentId": "example-01-football",
+  "clock": {
+    "durationSeconds": 10,
+    "timeUnit": "second"
+  },
+  "coordinates": {
+    "handedness": "right",
+    "upAxis": "+Y",
+    "cameraForwardAxis": "-Z",
+    "lengthUnit": "meter",
+    "rotationOrder": "quaternion-xyzw"
+  },
+  "intrinsics": {
+    "projection": "perspective",
+    "fovYDegrees": 40,
+    "near": 0.1,
+    "far": 250
+  },
+  "orientation": {
+    "mode": "perSampleLookAt",
+    "up": [0, 1, 0]
+  },
+  "samples": [
+    {
+      "t": 0,
+      "position": [5, 2.4, 13],
+      "lookAt": [1.5, 0.35, 8],
+      "fovYDegrees": 40,
+      "actionId": "follow_ball"
+    },
+    {
+      "t": 2,
+      "position": [5.4, 2.5, 10.1],
+      "lookAt": [1.9, 0.51, 5.1],
+      "actionId": "follow_ball"
+    },
+    {
+      "t": 4,
+      "position": [4.95, 2.4, 7.2],
+      "lookAt": [1.45, 0.4, 2.2],
+      "actionId": "follow_ball"
+    },
+    {
+      "t": 6,
+      "position": [4.35, 2.5, 4.2],
+      "lookAt": [0.85, 0.53, -0.8],
+      "actionId": "follow_ball"
+    },
+    {
+      "t": 6.5,
+      "position": [4.12, 2.55, 3.25],
+      "lookAt": [0.67, 0.51, -1.711],
+      "actionId": "follow_ball"
+    },
+    {
+      "t": 6.75,
+      "position": [4, 3.25, 2.55],
+      "lookAt": [0.584, 0.487, -2.15],
+      "fovYDegrees": 41,
+      "actionId": "pedestal_up"
+    },
+    {
+      "t": 7.25,
+      "position": [3.35, 5.25, 0.25],
+      "lookAt": [0.423, 0.439, -3.119],
+      "fovYDegrees": 42,
+      "actionId": "pedestal_up"
+    },
+    {
+      "t": 7.8,
+      "position": [2.82, 6.25, -1.25],
+      "lookAt": [0.299, 0.409, -4.202],
+      "fovYDegrees": 42,
+      "actionId": "follow_high_angle"
+    },
+    {
+      "t": 9,
+      "position": [2.65, 6.25, -3.35],
+      "lookAt": [0.108, 0.371, -6.71],
+      "fovYDegrees": 42,
+      "actionId": "follow_high_angle"
+    },
+    {
+      "t": 10,
+      "position": [2.5, 6.2, -5.3],
+      "lookAt": [0, 0.35, -8.3],
+      "fovYDegrees": 42,
+      "actionId": "follow_high_angle"
+    }
+  ]
+}

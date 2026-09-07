@@ -1,0 +1,439 @@
+{
+  "schemaVersion": "1.0",
+  "kind": "environment",
+  "id": "example-17-runner-speed",
+  "promptExampleId": "example-17",
+  "prompt": "از Low Full Shot در کنار دونده با Track شروع کن و برای مسیرش lead room بده. لحظه‌ای که سرعتش به ۸ متر بر ثانیه رسید، صحنه را به ۱۰٪ ببر و با Arc Left صدوبیست درجه از کنار به روبه‌رویش برس. بعد سرعت عادی را برگردان، Dolly Out و Follow کن تا با فضای باز جلوی حرکت در قاب چپ تمام شود.",
+  "clock": {
+    "durationSeconds": 11,
+    "timeDomain": "playback",
+    "fpsHint": 24
+  },
+  "coordinates": {
+    "handedness": "right",
+    "upAxis": "+Y",
+    "cameraForwardAxis": "-Z",
+    "lengthUnit": "meter",
+    "rotationOrder": "quaternion-xyzw"
+  },
+  "evaluation": {
+    "distanceMetric": "boundsSurface",
+    "epsilon": 0.001
+  },
+  "world": {
+    "background": "#07111c",
+    "overviewCamera": {
+      "position": [
+        28,
+        18,
+        32
+      ],
+      "target": [
+        24,
+        1,
+        3
+      ]
+    },
+    "ground": {
+      "y": 0,
+      "size": [
+        110,
+        34
+      ],
+      "color": "#101d2b"
+    },
+    "grid": {
+      "size": 90,
+      "divisions": 45
+    }
+  },
+  "entities": [
+    {
+      "id": "runner-entity",
+      "label": "Runner",
+      "transform": {
+        "space": "world",
+        "position": {
+          "interpolation": "linear",
+          "extrapolation": "hold",
+          "keyframes": [
+            {
+              "t": 0,
+              "value": [
+                -10,
+                0,
+                -1.5
+              ]
+            },
+            {
+              "t": 1,
+              "value": [
+                -9,
+                0,
+                -1.3
+              ]
+            },
+            {
+              "t": 2,
+              "value": [
+                -6,
+                0,
+                -0.8
+              ]
+            },
+            {
+              "t": 3,
+              "value": [
+                1.5,
+                0,
+                0
+              ]
+            },
+            {
+              "t": 4,
+              "value": [
+                11.5,
+                0,
+                1.2
+              ]
+            },
+            {
+              "t": 6,
+              "value": [
+                31,
+                0,
+                3.5
+              ]
+            },
+            {
+              "t": 8,
+              "value": [
+                49,
+                0,
+                5.5
+              ]
+            },
+            {
+              "t": 11,
+              "value": [
+                72,
+                0,
+                8
+              ]
+            }
+          ]
+        },
+        "rotation": {
+          "interpolation": "slerp",
+          "extrapolation": "hold",
+          "keyframes": [
+            {
+              "t": 0,
+              "value": [
+                0,
+                0.70710678,
+                0,
+                0.70710678
+              ]
+            },
+            {
+              "t": 11,
+              "value": [
+                0,
+                0.65605903,
+                0,
+                0.75470958
+              ]
+            }
+          ]
+        }
+      },
+      "visual": {
+        "type": "preset",
+        "name": "humanoid",
+        "params": {
+          "color": "#9c694f",
+          "shirtColor": "#ef5b2a",
+          "trouserColor": "#17263f"
+        }
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.45,
+          0,
+          -0.25
+        ],
+        "max": [
+          0.45,
+          1.8,
+          0.25
+        ]
+      }
+    },
+    {
+      "id": "hurdle-a",
+      "label": "Track marker A",
+      "transform": {
+        "space": "world",
+        "position": [
+          9,
+          0.275,
+          -1.3
+        ]
+      },
+      "visual": {
+        "type": "primitive",
+        "shape": "cone",
+        "params": {
+          "radius": 0.18,
+          "height": 0.55,
+          "radialSegments": 20
+        },
+        "color": "#d9f0ff"
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.18,
+          -0.275,
+          -0.18
+        ],
+        "max": [
+          0.18,
+          0.275,
+          0.18
+        ]
+      }
+    },
+    {
+      "id": "hurdle-b",
+      "label": "Track marker B",
+      "transform": {
+        "space": "world",
+        "position": [
+          26,
+          0.275,
+          0.8
+        ]
+      },
+      "visual": {
+        "type": "primitive",
+        "shape": "cone",
+        "params": {
+          "radius": 0.18,
+          "height": 0.55,
+          "radialSegments": 20
+        },
+        "color": "#d9f0ff"
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.18,
+          -0.275,
+          -0.18
+        ],
+        "max": [
+          0.18,
+          0.275,
+          0.18
+        ]
+      }
+    },
+    {
+      "id": "hurdle-c",
+      "label": "Track marker C",
+      "transform": {
+        "space": "world",
+        "position": [
+          43,
+          0.275,
+          2.7
+        ]
+      },
+      "visual": {
+        "type": "primitive",
+        "shape": "cone",
+        "params": {
+          "radius": 0.18,
+          "height": 0.55,
+          "radialSegments": 20
+        },
+        "color": "#d9f0ff"
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.18,
+          -0.275,
+          -0.18
+        ],
+        "max": [
+          0.18,
+          0.275,
+          0.18
+        ]
+      }
+    },
+    {
+      "id": "finish-left",
+      "label": "Finish gate left",
+      "transform": {
+        "space": "world",
+        "position": [
+          58,
+          2.1,
+          4.8
+        ]
+      },
+      "visual": {
+        "type": "primitive",
+        "shape": "box",
+        "params": {
+          "size": [
+            0.28,
+            4.2,
+            0.28
+          ]
+        },
+        "color": "#ffb000"
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.14,
+          -2.1,
+          -0.14
+        ],
+        "max": [
+          0.14,
+          2.1,
+          0.14
+        ]
+      }
+    },
+    {
+      "id": "finish-right",
+      "label": "Finish gate right",
+      "transform": {
+        "space": "world",
+        "position": [
+          58,
+          2.1,
+          8.3
+        ]
+      },
+      "visual": {
+        "type": "primitive",
+        "shape": "box",
+        "params": {
+          "size": [
+            0.28,
+            4.2,
+            0.28
+          ]
+        },
+        "color": "#ffb000"
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.14,
+          -2.1,
+          -0.14
+        ],
+        "max": [
+          0.14,
+          2.1,
+          0.14
+        ]
+      }
+    },
+    {
+      "id": "finish-banner",
+      "label": "Finish banner",
+      "transform": {
+        "space": "world",
+        "position": [
+          58,
+          4.05,
+          6.55
+        ]
+      },
+      "visual": {
+        "type": "primitive",
+        "shape": "box",
+        "params": {
+          "size": [
+            0.28,
+            0.35,
+            3.8
+          ]
+        },
+        "color": "#ff4b4b"
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.14,
+          -0.175,
+          -1.9
+        ],
+        "max": [
+          0.14,
+          0.175,
+          1.9
+        ]
+      }
+    }
+  ],
+  "targets": [
+    {
+      "id": "runner",
+      "entityId": "runner-entity",
+      "label": "The runner",
+      "localAnchor": [
+        0,
+        1.08,
+        0
+      ],
+      "localBounds": {
+        "type": "box",
+        "min": [
+          -0.42,
+          0,
+          -0.25
+        ],
+        "max": [
+          0.42,
+          1.8,
+          0.25
+        ]
+      }
+    },
+    {
+      "id": "runner_face",
+      "entityId": "runner-entity",
+      "label": "The runner's face",
+      "localAnchor": [
+        0,
+        1.58,
+        0.16
+      ],
+      "localBounds": {
+        "type": "box",
+        "min": [
+          -0.24,
+          1.35,
+          -0.12
+        ],
+        "max": [
+          0.24,
+          1.82,
+          0.28
+        ]
+      }
+    }
+  ]
+}

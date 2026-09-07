@@ -1,3 +1,35 @@
-node_modules
-outputs
-dist
+# Dependencies
+node_modules/
+
+# Build and generated output
+dist/
+dist-web/
+outputs/
+web/public/trajectories/optimized/
+shared/optimized/*_camera.json
+
+# Python environments and caches
+.venv/
+venv/
+__pycache__/
+*.py[cod]
+.ipynb_checkpoints/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+
+# Test and tooling output
+coverage/
+.coverage
+htmlcov/
+.vite/
+*.tsbuildinfo
+
+# Local configuration and logs
+.env
+.env.*
+!.env.example
+*.log
+
+# Operating system metadata
+.DS_Store

@@ -1,0 +1,317 @@
+{
+  "schemaVersion": "1.0",
+  "kind": "cameraTrajectory",
+  "environmentId": "example-07-spiral-closeup",
+  "clock": {
+    "durationSeconds": 9,
+    "timeUnit": "second"
+  },
+  "coordinates": {
+    "handedness": "right",
+    "upAxis": "+Y",
+    "cameraForwardAxis": "-Z",
+    "lengthUnit": "meter",
+    "rotationOrder": "quaternion-xyzw"
+  },
+  "intrinsics": {
+    "projection": "perspective",
+    "fovYDegrees": 40,
+    "near": 0.1,
+    "far": 250
+  },
+  "orientation": {
+    "mode": "perSampleLookAt",
+    "up": [
+      0,
+      1,
+      0
+    ]
+  },
+  "samples": [
+    {
+      "t": 0,
+      "position": [
+        4,
+        6,
+        0
+      ],
+      "lookAt": [
+        0,
+        1.68,
+        0.185
+      ],
+      "fovYDegrees": 40,
+      "actionId": "spiral_in"
+    },
+    {
+      "t": 0.5,
+      "position": [
+        2.679,
+        5.76,
+        2.679
+      ],
+      "lookAt": [
+        0,
+        1.68,
+        0.185
+      ],
+      "fovYDegrees": 40,
+      "actionId": "spiral_in"
+    },
+    {
+      "t": 1,
+      "position": [
+        0,
+        5.52,
+        3.578
+      ],
+      "lookAt": [
+        0,
+        1.68,
+        0.185
+      ],
+      "fovYDegrees": 40,
+      "actionId": "spiral_in"
+    },
+    {
+      "t": 1.5,
+      "position": [
+        -2.381,
+        5.28,
+        2.381
+      ],
+      "lookAt": [
+        0,
+        1.68,
+        0.185
+      ],
+      "fovYDegrees": 40,
+      "actionId": "spiral_in"
+    },
+    {
+      "t": 2,
+      "position": [
+        -3.156,
+        5.04,
+        0
+      ],
+      "lookAt": [
+        0,
+        1.68,
+        0.185
+      ],
+      "fovYDegrees": 40,
+      "actionId": "spiral_in"
+    },
+    {
+      "t": 2.5,
+      "position": [
+        -2.082,
+        4.8,
+        -2.082
+      ],
+      "lookAt": [
+        0,
+        1.68,
+        0.185
+      ],
+      "fovYDegrees": 40,
+      "actionId": "spiral_in"
+    },
+    {
+      "t": 3,
+      "position": [
+        0,
+        4.56,
+        -2.733
+      ],
+      "lookAt": [
+        0,
+        1.68,
+        0.185
+      ],
+      "fovYDegrees": 40,
+      "actionId": "spiral_in"
+    },
+    {
+      "t": 3.5,
+      "position": [
+        1.783,
+        4.32,
+        -1.783
+      ],
+      "lookAt": [
+        0,
+        1.68,
+        0.185
+      ],
+      "fovYDegrees": 40,
+      "actionId": "spiral_in"
+    },
+    {
+      "t": 4,
+      "position": [
+        2.311,
+        4.08,
+        0
+      ],
+      "lookAt": [
+        0,
+        1.68,
+        0.185
+      ],
+      "fovYDegrees": 40,
+      "actionId": "spiral_in"
+    },
+    {
+      "t": 4.5,
+      "position": [
+        1.485,
+        3.84,
+        1.485
+      ],
+      "lookAt": [
+        0,
+        1.68,
+        0.185
+      ],
+      "fovYDegrees": 40,
+      "actionId": "spiral_in"
+    },
+    {
+      "t": 5,
+      "position": [
+        0,
+        3.6,
+        1.889
+      ],
+      "lookAt": [
+        0,
+        1.68,
+        0.185
+      ],
+      "fovYDegrees": 40,
+      "actionId": "spiral_in"
+    },
+    {
+      "t": 5.5,
+      "position": [
+        -1.186,
+        3.36,
+        1.186
+      ],
+      "lookAt": [
+        0,
+        1.68,
+        0.185
+      ],
+      "fovYDegrees": 40,
+      "actionId": "spiral_in"
+    },
+    {
+      "t": 6,
+      "position": [
+        -1.467,
+        3.12,
+        0
+      ],
+      "lookAt": [
+        0,
+        1.68,
+        0.185
+      ],
+      "fovYDegrees": 40,
+      "actionId": "spiral_in"
+    },
+    {
+      "t": 6.5,
+      "position": [
+        -0.888,
+        2.88,
+        -0.888
+      ],
+      "lookAt": [
+        0,
+        1.68,
+        0.185
+      ],
+      "fovYDegrees": 40,
+      "actionId": "spiral_in"
+    },
+    {
+      "t": 7,
+      "position": [
+        0,
+        2.64,
+        -1.044
+      ],
+      "lookAt": [
+        0,
+        1.68,
+        0.185
+      ],
+      "fovYDegrees": 40,
+      "actionId": "spiral_in"
+    },
+    {
+      "t": 7.5,
+      "position": [
+        0.589,
+        2.4,
+        -0.589
+      ],
+      "lookAt": [
+        0,
+        1.68,
+        0.185
+      ],
+      "fovYDegrees": 40,
+      "actionId": "spiral_in"
+    },
+    {
+      "t": 8,
+      "position": [
+        0.622,
+        2.16,
+        0
+      ],
+      "lookAt": [
+        0,
+        1.68,
+        0.185
+      ],
+      "fovYDegrees": 40,
+      "actionId": "spiral_in"
+    },
+    {
+      "t": 8.5,
+      "position": [
+        0.291,
+        1.92,
+        0.291
+      ],
+      "lookAt": [
+        0,
+        1.68,
+        0.185
+      ],
+      "fovYDegrees": 40,
+      "actionId": "spiral_in"
+    },
+    {
+      "t": 9,
+      "position": [
+        0,
+        1.68,
+        0.2
+      ],
+      "lookAt": [
+        0,
+        1.68,
+        0.185
+      ],
+      "fovYDegrees": 40,
+      "actionId": "spiral_in"
+    }
+  ]
+}

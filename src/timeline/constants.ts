@@ -27,40 +27,47 @@ export const BASE_SPEED: Record<CameraMovementType, number> = {
 };
 
 export const MOVEMENT_TO_LOSS: Partial<Record<CameraMovementType, LossFunctionType>> = {
-  [CameraMovementType.DollyIn]: LossFunctionType.DollyMovement,
-  [CameraMovementType.DollyOut]: LossFunctionType.DollyMovement,
-  [CameraMovementType.ZoomIn]: LossFunctionType.ZoomIn,   //  dedicated ZoomMovement
-  [CameraMovementType.ZoomOut]: LossFunctionType.ZoomOut,   // dedicated ZoomMovement
+  [CameraMovementType.DollyIn]: LossFunctionType.DollyInMovement,
+  [CameraMovementType.DollyOut]: LossFunctionType.DollyOutMovement,
+  [CameraMovementType.ZoomIn]: LossFunctionType.ZoomIn,   
+  [CameraMovementType.ZoomOut]: LossFunctionType.ZoomOut,  
   [CameraMovementType.Follow]: LossFunctionType.FollowMovement,
-  [CameraMovementType.Track]: LossFunctionType.DollyMovement,     // TODO: dedicated TrackMovement?
+  [CameraMovementType.Track]: LossFunctionType.TrackMovement,     
   [CameraMovementType.Static]: LossFunctionType.Static,
+  [CameraMovementType.CraneUp]: LossFunctionType.CraneUpMovement,
+  [CameraMovementType.CraneDown]: LossFunctionType.CraneDownMovement,
 
-  [CameraMovementType.PanLeft]: LossFunctionType.PanMovement,
-  [CameraMovementType.PanRight]: LossFunctionType.PanMovement,
-  [CameraMovementType.TiltUp]: LossFunctionType.TiltMovement,
-  [CameraMovementType.TiltDown]: LossFunctionType.TiltMovement,
-  [CameraMovementType.DutchRight]: LossFunctionType.DutchMovement,
-  [CameraMovementType.DutchLeft]: LossFunctionType.DutchMovement,
+  [CameraMovementType.PanLeft]: LossFunctionType.PanLeftMovement,
+  [CameraMovementType.PanRight]: LossFunctionType.PanRightMovement,
+  [CameraMovementType.TiltUp]: LossFunctionType.TiltUpMovement,
+  [CameraMovementType.TiltDown]: LossFunctionType.TiltDownMovement,
+  [CameraMovementType.DutchRight]: LossFunctionType.DutchRightMovement,
+  [CameraMovementType.DutchLeft]: LossFunctionType.DutchLeftMovement,
   
 
-  [CameraMovementType.TruckLeft]: LossFunctionType.TruckMovement,
-  [CameraMovementType.TruckRight]: LossFunctionType.TruckMovement,
+  [CameraMovementType.TruckLeft]: LossFunctionType.TruckLeftMovement,
+  [CameraMovementType.TruckRight]: LossFunctionType.TruckRightMovement,
 
-  [CameraMovementType.PedestalUp]: LossFunctionType.PedestalMovement,
-  [CameraMovementType.PedestalDown]: LossFunctionType.PedestalMovement,
+  [CameraMovementType.PedestalUp]: LossFunctionType.PedestalUpMovement,
+  [CameraMovementType.PedestalDown]: LossFunctionType.PedestalDownMovement,
 
   [CameraMovementType.ArcLeft]: LossFunctionType.ArcMovement,
   [CameraMovementType.ArcRight]: LossFunctionType.ArcMovement,
-  [CameraMovementType.Orbit]: LossFunctionType.ArcMovement,       // TODO: dedicated OrbitMovement?
+  [CameraMovementType.Orbit]: LossFunctionType.ArcMovement,       
 };
 
-export const FPS_DURATION_WEIGHT: Record<RelativeFPS, number> = {
-  [RelativeFPS.Frozen]: 5.0, // TODO: Must change to explicit duration
-  [RelativeFPS.VerySlow]: 3.0,
-  [RelativeFPS.Slow]: 2.0,
+/**
+ * Scene-time rate used by Camera Lab while camera playback keeps advancing.
+ * These are rates, not duration multipliers: 0 freezes the scene, values below
+ * 1 slow it down, and values above 1 speed it up.
+ */
+export const SCENE_PLAYBACK_RATE: Record<RelativeFPS, number> = {
+  [RelativeFPS.Frozen]: 0,
+  [RelativeFPS.VerySlow]: 0.1,
+  [RelativeFPS.Slow]: 0.5,
   [RelativeFPS.Normal]: 1.0,
-  [RelativeFPS.Fast]: 0.5,
-  [RelativeFPS.VeryFast]: 0.2,
+  [RelativeFPS.Fast]: 2.0,
+  [RelativeFPS.VeryFast]: 4.0,
 };
 
 // ─── Solver Defaults ────────────────────────────────

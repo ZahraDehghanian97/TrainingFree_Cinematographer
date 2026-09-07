@@ -1,0 +1,89 @@
+{
+  "schemaVersion": "1.0",
+  "kind": "timelineSolverOutput",
+  "exampleId": "example-03",
+  "environmentId": "example-03-vase-reveal",
+  "prompt": "ابتدا به صورت کلوزآپ گلدون رو نشون بده و بعد dolly out کن تا همزمان گلدون و مانیتور در صحنه دیده‌شوند.",
+  "totalDuration": 20,
+  "timeline": {
+    "timeline": [
+      {
+        "kind": "interval",
+        "startTime": 0,
+        "endTime": 20,
+        "lossFunctions": [
+          {
+            "type": "dollyOutMovement",
+            "parameters": {
+              "distance": 2,
+              "speedKeyframes": [
+                {
+                  "normalizedTime": 0,
+                  "speedMultiplier": 0
+                },
+                {
+                  "normalizedTime": 0.1,
+                  "speedMultiplier": 1,
+                  "easing": "increase"
+                },
+                {
+                  "normalizedTime": 0.9,
+                  "speedMultiplier": 1,
+                  "easing": "static"
+                },
+                {
+                  "normalizedTime": 1,
+                  "speedMultiplier": 0,
+                  "easing": "decrease"
+                }
+              ]
+            }
+          }
+        ]
+      },
+      {
+        "kind": "point",
+        "time": 0,
+        "lossFunctions": [
+          {
+            "type": "shotSize",
+            "parameters": {
+              "shotSize": "closeUp"
+            }
+          },
+          {
+            "type": "subjectView",
+            "parameters": {
+              "view": "front"
+            }
+          },
+          {
+            "type": "framingPosition",
+            "parameters": {
+              "position": "center"
+            }
+          }
+        ]
+      },
+      {
+        "kind": "point",
+        "time": 20,
+        "lossFunctions": [
+          {
+            "type": "shotSize",
+            "parameters": {
+              "shotSize": "mediumShot"
+            }
+          },
+          {
+            "type": "framingPosition",
+            "parameters": {
+              "position": "center"
+            }
+          }
+        ]
+      }
+    ],
+    "timeWarp": []
+  }
+}

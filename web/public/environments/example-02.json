@@ -1,0 +1,59 @@
+{
+  "schemaVersion": "1.0",
+  "kind": "environment",
+  "id": "example-02-face-orbit",
+  "promptExampleId": "example-02",
+  "prompt": "از زوم روی صورت مرد شروع کن، یک stop motion بزن و ۳ دور کامل دور صورت آن بچرخ",
+  "clock": {
+    "durationSeconds": 15,
+    "timeDomain": "playback",
+    "fpsHint": 12
+  },
+  "coordinates": {
+    "handedness": "right",
+    "upAxis": "+Y",
+    "cameraForwardAxis": "-Z",
+    "lengthUnit": "meter",
+    "rotationOrder": "quaternion-xyzw"
+  },
+  "evaluation": { "distanceMetric": "anchorCenter" },
+  "world": {
+    "background": "#11101a",
+    "overviewCamera": {
+      "position": [5.5, 4, 6.5],
+      "target": [0, 1, 0]
+    },
+    "ground": { "y": 0, "size": [14, 14], "color": "#171925" },
+    "grid": { "size": 14, "divisions": 14 }
+  },
+  "entities": [
+    {
+      "id": "man-entity",
+      "label": "Frozen man",
+      "transform": { "space": "world", "position": [0, 0, 0] },
+      "visual": { "type": "preset", "name": "humanoid", "params": { "color": "#d7b596", "shirtColor": "#304b6f" } },
+      "bounds": { "type": "box", "min": [-0.45, 0, -0.3], "max": [0.45, 1.85, 0.3] }
+    },
+    {
+      "id": "studio-column-left",
+      "label": "Left studio marker",
+      "transform": { "space": "world", "position": [-3.2, 1.2, -1.5] },
+      "visual": { "type": "primitive", "shape": "box", "params": { "size": [0.25, 2.4, 0.25] }, "color": "#34e0c2" }
+    },
+    {
+      "id": "studio-column-right",
+      "label": "Right studio marker",
+      "transform": { "space": "world", "position": [3.2, 1.2, 1.5] },
+      "visual": { "type": "primitive", "shape": "box", "params": { "size": [0.25, 2.4, 0.25] }, "color": "#ff9e3d" }
+    }
+  ],
+  "targets": [
+    {
+      "id": "man_face",
+      "entityId": "man-entity",
+      "label": "The man's face",
+      "localAnchor": [0, 1.65, 0.12],
+      "localBounds": { "type": "sphere", "center": [0, 1.65, 0.12], "radius": 0.18 }
+    }
+  ]
+}

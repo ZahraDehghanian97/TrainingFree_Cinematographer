@@ -1,0 +1,105 @@
+{
+  "schemaVersion": "1.0",
+  "kind": "cameraTrajectory",
+  "environmentId": "example-05-dolly-zoom",
+  "clock": {
+    "durationSeconds": 25,
+    "timeUnit": "second"
+  },
+  "coordinates": {
+    "handedness": "right",
+    "upAxis": "+Y",
+    "cameraForwardAxis": "-Z",
+    "lengthUnit": "meter",
+    "rotationOrder": "quaternion-xyzw"
+  },
+  "intrinsics": {
+    "projection": "perspective",
+    "fovYDegrees": 44,
+    "near": 0.03,
+    "far": 120
+  },
+  "orientation": {
+    "mode": "perSampleLookAt",
+    "up": [0, 1, 0]
+  },
+  "samples": [
+    {
+      "t": 0,
+      "position": [0, 1.65, 1.62],
+      "lookAt": [0, 1.65, 0.12],
+      "fovYDegrees": 44,
+      "actionId": "dolly_out_face"
+    },
+    {
+      "t": 2.5,
+      "position": [0, 1.65, 1.788],
+      "lookAt": [0, 1.65, 0.12],
+      "fovYDegrees": 39.935501,
+      "actionId": "dolly_out_face"
+    },
+    {
+      "t": 5,
+      "position": [0, 1.65, 2.244],
+      "lookAt": [0, 1.65, 0.12],
+      "fovYDegrees": 31.849996,
+      "actionId": "dolly_out_face"
+    },
+    {
+      "t": 7.5,
+      "position": [0, 1.65, 2.916],
+      "lookAt": [0, 1.65, 0.12],
+      "fovYDegrees": 24.459614,
+      "actionId": "dolly_out_face"
+    },
+    {
+      "t": 10,
+      "position": [0, 1.65, 3.732],
+      "lookAt": [0, 1.65, 0.12],
+      "fovYDegrees": 19.049307,
+      "actionId": "dolly_out_face"
+    },
+    {
+      "t": 12.5,
+      "position": [0, 1.65, 4.62],
+      "lookAt": [0, 1.65, 0.12],
+      "fovYDegrees": 15.340364,
+      "actionId": "dolly_out_face"
+    },
+    {
+      "t": 15,
+      "position": [0, 1.65, 5.508],
+      "lookAt": [0, 1.65, 0.12],
+      "fovYDegrees": 12.835249,
+      "actionId": "dolly_out_face"
+    },
+    {
+      "t": 17.5,
+      "position": [0, 1.65, 6.324],
+      "lookAt": [0, 1.65, 0.12],
+      "fovYDegrees": 11.158503,
+      "actionId": "dolly_out_face"
+    },
+    {
+      "t": 20,
+      "position": [0, 1.65, 6.996],
+      "lookAt": [0, 1.65, 0.12],
+      "fovYDegrees": 10.07388,
+      "actionId": "dolly_out_face"
+    },
+    {
+      "t": 22.5,
+      "position": [0, 1.65, 7.452],
+      "lookAt": [0, 1.65, 0.12],
+      "fovYDegrees": 9.450284,
+      "actionId": "dolly_out_face"
+    },
+    {
+      "t": 25,
+      "position": [0, 1.65, 7.62],
+      "lookAt": [0, 1.65, 0.12],
+      "fovYDegrees": 9.239524,
+      "actionId": "dolly_out_face"
+    }
+  ]
+}

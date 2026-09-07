@@ -1,0 +1,174 @@
+{
+  "schemaVersion": "1.0",
+  "kind": "cameraTrajectory",
+  "environmentId": "example-12-dashboard-exit",
+  "clock": {
+    "durationSeconds": 18,
+    "timeUnit": "second"
+  },
+  "coordinates": {
+    "handedness": "right",
+    "upAxis": "+Y",
+    "cameraForwardAxis": "-Z",
+    "lengthUnit": "meter",
+    "rotationOrder": "quaternion-xyzw"
+  },
+  "intrinsics": {
+    "projection": "perspective",
+    "fovYDegrees": 48,
+    "near": 0.03,
+    "far": 180
+  },
+  "orientation": {
+    "mode": "perSampleLookAt",
+    "up": [0, 1, 0]
+  },
+  "samples": [
+    {
+      "t": 0,
+      "position": [0, 1.23, 30.75],
+      "lookAt": [0, 1.02, 29.52],
+      "fovYDegrees": 48,
+      "actionId": "dashboard_static"
+    },
+    {
+      "t": 2,
+      "position": [0, 1.23, 15.75],
+      "lookAt": [0, 1.02, 14.52],
+      "actionId": "dashboard_static"
+    },
+    {
+      "t": 4,
+      "position": [0, 1.23, 0.75],
+      "lookAt": [0, 1.02, -0.48],
+      "actionId": "dashboard_static"
+    },
+    {
+      "t": 6,
+      "position": [0.075, 1.23, -11.25],
+      "lookAt": [0.075, 1.02, -12.48],
+      "actionId": "dashboard_static"
+    },
+    {
+      "t": 8,
+      "position": [0.15, 1.23, -23.25],
+      "lookAt": [0.15, 1.02, -24.48],
+      "actionId": "dashboard_static"
+    },
+    {
+      "t": 9,
+      "position": [0.15, 1.23, -26.25],
+      "lookAt": [0.15, 1.02, -27.48],
+      "actionId": "dashboard_static"
+    },
+    {
+      "t": 9.75,
+      "position": [0.15, 1.23, -28.5],
+      "lookAt": [0.15, 1.02, -29.73],
+      "actionId": "dashboard_static"
+    },
+    {
+      "t": 10,
+      "position": [0.15, 1.23, -29.25],
+      "lookAt": [0.15, 1.02, -30.48],
+      "fovYDegrees": 48,
+      "actionId": "exit_through_windshield"
+    },
+    {
+      "t": 10.25,
+      "position": [0.15, 1.27, -29.8667],
+      "lookAt": [0.15, 0.98, -31.6667],
+      "actionId": "exit_through_windshield"
+    },
+    {
+      "t": 10.5,
+      "position": [0.15, 1.35, -30.7833],
+      "lookAt": [0.15, 1, -33.0333],
+      "actionId": "exit_through_windshield"
+    },
+    {
+      "t": 10.75,
+      "position": [0.15, 1.46, -31.85],
+      "lookAt": [0.15, 1.02, -34.5],
+      "fovYDegrees": 47,
+      "actionId": "exit_through_windshield"
+    },
+    {
+      "t": 11,
+      "position": [0.15, 1.6, -33.1667],
+      "lookAt": [0.15, 1, -35.8667],
+      "actionId": "exit_through_windshield"
+    },
+    {
+      "t": 11.25,
+      "position": [0.15, 1.72, -34.8333],
+      "lookAt": [0.15, 0.9, -34.0333],
+      "fovYDegrees": 46,
+      "actionId": "exit_through_windshield"
+    },
+    {
+      "t": 11.4,
+      "position": [0.15, 1.85, -36.4333],
+      "lookAt": [0.15, 0.75, -30.9333],
+      "actionId": "exit_through_windshield"
+    },
+    {
+      "t": 11.5,
+      "position": [0.15, 1.85, -36.5],
+      "lookAt": [0.15, 0.75, -31],
+      "fovYDegrees": 45,
+      "actionId": "arc_front_reveal"
+    },
+    {
+      "t": 12,
+      "position": [-3.0057, 1.92, -35.8386],
+      "lookAt": [0.15, 0.75, -31.3333],
+      "actionId": "arc_front_reveal"
+    },
+    {
+      "t": 12.6,
+      "position": [-4.8347, 1.98, -34.0577],
+      "lookAt": [0.15, 0.75, -31.7333],
+      "actionId": "arc_front_reveal"
+    },
+    {
+      "t": 13.2,
+      "position": [-5.35, 2, -32.04],
+      "lookAt": [0.15, 0.75, -32.04],
+      "fovYDegrees": 44,
+      "actionId": "arc_front_reveal"
+    },
+    {
+      "t": 14,
+      "position": [-4.8347, 1.98, -29.8756],
+      "lookAt": [0.15, 0.75, -32.2],
+      "actionId": "arc_front_reveal"
+    },
+    {
+      "t": 15,
+      "position": [-3.5302, 1.94, -28.313],
+      "lookAt": [0.15, 0.75, -32.4],
+      "actionId": "arc_front_reveal"
+    },
+    {
+      "t": 16,
+      "position": [-2.1744, 1.9, -27.6153],
+      "lookAt": [0.15, 0.75, -32.6],
+      "fovYDegrees": 43,
+      "actionId": "arc_front_reveal"
+    },
+    {
+      "t": 17,
+      "position": [-0.7103, 1.87, -27.3677],
+      "lookAt": [0.15, 0.75, -32.8],
+      "actionId": "arc_front_reveal"
+    },
+    {
+      "t": 18,
+      "position": [0.15, 1.85, -27.5],
+      "lookAt": [0.15, 0.75, -33],
+      "fovYDegrees": 42,
+      "actionId": "arc_front_reveal"
+    }
+  ]
+}

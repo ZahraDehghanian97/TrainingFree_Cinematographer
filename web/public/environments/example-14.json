@@ -1,0 +1,302 @@
+{
+  "schemaVersion": "1.0",
+  "kind": "environment",
+  "id": "example-14-soft-closeup",
+  "promptExampleId": "example-14",
+  "prompt": "از یک مدیوم‌شات سه‌رخ و سکوت ۱.۵ ثانیه‌ای شروع کن؛ بعد همزمان با Dolly In آهسته و یک Arc Right کوتاه به صورت نزدیک شو. در دو ثانیه آخر یک Zoom In خیلی نرم اضافه کن و چهره را روی یک‌سوم چپ قاب در Close Up قفل کن.",
+  "clock": {
+    "durationSeconds": 10,
+    "timeDomain": "playback",
+    "fpsHint": 24
+  },
+  "coordinates": {
+    "handedness": "right",
+    "upAxis": "+Y",
+    "cameraForwardAxis": "-Z",
+    "lengthUnit": "meter",
+    "rotationOrder": "quaternion-xyzw"
+  },
+  "evaluation": {
+    "distanceMetric": "boundsSurface",
+    "epsilon": 0.001
+  },
+  "world": {
+    "background": "#0d111b",
+    "overviewCamera": {
+      "position": [
+        10,
+        6,
+        12
+      ],
+      "target": [
+        0,
+        1.2,
+        0
+      ]
+    },
+    "ground": {
+      "y": 0,
+      "size": [
+        26,
+        24
+      ],
+      "color": "#171d29"
+    },
+    "grid": {
+      "size": 22,
+      "divisions": 22
+    }
+  },
+  "entities": [
+    {
+      "id": "actor-entity",
+      "label": "Confessing actor",
+      "transform": {
+        "space": "world",
+        "position": {
+          "interpolation": "catmullRom",
+          "extrapolation": "hold",
+          "keyframes": [
+            {
+              "t": 0,
+              "value": [
+                0,
+                0,
+                0
+              ]
+            },
+            {
+              "t": 4,
+              "value": [
+                0.08,
+                0,
+                0.06
+              ]
+            },
+            {
+              "t": 7,
+              "value": [
+                0.16,
+                0,
+                0.18
+              ]
+            },
+            {
+              "t": 10,
+              "value": [
+                0.28,
+                0,
+                0.34
+              ]
+            }
+          ]
+        },
+        "rotation": {
+          "interpolation": "slerp",
+          "extrapolation": "hold",
+          "keyframes": [
+            {
+              "t": 0,
+              "value": [
+                0,
+                -0.15643447,
+                0,
+                0.98768834
+              ]
+            },
+            {
+              "t": 5,
+              "value": [
+                0,
+                -0.08715574,
+                0,
+                0.9961947
+              ]
+            },
+            {
+              "t": 10,
+              "value": [
+                0,
+                0.0348995,
+                0,
+                0.99939083
+              ]
+            }
+          ]
+        }
+      },
+      "visual": {
+        "type": "preset",
+        "name": "humanoid",
+        "params": {
+          "color": "#c99779",
+          "shirtColor": "#273a5a",
+          "trouserColor": "#11151f"
+        }
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.45,
+          0,
+          -0.25
+        ],
+        "max": [
+          0.45,
+          1.8,
+          0.25
+        ]
+      }
+    },
+    {
+      "id": "window-wall",
+      "label": "Cold window wall",
+      "transform": {
+        "space": "world",
+        "position": [
+          -3.2,
+          1.7,
+          -2.8
+        ]
+      },
+      "visual": {
+        "type": "preset",
+        "name": "genericObject",
+        "params": {
+          "shape": "box",
+          "width": 3.6,
+          "height": 3.4,
+          "depth": 0.18,
+          "color": "#1c304b"
+        }
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -1.8,
+          -1.7,
+          -0.09
+        ],
+        "max": [
+          1.8,
+          1.7,
+          0.09
+        ]
+      }
+    },
+    {
+      "id": "practical-lamp",
+      "label": "Warm practical light",
+      "transform": {
+        "space": "world",
+        "position": [
+          2.5,
+          2.25,
+          -1.7
+        ]
+      },
+      "visual": {
+        "type": "primitive",
+        "shape": "sphere",
+        "params": {
+          "radius": 0.28
+        },
+        "color": "#ffb35c"
+      },
+      "bounds": {
+        "type": "sphere",
+        "center": [
+          0,
+          0,
+          0
+        ],
+        "radius": 0.28
+      }
+    },
+    {
+      "id": "foreground-slat",
+      "label": "Foreground slat",
+      "transform": {
+        "space": "world",
+        "position": [
+          3.1,
+          1.4,
+          2.2
+        ]
+      },
+      "visual": {
+        "type": "primitive",
+        "shape": "box",
+        "params": {
+          "size": [
+            0.22,
+            2.8,
+            0.22
+          ]
+        },
+        "color": "#0b0d12"
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.11,
+          -1.4,
+          -0.11
+        ],
+        "max": [
+          0.11,
+          1.4,
+          0.11
+        ]
+      }
+    }
+  ],
+  "targets": [
+    {
+      "id": "actor",
+      "entityId": "actor-entity",
+      "label": "The actor",
+      "localAnchor": [
+        0,
+        1.18,
+        0.02
+      ],
+      "localBounds": {
+        "type": "box",
+        "min": [
+          -0.45,
+          0,
+          -0.25
+        ],
+        "max": [
+          0.45,
+          1.8,
+          0.25
+        ]
+      }
+    },
+    {
+      "id": "actor_face",
+      "entityId": "actor-entity",
+      "label": "The actor's face",
+      "localAnchor": [
+        0,
+        1.58,
+        0.16
+      ],
+      "localBounds": {
+        "type": "box",
+        "min": [
+          -0.27,
+          1.34,
+          -0.12
+        ],
+        "max": [
+          0.27,
+          1.82,
+          0.28
+        ]
+      }
+    }
+  ]
+}

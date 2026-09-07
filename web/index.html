@@ -1,0 +1,235 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="Preview 4D camera trajectories inside the TrainingFree Cinematographer prompt environments."
+    />
+    <title>Camera Lab · 4D trajectory visualizer</title>
+  </head>
+  <body>
+    <canvas id="scene" aria-label="Interactive 3D scene"></canvas>
+
+    <div class="app-shell">
+      <header class="topbar glass">
+        <a class="brand" href="#" aria-label="Camera Lab home">
+          <span class="brand-mark" aria-hidden="true"><i></i></span>
+          <span>
+            <strong>Camera Lab</strong>
+            <small>4D trajectory viewer</small>
+          </span>
+        </a>
+
+        <label class="environment-picker">
+          <span>Environment</span>
+          <select id="environmentSelect" aria-label="Prompt environment"></select>
+        </label>
+
+        <div class="top-actions">
+          <div class="segmented" id="viewMode" aria-label="View mode">
+            <button type="button" data-view="god" class="is-active">God view</button>
+            <button type="button" data-view="director" disabled>Director POV</button>
+          </div>
+          <button class="icon-button" id="dataButton" type="button" aria-label="Open JSON inspector" title="JSON inspector">
+            <span>{ }</span>
+          </button>
+        </div>
+      </header>
+
+      <aside class="scene-panel glass" aria-label="Scene information">
+        <div class="panel-kicker"><span class="status-dot"></span><span id="sceneStatus">Loading scene</span></div>
+        <h1 id="sceneTitle">Prompt environment</h1>
+        <p class="prompt" id="promptText" dir="auto"></p>
+
+        <dl class="facts">
+          <div><dt>Duration</dt><dd id="durationValue">—</dd></div>
+          <div><dt>Entities</dt><dd id="entityValue">—</dd></div>
+          <div><dt>Camera samples</dt><dd id="sampleValue">None</dd></div>
+          <div><dt>Orientation</dt><dd id="orientationValue">—</dd></div>
+          <div><dt>Action</dt><dd id="actionValue">—</dd></div>
+          <div><dt>Scene speed</dt><dd id="sceneRateValue">Normal · 1×</dd></div>
+          <div><dt>Scene time</dt><dd id="sceneTimeValue">0.00 s</dd></div>
+        </dl>
+
+        <div class="coordinates" aria-label="Current 4D camera coordinate">
+          <span>Camera coordinate</span>
+          <output id="coordinateValue">x — · y — · z — · t 0.00</output>
+        </div>
+
+        <div class="visibility-controls">
+          <label><input id="pathToggle" type="checkbox" checked /><span>Camera path</span></label>
+          <label><input id="boundsToggle" type="checkbox" /><span>Object bounds</span></label>
+          <label><input id="labelsToggle" type="checkbox" checked /><span>Target labels</span></label>
+        </div>
+      </aside>
+
+      <aside class="composer-panel glass" aria-label="Camera direction pipeline">
+        <div class="composer-heading">
+          <div>
+            <span class="eyebrow">Director input</span>
+            <h2>Create camera movement</h2>
+          </div>
+          <span class="format-pill" id="pipelineRunBadge">Ready</span>
+        </div>
+
+        <div class="composer-tabs" id="composerTabs" role="tablist" aria-label="Prompt source">
+          <button id="exampleModeButton" class="is-active" type="button" role="tab" aria-selected="true" aria-controls="exampleComposer" data-mode="example">Example</button>
+          <button id="customModeButton" type="button" role="tab" aria-selected="false" aria-controls="customComposer" data-mode="custom">Custom prompt</button>
+        </div>
+
+        <section id="exampleComposer" class="composer-mode" role="tabpanel" aria-labelledby="exampleModeButton">
+          <p id="examplePrompt" class="composer-prompt" dir="auto"></p>
+          <div class="composer-actions">
+            <button type="button" class="secondary-button" id="replayExampleButton">Replay bundled</button>
+            <button type="button" class="primary-button" id="runExampleButton">Run full pipeline</button>
+          </div>
+        </section>
+
+        <section id="customComposer" class="composer-mode" role="tabpanel" aria-labelledby="customModeButton" hidden>
+          <label class="prompt-field">
+            <span>Describe the shot</span>
+            <textarea id="customPrompt" maxlength="4000" rows="4" dir="auto" placeholder="Follow the subject, then arc left into a close-up…"></textarea>
+          </label>
+          <div class="prompt-meta"><span>CSL is generated before scene IDs are grounded.</span><output id="promptCount">0 / 4000</output></div>
+          <button type="button" class="primary-button composer-run-button" id="runCustomButton">Generate trajectory</button>
+        </section>
+
+        <section class="pipeline-progress" aria-labelledby="pipelineProgressTitle" aria-live="polite">
+          <div class="pipeline-progress-heading">
+            <div>
+              <span class="eyebrow">Live pipeline</span>
+              <h3 id="pipelineProgressTitle">Ready to run</h3>
+            </div>
+            <span id="pipelineConnection" class="connection-state"></span>
+          </div>
+
+          <ol class="stage-list" id="stageList">
+            <li data-stage="draft" data-status="idle">
+              <button type="button" data-open-tab="draft" aria-label="Inspect draft CSL">
+                <span class="stage-marker">1</span>
+                <span class="stage-copy"><strong>Draft CSL</strong><small>Prompt → semantic camera direction</small></span>
+                <span class="stage-state">Waiting</span>
+              </button>
+            </li>
+            <li data-stage="grounding" data-status="idle">
+              <button type="button" data-open-tab="grounding" aria-label="Inspect resolved CSL and bindings">
+                <span class="stage-marker">2</span>
+                <span class="stage-copy"><strong>Ground subjects</strong><small>Environment → runtime target IDs</small></span>
+                <span class="stage-state">Waiting</span>
+              </button>
+            </li>
+            <li data-stage="timeline" data-status="idle">
+              <button type="button" data-open-tab="timeline" aria-label="Inspect solved timeline">
+                <span class="stage-marker">3</span>
+                <span class="stage-copy"><strong>Solve timeline</strong><small>Actions, triggers, and time warp</small></span>
+                <span class="stage-state">Waiting</span>
+              </button>
+            </li>
+            <li data-stage="optimization" data-status="idle">
+              <button type="button" data-open-tab="diagnostics" aria-label="Inspect optimization result">
+                <span class="stage-marker">4</span>
+                <span class="stage-copy"><strong>Optimize trajectory</strong><small>Compile losses → camera samples</small></span>
+                <span class="stage-state">Waiting</span>
+              </button>
+            </li>
+          </ol>
+
+          <div class="pipeline-error" id="pipelineError" role="alert" hidden>
+            <strong id="pipelineErrorTitle">Pipeline failed</strong>
+            <p id="pipelineErrorMessage"></p>
+            <div class="pipeline-error-footer">
+              <code id="pipelineErrorCode"></code>
+              <button type="button" class="text-button" id="pipelineErrorDetailsButton">View details</button>
+            </div>
+          </div>
+
+          <div class="pipeline-actions">
+            <button type="button" class="text-button" id="inspectRunButton">Inspect details</button>
+            <div>
+              <button type="button" class="secondary-button" id="cancelRunButton" hidden>Cancel</button>
+              <button type="button" class="primary-button" id="retryRunButton" hidden>Retry</button>
+            </div>
+          </div>
+        </section>
+
+        <details class="manual-input">
+          <summary>Load trajectory JSON manually</summary>
+
+          <label class="dropzone" id="dropzone">
+            <input id="trajectoryInput" type="file" accept="application/json,.json" />
+            <span class="upload-icon" aria-hidden="true">↥</span>
+            <strong>Drop trajectory here</strong>
+            <small>or click to choose a JSON file</small>
+          </label>
+
+          <div class="upload-status" id="uploadStatus" role="status">
+            <span class="status-icon">i</span>
+            <p>Generated optimizer output loads automatically. You can also upload frames or <code>[x,y,z,t]</code> points.</p>
+          </div>
+
+          <div class="upload-actions">
+            <button type="button" class="text-button" id="pasteButton">Paste JSON</button>
+            <button type="button" class="text-button" id="templateButton">Download template</button>
+          </div>
+        </details>
+      </aside>
+
+      <div class="viewport-hint" id="viewportHint">Drag to orbit · scroll to zoom · right-drag to pan</div>
+
+      <section class="transport glass" aria-label="Playback controls">
+        <button class="play-button" id="playButton" type="button" aria-label="Play">
+          <span class="play-icon"></span>
+        </button>
+        <div class="timeline-wrap">
+          <input id="timeline" class="timeline" type="range" min="0" max="1" value="0" step="0.001" aria-label="Timeline" />
+          <div class="rate-band" id="rateBand" aria-hidden="true"></div>
+          <div class="timeline-labels"><span>0:00</span><span id="endTime">0:00</span></div>
+        </div>
+        <output id="clockValue" class="clock">0.00 / 0.00</output>
+        <button id="speedButton" class="speed-button" type="button" title="Viewer transport speed">1×</button>
+      </section>
+    </div>
+
+    <div class="scrim" id="scrim" hidden></div>
+
+    <aside class="drawer" id="dataDrawer" aria-hidden="true" aria-label="JSON inspector" inert>
+      <header>
+        <div><span class="eyebrow">Source of truth</span><h2>Pipeline data</h2></div>
+        <button id="closeDrawer" class="close-button" type="button" aria-label="Close">×</button>
+      </header>
+      <div class="drawer-tabs" id="drawerTabs">
+        <button class="is-active" data-tab="environment" type="button">Environment</button>
+        <button data-tab="run" type="button">Run log</button>
+        <button data-tab="draft" type="button">Draft CSL</button>
+        <button data-tab="grounding" type="button">Resolved / bindings</button>
+        <button data-tab="timeline" type="button">Timeline</button>
+        <button data-tab="diagnostics" type="button">Optimization</button>
+        <button data-tab="trajectory" type="button">Trajectory</button>
+      </div>
+      <p class="drawer-note" id="drawerNote"></p>
+      <pre id="jsonPreview" class="json-preview"></pre>
+    </aside>
+
+    <dialog id="pasteDialog" class="paste-dialog">
+      <form method="dialog">
+        <header>
+          <div><span class="eyebrow">Camera input</span><h2>Paste trajectory JSON</h2></div>
+          <button value="cancel" class="close-button" aria-label="Close">×</button>
+        </header>
+        <p>Canonical trajectories, optimizer diagnostics, prototype <code>frames</code>, and compact <code>[x,y,z,t]</code> paths are accepted.</p>
+        <textarea id="pasteValue" spellcheck="false" aria-label="Trajectory JSON"></textarea>
+        <div class="dialog-actions">
+          <button value="cancel" class="secondary-button">Cancel</button>
+          <button id="loadPastedButton" value="default" class="primary-button">Visualize</button>
+        </div>
+      </form>
+    </dialog>
+
+    <div class="toast" id="toast" role="alert" hidden></div>
+    <div class="fatal-error" id="fatalError" hidden></div>
+
+    <script type="module" src="/src/main.ts"></script>
+  </body>
+</html>

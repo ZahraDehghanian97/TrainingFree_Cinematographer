@@ -1,0 +1,211 @@
+{
+  "schemaVersion": "1.0",
+  "kind": "cameraTrajectory",
+  "environmentId": "example-10-race-car",
+  "clock": {
+    "durationSeconds": 13,
+    "timeUnit": "second"
+  },
+  "coordinates": {
+    "handedness": "right",
+    "upAxis": "+Y",
+    "cameraForwardAxis": "-Z",
+    "lengthUnit": "meter",
+    "rotationOrder": "quaternion-xyzw"
+  },
+  "intrinsics": {
+    "projection": "perspective",
+    "fovYDegrees": 42,
+    "near": 0.1,
+    "far": 600
+  },
+  "orientation": {
+    "mode": "perSampleLookAt",
+    "up": [0, 1, 0]
+  },
+  "samples": [
+    {
+      "t": 0,
+      "position": [-5.8, 2.6, 70.5],
+      "lookAt": [0, 0.65, 80],
+      "fovYDegrees": 42,
+      "actionId": "follow_race_car"
+    },
+    {
+      "t": 2,
+      "position": [-5.6, 2.6, 50.5],
+      "lookAt": [0.2, 0.65, 60],
+      "actionId": "follow_race_car"
+    },
+    {
+      "t": 4,
+      "position": [-5.4, 2.6, 30.5],
+      "lookAt": [0.4, 0.65, 40],
+      "actionId": "follow_race_car"
+    },
+    {
+      "t": 5.5,
+      "position": [-5.7, 2.6, 8],
+      "lookAt": [0.1, 0.65, 17.5],
+      "actionId": "follow_race_car"
+    },
+    {
+      "t": 7,
+      "position": [-6, 2.6, -14.5],
+      "lookAt": [-0.2, 0.65, -5],
+      "actionId": "follow_race_car"
+    },
+    {
+      "t": 7.1,
+      "position": [-6.15, 2.64, -17.7],
+      "lookAt": [-0.17, 0.65, -8],
+      "fovYDegrees": 43,
+      "actionId": "dolly_out_shake"
+    },
+    {
+      "t": 7.3,
+      "position": [-6.55, 2.5, -24.25],
+      "lookAt": [-0.11, 0.65, -14],
+      "fovYDegrees": 44,
+      "actionId": "dolly_out_shake"
+    },
+    {
+      "t": 7.5,
+      "position": [-6.65, 2.76, -30.75],
+      "lookAt": [-0.05, 0.65, -20],
+      "actionId": "dolly_out_shake"
+    },
+    {
+      "t": 7.7,
+      "position": [-7.38, 2.56, -37.55],
+      "lookAt": [0.01, 0.65, -26],
+      "fovYDegrees": 45,
+      "actionId": "dolly_out_shake"
+    },
+    {
+      "t": 7.9,
+      "position": [-7.35, 2.82, -44.15],
+      "lookAt": [0.07, 0.65, -32],
+      "fovYDegrees": 46,
+      "actionId": "dolly_out_shake"
+    },
+    {
+      "t": 8,
+      "position": [-7.7, 2.68, -47.5],
+      "lookAt": [0.1, 0.65, -35],
+      "fovYDegrees": 47,
+      "actionId": "dolly_out_shake"
+    },
+    {
+      "t": 8.3,
+      "position": [-8.09, 2.92, -58],
+      "lookAt": [0.25, 0.65, -44.75],
+      "actionId": "dolly_out_shake"
+    },
+    {
+      "t": 8.6,
+      "position": [-8.05, 2.72, -68.02],
+      "lookAt": [0.4, 0.65, -54.5],
+      "fovYDegrees": 48,
+      "actionId": "dolly_out_shake"
+    },
+    {
+      "t": 8.9,
+      "position": [-8.57, 3, -78.67],
+      "lookAt": [0.55, 0.65, -64.25],
+      "actionId": "dolly_out_shake"
+    },
+    {
+      "t": 9.2,
+      "position": [-8.57, 2.8, -88.75],
+      "lookAt": [0.7, 0.65, -74],
+      "fovYDegrees": 49,
+      "actionId": "dolly_out_shake"
+    },
+    {
+      "t": 9.5,
+      "position": [-9.1, 3.08, -99.43],
+      "lookAt": [0.85, 0.65, -83.75],
+      "actionId": "dolly_out_shake"
+    },
+    {
+      "t": 9.8,
+      "position": [-9.08, 2.88, -109.47],
+      "lookAt": [1, 0.65, -93.5],
+      "fovYDegrees": 51,
+      "actionId": "dolly_out_shake"
+    },
+    {
+      "t": 10,
+      "position": [-9.35, 3.08, -117],
+      "lookAt": [1.1, 0.65, -100],
+      "fovYDegrees": 52,
+      "actionId": "dolly_out_shake"
+    },
+    {
+      "t": 10.3,
+      "position": [-9.78, 3.24, -127.92],
+      "lookAt": [1.23, 0.65, -110.5],
+      "actionId": "dolly_out_shake"
+    },
+    {
+      "t": 10.6,
+      "position": [-9.79, 3.04, -138.92],
+      "lookAt": [1.36, 0.65, -121],
+      "fovYDegrees": 53,
+      "actionId": "dolly_out_shake"
+    },
+    {
+      "t": 10.9,
+      "position": [-10.34, 3.32, -150.52],
+      "lookAt": [1.49, 0.65, -131.5],
+      "actionId": "dolly_out_shake"
+    },
+    {
+      "t": 11.2,
+      "position": [-10.35, 3.12, -161.38],
+      "lookAt": [1.62, 0.65, -142],
+      "fovYDegrees": 54,
+      "actionId": "dolly_out_shake"
+    },
+    {
+      "t": 11.5,
+      "position": [-10.88, 3.4, -172.92],
+      "lookAt": [1.75, 0.65, -152.5],
+      "actionId": "dolly_out_shake"
+    },
+    {
+      "t": 11.8,
+      "position": [-10.89, 3.2, -183.82],
+      "lookAt": [1.88, 0.65, -163],
+      "fovYDegrees": 55,
+      "actionId": "dolly_out_shake"
+    },
+    {
+      "t": 12.1,
+      "position": [-11.42, 3.48, -195.38],
+      "lookAt": [2.01, 0.65, -173.5],
+      "actionId": "dolly_out_shake"
+    },
+    {
+      "t": 12.4,
+      "position": [-11.43, 3.28, -206.28],
+      "lookAt": [2.14, 0.65, -184],
+      "fovYDegrees": 56,
+      "actionId": "dolly_out_shake"
+    },
+    {
+      "t": 12.7,
+      "position": [-11.96, 3.56, -217.82],
+      "lookAt": [2.27, 0.65, -194.5],
+      "actionId": "dolly_out_shake"
+    },
+    {
+      "t": 13,
+      "position": [-12.1, 3.8, -231],
+      "lookAt": [2.4, 0.65, -205],
+      "fovYDegrees": 56,
+      "actionId": "dolly_out_shake"
+    }
+  ]
+}
