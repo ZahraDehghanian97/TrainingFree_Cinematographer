@@ -6,9 +6,71 @@ import type { PrimitiveDescriptor } from "./types";
 export interface WeightedPrimitiveDescriptor {
   descriptor: PrimitiveDescriptor;
   weight: number;
+  /** Omitted for whole-trajectory regularizers. */
+  startTime?: number;
+  endTime?: number;
 }
 
-/** Builds the enabled whole-trajectory regularizers in their stable ID order. */
+function subjectScope(primitive: PrimitiveLoss, subjectId: string) {
+  const p = primitive.parameters;
+  const pointTime = p.pointTime ?? p.keyframeTime;
+  const parameters = {
+    subjectId,
+    ...(pointTime === undefined ? {} : { pointTime }),
+    ...(p.easing === undefined ? {} : { easing: p.easing }),
+    ...(p.followDelay === undefined ? {} : { followDelay: p.followDelay }),
+    ...(p.leadAmount === undefined ? {} : { leadAmount: p.leadAmount }),
+  };
+  return {
+    parameters,
+    key: JSON.stringify([
+      subjectId, primitive.startTime, primitive.endTime, pointTime,
+      p.easing, p.followDelay ?? 0, p.leadAmount ?? 0,
+    ]),
+  };
+}
+
+/** Automatic occlusion follows each subject's authored scope, including point easing. */
+function scopedOcclusionDescriptors(
+  primitives: readonly PrimitiveLoss[],
+  weight: number,
+): WeightedPrimitiveDescriptor[] {
+  const suppressionByScope = new Map<string, unknown>();
+  for (const primitive of primitives) {
+    if (primitive.type !== "subjectVisibility") continue;
+    for (const subjectId of subjectIdsFromParameters(primitive.parameters)) {
+      suppressionByScope.set(subjectScope(primitive, subjectId).key, primitive.parameters.suppressionWindows);
+    }
+  }
+  const emitted = new Set<string>();
+  const descriptors: WeightedPrimitiveDescriptor[] = [];
+  for (const primitive of primitives) {
+    if (primitive.sourceType === "global" || primitive.weight <= 0) continue;
+    for (const subjectId of subjectIdsFromParameters(primitive.parameters)) {
+      const { key, parameters } = subjectScope(primitive, subjectId);
+      if (emitted.has(key)) continue;
+      emitted.add(key);
+      const suppressionWindows = suppressionByScope.get(key);
+      descriptors.push({
+        descriptor: {
+          type: "occlusion",
+          channel: "safety",
+          role: "regularizer",
+          parameters: {
+            ...parameters,
+            ...(suppressionWindows === undefined ? {} : { suppressionWindows }),
+          },
+        },
+        startTime: primitive.startTime,
+        endTime: primitive.endTime,
+        weight,
+      });
+    }
+  }
+  return descriptors;
+}
+
+/** Builds global safety/regularity policy, with visibility scoped to active subjects. */
 export function buildGlobalLossDescriptors(
   input: CameraOptimizerInput,
   weights: OptimizerWeights,
@@ -64,23 +126,9 @@ export function buildGlobalLossDescriptors(
     ],
   ];
 
-  const allSubjectIds = [...new Set(primitives.flatMap(
-    (primitive) => subjectIdsFromParameters(primitive.parameters),
-  ))];
-  if (global.occlusion && allSubjectIds.length > 0) {
-    candidates.push([
-      true,
-      {
-        type: "occlusion",
-        channel: "safety",
-        role: "regularizer",
-        parameters: { subjectIds: allSubjectIds },
-      },
-      weights.globalOcclusion,
-    ]);
-  }
-
-  return candidates.flatMap(([enabled, descriptor, weight]) =>
+  const descriptors: WeightedPrimitiveDescriptor[] = candidates.flatMap(([enabled, descriptor, weight]) =>
     enabled ? [{ descriptor, weight }] : []
   );
+  if (global.occlusion) descriptors.push(...scopedOcclusionDescriptors(primitives, weights.globalOcclusion));
+  return descriptors;
 }

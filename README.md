@@ -181,6 +181,56 @@ Pedestal (world-up) are subjectless translations and therefore do not carry
 movement subject references; use framing constraints when a subject must remain
 composed during those moves.
 
+CSL represents **don't care by omitting a field**. An omitted initial camera,
+shot size, composition, view, lens, movement amount, or path shape remains
+unspecified through parsing, subject binding, and timeline compilation. Do not
+use `null` or a string sentinel, and do not supply a plausible number as a
+placeholder. Explicit values, including zero where valid, retain their meaning.
+
+For example, “arc left around the actor” needs only:
+
+```json
+{
+  "totalDuration": 8,
+  "sections": [{
+    "actions": [{
+      "id": "arc_actor",
+      "trigger": { "type": "absoluteTime", "time": 0 },
+      "movement": {
+        "act": "arcLeft",
+        "targets": [{ "ref": "actor", "description": "The actor" }]
+      }
+    }]
+  }]
+}
+```
+
+The leftward direction is explicit; radius, sweep, framing, and starting pose
+are free choices for the optimizer. Bare `orbit` likewise leaves its sweep
+unspecified; “one full orbit” supplies `parameters.arcAngle: 360`.
+`nonSubjectAware` configs can contain only lens settings or `lookAt`, and
+`extrinsics.pose.position` and `.rotation` are independently optional. Supplied
+vectors and rotations must still be complete. Section boundaries remain cuts
+even when `initCamera` is absent.
+
+The optimizer uses soft subject visibility and minimum useful screen-size
+preferences for subject-anchored moves with unspecified framing. These quality
+preferences leave radius and exact composition free and yield to explicit
+framing requests. Numerical initialization supplies a candidate camera only at
+the optimization stage; it does not turn its guesses into requested constraints.
+The environment still owns `totalDuration`. Omitted action durations are
+allocated by the existing deterministic timeline scheduler inside that window.
+The original demos (01–23) contain authored artistic choices beyond their short prompts;
+the director model uses separate sparse examples to avoid learning those choices
+as implied requirements.
+
+Examples **24–32** are a separate don't-care suite with sparse reference CSL,
+scene-matched bundled trajectories, and Persian prompts. Select them in Camera
+Lab and use **Replay bundled** to compare the optimizer output, or **Run full
+pipeline** to test the prompt with the configured model. See the
+[manual test guide](examples/dont-care.md) for comparison pairs and expected behavior.
+Rebuild just this suite without an LLM using `npm run generate:dont-care`.
+
 Supported requests include:
 
 - batch-binding semantic CSL references to runtime environment subjects,

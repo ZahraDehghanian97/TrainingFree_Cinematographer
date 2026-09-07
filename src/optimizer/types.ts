@@ -53,6 +53,8 @@ export type PrimitiveLossType =
   | "screenPosition"
   | "bboxInFrame"
   | "screenScale"
+  | "subjectVisibility"
+  | "subjectScaleFloor"
   | "distanceHold"
   | "relativeOffsetHold"
   | "bearingHold"
@@ -147,9 +149,17 @@ export interface OptimizerWeights {
   globalOcclusion: number;
   globalGround: number;
   globalMinPath: number;
+  subjectVisibility: number;
+  subjectScaleFloor: number;
 }
 
 export interface OptimizerOptions {
+  /** Soft lower bound on projected subject height when shot size is unspecified. */
+  minimumSubjectCoverage?: number;
+  /** Soft movement floors prevent unspecified amounts collapsing to no movement. */
+  minimumMovementDistance?: number;
+  minimumMovementAngleDegrees?: number;
+  minimumZoomChangeDegrees?: number;
   /** Total automatic motion transition window in seconds. Default 1; 0 disables. */
   motionTransitionSeconds?: number;
   /** Internal samples per second. Timeline boundaries/keyframes are always added. */

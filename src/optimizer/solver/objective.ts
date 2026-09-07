@@ -1,6 +1,8 @@
 import type { EnvironmentV1, Quat, Vec3 } from "../../types/environment";
 import type { WorldAabbV1 } from "../../types/environment-query";
 import { LossFunctionType } from "../../types/solver";
+import { DEFAULT_OPTIONS } from "../config/defaults";
+import type { CompositionWindow } from "../compiler/subject-quality";
 import {
   aabbCorners,
   projectWorldBox,
@@ -90,6 +92,15 @@ function cutTimesFrom(primitive: PrimitiveLoss): number[] {
     : [];
 }
 
+function compositionWindowWeight(value: unknown, time: number): number {
+  if (!Array.isArray(value)) return 0;
+  return value.reduce((weight: number, window: CompositionWindow) => {
+    if (time < window.startTime - 1e-7 || time > window.endTime + 1e-7) return weight;
+    return Math.max(weight, window.pointTime === undefined
+      ? 1 : pointEasingWeight(time, window.pointTime, window.easing));
+  }, 0);
+}
+
 /** Shortest-path world-space angular velocity from one camera pose to another. */
 function quaternionAngularVelocity(from: Quat, to: Quat, dt: number): Vec3 {
   let delta = multiplyQuat(to, conjugateQuat(from));
@@ -114,6 +125,7 @@ export class ObjectiveEvaluator {
   private readonly obstacleCache = new Map<number, Array<{ entityId: string; box: WorldAabbV1 }>>();
   private readonly obstacleTimeCache = new Map<string, Array<{ entityId: string; box: WorldAabbV1 }>>();
   private readonly primitiveIndices = new Map<string, number[]>();
+  private readonly motionIndices = new Map<string, number[]>();
   private readonly warningSet = new Set<string>();
 
   public constructor(
@@ -122,17 +134,43 @@ export class ObjectiveEvaluator {
     private readonly times: readonly number[],
     private readonly options: ObjectiveOptions,
   ) {
+    const cutTimes = [
+      ...(input.timeline.cutTimes ?? []),
+      ...(input.userKeyframes ?? []).filter((keyframe) => keyframe.cutBefore)
+        .map((keyframe) => keyframe.time),
+    ];
+    const scopedIndices = (primitive: PrimitiveLoss, startTime: number, endTime: number): number[] => {
+      const indices = intervalIndices(times, startTime, endTime);
+      const pointTime = primitive.parameters.pointTime ?? primitive.parameters.keyframeTime;
+      // A cut sample stores the incoming shot's pose. The outgoing interval
+      // must not use it for either local residuals or source-wide progress.
+      // Point constraints, including eased points, still own their exact time.
+      if (
+        endTime - startTime <= 1e-9
+        || typeof pointTime === "number"
+        || !cutTimes.some((cutTime) => Math.abs(cutTime - endTime) <= 1e-8)
+      ) return indices;
+      return indices.filter((index) => times[index]! < endTime - 1e-8);
+    };
     for (const primitive of plan.primitives) {
       this.primitiveIndices.set(
         primitive.id,
-        intervalIndices(times, primitive.startTime, primitive.endTime),
+        scopedIndices(primitive, primitive.startTime, primitive.endTime),
       );
+      this.motionIndices.set(primitive.id, scopedIndices(
+        primitive,
+        typeof primitive.parameters.motionStartTime === "number"
+          ? primitive.parameters.motionStartTime : primitive.startTime,
+        typeof primitive.parameters.motionEndTime === "number"
+          ? primitive.parameters.motionEndTime : primitive.endTime,
+      ));
       const subjectIds = subjectIdsFromParameters(primitive.parameters);
       if (
         subjectIds.length === 0
         && !(primitive.type === "planeHold" && primitive.parameters.plane === "cameraMovement")
         && [
           "lookAt", "screenPosition", "bboxInFrame", "screenScale", "distanceHold",
+          "subjectVisibility", "subjectScaleFloor",
           "relativeOffsetHold", "bearingHold", "elevationHold", "velocityMatch",
           "subjectView", "subjectElevation", "radiusHold", "radiusSchedule",
           "planeHold", "nearPlaneClearance", "occlusion",
@@ -448,6 +486,18 @@ export class ObjectiveEvaluator {
     return indices.map(() => 0);
   }
 
+  private translationProgress(
+    primitive: PrimitiveLoss,
+    indices: readonly number[],
+    states: readonly CameraStateSample[],
+  ): number {
+    const sign = typeof primitive.parameters.sign === "number" ? primitive.parameters.sign : 1;
+    return indices.slice(1).reduce((progress, index, localIndex) => progress + sign * dot3(
+      this.relativeStep(primitive, indices[localIndex]!, index, states),
+      this.axis(primitive, indices[localIndex]!, states),
+    ), 0);
+  }
+
   private residuals(
     primitive: PrimitiveLoss,
     states: readonly CameraStateSample[],
@@ -469,10 +519,12 @@ export class ObjectiveEvaluator {
         return target ? indices.map((index) => weighted(index, distance3(states[index]!.position, target))) : [];
       }
       case "rotationAnchor": {
-        let target = asQuat(primitive.parameters.target);
+        const target = asQuat(primitive.parameters.target);
         const lookAt = asVec3(primitive.parameters.lookAt);
-        if (!target && lookAt) target = lookAtQuaternion(first.position, lookAt);
-        return target ? indices.map((index) => weighted(index, quaternionAngle(states[index]!.rotation, target!))) : [];
+        return target || lookAt ? indices.map((index) => weighted(index, quaternionAngle(
+          states[index]!.rotation,
+          target ?? lookAtQuaternion(states[index]!.position, lookAt!),
+        ))) : [];
       }
       case "fovAnchor": {
         const target = primitive.parameters.target;
@@ -527,18 +579,11 @@ export class ObjectiveEvaluator {
         return result;
       }
       case "totalProgressTarget": {
-        const sign = typeof primitive.parameters.sign === "number" ? primitive.parameters.sign : 1;
-        const target = typeof primitive.parameters.targetDistance === "number" ? primitive.parameters.targetDistance : 0;
-        let progress = 0;
-        for (let localIndex = 1; localIndex < indices.length; localIndex += 1) {
-          const previousIndex = indices[localIndex - 1]!;
-          const currentIndex = indices[localIndex]!;
-          progress += sign * dot3(
-            this.relativeStep(primitive, previousIndex, currentIndex, states),
-            this.axis(primitive, previousIndex, states),
-          );
-        }
-        return [weighted(lastIndex, progress - target)];
+        const target = primitive.parameters.fullTargetDistance ?? primitive.parameters.targetDistance;
+        const progress = this.translationProgress(primitive, this.motionIndices.get(primitive.id)!, states);
+        const minimum = this.input.options?.minimumMovementDistance ?? DEFAULT_OPTIONS.minimumMovementDistance;
+        return [weighted(lastIndex, typeof target === "number"
+          ? progress - target : Math.max(0, minimum - progress))];
       }
       case "orthogonalDrift": {
         const axis = this.axis(primitive, firstIndex, states);
@@ -549,28 +594,41 @@ export class ObjectiveEvaluator {
         });
       }
       case "pathProfile": {
+        const sourceIndices = this.motionIndices.get(primitive.id)!;
+        const sourceFirst = sourceIndices[0]!;
         const axis = this.axis(primitive, firstIndex, states);
-        let lateral = cameraRight(first.rotation);
-        if (Math.abs(dot3(axis, lateral)) > 0.9) lateral = cameraUp(first.rotation);
+        let lateral = cameraRight(states[sourceFirst]!.rotation);
+        if (Math.abs(dot3(axis, lateral)) > 0.9) lateral = cameraUp(states[sourceFirst]!.rotation);
         lateral = normalize3(sub3(lateral, scale3(axis, dot3(lateral, axis))), [0, 1, 0]);
-        const targetDistance = typeof primitive.parameters.targetDistance === "number"
-          ? primitive.parameters.targetDistance
-          : 1;
-        const intensity = typeof primitive.parameters.curveIntensity === "number"
-          ? clamp(primitive.parameters.curveIntensity / 10, 0, 1)
-          : 0.5;
-        const amplitude = targetDistance * 0.25 * intensity;
-        const duration = Math.max(1e-9, primitive.endTime - primitive.startTime);
-        return indices.map((index) => {
-          const normalizedTime = (this.times[index]! - primitive.startTime) / duration;
-          const progress = motionProgress(normalizedTime, primitive.parameters.speedKeyframes);
-          const phase = primitive.parameters.path === "spline"
-            ? Math.sin(2 * Math.PI * progress)
-            : Math.sin(Math.PI * progress);
-          const displacement = this.relativeDisplacement(primitive, firstIndex, index, states);
+        const motionStart = this.times[sourceFirst]!;
+        const duration = Math.max(1e-9, this.times[sourceIndices[sourceIndices.length - 1]!]! - motionStart);
+        const phaseAt = (index: number): number => {
+          const progress = motionProgress((this.times[index]! - motionStart) / duration, primitive.parameters.speedKeyframes);
+          return primitive.parameters.path === "spline"
+            ? Math.sin(2 * Math.PI * progress) : Math.sin(Math.PI * progress);
+        };
+        const targetDistance = primitive.parameters.fullTargetDistance ?? primitive.parameters.targetDistance;
+        const distance = typeof targetDistance === "number" ? targetDistance
+          : Math.abs(this.translationProgress(primitive, sourceIndices, states));
+        // Fit the free curve amplitude to the candidate itself. Only an authored
+        // intensity imposes a numeric bend; the seed's 0.5 never becomes intent.
+        const denominator = sourceIndices.reduce((sum, index) => sum + phaseAt(index) ** 2, 0);
+        const fittedAmplitude = sourceIndices.reduce((sum, index) => sum + phaseAt(index) * dot3(
+          this.relativeDisplacement(primitive, sourceFirst, index, states), lateral,
+        ), 0) / Math.max(1e-9, denominator);
+        const amplitude = typeof primitive.parameters.curveIntensity === "number"
+          ? distance * 0.25 * clamp(primitive.parameters.curveIntensity / 10, 0, 1)
+          : fittedAmplitude;
+        const residuals = indices.map((index) => {
+          const phase = phaseAt(index);
+          const displacement = this.relativeDisplacement(primitive, sourceFirst, index, states);
           const orthogonal = sub3(displacement, scale3(axis, dot3(displacement, axis)));
           return weighted(index, distance3(orthogonal, scale3(lateral, amplitude * phase)));
         });
+        if (primitive.parameters.curveIntensity === undefined) {
+          residuals.push(weighted(lastIndex, Math.max(0, distance * 0.02 - Math.abs(amplitude))));
+        }
+        return residuals;
       }
       case "stepPacing": {
         if (indices.length < 2) return [];
@@ -579,7 +637,7 @@ export class ObjectiveEvaluator {
           ? primitive.parameters.fullTargetDistance
           : typeof primitive.parameters.targetDistance === "number"
             ? primitive.parameters.targetDistance
-          : 0;
+          : this.translationProgress(primitive, this.motionIndices.get(primitive.id)!, states);
         const motionStartTime = typeof primitive.parameters.motionStartTime === "number"
           ? primitive.parameters.motionStartTime
           : primitive.startTime;
@@ -623,19 +681,27 @@ export class ObjectiveEvaluator {
       }
       case "angularProgress":
       case "rollProgress": {
+        const sourceIndices = this.motionIndices.get(primitive.id)!;
         const series = this.angularSeries(
           primitive.type === "rollProgress"
             ? { ...primitive, parameters: { ...primitive.parameters, mode: "roll" } }
             : primitive,
-          indices,
+          sourceIndices,
           states,
         );
-        const target = typeof primitive.parameters.targetDelta === "number" ? primitive.parameters.targetDelta : 0;
-        return [weighted(lastIndex, series[series.length - 1]! - series[0]! - target)];
+        const target = primitive.parameters.fullTargetDelta ?? primitive.parameters.targetDelta;
+        const delta = series[series.length - 1]! - series[0]!;
+        const sign = primitive.parameters.sign;
+        const progress = typeof sign === "number" ? sign * delta : Math.abs(delta);
+        const minimum = (this.input.options?.minimumMovementAngleDegrees
+          ?? DEFAULT_OPTIONS.minimumMovementAngleDegrees) * Math.PI / 180;
+        return [weighted(lastIndex, typeof target === "number" ? delta - target : Math.max(0, minimum - progress))];
       }
       case "angularDirection": {
         const angles = this.angularSeries(primitive, indices, states);
-        const sign = typeof primitive.parameters.sign === "number" ? primitive.parameters.sign : 1;
+        const sourceAngles = this.angularSeries(primitive, this.motionIndices.get(primitive.id)!, states);
+        const sign = typeof primitive.parameters.sign === "number" ? primitive.parameters.sign
+          : Math.sign(sourceAngles[sourceAngles.length - 1]! - sourceAngles[0]!) || 1;
         return angles.slice(1).map((angle, index) => weighted(
           indices[index + 1]!,
           Math.max(
@@ -650,7 +716,9 @@ export class ObjectiveEvaluator {
       case "angularPacing": {
         const angles = this.angularSeries(primitive, indices, states);
         if (angles.length < 2) return [];
-        const targetDelta = typeof primitive.parameters.targetDelta === "number" ? primitive.parameters.targetDelta : 0;
+        const sourceAngles = this.angularSeries(primitive, this.motionIndices.get(primitive.id)!, states);
+        const targetDelta = typeof primitive.parameters.targetDelta === "number" ? primitive.parameters.targetDelta
+          : sourceAngles[sourceAngles.length - 1]! - sourceAngles[0]!;
         const fullTargetDelta = typeof primitive.parameters.fullTargetDelta === "number"
           ? primitive.parameters.fullTargetDelta
           : undefined;
@@ -716,23 +784,86 @@ export class ObjectiveEvaluator {
           scheduleStartState.position[2] - initialSubject.center[2],
         );
         const requestedRadius = primitive.parameters.targetRadius;
-        const endRadius = primitive.type === "radiusSchedule"
-          ? Math.max(0.2, initialRadius + (typeof primitive.parameters.deltaRadius === "number" ? primitive.parameters.deltaRadius : 0))
-          : typeof requestedRadius === "number" ? requestedRadius : initialRadius;
-        const duration = Math.max(1e-9, scheduleEndTime - scheduleStartTime);
+        if (primitive.type === "radiusSchedule") {
+          const sourceIndices = this.motionIndices.get(primitive.id)!;
+          const radiusAt = (index: number): number => {
+            const subject = this.subject(primitive, index);
+            return subject ? Math.hypot(
+              states[index]!.position[0] - subject.center[0],
+              states[index]!.position[2] - subject.center[2],
+            ) : initialRadius;
+          };
+          const finalRadius = radiusAt(sourceIndices[sourceIndices.length - 1]!);
+          const requestedDelta = primitive.parameters.deltaRadius;
+          const actualDelta = finalRadius - initialRadius;
+          const sign = typeof primitive.parameters.sign === "number" ? primitive.parameters.sign : Math.sign(actualDelta) || 1;
+          const minimum = this.input.options?.minimumMovementDistance ?? DEFAULT_OPTIONS.minimumMovementDistance;
+          const residuals = [weighted(lastIndex, typeof requestedDelta === "number"
+            ? actualDelta - requestedDelta : Math.max(0, minimum - sign * actualDelta))];
+          const duration = Math.max(1e-9, scheduleEndTime - scheduleStartTime);
+          for (let localIndex = 1; localIndex < indices.length; localIndex += 1) {
+            const index = indices[localIndex]!;
+            const previousIndex = indices[localIndex - 1]!;
+            const dt = Math.max(1e-6, this.times[index]! - this.times[previousIndex]!);
+            residuals.push(weighted(index, Math.max(0, -sign * (radiusAt(index) - radiusAt(previousIndex)) / dt)));
+            if (primitive.parameters.speedKeyframes !== undefined) {
+              const progress = motionProgress((this.times[index]! - scheduleStartTime) / duration, primitive.parameters.speedKeyframes);
+              const delta = typeof requestedDelta === "number" ? requestedDelta : actualDelta;
+              residuals.push(weighted(index, radiusAt(index) - initialRadius - delta * progress));
+            }
+          }
+          return residuals;
+        }
+        const targetRadius = typeof requestedRadius === "number" ? requestedRadius : initialRadius;
         return indices.map((index) => {
           const subject = this.subject(primitive, index);
           if (!subject) return weighted(index, 0);
-          const alpha = motionProgress(
-            clamp((this.times[index]! - scheduleStartTime) / duration, 0, 1),
-            primitive.parameters.speedKeyframes,
-          );
-          const expected = initialRadius + (endRadius - initialRadius) * alpha;
           const radius = Math.hypot(
             states[index]!.position[0] - subject.center[0],
             states[index]!.position[2] - subject.center[2],
           );
-          return weighted(index, radius - expected);
+          return weighted(index, radius - targetRadius);
+        });
+      }
+      case "subjectVisibility":
+      case "subjectScaleFloor": {
+        return indices.flatMap((index) => {
+          const subject = this.subject(primitive, index);
+          if (!subject) return [];
+          const state = states[index]!;
+          const time = this.times[index]!;
+          const preference = 1 - compositionWindowWeight(primitive.parameters.suppressionWindows, time);
+          if (preference <= 0) return [];
+          const bounds = projectWorldBox(subject.box, state.position, state.rotation, state.fovYDegrees, this.options.aspectRatio);
+          if (primitive.type === "subjectScaleFloor") {
+            const minimum = typeof primitive.parameters.minimumCoverage === "number"
+              ? primitive.parameters.minimumCoverage : DEFAULT_OPTIONS.minimumSubjectCoverage;
+            return [weighted(index, preference * Math.max(0, minimum - bounds.height))];
+          }
+          // Frustum inequalities have a flat zero region inside the frame. Angular
+          // coordinates also provide recovery when projection is behind the camera.
+          const relative = sub3(subject.center, state.position);
+          const local = rotate3(relative, conjugateQuat(state.rotation));
+          const depth = -local[2];
+          const halfY = state.fovYDegrees * Math.PI / 360;
+          const halfX = Math.atan(Math.tan(halfY) * this.options.aspectRatio);
+          const directionMiss = Math.max(
+            0,
+            (Math.abs(Math.atan2(local[0], depth)) - halfX) / Math.PI,
+            (Math.abs(Math.atan2(local[1], depth)) - halfY) / Math.PI,
+            (this.options.nearPlane - depth) / Math.max(this.options.nearPlane, length3(relative)),
+          );
+          const cropPreference = 1 - compositionWindowWeight(primitive.parameters.cropWindows, time);
+          const forward = cameraForward(state.rotation);
+          const minimumDepth = Math.min(...aabbCorners(subject.box).map((corner) =>
+            dot3(sub3(corner, state.position), forward),
+          ));
+          const nearMiss = Math.max(0, this.options.nearPlane - minimumDepth)
+            / Math.max(this.options.nearPlane, length3(subject.box.size));
+          const overflow = bounds.behindCamera ? nearMiss : Math.max(0,
+            -bounds.minX, bounds.maxX - 1, -bounds.minY, bounds.maxY - 1,
+          );
+          return [weighted(index, preference * Math.max(directionMiss, cropPreference * overflow))];
         });
       }
       case "lookAt": {
@@ -916,36 +1047,47 @@ export class ObjectiveEvaluator {
         return indices.map((index) => weighted(index, wrapAngle(rollFromQuaternion(states[index]!.rotation) - target)));
       }
       case "intrinsicsProgress": {
-        // Fixed, compile-time target (see compiler.ts's fixed-point-anchoring
-        // pass) — NOT derived from first.fovYDegrees, which is a live,
-        // still-optimizing state value. Anchoring to a live value here was
-        // self-referential (the target moved as the variable it was meant to
-        // constrain moved) and could compound into runaway growth across a
-        // zoom action split into multiple sub-bands. Falls back to the old
-        // first-frame-relative computation only if targetFovYDegrees wasn't
-        // supplied (e.g. a hand-built primitive bypassing the compiler).
-        const factor = typeof primitive.parameters.factor === "number" ? primitive.parameters.factor : 1;
+        const sourceIndices = this.motionIndices.get(primitive.id)!;
+        const start = states[sourceIndices[0]!]!.fovYDegrees;
+        const end = states[sourceIndices[sourceIndices.length - 1]!]!.fovYDegrees;
+        const factor = primitive.parameters.fullFactor ?? primitive.parameters.factor;
+        const direction = primitive.parameters.direction === "in" ? -1 : 1;
         const expected = typeof primitive.parameters.targetFovYDegrees === "number"
           ? primitive.parameters.targetFovYDegrees
-          : primitive.parameters.direction === "in"
-            ? first.fovYDegrees / factor
-            : first.fovYDegrees * factor;
-        return [weighted(lastIndex, last.fovYDegrees - expected)];
+          : typeof factor === "number" ? start * Math.pow(factor, direction) : undefined;
+        // A supplied sub-unity ratio reverses the effective lens change. Its
+        // numeric relationship takes precedence over the action's usual sign.
+        const sign = expected === undefined ? direction : Math.sign(expected - start) || direction;
+        const minimum = this.input.options?.minimumZoomChangeDegrees ?? DEFAULT_OPTIONS.minimumZoomChangeDegrees;
+        const residuals = [weighted(lastIndex, expected === undefined
+          ? Math.max(0, minimum - sign * (end - start)) : end - expected)];
+        for (let localIndex = 1; localIndex < indices.length; localIndex += 1) {
+          const index = indices[localIndex]!;
+          const previousIndex = indices[localIndex - 1]!;
+          const dt = Math.max(1e-6, this.times[index]! - this.times[previousIndex]!);
+          residuals.push(weighted(index, Math.max(0,
+            -sign * (states[index]!.fovYDegrees - states[previousIndex]!.fovYDegrees) / dt,
+          )));
+        }
+        return residuals;
       }
       case "intrinsicsPacing": {
         if (indices.length < 2) return [];
-        // Same fixed-target reasoning as intrinsicsProgress above.
-        const factor = typeof primitive.parameters.factor === "number" ? primitive.parameters.factor : 1;
+        const sourceIndices = this.motionIndices.get(primitive.id)!;
+        const sourceFirst = sourceIndices[0]!;
+        const sourceLast = sourceIndices[sourceIndices.length - 1]!;
+        const start = states[sourceFirst]!.fovYDegrees;
+        const factor = primitive.parameters.fullFactor ?? primitive.parameters.factor;
         const end = typeof primitive.parameters.targetFovYDegrees === "number"
           ? primitive.parameters.targetFovYDegrees
-          : primitive.parameters.direction === "in"
-            ? first.fovYDegrees / factor
-            : first.fovYDegrees * factor;
-        return indices.map((index, localIndex) => {
-          const normalizedTime = (this.times[index]! - primitive.startTime)
-            / Math.max(1e-9, primitive.endTime - primitive.startTime);
-          const expected = first.fovYDegrees + (end - first.fovYDegrees)
-            * motionProgress(normalizedTime, primitive.parameters.speedKeyframes);
+          : typeof factor === "number"
+            ? start * Math.pow(factor, primitive.parameters.direction === "in" ? -1 : 1)
+            : states[sourceLast]!.fovYDegrees;
+        return indices.map((index) => {
+          const normalizedTime = (this.times[index]! - this.times[sourceFirst]!)
+            / Math.max(1e-9, this.times[sourceLast]! - this.times[sourceFirst]!);
+          const expected = start * Math.pow(end / start,
+            motionProgress(normalizedTime, primitive.parameters.speedKeyframes));
           return weighted(index, states[index]!.fovYDegrees - expected);
         });
       }
@@ -1007,6 +1149,8 @@ export class ObjectiveEvaluator {
       }
       case "occlusion": {
         return indices.flatMap((index) => {
+          const preference = 1 - compositionWindowWeight(primitive.parameters.suppressionWindows, this.times[index]!);
+          if (preference <= 0) return [];
           const subject = this.subject(primitive, index);
           if (!subject) return [];
           const excluded = new Set(subject.entityIds);
@@ -1014,7 +1158,7 @@ export class ObjectiveEvaluator {
             !excluded.has(obstacle.entityId)
             && segmentIntersectsAabb(states[index]!.position, subject.center, obstacle.box),
           );
-          return [weighted(index, blocked ? 1 : 0)];
+          return [weighted(index, blocked ? preference : 0)];
         });
       }
       case "groundClearance": {

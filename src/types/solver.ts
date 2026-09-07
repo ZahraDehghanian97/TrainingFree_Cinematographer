@@ -28,6 +28,8 @@ export enum LossFunctionType {
   CraneDownMovement = "craneDownMovement",
 
   // Framing losses
+  /** Subject intent without an authored framing property. */
+  SubjectPresence = "subjectPresence",
   FramingPosition = "framingPosition",
   FramingDutchAngle = "framingDutchAngle",
   ShotSize = "shotSize",
@@ -85,6 +87,8 @@ export type Constraint = SinglePointConstraint | IntervalConstraint | LossPointC
 // ─── Solver Output ───────────────────────────────────────────────────────────
 
 export interface SectionSolverOutput {
+  /** Section boundary, including cuts with no authored initial camera. */
+  startTime?: number;
   initKeyframes: SinglePointConstraint[];
   constraints: Constraint[];
 }

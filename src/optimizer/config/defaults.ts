@@ -11,6 +11,8 @@ export const DEFAULT_OPTIMIZER_WEIGHTS: OptimizerWeights = {
   globalOcclusion: 5,
   globalGround: 12,
   globalMinPath: 0.025,
+  subjectVisibility: 2.5,
+  subjectScaleFloor: 2.5,
 };
 
 export const DEFAULT_GLOBAL_LOSSES = {
@@ -24,6 +26,10 @@ export const DEFAULT_GLOBAL_LOSSES = {
 } as const;
 
 export const DEFAULT_OPTIONS: Required<Omit<OptimizerOptions, "weights" | "globalLosses">> = {
+  minimumSubjectCoverage: 0.12,
+  minimumMovementDistance: 0.25,
+  minimumMovementAngleDegrees: 8,
+  minimumZoomChangeDegrees: 2,
   motionTransitionSeconds: 1,
   optimizationFps: 3,
   outputFps: 24,
@@ -65,6 +71,8 @@ export const PRIMITIVE_TOLERANCES: Record<PrimitiveLossType, number> = {
   screenPosition: 0.025,
   bboxInFrame: 0.02,
   screenScale: 0.035,
+  subjectVisibility: 0.04,
+  subjectScaleFloor: 0.035,
   distanceHold: 0.08,
   relativeOffsetHold: 0.08,
   bearingHold: Math.PI / 90,

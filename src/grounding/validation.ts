@@ -39,7 +39,7 @@ export function assertMovementSubjectReferences(
 ): void {
   dsl.sections.forEach((section, sectionIndex) => {
     if (
-      section.initCamera.config.type === "subjectAware"
+      section.initCamera?.config.type === "subjectAware"
       && section.initCamera.targets.length === 0
     ) {
       throw new Error(
@@ -140,8 +140,10 @@ export function assertResolvedCameraDirection(
   assertMovementSubjectReferences(dsl);
   dsl.sections.forEach((section, sectionIndex) => {
     const sectionPath = `sections[${sectionIndex}]`;
-    assertTargetList(section.initCamera.targets, `${sectionPath}.initCamera.targets`);
-    assertConfig(section.initCamera.config, `${sectionPath}.initCamera.config`);
+    if (section.initCamera) {
+      assertTargetList(section.initCamera.targets, `${sectionPath}.initCamera.targets`);
+      assertConfig(section.initCamera.config, `${sectionPath}.initCamera.config`);
+    }
 
     section.actions.forEach((action, actionIndex) => {
       const actionPath = `${sectionPath}.actions[${actionIndex}]`;

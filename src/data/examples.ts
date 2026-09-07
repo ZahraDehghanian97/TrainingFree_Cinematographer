@@ -149,13 +149,13 @@ export function createPromptExampleLlmInput(
   const toReference = referenceFactory.toReference;
   const draftCsl: CameraDirectionDraft = {
     ...fixture.resolvedCsl,
-    sections: fixture.resolvedCsl.sections.map((section) => ({
+    sections: fixture.resolvedCsl.sections.map(({ initCamera, ...section }) => ({
       ...section,
-      initCamera: {
-        ...section.initCamera,
-        targets: section.initCamera.targets.map(toReference),
-        config: toDraftConfig(section.initCamera.config, toReference),
-      },
+      ...(initCamera === undefined ? {} : { initCamera: {
+        ...initCamera,
+        targets: initCamera.targets.map(toReference),
+        config: toDraftConfig(initCamera.config, toReference),
+      } }),
       actions: section.actions.map((action) => {
         const { constraints, ...actionWithoutConstraints } = action;
         const { targets: movementTargets, ...movement } = action.movement;

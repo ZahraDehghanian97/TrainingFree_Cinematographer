@@ -21,10 +21,6 @@ import {
 import type { CameraDirectionDSL } from "../types/dsl";
 import {
   MOVEMENT_TO_LOSS,
-  DEFAULT_DOLLY_DISTANCE,
-  DEFAULT_ROTATION_ANGLE,
-  DEFAULT_ARC_ANGLE,
-  DEFAULT_ARC_RADIUS,
   SCENE_PLAYBACK_RATE,
 } from "./constants";
 import type { CameraConfig, Target } from "../types/camera";
@@ -39,7 +35,7 @@ export function solveTimeline(
 ): TimelineSolverOutput {
   assertResolvedCameraDirection(dsl);
   const sections: SectionSolverOutput[] = [];
-  const totalDuration: number = dsl.totalDuration
+  const totalDuration = dsl.totalDuration;
 
   const allResolvedActions = resolveActionTimings(
     dsl.sections,
@@ -47,34 +43,23 @@ export function solveTimeline(
     environment,
   );
 
-  let resolvedActions : TimedAction[] = []
-  for (let i = 0; i < dsl.sections.length; i++) {
-    const section = dsl.sections[i]!;
-
-    resolvedActions = allResolvedActions.filter(a =>
-    section.actions.some(sa => sa.id === a.id)
+  for (const section of dsl.sections) {
+    const resolvedActions = allResolvedActions.filter(a =>
+      section.actions.some(sa => sa.id === a.id)
     );
 
-    const initCameraStartTime =
-    resolvedActions.length > 0
-    ? Math.min(...resolvedActions.map(a => a.startTime!))
-    : 0;
-
-    // 3. Build constraints
-    const initKeyframes: SinglePointConstraint[] = [
-    buildInitialKeyframe(
-    section.initCamera,
-    initCameraStartTime
-      ),
-    ];
-
+    const startTime = resolvedActions.length > 0
+      ? Math.min(...resolvedActions.map(a => a.startTime!))
+      : 0;
+    const initKeyframes = section.initCamera === undefined
+      ? []
+      : [buildInitialKeyframe(section.initCamera, startTime)];
 
     sections.push({
-      initKeyframes: initKeyframes,
+      startTime,
+      initKeyframes,
       constraints: resolvedActions.flatMap(buildActionConstraints),
     });
-
-
   }
   
   const timeWarp: TimeWarpSegment[] = [];
@@ -131,7 +116,7 @@ function buildMovementLossParameters(
     ...(action.movement.speedKeyframes ? { speedKeyframes: action.movement.speedKeyframes } : {}),
     ...(p.path ? { path: p.path } : {}),
     ...(p.curveIntensity === undefined ? {} : { curveIntensity: p.curveIntensity }),
-    ...(p.allowSubjectIntersection === true ? { allowSubjectIntersection: true } : {}),
+    ...(p.allowSubjectIntersection === undefined ? {} : { allowSubjectIntersection: p.allowSubjectIntersection }),
   };
 
   switch (action.movement.act) {
@@ -139,7 +124,7 @@ function buildMovementLossParameters(
     case CameraMovementType.DollyIn:
     case CameraMovementType.DollyOut:
       return {
-        distance: p.distance ?? DEFAULT_DOLLY_DISTANCE,
+        ...(p.distance === undefined ? {} : { distance: p.distance }),
         ...targetParameters,
         ...generalParameters,
       };
@@ -155,7 +140,7 @@ function buildMovementLossParameters(
 
     case CameraMovementType.Follow:
       return {
-        distance: p.distance ?? DEFAULT_DOLLY_DISTANCE,
+        ...(p.distance === undefined ? {} : { distance: p.distance }),
         ...targetParameters,
         ...(p.followDelay === undefined ? {} : { followDelay: p.followDelay }),
         ...(p.leadAmount === undefined ? {} : { leadAmount: p.leadAmount }),
@@ -165,6 +150,7 @@ function buildMovementLossParameters(
     case CameraMovementType.Track:
       return {
         ...targetParameters,
+        ...(p.distance === undefined ? {} : { distance: p.distance }),
         ...(p.followDelay === undefined ? {} : { followDelay: p.followDelay }),
         ...(p.leadAmount === undefined ? {} : { leadAmount: p.leadAmount }),
         ...generalParameters,
@@ -176,17 +162,24 @@ function buildMovementLossParameters(
     case CameraMovementType.TiltDown:
     case CameraMovementType.DutchLeft:
     case CameraMovementType.DutchRight:
-      return { rotationAngle: p.rotationAngle ?? DEFAULT_ROTATION_ANGLE, ...generalParameters };
+      return {
+        ...(p.rotationAngle === undefined ? {} : { rotationAngle: p.rotationAngle }),
+        ...generalParameters,
+      };
 
     case CameraMovementType.ZoomIn:
     case CameraMovementType.ZoomOut:
-      return { zoomFactor: p.zoomFactor ?? 1.5, ...generalParameters };
+      return {
+        ...(p.zoomFactor === undefined ? {} : { zoomFactor: p.zoomFactor }),
+        ...generalParameters,
+      };
 
     case CameraMovementType.CraneUp:
     case CameraMovementType.CraneDown:
       return {
-        heightChange: p.heightChange ?? p.distance ?? 2,
-        horizontalDistance: p.horizontalDistance ?? 1,
+        ...(p.heightChange === undefined && p.distance === undefined
+          ? {} : { heightChange: p.heightChange ?? p.distance }),
+        ...(p.horizontalDistance === undefined ? {} : { horizontalDistance: p.horizontalDistance }),
         ...targetParameters,
         ...generalParameters,
       };
@@ -194,20 +187,18 @@ function buildMovementLossParameters(
     case CameraMovementType.ArcLeft:
     case CameraMovementType.ArcRight:
     case CameraMovementType.Orbit: {
-      const requestedArcAngle = p.arcAngle
-        ?? (action.movement.act === CameraMovementType.Orbit ? 360 : DEFAULT_ARC_ANGLE);
-      const arcAngleMagnitude = Math.abs(requestedArcAngle);
+      const sign = action.movement.act === CameraMovementType.ArcRight
+        ? 1
+        : action.movement.act === CameraMovementType.ArcLeft
+          ? -1
+          : p.arcAngle === undefined ? undefined : Math.sign(p.arcAngle);
       return {
-        arcAngle: action.movement.act === CameraMovementType.ArcRight
-          ? arcAngleMagnitude
-          : action.movement.act === CameraMovementType.ArcLeft
-            ? -arcAngleMagnitude
-            : requestedArcAngle,
-        ...(p.arcRadius !== undefined
-          ? { arcRadius: p.arcRadius }
-          : action.movement.act === CameraMovementType.Orbit
-            ? { arcRadius: DEFAULT_ARC_RADIUS }
-            : {}),
+        ...(sign === undefined ? {} : { sign }),
+        ...(p.arcAngle === undefined ? {} : {
+          arcAngle: action.movement.act === CameraMovementType.Orbit
+            ? p.arcAngle : p.arcAngle === 0 ? 0 : Math.abs(p.arcAngle) * sign!,
+        }),
+        ...(p.arcRadius === undefined ? {} : { arcRadius: p.arcRadius }),
         ...targetParameters,
         ...generalParameters,
       };
@@ -283,22 +274,28 @@ export function buildCameraConfigLosses(
         }
       });
 
+    // Keep the subject association even when every composition field is free.
+    // The optimizer derives visibility preferences from this intent metadata.
+    if (losses.length === 0 && targets.length > 0) {
+      losses.push({ type: LossFunctionType.SubjectPresence, parameters: targetParameters });
+    }
   }
 
   if (config.type === "nonSubjectAware") {
-
-    losses.push({
-      type: LossFunctionType.MinPath,
-      parameters: {
-        targetPose: config.extrinsics.pose,
-        ...(config.extrinsics.transformMatrix
-          ? { targetTransformMatrix: config.extrinsics.transformMatrix }
-          : {}),
-        ...(config.intrinsics ? { targetIntrinsics: config.intrinsics } : {}),
-        ...(config.lookAt ? { lookAt: config.lookAt } : {}),
-      }
-    });
-
+    const pose = config.extrinsics?.pose;
+    const parameters = {
+      ...(pose?.position !== undefined || pose?.rotation !== undefined
+        ? { targetPose: pose } : {}),
+      ...(config.extrinsics?.transformMatrix === undefined
+        ? {} : { targetTransformMatrix: config.extrinsics.transformMatrix }),
+      ...(config.intrinsics && Object.keys(config.intrinsics).length > 0
+        ? { targetIntrinsics: config.intrinsics } : {}),
+      ...(config.lookAt === undefined || (Array.isArray(config.lookAt) && config.lookAt.length === 0)
+        ? {} : { lookAt: config.lookAt }),
+    };
+    if (Object.keys(parameters).length > 0) {
+      losses.push({ type: LossFunctionType.MinPath, parameters });
+    }
   }
 
   return losses;

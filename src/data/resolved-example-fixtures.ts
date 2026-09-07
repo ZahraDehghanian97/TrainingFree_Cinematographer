@@ -1,5 +1,6 @@
 import type { ResolvedCameraDirectionDSL } from "../types/dsl";
 import { ShotSize, SubjectView, SubjectInFramePosition, CameraMovementType, ComparisonOperator, RelativeTimeReference, CameraVerticalAngle, RelativeFPS, SpeedFunction, ConstraintType } from "../types/enums";
+import { dontCarePromptExampleFixtures } from "./dont-care-examples";
 
 export interface ResolvedPromptExampleFixture {
   id: string;
@@ -3135,5 +3136,6 @@ export const resolvedPromptExampleFixtures: ResolvedPromptExampleFixture[] = [{
       },
     ],
   },
-}
+},
+...dontCarePromptExampleFixtures,
 ]

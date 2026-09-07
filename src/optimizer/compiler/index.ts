@@ -1,7 +1,6 @@
 import { LossFunctionType } from "../../types/solver";
 import {
   DEFAULT_OPTIMIZER_WEIGHTS,
-  DEFAULT_OPTIONS,
 } from "../config/defaults";
 import { finiteNumber } from "../shared/parameter-values";
 import type {
@@ -11,13 +10,13 @@ import type {
   OptimizerWeights,
 } from "../types";
 import { resolveBandConflicts } from "./conflict-resolution";
-import { resolveFixedFovTargets } from "./fov-targets";
 import { buildGlobalLossDescriptors } from "./global-losses";
 import { descriptorsForUserKeyframe } from "./keyframe-recipes";
 import { descriptorsForLoss } from "./loss-recipes";
 import { createPrimitiveStore } from "./primitive-store";
 import { buildActiveLossBands } from "./timeline-bands";
 import { buildMotionTransitions } from "./motion-transitions";
+import { addSubjectQualityLosses } from "./subject-quality";
 import type {
   CompileBandContext,
   PrimitiveDescriptor,
@@ -154,21 +153,20 @@ export function compileLossPlan(input: CameraOptimizerInput): CompiledLossPlan {
     }
   }
 
+  // Unspecified composition stays free inside a useful visibility/scale region.
+  addSubjectQualityLosses(input, primitives, weights, add);
+
   // 5. Add enabled whole-trajectory regularizers.
-  for (const { descriptor, weight } of buildGlobalLossDescriptors(input, weights, primitives)) {
+  for (const { descriptor, weight, startTime, endTime } of buildGlobalLossDescriptors(input, weights, primitives)) {
     add(descriptor, {
-      startTime: 0,
-      endTime: durationSeconds,
+      startTime: startTime ?? 0,
+      endTime: endTime ?? durationSeconds,
       sourceType: "global",
       explicitWeight: weight,
     });
   }
 
-  // 6. Freeze lens targets, then put the public plan in stable order.
-  resolveFixedFovTargets(
-    primitives,
-    input.options?.initialFovYDegrees ?? DEFAULT_OPTIONS.initialFovYDegrees,
-  );
+  // 6. Put the public plan in stable order; no seed value becomes a target.
   primitives.sort(
     (a, b) => a.startTime - b.startTime || a.endTime - b.endTime || a.id.localeCompare(b.id),
   );

@@ -32,6 +32,10 @@ export function resolveOptimizerOptions(
   input: CameraOptimizerInput,
 ): ResolvedOptimizerOptions {
   return {
+    minimumSubjectCoverage: input.options?.minimumSubjectCoverage ?? DEFAULT_OPTIONS.minimumSubjectCoverage,
+    minimumMovementDistance: input.options?.minimumMovementDistance ?? DEFAULT_OPTIONS.minimumMovementDistance,
+    minimumMovementAngleDegrees: input.options?.minimumMovementAngleDegrees ?? DEFAULT_OPTIONS.minimumMovementAngleDegrees,
+    minimumZoomChangeDegrees: input.options?.minimumZoomChangeDegrees ?? DEFAULT_OPTIONS.minimumZoomChangeDegrees,
     motionTransitionSeconds: input.options?.motionTransitionSeconds ?? DEFAULT_OPTIONS.motionTransitionSeconds,
     optimizationFps: input.options?.optimizationFps ?? DEFAULT_OPTIONS.optimizationFps,
     outputFps: input.options?.outputFps

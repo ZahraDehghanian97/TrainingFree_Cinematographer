@@ -146,17 +146,19 @@ export function collectSubjectReferences(
 
   draft.sections.forEach((section, sectionIndex) => {
     const sectionPath = `sections[${sectionIndex}]`;
-    collectTargetList(
-      references,
-      section.initCamera.targets,
-      `${sectionPath}.initCamera.targets`,
-      "initialFraming",
-    );
-    collectConfigReferences(
-      references,
-      section.initCamera.config,
-      `${sectionPath}.initCamera.config`,
-    );
+    if (section.initCamera) {
+      collectTargetList(
+        references,
+        section.initCamera.targets,
+        `${sectionPath}.initCamera.targets`,
+        "initialFraming",
+      );
+      collectConfigReferences(
+        references,
+        section.initCamera.config,
+        `${sectionPath}.initCamera.config`,
+      );
+    }
 
     section.actions.forEach((action, actionIndex) => {
       const actionPath = `${sectionPath}.actions[${actionIndex}]`;
@@ -372,13 +374,13 @@ function hydrateDraft(
 ): ResolvedCameraDirectionDSL {
   return {
     ...draft,
-    sections: draft.sections.map((section) => ({
+    sections: draft.sections.map(({ initCamera, ...section }) => ({
       ...section,
-      initCamera: {
-        ...section.initCamera,
-        targets: bindTargetList(section.initCamera.targets, bindings) ?? [],
-        config: bindConfig(section.initCamera.config, bindings),
-      },
+      ...(initCamera === undefined ? {} : { initCamera: {
+        ...initCamera,
+        targets: bindTargetList(initCamera.targets, bindings) ?? [],
+        config: bindConfig(initCamera.config, bindings),
+      } }),
       actions: section.actions.map((action) => {
         const { constraints, ...actionWithoutConstraints } = action;
         const { targets: movementReferences, ...movement } = action.movement;

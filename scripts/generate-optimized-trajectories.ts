@@ -2,6 +2,7 @@ import * as fs from "node:fs";
 import * as path from "node:path";
 
 import { resolvedPromptExampleFixtures } from "../src/data/resolved-example-fixtures";
+import { dontCarePromptExampleFixtures } from "../src/data/dont-care-examples";
 import { optimizeCameraTrajectory } from "../src/optimizer/index";
 import { flattenTimeline } from "../src/timeline/flattener";
 import { solveTimeline } from "../src/timeline/solver";
@@ -18,6 +19,7 @@ interface GeneratorOptions {
   outputFps?: number;
   exampleId?: string;
   keyframesPath?: string;
+  suite?: "dont-care";
 }
 
 function parsePositiveNumber(value: string | undefined, option: string): number {
@@ -50,6 +52,9 @@ function parseOptions(args: readonly string[]): GeneratorOptions {
     } else if (name === "--keyframes") {
       if (!value) throw new Error("--keyframes requires a JSON path");
       options.keyframesPath = path.resolve(process.cwd(), value);
+    } else if (name === "--suite") {
+      if (value !== "dont-care") throw new Error("--suite must be dont-care");
+      options.suite = value;
     } else {
       throw new Error(`Unknown option: ${argument}`);
     }
@@ -103,11 +108,11 @@ function main(): void {
     "shared/optimized",
   );
 
-  const selected = options.exampleId === undefined
-    ? resolvedPromptExampleFixtures.map((fixture, index) => ({ fixture, index }))
-    : resolvedPromptExampleFixtures
-        .map((fixture, index) => ({ fixture, index }))
-        .filter(({ fixture }) => fixture.id === options.exampleId);
+  const suiteIds = new Set(dontCarePromptExampleFixtures.map(({ id }) => id));
+  const selected = resolvedPromptExampleFixtures
+    .map((fixture, index) => ({ fixture, index }))
+    .filter(({ fixture }) => (options.exampleId === undefined || fixture.id === options.exampleId)
+      && (options.suite === undefined || suiteIds.has(fixture.id)));
   if (selected.length === 0) throw new Error(`Unknown example ID: ${options.exampleId}`);
   if (options.keyframesPath !== undefined && selected.length !== 1) {
     throw new Error("--keyframes requires exactly one --example");

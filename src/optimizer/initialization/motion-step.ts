@@ -22,7 +22,7 @@ import {
   isPrimitiveActiveAt,
   samplePrimitiveSubject,
 } from "../scene/primitive-context";
-import { subjectIdsFromParameters } from "../shared/parameter-values";
+import { asQuat, asVec3, subjectIdsFromParameters } from "../shared/parameter-values";
 import type {
   CameraOptimizerInput,
   CameraStateSample,
@@ -30,6 +30,29 @@ import type {
   PrimitiveLoss,
 } from "../types";
 import { projectWorldPoint } from "../scene/projection";
+import {
+  SEED_ORBIT_DEGREES,
+  SEED_ROLL_RADIANS,
+  SEED_ROTATION_RADIANS,
+  SEED_TRANSLATION_METERS,
+  SEED_ZOOM_FACTOR,
+} from "./seed-defaults";
+
+function sourceMotionClock(primitive: PrimitiveLoss): [number, number] {
+  return [
+    typeof primitive.parameters.motionStartTime === "number"
+      ? primitive.parameters.motionStartTime : primitive.startTime,
+    typeof primitive.parameters.motionEndTime === "number"
+      ? primitive.parameters.motionEndTime : primitive.endTime,
+  ];
+}
+
+function seededAngularDelta(primitive: PrimitiveLoss, fallback: number): number {
+  const authored = primitive.parameters.fullTargetDelta ?? primitive.parameters.targetDelta;
+  return typeof authored === "number"
+    ? authored
+    : fallback * (typeof primitive.parameters.sign === "number" ? primitive.parameters.sign : 1);
+}
 
 function subjectMotionPrimitive(
   active: readonly PrimitiveLoss[],
@@ -98,11 +121,7 @@ function applyOrbitSteps(
   for (const primitive of active.filter((item) =>
     item.type === "angularProgress" && item.parameters.mode === "orbit",
   )) {
-    const targetDelta = typeof primitive.parameters.fullTargetDelta === "number"
-      ? primitive.parameters.fullTargetDelta
-      : typeof primitive.parameters.targetDelta === "number"
-        ? primitive.parameters.targetDelta
-      : 0;
+    const targetDelta = seededAngularDelta(primitive, SEED_ORBIT_DEGREES * Math.PI / 180);
     const motionStartTime = typeof primitive.parameters.motionStartTime === "number"
       ? primitive.parameters.motionStartTime
       : primitive.startTime;
@@ -137,42 +156,39 @@ function applyOrbitSteps(
     const radiusScheduleKey = typeof radiusPrimitive.parameters.scheduleKey === "string"
       ? radiusPrimitive.parameters.scheduleKey
       : `${radiusPrimitive.sourceActionId ?? radiusPrimitive.id}:${orbitSubjectKey}`;
+    const [radiusStartTime, radiusEndTime] = sourceMotionClock(radiusPrimitive);
+    const duration = Math.max(1e-9, radiusEndTime - radiusStartTime);
+    const radiusProgress = (time: number): number => motionProgress(
+      (time - radiusStartTime) / duration,
+      radiusPrimitive.parameters.speedKeyframes,
+    );
+    const deltaRadius = typeof radiusPrimitive.parameters.deltaRadius === "number"
+      ? radiusPrimitive.parameters.deltaRadius
+      : SEED_TRANSLATION_METERS * (
+          typeof radiusPrimitive.parameters.sign === "number" ? radiusPrimitive.parameters.sign : 1
+        );
     let initialRadius = initialOrbitRadii.get(radiusScheduleKey);
     if (initialRadius === undefined) {
       initialRadius = Math.hypot(
         previous.position[0] - previousTarget.center[0],
         previous.position[2] - previousTarget.center[2],
       );
+      if (radiusPrimitive.type === "radiusSchedule") {
+        // A cut or partial overlap can begin after the source movement starts.
+        // Recover that clock's baseline without jumping away from the cut pose.
+        initialRadius -= deltaRadius * radiusProgress(previous.time);
+      }
       initialOrbitRadii.set(radiusScheduleKey, initialRadius);
     }
 
     const radial = sub3(state.position, target.center);
     const horizontal: Vec3 = [radial[0], 0, radial[2]];
     const requested = radiusPrimitive.parameters.targetRadius;
-    const targetRadius = radiusPrimitive.type === "radiusSchedule"
-      ? Math.max(
-          0.2,
-          initialRadius + (
-            typeof radiusPrimitive.parameters.deltaRadius === "number"
-              ? radiusPrimitive.parameters.deltaRadius
-              : 0
-          ),
-        )
-      : typeof requested === "number"
-        ? requested
-        : initialRadius;
-    const radiusStartTime = typeof radiusPrimitive.parameters.motionStartTime === "number"
-      ? radiusPrimitive.parameters.motionStartTime
-      : radiusPrimitive.startTime;
-    const radiusEndTime = typeof radiusPrimitive.parameters.motionEndTime === "number"
-      ? radiusPrimitive.parameters.motionEndTime
-      : radiusPrimitive.endTime;
-    const duration = Math.max(1e-9, radiusEndTime - radiusStartTime);
-    const progress = motionProgress(
-      (state.time - radiusStartTime) / duration,
-      radiusPrimitive.parameters.speedKeyframes,
-    );
-    const desiredRadius = initialRadius + (targetRadius - initialRadius) * progress;
+    const targetRadius = typeof requested === "number" ? requested : initialRadius;
+    const progress = radiusProgress(state.time);
+    const desiredRadius = radiusPrimitive.type === "radiusSchedule"
+      ? Math.max(0.2, initialRadius + deltaRadius * progress)
+      : initialRadius + (targetRadius - initialRadius) * progress;
     const direction = normalize3(horizontal, [0, 0, 1]);
     state.position = [
       target.center[0] + direction[0] * desiredRadius,
@@ -273,7 +289,7 @@ function applyTranslationSteps(
       ? primitive.parameters.fullTargetDistance
       : typeof primitive.parameters.targetDistance === "number"
         ? primitive.parameters.targetDistance
-      : 0;
+      : SEED_TRANSLATION_METERS;
     const sign = typeof primitive.parameters.sign === "number" ? primitive.parameters.sign : 1;
     const axis = translationAxis(
       primitive,
@@ -309,33 +325,28 @@ function applyRotationSteps(
   for (const primitive of active.filter((item) =>
     item.type === "angularProgress" && item.parameters.mode !== "orbit",
   )) {
-    const delta = typeof primitive.parameters.targetDelta === "number"
-      ? primitive.parameters.targetDelta * motionProgressDelta(
-          previous.time,
-          state.time,
-          primitive.startTime,
-          primitive.endTime,
-          primitive.parameters.speedKeyframes,
-        )
-      : 0;
+    const [startTime, endTime] = sourceMotionClock(primitive);
+    const delta = seededAngularDelta(primitive, SEED_ROTATION_RADIANS) * motionProgressDelta(
+      previous.time,
+      state.time,
+      startTime,
+      endTime,
+      primitive.parameters.speedKeyframes,
+    );
     state.rotation = primitive.parameters.mode === "pitch"
       ? applyCameraYawPitchRoll(state.rotation, 0, delta, 0)
       : applyCameraYawPitchRoll(state.rotation, delta, 0, 0);
   }
 
   for (const primitive of active.filter((item) => item.type === "rollProgress")) {
-    const fullDelta = primitive.parameters.fullTargetDelta ?? primitive.parameters.targetDelta;
-    const delta = typeof fullDelta === "number"
-      ? fullDelta * motionProgressDelta(
-          previous.time,
-          state.time,
-          typeof primitive.parameters.motionStartTime === "number"
-            ? primitive.parameters.motionStartTime : primitive.startTime,
-          typeof primitive.parameters.motionEndTime === "number"
-            ? primitive.parameters.motionEndTime : primitive.endTime,
-          primitive.parameters.speedKeyframes,
-        )
-      : 0;
+    const [startTime, endTime] = sourceMotionClock(primitive);
+    const delta = seededAngularDelta(primitive, SEED_ROLL_RADIANS) * motionProgressDelta(
+      previous.time,
+      state.time,
+      startTime,
+      endTime,
+      primitive.parameters.speedKeyframes,
+    );
     state.rotation = multiplyQuat(
       quatFromAxisAngle(cameraForward(state.rotation), delta),
       state.rotation,
@@ -350,12 +361,14 @@ function applyZoomStep(
 ): void {
   const zoom = active.find((primitive) => primitive.type === "intrinsicsProgress");
   if (!zoom) return;
-  const factor = typeof zoom.parameters.factor === "number" ? zoom.parameters.factor : 1;
+  const authoredFactor = zoom.parameters.fullFactor ?? zoom.parameters.factor;
+  const factor = typeof authoredFactor === "number" ? authoredFactor : SEED_ZOOM_FACTOR;
+  const [startTime, endTime] = sourceMotionClock(zoom);
   const stepFactor = Math.pow(factor, motionProgressDelta(
     previous.time,
     state.time,
-    zoom.startTime,
-    zoom.endTime,
+    startTime,
+    endTime,
     zoom.parameters.speedKeyframes,
   ));
   state.fovYDegrees = clamp(
@@ -432,7 +445,7 @@ function levelOrientationForScreenTarget(
   return orientation(yaw, pitch);
 }
 
-function applyCompositionOrientation(
+export function applyCompositionOrientation(
   state: CameraStateSample,
   input: CameraOptimizerInput,
   plan: CompiledLossPlan,
@@ -440,14 +453,28 @@ function applyCompositionOrientation(
   const active = plan.primitives
     .filter((primitive) => isPrimitiveActiveAt(primitive, state.time))
     .sort((a, b) => b.startTime - a.startTime || a.id.localeCompare(b.id));
+  const rotationAnchor = active.find((primitive) => primitive.type === "rotationAnchor");
+  const anchoredRotation = asQuat(rotationAnchor?.parameters.target);
+  const anchoredLookAt = asVec3(rotationAnchor?.parameters.lookAt);
+  if (anchoredRotation || anchoredLookAt) {
+    state.rotation = anchoredRotation ?? lookAtQuaternion(state.position, anchoredLookAt!);
+    return;
+  }
   const composition = active.find((primitive) => primitive.type === "screenPosition")
     ?? active.find((primitive) => primitive.type === "lookAt")
-    ?? active.find((primitive) => primitive.type === "screenScale");
+    ?? active.find((primitive) => primitive.type === "screenScale")
+    ?? active.find((primitive) => primitive.type === "subjectVisibility")
+    ?? active.find((primitive) => primitive.type === "subjectScaleFloor");
   const hasExplicitRotation = active.some((primitive) =>
     (primitive.type === "angularProgress" && primitive.parameters.mode !== "orbit")
     || primitive.type === "rollProgress",
   );
   if (!composition || hasExplicitRotation) return;
+  const isFallback = composition.type === "subjectVisibility" || composition.type === "subjectScaleFloor";
+  if (isFallback && active.some((primitive) =>
+    primitive.type === "orientationHold" || primitive.type === "forwardHold"
+    || primitive.type === "yawHold" || primitive.type === "pitchHold",
+  )) return;
   const target = samplePrimitiveSubject(input, composition, state.time);
   if (!target) return;
 

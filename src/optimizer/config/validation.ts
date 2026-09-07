@@ -94,6 +94,18 @@ export function validateOptimizerInput(input: CameraOptimizerInput): void {
   }
 
   const options = input.options;
+  for (const name of [
+    "minimumSubjectCoverage", "minimumMovementDistance",
+    "minimumMovementAngleDegrees", "minimumZoomChangeDegrees",
+  ] as const) {
+    const value = options?.[name];
+    if (value !== undefined && (!Number.isFinite(value) || value < 0)) {
+      throw new Error(`options.${name} must be non-negative and finite`);
+    }
+  }
+  if ((options?.minimumSubjectCoverage ?? 0) > 1) {
+    throw new Error("options.minimumSubjectCoverage must be at most 1");
+  }
   if (options?.motionTransitionSeconds !== undefined && (
     !Number.isFinite(options.motionTransitionSeconds) || options.motionTransitionSeconds < 0
   )) {

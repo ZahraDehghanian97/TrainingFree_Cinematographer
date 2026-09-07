@@ -1,6 +1,5 @@
 import { LossFunctionType } from "../../types/solver";
 import {
-  finiteNumber,
   subjectIdsFromParameters,
 } from "../shared/parameter-values";
 import type {
@@ -97,7 +96,7 @@ export function resolveBandConflicts({
         && (
           (primitive.type === "radiusHold" && primitive.sourceType === LossFunctionType.ArcMovement)
           || (
-            primitive.type === "orthogonalDrift"
+            ["axisProgress", "totalProgressTarget", "orthogonalDrift", "pathProfile", "stepPacing", "stepSmoothness"].includes(primitive.type)
             && (
               primitive.sourceType === LossFunctionType.DollyInMovement
               || primitive.sourceType === LossFunctionType.DollyOutMovement
@@ -105,14 +104,18 @@ export function resolveBandConflicts({
           )
         ),
       );
-      const distance = Math.abs(finiteNumber(dollyLoss.parameters.distance, 2));
+      const distance = typeof dollyLoss.parameters.distance === "number"
+        ? Math.abs(dollyLoss.parameters.distance)
+        : undefined;
+      const sign = dollyLoss.type === LossFunctionType.DollyInMovement ? -1 : 1;
       const added = add(
         {
           type: "radiusSchedule",
           channel: "subjectRelative",
           role: "primary",
           parameters: {
-            deltaRadius: dollyLoss.type === LossFunctionType.DollyInMovement ? -distance : distance,
+            sign,
+            ...(distance === undefined ? {} : { deltaRadius: sign * distance }),
             motionStartTime: dollySpan.sourceStartTime,
             motionEndTime: dollySpan.sourceEndTime,
             scheduleKey: `${arcLoss.sourceActionId ?? "arc"}:${dollyLoss.sourceActionId ?? "dolly"}`,
@@ -252,16 +255,16 @@ export function resolveBandConflicts({
     });
   }
   if (highLevelTypes.some((type) => ORIENTATION_DRIVING_TYPES.has(type))) {
-    const hasPanOrTilt = highLevelTypes.some((type) => [
-      LossFunctionType.PanLeftMovement,
-      LossFunctionType.PanRightMovement,
-      LossFunctionType.TiltUpMovement,
-      LossFunctionType.TiltDownMovement,
-    ].includes(type));
+    const hasPan = highLevelTypes.includes(LossFunctionType.PanLeftMovement)
+      || highLevelTypes.includes(LossFunctionType.PanRightMovement);
+    const hasTilt = highLevelTypes.includes(LossFunctionType.TiltUpMovement)
+      || highLevelTypes.includes(LossFunctionType.TiltDownMovement);
     const removed = removeWhere((primitive) =>
       (
         primitive.type === "orientationHold"
-        || (hasPanOrTilt && primitive.type === "forwardHold")
+        || ((hasPan || hasTilt) && primitive.type === "forwardHold")
+        || (hasPan && primitive.type === "yawHold")
+        || (hasTilt && primitive.type === "pitchHold")
       )
       && primitive.role === "stabilizer",
     );
@@ -291,7 +294,8 @@ export function resolveBandConflicts({
     || highLevelTypes.includes(LossFunctionType.DutchRightMovement)
     || highLevelTypes.includes(LossFunctionType.FramingDutchAngle)
   ) {
-    const removed = removeWhere((primitive) => primitive.type === "levelHorizon");
+    const removed = removeWhere((primitive) => primitive.type === "levelHorizon"
+      || (primitive.type === "rollHold" && primitive.role === "stabilizer"));
     if (removed.length > 0) conflicts.push({
       interval: [band.startTime, band.endTime],
       rule: "dutch-removes-level-horizon",

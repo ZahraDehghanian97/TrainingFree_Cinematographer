@@ -1,7 +1,6 @@
 import { LossFunctionType } from "../../types/solver";
 import {
   asVec3,
-  finiteNumber,
   poseFromTransformMatrix,
   subjectIdsFromParameters,
 } from "../shared/parameter-values";
@@ -15,35 +14,68 @@ import { subjectParameters } from "./subjects";
 import type { CompileBandContext, PrimitiveDescriptor } from "./types";
 import { motionProgress } from "../shared/motion-profiles";
 
+function optionalNumber(value: unknown): number | undefined {
+  return typeof value === "number" && Number.isFinite(value) ? value : undefined;
+}
+
+function motionParameters(context: CompileBandContext): Record<string, unknown> {
+  return {
+    referenceTime: context.sourceStartTime,
+    motionStartTime: context.sourceStartTime,
+    motionEndTime: context.sourceEndTime,
+    ...(context.loss.parameters.speedKeyframes
+      ? { speedKeyframes: context.loss.parameters.speedKeyframes }
+      : {}),
+  };
+}
+
 function movementFraction(context: CompileBandContext): number {
-  const sourceDuration = context.sourceEndTime - context.sourceStartTime;
-  return sourceDuration <= 1e-9 ? 1 : (context.endTime - context.startTime) / sourceDuration;
+  const duration = context.sourceEndTime - context.sourceStartTime;
+  if (duration <= 1e-9) return 1;
+  return motionProgress(
+    (context.endTime - context.sourceStartTime) / duration,
+    context.loss.parameters.speedKeyframes,
+  ) - motionProgress(
+    (context.startTime - context.sourceStartTime) / duration,
+    context.loss.parameters.speedKeyframes,
+  );
+}
+
+function distanceParameters(context: CompileBandContext, value: unknown): Record<string, unknown> {
+  const distance = optionalNumber(value);
+  return {
+    ...motionParameters(context),
+    ...(distance === undefined ? {} : {
+      targetDistance: Math.abs(distance) * movementFraction(context),
+      fullTargetDistance: Math.abs(distance),
+    }),
+  };
+}
+
+function angleParameters(context: CompileBandContext, degrees: number | undefined): Record<string, unknown> {
+  return {
+    ...motionParameters(context),
+    ...(degrees === undefined ? {} : {
+      targetDelta: degrees * Math.PI / 180 * movementFraction(context),
+      fullTargetDelta: degrees * Math.PI / 180,
+    }),
+  };
 }
 
 function translationRecipe(
   context: CompileBandContext,
   axis: "towardSubject" | "cameraRight" | "worldUp" | "cameraForward",
   sign: number,
-  distance: number,
+  distance: unknown,
 ): PrimitiveDescriptor[] {
-  const sourceDuration = Math.max(1e-9, context.sourceEndTime - context.sourceStartTime);
-  const sourceStart = (context.startTime - context.sourceStartTime) / sourceDuration;
-  const sourceEnd = (context.endTime - context.sourceStartTime) / sourceDuration;
-  const fullTargetDistance = Math.abs(distance);
-  const targetDistance = fullTargetDistance * (
-    motionProgress(sourceEnd, context.loss.parameters.speedKeyframes)
-    - motionProgress(sourceStart, context.loss.parameters.speedKeyframes)
-  );
+  const curveIntensity = optionalNumber(context.loss.parameters.curveIntensity);
+  const path = context.loss.parameters.path
+    ?? (curveIntensity === undefined ? undefined : curveIntensity > 0 ? "curved" : "linear");
   const shared = {
     axis,
     sign,
-    targetDistance,
-    fullTargetDistance,
-    referenceTime: context.sourceStartTime,
-    motionStartTime: context.sourceStartTime,
-    motionEndTime: context.sourceEndTime,
-    ...(context.loss.parameters.speedKeyframes ? { speedKeyframes: context.loss.parameters.speedKeyframes } : {}),
-    ...(context.loss.parameters.path ? { path: context.loss.parameters.path } : {}),
+    ...distanceParameters(context, distance),
+    ...(path === undefined ? {} : { path }),
     ...(context.loss.parameters.curveIntensity === undefined
       ? {}
       : { curveIntensity: context.loss.parameters.curveIntensity }),
@@ -52,10 +84,9 @@ function translationRecipe(
       : {}),
     ...subjectParameters(context.loss.parameters),
   };
-  const path = context.loss.parameters.path;
-  const shapeDescriptor: PrimitiveDescriptor = path === "curved" || path === "spline"
-    ? { type: "pathProfile", channel: "position", role: "stabilizer", parameters: shared }
-    : {
+  const shapeDescriptors: PrimitiveDescriptor[] = path === "curved" || path === "spline"
+    ? [{ type: "pathProfile", channel: "position", role: "stabilizer", parameters: shared }]
+    : path === "linear" || path === "straight" ? [{
         type: "orthogonalDrift",
         channel: "position",
         role: "stabilizer",
@@ -64,18 +95,20 @@ function translationRecipe(
         // resist the small per-sample cross-talk introduced by SPSA.
         weightScale: 4,
         tolerance: 0.02,
-      };
+      }] : [];
   return [
     { type: "axisProgress", channel: "position", role: "primary", parameters: shared },
     { type: "totalProgressTarget", channel: "position", role: "primary", parameters: shared },
-    shapeDescriptor,
-    { type: "stepPacing", channel: "regularity", role: "stabilizer", parameters: shared, weightScale: 1.2 },
+    ...shapeDescriptors,
+    ...(context.loss.parameters.speedKeyframes ? [{
+      type: "stepPacing", channel: "regularity", role: "stabilizer", parameters: shared, weightScale: 1.2,
+    } as PrimitiveDescriptor] : []),
     { type: "stepSmoothness", channel: "regularity", role: "stabilizer", parameters: shared, weightScale: 1.2 },
-    // Physical camera translation does not implicitly change the lens or roll
-    // the rig. Explicit zoom/dutch actions remove these stabilizers below.
+    // These references are solved camera states, so their absolute lens and
+    // roll values remain free while the rig stays steady during translation.
     { type: "fovHold", channel: "intrinsics", role: "stabilizer", weightScale: 2 },
     {
-      type: "levelHorizon",
+      type: "rollHold",
       channel: "rotation",
       role: "stabilizer",
       weightScale: 24,
@@ -89,18 +122,18 @@ function rotationRecipe(
   mode: "yaw" | "pitch",
   sign: number,
 ): PrimitiveDescriptor[] {
-  const requested = Math.abs(finiteNumber(context.loss.parameters.rotationAngle, 30));
-  const targetDelta = sign * requested * Math.PI / 180 * movementFraction(context);
+  const requested = optionalNumber(context.loss.parameters.rotationAngle);
   const shared = {
     mode,
-    targetDelta,
     sign,
-    ...(context.loss.parameters.speedKeyframes ? { speedKeyframes: context.loss.parameters.speedKeyframes } : {}),
+    ...angleParameters(context, requested === undefined ? undefined : sign * Math.abs(requested)),
   };
   return [
     { type: "angularProgress", channel: "rotation", role: "primary", parameters: shared },
     { type: "angularDirection", channel: "rotation", role: "primary", parameters: shared, weightScale: 0.7 },
-    { type: "angularPacing", channel: "regularity", role: "stabilizer", parameters: shared, weightScale: 0.65 },
+    ...(context.loss.parameters.speedKeyframes ? [{
+      type: "angularPacing", channel: "regularity", role: "stabilizer", parameters: shared, weightScale: 0.65,
+    } as PrimitiveDescriptor] : []),
     mode === "yaw"
       ? { type: "pitchHold", channel: "rotation", role: "stabilizer" }
       : { type: "yawHold", channel: "rotation", role: "stabilizer" },
@@ -114,35 +147,35 @@ export function descriptorsForLoss(context: CompileBandContext): PrimitiveDescri
   const p = loss.parameters;
   const subjects = subjectParameters(p);
   switch (loss.type) {
+    // Subject identity is intent even when every camera property is omitted.
+    // The centralized quality pass applies only its soft fallback preferences.
+    case LossFunctionType.SubjectPresence:
+      return [];
     case LossFunctionType.DollyInMovement:
-      return translationRecipe(context, "cameraForward", 1, finiteNumber(p.distance, 2));
+      return translationRecipe(context, "cameraForward", 1, p.distance);
     case LossFunctionType.DollyOutMovement:
-      return translationRecipe(context, "cameraForward", -1, finiteNumber(p.distance, 2));
+      return translationRecipe(context, "cameraForward", -1, p.distance);
     case LossFunctionType.TruckLeftMovement:
-      return translationRecipe(context, "cameraRight", -1, finiteNumber(p.distance, 2));
+      return translationRecipe(context, "cameraRight", -1, p.distance);
     case LossFunctionType.TruckRightMovement:
-      return translationRecipe(context, "cameraRight", 1, finiteNumber(p.distance, 2));
+      return translationRecipe(context, "cameraRight", 1, p.distance);
     case LossFunctionType.PedestalUpMovement:
-      return translationRecipe(context, "worldUp", 1, finiteNumber(p.distance, 2));
+      return translationRecipe(context, "worldUp", 1, p.distance);
     case LossFunctionType.PedestalDownMovement:
-      return translationRecipe(context, "worldUp", -1, finiteNumber(p.distance, 2));
+      return translationRecipe(context, "worldUp", -1, p.distance);
     case LossFunctionType.CraneUpMovement:
     case LossFunctionType.CraneDownMovement: {
       const sign = loss.type === LossFunctionType.CraneUpMovement ? 1 : -1;
-      const verticalDistance = Math.abs(finiteNumber(p.heightChange, 2)) * movementFraction(context);
-      const horizontalDistance = Math.abs(finiteNumber(p.horizontalDistance, 1)) * movementFraction(context);
       const vertical = {
         axis: "worldUp",
         sign,
-        targetDistance: verticalDistance,
-        ...(p.speedKeyframes ? { speedKeyframes: p.speedKeyframes } : {}),
+        ...distanceParameters(context, p.heightChange),
         ...subjects,
       };
       const horizontal = {
         axis: "cameraForward",
         sign: 1,
-        targetDistance: horizontalDistance,
-        ...(p.speedKeyframes ? { speedKeyframes: p.speedKeyframes } : {}),
+        ...distanceParameters(context, p.horizontalDistance),
         ...subjects,
       };
       return [
@@ -156,22 +189,12 @@ export function descriptorsForLoss(context: CompileBandContext): PrimitiveDescri
           role: "stabilizer",
           parameters: { plane: "cameraMovement", ...subjects },
         },
-        { type: "stepPacing", channel: "regularity", role: "stabilizer", parameters: vertical, weightScale: 0.6 },
-        { type: "stepPacing", channel: "regularity", role: "stabilizer", parameters: horizontal, weightScale: 0.6 },
+        ...(p.speedKeyframes ? [
+          { type: "stepPacing", channel: "regularity", role: "stabilizer", parameters: vertical, weightScale: 0.6 },
+          { type: "stepPacing", channel: "regularity", role: "stabilizer", parameters: horizontal, weightScale: 0.6 },
+        ] as PrimitiveDescriptor[] : []),
         { type: "stepSmoothness", channel: "regularity", role: "stabilizer", parameters: vertical, weightScale: 0.45 },
-        // Unlike Follow/Track/SubjectView, Crane previously had NOTHING
-        // driving orientation toward the subject — it moved the camera
-        // through both axes with zero pull to keep looking anywhere in
-        // particular. More noticeable here than on a plain Dolly/Truck,
-        // since Crane's combined vertical+horizontal sweep changes the
-        // angle to the subject substantially over the move, where a simple
-        // dolly toward something already faced barely does. Naturally a
-        // no-op when no subject is given (subjects is {} in that case, and
-        // lookAt/levelHorizon just produce no residuals), so this is safe
-        // to add unconditionally, same as every other subject-aware recipe
-        // here.
-        { type: "lookAt", channel: "composition", role: "primary", parameters: subjects },
-        { type: "levelHorizon", channel: "rotation", role: "stabilizer" },
+        { type: "rollHold", channel: "rotation", role: "stabilizer" },
       ];
     }
     case LossFunctionType.PanLeftMovement:
@@ -185,42 +208,31 @@ export function descriptorsForLoss(context: CompileBandContext): PrimitiveDescri
     case LossFunctionType.DutchLeftMovement:
     case LossFunctionType.DutchRightMovement: {
       const sign = loss.type === LossFunctionType.DutchLeftMovement ? -1 : 1;
-      const fullTargetDelta = sign * Math.abs(finiteNumber(p.rotationAngle, 20)) * Math.PI / 180;
-      const duration = Math.max(1e-9, context.sourceEndTime - context.sourceStartTime);
-      const targetDelta = fullTargetDelta * (
-        motionProgress((context.endTime - context.sourceStartTime) / duration, p.speedKeyframes)
-        - motionProgress((context.startTime - context.sourceStartTime) / duration, p.speedKeyframes)
-      );
+      const angle = optionalNumber(p.rotationAngle);
       const shared = {
-        sign, targetDelta, fullTargetDelta,
-        motionStartTime: context.sourceStartTime,
-        motionEndTime: context.sourceEndTime,
-        ...(p.speedKeyframes ? { speedKeyframes: p.speedKeyframes } : {}),
+        sign,
+        ...angleParameters(context, angle === undefined ? undefined : sign * Math.abs(angle)),
       };
       return [
         { type: "rollProgress", channel: "rotation", role: "primary", parameters: shared },
-        { type: "angularPacing", channel: "regularity", role: "stabilizer", parameters: { mode: "roll", ...shared } },
+        { type: "angularDirection", channel: "rotation", role: "primary", parameters: { mode: "roll", ...shared } },
+        ...(p.speedKeyframes ? [{
+          type: "angularPacing", channel: "regularity", role: "stabilizer", parameters: { mode: "roll", ...shared },
+        } as PrimitiveDescriptor] : []),
         { type: "positionHold", channel: "position", role: "stabilizer" },
         { type: "forwardHold", channel: "rotation", role: "stabilizer" },
       ];
     }
     case LossFunctionType.ArcMovement: {
-      const sourceDuration = Math.max(1e-9, context.sourceEndTime - context.sourceStartTime);
-      const sourceStart = (context.startTime - context.sourceStartTime) / sourceDuration;
-      const sourceEnd = (context.endTime - context.sourceStartTime) / sourceDuration;
-      const fullAngle = finiteNumber(p.arcAngle, 45) * Math.PI / 180;
-      const angle = fullAngle * (
-        motionProgress(sourceEnd, p.speedKeyframes)
-        - motionProgress(sourceStart, p.speedKeyframes)
-      );
-      const radius = finiteNumber(p.arcRadius, Number.NaN);
+      const angle = optionalNumber(p.arcAngle);
+      const radius = optionalNumber(p.arcRadius);
+      const requestedSign = optionalNumber(p.sign);
+      const sign = requestedSign === undefined
+        ? angle === undefined || angle === 0 ? undefined : Math.sign(angle)
+        : Math.sign(requestedSign);
       const shared = {
-        targetDelta: angle,
-        fullTargetDelta: fullAngle,
-        motionStartTime: context.sourceStartTime,
-        motionEndTime: context.sourceEndTime,
-        sign: Math.sign(angle) || 1,
-        ...(p.speedKeyframes ? { speedKeyframes: p.speedKeyframes } : {}),
+        ...angleParameters(context, angle),
+        ...(sign === undefined ? {} : { sign }),
         ...subjects,
       };
       return [
@@ -230,46 +242,44 @@ export function descriptorsForLoss(context: CompileBandContext): PrimitiveDescri
           channel: "subjectRelative",
           role: "primary",
           parameters: {
-            targetRadius: Number.isFinite(radius) ? radius : "initial",
-            motionStartTime: context.sourceStartTime,
-            motionEndTime: context.sourceEndTime,
-            ...(p.speedKeyframes ? { speedKeyframes: p.speedKeyframes } : {}),
+            ...(radius === undefined ? {} : { targetRadius: radius }),
+            ...motionParameters(context),
             ...subjects,
           },
         },
         { type: "angularProgress", channel: "subjectRelative", role: "primary", parameters: { mode: "orbit", ...shared } },
         { type: "angularDirection", channel: "subjectRelative", role: "primary", parameters: { mode: "orbit", ...shared } },
-        { type: "angularPacing", channel: "regularity", role: "stabilizer", parameters: { mode: "orbit", ...shared } },
-        { type: "lookAt", channel: "composition", role: "primary", parameters: subjects },
-        { type: "levelHorizon", channel: "rotation", role: "stabilizer" },
+        ...(p.speedKeyframes ? [{
+          type: "angularPacing", channel: "regularity", role: "stabilizer", parameters: { mode: "orbit", ...shared },
+        } as PrimitiveDescriptor] : []),
+        { type: "rollHold", channel: "rotation", role: "stabilizer" },
       ];
     }
     case LossFunctionType.ZoomIn:
     case LossFunctionType.ZoomOut: {
       const zoomIn = loss.type === LossFunctionType.ZoomIn;
-      const factor = Math.max(1.01, finiteNumber(p.zoomFactor, 1.5));
-      const intervalFactor = Math.pow(factor, movementFraction(context));
+      const factor = optionalNumber(p.zoomFactor);
+      const shared = {
+        ...motionParameters(context),
+        ...(factor === undefined ? {} : {
+          factor: Math.pow(factor, movementFraction(context)),
+          fullFactor: factor,
+        }),
+        direction: zoomIn ? "in" : "out",
+      };
       return [
         {
           type: "intrinsicsProgress",
           channel: "intrinsics",
           role: "primary",
-          parameters: {
-            factor: intervalFactor,
-            direction: zoomIn ? "in" : "out",
-            ...(p.speedKeyframes ? { speedKeyframes: p.speedKeyframes } : {}),
-          },
+          parameters: shared,
         },
-        {
+        ...(p.speedKeyframes ? [{
           type: "intrinsicsPacing",
           channel: "regularity",
           role: "stabilizer",
-          parameters: {
-            factor: intervalFactor,
-            direction: zoomIn ? "in" : "out",
-            ...(p.speedKeyframes ? { speedKeyframes: p.speedKeyframes } : {}),
-          },
-        },
+          parameters: shared,
+        } as PrimitiveDescriptor] : []),
         { type: "positionHold", channel: "position", role: "stabilizer" },
         { type: "orientationHold", channel: "rotation", role: "stabilizer" },
       ];
@@ -304,40 +314,36 @@ export function descriptorsForLoss(context: CompileBandContext): PrimitiveDescri
     case LossFunctionType.FollowMovement: {
       const follow = {
         ...subjects,
-        followDelay: finiteNumber(p.followDelay, 0),
-        leadAmount: finiteNumber(p.leadAmount, 0),
-        motionStartTime: context.sourceStartTime,
-        motionEndTime: context.sourceEndTime,
-        ...(p.speedKeyframes ? { speedKeyframes: p.speedKeyframes } : {}),
+        ...(p.followDelay === undefined ? {} : { followDelay: p.followDelay }),
+        ...(p.leadAmount === undefined ? {} : { leadAmount: p.leadAmount }),
+        ...motionParameters(context),
       };
       return [
         { type: "relativeOffsetHold", channel: "subjectRelative", role: "primary", parameters: follow },
+        ...(optionalNumber(p.distance) === undefined ? [] : [{
+          type: "distanceHold", channel: "subjectRelative", role: "primary", parameters: { ...follow, distance: p.distance },
+        } as PrimitiveDescriptor]),
         { type: "velocityMatch", channel: "subjectRelative", role: "primary", parameters: follow },
-        { type: "lookAt", channel: "composition", role: "stabilizer", parameters: follow },
-        { type: "bboxInFrame", channel: "composition", role: "stabilizer", parameters: follow },
-        { type: "levelHorizon", channel: "rotation", role: "stabilizer" },
+        { type: "rollHold", channel: "rotation", role: "stabilizer" },
       ];
     }
     case LossFunctionType.TrackMovement: {
       const track = {
         ...subjects,
-        followDelay: finiteNumber(p.followDelay, 0),
-        leadAmount: finiteNumber(p.leadAmount, 0),
-        motionStartTime: context.sourceStartTime,
-        motionEndTime: context.sourceEndTime,
-        ...(p.speedKeyframes ? { speedKeyframes: p.speedKeyframes } : {}),
+        ...(p.distance === undefined ? {} : { distance: p.distance }),
+        ...(p.followDelay === undefined ? {} : { followDelay: p.followDelay }),
+        ...(p.leadAmount === undefined ? {} : { leadAmount: p.leadAmount }),
+        ...motionParameters(context),
       };
       return [
         { type: "distanceHold", channel: "subjectRelative", role: "primary", parameters: track },
         { type: "velocityMatch", channel: "subjectRelative", role: "stabilizer", parameters: track },
-        { type: "screenPosition", channel: "composition", role: "primary", parameters: { target: [0.5, 0.5], ...track } },
-        { type: "bboxInFrame", channel: "composition", role: "stabilizer", parameters: track },
-        { type: "levelHorizon", channel: "rotation", role: "stabilizer" },
+        { type: "rollHold", channel: "rotation", role: "stabilizer" },
       ];
     }
     case LossFunctionType.FramingPosition: {
-      const positionName = typeof p.position === "string" ? p.position : "center";
-      const target = FRAMING_TARGETS[positionName] ?? FRAMING_TARGETS.center!;
+      const target = typeof p.position === "string" ? FRAMING_TARGETS[p.position] : undefined;
+      if (!target) return [];
       return [
         {
           type: "screenPosition",
@@ -346,59 +352,51 @@ export function descriptorsForLoss(context: CompileBandContext): PrimitiveDescri
           parameters: { target, ...subjects },
           weightScale: 3,
         },
-        { type: "bboxInFrame", channel: "composition", role: "stabilizer", parameters: subjects },
       ];
     }
     case LossFunctionType.FramingDutchAngle: {
-      const scale = Math.max(0, Math.min(10, finiteNumber(p.scale, 0)));
+      const requested = optionalNumber(p.scale);
+      if (requested === undefined) return [];
+      const scale = Math.max(0, Math.min(10, requested));
       return [{
         type: "rollTarget",
         channel: "rotation",
         role: "primary",
-        parameters: { targetRoll: scale / 10 * Math.PI / 6 },
+        parameters: { targetRoll: scale / 10 * Math.PI / 6, ...subjects },
       }];
     }
     case LossFunctionType.ShotSize: {
-      const shotSize = typeof p.shotSize === "string" ? p.shotSize : "mediumShot";
+      const coverage = typeof p.shotSize === "string" ? SHOT_SIZE_COVERAGE[p.shotSize] : undefined;
+      if (coverage === undefined) return [];
       return [
         {
           type: "screenScale",
           channel: "composition",
           role: "primary",
-          parameters: { targetCoverage: SHOT_SIZE_COVERAGE[shotSize] ?? SHOT_SIZE_COVERAGE.mediumShot, ...subjects },
+          parameters: { targetCoverage: coverage, ...subjects },
         },
-        { type: "bboxInFrame", channel: "composition", role: "stabilizer", parameters: subjects },
       ];
     }
     case LossFunctionType.SubjectView: {
-      const view = typeof p.view === "string" ? p.view : "front";
+      const azimuth = typeof p.view === "string" ? SUBJECT_VIEW_AZIMUTH_DEGREES[p.view] : undefined;
+      if (azimuth === undefined) return [];
       return [{
         type: "subjectView",
         channel: "subjectRelative",
         role: "primary",
-        parameters: { targetAzimuth: (SUBJECT_VIEW_AZIMUTH_DEGREES[view] ?? 0) * Math.PI / 180, ...subjects },
-      }, {
-        type: "lookAt",
-        channel: "composition",
-        role: "stabilizer",
-        parameters: subjects,
-      }, {
-        type: "levelHorizon",
-        channel: "rotation",
-        role: "stabilizer",
+        parameters: { targetAzimuth: azimuth * Math.PI / 180, ...subjects },
       }];
     }
     case LossFunctionType.CameraVerticalAngle: {
-      const angle = typeof p.angle === "string" ? p.angle : "eye";
+      const elevation = typeof p.angle === "string" ? VERTICAL_ANGLE_DEGREES[p.angle] : undefined;
+      if (elevation === undefined) return [];
       return [
         {
           type: "subjectElevation",
           channel: "subjectRelative",
           role: "primary",
-          parameters: { targetElevation: (VERTICAL_ANGLE_DEGREES[angle] ?? 0) * Math.PI / 180, ...subjects },
+          parameters: { targetElevation: elevation * Math.PI / 180, ...subjects },
         },
-        { type: "lookAt", channel: "composition", role: "stabilizer", parameters: subjects },
-        { type: "levelHorizon", channel: "rotation", role: "stabilizer" },
       ];
     }
     case LossFunctionType.KeepInFrame:
@@ -438,15 +436,18 @@ export function descriptorsForLoss(context: CompileBandContext): PrimitiveDescri
       const pose = p.targetTransformMatrix === undefined
         ? p.targetPose as Record<string, unknown> | undefined
         : poseFromTransformMatrix(p.targetTransformMatrix);
-      if (!pose) return [{ type: "pathLength", channel: "regularity", role: "regularizer" }];
+      const hasCameraConfig = [
+        "targetPose", "targetTransformMatrix", "targetIntrinsics", "lookAt",
+      ].some((key) => Object.prototype.hasOwnProperty.call(p, key));
+      if (!hasCameraConfig) return [{ type: "pathLength", channel: "regularity", role: "regularizer" }];
       const descriptors: PrimitiveDescriptor[] = [];
-      if (pose.position) descriptors.push({
+      if (pose?.position) descriptors.push({
         type: "positionAnchor",
         channel: "position",
         role: "primary",
         parameters: { target: pose.position },
       });
-      if (pose.rotation) descriptors.push({
+      if (pose?.rotation) descriptors.push({
         type: "rotationAnchor",
         channel: "rotation",
         role: "primary",

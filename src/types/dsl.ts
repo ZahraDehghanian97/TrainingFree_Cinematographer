@@ -89,6 +89,7 @@ export interface SpeedKeyframe {
 }
 
 export interface MovementParameters {
+  // Omitted values are don't-care: only explicitly authored amounts constrain the move.
   // Arc / Orbit
   arcAngle?: number;
   arcRadius?: number;
@@ -191,7 +192,8 @@ export interface InitCamera<TTarget extends CameraTargetDescriptor = Target> {
 }
 
 export interface Section<TTarget extends CameraTargetDescriptor = Target> {
-  initCamera: InitCamera<TTarget>;
+  /** Omit when the director has not specified an initial camera configuration. */
+  initCamera?: InitCamera<TTarget>;
   actions: Action<TTarget>[];
 }
 

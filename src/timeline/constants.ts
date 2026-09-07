@@ -69,23 +69,3 @@ export const SCENE_PLAYBACK_RATE: Record<RelativeFPS, number> = {
   [RelativeFPS.Fast]: 2.0,
   [RelativeFPS.VeryFast]: 4.0,
 };
-
-// ─── Solver Defaults ────────────────────────────────
-
-/** Estimated time offset (seconds) when a distance trigger fires */
-export const DEFAULT_DISTANCE_TRIGGER_OFFSET = 5;
-
-/** Estimated time offset (seconds) when a velocity trigger fires */
-export const DEFAULT_VELOCITY_TRIGGER_OFFSET = 3;
-
-/** Default dolly/follow distance when not specified in movement parameters */
-export const DEFAULT_DOLLY_DISTANCE = 2;
-
-/** Default pan/tilt rotation angle (degrees) when not specified */
-export const DEFAULT_ROTATION_ANGLE = 30;
-
-/** Default arc sweep angle (degrees) when not specified */
-export const DEFAULT_ARC_ANGLE = 45;
-
-/** Default arc radius (meters) when not specified */
-export const DEFAULT_ARC_RADIUS = 2;

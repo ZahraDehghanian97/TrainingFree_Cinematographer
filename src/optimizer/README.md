@@ -10,6 +10,7 @@ FlattenedTimeline + EnvironmentV1 + UserCameraKeyframe[]
   -> active-loss time bands
   -> high-level recipes
   -> semantic conflict resolver
+  -> subject visibility and scale preferences
   -> primitive loss plan
   -> compound-aware initialization
   -> dependency-free numerical refinement
@@ -36,7 +37,8 @@ optimizer/
 │   ├── global-losses.ts         whole-trajectory regularizers
 │   ├── keyframe-recipes.ts      user-authored anchors
 │   ├── primitive-store.ts       loss materialization and stable IDs
-│   ├── fov-targets.ts           fixed zoom-target chaining
+│   ├── subject-quality.ts       per-subject visibility and scale preferences
+│   ├── motion-transitions.ts    automatic motion handoff windows
 │   ├── subjects.ts              target/entity identity helpers
 │   └── types.ts                 compiler-private contracts
 ├── config/            defaults, option resolution, and validation
@@ -63,7 +65,7 @@ live in `shared/`; scene sampling stays isolated from solver and output logic.
   `planeHold`, `radiusHold`, `radiusSchedule`, `rollProgress`, `rollTarget`,
   `levelHorizon`
 - Composition: `lookAt`, `screenPosition`, `bboxInFrame`, `screenScale`,
-  `subjectView`, `subjectElevation`
+  `subjectVisibility`, `subjectScaleFloor`, `subjectView`, `subjectElevation`
 - Subject motion: `distanceHold`, `relativeOffsetHold`, `bearingHold`,
   `elevationHold`, `velocityMatch`
 - Lens: `intrinsicsProgress`, `intrinsicsPacing`
@@ -85,7 +87,9 @@ vertical camera angles, projected bounds, and Dutch framing scale. General
 constraints cover no-shake, keep-in-frame, distance/angle maintenance,
 occlusion, ground clearance, collision, smoothness, and minimum path.
 
-Non-subject-aware configs accept a rigid camera-to-world `transformMatrix` in
+Non-subject-aware configs accept independently optional pose position and
+rotation, lens-only settings, and `lookAt` without a pose. They also accept a
+rigid camera-to-world `transformMatrix` in
 row-major order, with translation in the last column. A supplied matrix overrides
 `pose`; matrices containing scale, shear, reflection, or perspective fail explicitly.
 The optimizer reads `intrinsics.aspectRatio` from these configs and uses it for
@@ -100,6 +104,82 @@ Shot size uses projected subject bounds rather than a distance proxy.
 FramingPosition uses the requested normalized screen location. SubjectView is
 relative to the sampled entity quaternion; entity-local `+Z` denotes its front
 direction.
+
+## Unspecified camera intent
+
+An omitted CSL field means **don't care**. The compiler keeps missing radius,
+distance, sweep, rotation amount, zoom factor, pose, lens, framing, path shape,
+and speed profile absent. Explicit amounts, including zero where valid, produce
+their requested targets. `arcLeft` and `arcRight` preserve their direction even
+without a sweep; bare `orbit` leaves both direction and sweep free. Only an
+explicit full turn supplies a 360-degree target.
+
+A subject-aware config may contain only targets and its `type`. The timeline
+retains that identity as `subjectPresence` metadata so quality preferences and
+initialization still refer to the requested subject without inventing framing.
+
+The named move still defines its geometry and stable channels. Arc keeps a
+horizontal plane and constant radius, with that radius measured from the
+candidate camera when unspecified. Follow preserves a subject-relative offset,
+Track can hold a freely chosen distance, Pan/Tilt keep their inactive rotation
+axes steady, Zoom keeps the camera pose steady, and Static holds its active
+channels. These holds compare optimized camera states; they do not anchor the
+camera to a guessed starting position, radius, lens, or roll angle. Concurrent
+authored movement can release those holds through the compound rules below.
+
+For an omitted movement amount, translation, angle, and zoom objectives use
+one-sided minimum-progress penalties. They penalize a move that collapses to no
+motion and stop penalizing its amount once the minimum is reached. They do not
+request an exact replacement distance, sweep, or zoom factor. Authored path and
+speed profiles apply to the whole source action even when other constraints
+split it into multiple bands. Without an authored profile, no exact linear path
+or uniform pacing target is added. Numerical initialization chooses a feasible
+starting candidate using seed constants and scene bounds; those values are
+never promoted into compiler targets.
+
+`subjectVisibility` softly penalizes a relevant subject falling outside the
+frustum or behind the camera, including overflow of its projected bounds.
+`subjectScaleFloor` penalizes projected subject height below a useful minimum.
+Both have a zero-loss region that leaves composition, distance, and view free.
+They apply per target and time for subject-anchored movement and supported
+subject framing intent. They do not impose centered composition or a medium
+shot.
+
+Explicit shot size overrides the scale floor for the same subject and time and
+relaxes bounding-box overflow to allow intentional cropping; subject-center
+visibility still applies. Entity identity associates an anchor and its parent
+subject for this override. Explicit camera orientation or non-subject-aware
+`lookAt` suppresses these fallback preferences in its active window. Exact point
+constraints and easing windows affect only their own times. Explicit off-center
+framing remains compatible with visibility inside the frame.
+Automatic occlusion is also scoped to each active subject and its time window;
+subjects from other shots do not contribute a visibility objective.
+
+The public quality controls are soft objective parameters:
+
+| `OptimizerOptions` field | Default | Meaning |
+| --- | --- | --- |
+| `minimumSubjectCoverage` | `0.12` | Minimum projected subject height as a fraction of frame height |
+| `minimumMovementDistance` | `0.25` | Minimum progress in meters when distance is unspecified |
+| `minimumMovementAngleDegrees` | `8` | Minimum sweep or rotation when the angle is unspecified |
+| `minimumZoomChangeDegrees` | `2` | Minimum FOV change when the zoom factor is unspecified |
+| `weights.subjectVisibility` | `2.5` | Weight of fallback frustum and bounds visibility |
+| `weights.subjectScaleFloor` | `2.5` | Weight of fallback minimum subject size |
+
+These preferences improve the objective available to the optimizer; they do
+not guarantee a particular visual result or satisfy every conflicting request.
+The numerical solver's loss breakdown and termination diagnostics remain the
+way to inspect unresolved costs.
+
+The environment still supplies total playback duration. The timeline scheduler
+deterministically allocates omitted action durations before optimization.
+Follow/Track sample the contemporaneous subject unless lead or delay is authored;
+temporal offsets are not additional numerical state variables.
+Sampling and output resolution, projection calibration, aspect ratio, and
+safety margins retain their infrastructure defaults. For example, output FPS
+uses the environment hint, aspect ratio falls back to 16:9, and collision and
+near-plane clearance stay enabled. Such execution settings are separate from
+an authored camera pose or composition target.
 
 ## Compound rules
 
@@ -119,8 +199,10 @@ direction.
   camera motion relative to inherited subject translation.
 - `allowSubjectIntersection` explicitly permits an interior/exit move through
   its targeted subject without disabling collision checks for other geometry.
-- Zoom sub-bands share fixed compile-time FOV targets instead of deriving a
-  moving target from the state currently being optimized.
+- Zoom sub-bands refer to the same source-action camera endpoints. An explicit
+  factor constrains their FOV ratio while leaving the absolute starting FOV
+  free; an omitted factor uses the minimum-change preference. No compile-time
+  lens target is derived from the initialization seed.
 - Smoothness and interpolation never bridge section/user cuts.
 - Changes of motion within a shot get an automatic transition window (one second
   by default, shortened for nearby boundaries). `options.motionTransitionSeconds`

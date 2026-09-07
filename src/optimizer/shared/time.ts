@@ -2,6 +2,7 @@ import type { EnvironmentV1 } from "../../types/environment";
 import { LossFunctionType, type FlattenedTimeline, type TimeWarpSegment } from "../../types/solver";
 import type { MotionTransition, UserCameraKeyframe } from "../types";
 import { clamp } from "./math";
+import { SEED_ORBIT_DEGREES } from "../initialization/seed-defaults";
 
 const MAX_ARC_STEP_DEGREES = 15;
 
@@ -64,7 +65,8 @@ export function buildOptimizationTimes(
       values.push(segment.startTime, segment.endTime);
       for (const loss of segment.lossFunctions) {
         if (loss.type !== LossFunctionType.ArcMovement) continue;
-        const angle = loss.parameters.arcAngle;
+        // An unconstrained orbit still needs a grid fine enough for its seed.
+        const angle = loss.parameters.arcAngle ?? SEED_ORBIT_DEGREES;
         if (typeof angle !== "number" || !Number.isFinite(angle)) continue;
         const baseSampleCount = Math.max(
           1,

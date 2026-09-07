@@ -37,12 +37,14 @@ export type TransformMatrix4x4 = [
 // ─── Camera Pose & Intrinsics ────────────────────────────────────────────────
 
 export interface CameraPose {
-  position: Vector3;
-  rotation: Quaternion | EulerAngles;
+  /** Omission leaves translation free for optimization. */
+  position?: Vector3;
+  /** Omission leaves orientation free for optimization. */
+  rotation?: Quaternion | EulerAngles;
 }
 
 export interface CameraExtrinsics {
-  pose: CameraPose;
+  pose?: CameraPose;
   /** Row-major rigid camera-to-world transform; translation is the last column.
    * When supplied, this matrix overrides pose. Scale and shear are unsupported.
    */
@@ -100,7 +102,7 @@ export interface NonSubjectAwareCameraConfig<
   TTarget extends CameraTargetDescriptor = Target,
 > {
   type: "nonSubjectAware";
-  extrinsics: CameraExtrinsics;
+  extrinsics?: CameraExtrinsics;
   intrinsics?: CameraIntrinsics;
   lookAt?: Vector3 | TTarget[];
 }

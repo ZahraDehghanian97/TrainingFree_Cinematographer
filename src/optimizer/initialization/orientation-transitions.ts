@@ -28,6 +28,8 @@ function ownsIntermediateOrientation(primitive: PrimitiveLoss): boolean {
       || primitive.type === "lookAt"
       || primitive.type === "screenPosition"
       || primitive.type === "screenScale"
+      || primitive.type === "subjectVisibility"
+      || primitive.type === "subjectScaleFloor"
       || primitive.type === "rotationAnchor"
     );
 }

@@ -12,8 +12,11 @@ export function flattenTimeline(inputTimeline: TimelineSolverOutput): FlattenedT
 
   for (let sectionIndex = 0; sectionIndex < inputTimeline.sections.length; sectionIndex += 1) {
     const section = inputTimeline.sections[sectionIndex]!;
-    if (sectionIndex > 0 && section.initKeyframes.length > 0) {
-      cutTimes.push(Math.min(...section.initKeyframes.map((keyframe) => keyframe.time)));
+    const startTime = section.startTime ?? (section.initKeyframes.length > 0
+      ? Math.min(...section.initKeyframes.map((keyframe) => keyframe.time))
+      : undefined);
+    if (sectionIndex > 0 && startTime !== undefined) {
+      cutTimes.push(startTime);
     }
 
     for (const c of section.constraints) {

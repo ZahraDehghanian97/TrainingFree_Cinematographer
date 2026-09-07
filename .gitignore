@@ -5,7 +5,10 @@ node_modules/
 dist/
 dist-web/
 outputs/
-web/public/trajectories/optimized/
+web/public/trajectories/optimized/*
+# Keep the runnable sparse examples alongside other optimizer outputs.
+!web/public/trajectories/optimized/example-2[4-9]-camera.json
+!web/public/trajectories/optimized/example-3[0-2]-camera.json
 shared/optimized/*_camera.json
 
 # Python environments and caches

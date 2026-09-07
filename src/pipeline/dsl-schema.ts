@@ -86,12 +86,12 @@ const subjectReferenceSchema: z.ZodType<SubjectReference> = z.strictObject({
 });
 
 const cameraPoseSchema = z.strictObject({
-  position: vector3Schema,
-  rotation: z.union([quaternionSchema, eulerAnglesSchema]),
+  position: vector3Schema.optional(),
+  rotation: z.union([quaternionSchema, eulerAnglesSchema]).optional(),
 });
 
 const cameraExtrinsicsSchema = z.strictObject({
-  pose: cameraPoseSchema,
+  pose: cameraPoseSchema.optional(),
   transformMatrix: transformMatrixSchema.optional(),
 });
 
@@ -120,7 +120,7 @@ const subjectAwareCameraConfigSchema = z.strictObject({
 
 const nonSubjectAwareCameraConfigSchema = z.strictObject({
   type: z.literal("nonSubjectAware"),
-  extrinsics: cameraExtrinsicsSchema,
+  extrinsics: cameraExtrinsicsSchema.optional(),
   intrinsics: cameraIntrinsicsSchema.optional(),
   lookAt: z.union([
     vector3Schema,
@@ -293,7 +293,7 @@ const sectionSchema = z.strictObject({
   initCamera: z.strictObject({
     targets: z.array(subjectReferenceSchema),
     config: cameraConfigSchema,
-  }),
+  }).optional(),
   actions: z.array(actionSchema),
 });
 

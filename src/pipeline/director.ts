@@ -7,8 +7,6 @@ import {
   type OutputInterface,
 } from "ai";
 import { ZodError, type ZodIssue } from "zod";
-import { createPromptExampleLlmInput } from "../data/examples";
-import { resolvedPromptExampleFixtures } from "../data/resolved-example-fixtures";
 import type { CameraDirectionDraft } from "../types/dsl";
 import {
   CameraMovementType,
@@ -33,7 +31,7 @@ import {
   type PipelineModelOptions,
 } from "./model-provider";
 
-const DIRECTOR_PROMPT_VERSION = "camera-director-csl-v4";
+const DIRECTOR_PROMPT_VERSION = "camera-director-csl-v5-dont-care";
 const MAX_REPAIR_OUTPUT_CHARS = 16_000;
 
 // Keep the AI SDK generic boundary intentionally shallow. The domain parser
@@ -64,7 +62,7 @@ Timing and intent:
 - Every action ID must be unique and stable snake_case.
 - Start at least one action with absoluteTime. Use relativeTime for sequential actions and identical triggers for concurrent actions.
 - Durations and trigger times are seconds and must fit the supplied playback window.
-- For distance/velocity-triggered actions, omit duration unless the user explicitly requests one; their runtime event time is environment-dependent.
+- Omit movement.duration unless the user explicitly requests a duration. The scheduler allocates omitted durations inside the playback window; environment-triggered actions resolve their start from the scene.
 - Distance and velocity events support every comparison operator in the schema and fire on the first matching environment sample, including time zero.
 - Distance thresholds are nonnegative meters. Velocity thresholds are meters per second: without direction compare nonnegative speed magnitude; with a nonzero finite world-space direction vector, normalize it and compare the signed velocity projection. Signed thresholds are allowed only with direction.
 - Compound triggers latch child events: and fires at the latest child event, or at the earliest. Children need not remain true simultaneously; an or branch that never fires does not prevent another branch from firing. An and requires every branch to fire.
@@ -76,6 +74,15 @@ Subject rules:
 - Every subjectAware camera constraint needs targets. keepInFrame, maintainDistance, maintainAngle, and avoidOcclusion general constraints also need targets.
 - A subjectAware config uses cameraAngle. Never emit cameraVerticalAngle; that is an internal optimizer loss name, not a CSL field.
 - Movement targets define motion axes/centers; constraint targets define framing and composition. Do not conflate them.
+
+Unspecified values (don't care):
+- Omission is the only representation of don't care. Never output null, "dontCare", "auto", or a guessed default for an unspecified field.
+- Omit initCamera entirely unless the user specifies an initial configuration. Within any config, include only requested properties: never add a medium shot, centered composition, front view, eye-level angle, zero Dutch angle, pose, lens, or lookAt by habit.
+- Omit movement.parameters unless an amount or shape is requested. A bare arc or orbit leaves arcRadius and arcAngle absent. A full orbit explicitly requests arcAngle=360; three full turns request 1080. arcLeft/arcRight already express direction and do not need a fabricated angle.
+- For an arc around a subject with no requested left/right direction, use orbit with no angle; this leaves both direction and extent free and does not imply a full revolution.
+- Preserve explicit numeric values, including zero. Do not add distances, zoom factors, crane height or horizontal travel, follow delay, lead amount, path, curve intensity, speed keyframes, or relativeFPS that the user did not specify.
+- nonSubjectAware configs may specify only intrinsics, only lookAt, or a partial pose with position and rotation independently omitted. Supplied vectors and rotations must remain complete.
+- A movement subject does not imply an explicit framing constraint. The optimizer handles basic visibility and useful subject scale when framing is unspecified; do not add keepInFrame, shotSize, or composition constraints to request that fallback.
 
 Prefer the smallest CSL that faithfully preserves the requested shot. Omit optional values instead of guessing, and use the exact enum strings provided by the schema.`;
 
@@ -96,13 +103,95 @@ function enumVocabulary(): Record<string, string[]> {
 }
 
 function fewShotExamples(): Array<{ prompt: string; csl: CameraDirectionDraft }> {
-  const selected = new Set(["example-03", "example-07", "example-10", "example-16"]);
-  return resolvedPromptExampleFixtures
-    .filter((fixture) => selected.has(fixture.id))
-    .map((fixture) => ({
-      prompt: fixture.prompt,
-      csl: createPromptExampleLlmInput(fixture).draftCsl,
-    }));
+  // Bundled demo trajectories contain authored artistic choices beyond their
+  // short prompts. Do not teach those choices as inferred user constraints.
+  const dancer = { ref: "dancer", description: "The dancer" };
+  const actor = { ref: "actor", description: "The actor" };
+  return [
+    {
+      prompt: "دور رقصنده آرک به چپ بزن",
+      csl: { totalDuration: 8, sections: [{ actions: [{
+        id: "arc_dancer",
+        trigger: { type: "absoluteTime", time: 0 },
+        movement: { act: CameraMovementType.ArcLeft, targets: [dancer] },
+      }] }] },
+    },
+    {
+      prompt: "دور بازیگر آرک بزن",
+      csl: { totalDuration: 8, sections: [{ actions: [{
+        id: "orbit_actor",
+        trigger: { type: "absoluteTime", time: 0 },
+        movement: { act: CameraMovementType.Orbit, targets: [actor] },
+      }] }] },
+    },
+    {
+      prompt: "Make one full orbit around the actor at a radius of 4 meters over 6 seconds.",
+      csl: { totalDuration: 6, sections: [{ actions: [{
+        id: "full_orbit_actor",
+        trigger: { type: "absoluteTime", time: 0 },
+        movement: {
+          act: CameraMovementType.Orbit,
+          targets: [actor],
+          duration: 6,
+          parameters: { arcAngle: 360, arcRadius: 4 },
+        },
+      }] }] },
+    },
+    {
+      prompt: "Start with a close-up of the actor, then dolly out while keeping the actor on the left.",
+      csl: { totalDuration: 8, sections: [{
+        initCamera: {
+          targets: [actor],
+          config: { type: "subjectAware", shotSize: ShotSize.CloseUp },
+        },
+        actions: [{
+          id: "dolly_out_actor",
+          trigger: { type: "absoluteTime", time: 0 },
+          movement: { act: CameraMovementType.DollyOut, targets: [actor] },
+          constraints: [{
+            targets: [actor],
+            config: {
+              type: "subjectAware",
+              subjectFraming: { position: SubjectInFramePosition.Left },
+            },
+            allFrames: true,
+          }],
+        }],
+      }] },
+    },
+    {
+      prompt: "Pan left, then tilt up.",
+      csl: { totalDuration: 8, sections: [{ actions: [{
+        id: "pan_left",
+        trigger: { type: "absoluteTime", time: 0 },
+        movement: { act: CameraMovementType.PanLeft },
+      }, {
+        id: "tilt_up",
+        trigger: {
+          type: "relativeTime", actionId: "pan_left",
+          reference: RelativeTimeReference.End, offset: 0,
+        },
+        movement: { act: CameraMovementType.TiltUp },
+      }] }] },
+    },
+    {
+      prompt: "Start with a 50 mm lens and follow the actor with zero delay.",
+      csl: { totalDuration: 8, sections: [{
+        initCamera: {
+          targets: [],
+          config: { type: "nonSubjectAware", intrinsics: { focalLength: 50 } },
+        },
+        actions: [{
+          id: "follow_actor",
+          trigger: { type: "absoluteTime", time: 0 },
+          movement: {
+            act: CameraMovementType.Follow, targets: [actor],
+            parameters: { followDelay: 0 },
+          },
+        }],
+      }] },
+    },
+  ];
 }
 
 function generationPrompt(prompt: string, durationSeconds: number): string {

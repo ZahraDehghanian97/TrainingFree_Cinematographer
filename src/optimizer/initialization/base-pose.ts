@@ -20,6 +20,7 @@ import {
 } from "../scene/primitive-context";
 import { sampleSubjectAggregate } from "../scene/subjects";
 import { playbackToSceneTime } from "../shared/time";
+import { applyCompositionOrientation } from "./motion-step";
 import type {
   CameraOptimizerInput,
   CameraStateSample,
@@ -31,7 +32,9 @@ function firstAvailableSubject(
   plan: CompiledLossPlan,
   playbackTime: number,
 ) {
-  for (const primitive of plan.primitives) {
+  const active = plan.primitives.filter((primitive) => isPrimitiveActiveAt(primitive, playbackTime))
+    .sort((a, b) => b.startTime - a.startTime || a.id.localeCompare(b.id));
+  for (const primitive of [...active, ...plan.primitives]) {
     const subject = samplePrimitiveSubject(input, primitive, playbackTime);
     if (subject) return subject;
   }
@@ -98,17 +101,21 @@ export function createInitialCameraState(
 
   const pointPrimitives = plan.primitives.filter((primitive) =>
     isPrimitiveActiveAt(primitive, playbackTime),
-  );
+  ).sort((a, b) => b.startTime - a.startTime || a.id.localeCompare(b.id));
   const viewPrimitive = findPrimitive(pointPrimitives, "subjectView");
   const elevationPrimitive = findPrimitive(pointPrimitives, "subjectElevation");
   const scalePrimitive = findPrimitive(pointPrimitives, "screenScale");
+  const compositionPrimitive = findPrimitive(pointPrimitives, "screenPosition")
+    ?? findPrimitive(pointPrimitives, "lookAt");
   const semanticTarget = viewPrimitive
     ? samplePrimitiveSubject(input, viewPrimitive, playbackTime)
     : elevationPrimitive
       ? samplePrimitiveSubject(input, elevationPrimitive, playbackTime)
       : scalePrimitive
         ? samplePrimitiveSubject(input, scalePrimitive, playbackTime)
-        : fallbackTarget;
+        : compositionPrimitive
+          ? samplePrimitiveSubject(input, compositionPrimitive, playbackTime)
+          : fallbackTarget;
 
   if (semanticTarget) {
     const targetCoverage = typeof scalePrimitive?.parameters.targetCoverage === "number"
@@ -209,10 +216,12 @@ export function createInitialCameraState(
 
   const fovAnchor = findPrimitive(pointPrimitives, "fovAnchor");
   const anchoredFov = fovAnchor?.parameters.target;
-  return {
+  const state = {
     time: playbackTime,
     position,
     rotation,
     fovYDegrees: typeof anchoredFov === "number" ? anchoredFov : fovYDegrees,
   };
+  applyCompositionOrientation(state, input, plan);
+  return state;
 }

@@ -231,6 +231,96 @@
       "url": "/environments/example-23.json",
       "optimizedTrajectoryUrl": "/trajectories/optimized/example-23-camera.json",
       "sampleTrajectoryUrl": "/trajectories/ai-generated/example-23-camera.json"
+    },
+    {
+      "id": "example-24-dont-care-arc",
+      "promptExampleId": "example-24",
+      "title": "Don't care: bare arc",
+      "prompt": "دور رقصنده آرک بزن.",
+      "durationSeconds": 10,
+      "url": "/environments/example-24.json",
+      "optimizedTrajectoryUrl": "/trajectories/optimized/example-24-camera.json",
+      "sampleTrajectoryUrl": "/trajectories/optimized/example-24-camera.json"
+    },
+    {
+      "id": "example-25-dont-care-radius",
+      "promptExampleId": "example-25",
+      "title": "Don't care: arc with explicit radius",
+      "prompt": "دور رقصنده با شعاع ۴ متر آرک بزن.",
+      "durationSeconds": 10,
+      "url": "/environments/example-25.json",
+      "optimizedTrajectoryUrl": "/trajectories/optimized/example-25-camera.json",
+      "sampleTrajectoryUrl": "/trajectories/optimized/example-25-camera.json"
+    },
+    {
+      "id": "example-26-dont-care-framing",
+      "promptExampleId": "example-26",
+      "title": "Don't care: right framing, free shot size",
+      "prompt": "دور رقصنده آرک چپ بزن و او را سمت راست قاب نگه دار.",
+      "durationSeconds": 10,
+      "url": "/environments/example-26.json",
+      "optimizedTrajectoryUrl": "/trajectories/optimized/example-26-camera.json",
+      "sampleTrajectoryUrl": "/trajectories/optimized/example-26-camera.json"
+    },
+    {
+      "id": "example-27-dont-care-closeup",
+      "promptExampleId": "example-27",
+      "title": "Don't care: explicit face close-up",
+      "prompt": "دور رقصنده آرک چپ بزن و صورتش را کلوزآپ نگه دار.",
+      "durationSeconds": 10,
+      "url": "/environments/example-27.json",
+      "optimizedTrajectoryUrl": "/trajectories/optimized/example-27-camera.json",
+      "sampleTrajectoryUrl": "/trajectories/optimized/example-27-camera.json"
+    },
+    {
+      "id": "example-28-dont-care-truck",
+      "promptExampleId": "example-28",
+      "title": "Don't care: truck with subject-only intent",
+      "prompt": "با تراک راست از رقصنده فیلم بگیر.",
+      "durationSeconds": 10,
+      "url": "/environments/example-28.json",
+      "optimizedTrajectoryUrl": "/trajectories/optimized/example-28-camera.json",
+      "sampleTrajectoryUrl": "/trajectories/optimized/example-28-camera.json"
+    },
+    {
+      "id": "example-29-dont-care-follow",
+      "promptExampleId": "example-29",
+      "title": "Don't care: follow a changing-speed runner",
+      "prompt": "دونده را دنبال کن.",
+      "durationSeconds": 11,
+      "url": "/environments/example-29.json",
+      "optimizedTrajectoryUrl": "/trajectories/optimized/example-29-camera.json",
+      "sampleTrajectoryUrl": "/trajectories/optimized/example-29-camera.json"
+    },
+    {
+      "id": "example-30-dont-care-group",
+      "promptExampleId": "example-30",
+      "title": "Don't care: track two moving subjects",
+      "prompt": "هر دو مأمور را با تراکینگ دنبال کن.",
+      "durationSeconds": 10,
+      "url": "/environments/example-30.json",
+      "optimizedTrajectoryUrl": "/trajectories/optimized/example-30-camera.json",
+      "sampleTrajectoryUrl": "/trajectories/optimized/example-30-camera.json"
+    },
+    {
+      "id": "example-31-dont-care-cut",
+      "promptExampleId": "example-31",
+      "title": "Don't care: cut between subjects",
+      "prompt": "چهار ثانیه مأمور A را دنبال کن، بعد کات بزن و مأمور B را دنبال کن.",
+      "durationSeconds": 10,
+      "url": "/environments/example-31.json",
+      "optimizedTrajectoryUrl": "/trajectories/optimized/example-31-camera.json",
+      "sampleTrajectoryUrl": "/trajectories/optimized/example-31-camera.json"
+    },
+    {
+      "id": "example-32-dont-care-zoom",
+      "promptExampleId": "example-32",
+      "title": "Don't care: lens-only initial camera",
+      "prompt": "با میدان دید ۷۰ درجه شروع کن و روی صورت رقصنده دو برابر زوم کن.",
+      "durationSeconds": 10,
+      "url": "/environments/example-32.json",
+      "optimizedTrajectoryUrl": "/trajectories/optimized/example-32-camera.json",
+      "sampleTrajectoryUrl": "/trajectories/optimized/example-32-camera.json"
     }
   ]
 }
