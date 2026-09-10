@@ -19,6 +19,7 @@ import {
 import {
   DataValidationError,
   expectArray,
+  expectBoolean,
   expectFiniteNumber,
   expectInteger,
   expectLiteral,
@@ -46,6 +47,8 @@ const PRESET_NAMES = [
   "genericObject",
 ] as const;
 const PRIMITIVE_SHAPES = ["box", "sphere", "cylinder", "cone", "plane", "torus"] as const;
+const WORLD_PROFILES = ["studio", "daylight", "road", "park", "industrial", "corridor", "stage", "rooftop"] as const;
+const GROUND_SURFACES = ["concrete", "wood", "asphalt", "grass", "stage"] as const;
 
 export const CANONICAL_COORDINATES_V1: CoordinateSystemV1 = {
   handedness: "right",
@@ -236,7 +239,7 @@ function assertScalarParams(value: unknown, path: string): void {
   });
 }
 
-function assertVisual(value: unknown, path: string): void {
+function assertVisual(value: unknown, path: string, allowModel = true): void {
   const visual = expectObject(value, path);
   if (visual.type === "preset") {
     expectOneOf(visual.name, PRESET_NAMES, `${path}.name`);
@@ -260,7 +263,31 @@ function assertVisual(value: unknown, path: string): void {
     }
     return;
   }
-  fail(`${path}.type`, 'expected "preset" or "primitive"', "invalid-enum");
+  if (visual.type === "model" && allowModel) {
+    const url = expectNonEmptyString(visual.url, `${path}.url`);
+    // Relative paths work with Vite's deployment base; executable/blob/data URLs
+    // are not asset locations. Remote HTTP(S) sources additionally require CORS.
+    if (
+      !/\.(?:glb|gltf)(?:[?#].*)?$/i.test(url)
+      || (/^[a-z][a-z\d+.-]*:/i.test(url) && !/^https?:\/\//i.test(url))
+    ) {
+      fail(`${path}.url`, "expected a relative or HTTP(S) .glb or .gltf asset URL", "invalid-model-url");
+    }
+    if (visual.position !== undefined) assertVec3(visual.position, `${path}.position`);
+    if (visual.rotation !== undefined) assertQuat(visual.rotation, `${path}.rotation`);
+    if (visual.scale !== undefined) {
+      assertVec3(visual.scale, `${path}.scale`);
+      (visual.scale as Vec3).forEach((component, index) => {
+        if (Math.abs(component) <= 1e-12) {
+          fail(`${path}.scale[${index}]`, "model scale components must be non-zero", "out-of-range");
+        }
+      });
+    }
+    if (visual.fitToBounds !== undefined) expectBoolean(visual.fitToBounds, `${path}.fitToBounds`);
+    if (visual.fallback !== undefined) assertVisual(visual.fallback, `${path}.fallback`, false);
+    return;
+  }
+  fail(`${path}.type`, allowModel ? 'expected "preset", "primitive", or "model"' : 'expected "preset" or "primitive"', "invalid-enum");
 }
 
 function assertTransform(
@@ -293,6 +320,10 @@ function assertEntity(
   assertVisual(entity.visual, `${path}.visual`);
   if (entity.bounds !== undefined) {
     assertBounds(entity.bounds, `${path}.bounds`);
+  }
+  const visual = expectObject(entity.visual, `${path}.visual`);
+  if (visual.type === "model" && visual.fitToBounds === true && entity.bounds === undefined) {
+    fail(`${path}.visual.fitToBounds`, "requires entity bounds", "missing-reference");
   }
 }
 
@@ -330,6 +361,8 @@ export function assertEnvironmentV1(value: unknown): asserts value is Environmen
     if (world.background !== undefined) {
       expectNonEmptyString(world.background, "$.world.background");
     }
+    if (world.profile !== undefined) expectOneOf(world.profile, WORLD_PROFILES, "$.world.profile");
+    if (world.exposure !== undefined) expectPositiveNumber(world.exposure, "$.world.exposure");
     if (world.overviewCamera !== undefined) {
       const overviewCamera = expectObject(world.overviewCamera, "$.world.overviewCamera");
       const position = overviewCamera.position;
@@ -360,6 +393,7 @@ export function assertEnvironmentV1(value: unknown): asserts value is Environmen
       if (ground.color !== undefined) {
         expectNonEmptyString(ground.color, "$.world.ground.color");
       }
+      if (ground.surface !== undefined) expectOneOf(ground.surface, GROUND_SURFACES, "$.world.ground.surface");
     }
     if (world.grid !== undefined) {
       const grid = expectObject(world.grid, "$.world.grid");

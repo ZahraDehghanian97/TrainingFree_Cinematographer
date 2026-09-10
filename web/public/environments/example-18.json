@@ -21,7 +21,8 @@
     "epsilon": 0.001
   },
   "world": {
-    "background": "#12090d",
+    "profile": "studio",
+    "background": "#36383e",
     "overviewCamera": {
       "position": [
         9,
@@ -40,7 +41,7 @@
         22,
         22
       ],
-      "color": "#1d1519"
+      "color": "#83766c", "surface": "wood"
     },
     "grid": {
       "size": 18,

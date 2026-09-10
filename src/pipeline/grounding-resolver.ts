@@ -72,9 +72,10 @@ interface EnvironmentSubjectCatalogEntry {
 }
 
 function visualEvidence(entity: EnvironmentV1["entities"][number]): string {
-  return entity.visual.type === "preset"
-    ? entity.visual.name
-    : entity.visual.shape;
+  // A model URL describes asset storage, while its fallback retains the
+  // semantic visual kind used by existing subject grounding.
+  const visual = entity.visual.type === "model" ? entity.visual.fallback : entity.visual;
+  return visual?.type === "preset" ? visual.name : visual?.shape ?? "model";
 }
 
 /** The complete set of subject IDs that grounding may bind for this scene. */

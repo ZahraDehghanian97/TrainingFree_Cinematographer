@@ -21,12 +21,13 @@
     "epsilon": 0.001
   },
   "world": {
-    "background": "#09131b",
+    "profile": "daylight",
+    "background": "#b6cfde",
     "overviewCamera": {
       "position": [12, 8, 14],
       "target": [0, 0.8, -1]
     },
-    "ground": { "y": 0, "size": [22, 32], "color": "#173b2a" },
+    "ground": { "y": 0, "size": [22, 32], "color": "#598044", "surface": "grass" },
     "grid": { "size": 22, "divisions": 22 }
   },
   "entities": [

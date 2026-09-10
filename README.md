@@ -81,9 +81,55 @@ The visualizer is data-driven:
 - `web/public/environments/manifest.json` is the environment catalog.
 - `web/public/environments/example-01.json` through `example-32.json` contain scene geometry, optional semantic anchors, and object tracks.
 - `src/types/environment.ts` defines the environment contract.
+- Environments have authored lighting profiles, textured floors, detailed props,
+  and image-based material reflections. Director POV hides the diagnostic path,
+  grid, and bounds; **Object bounds** also shows the grid in God view.
+- Example 03 includes a locally bundled CC0 ceramic vase from Poly Haven. See
+  [asset credits](web/public/models/ATTRIBUTION.md).
 - `src/types/trajectory.ts` defines accepted camera documents.
 - `web/public/trajectories/ai-generated/example-01-camera.json` through
   `example-19-camera.json` are complete scene-matched reference trajectories. Examples 14–18 add cinematic multi-action/easing coverage, and example 19 completes coverage for the remaining implemented Pan/Tilt/Truck/Pedestal/Zoom/Dutch directions.
+
+### Adding 3D models and environment appearance
+
+Put a `.glb`, or a `.gltf` with its referenced buffers/textures, under
+`web/public/models/`. Replace an entity's `visual`, keeping its tracked transform,
+semantic anchors, and collision bounds:
+
+```json
+{
+  "type": "model",
+  "url": "/models/ceramic-vase/ceramic_vase_01_1k.gltf",
+  "fitToBounds": true,
+  "fallback": {
+    "type": "preset",
+    "name": "vase",
+    "params": { "height": 0.95 }
+  }
+}
+```
+
+`fitToBounds` uniformly fits and centers the model inside the existing entity
+bounds. Omit it to keep the asset's authored meter scale and origin. Optional
+visual-local `position`, `rotation` (xyzw quaternion), and `scale` adjust only the
+model, never the tracked entity or its anchors. Align those points when replacing
+people or other framing subjects. The fallback stays visible while loading or if
+loading fails. External HTTP(S) assets require CORS; bundled assets work offline.
+The imported-model loader renders static model poses; entity tracks still animate the
+whole model. Embedded skeletal animation and Draco/KTX2 decoders are not configured.
+
+The built-in `humanoid` preset has a skinned skeleton and uses `params.color` for
+skin, `shirtColor` / `trouserColor` for clothing, and `hairColor` for hair. Leave
+`params.motion` unset (or `"auto"`) for walking, running, and idle animation based
+on the entity's path, or use `"idle"`, `"dance"`, `"float"`, or `"punch"` for a
+specific action. Motion follows environment time, so seeking, slow motion, and
+frozen segments also control the limbs. Authored entity rotations and camera
+anchors remain authoritative.
+
+`world.profile` accepts `studio`, `daylight`, `road`, `park`, `industrial`,
+`corridor`, `stage`, or `rooftop`; `world.exposure` adjusts brightness.
+`world.ground.surface` accepts `concrete`, `wood`, `asphalt`, `grass`, or `stage`.
+Existing ground dimensions and entity motion retain their original meaning.
 
 ### Compact 4D camera input
 

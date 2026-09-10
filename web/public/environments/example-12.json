@@ -18,12 +18,13 @@
   },
   "evaluation": { "distanceMetric": "anchorCenter" },
   "world": {
-    "background": "#0a1118",
+    "profile": "road",
+    "background": "#afc1cb",
     "overviewCamera": {
       "position": [16, 12, 45],
       "target": [0, 0.8, 22]
     },
-    "ground": { "y": 0, "size": [18, 110], "color": "#222931" },
+    "ground": { "y": 0, "size": [18, 110], "color": "#62666a", "surface": "asphalt" },
     "grid": { "size": 18, "divisions": 18 }
   },
   "entities": [

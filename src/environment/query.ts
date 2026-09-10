@@ -96,10 +96,11 @@ function subjectIndex(env: EnvironmentV1): string {
       + `(parent entity: ${semanticAnchor.entityId}${entity?.label ? `, ${entity.label}` : ""}; `
       + `local position: ${JSON.stringify(semanticAnchor.localAnchor)})`;
   });
-  const entityLines = env.entities.map((entity) => (
-    `- entity ${entity.id}: ${entity.label ?? entity.id} (whole renderable object; visual: `
-    + `${entity.visual.type === "preset" ? entity.visual.name : entity.visual.shape})`
-  ));
+  const entityLines = env.entities.map((entity) => {
+    const visual = entity.visual.type === "model" ? entity.visual.fallback : entity.visual;
+    const evidence = visual?.type === "preset" ? visual.name : visual?.shape ?? "model";
+    return `- entity ${entity.id}: ${entity.label ?? entity.id} (whole renderable object; visual: ${evidence})`;
+  });
   return [...semanticAnchorLines, ...entityLines].join("\n");
 }
 

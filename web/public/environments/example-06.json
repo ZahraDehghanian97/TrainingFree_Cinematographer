@@ -18,12 +18,13 @@
   },
   "evaluation": { "distanceMetric": "anchorCenter" },
   "world": {
-    "background": "#09101c",
+    "profile": "studio",
+    "background": "#36383e",
     "overviewCamera": {
       "position": [7, 5, 8],
       "target": [0.4, 1.5, -0.4]
     },
-    "ground": { "y": 0, "size": [20, 20], "color": "#121b28" },
+    "ground": { "y": 0, "size": [20, 20], "color": "#83766c", "surface": "wood" },
     "grid": { "size": 20, "divisions": 20 }
   },
   "entities": [
@@ -42,7 +43,7 @@
           ]
         }
       },
-      "visual": { "type": "preset", "name": "humanoid", "params": { "color": "#c8d7e8", "shirtColor": "#653f89" } },
+      "visual": { "type": "preset", "name": "humanoid", "params": { "color": "#c99a7b", "shirtColor": "#653f89", "motion": "float" } },
       "bounds": { "type": "box", "min": [-0.45, 0, -0.3], "max": [0.45, 1.85, 0.3] }
     },
     {

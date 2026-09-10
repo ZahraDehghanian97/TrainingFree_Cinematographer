@@ -21,7 +21,8 @@
     "epsilon": 0.001
   },
   "world": {
-    "background": "#12091d",
+    "profile": "stage",
+    "background": "#15131f",
     "overviewCamera": {
       "position": [
         11,
@@ -40,7 +41,7 @@
         28,
         28
       ],
-      "color": "#1b1225"
+      "color": "#45404b", "surface": "stage"
     },
     "grid": {
       "size": 24,
@@ -174,7 +175,8 @@
         "params": {
           "color": "#d9a27f",
           "shirtColor": "#ba2d8d",
-          "trouserColor": "#17131f"
+          "trouserColor": "#17131f",
+          "motion": "dance"
         }
       },
       "bounds": {

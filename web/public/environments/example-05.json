@@ -18,12 +18,13 @@
   },
   "evaluation": { "distanceMetric": "anchorCenter" },
   "world": {
-    "background": "#15141c",
+    "profile": "studio",
+    "background": "#36383e",
     "overviewCamera": {
       "position": [11, 7.5, 12],
       "target": [0, 1, -5]
     },
-    "ground": { "y": 0, "size": [36, 36], "color": "#26252e" },
+    "ground": { "y": 0, "size": [36, 36], "color": "#83766c", "surface": "wood" },
     "grid": { "size": 36, "divisions": 36 }
   },
   "entities": [

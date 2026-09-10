@@ -95,6 +95,58 @@ function assertBounds(value: unknown, pathName: string): void {
   throw new Error(`${pathName}.type must be sphere or box.`);
 }
 
+function assertVisual(value: unknown, pathName: string, allowModel = true): void {
+  if (!isRecord(value)) throw new Error(`${pathName} must be an object.`);
+  if (value.type === "preset") {
+    const names = ["soccerBall", "soccerGoal", "humanoid", "car", "door", "vase", "monitor", "genericObject"];
+    if (!names.includes(String(value.name))) throw new Error(`${pathName}.name is unsupported.`);
+    if (value.params !== undefined && (
+      !isRecord(value.params)
+      || Object.values(value.params).some((entry) =>
+        !["number", "boolean", "string"].includes(typeof entry)
+        || (typeof entry === "number" && !Number.isFinite(entry)))
+    )) throw new Error(`${pathName}.params must contain finite numbers, strings, or booleans.`);
+    return;
+  }
+  if (value.type === "primitive") {
+    if (!["box", "sphere", "cylinder", "cone", "plane", "torus"].includes(String(value.shape))) {
+      throw new Error(`${pathName}.shape is unsupported.`);
+    }
+    if (!isRecord(value.params)) throw new Error(`${pathName}.params must be an object.`);
+    Object.entries(value.params).forEach(([key, entry]) => {
+      if (Array.isArray(entry)) assertFiniteTuple(entry, 3, `${pathName}.params.${key}`);
+      else if (typeof entry !== "number" || !Number.isFinite(entry)) {
+        throw new Error(`${pathName}.params.${key} must be a finite number or vector.`);
+      }
+    });
+    if (value.color !== undefined) assertNonEmptyString(value.color, `${pathName}.color`);
+    return;
+  }
+  if (value.type !== "model" || !allowModel) throw new Error(`${pathName}.type is unsupported.`);
+  assertNonEmptyString(value.url, `${pathName}.url`);
+  if (
+    !/\.(?:glb|gltf)(?:[?#].*)?$/i.test(value.url)
+    || (/^[a-z][a-z\d+.-]*:/i.test(value.url) && !/^https?:\/\//i.test(value.url))
+  ) throw new Error(`${pathName}.url must be a relative or HTTP(S) .glb or .gltf asset URL.`);
+  if (value.position !== undefined) assertFiniteTuple(value.position, 3, `${pathName}.position`);
+  if (value.rotation !== undefined) {
+    assertFiniteTuple(value.rotation, 4, `${pathName}.rotation`);
+    if (Math.hypot(...value.rotation as number[]) <= 1e-12) {
+      throw new Error(`${pathName}.rotation must have non-zero length.`);
+    }
+  }
+  if (value.scale !== undefined) {
+    assertFiniteTuple(value.scale, 3, `${pathName}.scale`);
+    if ((value.scale as number[]).some((component) => Math.abs(component) <= 1e-12)) {
+      throw new Error(`${pathName}.scale components must be non-zero.`);
+    }
+  }
+  if (value.fitToBounds !== undefined && typeof value.fitToBounds !== "boolean") {
+    throw new Error(`${pathName}.fitToBounds must be a boolean.`);
+  }
+  if (value.fallback !== undefined) assertVisual(value.fallback, `${pathName}.fallback`, false);
+}
+
 function assertManifest(value: unknown): asserts value is EnvironmentManifest {
   if (!isRecord(value) || value.schemaVersion !== "1.0" || value.kind !== "environmentManifest") {
     throw new Error("Environment manifest has an unsupported shape.");
@@ -173,10 +225,12 @@ function assertTrustedEnvironment(
     if (candidate.transform.scale !== undefined) {
       assertChannel(candidate.transform.scale, 3, durationSeconds, `${entityPath}.transform.scale`);
     }
-    if (!isRecord(candidate.visual) || (candidate.visual.type !== "preset" && candidate.visual.type !== "primitive")) {
-      throw new Error(`${entityPath}.visual has an unsupported shape.`);
-    }
+    assertVisual(candidate.visual, `${entityPath}.visual`);
     if (candidate.bounds !== undefined) assertBounds(candidate.bounds, `${entityPath}.bounds`);
+    if (
+      isRecord(candidate.visual) && candidate.visual.type === "model"
+      && candidate.visual.fitToBounds === true && candidate.bounds === undefined
+    ) throw new Error(`${entityPath}.visual.fitToBounds requires entity bounds.`);
   });
 
   const semanticAnchorIds = new Set<string>();

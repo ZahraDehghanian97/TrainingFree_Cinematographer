@@ -1,5 +1,6 @@
 import * as THREE from "three";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls.js";
+import { RoomEnvironment } from "three/examples/jsm/environments/RoomEnvironment.js";
 
 import type {
   BoundsV1,
@@ -15,6 +16,12 @@ import type {
 } from "../../src/types/trajectory";
 import { sampleEntityTransform } from "./environment-loader";
 import { sampleCameraTrajectory } from "./trajectory-loader";
+import { createDetailedPreset } from "./detailed-presets";
+import { getHumanoidRig } from "./humanoid";
+import { createHumanoidMotion } from "./humanoid-motion";
+import { createEnvironmentProp } from "./environment-props";
+import { ModelAssetManager, disposeObject3D, prepareVisualShadows } from "./model-assets";
+import { createSurfaceMaterial, createWorldGround, getWorldLook } from "./world-appearance";
 
 export type SceneViewMode = "god" | "director";
 /** Backward-friendly short name used by the visualizer UI. */
@@ -96,14 +103,6 @@ function presetString(
   return typeof value === "string" ? value : fallback;
 }
 
-function presetBoolean(
-  visual: PresetVisualV1,
-  name: string,
-  fallback = false,
-): boolean {
-  const value = visual.params?.[name];
-  return typeof value === "boolean" ? value : fallback;
-}
 
 function primitiveNumber(
   visual: PrimitiveVisualV1,
@@ -213,225 +212,6 @@ export function createPrimitiveVisual(visual: PrimitiveVisualV1): THREE.Object3D
   }
 }
 
-function createSoccerBall(visual: PresetVisualV1): THREE.Object3D {
-  const radius = presetNumber(visual, "radius", 0.35);
-  const group = new THREE.Group();
-  const ball = basicMesh(
-    new THREE.SphereGeometry(radius, 40, 24),
-    standardMaterial(presetString(visual, "color", "#f4f4f1"), {
-      roughness: 0.62,
-    }),
-  );
-  group.add(ball);
-
-  // A dark icosahedral seam reads clearly as a football without a texture asset.
-  const seams = new THREE.LineSegments(
-    new THREE.WireframeGeometry(new THREE.IcosahedronGeometry(radius * 1.004, 2)),
-    new THREE.LineBasicMaterial({ color: 0x20242b, transparent: true, opacity: 0.65 }),
-  );
-  group.add(seams);
-  return group;
-}
-
-function createSoccerGoal(visual: PresetVisualV1): THREE.Object3D {
-  const width = presetNumber(visual, "width", 6);
-  const height = presetNumber(visual, "height", 2.5);
-  const depth = presetNumber(visual, "depth", 1.2);
-  const postSize = Math.max(0.055, presetNumber(visual, "postSize", 0.1));
-  const group = new THREE.Group();
-  const frameMaterial = standardMaterial(
-    presetString(visual, "color", "#f2f5f7"),
-    { roughness: 0.38, metalness: 0.25 },
-  );
-
-  group.add(
-    basicMesh(new THREE.BoxGeometry(postSize, height, postSize), frameMaterial, [-width / 2, height / 2, 0]),
-    basicMesh(new THREE.BoxGeometry(postSize, height, postSize), frameMaterial, [width / 2, height / 2, 0]),
-    basicMesh(new THREE.BoxGeometry(width + postSize, postSize, postSize), frameMaterial, [0, height, 0]),
-    basicMesh(new THREE.BoxGeometry(postSize, postSize, depth), frameMaterial, [-width / 2, postSize / 2, -depth / 2]),
-    basicMesh(new THREE.BoxGeometry(postSize, postSize, depth), frameMaterial, [width / 2, postSize / 2, -depth / 2]),
-  );
-
-  const netPoints: number[] = [];
-  const columns = Math.max(6, Math.round(width / 0.5));
-  const rows = Math.max(4, Math.round(height / 0.45));
-  for (let column = 0; column <= columns; column += 1) {
-    const x = -width / 2 + (width * column) / columns;
-    netPoints.push(x, 0, -depth, x, height, -depth);
-  }
-  for (let row = 0; row <= rows; row += 1) {
-    const y = (height * row) / rows;
-    netPoints.push(-width / 2, y, -depth, width / 2, y, -depth);
-  }
-  for (let column = 0; column <= columns; column += 1) {
-    const x = -width / 2 + (width * column) / columns;
-    netPoints.push(x, 0, 0, x, 0, -depth);
-  }
-  const netGeometry = new THREE.BufferGeometry();
-  netGeometry.setAttribute("position", new THREE.Float32BufferAttribute(netPoints, 3));
-  group.add(new THREE.LineSegments(
-    netGeometry,
-    new THREE.LineBasicMaterial({ color: 0xa9c1c8, transparent: true, opacity: 0.42 }),
-  ));
-  return group;
-}
-
-function createHumanoid(visual: PresetVisualV1): THREE.Object3D {
-  const group = new THREE.Group();
-  const skin = standardMaterial(presetString(visual, "color", "#d3a889"), { roughness: 0.78 });
-  const shirt = standardMaterial(presetString(visual, "shirtColor", "#365b78"), { roughness: 0.86 });
-  const trousers = standardMaterial(presetString(visual, "trouserColor", "#252b35"), { roughness: 0.9 });
-  const shoe = standardMaterial("#11151a", { roughness: 0.92 });
-
-  group.add(
-    basicMesh(new THREE.BoxGeometry(0.62, 0.68, 0.34), shirt, [0, 1.14, 0]),
-    basicMesh(new THREE.CylinderGeometry(0.19, 0.2, 0.72, 18), trousers, [-0.19, 0.49, 0]),
-    basicMesh(new THREE.CylinderGeometry(0.19, 0.2, 0.72, 18), trousers, [0.19, 0.49, 0]),
-    basicMesh(new THREE.BoxGeometry(0.28, 0.14, 0.48), shoe, [-0.19, 0.1, 0.07]),
-    basicMesh(new THREE.BoxGeometry(0.28, 0.14, 0.48), shoe, [0.19, 0.1, 0.07]),
-    basicMesh(new THREE.CylinderGeometry(0.075, 0.075, 0.13, 16), skin, [0, 1.51, 0]),
-    basicMesh(new THREE.SphereGeometry(0.225, 28, 18), skin, [0, 1.69, 0]),
-  );
-
-  for (const side of [-1, 1] as const) {
-    const arm = basicMesh(new THREE.CylinderGeometry(0.09, 0.1, 0.62, 16), shirt, [side * 0.4, 1.13, 0]);
-    arm.rotation.z = side * -0.09;
-    group.add(arm);
-    group.add(basicMesh(new THREE.SphereGeometry(0.105, 18, 12), skin, [side * 0.43, 0.8, 0]));
-  }
-
-  const eyeMaterial = standardMaterial("#111820", { roughness: 0.35 });
-  group.add(
-    basicMesh(new THREE.SphereGeometry(0.026, 12, 8), eyeMaterial, [-0.07, 1.72, 0.205]),
-    basicMesh(new THREE.SphereGeometry(0.026, 12, 8), eyeMaterial, [0.07, 1.72, 0.205]),
-  );
-  return group;
-}
-
-function createCar(visual: PresetVisualV1): THREE.Object3D {
-  const length = presetNumber(visual, "length", 4.4);
-  const width = presetNumber(visual, "width", 2);
-  const height = presetNumber(visual, "height", 1.4);
-  const group = new THREE.Group();
-  const paint = standardMaterial(presetString(visual, "color", "#c74f42"), {
-    roughness: 0.3,
-    metalness: 0.48,
-  });
-  const dark = standardMaterial("#111820", { roughness: 0.38, metalness: 0.3 });
-  const glass = standardMaterial("#426779", {
-    roughness: 0.16,
-    metalness: 0.1,
-    transparent: true,
-    opacity: 0.74,
-  });
-
-  group.add(
-    basicMesh(new THREE.BoxGeometry(width, height * 0.46, length), paint, [0, height * 0.34, 0]),
-    basicMesh(new THREE.BoxGeometry(width * 0.82, height * 0.46, length * 0.49), glass, [0, height * 0.75, length * 0.03]),
-    basicMesh(new THREE.BoxGeometry(width * 0.9, height * 0.08, length * 0.26), paint, [0, height * 0.57, -length * 0.34]),
-  );
-
-  const wheelGeometry = new THREE.CylinderGeometry(height * 0.19, height * 0.19, width * 0.11, 24);
-  const hubMaterial = standardMaterial("#85919b", { roughness: 0.32, metalness: 0.7 });
-  for (const xSide of [-1, 1] as const) {
-    for (const zSide of [-1, 1] as const) {
-      const wheel = basicMesh(wheelGeometry, dark, [xSide * width * 0.51, height * 0.25, zSide * length * 0.31]);
-      wheel.rotation.z = Math.PI / 2;
-      group.add(wheel);
-      const hub = basicMesh(
-        new THREE.CylinderGeometry(height * 0.09, height * 0.09, width * 0.12, 18),
-        hubMaterial,
-        [xSide * width * 0.515, height * 0.25, zSide * length * 0.31],
-      );
-      hub.rotation.z = Math.PI / 2;
-      group.add(hub);
-    }
-  }
-
-  if (presetString(visual, "style", "") === "race") {
-    group.add(
-      basicMesh(new THREE.BoxGeometry(width * 1.05, 0.07, 0.32), dark, [0, height * 0.83, length * 0.43]),
-      basicMesh(new THREE.BoxGeometry(0.07, 0.3, 0.07), dark, [-width * 0.34, height * 0.68, length * 0.43]),
-      basicMesh(new THREE.BoxGeometry(0.07, 0.3, 0.07), dark, [width * 0.34, height * 0.68, length * 0.43]),
-    );
-  }
-  if (presetBoolean(visual, "interior")) {
-    group.add(basicMesh(
-      new THREE.BoxGeometry(width * 0.75, 0.12, 0.35),
-      dark,
-      [0, height * 0.73, -length * 0.12],
-    ));
-  }
-  return group;
-}
-
-function createDoor(visual: PresetVisualV1): THREE.Object3D {
-  const width = presetNumber(visual, "width", 1.05);
-  const height = presetNumber(visual, "height", 2.2);
-  const depth = presetNumber(visual, "depth", 0.12);
-  const group = new THREE.Group();
-  const panel = standardMaterial(presetString(visual, "color", "#46352a"), {
-    roughness: 0.78,
-  });
-  const trim = standardMaterial("#181b20", { roughness: 0.55, metalness: 0.35 });
-  group.add(basicMesh(new THREE.BoxGeometry(width, height, depth), panel, [0, height / 2, 0]));
-  const inset = basicMesh(
-    new THREE.BoxGeometry(width * 0.7, height * 0.68, depth * 1.04),
-    standardMaterial("#251e1a", { roughness: 0.82 }),
-    [0, height * 0.53, depth * 0.02],
-  );
-  group.add(inset);
-  group.add(basicMesh(
-    new THREE.SphereGeometry(Math.max(0.035, width * 0.045), 18, 12),
-    trim,
-    [width * 0.34, height * 0.49, depth * 0.62],
-  ));
-  return group;
-}
-
-function createVase(visual: PresetVisualV1): THREE.Object3D {
-  const height = presetNumber(visual, "height", 0.95);
-  const radius = presetNumber(visual, "radius", height * 0.28);
-  const points = [
-    new THREE.Vector2(radius * 0.52, 0),
-    new THREE.Vector2(radius * 0.9, height * 0.08),
-    new THREE.Vector2(radius, height * 0.34),
-    new THREE.Vector2(radius * 0.72, height * 0.7),
-    new THREE.Vector2(radius * 0.47, height * 0.84),
-    new THREE.Vector2(radius * 0.5, height),
-  ];
-  return basicMesh(
-    new THREE.LatheGeometry(points, 32),
-    standardMaterial(presetString(visual, "color", "#39cdbb"), {
-      roughness: 0.3,
-      metalness: 0.12,
-      side: THREE.DoubleSide,
-    }),
-  );
-}
-
-function createMonitor(visual: PresetVisualV1): THREE.Object3D {
-  const width = presetNumber(visual, "width", 1.35);
-  const height = presetNumber(visual, "height", 0.82);
-  const depth = presetNumber(visual, "depth", 0.13);
-  const standHeight = presetNumber(visual, "standHeight", 0.27);
-  const group = new THREE.Group();
-  const bezel = standardMaterial("#11161d", { roughness: 0.38, metalness: 0.34 });
-  const screen = standardMaterial(presetString(visual, "screenColor", "#4aa8ff"), {
-    roughness: 0.22,
-    emissive: new THREE.Color(presetString(visual, "screenColor", "#4aa8ff")),
-    emissiveIntensity: 0.25,
-  });
-  const screenY = standHeight + height / 2;
-  group.add(
-    basicMesh(new THREE.BoxGeometry(width, height, depth), bezel, [0, screenY, 0]),
-    basicMesh(new THREE.PlaneGeometry(width * 0.9, height * 0.82), screen, [0, screenY, depth / 2 + 0.004]),
-    basicMesh(new THREE.BoxGeometry(0.1, standHeight, 0.08), bezel, [0, standHeight / 2, 0]),
-    basicMesh(new THREE.BoxGeometry(width * 0.38, 0.055, depth * 1.8), bezel, [0, 0.028, 0]),
-  );
-  return group;
-}
-
 function createGenericObject(visual: PresetVisualV1): THREE.Object3D {
   const width = presetNumber(visual, "width", 1);
   const height = presetNumber(visual, "height", 1);
@@ -449,27 +229,23 @@ function createGenericObject(visual: PresetVisualV1): THREE.Object3D {
 
 /** Creates one of the semantic preset visuals supported by EnvironmentV1. */
 export function createPresetVisual(visual: PresetVisualV1): THREE.Object3D {
-  switch (visual.name) {
-    case "soccerBall":
-      return createSoccerBall(visual);
-    case "soccerGoal":
-      return createSoccerGoal(visual);
-    case "humanoid":
-      return createHumanoid(visual);
-    case "car":
-      return createCar(visual);
-    case "door":
-      return createDoor(visual);
-    case "vase":
-      return createVase(visual);
-    case "monitor":
-      return createMonitor(visual);
-    case "genericObject":
-      return createGenericObject(visual);
-  }
+  return createDetailedPreset(visual) ?? createGenericObject(visual);
 }
 
 function createEntityVisual(entity: SceneEntityV1): THREE.Object3D {
+  if (entity.visual.type === "model") {
+    const fallback = entity.visual.fallback;
+    return fallback
+      ? createEntityVisual({ ...entity, visual: fallback })
+      : createBoundsVisual(entity.bounds ?? { type: "sphere", center: [0, 0.5, 0], radius: 0.5 }, 0x7c8a96);
+  }
+  const detailed = createEnvironmentProp(entity);
+  if (detailed) return detailed;
+  if (entity.visual.type === "primitive" && entity.visual.shape === "box"
+    && /wall|column|pillar|stair/.test(entity.id)) {
+    const size = primitiveSize(entity.visual, [1, 1, 1]);
+    return basicMesh(new THREE.BoxGeometry(...size), createSurfaceMaterial("concrete", entity.visual.color ?? "#8e918e", [size[0], size[1]]));
+  }
   return entity.visual.type === "primitive"
     ? createPrimitiveVisual(entity.visual)
     : createPresetVisual(entity.visual);
@@ -545,34 +321,14 @@ function createLabel(text: string): LabelRecord {
 }
 
 function disposeMaterial(material: THREE.Material): void {
-  const candidate = material as THREE.Material & {
-    map?: THREE.Texture | null;
-    emissiveMap?: THREE.Texture | null;
-    alphaMap?: THREE.Texture | null;
-  };
-  candidate.map?.dispose();
-  candidate.emissiveMap?.dispose();
-  candidate.alphaMap?.dispose();
+  const textures = new Set<THREE.Texture>();
+  Object.values(material).forEach((value) => { if (value?.isTexture) textures.add(value); });
+  textures.forEach((texture) => texture.dispose());
   material.dispose();
 }
 
 function disposeObject(root: THREE.Object3D): void {
-  const geometries = new Set<THREE.BufferGeometry>();
-  const materials = new Set<THREE.Material>();
-  root.traverse((object) => {
-    const renderable = object as THREE.Object3D & {
-      geometry?: THREE.BufferGeometry;
-      material?: THREE.Material | THREE.Material[];
-    };
-    if (renderable.geometry) geometries.add(renderable.geometry);
-    if (Array.isArray(renderable.material)) {
-      renderable.material.forEach((material) => materials.add(material));
-    } else if (renderable.material) {
-      materials.add(renderable.material);
-    }
-  });
-  geometries.forEach((geometry) => geometry.dispose());
-  materials.forEach(disposeMaterial);
+  disposeObject3D(root);
   root.clear();
   root.removeFromParent();
 }
@@ -594,6 +350,10 @@ export class SceneRenderer {
   private readonly trajectoryRoot = new THREE.Group();
   private readonly overlayRoot = new THREE.Group();
   private readonly entityObjects = new Map<string, THREE.Object3D>();
+  private readonly humanoidMotions = new Map<string, {
+    visual: THREE.Object3D;
+    controller: ReturnType<typeof createHumanoidMotion>;
+  }>();
   private readonly entitySubjectCenters = new Map<string, THREE.Vector3>();
   private readonly boundsObjects: THREE.Object3D[] = [];
   private readonly labels: LabelRecord[] = [];
@@ -604,6 +364,14 @@ export class SceneRenderer {
   private readonly cameraHelper: THREE.CameraHelper;
   private readonly resizeObserver: ResizeObserver | null;
   private readonly maxPixelRatio: number;
+  private readonly models = new ModelAssetManager({
+    onError: (_error, entity) => console.warn(`Model for ${entity.id} could not be loaded; using its fallback.`),
+  });
+  private readonly hemisphere = new THREE.HemisphereLight();
+  private readonly keyLight = new THREE.DirectionalLight();
+  private readonly fillLight = new THREE.DirectionalLight();
+  private readonly reflectionMap: THREE.WebGLRenderTarget;
+  private readonly groundGrid = new THREE.Group();
 
   private environment: EnvironmentV1 | null = null;
   private trajectory: CameraTrajectoryV1 | null = null;
@@ -631,6 +399,12 @@ export class SceneRenderer {
     this.renderer.shadowMap.enabled = true;
     this.renderer.shadowMap.type = THREE.PCFShadowMap;
     this.scene.background = new THREE.Color(DEFAULT_BACKGROUND);
+    const reflectionScene = new RoomEnvironment();
+    const pmrem = new THREE.PMREMGenerator(this.renderer);
+    this.reflectionMap = pmrem.fromScene(reflectionScene, 0.04);
+    this.scene.environment = this.reflectionMap.texture;
+    reflectionScene.dispose();
+    pmrem.dispose();
 
     this.godCamera.position.set(10, 8, 12);
     this.godCamera.lookAt(0, 0, 0);
@@ -643,7 +417,7 @@ export class SceneRenderer {
     this.controls.maxPolarAngle = Math.PI * 0.495;
     this.controls.update();
 
-    this.scene.add(this.environmentRoot, this.trajectoryRoot, this.overlayRoot);
+    this.scene.add(this.environmentRoot, this.trajectoryRoot, this.overlayRoot, this.groundGrid);
     this.addLights();
 
     this.currentCameraMarker = basicMesh(
@@ -669,16 +443,36 @@ export class SceneRenderer {
   }
 
   private addLights(): void {
-    const hemisphere = new THREE.HemisphereLight(0xb6d5f4, 0x172012, 1.25);
-    const ambient = new THREE.AmbientLight(0x9bb1c7, 0.42);
-    const key = new THREE.DirectionalLight(0xfff0dd, 2.25);
+    const key = this.keyLight;
     key.position.set(10, 18, 8);
     key.castShadow = true;
-    key.shadow.mapSize.set(1024, 1024);
+    key.shadow.mapSize.set(2048, 2048);
     key.shadow.camera.near = 0.5;
     key.shadow.camera.far = 150;
     key.shadow.bias = -0.0002;
-    this.scene.add(hemisphere, ambient, key);
+    key.shadow.normalBias = 0.018;
+    this.fillLight.position.set(-12, 7, -8);
+    this.scene.add(this.hemisphere, key, key.target, this.fillLight, this.fillLight.target);
+  }
+
+  private configureLighting(environment: EnvironmentV1): void {
+    const look = getWorldLook(environment);
+    this.scene.background = new THREE.Color(environment.world?.background ?? look.background);
+    this.scene.environmentIntensity = look.reflection;
+    this.renderer.toneMappingExposure = environment.world?.exposure ?? 1;
+    this.hemisphere.color.set(look.sky);
+    this.hemisphere.groundColor.set(look.bounce);
+    this.hemisphere.intensity = look.ambient;
+    this.keyLight.color.set(look.key);
+    this.keyLight.intensity = look.intensity;
+    this.fillLight.color.set(look.fill);
+    this.fillLight.intensity = environment.world?.profile === "stage" ? 1.6 : 0.65;
+    const ground = environment.world?.ground;
+    const span = Math.max(8, Math.min(ground?.size[0] ?? 24, ground?.size[1] ?? 24, 40) * 0.65);
+    Object.assign(this.keyLight.shadow.camera, { left: -span, right: span, top: span, bottom: -span });
+    this.keyLight.shadow.camera.updateProjectionMatrix();
+    const distance = Math.max(ground?.size[0] ?? 20, ground?.size[1] ?? 20);
+    this.scene.fog = new THREE.Fog(this.scene.background, Math.max(25, distance * 0.8), Math.max(100, distance * 3));
   }
 
   get hasTrajectory(): boolean {
@@ -734,17 +528,27 @@ export class SceneRenderer {
     }
     this.clearEnvironment();
     this.environment = environment;
-    this.scene.background = new THREE.Color(environment.world?.background ?? DEFAULT_BACKGROUND);
+    this.configureLighting(environment);
     this.buildWorld(environment);
 
     for (const entity of environment.entities) {
       const root = new THREE.Group();
       root.name = `entity:${entity.id}`;
       root.userData.entityId = entity.id;
-      root.add(createEntityVisual(entity));
+      const visual = createEntityVisual(entity);
+      prepareVisualShadows(visual);
+      root.add(visual);
       this.environmentRoot.add(root);
       this.entityObjects.set(entity.id, root);
       this.entitySubjectCenters.set(entity.id, boundsCenter(entity.bounds));
+      const rig = getHumanoidRig(visual);
+      if (rig) {
+        this.humanoidMotions.set(entity.id, {
+          visual,
+          controller: createHumanoidMotion(entity, environment.clock.durationSeconds, rig),
+        });
+      }
+      if (entity.visual.type === "model") void this.models.load(entity, root, visual);
 
       if (entity.bounds) {
         const bounds = createBoundsVisual(entity.bounds, 0x4aa8ff);
@@ -871,9 +675,28 @@ export class SceneRenderer {
         object.position.fromArray(transform.position);
         object.quaternion.fromArray(transform.rotation);
         object.scale.fromArray(transform.scale);
+        const motion = this.humanoidMotions.get(entity.id);
+        if (motion?.visual.parent === object) {
+          motion.controller.update(this.currentEnvironmentTime);
+        } else if (motion) {
+          // A loaded glTF may have replaced and disposed its humanoid fallback.
+          this.humanoidMotions.delete(entity.id);
+        }
       }
       this.environmentRoot.updateMatrixWorld(true);
       this.updateSemanticAnchorMarkers();
+      // Follow moving subjects with a compact shadow volume; long car tracks
+      // otherwise lose their shadows outside the original default 10m square.
+      const moving = this.environment.entities.filter((entity) => !Array.isArray(entity.transform.position));
+      const center = new THREE.Vector3();
+      if (moving.length) {
+        moving.forEach((entity) => center.add(this.entityObjects.get(entity.id)!.position));
+        center.divideScalar(moving.length);
+      } else center.fromArray(this.environment.world?.overviewCamera?.target ?? [0, 0, 0]);
+      this.keyLight.target.position.copy(center);
+      this.keyLight.position.copy(center).add(new THREE.Vector3(10, 18, 8));
+      this.fillLight.target.position.copy(center);
+      this.fillLight.position.copy(center).add(new THREE.Vector3(-12, 7, -8));
     }
 
     if (this.trajectory) {
@@ -960,6 +783,9 @@ export class SceneRenderer {
     this.controls.dispose();
     this.clearTrajectory();
     this.clearEnvironment();
+    this.models.dispose();
+    this.reflectionMap.dispose();
+    this.keyLight.shadow.dispose();
     this.cameraHelper.geometry.dispose();
     const helperMaterials = Array.isArray(this.cameraHelper.material)
       ? this.cameraHelper.material
@@ -975,22 +801,7 @@ export class SceneRenderer {
 
   private buildWorld(environment: EnvironmentV1): void {
     const ground = environment.world?.ground;
-    if (ground) {
-      const geometry = new THREE.PlaneGeometry(ground.size[0], ground.size[1]);
-      const material = standardMaterial(ground.color ?? "#171d24", {
-        roughness: 0.94,
-        metalness: 0,
-        polygonOffset: true,
-        polygonOffsetFactor: 1,
-        polygonOffsetUnits: 1,
-      });
-      const mesh = basicMesh(geometry, material, [0, ground.y, 0]);
-      mesh.rotation.x = -Math.PI / 2;
-      mesh.castShadow = false;
-      mesh.receiveShadow = true;
-      mesh.name = "world:ground";
-      this.environmentRoot.add(mesh);
-    }
+    this.environmentRoot.add(createWorldGround(environment));
 
     const grid = environment.world?.grid;
     if (grid) {
@@ -1000,9 +811,9 @@ export class SceneRenderer {
       const materials = Array.isArray(helper.material) ? helper.material : [helper.material];
       materials.forEach((material) => {
         material.transparent = true;
-        material.opacity = 0.44;
+        material.opacity = 0.15;
       });
-      this.environmentRoot.add(helper);
+      this.groundGrid.add(helper);
     }
   }
 
@@ -1142,9 +953,11 @@ export class SceneRenderer {
   }
 
   private applyVisibility(): void {
-    this.trajectoryRoot.visible = this.showPath && this.trajectory !== null;
+    const overview = this.viewMode === "god";
+    this.groundGrid.visible = overview && this.showBounds;
+    this.trajectoryRoot.visible = overview && this.showPath && this.trajectory !== null;
     this.boundsObjects.forEach((object) => {
-      object.visible = this.showBounds;
+      object.visible = overview && this.showBounds;
     });
     const showSemanticOverlays = this.showLabels && this.viewMode === "god";
     this.labels.forEach(({ sprite }) => {
@@ -1160,7 +973,9 @@ export class SceneRenderer {
   }
 
   private clearEnvironment(): void {
-    this.labels.forEach(({ texture }) => texture.dispose());
+    this.humanoidMotions.clear();
+    this.models.clear();
+    for (const child of [...this.groundGrid.children]) disposeObject(child);
     this.labels.length = 0;
     this.boundsObjects.length = 0;
     this.entityObjects.clear();

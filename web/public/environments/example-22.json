@@ -21,7 +21,8 @@
     "epsilon": 0.001
   },
   "world": {
-    "background": "#14171c",
+    "profile": "industrial",
+    "background": "#343b40",
     "overviewCamera": {
       "position": [10, 8, 12],
       "target": [0, 1.5, -1]
@@ -29,7 +30,7 @@
     "ground": {
       "y": 0,
       "size": [24, 24],
-      "color": "#20242b"
+      "color": "#85847e", "surface": "concrete"
     },
     "grid": {
       "size": 24,

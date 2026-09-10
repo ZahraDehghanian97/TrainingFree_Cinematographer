@@ -14,9 +14,10 @@
   },
   "evaluation": { "distanceMetric": "boundsSurface", "epsilon": 0.001 },
   "world": {
-    "background": "#0d1a12",
+    "profile": "park",
+    "background": "#bbcfc4",
     "overviewCamera": { "position": [6, 6, 10], "target": [0, 1, 3] },
-    "ground": { "y": 0, "size": [20, 20], "color": "#1c2b1e" },
+    "ground": { "y": 0, "size": [20, 20], "color": "#627f45", "surface": "grass" },
     "grid": { "size": 20, "divisions": 20 }
   },
   "entities": [

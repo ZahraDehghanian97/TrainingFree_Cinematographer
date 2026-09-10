@@ -21,7 +21,8 @@
     "epsilon": 0.001
   },
   "world": {
-    "background": "#07111c",
+    "profile": "daylight",
+    "background": "#b6cfde",
     "overviewCamera": {
       "position": [
         28,
@@ -40,7 +41,7 @@
         110,
         34
       ],
-      "color": "#101d2b"
+      "color": "#598044", "surface": "grass"
     },
     "grid": {
       "size": 90,

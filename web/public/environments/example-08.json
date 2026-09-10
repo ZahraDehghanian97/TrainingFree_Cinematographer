@@ -21,12 +21,13 @@
     "epsilon": 0.005
   },
   "world": {
-    "background": "#140d0d",
+    "profile": "studio",
+    "background": "#36383e",
     "overviewCamera": {
       "position": [6, 4.5, 6.5],
       "target": [0, 1.1, -0.2]
     },
-    "ground": { "y": 0, "size": [16, 16], "color": "#211a1b" },
+    "ground": { "y": 0, "size": [16, 16], "color": "#83766c", "surface": "wood" },
     "grid": { "size": 16, "divisions": 16 }
   },
   "entities": [
@@ -38,7 +39,7 @@
         "position": [-0.3, 0, 2.1],
         "rotation": [0, 1, 0, 0]
       },
-      "visual": { "type": "preset", "name": "humanoid", "params": { "color": "#c79e82", "shirtColor": "#323946" } },
+      "visual": { "type": "preset", "name": "humanoid", "params": { "color": "#c79e82", "shirtColor": "#323946", "motion": "punch" } },
       "bounds": { "type": "box", "min": [-0.45, 0, -0.3], "max": [0.45, 1.85, 0.3] }
     },
     {

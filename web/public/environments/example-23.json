@@ -21,7 +21,8 @@
     "epsilon": 0.05
   },
   "world": {
-    "background": "industrial_factory_interior",
+    "profile": "industrial",
+    "background": "#343b40",
     "overviewCamera": {
       "position": [
         16,
@@ -40,7 +41,7 @@
         32,
         26
       ],
-      "color": "#555555"
+      "color": "#85847e", "surface": "concrete"
     },
     "grid": {
       "size": 32,

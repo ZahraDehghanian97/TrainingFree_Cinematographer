@@ -72,7 +72,33 @@ export interface PrimitiveVisualV1 {
   color?: string;
 }
 
-export type SceneVisualV1 = PresetVisualV1 | PrimitiveVisualV1;
+export interface ModelVisualV1 {
+  type: "model";
+  /** A .glb or .gltf URL, resolved relative to the visualizer page. */
+  url: string;
+  /** Local placement affects only the visual, never entity or semantic anchors. */
+  position?: Vec3;
+  rotation?: Quat;
+  scale?: Vec3;
+  /** Uniformly contain the model in entity bounds before applying local placement. */
+  fitToBounds?: boolean;
+  /** Displayed while loading and retained when the asset cannot be loaded. */
+  fallback?: PresetVisualV1 | PrimitiveVisualV1;
+}
+
+export type SceneVisualV1 = PresetVisualV1 | PrimitiveVisualV1 | ModelVisualV1;
+
+export type WorldProfileV1 =
+  | "studio"
+  | "daylight"
+  | "road"
+  | "park"
+  | "industrial"
+  | "corridor"
+  | "stage"
+  | "rooftop";
+
+export type GroundSurfaceV1 = "concrete" | "wood" | "asphalt" | "grass" | "stage";
 
 export interface SceneEntityV1 {
   id: string;
@@ -113,6 +139,10 @@ export interface EnvironmentV1 {
   };
   world?: {
     background?: string;
+    /** Lighting and atmosphere preset; omitted environments retain automatic styling. */
+    profile?: WorldProfileV1;
+    /** Optional positive tone-mapping exposure override. */
+    exposure?: number;
     /** Preferred starting pose for the orbitable environment overview. */
     overviewCamera?: {
       position: Vec3;
@@ -122,6 +152,7 @@ export interface EnvironmentV1 {
       y: number;
       size: [number, number];
       color?: string;
+      surface?: GroundSurfaceV1;
     };
     grid?: {
       size: number;
