@@ -3,7 +3,7 @@
   "kind": "environment",
   "id": "example-06-frozen-orbit",
   "promptExampleId": "example-06",
-  "prompt": "زمان را روی ۲ ثانیه فریز کن و یک دور کامل ۳۶۰ درجه دور سوژه معلق در هوا بچرخ، سپس حرکت را با سرعت عادی ادامه بده.",
+  "prompt": "زمان را در ثانیهٔ ۲ متوقف کن و یک دور کامل ۳۶۰ درجه دور سوژهٔ معلق در هوا بچرخ، سپس حرکت را با سرعت عادی ادامه بده.",
   "clock": {
     "durationSeconds": 5,
     "timeDomain": "playback",
@@ -29,7 +29,7 @@
   "entities": [
     {
       "id": "floating-subject-entity",
-      "label": "Floating subject",
+      "label": "سوژهٔ معلق",
       "transform": {
         "space": "world",
         "position": {
@@ -47,7 +47,7 @@
     },
     {
       "id": "orbit-reference-ring",
-      "label": "Orbit reference",
+      "label": "نشانگر مرجع چرخش",
       "transform": {
         "space": "world",
         "position": [0, 0.035, 0],
@@ -70,7 +70,7 @@
     {
       "id": "subject",
       "entityId": "floating-subject-entity",
-      "label": "The subject",
+      "label": "سوژه",
       "localAnchor": [0, 0.95, 0],
       "localBounds": { "type": "box", "min": [-0.45, 0, -0.3], "max": [0.45, 1.85, 0.3] }
     }

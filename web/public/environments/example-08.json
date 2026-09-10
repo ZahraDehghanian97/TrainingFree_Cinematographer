@@ -3,7 +3,7 @@
   "kind": "environment",
   "id": "example-08-punch-impact",
   "promptExampleId": "example-08",
-  "prompt": "ابتدا صحنه مشت زدن را با Slow Motion (سرعت ۱۰٪) نشان بده و درست لحظه برخورد، سرعت را به Hyper Fast تغییر بده و روی محل ضربه زوم کن.",
+  "prompt": "ابتدا صحنهٔ مشت‌زدن را با حرکت آهسته و سرعت ۱۰٪ نشان بده؛ درست در لحظهٔ برخورد، سرعت را بسیار زیاد کن و روی محل ضربه زوم کن.",
   "clock": {
     "durationSeconds": 12,
     "timeDomain": "playback",
@@ -32,7 +32,7 @@
   "entities": [
     {
       "id": "puncher-entity",
-      "label": "Punching performer",
+      "label": "بازیگر در حال مشت‌زدن",
       "transform": {
         "space": "world",
         "position": [-0.3, 0, 2.1],
@@ -43,7 +43,7 @@
     },
     {
       "id": "fist-entity",
-      "label": "Fist",
+      "label": "مشت",
       "transform": {
         "space": "world",
         "position": {
@@ -65,7 +65,7 @@
     },
     {
       "id": "impact-target-entity",
-      "label": "Impact pad",
+      "label": "بالشتک ضربه",
       "transform": {
         "space": "world",
         "position": [0, 1.35, -1.5],
@@ -79,21 +79,21 @@
     {
       "id": "fist",
       "entityId": "fist-entity",
-      "label": "The fist (مشت)",
+      "label": "مشت",
       "localAnchor": [0, 0, 0],
       "localBounds": { "type": "sphere", "center": [0, 0, 0], "radius": 0.16 }
     },
     {
       "id": "target",
       "entityId": "impact-target-entity",
-      "label": "The impact target (محل ضربه)",
+      "label": "هدف ضربه",
       "localAnchor": [0.15, 0.25, 0],
       "localBounds": { "type": "box", "min": [-0.72, -0.25, -0.72], "max": [0.72, 0.25, 0.72] }
     },
     {
       "id": "impact_point",
       "entityId": "impact-target-entity",
-      "label": "The point of impact (محل ضربه)",
+      "label": "محل برخورد ضربه",
       "localAnchor": [0.15, 0.25, 0],
       "localBounds": { "type": "sphere", "center": [0.15, 0.25, 0], "radius": 0.04 }
     }

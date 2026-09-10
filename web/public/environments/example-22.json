@@ -3,7 +3,7 @@
   "kind": "environment",
   "id": "example-22-warehouse-onetake",
   "promptExampleId": "example-22",
-  "prompt": "Follow the worker past the shelving, arc-and-dolly in as they slow at the crates, arc up around them as they climb to the mezzanine, follow them back down toward the loading bay, pull back to reveal the coworker once close, orbit both with a dutch tilt, crane up and zoom out over the whole floor, then lock a final stabilized hold.",
+  "prompt": "کارگر را از کنار قفسه‌ها دنبال کن. وقتی کنار جعبه‌ها کند شد، با حرکت قوسی دور او بچرخ و همزمان نزدیک شو. هنگام بالارفتن او به نیم‌طبقه، در مسیری قوسی دورش بالا برو؛ سپس در بازگشت به پایین و به سمت سکوی بارگیری دنبالش کن. وقتی به همکارش نزدیک شد، دوربین را عقب بکش تا همکار آشکار شود. با دوربین کج دور هر دو بچرخ، دوربین را بالا ببر و زوم را باز کن تا کل سالن دیده شود؛ سپس با یک نمای ثابت و بدون لرزش پایان بده.",
   "clock": {
     "durationSeconds": 22,
     "timeDomain": "playback",
@@ -39,7 +39,7 @@
   "entities": [
     {
       "id": "worker-entity",
-      "label": "Worker",
+      "label": "کارگر",
       "transform": {
         "space": "world",
         "position": {
@@ -87,7 +87,7 @@
     },
     {
       "id": "coworker-entity",
-      "label": "Coworker",
+      "label": "همکار",
       "transform": {
         "space": "world",
         "position": {
@@ -127,7 +127,7 @@
     },
     {
       "id": "shelving-entity",
-      "label": "Shelving unit",
+      "label": "قفسه",
       "transform": {
         "space": "world",
         "position": [-0.6, 0.0, 4.2]
@@ -142,13 +142,13 @@
       },
       "bounds": {
         "type": "box",
-        "min": [-0.3, 0, -1.5],
-        "max": [0.3, 2.6, 1.5]
+        "min": [-0.3, -1.3, -1.5],
+        "max": [0.3, 1.3, 1.5]
       }
     },
     {
       "id": "crate-stack-entity",
-      "label": "Crate stack",
+      "label": "جعبه‌های روی هم",
       "transform": {
         "space": "world",
         "position": [3.1, 0, 2.6]
@@ -163,8 +163,8 @@
       },
       "bounds": {
         "type": "box",
-        "min": [-0.65, 0, -0.65],
-        "max": [0.65, 1.6, 0.65]
+        "min": [-0.65, -0.3, -0.65],
+        "max": [0.65, 0.3, 0.65]
       }
     }
   
@@ -173,7 +173,7 @@
     {
       "id": "worker",
       "entityId": "worker-entity",
-      "label": "The worker",
+      "label": "کارگر",
       "localAnchor": [0, 1.4, 0],
       "localBounds": {
         "type": "box",
@@ -184,7 +184,7 @@
     {
       "id": "coworker",
       "entityId": "coworker-entity",
-      "label": "The coworker",
+      "label": "همکار",
       "localAnchor": [0, 1.4, 0],
       "localBounds": {
         "type": "box",

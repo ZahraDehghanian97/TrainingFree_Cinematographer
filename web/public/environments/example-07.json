@@ -3,7 +3,7 @@
   "kind": "environment",
   "id": "example-07-spiral-closeup",
   "promptExampleId": "example-07",
-  "prompt": "از نمای بالا شروع کن و با یک حرکت حلزونی همزمان که می‌چرخی، به سوژه نزدیک شو تا به کلوزآپ چشم‌هایش برسی.",
+  "prompt": "از نمای بالا شروع کن و با یک حرکت حلزونی، همزمان با یک دور کامل چرخش به سوژه نزدیک شو تا به نمای نزدیک چشم‌هایش برسی.",
   "clock": {
     "durationSeconds": 9,
     "timeDomain": "playback",
@@ -29,7 +29,7 @@
   "entities": [
     {
       "id": "subject-entity",
-      "label": "Spiral shot subject",
+      "label": "سوژهٔ نمای حلزونی",
       "transform": { "space": "world", "position": [0, 0, 0] },
       "visual": { "type": "preset", "name": "humanoid", "params": { "color": "#dab28e", "shirtColor": "#2c6375" } },
       "bounds": { "type": "box", "min": [-0.45, 0, -0.3], "max": [0.45, 1.85, 0.3] }
@@ -49,14 +49,14 @@
     {
       "id": "subject",
       "entityId": "subject-entity",
-      "label": "The subject",
+      "label": "سوژه",
       "localAnchor": [0, 0.95, 0],
       "localBounds": { "type": "box", "min": [-0.45, 0, -0.3], "max": [0.45, 1.85, 0.3] }
     },
     {
       "id": "subject_eyes",
       "entityId": "subject-entity",
-      "label": "The subject's eyes (چشم‌های سوژه)",
+      "label": "چشم‌های سوژه",
       "localAnchor": [0, 1.68, 0.185],
       "localBounds": { "type": "box", "min": [-0.12, 1.61, 0.13], "max": [0.12, 1.75, 0.23] }
     }

@@ -39,6 +39,96 @@ export function segmentIntersectsAabb(start: Vec3, end: Vec3, box: WorldAabbV1):
   return maximum >= 0 && minimum <= 1;
 }
 
+/**
+ * Minimum signed distance along a segment while the box faces move linearly.
+ * Solves each face/edge region analytically, so a thin wall cannot fall between
+ * camera samples. An optional search radius cheaply rejects distant boxes.
+ */
+export function minimumSignedDistanceToMovingAabb(
+  start: Vec3,
+  end: Vec3,
+  startBox: WorldAabbV1,
+  endBox: WorldAabbV1 = startBox,
+  searchRadius = Infinity,
+): number {
+  const intercepts: number[] = [];
+  const slopes: number[] = [];
+  let lower = 0;
+  let upper = 1;
+  for (let axis = 0; axis < 3; axis += 1) {
+    const cameraStep = end[axis]! - start[axis]!;
+    intercepts.push(startBox.min[axis]! - start[axis]!, start[axis]! - startBox.max[axis]!);
+    slopes.push(
+      endBox.min[axis]! - startBox.min[axis]! - cameraStep,
+      cameraStep - (endBox.max[axis]! - startBox.max[axis]!),
+    );
+  }
+  // Intersection with the swept, inflated slabs is only a broad phase: the
+  // distance below still uses Euclidean distance around edges and corners.
+  for (let face = 0; face < 6; face += 1) {
+    const slope = slopes[face]!;
+    const intercept = intercepts[face]!;
+    if (Math.abs(slope) <= 1e-12) {
+      if (intercept > searchRadius) return searchRadius;
+    } else {
+      const crossing = (searchRadius - intercept) / slope;
+      if (slope > 0) upper = Math.min(upper, crossing);
+      else lower = Math.max(lower, crossing);
+      if (lower > upper) return searchRadius;
+    }
+  }
+  const distanceAt = (alpha: number): number => {
+    let squared = 0;
+    let nearestFace = -Infinity;
+    for (let axis = 0; axis < 3; axis += 1) {
+      const face = 2 * axis;
+      const distance = Math.max(
+        intercepts[face]! + slopes[face]! * alpha,
+        intercepts[face + 1]! + slopes[face + 1]! * alpha,
+      );
+      squared += Math.max(0, distance) ** 2;
+      nearestFace = Math.max(nearestFace, distance);
+    }
+    return squared > 0 ? Math.sqrt(squared) : nearestFace;
+  };
+  let minimum = Math.min(distanceAt(lower), distanceAt(upper));
+  const boundaries = [lower, upper];
+  for (let face = 0; face < 6; face += 1) {
+    if (Math.abs(slopes[face]!) <= 1e-12) continue;
+    const crossing = -intercepts[face]! / slopes[face]!;
+    if (crossing > lower && crossing < upper) boundaries.push(crossing);
+  }
+  boundaries.sort((a, b) => a - b);
+  for (let index = 1; index < boundaries.length; index += 1) {
+    const from = boundaries[index - 1]!;
+    const to = boundaries[index]!;
+    const midpoint = (from + to) / 2;
+    let quadratic = 0;
+    let linear = 0;
+    for (let face = 0; face < 6; face += 1) {
+      if (intercepts[face]! + slopes[face]! * midpoint <= 0) continue;
+      quadratic += slopes[face]! ** 2;
+      linear += intercepts[face]! * slopes[face]!;
+    }
+    minimum = Math.min(minimum, distanceAt(from), distanceAt(to));
+    if (quadratic > 0) {
+      minimum = Math.min(minimum, distanceAt(Math.max(from, Math.min(to, -linear / quadratic))));
+    } else if (distanceAt(midpoint) <= 0) {
+      // Inside, signed distance is the maximum of the six affine face
+      // distances. Its minimum is at an endpoint or where two faces tie.
+      for (let first = 0; first < 6; first += 1) {
+        for (let second = first + 1; second < 6; second += 1) {
+          const denominator = slopes[first]! - slopes[second]!;
+          if (Math.abs(denominator) <= 1e-12) continue;
+          const crossing = (intercepts[second]! - intercepts[first]!) / denominator;
+          if (crossing > from && crossing < to) minimum = Math.min(minimum, distanceAt(crossing));
+        }
+      }
+    }
+  }
+  return minimum;
+}
+
 export function sampleObstacleBoxes(
   environment: EnvironmentV1,
   time: number,

@@ -3,7 +3,7 @@
   "kind": "environment",
   "id": "example-30-dont-care-group",
   "promptExampleId": "example-30",
-  "prompt": "هر دو مأمور را با تراکینگ دنبال کن.",
+  "prompt": "هر دو مأمور را با حرکت دوربین دنبال کن.",
   "clock": {
     "durationSeconds": 10,
     "timeDomain": "playback",
@@ -50,7 +50,7 @@
   "entities": [
     {
       "id": "actor-a-entity",
-      "label": "Agent A",
+      "label": "مأمور الف",
       "transform": {
         "space": "world",
         "position": {
@@ -182,7 +182,7 @@
     },
     {
       "id": "actor-b-entity",
-      "label": "Agent B",
+      "label": "مأمور ب",
       "transform": {
         "space": "world",
         "position": {
@@ -314,7 +314,7 @@
     },
     {
       "id": "briefcase-entity",
-      "label": "Exchanged briefcase",
+      "label": "کیف در حال مبادله",
       "transform": {
         "space": "world",
         "position": {
@@ -415,7 +415,7 @@
     },
     {
       "id": "corridor-column-left",
-      "label": "Left column",
+      "label": "ستون چپ",
       "transform": {
         "space": "world",
         "position": [
@@ -452,7 +452,7 @@
     },
     {
       "id": "corridor-column-right",
-      "label": "Right column",
+      "label": "ستون راست",
       "transform": {
         "space": "world",
         "position": [
@@ -489,7 +489,7 @@
     },
     {
       "id": "neon-strip",
-      "label": "Red exchange marker",
+      "label": "نشانگر قرمز محل تبادل",
       "transform": {
         "space": "world",
         "position": [
@@ -529,7 +529,7 @@
     {
       "id": "actor_a",
       "entityId": "actor-a-entity",
-      "label": "Agent A",
+      "label": "مأمور الف",
       "localAnchor": [
         0,
         1.18,
@@ -552,7 +552,7 @@
     {
       "id": "actor_b",
       "entityId": "actor-b-entity",
-      "label": "Agent B",
+      "label": "مأمور ب",
       "localAnchor": [
         0,
         1.18,
@@ -575,7 +575,7 @@
     {
       "id": "briefcase",
       "entityId": "briefcase-entity",
-      "label": "The exchanged briefcase",
+      "label": "کیف در حال مبادله",
       "localAnchor": [
         0,
         0,

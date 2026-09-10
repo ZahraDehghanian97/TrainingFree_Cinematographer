@@ -3,7 +3,7 @@
   "kind": "environment",
   "id": "example-20-jogger-reveal",
   "promptExampleId": "example-20",
-  "prompt": "Follow the jogger along the path, keeping the tree from blocking the shot, then crane up to reveal the fountain plaza as they arrive, and hold on them from a locked distance and angle.",
+  "prompt": "دونده را در مسیر دنبال کن و نگذار درخت جلوی دید را بگیرد. وقتی به میدان رسید، دوربین را بالا ببر تا میدان و آب‌نما آشکار شوند؛ سپس با فاصله و زاویهٔ ثابت او را در قاب نگه دار.",
   "clock": { "durationSeconds": 10, "timeDomain": "playback", "fpsHint": 24 },
   "coordinates": {
     "handedness": "right",
@@ -22,7 +22,7 @@
   "entities": [
     {
       "id": "jogger-entity",
-      "label": "Jogger",
+      "label": "دونده",
       "transform": {
         "space": "world",
         "position": {
@@ -49,40 +49,40 @@
     },
     {
       "id": "tree-entity",
-      "label": "Roadside tree",
+      "label": "درخت کنار جاده",
       "transform": { "space": "world", "position": [-1.8, 0, 4] },
       "visual": { "type": "primitive", "shape": "box", "params": { "size": [0.5, 4.2, 0.5] }, "color": "#3f2d20" },
-      "bounds": { "type": "box", "min": [-0.25, 0, -0.25], "max": [0.25, 4.2, 0.25] }
+      "bounds": { "type": "box", "min": [-0.25, -2.1, -0.25], "max": [0.25, 2.1, 0.25] }
     },
     {
       "id": "fountain-entity",
-      "label": "Plaza fountain",
+      "label": "آب‌نمای میدان",
       "transform": { "space": "world", "position": [0.5, 0, -3.5] },
       "visual": { "type": "primitive", "shape": "box", "params": { "size": [2.4, 1.0, 2.4] }, "color": "#4a7a8c" },
-      "bounds": { "type": "box", "min": [-1.2, 0, -1.2], "max": [1.2, 1.0, 1.2] }
+      "bounds": { "type": "box", "min": [-1.2, -0.5, -1.2], "max": [1.2, 0.5, 1.2] }
     },
     {
       "id": "lamppost-entity",
-      "label": "Park lamppost",
+      "label": "تیر چراغ پارک",
       "transform": { "space": "world", "position": [1.9, 0, 0.5] },
       "visual": { "type": "primitive", "shape": "box", "params": { "size": [0.18, 3.4, 0.18] }, "color": "#2a2a2a" },
-      "bounds": { "type": "box", "min": [-0.09, 0, -0.09], "max": [0.09, 3.4, 0.09] }
+      "bounds": { "type": "box", "min": [-0.09, -1.7, -0.09], "max": [0.09, 1.7, 0.09] }
     }
   ],
   "semanticAnchors": [
     {
       "id": "jogger",
       "entityId": "jogger-entity",
-      "label": "The jogger",
+      "label": "دونده",
       "localAnchor": [0, 1.4, 0],
       "localBounds": { "type": "box", "min": [-0.35, 0, -0.25], "max": [0.35, 1.75, 0.25] }
     },
     {
         "id": "fountain",
         "entityId": "fountain-entity",
-        "label": "Plaza fountain",
+        "label": "آب‌نمای میدان",
         "localAnchor" :[0, 0.5, 0],
-        "localBounds" : { "type": "box", "min": [-1.2, 0, -1.2], "max": [1.2, 1.0, 1.2] }
+        "localBounds" : { "type": "box", "min": [-1.2, -0.5, -1.2], "max": [1.2, 0.5, 1.2] }
     }
   ]
 }

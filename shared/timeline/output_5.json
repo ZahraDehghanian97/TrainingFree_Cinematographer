@@ -3,109 +3,92 @@
   "kind": "timelineSolverOutput",
   "exampleId": "example-05",
   "environmentId": "example-05-dolly-zoom",
-  "prompt": "روی چهره بازیگر Dolly Out کن و همزمان Zoom In انجام بده تا پرسپکتیو پس‌زمینه تغییر کند اما اندازه صورت ثابت بماند.",
+  "prompt": "دوربین را از چهرهٔ بازیگر دور کن و همزمان زوم را بیشتر کن تا پرسپکتیو پس‌زمینه تغییر کند اما اندازهٔ صورت در قاب ثابت بماند.",
   "totalDuration": 25,
+  "subjectBinding": {
+    "mode": "resolved",
+    "source": "resolved-fixture"
+  },
   "timeline": {
     "timeline": [
       {
         "kind": "interval",
+        "shotStartTime": 0,
         "startTime": 0,
         "endTime": 25,
         "lossFunctions": [
           {
             "type": "dollyOutMovement",
             "parameters": {
-              "distance": 2
-            }
+              "subjectId": "actor_face"
+            },
+            "sourceActionId": "dolly_out_face"
           }
-        ]
+        ],
+        "weight": 1
       },
       {
         "kind": "interval",
+        "shotStartTime": 0,
         "startTime": 0,
         "endTime": 25,
         "lossFunctions": [
           {
             "type": "shotSize",
             "parameters": {
-              "shotSize": "closeUp"
-            }
+              "shotSize": "closeUp",
+              "subjectId": "actor_face"
+            },
+            "sourceActionId": "dolly_out_face"
           }
-        ]
+        ],
+        "weight": 1
       },
       {
         "kind": "interval",
-        "startTime": 0,
-        "endTime": 25,
-        "lossFunctions": [
-          {
-            "type": "framingPosition",
-            "parameters": {
-              "position": "center"
-            }
-          }
-        ]
-      },
-      {
-        "kind": "interval",
+        "shotStartTime": 0,
         "startTime": 0,
         "endTime": 25,
         "lossFunctions": [
           {
             "type": "zoomInMovement",
-            "parameters": {}
+            "parameters": {},
+            "sourceActionId": "zoom_in_face"
           }
-        ]
+        ],
+        "weight": 1
       },
       {
         "kind": "interval",
+        "shotStartTime": 0,
         "startTime": 0,
         "endTime": 25,
         "lossFunctions": [
           {
             "type": "shotSize",
             "parameters": {
-              "shotSize": "extremeCloseUp"
-            }
+              "shotSize": "closeUp",
+              "subjectId": "actor_face"
+            },
+            "sourceActionId": "zoom_in_face"
           }
-        ]
-      },
-      {
-        "kind": "interval",
-        "startTime": 0,
-        "endTime": 25,
-        "lossFunctions": [
-          {
-            "type": "framingPosition",
-            "parameters": {
-              "position": "center"
-            }
-          }
-        ]
+        ],
+        "weight": 1
       },
       {
         "kind": "point",
+        "shotStartTime": 0,
         "time": 0,
         "lossFunctions": [
           {
             "type": "shotSize",
             "parameters": {
-              "shotSize": "closeUp"
-            }
-          },
-          {
-            "type": "subjectView",
-            "parameters": {
-              "view": "front"
-            }
-          },
-          {
-            "type": "framingPosition",
-            "parameters": {
-              "position": "center"
+              "shotSize": "closeUp",
+              "subjectId": "actor_face"
             }
           }
-        ]
+        ],
+        "weight": 1
       }
     ],
     "timeWarp": []

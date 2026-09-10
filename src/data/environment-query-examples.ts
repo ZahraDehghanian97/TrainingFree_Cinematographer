@@ -9,7 +9,7 @@ export interface EnvironmentQueryExample {
 export const environmentQueryExamples: EnvironmentQueryExample[] = [
   {
     environmentId: "example-18-eye-zoom",
-    request: "CSL ref pupil_ref با توصیف «مردمک سوژه» را به target محیط bind کن",
+    request: "مرجع pupil_ref با توصیف «مردمک سوژه» را به سوژهٔ متناظر در محیط متصل کن.",
     expectedQuery: {
       type: "resolveSubjectReferences",
       bindings: [{ ref: "pupil_ref", status: "resolved", subjectIds: ["pupil"] }],
@@ -17,7 +17,7 @@ export const environmentQueryExamples: EnvironmentQueryExample[] = [
   },
   {
     environmentId: "example-03-vase-reveal",
-    request: "refهای vase_ref=گلدان و monitor_ref=مانیتور را به targetهای محیط bind کن",
+    request: "مرجع vase_ref برای گلدان و مرجع monitor_ref برای مانیتور را به سوژه‌های متناظر در محیط متصل کن.",
     expectedQuery: {
       type: "resolveSubjectReferences",
       bindings: [
@@ -28,17 +28,17 @@ export const environmentQueryExamples: EnvironmentQueryExample[] = [
   },
   {
     environmentId: "example-01-football",
-    request: "باکس توپ در ثانیه ۳ کجاست؟",
+    request: "جعبهٔ مرزی توپ در ثانیه ۳ کجاست؟",
     expectedQuery: { type: "subjectBoxesAtTime", subjectIds: ["ball"], timeSeconds: 3 },
   },
   {
     environmentId: "example-03-vase-reveal",
-    request: "در ثانیه ۲.۵ باکس گلدون و مانیتور رو بده",
+    request: "در ثانیه ۲.۵ جعبهٔ مرزی گلدون و مانیتور رو بده",
     expectedQuery: { type: "subjectBoxesAtTime", subjectIds: ["vase", "monitor"], timeSeconds: 2.5 },
   },
   {
     environmentId: "example-16-two-actor-truck",
-    request: "باکس هر دو بازیگر رو از ثانیه ۲ تا ۶ توی یک لیست بده",
+    request: "جعبهٔ مرزی هر دو بازیگر رو از ثانیه ۲ تا ۶ توی یک لیست بده",
     expectedQuery: {
       type: "subjectBoxesInRange",
       subjectIds: ["actor_a", "actor_b"],
@@ -48,7 +48,7 @@ export const environmentQueryExamples: EnvironmentQueryExample[] = [
   },
   {
     environmentId: "example-01-football",
-    request: "از ثانیه ۱ تا ۴ هر نیم ثانیه bbox توپ رو بده",
+    request: "از ثانیه ۱ تا ۴ هر نیم ثانیه جعبهٔ مرزی توپ رو بده",
     expectedQuery: {
       type: "subjectBoxesInRange",
       subjectIds: ["ball"],
@@ -69,7 +69,7 @@ export const environmentQueryExamples: EnvironmentQueryExample[] = [
   },
   {
     environmentId: "example-09-two-people",
-    request: "کی person a به یک متری person b رسید؟",
+    request: "نفر اول چه زمانی به فاصلهٔ یک متری نفر دوم رسید؟",
     expectedQuery: {
       type: "firstWithinDistance",
       subjectAId: "person1",
@@ -88,7 +88,7 @@ export const environmentQueryExamples: EnvironmentQueryExample[] = [
   },
   {
     environmentId: "example-17-runner-speed",
-    request: "runner چه زمانی به سرعت ۸ متر بر ثانیه می‌رسه؟",
+    request: "دونده چه زمانی به سرعت ۸ متر بر ثانیه می‌رسد؟",
     expectedQuery: {
       type: "firstSpeedReached",
       subjectId: "runner",
@@ -107,7 +107,7 @@ export const environmentQueryExamples: EnvironmentQueryExample[] = [
   },
   {
     environmentId: "example-18-eye-zoom",
-    request: "باکس چشم رو بین ثانیه ۳ تا ۴ با فاصله نمونه‌برداری ۰.۲۵ ثانیه بده",
+    request: "جعبهٔ مرزی چشم رو بین ثانیه ۳ تا ۴ با فاصله نمونه‌برداری ۰.۲۵ ثانیه بده",
     expectedQuery: {
       type: "subjectBoxesInRange",
       subjectIds: ["eye"],
@@ -118,7 +118,7 @@ export const environmentQueryExamples: EnvironmentQueryExample[] = [
   },
   {
     environmentId: "example-19-stairwell-ambush",
-    request: "در ثانیه ۸ باکس کارآگاه و مهاجم پشت ستون رو بده",
+    request: "در ثانیه ۸ جعبهٔ مرزی کارآگاه و مهاجم پشت ستون رو بده",
     expectedQuery: {
       type: "subjectBoxesAtTime",
       subjectIds: ["detective", "pursuer"],
@@ -130,7 +130,7 @@ export const environmentQueryExamples: EnvironmentQueryExample[] = [
     request: "رنگ دیوار چیه؟",
     expectedQuery: {
       type: "unsupported",
-      reason: "The request is outside the supported environment query operations.",
+      reason: "این درخواست خارج از پرس‌وجوهای پشتیبانی‌شدهٔ محیط است.",
     },
   },
 ];

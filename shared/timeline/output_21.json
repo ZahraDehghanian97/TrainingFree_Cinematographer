@@ -1,0 +1,185 @@
+{
+  "schemaVersion": "1.0",
+  "kind": "timelineSolverOutput",
+  "exampleId": "example-21",
+  "environmentId": "example-21-rooftop-chase",
+  "prompt": "دونده را روی پشت‌بام تعقیب کن تا تعقیب‌کننده به فاصلهٔ ۲٫۵ متری او برسد؛ سپس در مسیری قوسی دور دونده بچرخ و همزمان زوم را بیشتر کن تا تعقیب‌کننده آشکار شود. در پایان، با یک نمای ثابت و بدون لرزش، زاویه را حفظ کن و هر دو را در قاب نگه دار.",
+  "totalDuration": 10,
+  "subjectBinding": {
+    "mode": "resolved",
+    "source": "resolved-fixture"
+  },
+  "timeline": {
+    "timeline": [
+      {
+        "kind": "interval",
+        "shotStartTime": 0,
+        "startTime": 0,
+        "endTime": 3.9583333333333335,
+        "lossFunctions": [
+          {
+            "type": "trackMovement",
+            "parameters": {
+              "subjectId": "runner"
+            },
+            "sourceActionId": "track_runner"
+          }
+        ],
+        "weight": 1
+      },
+      {
+        "kind": "interval",
+        "shotStartTime": 0,
+        "startTime": 0,
+        "endTime": 3.9583333333333335,
+        "lossFunctions": [
+          {
+            "type": "subjectPresence",
+            "parameters": {
+              "subjectId": "runner"
+            },
+            "sourceActionId": "track_runner"
+          }
+        ],
+        "weight": 1
+      },
+      {
+        "kind": "interval",
+        "shotStartTime": 0,
+        "startTime": 3.9583333333333335,
+        "endTime": 5.458333333333334,
+        "lossFunctions": [
+          {
+            "type": "arcMovement",
+            "parameters": {
+              "subjectId": "runner"
+            },
+            "sourceActionId": "pursuer_closes_in"
+          }
+        ],
+        "weight": 1
+      },
+      {
+        "kind": "interval",
+        "shotStartTime": 0,
+        "startTime": 3.9583333333333335,
+        "endTime": 5.458333333333334,
+        "lossFunctions": [
+          {
+            "type": "avoidOcclusion",
+            "parameters": {
+              "subjectIds": [
+                "runner",
+                "pursuer"
+              ]
+            },
+            "sourceActionId": "pursuer_closes_in"
+          }
+        ],
+        "weight": 1
+      },
+      {
+        "kind": "interval",
+        "shotStartTime": 0,
+        "startTime": 3.9583333333333335,
+        "endTime": 5.458333333333334,
+        "lossFunctions": [
+          {
+            "type": "zoomInMovement",
+            "parameters": {},
+            "sourceActionId": "zoom_on_pursuer"
+          }
+        ],
+        "weight": 1
+      },
+      {
+        "kind": "point",
+        "shotStartTime": 0,
+        "time": 5.458333333333334,
+        "lossFunctions": [
+          {
+            "type": "subjectPresence",
+            "parameters": {
+              "subjectIds": [
+                "runner",
+                "pursuer"
+              ]
+            }
+          }
+        ],
+        "weight": 1,
+        "easing": {
+          "inDuration": 0.6,
+          "curve": "easeOut"
+        }
+      },
+      {
+        "kind": "interval",
+        "shotStartTime": 0,
+        "startTime": 5.458333333333334,
+        "endTime": 10,
+        "lossFunctions": [
+          {
+            "type": "Static",
+            "parameters": {},
+            "sourceActionId": "tense_hold"
+          }
+        ],
+        "weight": 1
+      },
+      {
+        "kind": "interval",
+        "shotStartTime": 0,
+        "startTime": 5.458333333333334,
+        "endTime": 10,
+        "lossFunctions": [
+          {
+            "type": "keepInFrame",
+            "parameters": {
+              "subjectIds": [
+                "runner",
+                "pursuer"
+              ]
+            },
+            "sourceActionId": "tense_hold"
+          }
+        ],
+        "weight": 1
+      },
+      {
+        "kind": "interval",
+        "shotStartTime": 0,
+        "startTime": 5.458333333333334,
+        "endTime": 10,
+        "lossFunctions": [
+          {
+            "type": "maintainAngle",
+            "parameters": {
+              "subjectIds": [
+                "runner",
+                "pursuer"
+              ]
+            },
+            "sourceActionId": "tense_hold"
+          }
+        ],
+        "weight": 1
+      },
+      {
+        "kind": "interval",
+        "shotStartTime": 0,
+        "startTime": 5.458333333333334,
+        "endTime": 10,
+        "lossFunctions": [
+          {
+            "type": "noShake",
+            "parameters": {},
+            "sourceActionId": "tense_hold"
+          }
+        ],
+        "weight": 1
+      }
+    ],
+    "timeWarp": []
+  }
+}

@@ -3,7 +3,7 @@
   "kind": "environment",
   "id": "example-17-runner-speed",
   "promptExampleId": "example-17",
-  "prompt": "از Low Full Shot در کنار دونده با Track شروع کن و برای مسیرش lead room بده. لحظه‌ای که سرعتش به ۸ متر بر ثانیه رسید، صحنه را به ۱۰٪ ببر و با Arc Left صدوبیست درجه از کنار به روبه‌رویش برس. بعد سرعت عادی را برگردان، Dolly Out و Follow کن تا با فضای باز جلوی حرکت در قاب چپ تمام شود.",
+  "prompt": "از نمای تمام‌قد با زاویهٔ پایین در کنار دونده شروع کن، همراه او حرکت کن و جلوی مسیرش فضای خالی بده. لحظه‌ای که سرعتش به ۸ متر بر ثانیه رسید، سرعت صحنه را به ۱۰٪ کاهش بده و با چرخش قوسی ۱۲۰ درجه به چپ، از کنار به روبه‌رویش برس. سپس سرعت عادی را برگردان، دوربین را عقب بکش و او را دنبال کن تا در پایان، دونده در چپ قاب باشد و جلوی حرکتش فضای باز بماند.",
   "clock": {
     "durationSeconds": 11,
     "timeDomain": "playback",
@@ -50,7 +50,7 @@
   "entities": [
     {
       "id": "runner-entity",
-      "label": "Runner",
+      "label": "دونده",
       "transform": {
         "space": "world",
         "position": {
@@ -173,7 +173,7 @@
     },
     {
       "id": "hurdle-a",
-      "label": "Track marker A",
+      "label": "نشانگر مسیر الف",
       "transform": {
         "space": "world",
         "position": [
@@ -208,7 +208,7 @@
     },
     {
       "id": "hurdle-b",
-      "label": "Track marker B",
+      "label": "نشانگر مسیر ب",
       "transform": {
         "space": "world",
         "position": [
@@ -243,7 +243,7 @@
     },
     {
       "id": "hurdle-c",
-      "label": "Track marker C",
+      "label": "نشانگر مسیر پ",
       "transform": {
         "space": "world",
         "position": [
@@ -278,7 +278,7 @@
     },
     {
       "id": "finish-left",
-      "label": "Finish gate left",
+      "label": "پایهٔ چپ دروازهٔ پایان",
       "transform": {
         "space": "world",
         "position": [
@@ -315,7 +315,7 @@
     },
     {
       "id": "finish-right",
-      "label": "Finish gate right",
+      "label": "پایهٔ راست دروازهٔ پایان",
       "transform": {
         "space": "world",
         "position": [
@@ -352,7 +352,7 @@
     },
     {
       "id": "finish-banner",
-      "label": "Finish banner",
+      "label": "بنر خط پایان",
       "transform": {
         "space": "world",
         "position": [
@@ -392,7 +392,7 @@
     {
       "id": "runner",
       "entityId": "runner-entity",
-      "label": "The runner",
+      "label": "دونده",
       "localAnchor": [
         0,
         1.08,
@@ -415,7 +415,7 @@
     {
       "id": "runner_face",
       "entityId": "runner-entity",
-      "label": "The runner's face",
+      "label": "صورت دونده",
       "localAnchor": [
         0,
         1.58,

@@ -3,148 +3,142 @@
   "kind": "timelineSolverOutput",
   "exampleId": "example-09",
   "environmentId": "example-09-two-people",
-  "prompt": "دو نفر را در نمای Long Shot دنبال کن؛ به محض اینکه فاصله آن‌ها به کمتر از ۱ متر رسید، کات بزن به Over-the-Shoulder (نمای روی شانه).",
+  "prompt": "دو نفر را در نمای دور دنبال کن؛ به‌محض اینکه فاصلهٔ آن‌ها به کمتر از یک متر رسید، به نمای روی شانه کات بزن.",
   "totalDuration": 24,
+  "subjectBinding": {
+    "mode": "resolved",
+    "source": "resolved-fixture"
+  },
   "timeline": {
     "timeline": [
       {
         "kind": "interval",
+        "shotStartTime": 0,
         "startTime": 0,
-        "endTime": 5,
+        "endTime": 13.5,
         "lossFunctions": [
           {
             "type": "followMovement",
             "parameters": {
-              "distance": 2
-            }
+              "subjectIds": [
+                "person1",
+                "person2"
+              ]
+            },
+            "sourceActionId": "follow_two_people"
           }
-        ]
+        ],
+        "weight": 1
       },
       {
         "kind": "interval",
+        "shotStartTime": 0,
         "startTime": 0,
-        "endTime": 5,
+        "endTime": 13.5,
         "lossFunctions": [
           {
             "type": "shotSize",
             "parameters": {
-              "shotSize": "longShot"
-            }
+              "shotSize": "longShot",
+              "subjectIds": [
+                "person1",
+                "person2"
+              ]
+            },
+            "sourceActionId": "follow_two_people"
           }
-        ]
-      },
-      {
-        "kind": "interval",
-        "startTime": 0,
-        "endTime": 5,
-        "lossFunctions": [
-          {
-            "type": "framingPosition",
-            "parameters": {
-              "position": "center"
-            }
-          }
-        ]
+        ],
+        "weight": 1
       },
       {
         "kind": "point",
+        "shotStartTime": 0,
         "time": 0,
         "lossFunctions": [
           {
             "type": "shotSize",
             "parameters": {
-              "shotSize": "longShot"
+              "shotSize": "longShot",
+              "subjectIds": [
+                "person1",
+                "person2"
+              ]
             }
-          },
+          }
+        ],
+        "weight": 1
+      },
+      {
+        "kind": "interval",
+        "shotStartTime": 13.5,
+        "startTime": 13.5,
+        "endTime": 24,
+        "lossFunctions": [
+          {
+            "type": "followMovement",
+            "parameters": {
+              "subjectId": "person2"
+            },
+            "sourceActionId": "ots_cut"
+          }
+        ],
+        "weight": 1
+      },
+      {
+        "kind": "interval",
+        "shotStartTime": 13.5,
+        "startTime": 13.5,
+        "endTime": 24,
+        "lossFunctions": [
+          {
+            "type": "subjectPresence",
+            "parameters": {
+              "subjectIds": [
+                "person1_shoulder",
+                "person2"
+              ]
+            },
+            "sourceActionId": "ots_cut"
+          }
+        ],
+        "weight": 1
+      },
+      {
+        "kind": "interval",
+        "shotStartTime": 13.5,
+        "startTime": 13.5,
+        "endTime": 24,
+        "lossFunctions": [
           {
             "type": "subjectView",
             "parameters": {
-              "view": "front"
-            }
-          },
-          {
-            "type": "framingPosition",
-            "parameters": {
-              "position": "center"
-            }
+              "view": "threeQuarterFrontLeft",
+              "subjectId": "person2"
+            },
+            "sourceActionId": "ots_cut"
           }
-        ]
-      },
-      {
-        "kind": "interval",
-        "startTime": 5,
-        "endTime": 24,
-        "lossFunctions": [
-          {
-            "type": "Static",
-            "parameters": {}
-          }
-        ]
-      },
-      {
-        "kind": "interval",
-        "startTime": 5,
-        "endTime": 24,
-        "lossFunctions": [
-          {
-            "type": "shotSize",
-            "parameters": {
-              "shotSize": "mediumCloseUp"
-            }
-          }
-        ]
-      },
-      {
-        "kind": "interval",
-        "startTime": 5,
-        "endTime": 24,
-        "lossFunctions": [
-          {
-            "type": "subjectView",
-            "parameters": {
-              "view": "threeQuarterFrontLeft"
-            }
-          }
-        ]
-      },
-      {
-        "kind": "interval",
-        "startTime": 5,
-        "endTime": 24,
-        "lossFunctions": [
-          {
-            "type": "framingPosition",
-            "parameters": {
-              "position": "center"
-            }
-          }
-        ]
+        ],
+        "weight": 1
       },
       {
         "kind": "point",
-        "time": 5,
+        "shotStartTime": 13.5,
+        "time": 13.5,
         "lossFunctions": [
           {
             "type": "shotSize",
             "parameters": {
-              "shotSize": "mediumCloseUp"
-            }
-          },
-          {
-            "type": "subjectView",
-            "parameters": {
-              "view": "threeQuarterFrontLeft"
-            }
-          },
-          {
-            "type": "framingPosition",
-            "parameters": {
-              "position": "center"
+              "shotSize": "mediumCloseUp",
+              "subjectId": "person2"
             }
           }
-        ]
+        ],
+        "weight": 1
       }
     ],
-    "timeWarp": []
+    "timeWarp": [],
+    "cutTimes": [
+      13.5
+    ]
   }
 }

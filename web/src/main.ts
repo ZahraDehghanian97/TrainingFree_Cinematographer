@@ -207,14 +207,19 @@ async function fetchManifest(): Promise<EnvironmentManifest> {
 }
 
 function labelFor(entry: EnvironmentManifestEntry): string {
-  const number = entry.promptExampleId.replace("example-", "");
-  return `Example ${number} · ${entry.title ?? entry.prompt}`;
+  const number = exampleNumber(entry.promptExampleId);
+  return `مثال ${number} · ${entry.title ?? entry.prompt}`;
+}
+
+function exampleNumber(promptExampleId: string): string {
+  return promptExampleId.replace("example-", "")
+    .replace(/\d/g, (digit) => "۰۱۲۳۴۵۶۷۸۹".charAt(Number(digit)));
 }
 
 function shortEnvironmentName(env: EnvironmentV1): string {
-  const number = env.promptExampleId.replace("example-", "");
-  const words = env.id.split("-").slice(2).join(" ");
-  return `Example ${number} · ${words || "scene"}`;
+  const number = exampleNumber(env.promptExampleId);
+  const title = manifest.environments.find((entry) => entry.id === env.id)?.title;
+  return `مثال ${number} · ${title ?? env.prompt}`;
 }
 
 function populateEnvironmentPicker(): void {
@@ -829,8 +834,7 @@ async function selectEnvironment(
     renderer.setEnvironment(environment);
     resetTrajectory();
 
-    const exampleNumber = environment.promptExampleId.replace("example-", "");
-    sceneTitle.textContent = `Example ${exampleNumber} · ${entry.title ?? shortEnvironmentName(environment).split(" · ").slice(1).join(" · ")}`;
+    sceneTitle.textContent = labelFor(entry);
     promptText.textContent = environment.prompt;
     examplePrompt.textContent = entry.prompt || environment.prompt;
     durationValue.textContent = `${environment.clock.durationSeconds.toFixed(1)} s`;

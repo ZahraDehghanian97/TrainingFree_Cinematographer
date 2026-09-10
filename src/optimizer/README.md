@@ -13,6 +13,7 @@ FlattenedTimeline + EnvironmentV1 + UserCameraKeyframe[]
   -> subject visibility and scale preferences
   -> primitive loss plan
   -> compound-aware initialization
+  -> scene-aware candidate selection
   -> dependency-free numerical refinement
   -> position/quaternion/FOV resampling
   -> CameraTrajectoryV1
@@ -137,6 +138,14 @@ or uniform pacing target is added. Numerical initialization chooses a feasible
 starting candidate using seed constants and scene bounds; those values are
 never promoted into compiler targets.
 
+Initialization evaluates coherent candidates for free starting bearing, lens,
+distance, elevation, and movement amounts against the complete scene and loss
+plan. This lets an unspecified arc choose a different radius, side, direction
+(for bare Orbit), or sweep before local refinement. Authored radii, sweeps,
+directions, poses, and framing remain in force. Candidate selection prefers a
+collision-free path when one is available; refinement cannot introduce a
+clearance violation into that path to lower another cost.
+
 `subjectVisibility` softly penalizes a relevant subject falling outside the
 frustum or behind the camera, including overflow of its projected bounds.
 `subjectScaleFloor` penalizes projected subject height below a useful minimum.
@@ -144,6 +153,11 @@ Both have a zero-loss region that leaves composition, distance, and view free.
 They apply per target and time for subject-anchored movement and supported
 subject framing intent. They do not impose centered composition or a medium
 shot.
+
+Unauthored gaps within a shot retain the last relevant subject, or the first
+upcoming subject before any instruction starts. Only visibility and useful
+scale carry across the gap; movement and framing targets do not. Explicit
+actions and cuts bound this fallback, so a pan or a new shot can change focus.
 
 Explicit shot size overrides the scale floor for the same subject and time and
 relaxes bounding-box overflow to allow intentional cropping; subject-center
@@ -161,7 +175,9 @@ The public quality controls are soft objective parameters:
 | --- | --- | --- |
 | `minimumSubjectCoverage` | `0.12` | Minimum projected subject height as a fraction of frame height |
 | `minimumMovementDistance` | `0.25` | Minimum progress in meters when distance is unspecified |
-| `minimumMovementAngleDegrees` | `8` | Minimum sweep or rotation when the angle is unspecified |
+| `minimumDollyDistanceRatio` | `0.3` | Additional free-dolly progress floor as a fraction of the starting camera-to-subject distance |
+| `minimumMovementAngleDegrees` | `8` | Minimum pan, tilt, or roll when the angle is unspecified |
+| `minimumOrbitAngleDegrees` | `30` | Minimum arc sweep when the angle is unspecified |
 | `minimumZoomChangeDegrees` | `2` | Minimum FOV change when the zoom factor is unspecified |
 | `weights.subjectVisibility` | `2.5` | Weight of fallback frustum and bounds visibility |
 | `weights.subjectScaleFloor` | `2.5` | Weight of fallback minimum subject size |
@@ -214,6 +230,11 @@ an authored camera pose or composition target.
 - Output position, rotation, and FOV share tangents across sample boundaries,
   keeping velocity continuous within shots. Height and FOV remain bounded by
   their neighboring samples; zoom reversals retain their lens extremum.
+- Eased composition points blend the complete orientation from the underlying
+  shot toward the requested subject and framing. With no underlying orientation
+  owner, the seed retains the window-entry pose so easing is independent of
+  sample density. Initialization and objective weights use the same authored
+  entrance and release curves.
 - Acceleration and jerk use one subject reference for each derivative window.
   When that reference changes, the entire window uses world coordinates so a
   real camera speed jump cannot be hidden by switching moving subjects.
@@ -244,9 +265,9 @@ same time/channel fail validation.
 
 The state grid contains uniform optimization samples plus timeline boundaries,
 easing boundaries, cuts, user-keyframe times, and adaptive arc samples that keep
-orbit steps at or below 15 degrees. Position uses time-aware cubic Hermite
-resampling within each cut segment, FOV remains linear, and quaternion
-orientation uses shortest-arc SLERP. Dense output therefore does not turn a
+orbit steps at or below 15 degrees. Position, FOV, and quaternion orientation
+use time-aware Hermite resampling within each cut segment, with quaternion
+signs aligned along the shortest arc. Dense output therefore does not turn a
 coarse orbit into a polygon or interpolate toward a post-cut pose.
 
 Refinement uses deterministic simultaneous-perturbation gradient estimates,
@@ -263,3 +284,12 @@ playback clock. Target centers, rotated/scaled bounds, subject orientation,
 ground, collision, and occlusion therefore follow the 4D scene during frozen,
 slow, or fast playback. Follow/Track interpret `followDelay` and `leadAmount`
 as seconds and sample the subject at `playbackTime + leadAmount - followDelay`.
+
+Collision checks sweep the camera between optimization knots, using the same
+Hermite curve as output and a conservative curve bound. Obstacle animation is
+split at animation, time-warp, and exemption boundaries; nonlinear obstacle
+motion is approximated with bounded temporal subdivision. Entity bounds are
+local to the entity transform, just like its rendered geometry. The final
+resampled trajectory is also checked; `maximumSafetyViolationMeters` and a
+warning report unresolved clearance (including conflicting hard keyframes).
+This is a bounded numerical search, not a proof that every scene is feasible.

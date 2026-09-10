@@ -3,7 +3,7 @@
   "kind": "environment",
   "id": "example-14-soft-closeup",
   "promptExampleId": "example-14",
-  "prompt": "از یک مدیوم‌شات سه‌رخ و سکوت ۱.۵ ثانیه‌ای شروع کن؛ بعد همزمان با Dolly In آهسته و یک Arc Right کوتاه به صورت نزدیک شو. در دو ثانیه آخر یک Zoom In خیلی نرم اضافه کن و چهره را روی یک‌سوم چپ قاب در Close Up قفل کن.",
+  "prompt": "از یک نمای متوسط سه‌رخ و سکوت ۱٫۵ ثانیه‌ای شروع کن؛ سپس با حرکت آهستهٔ دوربین به جلو و یک چرخش قوسی کوتاه به راست، به صورت نزدیک شو. در دو ثانیهٔ آخر، زوم بسیار نرمی به جلو اضافه کن و چهره را در نمای نزدیک روی یک‌سوم چپ قاب نگه دار.",
   "clock": {
     "durationSeconds": 10,
     "timeDomain": "playback",
@@ -50,7 +50,7 @@
   "entities": [
     {
       "id": "actor-entity",
-      "label": "Confessing actor",
+      "label": "بازیگر در حال اعتراف",
       "transform": {
         "space": "world",
         "position": {
@@ -150,7 +150,7 @@
     },
     {
       "id": "window-wall",
-      "label": "Cold window wall",
+      "label": "دیوار پنجره با نور سرد",
       "transform": {
         "space": "world",
         "position": [
@@ -186,7 +186,7 @@
     },
     {
       "id": "practical-lamp",
-      "label": "Warm practical light",
+      "label": "چراغ گرم صحنه",
       "transform": {
         "space": "world",
         "position": [
@@ -215,7 +215,7 @@
     },
     {
       "id": "foreground-slat",
-      "label": "Foreground slat",
+      "label": "تیغهٔ پیش‌زمینه",
       "transform": {
         "space": "world",
         "position": [
@@ -255,7 +255,7 @@
     {
       "id": "actor",
       "entityId": "actor-entity",
-      "label": "The actor",
+      "label": "بازیگر",
       "localAnchor": [
         0,
         1.18,
@@ -278,7 +278,7 @@
     {
       "id": "actor_face",
       "entityId": "actor-entity",
-      "label": "The actor's face",
+      "label": "چهرهٔ بازیگر",
       "localAnchor": [
         0,
         1.58,

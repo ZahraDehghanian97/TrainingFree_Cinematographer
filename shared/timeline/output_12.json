@@ -3,7 +3,7 @@
   "kind": "timelineSolverOutput",
   "exampleId": "example-12",
   "environmentId": "example-12-dashboard-exit",
-  "prompt": "از نمای داخل ماشین (Dashboard View) شروع کن، وقتی راننده ترمز کرد، دوربین از شیشه جلو بیرون بیاید و با یک Arc سریع، نمای جلوی ماشین را نشان دهد.",
+  "prompt": "از نمای داخل ماشین و پشت داشبورد شروع کن؛ وقتی راننده ترمز کرد، دوربین از شیشهٔ جلو بیرون بیاید و با یک چرخش قوسی سریع، نمای جلوی ماشین را نشان بدهد.",
   "totalDuration": 18,
   "subjectBinding": {
     "mode": "resolved",
@@ -13,6 +13,7 @@
     "timeline": [
       {
         "kind": "interval",
+        "shotStartTime": 0,
         "startTime": 0,
         "endTime": 8,
         "lossFunctions": [
@@ -28,27 +29,25 @@
       },
       {
         "kind": "point",
+        "shotStartTime": 0,
         "time": 0,
         "lossFunctions": [
           {
-            "type": "shotSize",
+            "type": "minPath",
             "parameters": {
-              "shotSize": "closeUp",
-              "subjectId": "dashboard"
-            }
-          },
-          {
-            "type": "subjectView",
-            "parameters": {
-              "view": "front",
-              "subjectId": "dashboard"
-            }
-          },
-          {
-            "type": "framingPosition",
-            "parameters": {
-              "position": "center",
-              "subjectId": "dashboard"
+              "targetPose": {
+                "position": {
+                  "x": 0,
+                  "y": 1.23,
+                  "z": 30.75
+                },
+                "rotation": {
+                  "x": -0.08444990967903022,
+                  "y": 0,
+                  "z": 0,
+                  "w": 0.9964277258061438
+                }
+              }
             }
           }
         ],
@@ -56,13 +55,13 @@
       },
       {
         "kind": "interval",
+        "shotStartTime": 0,
         "startTime": 8,
         "endTime": 10.5,
         "lossFunctions": [
           {
             "type": "dollyInMovement",
             "parameters": {
-              "distance": 5.5,
               "subjectId": "car",
               "speedKeyframes": [
                 {
@@ -83,26 +82,12 @@
       },
       {
         "kind": "point",
+        "shotStartTime": 0,
         "time": 10.5,
         "lossFunctions": [
           {
-            "type": "shotSize",
+            "type": "subjectPresence",
             "parameters": {
-              "shotSize": "mediumShot",
-              "subjectId": "car"
-            }
-          },
-          {
-            "type": "subjectView",
-            "parameters": {
-              "view": "back",
-              "subjectId": "car"
-            }
-          },
-          {
-            "type": "framingPosition",
-            "parameters": {
-              "position": "center",
               "subjectId": "car"
             }
           }
@@ -111,14 +96,14 @@
       },
       {
         "kind": "interval",
+        "shotStartTime": 0,
         "startTime": 10.5,
         "endTime": 18,
         "lossFunctions": [
           {
             "type": "arcMovement",
             "parameters": {
-              "arcAngle": -180,
-              "arcRadius": 5.5,
+              "sign": 1,
               "subjectId": "car",
               "speedKeyframes": [
                 {
@@ -138,26 +123,13 @@
       },
       {
         "kind": "point",
+        "shotStartTime": 0,
         "time": 18,
         "lossFunctions": [
-          {
-            "type": "shotSize",
-            "parameters": {
-              "shotSize": "mediumShot",
-              "subjectId": "car"
-            }
-          },
           {
             "type": "subjectView",
             "parameters": {
               "view": "front",
-              "subjectId": "car"
-            }
-          },
-          {
-            "type": "framingPosition",
-            "parameters": {
-              "position": "center",
               "subjectId": "car"
             }
           }

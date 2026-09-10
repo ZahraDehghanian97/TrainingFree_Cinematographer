@@ -158,7 +158,9 @@ export interface OptimizerOptions {
   minimumSubjectCoverage?: number;
   /** Soft movement floors prevent unspecified amounts collapsing to no movement. */
   minimumMovementDistance?: number;
+  minimumDollyDistanceRatio?: number;
   minimumMovementAngleDegrees?: number;
+  minimumOrbitAngleDegrees?: number;
   minimumZoomChangeDegrees?: number;
   /** Total automatic motion transition window in seconds. Default 1; 0 disables. */
   motionTransitionSeconds?: number;
@@ -225,6 +227,8 @@ export interface OptimizerDiagnostics {
   conflicts: ConflictResolution[];
   lossBreakdown: LossBreakdownEntry[];
   elapsedMilliseconds: number;
+  /** Largest remaining collision/ground clearance shortfall in meters, including resampling. */
+  maximumSafetyViolationMeters?: number;
   warnings: string[];
 }
 

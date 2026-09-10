@@ -24,6 +24,7 @@ export function flattenTimeline(inputTimeline: TimelineSolverOutput): FlattenedT
       if (c.type === "interval") {
         timeline.push({
           kind: "interval",
+          shotStartTime: startTime ?? 0,
           startTime: c.startTime,
           endTime: c.endTime,
           lossFunctions: [c.lossFunction],
@@ -33,6 +34,7 @@ export function flattenTimeline(inputTimeline: TimelineSolverOutput): FlattenedT
       if (c.type === "singlePoint") {
         timeline.push({
           kind: "point",
+          shotStartTime: startTime ?? 0,
           time: c.time,
           lossFunctions: buildCameraConfigLosses(c.config, c.targets),
           ...(c.weight === undefined ? {} : { weight: c.weight }),
@@ -42,6 +44,7 @@ export function flattenTimeline(inputTimeline: TimelineSolverOutput): FlattenedT
       if (c.type === "lossPoint") {
         timeline.push({
           kind: "point",
+          shotStartTime: startTime ?? 0,
           time: c.time,
           lossFunctions: c.lossFunctions,
           ...(c.weight === undefined ? {} : { weight: c.weight }),
@@ -53,6 +56,7 @@ export function flattenTimeline(inputTimeline: TimelineSolverOutput): FlattenedT
     for (const kf of section.initKeyframes) {
       timeline.push({
         kind: "point",
+        shotStartTime: startTime ?? 0,
         time: kf.time,
         lossFunctions: buildCameraConfigLosses(kf.config, kf.targets),
         ...(kf.weight === undefined ? {} : { weight: kf.weight }),

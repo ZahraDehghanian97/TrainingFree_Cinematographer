@@ -3,75 +3,81 @@
   "kind": "timelineSolverOutput",
   "exampleId": "example-13",
   "environmentId": "example-13-horror-door-v2",
-  "prompt": "ورژن ۲ برای ایجاد حس ترس، دوربین را ۳۰ درجه کج کن و به صورت دستی و لرزان به سمت در نیمه‌باز حرکت کن.",
+  "prompt": "نسخهٔ دوم: برای ایجاد حس ترس، دوربین را ۳۰ درجه کج کن و به‌صورت روی دست و لرزان به سمت در نیمه‌باز حرکت کن.",
   "totalDuration": 7,
+  "subjectBinding": {
+    "mode": "resolved",
+    "source": "resolved-fixture"
+  },
   "timeline": {
     "timeline": [
       {
         "kind": "interval",
+        "shotStartTime": 0,
         "startTime": 0,
-        "endTime": 5,
+        "endTime": 7,
         "lossFunctions": [
           {
             "type": "dutchLeftMovement",
-            "parameters": {}
+            "parameters": {
+              "rotationAngle": 30
+            },
+            "sourceActionId": "dutch_tilt_30"
           }
-        ]
-      },
-      {
-        "kind": "point",
-        "time": 0,
-        "lossFunctions": [
-          {
-            "type": "shotSize",
-            "parameters": {
-              "shotSize": "mediumShot"
-            }
-          },
-          {
-            "type": "subjectView",
-            "parameters": {
-              "view": "front"
-            }
-          },
-          {
-            "type": "framingPosition",
-            "parameters": {
-              "position": "center"
-            }
-          }
-        ]
+        ],
+        "weight": 1
       },
       {
         "kind": "interval",
-        "startTime": 2,
+        "shotStartTime": 0,
+        "startTime": 0,
         "endTime": 7,
         "lossFunctions": [
           {
             "type": "dollyInMovement",
             "parameters": {
-              "distance": 2
-            }
+              "subjectId": "half_open_door",
+              "speedKeyframes": [
+                {
+                  "normalizedTime": 0,
+                  "speedMultiplier": 0
+                },
+                {
+                  "normalizedTime": 0.18,
+                  "speedMultiplier": 1,
+                  "easing": "increase"
+                },
+                {
+                  "normalizedTime": 0.82,
+                  "speedMultiplier": 0.85
+                },
+                {
+                  "normalizedTime": 1,
+                  "speedMultiplier": 0,
+                  "easing": "decrease"
+                }
+              ],
+              "path": "spline",
+              "curveIntensity": 2
+            },
+            "sourceActionId": "handheld_dolly_in"
           }
-        ]
+        ],
+        "weight": 1
       },
       {
         "kind": "point",
+        "shotStartTime": 0,
         "time": 7,
         "lossFunctions": [
           {
-            "type": "shotSize",
+            "type": "subjectPresence",
             "parameters": {
-              "shotSize": "mediumCloseUp"
-            }
-          },
-          {
-            "type": "framingPosition",
-            "parameters": {
-              "position": "center"
+              "subjectId": "half_open_door"
             }
           }
-        ]
+        ],
+        "weight": 1
       }
     ],
     "timeWarp": []

@@ -3,97 +3,94 @@
   "kind": "timelineSolverOutput",
   "exampleId": "example-06",
   "environmentId": "example-06-frozen-orbit",
-  "prompt": "زمان را روی ۲ ثانیه فریز کن و یک دور کامل ۳۶۰ درجه دور سوژه معلق در هوا بچرخ، سپس حرکت را با سرعت عادی ادامه بده.",
+  "prompt": "زمان را در ثانیهٔ ۲ متوقف کن و یک دور کامل ۳۶۰ درجه دور سوژهٔ معلق در هوا بچرخ، سپس حرکت را با سرعت عادی ادامه بده.",
   "totalDuration": 5,
+  "subjectBinding": {
+    "mode": "resolved",
+    "source": "resolved-fixture"
+  },
   "timeline": {
     "timeline": [
       {
         "kind": "interval",
-        "startTime": 0,
-        "endTime": 2,
+        "shotStartTime": 2,
+        "startTime": 2,
+        "endTime": 4,
         "lossFunctions": [
           {
             "type": "arcMovement",
             "parameters": {
+              "sign": 1,
               "arcAngle": 360,
-              "arcRadius": 2
-            }
+              "subjectId": "subject",
+              "speedKeyframes": [
+                {
+                  "normalizedTime": 0,
+                  "speedMultiplier": 0
+                },
+                {
+                  "normalizedTime": 0.15,
+                  "speedMultiplier": 1,
+                  "easing": "increase"
+                },
+                {
+                  "normalizedTime": 0.85,
+                  "speedMultiplier": 1
+                },
+                {
+                  "normalizedTime": 1,
+                  "speedMultiplier": 0,
+                  "easing": "decrease"
+                }
+              ]
+            },
+            "sourceActionId": "frozen_orbit_360"
           }
-        ]
+        ],
+        "weight": 1
       },
       {
         "kind": "interval",
-        "startTime": 0,
-        "endTime": 2,
-        "lossFunctions": [
-          {
-            "type": "shotSize",
-            "parameters": {
-              "shotSize": "mediumShot"
-            }
-          }
-        ]
-      },
-      {
-        "kind": "interval",
-        "startTime": 0,
-        "endTime": 2,
-        "lossFunctions": [
-          {
-            "type": "framingPosition",
-            "parameters": {
-              "position": "center"
-            }
-          }
-        ]
-      },
-      {
-        "kind": "point",
-        "time": 0,
-        "lossFunctions": [
-          {
-            "type": "shotSize",
-            "parameters": {
-              "shotSize": "mediumShot"
-            }
-          },
-          {
-            "type": "subjectView",
-            "parameters": {
-              "view": "front"
-            }
-          },
-          {
-            "type": "framingPosition",
-            "parameters": {
-              "position": "center"
-            }
-          }
-        ]
-      },
-      {
-        "kind": "interval",
+        "shotStartTime": 2,
         "startTime": 2,
+        "endTime": 4,
+        "lossFunctions": [
+          {
+            "type": "subjectPresence",
+            "parameters": {
+              "subjectId": "subject"
+            },
+            "sourceActionId": "frozen_orbit_360"
+          }
+        ],
+        "weight": 1
+      },
+      {
+        "kind": "interval",
+        "shotStartTime": 2,
+        "startTime": 4,
         "endTime": 5,
         "lossFunctions": [
           {
             "type": "followMovement",
             "parameters": {
-              "distance": 2
-            }
+              "subjectId": "subject"
+            },
+            "sourceActionId": "resume_normal_speed"
           }
-        ]
+        ],
+        "weight": 1
       }
     ],
     "timeWarp": [
       {
-        "startTimePlayback": 0,
-        "endTimePlayback": 2,
+        "startTimePlayback": 2,
+        "endTimePlayback": 4,
         "rate": 0,
         "label": "frozen"
       },
       {
-        "startTimePlayback": 2,
+        "startTimePlayback": 4,
         "endTimePlayback": 5,
         "rate": 1,
         "label": "normal"

@@ -28,7 +28,9 @@ export const DEFAULT_GLOBAL_LOSSES = {
 export const DEFAULT_OPTIONS: Required<Omit<OptimizerOptions, "weights" | "globalLosses">> = {
   minimumSubjectCoverage: 0.12,
   minimumMovementDistance: 0.25,
+  minimumDollyDistanceRatio: 0.3,
   minimumMovementAngleDegrees: 8,
+  minimumOrbitAngleDegrees: 30,
   minimumZoomChangeDegrees: 2,
   motionTransitionSeconds: 1,
   optimizationFps: 3,

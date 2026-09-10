@@ -15,6 +15,7 @@ import { assertCameraTrajectoryV1 } from "../web/src/trajectory-loader";
 
 interface GeneratorOptions {
   iterations: number;
+  timelineOnly?: boolean;
   optimizationFps?: number;
   outputFps?: number;
   exampleId?: string;
@@ -35,6 +36,11 @@ function parseOptions(args: readonly string[]): GeneratorOptions {
   for (let index = 0; index < args.length; index += 1) {
     const argument = args[index]!;
     const [name, inlineValue] = argument.split("=", 2);
+    if (name === "--timeline-only") {
+      if (inlineValue !== undefined) throw new Error("--timeline-only does not accept a value");
+      options.timelineOnly = true;
+      continue;
+    }
     const value = inlineValue ?? args[++index];
     if (name === "--iterations") {
       const iterations = Number(value);
@@ -107,6 +113,7 @@ function main(): void {
     process.cwd(),
     "shared/optimized",
   );
+  const timelineDirectory = path.resolve(process.cwd(), "shared/timeline");
 
   const suiteIds = new Set(dontCarePromptExampleFixtures.map(({ id }) => id));
   const selected = resolvedPromptExampleFixtures
@@ -121,6 +128,23 @@ function main(): void {
   selected.forEach(({ fixture, index }) => {
     const environment = loadEnvironment(fixture.id);
     const timeline = flattenTimeline(solveTimeline(fixture.resolvedCsl, environment));
+    writeJsonAtomically(
+      path.join(timelineDirectory, `output_${index + 1}.json`),
+      {
+        schemaVersion: "1.0",
+        kind: "timelineSolverOutput",
+        exampleId: fixture.id,
+        environmentId: fixture.environmentId,
+        prompt: fixture.prompt,
+        totalDuration: fixture.resolvedCsl.totalDuration,
+        subjectBinding: { mode: "resolved", source: "resolved-fixture" },
+        timeline,
+      },
+    );
+    if (options.timelineOnly) {
+      console.log(`${fixture.id}: timeline refreshed`);
+      return;
+    }
     const result = optimizeCameraTrajectory({
       environment,
       timeline,

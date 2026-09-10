@@ -1,0 +1,166 @@
+{
+  "schemaVersion": "1.0",
+  "kind": "timelineSolverOutput",
+  "exampleId": "example-20",
+  "environmentId": "example-20-jogger-reveal",
+  "prompt": "دونده را در مسیر دنبال کن و نگذار درخت جلوی دید را بگیرد. وقتی به میدان رسید، دوربین را بالا ببر تا میدان و آب‌نما آشکار شوند؛ سپس با فاصله و زاویهٔ ثابت او را در قاب نگه دار.",
+  "totalDuration": 10,
+  "subjectBinding": {
+    "mode": "resolved",
+    "source": "resolved-fixture"
+  },
+  "timeline": {
+    "timeline": [
+      {
+        "kind": "interval",
+        "shotStartTime": 0,
+        "startTime": 0,
+        "endTime": 4,
+        "lossFunctions": [
+          {
+            "type": "followMovement",
+            "parameters": {
+              "subjectId": "jogger"
+            },
+            "sourceActionId": "follow_jogger"
+          }
+        ],
+        "weight": 1
+      },
+      {
+        "kind": "interval",
+        "shotStartTime": 0,
+        "startTime": 0,
+        "endTime": 4,
+        "lossFunctions": [
+          {
+            "type": "subjectPresence",
+            "parameters": {
+              "subjectId": "jogger"
+            },
+            "sourceActionId": "follow_jogger"
+          }
+        ],
+        "weight": 1
+      },
+      {
+        "kind": "interval",
+        "shotStartTime": 0,
+        "startTime": 0,
+        "endTime": 4,
+        "lossFunctions": [
+          {
+            "type": "avoidOcclusion",
+            "parameters": {
+              "subjectId": "jogger"
+            },
+            "sourceActionId": "follow_jogger"
+          }
+        ],
+        "weight": 1
+      },
+      {
+        "kind": "interval",
+        "shotStartTime": 0,
+        "startTime": 4,
+        "endTime": 7,
+        "lossFunctions": [
+          {
+            "type": "craneUpMovement",
+            "parameters": {
+              "subjectIds": [
+                "jogger",
+                "fountain"
+              ]
+            },
+            "sourceActionId": "crane_reveal"
+          }
+        ],
+        "weight": 1
+      },
+      {
+        "kind": "point",
+        "shotStartTime": 0,
+        "time": 7,
+        "lossFunctions": [
+          {
+            "type": "keepInFrame",
+            "parameters": {
+              "subjectIds": [
+                "jogger",
+                "fountain"
+              ]
+            },
+            "sourceActionId": "crane_reveal"
+          }
+        ],
+        "weight": 1
+      },
+      {
+        "kind": "interval",
+        "shotStartTime": 0,
+        "startTime": 7,
+        "endTime": 10,
+        "lossFunctions": [
+          {
+            "type": "Static",
+            "parameters": {
+              "subjectId": "jogger"
+            },
+            "sourceActionId": "held_finish"
+          }
+        ],
+        "weight": 1
+      },
+      {
+        "kind": "interval",
+        "shotStartTime": 0,
+        "startTime": 7,
+        "endTime": 10,
+        "lossFunctions": [
+          {
+            "type": "keepInFrame",
+            "parameters": {
+              "subjectId": "jogger"
+            },
+            "sourceActionId": "held_finish"
+          }
+        ],
+        "weight": 1
+      },
+      {
+        "kind": "interval",
+        "shotStartTime": 0,
+        "startTime": 7,
+        "endTime": 10,
+        "lossFunctions": [
+          {
+            "type": "maintainDistance",
+            "parameters": {
+              "subjectId": "jogger"
+            },
+            "sourceActionId": "held_finish"
+          }
+        ],
+        "weight": 1
+      },
+      {
+        "kind": "interval",
+        "shotStartTime": 0,
+        "startTime": 7,
+        "endTime": 10,
+        "lossFunctions": [
+          {
+            "type": "maintainAngle",
+            "parameters": {
+              "subjectId": "jogger"
+            },
+            "sourceActionId": "held_finish"
+          }
+        ],
+        "weight": 1
+      }
+    ],
+    "timeWarp": []
+  }
+}

@@ -3,111 +3,99 @@
   "kind": "timelineSolverOutput",
   "exampleId": "example-10",
   "environmentId": "example-10-race-car",
-  "prompt": "ماشین مسابقه را دنبال کن، اگر سرعت ماشین از ۱۰۰ کیلومتر بیشتر شد، دوربین را بلرزان و عقب بکش تا حس سرعت القا شود.",
+  "prompt": "ماشین مسابقه را دنبال کن؛ اگر سرعت آن از ۱۰۰ کیلومتر بر ساعت بیشتر شد، دوربین را بلرزان و عقب بکش تا حس سرعت القا شود.",
   "totalDuration": 13,
+  "subjectBinding": {
+    "mode": "resolved",
+    "source": "resolved-fixture"
+  },
   "timeline": {
     "timeline": [
       {
         "kind": "interval",
+        "shotStartTime": 0,
         "startTime": 0,
-        "endTime": 3,
+        "endTime": 6.6,
         "lossFunctions": [
           {
             "type": "followMovement",
             "parameters": {
-              "distance": 2
-            }
+              "subjectId": "race_car"
+            },
+            "sourceActionId": "follow_race_car"
           }
-        ]
+        ],
+        "weight": 1
       },
       {
         "kind": "interval",
+        "shotStartTime": 0,
         "startTime": 0,
-        "endTime": 3,
+        "endTime": 6.6,
         "lossFunctions": [
           {
-            "type": "shotSize",
+            "type": "subjectPresence",
             "parameters": {
-              "shotSize": "mediumShot"
-            }
+              "subjectId": "race_car"
+            },
+            "sourceActionId": "follow_race_car"
           }
-        ]
+        ],
+        "weight": 1
       },
       {
         "kind": "interval",
-        "startTime": 0,
-        "endTime": 3,
-        "lossFunctions": [
-          {
-            "type": "framingPosition",
-            "parameters": {
-              "position": "center"
-            }
-          }
-        ]
-      },
-      {
-        "kind": "point",
-        "time": 0,
-        "lossFunctions": [
-          {
-            "type": "shotSize",
-            "parameters": {
-              "shotSize": "mediumShot"
-            }
-          },
-          {
-            "type": "subjectView",
-            "parameters": {
-              "view": "threeQuarterFrontLeft"
-            }
-          },
-          {
-            "type": "framingPosition",
-            "parameters": {
-              "position": "center"
-            }
-          }
-        ]
-      },
-      {
-        "kind": "interval",
-        "startTime": 3,
+        "shotStartTime": 0,
+        "startTime": 6.6,
         "endTime": 13,
         "lossFunctions": [
           {
             "type": "dollyOutMovement",
             "parameters": {
-              "distance": 2
-            }
+              "subjectId": "race_car",
+              "speedKeyframes": [
+                {
+                  "normalizedTime": 0,
+                  "speedMultiplier": 0
+                },
+                {
+                  "normalizedTime": 0.15,
+                  "speedMultiplier": 1.25,
+                  "easing": "increase"
+                },
+                {
+                  "normalizedTime": 0.85,
+                  "speedMultiplier": 1
+                },
+                {
+                  "normalizedTime": 1,
+                  "speedMultiplier": 0.15,
+                  "easing": "decrease"
+                }
+              ],
+              "path": "spline",
+              "curveIntensity": 2
+            },
+            "sourceActionId": "dolly_out_shake"
           }
-        ]
+        ],
+        "weight": 1
       },
       {
         "kind": "interval",
-        "startTime": 3,
+        "shotStartTime": 0,
+        "startTime": 6.6,
         "endTime": 13,
         "lossFunctions": [
           {
-            "type": "shotSize",
+            "type": "subjectPresence",
             "parameters": {
-              "shotSize": "mediumLongShot"
-            }
+              "subjectId": "race_car"
+            },
+            "sourceActionId": "dolly_out_shake"
           }
-        ]
-      },
-      {
-        "kind": "interval",
-        "startTime": 3,
-        "endTime": 13,
-        "lossFunctions": [
-          {
-            "type": "framingPosition",
-            "parameters": {
-              "position": "center"
-            }
-          }
-        ]
+        ],
+        "weight": 1
       }
     ],
     "timeWarp": []

@@ -1,0 +1,222 @@
+{
+  "schemaVersion": "1.0",
+  "kind": "timelineSolverOutput",
+  "exampleId": "example-16",
+  "environmentId": "example-16-two-actor-truck",
+  "prompt": "در یک پلان بدون کات، با حرکت جانبی دوربین به راست هر دو مأمور را در یک نمای دونفره نگه دار. وقتی فاصله‌شان به کمتر از یک متر رسید، زومی کوتاه به جلو روی کیف بزن؛ بلافاصله با چرخش قوسی سریع به راست از خط نگاه عبور کن و همزمان زوم را باز کن تا در پایان جای دو بازیگر عوض شود: مأمور الف در راست قاب و مأمور ب در چپ قاب.",
+  "totalDuration": 10,
+  "subjectBinding": {
+    "mode": "resolved",
+    "source": "resolved-fixture"
+  },
+  "timeline": {
+    "timeline": [
+      {
+        "kind": "interval",
+        "shotStartTime": 0,
+        "startTime": 0,
+        "endTime": 5,
+        "lossFunctions": [
+          {
+            "type": "truckRightMovement",
+            "parameters": {},
+            "sourceActionId": "truck_right_exchange_setup"
+          }
+        ],
+        "weight": 1
+      },
+      {
+        "kind": "interval",
+        "shotStartTime": 0,
+        "startTime": 0,
+        "endTime": 5,
+        "lossFunctions": [
+          {
+            "type": "keepInFrame",
+            "parameters": {
+              "subjectIds": [
+                "actor_a",
+                "actor_b"
+              ]
+            },
+            "sourceActionId": "truck_right_exchange_setup"
+          }
+        ],
+        "weight": 1
+      },
+      {
+        "kind": "interval",
+        "shotStartTime": 0,
+        "startTime": 0,
+        "endTime": 5,
+        "lossFunctions": [
+          {
+            "type": "noShake",
+            "parameters": {},
+            "sourceActionId": "truck_right_exchange_setup"
+          }
+        ],
+        "weight": 2
+      },
+      {
+        "kind": "interval",
+        "shotStartTime": 0,
+        "startTime": 5,
+        "endTime": 6,
+        "lossFunctions": [
+          {
+            "type": "zoomInMovement",
+            "parameters": {},
+            "sourceActionId": "briefcase_punch_in"
+          }
+        ],
+        "weight": 1
+      },
+      {
+        "kind": "point",
+        "shotStartTime": 0,
+        "time": 6,
+        "lossFunctions": [
+          {
+            "type": "subjectPresence",
+            "parameters": {
+              "subjectId": "briefcase"
+            }
+          }
+        ],
+        "weight": 1,
+        "easing": {
+          "inDuration": 0.4,
+          "outDuration": 0.25,
+          "curve": "easeInOut"
+        }
+      },
+      {
+        "kind": "interval",
+        "shotStartTime": 0,
+        "startTime": 6,
+        "endTime": 10,
+        "lossFunctions": [
+          {
+            "type": "arcMovement",
+            "parameters": {
+              "sign": 1,
+              "subjectIds": [
+                "actor_a",
+                "actor_b"
+              ],
+              "speedKeyframes": [
+                {
+                  "normalizedTime": 0,
+                  "speedMultiplier": 0
+                },
+                {
+                  "normalizedTime": 0.15,
+                  "speedMultiplier": 1.9,
+                  "easing": "increase"
+                },
+                {
+                  "normalizedTime": 0.6,
+                  "speedMultiplier": 1.15
+                },
+                {
+                  "normalizedTime": 1,
+                  "speedMultiplier": 0.2,
+                  "easing": "decrease"
+                }
+              ]
+            },
+            "sourceActionId": "axis_flip_arc_right"
+          }
+        ],
+        "weight": 1
+      },
+      {
+        "kind": "interval",
+        "shotStartTime": 0,
+        "startTime": 6,
+        "endTime": 10,
+        "lossFunctions": [
+          {
+            "type": "keepInFrame",
+            "parameters": {
+              "subjectIds": [
+                "actor_a",
+                "actor_b"
+              ]
+            },
+            "sourceActionId": "axis_flip_arc_right"
+          }
+        ],
+        "weight": 1
+      },
+      {
+        "kind": "interval",
+        "shotStartTime": 0,
+        "startTime": 6,
+        "endTime": 10,
+        "lossFunctions": [
+          {
+            "type": "noShake",
+            "parameters": {},
+            "sourceActionId": "axis_flip_arc_right"
+          }
+        ],
+        "weight": 2
+      },
+      {
+        "kind": "interval",
+        "shotStartTime": 0,
+        "startTime": 6,
+        "endTime": 10,
+        "lossFunctions": [
+          {
+            "type": "zoomOutMovement",
+            "parameters": {},
+            "sourceActionId": "exchange_zoom_out"
+          }
+        ],
+        "weight": 1
+      },
+      {
+        "kind": "point",
+        "shotStartTime": 0,
+        "time": 10,
+        "lossFunctions": [
+          {
+            "type": "framingPosition",
+            "parameters": {
+              "position": "right",
+              "subjectId": "actor_a"
+            }
+          }
+        ],
+        "weight": 1,
+        "easing": {
+          "inDuration": 1.5,
+          "curve": "easeOut"
+        }
+      },
+      {
+        "kind": "point",
+        "shotStartTime": 0,
+        "time": 10,
+        "lossFunctions": [
+          {
+            "type": "framingPosition",
+            "parameters": {
+              "position": "left",
+              "subjectId": "actor_b"
+            }
+          }
+        ],
+        "weight": 1,
+        "easing": {
+          "inDuration": 1.5,
+          "curve": "easeOut"
+        }
+      }
+    ],
+    "timeWarp": []
+  }
+}

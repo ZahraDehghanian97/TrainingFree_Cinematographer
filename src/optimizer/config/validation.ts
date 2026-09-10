@@ -97,6 +97,7 @@ export function validateOptimizerInput(input: CameraOptimizerInput): void {
   for (const name of [
     "minimumSubjectCoverage", "minimumMovementDistance",
     "minimumMovementAngleDegrees", "minimumZoomChangeDegrees",
+    "minimumDollyDistanceRatio", "minimumOrbitAngleDegrees",
   ] as const) {
     const value = options?.[name];
     if (value !== undefined && (!Number.isFinite(value) || value < 0)) {

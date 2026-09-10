@@ -1,4 +1,5 @@
-import type { ResolvedCameraDirectionDSL } from "../types/dsl";
+import type { Action, ResolvedCameraDirectionDSL } from "../types/dsl";
+import type { Target } from "../types/camera";
 import { ShotSize, SubjectView, SubjectInFramePosition, CameraMovementType, ComparisonOperator, RelativeTimeReference, CameraVerticalAngle, RelativeFPS, SpeedFunction, ConstraintType } from "../types/enums";
 import { dontCarePromptExampleFixtures } from "./dont-care-examples";
 
@@ -9,30 +10,46 @@ export interface ResolvedPromptExampleFixture {
   resolvedCsl: ResolvedCameraDirectionDSL;
 }
 
+// Qualitative scene beats retain their timing/pacing, while unrequested geometric
+// amounts and framing stay omitted. The optimizer chooses those free dimensions.
+const factoryWorkerA = { id: "worker_a", description: "کارگر الف" };
+const factoryWorkerB = { id: "worker_b", description: "کارگر ب" };
+const factoryWorkers = [factoryWorkerA, factoryWorkerB];
+
+/** Apply the factory prompt's whole-take safety intent to each movement. */
+function withContinuousSafety(actions: Action[]): Action[] {
+  let activeTargets: Target[] = [];
+  return actions.map((action) => {
+    const targets = action.movement.targets?.length
+      ? action.movement.targets
+      : (action.constraints ?? []).flatMap((constraint) => constraint.targets ?? []);
+    if (targets.length) {
+      activeTargets = [...new Map(targets.map((target) => [target.id, target])).values()];
+    }
+    return {
+      ...action,
+      constraints: [
+        ...(action.constraints ?? []),
+        { kind: "general", constraint: ConstraintType.NoShake, allFrames: true },
+        ...(activeTargets.length ? [{
+          kind: "general" as const,
+          constraint: ConstraintType.AvoidOcclusion,
+          targets: activeTargets,
+          allFrames: true,
+        }] : []),
+      ],
+    };
+  });
+}
+
 export const resolvedPromptExampleFixtures: ResolvedPromptExampleFixture[] = [{
   id: "example-01",
   environmentId: "example-01-football",
-  prompt: "توپ رو دنبال کن و وقتی توپ نزدیک به دروازه شد، pedestal کن و از زاویه بالا توپ رو دنبال کن",
+  prompt: "توپ را دنبال کن و وقتی به دروازه نزدیک شد، دوربین را عمودی بالا ببر و توپ را از زاویهٔ بالا دنبال کن.",
   resolvedCsl: {
     totalDuration: 10,
     sections: [
       {
-        initCamera: {
-          targets: [
-            {
-              id: "ball",
-              description: "The ball"
-            }
-          ],
-          config: {
-            type: "subjectAware",
-            shotSize: ShotSize.MediumShot,
-            subjectView: SubjectView.Front,
-            subjectFraming: {
-              position: SubjectInFramePosition.Center
-            }
-          }
-        },
         actions: [
           {
             id: "follow_ball",
@@ -42,15 +59,15 @@ export const resolvedPromptExampleFixtures: ResolvedPromptExampleFixture[] = [{
             },
             movement: {
               act: CameraMovementType.Follow,
-              targets: [{ id: "ball", description: "The ball" }]
+              targets: [{ id: "ball", description: "توپ" }]
             }
           },
           {
             id: "pedestal_up",
             trigger: {
               type: "distance",
-              object1: { id: "ball", description: "The ball" },
-              object2: { id: "goal", description: "The goal" },
+              object1: { id: "ball", description: "توپ" },
+              object2: { id: "goal", description: "دروازه" },
               operator: ComparisonOperator.LessThan,
               distance: 5
             },
@@ -75,19 +92,15 @@ export const resolvedPromptExampleFixtures: ResolvedPromptExampleFixture[] = [{
             },
             movement: {
               act: CameraMovementType.Follow,
-              targets: [{ id: "ball", description: "The ball" }],
+              targets: [{ id: "ball", description: "توپ" }],
               duration: 3
             },
             constraints: [
               {
-                targets: [{ id: "ball", description: "The ball" }],
+                targets: [{ id: "ball", description: "توپ" }],
                 config: {
                   type: "subjectAware",
                   cameraAngle: CameraVerticalAngle.High,
-                  shotSize: ShotSize.MediumShot,
-                  subjectFraming: {
-                    position: SubjectInFramePosition.Center
-                  }
                 },
                 allFrames: true
               }
@@ -101,7 +114,7 @@ export const resolvedPromptExampleFixtures: ResolvedPromptExampleFixture[] = [{
 {
   id: "example-02",
   environmentId: "example-02-face-orbit",
-  prompt: "از زوم روی صورت مرد شروع کن، یک stop motion بزن و ۳ دور کامل دور صورت آن بچرخ",
+  prompt: "از نمای بسیار نزدیک صورت مرد شروع کن، زمان را متوقف کن و سه دور کامل دور صورت او بچرخ.",
   resolvedCsl: {
     totalDuration: 15,
     sections: [
@@ -110,16 +123,12 @@ export const resolvedPromptExampleFixtures: ResolvedPromptExampleFixture[] = [{
           targets: [
             {
               id: "man_face",
-              description: "The man's face"
+              description: "صورت مرد"
             }
           ],
           config: {
             type: "subjectAware",
             shotSize: ShotSize.ExtremeCloseUp,
-            subjectView: SubjectView.Front,
-            subjectFraming: {
-              position: SubjectInFramePosition.Center
-            }
           }
         },
         actions: [
@@ -131,25 +140,12 @@ export const resolvedPromptExampleFixtures: ResolvedPromptExampleFixture[] = [{
             },
             movement: {
               act: CameraMovementType.Orbit,
-              targets: [{ id: "man_face", description: "The man's face" }],
+              targets: [{ id: "man_face", description: "صورت مرد" }],
               relativeFPS: RelativeFPS.Frozen,
               parameters: {
                 arcAngle: 1080
               }
-            },
-            constraints: [
-              {
-                targets: [{ id: "man_face", description: "The man's face" }],
-                config: {
-                  type: "subjectAware",
-                  shotSize: ShotSize.ExtremeCloseUp,
-                  subjectFraming: {
-                    position: SubjectInFramePosition.Center
-                  }
-                },
-                allFrames: true
-              }
-            ]
+            }
           }
         ]
       }
@@ -159,7 +155,7 @@ export const resolvedPromptExampleFixtures: ResolvedPromptExampleFixture[] = [{
 {
   id: "example-03",
   environmentId: "example-03-vase-reveal",
-  prompt: "ابتدا به صورت کلوزآپ گلدون رو نشون بده و بعد dolly out کن تا همزمان گلدون و مانیتور در صحنه دیده‌شوند.",
+  prompt: "ابتدا گلدان را در نمای نزدیک نشان بده، سپس دوربین را عقب بکش تا گلدان و مانیتور همزمان در قاب دیده شوند.",
   resolvedCsl: {
     totalDuration: 20,
     sections: [
@@ -168,16 +164,12 @@ export const resolvedPromptExampleFixtures: ResolvedPromptExampleFixture[] = [{
           targets: [
             {
               id: "vase",
-              description: "The vase (گلدون)"
+              description: "گلدان"
             }
           ],
           config: {
             type: "subjectAware",
             shotSize: ShotSize.CloseUp,
-            subjectView: SubjectView.Front,
-            subjectFraming: {
-              position: SubjectInFramePosition.Center
-            }
           }
         },
         actions: [
@@ -189,7 +181,7 @@ export const resolvedPromptExampleFixtures: ResolvedPromptExampleFixture[] = [{
             },
             movement: {
               act: CameraMovementType.DollyOut,
-              targets: [{ id: "vase", description: "The vase (گلدون)" }],
+              targets: [{ id: "vase", description: "گلدان" }],
               speedKeyframes: [
                 { normalizedTime: 0, speedMultiplier: 0 },
                 { normalizedTime: 0.1, speedMultiplier: 1, easing: SpeedFunction.Increase },
@@ -199,17 +191,12 @@ export const resolvedPromptExampleFixtures: ResolvedPromptExampleFixture[] = [{
             },
             constraints: [
               {
+                kind: "general",
+                constraint: ConstraintType.KeepInFrame,
                 targets: [
-                  { id: "vase", description: "The vase (گلدون)" },
-                  { id: "monitor", description: "The monitor (مانیتور)" }
+                  { id: "vase", description: "گلدان" },
+                  { id: "monitor", description: "مانیتور" }
                 ],
-                config: {
-                  type: "subjectAware",
-                  shotSize: ShotSize.MediumShot,
-                  subjectFraming: {
-                    position: SubjectInFramePosition.Center
-                  }
-                },
                 allFrames: false
               }
             ]
@@ -222,27 +209,11 @@ export const resolvedPromptExampleFixtures: ResolvedPromptExampleFixture[] = [{
 {
   id: "example-04",
   environmentId: "example-04-car-arc",
-  prompt: "به مدت ۲ ثانیه ماشین رو ترک کن و یک arc right دورش بزن و همزمان با arc روی راننده زوم کن",
+  prompt: "دو ثانیه ماشین را تعقیب کن، سپس در یک مسیر قوسی به سمت راست دور آن بچرخ و همزمان روی راننده زوم کن.",
   resolvedCsl: {
     totalDuration: 15,
     sections: [
       {
-        initCamera: {
-          targets: [
-            {
-              id: "car",
-              description: "The car (ماشین)"
-            }
-          ],
-          config: {
-            type: "subjectAware",
-            shotSize: ShotSize.MediumShot,
-            subjectView: SubjectView.Front,
-            subjectFraming: {
-              position: SubjectInFramePosition.Center
-            }
-          }
-        },
         actions: [
           {
             id: "track_car",
@@ -252,7 +223,7 @@ export const resolvedPromptExampleFixtures: ResolvedPromptExampleFixture[] = [{
             },
             movement: {
               act: CameraMovementType.Track,
-              targets: [{ id: "car", description: "The car (ماشین)" }],
+              targets: [{ id: "car", description: "ماشین" }],
               duration: 2
             }
           },
@@ -266,20 +237,8 @@ export const resolvedPromptExampleFixtures: ResolvedPromptExampleFixture[] = [{
             },
             movement: {
               act: CameraMovementType.ArcRight,
-              targets: [{ id: "car", description: "The car (ماشین)" }]
-            },
-            constraints: [
-              {
-                targets: [{ id: "car", description: "The car (ماشین)" }],
-                config: {
-                  type: "subjectAware",
-                  subjectFraming: {
-                    position: SubjectInFramePosition.Center
-                  }
-                },
-                allFrames: true
-              }
-            ]
+              targets: [{ id: "car", description: "ماشین" }]
+            }
           },
           {
             id: "zoom_in_driver",
@@ -297,19 +256,13 @@ export const resolvedPromptExampleFixtures: ResolvedPromptExampleFixture[] = [{
                 { normalizedTime: 0.85, speedMultiplier: 1 },
                 { normalizedTime: 1, speedMultiplier: 0, easing: SpeedFunction.Decrease }
               ],
-              parameters: { zoomFactor: 6 }
             },
             constraints: [
               {
-                targets: [{ id: "driver", description: "The driver (راننده)" }],
-                config: {
-                  type: "subjectAware",
-                  shotSize: ShotSize.MediumCloseUp,
-                  subjectFraming: {
-                    position: SubjectInFramePosition.Center
-                  }
-                },
-                allFrames: false
+                kind: "general",
+                constraint: ConstraintType.KeepInFrame,
+                targets: [{ id: "driver", description: "راننده" }],
+                allFrames: true
               }
             ]
           }
@@ -321,7 +274,7 @@ export const resolvedPromptExampleFixtures: ResolvedPromptExampleFixture[] = [{
 {
   id: "example-05",
   environmentId: "example-05-dolly-zoom",
-  prompt: "روی چهره بازیگر Dolly Out کن و همزمان Zoom In انجام بده تا پرسپکتیو پس‌زمینه تغییر کند اما اندازه صورت ثابت بماند.",
+  prompt: "دوربین را از چهرهٔ بازیگر دور کن و همزمان زوم را بیشتر کن تا پرسپکتیو پس‌زمینه تغییر کند اما اندازهٔ صورت در قاب ثابت بماند.",
   resolvedCsl: {
     totalDuration: 25,
     sections: [
@@ -330,16 +283,12 @@ export const resolvedPromptExampleFixtures: ResolvedPromptExampleFixture[] = [{
           targets: [
             {
               id: "actor_face",
-              description: "The actor's face (چهره بازیگر)"
+              description: "چهرهٔ بازیگر"
             }
           ],
           config: {
             type: "subjectAware",
             shotSize: ShotSize.CloseUp,
-            subjectView: SubjectView.Front,
-            subjectFraming: {
-              position: SubjectInFramePosition.Center
-            }
           }
         },
         actions: [
@@ -351,17 +300,14 @@ export const resolvedPromptExampleFixtures: ResolvedPromptExampleFixture[] = [{
             },
             movement: {
               act: CameraMovementType.DollyOut,
-              targets: [{ id: "actor_face", description: "The actor's face (چهره بازیگر)" }]
+              targets: [{ id: "actor_face", description: "چهرهٔ بازیگر" }]
             },
             constraints: [
               {
-                targets: [{ id: "actor_face", description: "The actor's face (چهره بازیگر)" }],
+                targets: [{ id: "actor_face", description: "چهرهٔ بازیگر" }],
                 config: {
                   type: "subjectAware",
                   shotSize: ShotSize.CloseUp,
-                  subjectFraming: {
-                    position: SubjectInFramePosition.Center
-                  }
                 },
                 allFrames: true
               }
@@ -378,13 +324,10 @@ export const resolvedPromptExampleFixtures: ResolvedPromptExampleFixture[] = [{
             },
             constraints: [
               {
-                targets: [{ id: "actor_face", description: "The actor's face (چهره بازیگر)" }],
+                targets: [{ id: "actor_face", description: "چهرهٔ بازیگر" }],
                 config: {
                   type: "subjectAware",
                   shotSize: ShotSize.CloseUp,
-                  subjectFraming: {
-                    position: SubjectInFramePosition.Center
-                  }
                 },
                 allFrames: true
               }
@@ -398,37 +341,21 @@ export const resolvedPromptExampleFixtures: ResolvedPromptExampleFixture[] = [{
 {
   id: "example-06",
   environmentId: "example-06-frozen-orbit",
-  prompt: "زمان را روی ۲ ثانیه فریز کن و یک دور کامل ۳۶۰ درجه دور سوژه معلق در هوا بچرخ، سپس حرکت را با سرعت عادی ادامه بده.",
+  prompt: "زمان را در ثانیهٔ ۲ متوقف کن و یک دور کامل ۳۶۰ درجه دور سوژهٔ معلق در هوا بچرخ، سپس حرکت را با سرعت عادی ادامه بده.",
   resolvedCsl: {
     totalDuration: 5,
     sections: [
       {
-        initCamera: {
-          targets: [
-            {
-              id: "subject",
-              description: "The subject"
-            }
-          ],
-          config: {
-            type: "subjectAware",
-            shotSize: ShotSize.MediumShot,
-            subjectView: SubjectView.Front,
-            subjectFraming: {
-              position: SubjectInFramePosition.Center
-            }
-          }
-        },
         actions: [
           {
             id: "frozen_orbit_360",
             trigger: {
               type: "absoluteTime",
-              time: 0
+              time: 2
             },
             movement: {
               act: CameraMovementType.Orbit,
-              targets: [{ id: "subject", description: "The subject" }],
+              targets: [{ id: "subject", description: "سوژه" }],
               duration: 2,
               relativeFPS: RelativeFPS.Frozen,
               speedKeyframes: [
@@ -443,13 +370,9 @@ export const resolvedPromptExampleFixtures: ResolvedPromptExampleFixture[] = [{
             },
             constraints: [
               {
-                targets: [{ id: "subject", description: "The subject" }],
+                targets: [{ id: "subject", description: "سوژه" }],
                 config: {
                   type: "subjectAware",
-                  shotSize: ShotSize.MediumShot,
-                  subjectFraming: {
-                    position: SubjectInFramePosition.Center
-                  }
                 },
                 allFrames: true
               }
@@ -465,9 +388,8 @@ export const resolvedPromptExampleFixtures: ResolvedPromptExampleFixture[] = [{
             },
             movement: {
               act: CameraMovementType.Follow,
-              targets: [{ id: "subject", description: "The subject" }],
+              targets: [{ id: "subject", description: "سوژه" }],
               relativeFPS: RelativeFPS.Normal,
-              parameters: { followDelay: 0.1, leadAmount: 0.1 }
             }
           }
         ]
@@ -478,7 +400,7 @@ export const resolvedPromptExampleFixtures: ResolvedPromptExampleFixture[] = [{
 {
   id: "example-07",
   environmentId: "example-07-spiral-closeup",
-  prompt: "از نمای بالا شروع کن و با یک حرکت حلزونی همزمان که می‌چرخی، به سوژه نزدیک شو تا به کلوزآپ چشم‌هایش برسی.",
+  prompt: "از نمای بالا شروع کن و با یک حرکت حلزونی، همزمان با یک دور کامل چرخش به سوژه نزدیک شو تا به نمای نزدیک چشم‌هایش برسی.",
   resolvedCsl: {
     totalDuration: 9,
     sections: [
@@ -487,17 +409,12 @@ export const resolvedPromptExampleFixtures: ResolvedPromptExampleFixture[] = [{
           targets: [
             {
               id: "subject",
-              description: "The subject"
+              description: "سوژه"
             }
           ],
           config: {
             type: "subjectAware",
             cameraAngle: CameraVerticalAngle.BirdsEye,
-            shotSize: ShotSize.LongShot,
-            subjectView: SubjectView.Front,
-            subjectFraming: {
-              position: SubjectInFramePosition.Center
-            }
           }
         },
         actions: [
@@ -509,26 +426,20 @@ export const resolvedPromptExampleFixtures: ResolvedPromptExampleFixture[] = [{
             },
             movement: {
               act: CameraMovementType.Orbit,
-              targets: [{ id: "subject", description: "The subject" }],
+              targets: [{ id: "subject", description: "سوژه" }],
+              parameters: { arcAngle: 360 },
               speedKeyframes: [
                 { normalizedTime: 0, speedMultiplier: 0 },
                 { normalizedTime: 0.15, speedMultiplier: 1, easing: SpeedFunction.Increase },
                 { normalizedTime: 0.85, speedMultiplier: 1 },
                 { normalizedTime: 1, speedMultiplier: 0, easing: SpeedFunction.Decrease }
               ],
-              parameters: {
-                arcAngle: 720,
-                path: "spline"
-              }
             },
             constraints: [
               {
-                targets: [{ id: "subject", description: "The subject" }],
+                targets: [{ id: "subject", description: "سوژه" }],
                 config: {
                   type: "subjectAware",
-                  subjectFraming: {
-                    position: SubjectInFramePosition.Center
-                  }
                 },
                 allFrames: true
               }
@@ -542,30 +453,23 @@ export const resolvedPromptExampleFixtures: ResolvedPromptExampleFixture[] = [{
             },
             movement: {
               act: CameraMovementType.DollyIn,
-              targets: [{ id: "subject_eyes", description: "The subject's eyes (چشم‌های سوژه)" }],
+              targets: [{ id: "subject_eyes", description: "چشم‌های سوژه" }],
               speedKeyframes: [
                 { normalizedTime: 0, speedMultiplier: 0 },
                 { normalizedTime: 0.15, speedMultiplier: 1, easing: SpeedFunction.Increase },
                 { normalizedTime: 0.85, speedMultiplier: 1 },
                 { normalizedTime: 1, speedMultiplier: 0, easing: SpeedFunction.Decrease }
               ],
-              parameters: {
-                distance: 7.1,
-                allowSubjectIntersection: true
-              }
             },
             constraints: [
               {
-                targets: [{ id: "subject_eyes", description: "The subject's eyes (چشم‌های سوژه)" }],
+                targets: [{ id: "subject_eyes", description: "چشم‌های سوژه" }],
                 config: {
                   type: "subjectAware",
-                  cameraAngle: CameraVerticalAngle.Eye,
                   shotSize: ShotSize.CloseUp,
-                  subjectFraming: {
-                    position: SubjectInFramePosition.Center
-                  }
                 },
-                allFrames: false
+                allFrames: false,
+                easing: { inDuration: 3, curve: "easeInOut" }
               }
             ]
           }
@@ -577,27 +481,11 @@ export const resolvedPromptExampleFixtures: ResolvedPromptExampleFixture[] = [{
 {
   id: "example-08",
   environmentId: "example-08-punch-impact",
-  prompt: "ابتدا صحنه مشت زدن را با Slow Motion (سرعت ۱۰٪) نشان بده و درست لحظه برخورد، سرعت را به Hyper Fast تغییر بده و روی محل ضربه زوم کن.",
+  prompt: "ابتدا صحنهٔ مشت‌زدن را با حرکت آهسته و سرعت ۱۰٪ نشان بده؛ درست در لحظهٔ برخورد، سرعت را بسیار زیاد کن و روی محل ضربه زوم کن.",
   resolvedCsl: {
     totalDuration: 12,
     sections: [
       {
-        initCamera: {
-          targets: [
-            {
-              id: "fist",
-              description: "The fist (مشت)"
-            }
-          ],
-          config: {
-            type: "subjectAware",
-            shotSize: ShotSize.MediumShot,
-            subjectView: SubjectView.ThreeQuarterFrontRight,
-            subjectFraming: {
-              position: SubjectInFramePosition.Center
-            }
-          }
-        },
         actions: [
           {
             id: "slow_motion_punch",
@@ -607,18 +495,14 @@ export const resolvedPromptExampleFixtures: ResolvedPromptExampleFixture[] = [{
             },
             movement: {
               act: CameraMovementType.Follow,
-              targets: [{ id: "fist", description: "The fist (مشت)" }],
+              targets: [{ id: "fist", description: "مشت" }],
               relativeFPS: RelativeFPS.VerySlow
             },
             constraints: [
               {
-                targets: [{ id: "fist", description: "The fist (مشت)" }],
+                targets: [{ id: "fist", description: "مشت" }],
                 config: {
                   type: "subjectAware",
-                  shotSize: ShotSize.MediumShot,
-                  subjectFraming: {
-                    position: SubjectInFramePosition.Center
-                  }
                 },
                 allFrames: true
               }
@@ -628,14 +512,14 @@ export const resolvedPromptExampleFixtures: ResolvedPromptExampleFixture[] = [{
             id: "hyper_fast_impact",
             trigger: {
               type: "distance",
-              object1: { id: "fist", description: "The fist (مشت)" },
-              object2: { id: "target", description: "The impact target (محل ضربه)" },
+              object1: { id: "fist", description: "مشت" },
+              object2: { id: "target", description: "هدف ضربه" },
               operator: ComparisonOperator.LessThanOrEqual,
               distance: 0
             },
             movement: {
               act: CameraMovementType.Static,
-              targets: [{ id: "impact_point", description: "The point of impact (محل ضربه)" }],
+              targets: [{ id: "impact_point", description: "محل برخورد ضربه" }],
               relativeFPS: RelativeFPS.VeryFast
             }
           },
@@ -643,8 +527,8 @@ export const resolvedPromptExampleFixtures: ResolvedPromptExampleFixture[] = [{
             id: "zoom_in_impact",
             trigger: {
               type: "distance",
-              object1: { id: "fist", description: "The fist (مشت)" },
-              object2: { id: "target", description: "The impact target (محل ضربه)" },
+              object1: { id: "fist", description: "مشت" },
+              object2: { id: "target", description: "هدف ضربه" },
               operator: ComparisonOperator.LessThanOrEqual,
               distance: 0
             },
@@ -653,13 +537,9 @@ export const resolvedPromptExampleFixtures: ResolvedPromptExampleFixture[] = [{
             },
             constraints: [
               {
-                targets: [{ id: "impact_point", description: "The point of impact (محل ضربه)" }],
+                targets: [{ id: "impact_point", description: "محل برخورد ضربه" }],
                 config: {
                   type: "subjectAware",
-                  shotSize: ShotSize.ExtremeCloseUp,
-                  subjectFraming: {
-                    position: SubjectInFramePosition.Center
-                  }
                 },
                 allFrames: false
               }
@@ -673,23 +553,19 @@ export const resolvedPromptExampleFixtures: ResolvedPromptExampleFixture[] = [{
 {
   id: "example-09",
   environmentId: "example-09-two-people",
-  prompt: "دو نفر را در نمای Long Shot دنبال کن؛ به محض اینکه فاصله آن‌ها به کمتر از ۱ متر رسید، کات بزن به Over-the-Shoulder (نمای روی شانه).",
+  prompt: "دو نفر را در نمای دور دنبال کن؛ به‌محض اینکه فاصلهٔ آن‌ها به کمتر از یک متر رسید، به نمای روی شانه کات بزن.",
   resolvedCsl: {
     totalDuration: 24,
     sections: [
       {
         initCamera: {
           targets: [
-            { id: "person1", description: "First person (نفر اول)" },
-            { id: "person2", description: "Second person (نفر دوم)" }
+            { id: "person1", description: "نفر اول" },
+            { id: "person2", description: "نفر دوم" }
           ],
           config: {
             type: "subjectAware",
             shotSize: ShotSize.LongShot,
-            subjectView: SubjectView.Front,
-            subjectFraming: {
-              position: SubjectInFramePosition.Center
-            }
           }
         },
         actions: [
@@ -702,22 +578,19 @@ export const resolvedPromptExampleFixtures: ResolvedPromptExampleFixture[] = [{
             movement: {
               act: CameraMovementType.Follow,
               targets: [
-                { id: "person1", description: "First person (نفر اول)" },
-                { id: "person2", description: "Second person (نفر دوم)" }
+                { id: "person1", description: "نفر اول" },
+                { id: "person2", description: "نفر دوم" }
               ]
             },
             constraints: [
               {
                 targets: [
-                  { id: "person1", description: "First person (نفر اول)" },
-                  { id: "person2", description: "Second person (نفر دوم)" }
+                  { id: "person1", description: "نفر اول" },
+                  { id: "person2", description: "نفر دوم" }
                 ],
                 config: {
                   type: "subjectAware",
                   shotSize: ShotSize.LongShot,
-                  subjectFraming: {
-                    position: SubjectInFramePosition.Center
-                  }
                 },
                 allFrames: true
               }
@@ -728,15 +601,11 @@ export const resolvedPromptExampleFixtures: ResolvedPromptExampleFixture[] = [{
       {
         initCamera: {
           targets: [
-            { id: "person2", description: "Second person (نفر دوم)" }
+            { id: "person2", description: "نفر دوم" }
           ],
           config: {
             type: "subjectAware",
             shotSize: ShotSize.MediumCloseUp,
-            subjectView: SubjectView.ThreeQuarterFrontLeft,
-            subjectFraming: {
-              position: SubjectInFramePosition.Center
-            }
           }
         },
         actions: [
@@ -744,32 +613,28 @@ export const resolvedPromptExampleFixtures: ResolvedPromptExampleFixture[] = [{
             id: "ots_cut",
             trigger: {
               type: "distance",
-              object1: { id: "person1", description: "First person (نفر اول)" },
-              object2: { id: "person2", description: "Second person (نفر دوم)" },
+              object1: { id: "person1", description: "نفر اول" },
+              object2: { id: "person2", description: "نفر دوم" },
               operator: ComparisonOperator.LessThan,
               distance: 1
             },
             movement: {
               act: CameraMovementType.Follow,
-              targets: [{ id: "person2", description: "Second person (نفر دوم)" }]
+              targets: [{ id: "person2", description: "نفر دوم" }]
             },
             constraints: [
               {
                 targets: [
-                  { id: "person1_shoulder", description: "First person's shoulder (شانه نفر اول)" },
-                  { id: "person2", description: "Second person (نفر دوم)" }
+                  { id: "person1_shoulder", description: "شانهٔ نفر اول" },
+                  { id: "person2", description: "نفر دوم" }
                 ],
                 config: {
                   type: "subjectAware",
-                  shotSize: ShotSize.MediumCloseUp,
-                  subjectFraming: {
-                    position: SubjectInFramePosition.Center
-                  }
                 },
                 allFrames: true
               },
               {
-                targets: [{ id: "person2", description: "Second person (نفر دوم)" }],
+                targets: [{ id: "person2", description: "نفر دوم" }],
                 config: {
                   type: "subjectAware",
                   subjectView: SubjectView.ThreeQuarterFrontLeft
@@ -786,27 +651,11 @@ export const resolvedPromptExampleFixtures: ResolvedPromptExampleFixture[] = [{
 {
   id: "example-10",
   environmentId: "example-10-race-car",
-  prompt: "ماشین مسابقه را دنبال کن، اگر سرعت ماشین از ۱۰۰ کیلومتر بیشتر شد، دوربین را بلرزان و عقب بکش تا حس سرعت القا شود.",
+  prompt: "ماشین مسابقه را دنبال کن؛ اگر سرعت آن از ۱۰۰ کیلومتر بر ساعت بیشتر شد، دوربین را بلرزان و عقب بکش تا حس سرعت القا شود.",
   resolvedCsl: {
     totalDuration: 13,
     sections: [
       {
-        initCamera: {
-          targets: [
-            {
-              id: "race_car",
-              description: "The racing car (ماشین مسابقه)"
-            }
-          ],
-          config: {
-            type: "subjectAware",
-            shotSize: ShotSize.MediumShot,
-            subjectView: SubjectView.ThreeQuarterFrontLeft,
-            subjectFraming: {
-              position: SubjectInFramePosition.Center
-            }
-          }
-        },
         actions: [
           {
             id: "follow_race_car",
@@ -816,17 +665,13 @@ export const resolvedPromptExampleFixtures: ResolvedPromptExampleFixture[] = [{
             },
             movement: {
               act: CameraMovementType.Follow,
-              targets: [{ id: "race_car", description: "The racing car (ماشین مسابقه)" }]
+              targets: [{ id: "race_car", description: "ماشین مسابقه" }]
             },
             constraints: [
               {
-                targets: [{ id: "race_car", description: "The racing car (ماشین مسابقه)" }],
+                targets: [{ id: "race_car", description: "ماشین مسابقه" }],
                 config: {
                   type: "subjectAware",
-                  shotSize: ShotSize.MediumShot,
-                  subjectFraming: {
-                    position: SubjectInFramePosition.Center
-                  }
                 },
                 allFrames: true
               }
@@ -836,13 +681,13 @@ export const resolvedPromptExampleFixtures: ResolvedPromptExampleFixture[] = [{
             id: "dolly_out_shake",
             trigger: {
               type: "velocity",
-              subject: { id: "race_car", description: "The racing car (ماشین مسابقه)" },
+              subject: { id: "race_car", description: "ماشین مسابقه" },
               operator: ComparisonOperator.GreaterThan,
-              speed: 27.78 // 100 km/h in m/s
+              speed: 100 / 3.6 // 100 km/h in m/s, without shifting the threshold
             },
             movement: {
               act: CameraMovementType.DollyOut,
-              targets: [{ id: "race_car", description: "The racing car (ماشین مسابقه)" }],
+              targets: [{ id: "race_car", description: "ماشین مسابقه" }],
               speedKeyframes: [
                 { normalizedTime: 0, speedMultiplier: 0 },
                 { normalizedTime: 0.15, speedMultiplier: 1.25, easing: SpeedFunction.Increase },
@@ -850,20 +695,15 @@ export const resolvedPromptExampleFixtures: ResolvedPromptExampleFixture[] = [{
                 { normalizedTime: 1, speedMultiplier: 0.15, easing: SpeedFunction.Decrease }
               ],
               parameters: {
-                distance: 4,
                 path: "spline",
                 curveIntensity: 2
               }
             },
             constraints: [
               {
-                targets: [{ id: "race_car", description: "The racing car (ماشین مسابقه)" }],
+                targets: [{ id: "race_car", description: "ماشین مسابقه" }],
                 config: {
                   type: "subjectAware",
-                  shotSize: ShotSize.MediumLongShot,
-                  subjectFraming: {
-                    position: SubjectInFramePosition.Center
-                  }
                 },
                 allFrames: true
               }
@@ -877,27 +717,11 @@ export const resolvedPromptExampleFixtures: ResolvedPromptExampleFixture[] = [{
 {
   id: "example-11",
   environmentId: "example-11-horror-door",
-  prompt: "برای ایجاد حس ترس، دوربین را ۳۰ درجه کج کن و به صورت دستی و لرزان به سمت در نیمه‌باز حرکت کن.",
+  prompt: "برای ایجاد حس ترس، دوربین را ۳۰ درجه کج کن و به‌صورت روی دست و لرزان به سمت در نیمه‌باز حرکت کن.",
   resolvedCsl: {
     totalDuration: 6,
     sections: [
       {
-        initCamera: {
-          targets: [
-            {
-              id: "half_open_door",
-              description: "The half-open door (در نیمه‌باز)"
-            }
-          ],
-          config: {
-            type: "subjectAware",
-            shotSize: ShotSize.MediumShot,
-            subjectView: SubjectView.Front,
-            subjectFraming: {
-              position: SubjectInFramePosition.Center
-            }
-          }
-        },
         actions: [
           {
             id: "dutch_tilt_30",
@@ -920,7 +744,7 @@ export const resolvedPromptExampleFixtures: ResolvedPromptExampleFixture[] = [{
             },
             movement: {
               act: CameraMovementType.DollyIn,
-              targets: [{ id: "half_open_door", description: "The half-open door (در نیمه‌باز)" }],
+              targets: [{ id: "half_open_door", description: "در نیمه‌باز" }],
               speedKeyframes: [
                 { normalizedTime: 0, speedMultiplier: 0 },
                 { normalizedTime: 0.18, speedMultiplier: 1, easing: SpeedFunction.Increase },
@@ -928,20 +752,15 @@ export const resolvedPromptExampleFixtures: ResolvedPromptExampleFixture[] = [{
                 { normalizedTime: 1, speedMultiplier: 0, easing: SpeedFunction.Decrease }
               ],
               parameters: {
-                distance: 2.8,
                 path: "spline",
                 curveIntensity: 1
               }
             },
             constraints: [
               {
-                targets: [{ id: "half_open_door", description: "The half-open door (در نیمه‌باز)" }],
+                targets: [{ id: "half_open_door", description: "در نیمه‌باز" }],
                 config: {
                   type: "subjectAware",
-                  shotSize: ShotSize.MediumCloseUp,
-                  subjectFraming: {
-                    position: SubjectInFramePosition.Center
-                  }
                 },
                 allFrames: true
               }
@@ -955,7 +774,7 @@ export const resolvedPromptExampleFixtures: ResolvedPromptExampleFixture[] = [{
 {
   id: "example-12",
   environmentId: "example-12-dashboard-exit",
-  prompt: "از نمای داخل ماشین (Dashboard View) شروع کن، وقتی راننده ترمز کرد، دوربین از شیشه جلو بیرون بیاید و با یک Arc سریع، نمای جلوی ماشین را نشان دهد.",
+  prompt: "از نمای داخل ماشین و پشت داشبورد شروع کن؛ وقتی راننده ترمز کرد، دوربین از شیشهٔ جلو بیرون بیاید و با یک چرخش قوسی سریع، نمای جلوی ماشین را نشان بدهد.",
   resolvedCsl: {
     totalDuration: 18,
     sections: [
@@ -964,7 +783,7 @@ export const resolvedPromptExampleFixtures: ResolvedPromptExampleFixture[] = [{
           targets: [
             {
               id: "dashboard",
-              description: "The car's dashboard interior view (نمای داخل ماشین از داشبورد)"
+              description: "نمای داخل ماشین از پشت داشبورد"
             }
           ],
           config: {
@@ -980,7 +799,6 @@ export const resolvedPromptExampleFixtures: ResolvedPromptExampleFixture[] = [{
                 }
               }
             },
-            intrinsics: { fov: 48 }
           }
         },
         actions: [
@@ -995,7 +813,7 @@ export const resolvedPromptExampleFixtures: ResolvedPromptExampleFixture[] = [{
               targets: [
                 {
                   id: "dashboard",
-                  description: "The car's dashboard interior view (نمای داخل ماشین از داشبورد)"
+                  description: "نمای داخل ماشین از پشت داشبورد"
                 }
               ]
             }
@@ -1003,31 +821,27 @@ export const resolvedPromptExampleFixtures: ResolvedPromptExampleFixture[] = [{
           {
             id: "exit_through_windshield",
             trigger: {
-              type: "absoluteTime",
-              time: 8
+              type: "velocity",
+              subject: { id: "car", description: "ماشین" },
+              operator: ComparisonOperator.LessThan,
+              speed: 5
             },
             movement: {
               act: CameraMovementType.DollyIn,
-              targets: [{ id: "car", description: "The car (ماشین)" }],
+              targets: [{ id: "car", description: "ماشین" }],
               duration: 2.5,
               speedKeyframes: [
                 { normalizedTime: 0, speedMultiplier: 1 },
                 { normalizedTime: 1, speedMultiplier: 2 }
               ],
               parameters: {
-                distance: 5.5,
                 allowSubjectIntersection: true
               }
             },
             constraints: [{
-              targets: [{ id: "car", description: "The car (ماشین)" }],
+              targets: [{ id: "car", description: "ماشین" }],
               config: {
                 type: "subjectAware",
-                shotSize: ShotSize.MediumShot,
-                subjectView: SubjectView.Back,
-                subjectFraming: {
-                  position: SubjectInFramePosition.Center
-                }
               },
               allFrames: false
             }]
@@ -1042,28 +856,18 @@ export const resolvedPromptExampleFixtures: ResolvedPromptExampleFixture[] = [{
             },
             movement: {
               act: CameraMovementType.ArcRight,
-              targets: [{ id: "car", description: "The car (ماشین)" }],
+              targets: [{ id: "car", description: "ماشین" }],
               speedKeyframes: [
                 { normalizedTime: 0, speedMultiplier: 2 },
                 { normalizedTime: 1, speedMultiplier: 1 }
               ],
-              parameters: {
-                arcAngle: 180,
-                arcRadius: 5.5,
-                path: "spline",
-                curveIntensity: 2
-              }
             },
             constraints: [
               {
-                targets: [{ id: "car", description: "The car (ماشین)" }],
+                targets: [{ id: "car", description: "ماشین" }],
                 config: {
                   type: "subjectAware",
-                  shotSize: ShotSize.MediumShot,
                   subjectView: SubjectView.Front,
-                  subjectFraming: {
-                    position: SubjectInFramePosition.Center
-                  }
                 },
                 allFrames: false
               }
@@ -1078,27 +882,11 @@ export const resolvedPromptExampleFixtures: ResolvedPromptExampleFixture[] = [{
 {
   id: "example-13",
   environmentId: "example-13-horror-door-v2",
-  prompt: "ورژن ۲ برای ایجاد حس ترس، دوربین را ۳۰ درجه کج کن و به صورت دستی و لرزان به سمت در نیمه‌باز حرکت کن.",
+  prompt: "نسخهٔ دوم: برای ایجاد حس ترس، دوربین را ۳۰ درجه کج کن و به‌صورت روی دست و لرزان به سمت در نیمه‌باز حرکت کن.",
   resolvedCsl: {
     totalDuration: 7,
     sections: [
       {
-        initCamera: {
-          targets: [
-            {
-              id: "half_open_door",
-              description: "The half-open door (در نیمه‌باز)"
-            }
-          ],
-          config: {
-            type: "subjectAware",
-            shotSize: ShotSize.MediumShot,
-            subjectView: SubjectView.Front,
-            subjectFraming: {
-              position: SubjectInFramePosition.Center
-            }
-          }
-        },
         actions: [
           {
             id: "dutch_tilt_30",
@@ -1122,7 +910,7 @@ export const resolvedPromptExampleFixtures: ResolvedPromptExampleFixture[] = [{
             },
             movement: {
               act: CameraMovementType.DollyIn,
-              targets: [{ id: "half_open_door", description: "The half-open door (در نیمه‌باز)" }],
+              targets: [{ id: "half_open_door", description: "در نیمه‌باز" }],
               duration: 7,
               speedKeyframes: [
                 { normalizedTime: 0, speedMultiplier: 0 },
@@ -1131,20 +919,15 @@ export const resolvedPromptExampleFixtures: ResolvedPromptExampleFixture[] = [{
                 { normalizedTime: 1, speedMultiplier: 0, easing: SpeedFunction.Decrease }
               ],
               parameters: {
-                distance: 3.2,
                 path: "spline",
                 curveIntensity: 2
               }
             },
             constraints: [
               {
-                targets: [{ id: "half_open_door", description: "The half-open door (در نیمه‌باز)" }],
+                targets: [{ id: "half_open_door", description: "در نیمه‌باز" }],
                 config: {
                   type: "subjectAware",
-                  shotSize: ShotSize.MediumCloseUp,
-                  subjectFraming: {
-                    position: SubjectInFramePosition.Center
-                  }
                 },
                 allFrames: false
               }
@@ -1158,17 +941,16 @@ export const resolvedPromptExampleFixtures: ResolvedPromptExampleFixture[] = [{
 {
   id: "example-14",
   environmentId: "example-14-soft-closeup",
-  prompt: "از یک مدیوم‌شات سه‌رخ و سکوت ۱.۵ ثانیه‌ای شروع کن؛ بعد همزمان با Dolly In آهسته و یک Arc Right کوتاه به صورت نزدیک شو. در دو ثانیه آخر یک Zoom In خیلی نرم اضافه کن و چهره را روی یک‌سوم چپ قاب در Close Up قفل کن.",
+  prompt: "از یک نمای متوسط سه‌رخ و سکوت ۱٫۵ ثانیه‌ای شروع کن؛ سپس با حرکت آهستهٔ دوربین به جلو و یک چرخش قوسی کوتاه به راست، به صورت نزدیک شو. در دو ثانیهٔ آخر، زوم بسیار نرمی به جلو اضافه کن و چهره را در نمای نزدیک روی یک‌سوم چپ قاب نگه دار.",
   resolvedCsl: {
     totalDuration: 10,
     sections: [{
       initCamera: {
-        targets: [{ id: "actor", description: "The actor" }],
+        targets: [{ id: "actor", description: "بازیگر" }],
         config: {
           type: "subjectAware",
           shotSize: ShotSize.MediumShot,
           subjectView: SubjectView.ThreeQuarterFrontLeft,
-          subjectFraming: { position: SubjectInFramePosition.Center }
         }
       },
       actions: [
@@ -1180,12 +962,11 @@ export const resolvedPromptExampleFixtures: ResolvedPromptExampleFixture[] = [{
             duration: 1.5
           },
           constraints: [{
-            targets: [{ id: "actor", description: "The actor" }],
+            targets: [{ id: "actor", description: "بازیگر" }],
             config: {
               type: "subjectAware",
               shotSize: ShotSize.MediumShot,
               subjectView: SubjectView.ThreeQuarterFrontLeft,
-              subjectFraming: { position: SubjectInFramePosition.Center }
             },
             allFrames: true
           }]
@@ -1200,7 +981,7 @@ export const resolvedPromptExampleFixtures: ResolvedPromptExampleFixture[] = [{
           },
           movement: {
             act: CameraMovementType.DollyIn,
-            targets: [{ id: "actor_face", description: "The actor's face" }],
+            targets: [{ id: "actor_face", description: "چهرهٔ بازیگر" }],
             duration: 8.5,
             speedKeyframes: [
               { normalizedTime: 0, speedMultiplier: 0 },
@@ -1208,23 +989,7 @@ export const resolvedPromptExampleFixtures: ResolvedPromptExampleFixture[] = [{
               { normalizedTime: 0.7, speedMultiplier: 0.9 },
               { normalizedTime: 1, speedMultiplier: 0.1, easing: SpeedFunction.Decrease }
             ],
-            parameters: {
-              distance: 3.7,
-              path: "spline",
-              curveIntensity: 2
-            }
-          },
-          constraints: [{
-            targets: [{ id: "actor_face", description: "The actor's face" }],
-            config: {
-              type: "subjectAware",
-              shotSize: ShotSize.CloseUp,
-              subjectView: SubjectView.ThreeQuarterFrontLeft,
-              subjectFraming: { position: SubjectInFramePosition.Left }
-            },
-            allFrames: false,
-            easing: { inDuration: 2, curve: "easeInOut" }
-          }]
+          }
         },
         {
           id: "confession_arc_right",
@@ -1236,7 +1001,7 @@ export const resolvedPromptExampleFixtures: ResolvedPromptExampleFixture[] = [{
           },
           movement: {
             act: CameraMovementType.ArcRight,
-            targets: [{ id: "actor_face", description: "The actor's face" }],
+            targets: [{ id: "actor_face", description: "چهرهٔ بازیگر" }],
             duration: 8.5,
             speedKeyframes: [
               { normalizedTime: 0, speedMultiplier: 0 },
@@ -1244,11 +1009,6 @@ export const resolvedPromptExampleFixtures: ResolvedPromptExampleFixture[] = [{
               { normalizedTime: 0.85, speedMultiplier: 0.8 },
               { normalizedTime: 1, speedMultiplier: 0.1, easing: SpeedFunction.Decrease }
             ],
-            parameters: {
-              arcAngle: 38,
-              path: "spline",
-              curveIntensity: 1
-            }
           }
         },
         {
@@ -1262,8 +1022,16 @@ export const resolvedPromptExampleFixtures: ResolvedPromptExampleFixture[] = [{
           movement: {
             act: CameraMovementType.ZoomIn,
             duration: 2,
-            parameters: { zoomFactor: 1.18 }
-          }
+          },
+          constraints: [{
+            targets: [{ id: "actor_face", description: "چهرهٔ بازیگر" }],
+            config: {
+              type: "subjectAware",
+              shotSize: ShotSize.CloseUp,
+              subjectFraming: { position: SubjectInFramePosition.Left }
+            },
+            allFrames: true
+          }]
         }
       ]
     }]
@@ -1272,18 +1040,16 @@ export const resolvedPromptExampleFixtures: ResolvedPromptExampleFixture[] = [{
 {
   id: "example-15",
   environmentId: "example-15-dancer-arc",
-  prompt: "از نمای Low Medium Long شروع کن. چهار ثانیه اول با Arc Left آرام و اسلوموشن دور رقصنده بچرخ؛ روی ضرب موسیقی حرکت را به Arc Left سریع همراه Pedestal Up تبدیل کن و در دو ثانیه آخر با یک فرود نرم، رقصنده را روی یک‌سوم راست قاب نگه دار.",
+  prompt: "از نمای متوسطِ دور با زاویهٔ پایین شروع کن. چهار ثانیهٔ اول با چرخش قوسی آرام به چپ و حرکت آهسته دور رقصنده بچرخ؛ روی ضرب موسیقی، چرخش به چپ را سریع کن و همزمان دوربین را عمودی بالا ببر. در دو ثانیهٔ آخر، با فرودی نرم رقصنده را روی یک‌سوم راست قاب نگه دار.",
   resolvedCsl: {
     totalDuration: 10,
     sections: [{
       initCamera: {
-        targets: [{ id: "dancer", description: "The dancer" }],
+        targets: [{ id: "dancer", description: "رقصنده" }],
         config: {
           type: "subjectAware",
           cameraAngle: CameraVerticalAngle.Low,
           shotSize: ShotSize.MediumLongShot,
-          subjectView: SubjectView.Front,
-          subjectFraming: { position: SubjectInFramePosition.Center }
         }
       },
       actions: [
@@ -1292,28 +1058,20 @@ export const resolvedPromptExampleFixtures: ResolvedPromptExampleFixture[] = [{
           trigger: { type: "absoluteTime", time: 0 },
           movement: {
             act: CameraMovementType.ArcLeft,
-            targets: [{ id: "dancer", description: "The dancer" }],
+            targets: [{ id: "dancer", description: "رقصنده" }],
             duration: 4,
-            relativeFPS: RelativeFPS.Slow,
             speedKeyframes: [
               { normalizedTime: 0, speedMultiplier: 0.35 },
               { normalizedTime: 1, speedMultiplier: 0.75 }
             ],
-            parameters: {
-              arcAngle: 100,
-              arcRadius: 5.2,
-              path: "curved",
-              curveIntensity: 2
-            }
           },
           constraints: [
             {
-              targets: [{ id: "dancer", description: "The dancer" }],
+              targets: [{ id: "dancer", description: "رقصنده" }],
               config: {
                 type: "subjectAware",
                 cameraAngle: CameraVerticalAngle.Low,
                 shotSize: ShotSize.MediumLongShot,
-                subjectFraming: { position: SubjectInFramePosition.Center }
               },
               allFrames: true
             },
@@ -1335,29 +1093,19 @@ export const resolvedPromptExampleFixtures: ResolvedPromptExampleFixture[] = [{
           },
           movement: {
             act: CameraMovementType.ArcLeft,
-            targets: [{ id: "dancer", description: "The dancer" }],
+            targets: [{ id: "dancer", description: "رقصنده" }],
             duration: 4,
-            relativeFPS: RelativeFPS.Fast,
             speedKeyframes: [
               { normalizedTime: 0, speedMultiplier: 0.8 },
               { normalizedTime: 0.55, speedMultiplier: 2.2 },
               { normalizedTime: 1, speedMultiplier: 0.55 }
             ],
-            parameters: {
-              arcAngle: 150,
-              arcRadius: 4.1,
-              path: "spline",
-              curveIntensity: 4
-            }
           },
           constraints: [
             {
-              targets: [{ id: "dancer", description: "The dancer" }],
+              targets: [{ id: "dancer", description: "رقصنده" }],
               config: {
                 type: "subjectAware",
-                shotSize: ShotSize.MediumShot,
-                subjectView: SubjectView.ThreeQuarterFrontRight,
-                subjectFraming: { position: SubjectInFramePosition.Right }
               },
               allFrames: false,
               easing: { inDuration: 1.25, outDuration: 1, curve: "easeInOut" }
@@ -1381,7 +1129,6 @@ export const resolvedPromptExampleFixtures: ResolvedPromptExampleFixture[] = [{
           movement: {
             act: CameraMovementType.PedestalUp,
             duration: 4,
-            parameters: { distance: 2.4 }
           }
         },
         {
@@ -1395,20 +1142,16 @@ export const resolvedPromptExampleFixtures: ResolvedPromptExampleFixture[] = [{
           movement: {
             act: CameraMovementType.PedestalDown,
             duration: 2,
-            relativeFPS: RelativeFPS.Slow,
             speedKeyframes: [
               { normalizedTime: 0, speedMultiplier: 0 },
               { normalizedTime: 0.35, speedMultiplier: 0.7, easing: SpeedFunction.Increase },
               { normalizedTime: 1, speedMultiplier: 0, easing: SpeedFunction.Decrease }
             ],
-            parameters: { distance: 1.1 }
           },
           constraints: [{
-            targets: [{ id: "dancer", description: "The dancer" }],
+            targets: [{ id: "dancer", description: "رقصنده" }],
             config: {
               type: "subjectAware",
-              shotSize: ShotSize.MediumShot,
-              subjectView: SubjectView.ThreeQuarterFrontRight,
               subjectFraming: { position: SubjectInFramePosition.Right }
             },
             allFrames: true
@@ -1421,21 +1164,10 @@ export const resolvedPromptExampleFixtures: ResolvedPromptExampleFixture[] = [{
 {
   id: "example-16",
   environmentId: "example-16-two-actor-truck",
-  prompt: "در یک پلان بدون کات، هر دو مأمور را با Truck Right داخل یک Two Shot نگه دار. وقتی فاصله‌شان به کمتر از یک متر رسید، یک Zoom In کوتاه روی کیف بزن؛ بلافاصله با Arc Right سریع از خط نگاه عبور کن و همزمان Zoom Out کن تا در پایان جای دو بازیگر در قاب عوض شود: A راست و B چپ.",
+  prompt: "در یک پلان بدون کات، با حرکت جانبی دوربین به راست هر دو مأمور را در یک نمای دونفره نگه دار. وقتی فاصله‌شان به کمتر از یک متر رسید، زومی کوتاه به جلو روی کیف بزن؛ بلافاصله با چرخش قوسی سریع به راست از خط نگاه عبور کن و همزمان زوم را باز کن تا در پایان جای دو بازیگر عوض شود: مأمور الف در راست قاب و مأمور ب در چپ قاب.",
   resolvedCsl: {
     totalDuration: 10,
     sections: [{
-      initCamera: {
-        targets: [
-          { id: "actor_a", description: "Agent A" },
-          { id: "actor_b", description: "Agent B" }
-        ],
-        config: {
-          type: "subjectAware",
-          shotSize: ShotSize.MediumLongShot,
-          subjectFraming: { position: SubjectInFramePosition.Center }
-        }
-      },
       actions: [
         {
           id: "truck_right_exchange_setup",
@@ -1443,22 +1175,15 @@ export const resolvedPromptExampleFixtures: ResolvedPromptExampleFixture[] = [{
           movement: {
             act: CameraMovementType.TruckRight,
             duration: 5,
-            parameters: {
-              distance: 5,
-              path: "linear"
-            }
           },
           constraints: [
             {
+              kind: "general",
+              constraint: ConstraintType.KeepInFrame,
               targets: [
-                { id: "actor_a", description: "Agent A" },
-                { id: "actor_b", description: "Agent B" }
+                { id: "actor_a", description: "مأمور الف" },
+                { id: "actor_b", description: "مأمور ب" }
               ],
-              config: {
-                type: "subjectAware",
-                shotSize: ShotSize.MediumLongShot,
-                subjectFraming: { position: SubjectInFramePosition.Center }
-              },
               allFrames: true
             },
             {
@@ -1473,21 +1198,19 @@ export const resolvedPromptExampleFixtures: ResolvedPromptExampleFixture[] = [{
           id: "briefcase_punch_in",
           trigger: {
             type: "distance",
-            object1: { id: "actor_a", description: "Agent A" },
-            object2: { id: "actor_b", description: "Agent B" },
+            object1: { id: "actor_a", description: "مأمور الف" },
+            object2: { id: "actor_b", description: "مأمور ب" },
             operator: ComparisonOperator.LessThan,
             distance: 1
           },
           movement: {
             act: CameraMovementType.ZoomIn,
             duration: 1,
-            parameters: { zoomFactor: 1.55 }
           },
           constraints: [{
-            targets: [{ id: "briefcase", description: "The exchanged briefcase" }],
+            targets: [{ id: "briefcase", description: "کیف در حال مبادله" }],
             config: {
               type: "subjectAware",
-              subjectFraming: { position: SubjectInFramePosition.Center }
             },
             allFrames: false,
             easing: { inDuration: 0.4, outDuration: 0.25, curve: "easeInOut" }
@@ -1504,8 +1227,8 @@ export const resolvedPromptExampleFixtures: ResolvedPromptExampleFixture[] = [{
           movement: {
             act: CameraMovementType.ArcRight,
             targets: [
-              { id: "actor_a", description: "Agent A" },
-              { id: "actor_b", description: "Agent B" }
+              { id: "actor_a", description: "مأمور الف" },
+              { id: "actor_b", description: "مأمور ب" }
             ],
             duration: 4,
             speedKeyframes: [
@@ -1514,23 +1237,15 @@ export const resolvedPromptExampleFixtures: ResolvedPromptExampleFixture[] = [{
               { normalizedTime: 0.6, speedMultiplier: 1.15 },
               { normalizedTime: 1, speedMultiplier: 0.2, easing: SpeedFunction.Decrease }
             ],
-            parameters: {
-              arcAngle: 165,
-              path: "spline",
-              curveIntensity: 4
-            }
           },
           constraints: [
             {
+              kind: "general",
+              constraint: ConstraintType.KeepInFrame,
               targets: [
-                { id: "actor_a", description: "Agent A" },
-                { id: "actor_b", description: "Agent B" }
+                { id: "actor_a", description: "مأمور الف" },
+                { id: "actor_b", description: "مأمور ب" }
               ],
-              config: {
-                type: "subjectAware",
-                shotSize: ShotSize.MediumLongShot,
-                subjectFraming: { position: SubjectInFramePosition.Center }
-              },
               allFrames: true
             },
             {
@@ -1552,11 +1267,10 @@ export const resolvedPromptExampleFixtures: ResolvedPromptExampleFixture[] = [{
           movement: {
             act: CameraMovementType.ZoomOut,
             duration: 4,
-            parameters: { zoomFactor: 1.55 }
           },
           constraints: [
             {
-              targets: [{ id: "actor_a", description: "Agent A" }],
+              targets: [{ id: "actor_a", description: "مأمور الف" }],
               config: {
                 type: "subjectAware",
                 subjectFraming: { position: SubjectInFramePosition.Right }
@@ -1565,7 +1279,7 @@ export const resolvedPromptExampleFixtures: ResolvedPromptExampleFixture[] = [{
               easing: { inDuration: 1.5, curve: "easeOut" }
             },
             {
-              targets: [{ id: "actor_b", description: "Agent B" }],
+              targets: [{ id: "actor_b", description: "مأمور ب" }],
               config: {
                 type: "subjectAware",
                 subjectFraming: { position: SubjectInFramePosition.Left }
@@ -1582,12 +1296,12 @@ export const resolvedPromptExampleFixtures: ResolvedPromptExampleFixture[] = [{
 {
   id: "example-17",
   environmentId: "example-17-runner-speed",
-  prompt: "از Low Full Shot در کنار دونده با Track شروع کن و برای مسیرش lead room بده. لحظه‌ای که سرعتش به ۸ متر بر ثانیه رسید، صحنه را به ۱۰٪ ببر و با Arc Left صدوبیست درجه از کنار به روبه‌رویش برس. بعد سرعت عادی را برگردان، Dolly Out و Follow کن تا با فضای باز جلوی حرکت در قاب چپ تمام شود.",
+  prompt: "از نمای تمام‌قد با زاویهٔ پایین در کنار دونده شروع کن، همراه او حرکت کن و جلوی مسیرش فضای خالی بده. لحظه‌ای که سرعتش به ۸ متر بر ثانیه رسید، سرعت صحنه را به ۱۰٪ کاهش بده و با چرخش قوسی ۱۲۰ درجه به چپ، از کنار به روبه‌رویش برس. سپس سرعت عادی را برگردان، دوربین را عقب بکش و او را دنبال کن تا در پایان، دونده در چپ قاب باشد و جلوی حرکتش فضای باز بماند.",
   resolvedCsl: {
     totalDuration: 11,
     sections: [{
       initCamera: {
-        targets: [{ id: "runner", description: "The runner" }],
+        targets: [{ id: "runner", description: "دونده" }],
         config: {
           type: "subjectAware",
           cameraAngle: CameraVerticalAngle.Low,
@@ -1602,18 +1316,12 @@ export const resolvedPromptExampleFixtures: ResolvedPromptExampleFixture[] = [{
           trigger: { type: "absoluteTime", time: 0 },
           movement: {
             act: CameraMovementType.Track,
-            targets: [{ id: "runner", description: "The runner" }],
+            targets: [{ id: "runner", description: "دونده" }],
             duration: 3,
-            parameters: {
-              followDelay: 0.1,
-              leadAmount: 0.55,
-              path: "spline",
-              curveIntensity: 1
-            }
           },
           constraints: [
             {
-              targets: [{ id: "runner", description: "The runner" }],
+              targets: [{ id: "runner", description: "دونده" }],
               config: {
                 type: "subjectAware",
                 cameraAngle: CameraVerticalAngle.Low,
@@ -1635,13 +1343,13 @@ export const resolvedPromptExampleFixtures: ResolvedPromptExampleFixture[] = [{
           id: "bullet_time_arc",
           trigger: {
             type: "velocity",
-            subject: { id: "runner", description: "The runner" },
+            subject: { id: "runner", description: "دونده" },
             operator: ComparisonOperator.GreaterThanOrEqual,
             speed: 8
           },
           movement: {
             act: CameraMovementType.ArcLeft,
-            targets: [{ id: "runner", description: "The runner" }],
+            targets: [{ id: "runner", description: "دونده" }],
             duration: 3,
             relativeFPS: RelativeFPS.VerySlow,
             speedKeyframes: [
@@ -1652,19 +1360,14 @@ export const resolvedPromptExampleFixtures: ResolvedPromptExampleFixture[] = [{
             ],
             parameters: {
               arcAngle: 120,
-              arcRadius: 3.2,
-              path: "spline",
-              curveIntensity: 3
             }
           },
           constraints: [
             {
-              targets: [{ id: "runner", description: "The runner" }],
+              targets: [{ id: "runner", description: "دونده" }],
               config: {
                 type: "subjectAware",
-                shotSize: ShotSize.MediumCloseUp,
-                subjectView: SubjectView.ThreeQuarterFrontLeft,
-                subjectFraming: { position: SubjectInFramePosition.Center }
+                subjectView: SubjectView.Front,
               },
               allFrames: false,
               easing: { inDuration: 0.9, curve: "easeInOut" }
@@ -1687,7 +1390,7 @@ export const resolvedPromptExampleFixtures: ResolvedPromptExampleFixture[] = [{
           },
           movement: {
             act: CameraMovementType.Follow,
-            targets: [{ id: "runner", description: "The runner" }],
+            targets: [{ id: "runner", description: "دونده" }],
             duration: 5,
             relativeFPS: RelativeFPS.Normal,
             speedKeyframes: [
@@ -1695,19 +1398,12 @@ export const resolvedPromptExampleFixtures: ResolvedPromptExampleFixture[] = [{
               { normalizedTime: 0.25, speedMultiplier: 1, easing: SpeedFunction.Increase },
               { normalizedTime: 1, speedMultiplier: 1 }
             ],
-            parameters: {
-              followDelay: 0.1,
-              leadAmount: 0.1,
-              path: "spline",
-              curveIntensity: 2
-            }
           },
           constraints: [
             {
-              targets: [{ id: "runner", description: "The runner" }],
+              targets: [{ id: "runner", description: "دونده" }],
               config: {
                 type: "subjectAware",
-                subjectView: SubjectView.ThreeQuarterFrontLeft
               },
               allFrames: true
             },
@@ -1729,23 +1425,18 @@ export const resolvedPromptExampleFixtures: ResolvedPromptExampleFixture[] = [{
           },
           movement: {
             act: CameraMovementType.DollyOut,
-            targets: [{ id: "runner", description: "The runner" }],
+            targets: [{ id: "runner", description: "دونده" }],
             duration: 5,
             speedKeyframes: [
               { normalizedTime: 0, speedMultiplier: 0 },
               { normalizedTime: 0.25, speedMultiplier: 1, easing: SpeedFunction.Increase },
               { normalizedTime: 1, speedMultiplier: 1 }
             ],
-            parameters: {
-              distance: 5,
-              path: "linear"
-            }
           },
           constraints: [{
-            targets: [{ id: "runner", description: "The runner" }],
+            targets: [{ id: "runner", description: "دونده" }],
             config: {
               type: "subjectAware",
-              shotSize: ShotSize.LongShot,
               subjectFraming: { position: SubjectInFramePosition.Left }
             },
             allFrames: false,
@@ -1759,17 +1450,15 @@ export const resolvedPromptExampleFixtures: ResolvedPromptExampleFixture[] = [{
 {
   id: "example-18",
   environmentId: "example-18-eye-zoom",
-  prompt: "از Close Up دست لرزان شروع کن و در ۲.۵ ثانیه با Tilt Up به چشم برس. نیم‌ثانیه مکث کن؛ سپس Dolly In و Zoom In را همزمان اجرا کن تا وارد مردمک شوی. در یک‌ونیم ثانیه آخر ۱۰ درجه Dutch Right بده و ضرب پایانی را داخل مردمک فریز کن.",
+  prompt: "از نمای نزدیک دست لرزان شروع کن و در ۲٫۵ ثانیه با چرخش عمودی دوربین به بالا به چشم برس. نیم‌ثانیه مکث کن؛ سپس دوربین را به جلو ببر و همزمان زوم را بیشتر کن تا وارد مردمک شوی. در یک‌ونیم ثانیهٔ آخر دوربین را ۱۰ درجه به راست کج کن و ضرب پایانی را داخل مردمک با توقف زمان ثبت کن.",
   resolvedCsl: {
     totalDuration: 10,
     sections: [{
       initCamera: {
-        targets: [{ id: "hand", description: "The subject's trembling hand" }],
+        targets: [{ id: "hand", description: "دست لرزان سوژه" }],
         config: {
           type: "subjectAware",
           shotSize: ShotSize.CloseUp,
-          subjectView: SubjectView.Front,
-          subjectFraming: { position: SubjectInFramePosition.Bottom }
         }
       },
       actions: [
@@ -1785,14 +1474,12 @@ export const resolvedPromptExampleFixtures: ResolvedPromptExampleFixture[] = [{
               { normalizedTime: 0.8, speedMultiplier: 1 },
               { normalizedTime: 1, speedMultiplier: 0, easing: SpeedFunction.Decrease }
             ],
-            parameters: { rotationAngle: 58 }
           },
           constraints: [{
-            targets: [{ id: "eye", description: "The subject's eye" }],
+            targets: [{ id: "eye", description: "چشم سوژه" }],
             config: {
               type: "subjectAware",
               shotSize: ShotSize.CloseUp,
-              subjectFraming: { position: SubjectInFramePosition.Center }
             },
             allFrames: false,
             easing: { inDuration: 1, curve: "easeInOut" }
@@ -1811,11 +1498,10 @@ export const resolvedPromptExampleFixtures: ResolvedPromptExampleFixture[] = [{
             duration: 0.5
           },
           constraints: [{
-            targets: [{ id: "eye", description: "The subject's eye" }],
+            targets: [{ id: "eye", description: "چشم سوژه" }],
             config: {
               type: "subjectAware",
               shotSize: ShotSize.CloseUp,
-              subjectFraming: { position: SubjectInFramePosition.Center }
             },
             allFrames: true
           }]
@@ -1830,8 +1516,8 @@ export const resolvedPromptExampleFixtures: ResolvedPromptExampleFixture[] = [{
           },
           movement: {
             act: CameraMovementType.DollyIn,
-            targets: [{ id: "pupil", description: "The subject's pupil" }],
-            duration: 6,
+            targets: [{ id: "pupil", description: "مردمک سوژه" }],
+            duration: 5.5,
             speedKeyframes: [
               { normalizedTime: 0, speedMultiplier: 0 },
               { normalizedTime: 0.15, speedMultiplier: 0.75, easing: SpeedFunction.Increase },
@@ -1839,8 +1525,6 @@ export const resolvedPromptExampleFixtures: ResolvedPromptExampleFixture[] = [{
               { normalizedTime: 1, speedMultiplier: 0.1, easing: SpeedFunction.Decrease }
             ],
             parameters: {
-              distance: 0.5,
-              path: "linear",
               allowSubjectIntersection: true
             }
           }
@@ -1855,15 +1539,13 @@ export const resolvedPromptExampleFixtures: ResolvedPromptExampleFixture[] = [{
           },
           movement: {
             act: CameraMovementType.ZoomIn,
-            duration: 6,
-            parameters: { zoomFactor: 3.2 }
+            duration: 5.5,
           },
           constraints: [{
-            targets: [{ id: "pupil", description: "The subject's pupil" }],
+            targets: [{ id: "pupil", description: "مردمک سوژه" }],
             config: {
               type: "subjectAware",
               shotSize: ShotSize.ExtremeCloseUp,
-              subjectFraming: { position: SubjectInFramePosition.Center }
             },
             allFrames: false,
             easing: { inDuration: 2, curve: "easeInOut" }
@@ -1875,33 +1557,19 @@ export const resolvedPromptExampleFixtures: ResolvedPromptExampleFixture[] = [{
             type: "relativeTime",
             actionId: "pupil_dolly_in",
             reference: RelativeTimeReference.End,
-            offset: -1.5
+            offset: 0
           },
           movement: {
             act: CameraMovementType.DutchRight,
             duration: 1.5,
+            relativeFPS: RelativeFPS.Frozen,
             parameters: { rotationAngle: 10 }
-          }
-        },
-        {
-          id: "frozen_inside_pupil",
-          trigger: {
-            type: "relativeTime",
-            actionId: "pupil_dolly_in",
-            reference: RelativeTimeReference.End,
-            offset: 0
-          },
-          movement: {
-            act: CameraMovementType.Static,
-            duration: 1,
-            relativeFPS: RelativeFPS.Frozen
           },
           constraints: [{
-            targets: [{ id: "pupil", description: "The subject's pupil" }],
+            targets: [{ id: "pupil", description: "مردمک سوژه" }],
             config: {
               type: "subjectAware",
               shotSize: ShotSize.ExtremeCloseUp,
-              subjectFraming: { position: SubjectInFramePosition.Center }
             },
             allFrames: true
           }]
@@ -1913,17 +1581,15 @@ export const resolvedPromptExampleFixtures: ResolvedPromptExampleFixture[] = [{
 {
   id: "example-19",
   environmentId: "example-19-stairwell-ambush",
-  prompt: "از نمای Overhead روی کارآگاه شروع کن؛ همزمان Pedestal Down و Tilt Up کن تا در دو ثانیه هم‌سطح او شوی. بعد با Truck Left در راهرو همراهش برو. وقتی به انتهای مسیر رسید، یک Pan Left سریع بزن، Zoom Out کن و با Dutch Right مهاجم پشت ستون را آشکار کن؛ سپس با یک Counter Pan Right کوتاه هر دو را در قاب نهایی جمع کن.",
+  prompt: "از نمای عمودی بالا روی کارآگاه شروع کن؛ همزمان دوربین را پایین بیاور و رو به بالا بچرخان تا در دو ثانیه هم‌سطح او شوی. سپس با حرکت جانبی به چپ در راهرو همراهش برو. وقتی به انتهای مسیر رسید، دوربین را سریع به چپ بچرخان، زوم را باز کن و با کج‌کردن دوربین به راست، مهاجم پشت ستون را آشکار کن؛ سپس با یک چرخش افقی کوتاه به راست، هر دو را در قاب نهایی جا بده.",
   resolvedCsl: {
     totalDuration: 10,
     sections: [{
       initCamera: {
-        targets: [{ id: "detective", description: "The detective" }],
+        targets: [{ id: "detective", description: "کارآگاه" }],
         config: {
           type: "subjectAware",
-          cameraAngle: CameraVerticalAngle.Overhead,
-          shotSize: ShotSize.LongShot,
-          subjectFraming: { position: SubjectInFramePosition.Center }
+          cameraAngle: CameraVerticalAngle.TopDown,
         }
       },
       actions: [
@@ -1933,15 +1599,12 @@ export const resolvedPromptExampleFixtures: ResolvedPromptExampleFixture[] = [{
           movement: {
             act: CameraMovementType.PedestalDown,
             duration: 2,
-            parameters: { distance: 7.45 }
           },
           constraints: [{
-            targets: [{ id: "detective", description: "The detective" }],
+            targets: [{ id: "detective", description: "کارآگاه" }],
             config: {
               type: "subjectAware",
               cameraAngle: CameraVerticalAngle.Eye,
-              shotSize: ShotSize.FullShot,
-              subjectFraming: { position: SubjectInFramePosition.Center }
             },
             allFrames: false,
             easing: { inDuration: 1, curve: "easeInOut" }
@@ -1953,7 +1616,6 @@ export const resolvedPromptExampleFixtures: ResolvedPromptExampleFixture[] = [{
           movement: {
             act: CameraMovementType.TiltUp,
             duration: 2,
-            parameters: { rotationAngle: 42 }
           }
         },
         {
@@ -1967,17 +1629,11 @@ export const resolvedPromptExampleFixtures: ResolvedPromptExampleFixture[] = [{
           movement: {
             act: CameraMovementType.TruckLeft,
             duration: 5,
-            parameters: {
-              distance: 7,
-              path: "linear"
-            }
           },
           constraints: [{
-            targets: [{ id: "detective", description: "The detective" }],
+            targets: [{ id: "detective", description: "کارآگاه" }],
               config: {
                 type: "subjectAware",
-                shotSize: ShotSize.MediumLongShot,
-                subjectFraming: { position: SubjectInFramePosition.Left }
               },
               allFrames: true
             },
@@ -2000,17 +1656,18 @@ export const resolvedPromptExampleFixtures: ResolvedPromptExampleFixture[] = [{
           movement: {
             act: CameraMovementType.PanLeft,
             duration: 1.2,
-            parameters: { rotationAngle: 68 }
           },
           constraints: [{
-              targets: [{ id: "pursuer", description: "The hidden pursuer" }],
-              config: {
-                type: "subjectAware",
-                shotSize: ShotSize.LongShot,
-              subjectFraming: { position: SubjectInFramePosition.Right }
-            },
+              kind: "general",
+              constraint: ConstraintType.KeepInFrame,
+              targets: [{ id: "pursuer", description: "تعقیب‌کنندهٔ پنهان" }],
             allFrames: false,
             easing: { inDuration: 0.35, outDuration: 0.4, curve: "easeOut" }
+          }, {
+            kind: "general",
+            constraint: ConstraintType.AvoidOcclusion,
+            targets: [{ id: "pursuer", description: "تعقیب‌کنندهٔ پنهان" }],
+            allFrames: false
           }]
         },
         {
@@ -2024,18 +1681,14 @@ export const resolvedPromptExampleFixtures: ResolvedPromptExampleFixture[] = [{
           movement: {
             act: CameraMovementType.PanRight,
             duration: 1.8,
-            parameters: { rotationAngle: 36 }
           },
           constraints: [{
+            kind: "general",
+            constraint: ConstraintType.KeepInFrame,
             targets: [
-              { id: "detective", description: "The detective" },
-              { id: "pursuer", description: "The hidden pursuer" }
+              { id: "detective", description: "کارآگاه" },
+              { id: "pursuer", description: "تعقیب‌کنندهٔ پنهان" }
             ],
-            config: {
-              type: "subjectAware",
-              shotSize: ShotSize.LongShot,
-              subjectFraming: { position: SubjectInFramePosition.Center }
-            },
             allFrames: false,
             easing: { inDuration: 1, curve: "easeOut" }
           }]
@@ -2051,17 +1704,14 @@ export const resolvedPromptExampleFixtures: ResolvedPromptExampleFixture[] = [{
           movement: {
             act: CameraMovementType.ZoomOut,
             duration: 3,
-            parameters: { zoomFactor: 1.55 }
           },
           constraints: [{
             targets: [
-              { id: "detective", description: "The detective" },
-              { id: "pursuer", description: "The hidden pursuer" }
+              { id: "detective", description: "کارآگاه" },
+              { id: "pursuer", description: "تعقیب‌کنندهٔ پنهان" }
             ],
             config: {
               type: "subjectAware",
-              shotSize: ShotSize.LongShot,
-              subjectFraming: { position: SubjectInFramePosition.Center }
             },
             allFrames: false,
             easing: { inDuration: 1.5, curve: "easeOut" }
@@ -2078,7 +1728,6 @@ export const resolvedPromptExampleFixtures: ResolvedPromptExampleFixture[] = [{
           movement: {
             act: CameraMovementType.DutchRight,
             duration: 3,
-            parameters: { rotationAngle: 14 }
           }
         }
       ]
@@ -2089,23 +1738,11 @@ export const resolvedPromptExampleFixtures: ResolvedPromptExampleFixture[] = [{
   id: "example-20",
   environmentId: "example-20-jogger-reveal",
   prompt:
-    "Follow the jogger along the path, keeping the tree from blocking the shot, then crane up to reveal the fountain plaza as they arrive, and hold on them from a locked distance and angle.",
+    "دونده را در مسیر دنبال کن و نگذار درخت جلوی دید را بگیرد. وقتی به میدان رسید، دوربین را بالا ببر تا میدان و آب‌نما آشکار شوند؛ سپس با فاصله و زاویهٔ ثابت او را در قاب نگه دار.",
   resolvedCsl: {
     totalDuration: 10,
       sections: [
     {
-      initCamera: {
-        targets: [{
-                    id: "jogger",
-                    description: "The jogger"
-                  }],
-        config: {
-          type: "subjectAware",
-          shotSize: ShotSize.MediumShot,
-          subjectView: SubjectView.ThreeQuarterFrontRight,
-          subjectFraming: { position: SubjectInFramePosition.Right },
-        },
-      },
       actions: [
         {
           id: "follow_jogger",
@@ -2114,22 +1751,25 @@ export const resolvedPromptExampleFixtures: ResolvedPromptExampleFixture[] = [{
             act: CameraMovementType.Follow,
             targets: [{
                     id: "jogger",
-                    description: "The jogger"
+                    description: "دونده"
                   }],
             duration: 4,
-            parameters: { followDelay: 0.3, leadAmount: 0 },
           },
           constraints: [
             {
               targets: [{
                     id: "jogger",
-                    description: "The jogger"
+                    description: "دونده"
                   }],
               config: {
                 type: "subjectAware",
-                shotSize: ShotSize.MediumShot,
-                subjectFraming: { position: SubjectInFramePosition.Right },
               },
+              allFrames: true,
+            },
+            {
+              kind: "general",
+              constraint: ConstraintType.AvoidOcclusion,
+              targets: [{ id: "jogger", description: "دونده" }],
               allFrames: true,
             },
           ],
@@ -2141,23 +1781,34 @@ export const resolvedPromptExampleFixtures: ResolvedPromptExampleFixture[] = [{
             act: CameraMovementType.CraneUp,
             targets: [{
                     id: "jogger",
-                    description: "The jogger"
+                    description: "دونده"
                   },
                   {
                     id: "fountain",
-                    description: "Plaza fountain"
+                    description: "آب‌نمای میدان"
                   }
                 ],
             duration: 3,
-            parameters: { heightChange: 2.5, horizontalDistance: 1.5 },
           },
-
+          constraints: [{
+            kind: "general",
+            constraint: ConstraintType.KeepInFrame,
+            targets: [
+              { id: "jogger", description: "دونده" },
+              { id: "fountain", description: "آب‌نمای میدان" },
+            ],
+            allFrames: false,
+          }],
         },
         {
           id: "held_finish",
           trigger: { type: "relativeTime", actionId: "crane_reveal", reference: RelativeTimeReference.End, offset: 0 },
-          movement: { act: CameraMovementType.Static, duration: 3 },
-         
+          movement: { act: CameraMovementType.Static, targets: [{ id: "jogger", description: "دونده" }], duration: 3 },
+          constraints: [
+            { kind: "general", constraint: ConstraintType.KeepInFrame, targets: [{ id: "jogger", description: "دونده" }], allFrames: true },
+            { kind: "general", constraint: ConstraintType.MaintainDistance, targets: [{ id: "jogger", description: "دونده" }], allFrames: true },
+            { kind: "general", constraint: ConstraintType.MaintainAngle, targets: [{ id: "jogger", description: "دونده" }], allFrames: true },
+          ],
         },
       ],
     },
@@ -2168,27 +1819,11 @@ export const resolvedPromptExampleFixtures: ResolvedPromptExampleFixture[] = [{
   id: "example-21",
   environmentId: "example-21-rooftop-chase",
   prompt:
-    "Track the runner across the rooftop until the pursuer gets within 2.5 meters, then arc around the runner to reveal the pursuer while zooming in, and finish with a stabilized locked shot maintaining the same angle and keeping both of them visible.",
+    "دونده را روی پشت‌بام تعقیب کن تا تعقیب‌کننده به فاصلهٔ ۲٫۵ متری او برسد؛ سپس در مسیری قوسی دور دونده بچرخ و همزمان زوم را بیشتر کن تا تعقیب‌کننده آشکار شود. در پایان، با یک نمای ثابت و بدون لرزش، زاویه را حفظ کن و هر دو را در قاب نگه دار.",
   resolvedCsl: {
     totalDuration: 10,
     sections: [
       {
-        initCamera: {
-          targets: [
-            {
-              id: "runner",
-              description: "The runner",
-            },
-          ],
-          config: {
-            type: "subjectAware",
-            shotSize: ShotSize.MediumShot,
-            subjectView: SubjectView.ThreeQuarterFrontLeft,
-            subjectFraming: {
-              position: SubjectInFramePosition.Left,
-            },
-          },
-        },
 
         actions: [
           {
@@ -2202,28 +1837,20 @@ export const resolvedPromptExampleFixtures: ResolvedPromptExampleFixture[] = [{
               targets: [
                 {
                   id: "runner",
-                  description: "The runner",
+                  description: "دونده",
                 },
               ],
-              parameters: {
-                followDelay: 0,
-                leadAmount: 0.2,
-              },
             },
             constraints: [
               {
                 targets: [
                   {
                     id: "runner",
-                    description: "The runner",
+                    description: "دونده",
                   },
                 ],
                 config: {
                   type: "subjectAware",
-                  shotSize: ShotSize.MediumShot,
-                  subjectFraming: {
-                    position: SubjectInFramePosition.Left,
-                  },
                 },
                 allFrames: true,
               },
@@ -2236,28 +1863,24 @@ export const resolvedPromptExampleFixtures: ResolvedPromptExampleFixture[] = [{
               type: "distance",
               object1: {
                 id: "pursuer",
-                description: "The pursuer",
+                description: "تعقیب‌کننده",
               },
               object2: {
                 id: "runner",
-                description: "The runner",
+                description: "دونده",
               },
               operator: ComparisonOperator.LessThanOrEqual,
-              distance: 3.5,
+              distance: 2.5,
             },
             movement: {
-              act: CameraMovementType.ArcRight,
+              act: CameraMovementType.Orbit,
               targets: [
                 {
                   id: "runner",
-                  description: "The runner",
+                  description: "دونده",
                 },
               ],
               duration: 1.5,
-              parameters: {
-                arcAngle: 110,
-                arcRadius: 3.5,
-              },
             },
             constraints: [
               {
@@ -2266,11 +1889,11 @@ export const resolvedPromptExampleFixtures: ResolvedPromptExampleFixture[] = [{
                 targets: [
                   {
                     id: "runner",
-                    description: "The runner",
+                    description: "دونده",
                   },
                   {
                     id: "pursuer",
-                    description: "The pursuer",
+                    description: "تعقیب‌کننده",
                   },
                 ],
                 allFrames: true,
@@ -2279,19 +1902,15 @@ export const resolvedPromptExampleFixtures: ResolvedPromptExampleFixture[] = [{
                 targets: [
                   {
                     id: "runner",
-                    description: "The runner",
+                    description: "دونده",
                   },
                   {
                     id: "pursuer",
-                    description: "The pursuer",
+                    description: "تعقیب‌کننده",
                   },
                 ],
                 config: {
                   type: "subjectAware",
-                  shotSize: ShotSize.MediumLongShot,
-                  subjectFraming: {
-                    position: SubjectInFramePosition.Center,
-                  },
                 },
                 allFrames: false,
                 easing: {
@@ -2313,9 +1932,6 @@ export const resolvedPromptExampleFixtures: ResolvedPromptExampleFixture[] = [{
             movement: {
               act: CameraMovementType.ZoomIn,
               duration: 1.5,
-              parameters: {
-                zoomFactor: 1.4,
-              },
             },
           },
 
@@ -2328,12 +1944,17 @@ export const resolvedPromptExampleFixtures: ResolvedPromptExampleFixture[] = [{
               offset: 0,
             },
             movement: {
-              act: CameraMovementType.Follow,
-              targets:[ {
-                id: "pursuer",
-                description: "The pursuer",
-              },]
+              act: CameraMovementType.Static,
             },
+            constraints: [{
+              kind: "general", constraint: ConstraintType.KeepInFrame,
+              targets: [{ id: "runner", description: "دونده" }, { id: "pursuer", description: "تعقیب‌کننده" }],
+              allFrames: true,
+            }, {
+              kind: "general", constraint: ConstraintType.MaintainAngle,
+              targets: [{ id: "runner", description: "دونده" }, { id: "pursuer", description: "تعقیب‌کننده" }],
+              allFrames: true,
+            }, { kind: "general", constraint: ConstraintType.NoShake, allFrames: true }],
            
           },
         ],
@@ -2345,28 +1966,11 @@ export const resolvedPromptExampleFixtures: ResolvedPromptExampleFixture[] = [{
   id: "example-22",
   environmentId: "example-22-warehouse-onetake",
   prompt:
-    "Follow the worker past the shelving, arc-and-dolly in as they slow at the crates, arc up around them as they climb to the mezzanine, follow them back down toward the loading bay, pull back to reveal the coworker once close, orbit both with a dutch tilt, crane up and zoom out over the whole floor, then lock a final stabilized hold.",
+    "کارگر را از کنار قفسه‌ها دنبال کن. وقتی کنار جعبه‌ها کند شد، با حرکت قوسی دور او بچرخ و همزمان نزدیک شو. هنگام بالارفتن او به نیم‌طبقه، در مسیری قوسی دورش بالا برو؛ سپس در بازگشت به پایین و به سمت سکوی بارگیری دنبالش کن. وقتی به همکارش نزدیک شد، دوربین را عقب بکش تا همکار آشکار شود. با دوربین کج دور هر دو بچرخ، دوربین را بالا ببر و زوم را باز کن تا کل سالن دیده شود؛ سپس با یک نمای ثابت و بدون لرزش پایان بده.",
   resolvedCsl: {
     totalDuration: 22,
     sections: [
       {
-        initCamera: {
-          targets: [
-            {
-              id: "worker",
-              description: "The worker",
-            },
-          ],
-          config: {
-            type: "subjectAware",
-            cameraAngle: CameraVerticalAngle.High,
-            shotSize: ShotSize.MediumShot,
-            subjectView: SubjectView.ThreeQuarterFrontRight,
-            subjectFraming: {
-              position: SubjectInFramePosition.Right,
-            },
-          },
-        },
 
         actions: [
           {
@@ -2380,30 +1984,20 @@ export const resolvedPromptExampleFixtures: ResolvedPromptExampleFixture[] = [{
               targets: [
                 {
                   id: "worker",
-                  description: "The worker",
+                  description: "کارگر",
                 },
               ],
-              parameters: {
-                followDelay: 0.2,
-                leadAmount: 0,
-              },
             },
             constraints: [
               {
                 targets: [
                   {
                     id: "worker",
-                    description: "The worker",
+                    description: "کارگر",
                   },
                 ],
                 config: {
                   type: "subjectAware",
-                  cameraAngle: CameraVerticalAngle.High,
-                  shotSize: ShotSize.MediumLongShot,
-                  subjectView: SubjectView.ThreeQuarterFrontRight,
-                  subjectFraming: {
-                    position: SubjectInFramePosition.Right,
-                  },
                 },
                 allFrames: true,
               },
@@ -2421,40 +2015,31 @@ export const resolvedPromptExampleFixtures: ResolvedPromptExampleFixture[] = [{
                 type: "velocity",
                 subject: {
                   id: "worker",
-                  description: "The worker",
+                  description: "کارگر",
                 },
-                operator: ComparisonOperator.GreaterThanOrEqual,
-                speed: 2.5,
+                operator: ComparisonOperator.LessThan,
+                speed: 0.5,
               },
             movement: {
-              act: CameraMovementType.ArcLeft,
+              act: CameraMovementType.Orbit,
               targets: [
                 {
                   id: "worker",
-                  description: "The worker",
+                  description: "کارگر",
                 },
               ],
               duration: 2,
-              parameters: {
-                arcAngle: 70,
-                arcRadius: 2.2,
-              },
             },
             constraints: [
               {
                 targets: [
                   {
                     id: "worker",
-                    description: "The worker",
+                    description: "کارگر",
                   },
                 ],
                 config: {
                   type: "subjectAware",
-                  shotSize: ShotSize.MediumCloseUp,
-                  subjectView: SubjectView.Front,
-                  subjectFraming: {
-                    position: SubjectInFramePosition.Center,
-                  },
                 },
                 allFrames: true,
 
@@ -2475,13 +2060,10 @@ export const resolvedPromptExampleFixtures: ResolvedPromptExampleFixture[] = [{
               targets: [
                 {
                   id: "worker",
-                  description: "The worker",
+                  description: "کارگر",
                 },
               ],
               duration: 2,
-              parameters: {
-                distance: 1.4,
-              },
             },
           },
 
@@ -2494,18 +2076,14 @@ export const resolvedPromptExampleFixtures: ResolvedPromptExampleFixture[] = [{
               offset: 0,
             },
             movement: {
-              act: CameraMovementType.ArcRight,
+              act: CameraMovementType.Orbit,
               targets: [
                 {
                   id: "worker",
-                  description: "The worker",
+                  description: "کارگر",
                 },
               ],
               duration: 2.5,
-              parameters: {
-                arcAngle: 90,
-                arcRadius: 3.0,
-              },
             },
           },
 
@@ -2520,9 +2098,6 @@ export const resolvedPromptExampleFixtures: ResolvedPromptExampleFixture[] = [{
             movement: {
               act: CameraMovementType.PedestalUp,
               duration: 2.5,
-              parameters: {
-                distance: 2.2,
-              },
             },
           },
 
@@ -2539,13 +2114,9 @@ export const resolvedPromptExampleFixtures: ResolvedPromptExampleFixture[] = [{
               targets: [
                 {
                   id: "worker",
-                  description: "The worker",
+                  description: "کارگر",
                 },
               ],
-              parameters: {
-                followDelay: 0,
-                leadAmount: 0,
-              },
             },
           },
 
@@ -2559,9 +2130,6 @@ export const resolvedPromptExampleFixtures: ResolvedPromptExampleFixture[] = [{
             },
             movement: {
               act: CameraMovementType.PedestalDown,
-              parameters: {
-                distance: 2.2,
-              },
             },
           },
 
@@ -2571,11 +2139,11 @@ export const resolvedPromptExampleFixtures: ResolvedPromptExampleFixture[] = [{
               type: "distance",
               object1: {
                 id: "worker",
-                description: "The worker",
+                description: "کارگر",
               },
               object2: {
                 id: "coworker",
-                description: "The coworker",
+                description: "همکار",
               },
               operator: ComparisonOperator.LessThanOrEqual,
               distance: 2.0,
@@ -2585,34 +2153,25 @@ export const resolvedPromptExampleFixtures: ResolvedPromptExampleFixture[] = [{
               targets: [
                 {
                   id: "worker",
-                  description: "The worker",
+                  description: "کارگر",
                 },
               ],
               duration: 1.8,
-              parameters: {
-                followDelay: 0,
-                leadAmount: 0,
-              },
             },
             constraints: [
               {
+                kind: "general",
+                constraint: ConstraintType.KeepInFrame,
                 targets: [
                   {
                     id: "worker",
-                    description: "The worker",
+                    description: "کارگر",
                   },
                   {
                     id: "coworker",
-                    description: "The coworker",
+                    description: "همکار",
                   },
                 ],
-                config: {
-                  type: "subjectAware",
-                  shotSize: ShotSize.MediumLongShot,
-                  subjectFraming: {
-                    position: SubjectInFramePosition.Center,
-                  },
-                },
                 allFrames: false,
                 easing: {
                   inDuration: 0.8,
@@ -2635,13 +2194,10 @@ export const resolvedPromptExampleFixtures: ResolvedPromptExampleFixture[] = [{
               targets: [
                 {
                   id: "worker",
-                  description: "The worker",
+                  description: "کارگر",
                 },
               ],
               duration: 1.8,
-              parameters: {
-                distance: 2.0,
-              },
             },
           },
 
@@ -2654,24 +2210,28 @@ export const resolvedPromptExampleFixtures: ResolvedPromptExampleFixture[] = [{
               offset: 0,
             },
             movement: {
-              act: CameraMovementType.Track,
+              act: CameraMovementType.Orbit,
               targets: [
                 {
                   id: "worker",
-                  description: "The worker",
+                  description: "کارگر",
                 },
                 {
                   id: "coworker",
-                  description: "The coworker",
+                  description: "همکار",
                 },
               ],
               duration: 2.5,
-              parameters: {
-                followDelay: 0,
-                leadAmount: 0.1,
-              },
             },
-            
+            constraints: [{
+              kind: "general",
+              constraint: ConstraintType.KeepInFrame,
+              targets: [
+                { id: "worker", description: "کارگر" },
+                { id: "coworker", description: "همکار" },
+              ],
+              allFrames: true,
+            }],
           },
 
           {
@@ -2685,9 +2245,6 @@ export const resolvedPromptExampleFixtures: ResolvedPromptExampleFixture[] = [{
             movement: {
               act: CameraMovementType.DutchRight,
               duration: 2.5,
-              parameters: {
-                rotationAngle: 12,
-              },
             },
           },
 
@@ -2704,37 +2261,29 @@ export const resolvedPromptExampleFixtures: ResolvedPromptExampleFixture[] = [{
               targets: [
                 {
                   id: "worker",
-                  description: "The worker",
+                  description: "کارگر",
                 },
                 {
                   id: "coworker",
-                  description: "The coworker",
+                  description: "همکار",
                 },
               ],
               duration: 2.5,
-              parameters: {
-                heightChange: 3.0,
-                horizontalDistance: 1.0,
-              },
             },
             constraints: [
               {
                 targets: [
                   {
                     id: "worker",
-                    description: "The worker",
+                    description: "کارگر",
                   },
                   {
                     id: "coworker",
-                    description: "The coworker",
+                    description: "همکار",
                   },
                 ],
                 config: {
                   type: "subjectAware",
-                  shotSize: ShotSize.FullShot,
-                  subjectFraming: {
-                    position: SubjectInFramePosition.Center,
-                  },
                 },
                 allFrames: false,
                 easing: {
@@ -2756,9 +2305,6 @@ export const resolvedPromptExampleFixtures: ResolvedPromptExampleFixture[] = [{
             movement: {
               act: CameraMovementType.ZoomOut,
               duration: 2.5,
-              parameters: {
-                zoomFactor: 1.6,
-              },
               speedKeyframes: [
                 {
                   normalizedTime: 0,
@@ -2786,19 +2332,17 @@ export const resolvedPromptExampleFixtures: ResolvedPromptExampleFixture[] = [{
             },
             movement: {
               act: CameraMovementType.Static,
-              targets: [
-                {
-                  id: "worker",
-                  description: "The worker",
-                },
-                {
-                  id: "coworker",
-                  description: "The coworker",
-                },
-              ],
-              relativeFPS: RelativeFPS.Frozen,
             },
             constraints: [
+              {
+                kind: "general",
+                constraint: ConstraintType.KeepInFrame,
+                targets: [
+                  { id: "worker", description: "کارگر" },
+                  { id: "coworker", description: "همکار" },
+                ],
+                allFrames: true,
+              },
               {
                 kind: "general",
                 constraint: ConstraintType.NoShake,
@@ -2814,327 +2358,153 @@ export const resolvedPromptExampleFixtures: ResolvedPromptExampleFixture[] = [{
 {
   id: "example-23",
   environmentId: "example-23-factory-convergence",
-  prompt: "Film one continuous 20-second shot inside a busy factory. Start by following Worker A as he moves from the east side of the production floor toward the center, keeping him in a medium-long shot. Push closer, pan and tilt with his movement, then truck and pedestal as he changes direction. When he slows down near the central machinery, arc around him while gradually zooming in so that Worker B is revealed approaching from the opposite side. As the two workers converge, widen the shot and track both of them together while keeping them visible, maintaining a consistent distance and angle and avoiding the machinery and the passing forklift. When Worker B accelerates toward the loading bay, pan with him, move laterally across the floor, lower the camera, arc around him, correct the Dutch angle, and then pull back to reveal both workers, the mezzanine, the forklift, and the loading area. Finish by orbiting around the two workers, hold them both in frame in a stable wide composition, and end on a frozen locked-off shot. Throughout the take, keep the camera smooth, avoid occlusion, respect the ground level, and make each transition feel like a deliberate continuous cinematographic move rather than a cut.",
+  prompt: "یک پلان پیوستهٔ ۲۰ ثانیه‌ای درون کارخانه‌ای شلوغ بگیر. با دنبال‌کردن کارگر الف از سمت شرق سالن تولید به سمت مرکز شروع کن و او را در نمای متوسطِ دور نگه دار. نزدیک‌تر شو و با حرکت او دوربین را افقی و عمودی بچرخان؛ سپس هنگام تغییر مسیرش، دوربین را جانبی و عمودی جابه‌جا کن. وقتی کنار دستگاه‌های مرکزی کند شد، در مسیری قوسی دورش بچرخ و به‌تدریج زوم را بیشتر کن تا کارگر ب که از سمت مقابل نزدیک می‌شود آشکار شود. با نزدیک‌شدن دو کارگر، نما را بازتر کن و هر دو را با هم تعقیب کن؛ آن‌ها را در دید نگه دار، فاصله و زاویه را ثابت حفظ کن و از دستگاه‌ها و لیفتراک در حال عبور دوری کن. وقتی کارگر ب به سمت سکوی بارگیری شتاب گرفت، با او دوربین را افقی بچرخان، جانبی در سالن حرکت کن، دوربین را پایین بیاور، در مسیری قوسی دورش بچرخ و کجی دوربین را اصلاح کن. سپس عقب بکش تا هر دو کارگر، نیم‌طبقه، لیفتراک و محوطهٔ بارگیری دیده شوند. در پایان دور دو کارگر بچرخ، هر دو را در یک قاب باز و پایدار نگه دار و با نمای ثابت و توقف زمان تمام کن. در تمام پلان، حرکت دوربین نرم باشد، دید سوژه‌ها مسدود نشود، دوربین از سطح زمین پایین‌تر نرود و هر گذار مانند یک حرکت پیوسته و هدفمند سینمایی احساس شود.",
   resolvedCsl: {
     totalDuration: 20,
-    sections: [
-      {
-        initCamera: {
-          targets: [
-            {
-              id: "worker_a",
-              description: "Worker A target",
-            },
-          ],
-          config: {
-            type: "subjectAware",
-            cameraAngle: CameraVerticalAngle.Eye,
-            shotSize: ShotSize.MediumLongShot,
-            subjectView: SubjectView.Front,
-            subjectFraming: {
-              position: SubjectInFramePosition.Center,
-            },
-          },
-        },
-        actions: [
-          {
-            id: "follow_worker_a_center",
-            trigger: {
-              type: "absoluteTime",
-              time: 0,
-            },
-            movement: {
-              act: CameraMovementType.Follow,
-              targets: [
-                {
-                  id: "worker_a",
-                  description: "Worker A target",
-                },
-              ],
-              parameters: {
-                followDelay: 0.1,
-                leadAmount: 0.2,
-              },
-            },
-            constraints: [
-              {
-                kind: "general",
-                constraint: ConstraintType.NoShake,
-                allFrames: true,
-              },
-              {
-                kind: "general",
-                constraint: ConstraintType.GroundLevel,
-                allFrames: true,
-              },
-            ],
-          },
-          {
-            id: "push_closer_truck_pedestal",
-            trigger: {
-              type: "relativeTime",
-              actionId: "follow_worker_a_center",
-              reference: RelativeTimeReference.End,
-              offset: 0,
-            },
-            movement: {
-              act: CameraMovementType.DollyIn,
-              targets: [
-                {
-                  id: "worker_a",
-                  description: "Worker A target",
-                },
-              ],
-              parameters: {
-                distance: 2.0,
-                path: "curved",
-              },
-            },
-          },
-          {
-            id: "arc_zoom_near_machine",
-            trigger: {
-              type: "velocity",
-              subject: {
-                id: "worker_a",
-                description: "Worker A target",
-              },
-              operator: ComparisonOperator.GreaterThan,
-              speed: 0.8,
-            },
-            movement: {
-              act: CameraMovementType.ArcRight,
-              targets: [
-                {
-                  id: "worker_a",
-                  description: "Worker A target",
-                },
-                {
-                  id: "central_machine",
-                  description: "Central machine target",
-                },
-              ],
-              parameters: {
-                arcAngle: 120,
-                arcRadius: 2.5,
-              },
-            },
-          },
-          {
-            id: "zoom_in_reveal_worker_b",
-            trigger: {
-              type: "relativeTime",
-              actionId: "arc_zoom_near_machine",
-              reference: RelativeTimeReference.Start,
-              offset: 0.5,
-            },
-            movement: {
-              act: CameraMovementType.ZoomIn,
-              parameters: {
-                zoomFactor: 1.5,
-              },
-            },
-          },
-          {
-            id: "converge_track_both",
-            trigger: {
-              type: "distance",
-              object1: {
-                id: "worker_a",
-                description: "Worker A target",
-              },
-              object2: {
-                id: "worker_b",
-                description: "Worker B target",
-              },
-              operator: ComparisonOperator.LessThanOrEqual,
-              distance: 3.0,
-            },
-            movement: {
-              act: CameraMovementType.Track,
-              targets: [
-                {
-                  id: "worker_a",
-                  description: "Worker A target",
-                },
-                {
-                  id: "worker_b",
-                  description: "Worker B target",
-                },
-              ],
-              parameters: {
-                followDelay: 0,
-                leadAmount: 0.1,
-              },
-            },
-            constraints: [
-              {
-                kind: "general",
-                constraint: ConstraintType.KeepInFrame,
-                targets: [
-                  {
-                    id: "worker_a",
-                    description: "Worker A target",
-                  },
-                  {
-                    id: "worker_b",
-                    description: "Worker B target",
-                  },
-                ],
-                allFrames: true,
-              },
-              {
-                kind: "general",
-                constraint: ConstraintType.AvoidOcclusion,
-                allFrames: true,
-                                targets: [
-                  {
-                    id: "worker_a",
-                    description: "Worker A target",
-                  },
-                  {
-                    id: "worker_b",
-                    description: "Worker B target",
-                  },
-                ],
-              },
-            ],
-          },
-          {
-            id: "worker_b_accelerates_pan_truck",
-            trigger: {
-              type: "velocity",
-              subject: {
-                id: "worker_b",
-                description: "Worker B target",
-              },
-              operator: ComparisonOperator.GreaterThanOrEqual,
-              speed: 1.8,
-            },
-            movement: {
-              act: CameraMovementType.TruckRight,
-              parameters: {
-                distance: 3.0,
-              },
-            },
-          },
-          {
-            id: "lower_and_arc_worker_b",
-            trigger: {
-              type: "relativeTime",
-              actionId: "worker_b_accelerates_pan_truck",
-              reference: RelativeTimeReference.End,
-              offset: 0,
-            },
-            movement: {
-              act: CameraMovementType.PedestalDown,
-              parameters: {
-                heightChange: 1.2,
-              },
-            },
-          },
-          {
-            id: "pull_back_reveal_all",
-            trigger: {
-              type: "relativeTime",
-              actionId: "lower_and_arc_worker_b",
-              reference: RelativeTimeReference.End,
-              offset: 0,
-            },
-            movement: {
-              act: CameraMovementType.DollyOut,
-              targets: [
-                {
-                  id: "worker_a",
-                  description: "Worker A target",
-                },
-                {
-                  id: "worker_b",
-                  description: "Worker B target",
-                },
-              ],
-              parameters: {
-                distance: 5.0,
-              },
-            },
-          },
-          {
-            id: "orbit_both_workers",
-            trigger: {
-              type: "relativeTime",
-              actionId: "pull_back_reveal_all",
-              reference: RelativeTimeReference.End,
-              offset: 0,
-            },
-            movement: {
-              act: CameraMovementType.Orbit,
-              targets: [
-                {
-                  id: "worker_a",
-                  description: "Worker A target",
-                },
-                {
-                  id: "worker_b",
-                  description: "Worker B target",
-                },
-              ],
-              parameters: {
-                arcAngle: 360,
-                arcRadius: 6.0,
-              },
-            },
-            constraints: [
-              {
-                targets: [
-                  {
-                    id: "worker_a",
-                    description: "Worker A target",
-                  },
-                  {
-                    id: "worker_b",
-                    description: "Worker B target",
-                  },
-                ],
-                config: {
-                  type: "subjectAware",
-                  cameraAngle: CameraVerticalAngle.Eye,
-                  shotSize: ShotSize.LongShot,
-                  subjectView: SubjectView.Front,
-                  subjectFraming: {
-                    position: SubjectInFramePosition.Center,
-                  },
-                },
-                allFrames: false,
-                easing: { inDuration: 1.5, curve: "easeOut" }
-              },
-            ],
-          },
-          {
-            id: "locked_off_freeze",
-            trigger: {
-              type: "relativeTime",
-              actionId: "orbit_both_workers",
-              reference: RelativeTimeReference.End,
-              offset: 0,
-            },
-            movement: {
-              act: CameraMovementType.Static,
-              targets: [
-                {
-                  id: "worker_a",
-                  description: "Worker A target",
-                },
-                {
-                  id: "worker_b",
-                  description: "Worker B target",
-                },
-              ],
-              relativeFPS: RelativeFPS.Frozen,
-            },
-          },
-        ],
+    sections: [{
+      initCamera: {
+        targets: [factoryWorkerA],
+        config: { type: "subjectAware", shotSize: ShotSize.MediumLongShot },
       },
-    ],
+      actions: withContinuousSafety([
+        {
+          id: "follow_worker_a_center",
+          trigger: { type: "absoluteTime", time: 0 },
+          movement: { act: CameraMovementType.Follow, targets: [factoryWorkerA] },
+          constraints: [{
+            targets: [factoryWorkerA],
+            config: { type: "subjectAware", shotSize: ShotSize.MediumLongShot },
+            allFrames: true,
+          }],
+        },
+        {
+          id: "push_closer_truck_pedestal",
+          trigger: { type: "relativeTime", actionId: "follow_worker_a_center", reference: RelativeTimeReference.End, offset: 0 },
+          movement: { act: CameraMovementType.DollyIn, targets: [factoryWorkerA] },
+        },
+        {
+          id: "pan_with_worker_a",
+          trigger: { type: "relativeTime", actionId: "push_closer_truck_pedestal", reference: RelativeTimeReference.Start, offset: 0 },
+          movement: { act: CameraMovementType.PanLeft },
+          constraints: [{ targets: [factoryWorkerA], config: { type: "subjectAware" }, allFrames: true }],
+        },
+        {
+          id: "tilt_with_worker_a",
+          trigger: { type: "relativeTime", actionId: "push_closer_truck_pedestal", reference: RelativeTimeReference.Start, offset: 0 },
+          movement: { act: CameraMovementType.TiltUp },
+        },
+        {
+          id: "truck_with_worker_a",
+          trigger: { type: "relativeTime", actionId: "push_closer_truck_pedestal", reference: RelativeTimeReference.End, offset: 0 },
+          movement: { act: CameraMovementType.TruckLeft },
+          constraints: [{ targets: [factoryWorkerA], config: { type: "subjectAware" }, allFrames: true }],
+        },
+        {
+          id: "pedestal_with_worker_a",
+          trigger: { type: "relativeTime", actionId: "truck_with_worker_a", reference: RelativeTimeReference.Start, offset: 0 },
+          movement: { act: CameraMovementType.PedestalUp },
+        },
+        {
+          id: "arc_zoom_near_machine",
+          // In this scene westward motion slows after the approach. Projecting
+          // velocity avoids mistaking the initial slow start for this event.
+          trigger: {
+            type: "velocity", subject: factoryWorkerA,
+            operator: ComparisonOperator.LessThan, speed: 0.46,
+            direction: { x: -1, y: 0, z: 0 },
+          },
+          movement: { act: CameraMovementType.Orbit, targets: [factoryWorkerA] },
+          constraints: [{ kind: "general", constraint: ConstraintType.KeepInFrame, targets: factoryWorkers, allFrames: false }],
+        },
+        {
+          id: "zoom_in_reveal_worker_b",
+          trigger: { type: "relativeTime", actionId: "arc_zoom_near_machine", reference: RelativeTimeReference.Start, offset: 0 },
+          movement: { act: CameraMovementType.ZoomIn },
+          constraints: [{ kind: "general", constraint: ConstraintType.KeepInFrame, targets: factoryWorkers, allFrames: false }],
+        },
+        {
+          id: "converge_track_both",
+          trigger: {
+            type: "distance", object1: factoryWorkerA, object2: factoryWorkerB,
+            operator: ComparisonOperator.LessThanOrEqual, distance: 0.8,
+          },
+          movement: { act: CameraMovementType.Track, targets: factoryWorkers },
+          constraints: [
+            { kind: "general", constraint: ConstraintType.KeepInFrame, targets: factoryWorkers, allFrames: true },
+            { kind: "general", constraint: ConstraintType.MaintainDistance, targets: factoryWorkers, allFrames: true },
+            { kind: "general", constraint: ConstraintType.MaintainAngle, targets: factoryWorkers, allFrames: true },
+          ],
+        },
+        {
+          id: "widen_convergence",
+          trigger: { type: "relativeTime", actionId: "converge_track_both", reference: RelativeTimeReference.Start, offset: 0 },
+          movement: { act: CameraMovementType.ZoomOut },
+        },
+        {
+          id: "worker_b_accelerates_pan_truck",
+          trigger: { type: "velocity", subject: factoryWorkerB, operator: ComparisonOperator.GreaterThanOrEqual, speed: 1.8 },
+          movement: { act: CameraMovementType.TruckRight, duration: 2 },
+          constraints: [{ targets: [factoryWorkerB], config: { type: "subjectAware" }, allFrames: true }],
+        },
+        {
+          id: "pan_with_worker_b",
+          trigger: { type: "relativeTime", actionId: "worker_b_accelerates_pan_truck", reference: RelativeTimeReference.Start, offset: 0 },
+          movement: { act: CameraMovementType.PanRight, duration: 2 },
+          constraints: [{ targets: [factoryWorkerB], config: { type: "subjectAware" }, allFrames: true }],
+        },
+        {
+          id: "lower_and_arc_worker_b",
+          trigger: { type: "relativeTime", actionId: "worker_b_accelerates_pan_truck", reference: RelativeTimeReference.End, offset: 0 },
+          movement: { act: CameraMovementType.PedestalDown },
+          constraints: [{ targets: [factoryWorkerB], config: { type: "subjectAware" }, allFrames: true }],
+        },
+        {
+          id: "arc_around_worker_b",
+          trigger: { type: "relativeTime", actionId: "lower_and_arc_worker_b", reference: RelativeTimeReference.End, offset: 0 },
+          movement: { act: CameraMovementType.Orbit, targets: [factoryWorkerB] },
+          constraints: [{
+            targets: [factoryWorkerB],
+            config: { type: "subjectAware", subjectFraming: { dutchAngleScale: 0 } },
+            allFrames: false,
+          }],
+        },
+        {
+          id: "pull_back_reveal_all",
+          trigger: { type: "relativeTime", actionId: "arc_around_worker_b", reference: RelativeTimeReference.End, offset: 0 },
+          movement: { act: CameraMovementType.DollyOut, targets: factoryWorkers },
+          constraints: [{
+            kind: "general",
+            constraint: ConstraintType.KeepInFrame,
+            targets: [...factoryWorkers, { id: "loading_bay_frame", description: "محوطهٔ بارگیری" }],
+            allFrames: false,
+          }],
+        },
+        {
+          id: "orbit_both_workers",
+          trigger: { type: "relativeTime", actionId: "pull_back_reveal_all", reference: RelativeTimeReference.End, offset: 0 },
+          movement: { act: CameraMovementType.Orbit, targets: factoryWorkers },
+          constraints: [{
+            targets: factoryWorkers,
+            config: { type: "subjectAware", shotSize: ShotSize.LongShot },
+            allFrames: true,
+          }, {
+            kind: "general", constraint: ConstraintType.KeepInFrame, targets: factoryWorkers, allFrames: true,
+          }],
+        },
+        {
+          id: "locked_off_freeze",
+          trigger: { type: "relativeTime", actionId: "orbit_both_workers", reference: RelativeTimeReference.End, offset: 0 },
+          movement: { act: CameraMovementType.Static, relativeFPS: RelativeFPS.Frozen },
+          constraints: [{
+            targets: factoryWorkers,
+            config: { type: "subjectAware", shotSize: ShotSize.LongShot },
+            allFrames: true,
+          }, {
+            kind: "general", constraint: ConstraintType.KeepInFrame, targets: factoryWorkers, allFrames: true,
+          }],
+        },
+      ]),
+    }],
   },
 },
 ...dontCarePromptExampleFixtures,

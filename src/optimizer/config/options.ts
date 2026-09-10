@@ -34,7 +34,9 @@ export function resolveOptimizerOptions(
   return {
     minimumSubjectCoverage: input.options?.minimumSubjectCoverage ?? DEFAULT_OPTIONS.minimumSubjectCoverage,
     minimumMovementDistance: input.options?.minimumMovementDistance ?? DEFAULT_OPTIONS.minimumMovementDistance,
+    minimumDollyDistanceRatio: input.options?.minimumDollyDistanceRatio ?? DEFAULT_OPTIONS.minimumDollyDistanceRatio,
     minimumMovementAngleDegrees: input.options?.minimumMovementAngleDegrees ?? DEFAULT_OPTIONS.minimumMovementAngleDegrees,
+    minimumOrbitAngleDegrees: input.options?.minimumOrbitAngleDegrees ?? DEFAULT_OPTIONS.minimumOrbitAngleDegrees,
     minimumZoomChangeDegrees: input.options?.minimumZoomChangeDegrees ?? DEFAULT_OPTIONS.minimumZoomChangeDegrees,
     motionTransitionSeconds: input.options?.motionTransitionSeconds ?? DEFAULT_OPTIONS.motionTransitionSeconds,
     optimizationFps: input.options?.optimizationFps ?? DEFAULT_OPTIONS.optimizationFps,

@@ -192,6 +192,28 @@ function interpolateState(
   };
 }
 
+/** Shares the output curve with collision checks without constructing samples. */
+export function createCameraPositionSampler(
+  states: readonly CameraStateSample[],
+  cutTimes: readonly number[],
+): (time: number) => Vec3 {
+  const tangents = states.map((_, index) => sampleTangent(states, index, cutTimes).position);
+  return (time) => {
+    const [leftIndex, rightIndex, alpha] = bracket(states, time);
+    const left = states[leftIndex]!;
+    const right = states[rightIndex]!;
+    if (leftIndex === rightIndex || crossesCut(left.time, right.time, cutTimes)) return left.position;
+    return left.position.map((value, component) => cubicHermite(
+      value,
+      right.position[component]!,
+      tangents[leftIndex]![component]!,
+      tangents[rightIndex]![component]!,
+      right.time - left.time,
+      alpha,
+    )) as Vec3;
+  };
+}
+
 function sourceActionAt(plan: CompiledLossPlan, time: number): string | undefined {
   return plan.primitives.find((primitive) =>
     primitive.sourceActionId

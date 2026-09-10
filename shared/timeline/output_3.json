@@ -3,19 +3,24 @@
   "kind": "timelineSolverOutput",
   "exampleId": "example-03",
   "environmentId": "example-03-vase-reveal",
-  "prompt": "ابتدا به صورت کلوزآپ گلدون رو نشون بده و بعد dolly out کن تا همزمان گلدون و مانیتور در صحنه دیده‌شوند.",
+  "prompt": "ابتدا گلدان را در نمای نزدیک نشان بده، سپس دوربین را عقب بکش تا گلدان و مانیتور همزمان در قاب دیده شوند.",
   "totalDuration": 20,
+  "subjectBinding": {
+    "mode": "resolved",
+    "source": "resolved-fixture"
+  },
   "timeline": {
     "timeline": [
       {
         "kind": "interval",
+        "shotStartTime": 0,
         "startTime": 0,
         "endTime": 20,
         "lossFunctions": [
           {
             "type": "dollyOutMovement",
             "parameters": {
-              "distance": 2,
+              "subjectId": "vase",
               "speedKeyframes": [
                 {
                   "normalizedTime": 0,
@@ -37,51 +42,44 @@
                   "easing": "decrease"
                 }
               ]
-            }
+            },
+            "sourceActionId": "dolly_out_reveal"
           }
-        ]
+        ],
+        "weight": 1
       },
       {
         "kind": "point",
+        "shotStartTime": 0,
         "time": 0,
         "lossFunctions": [
           {
             "type": "shotSize",
             "parameters": {
-              "shotSize": "closeUp"
-            }
-          },
-          {
-            "type": "subjectView",
-            "parameters": {
-              "view": "front"
-            }
-          },
-          {
-            "type": "framingPosition",
-            "parameters": {
-              "position": "center"
+              "shotSize": "closeUp",
+              "subjectId": "vase"
             }
           }
-        ]
+        ],
+        "weight": 1
       },
       {
         "kind": "point",
+        "shotStartTime": 0,
         "time": 20,
         "lossFunctions": [
           {
-            "type": "shotSize",
+            "type": "keepInFrame",
             "parameters": {
-              "shotSize": "mediumShot"
-            }
-          },
-          {
-            "type": "framingPosition",
-            "parameters": {
-              "position": "center"
-            }
+              "subjectIds": [
+                "vase",
+                "monitor"
+              ]
+            },
+            "sourceActionId": "dolly_out_reveal"
           }
-        ]
+        ],
+        "weight": 1
       }
     ],
     "timeWarp": []

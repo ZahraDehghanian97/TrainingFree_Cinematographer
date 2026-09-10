@@ -3,7 +3,7 @@
   "kind": "environment",
   "id": "example-12-dashboard-exit",
   "promptExampleId": "example-12",
-  "prompt": "از نمای داخل ماشین (Dashboard View) شروع کن، وقتی راننده ترمز کرد، دوربین از شیشه جلو بیرون بیاید و با یک Arc سریع، نمای جلوی ماشین را نشان دهد.",
+  "prompt": "از نمای داخل ماشین و پشت داشبورد شروع کن؛ وقتی راننده ترمز کرد، دوربین از شیشهٔ جلو بیرون بیاید و با یک چرخش قوسی سریع، نمای جلوی ماشین را نشان بدهد.",
   "clock": {
     "durationSeconds": 18,
     "timeDomain": "playback",
@@ -29,7 +29,7 @@
   "entities": [
     {
       "id": "braking-car-entity",
-      "label": "Braking car",
+      "label": "ماشین در حال ترمز",
       "transform": {
         "space": "world",
         "position": {
@@ -50,7 +50,7 @@
     },
     {
       "id": "steering-wheel-entity",
-      "label": "Steering wheel",
+      "label": "فرمان ماشین",
       "transform": {
         "space": "world",
         "position": {
@@ -88,14 +88,14 @@
     {
       "id": "dashboard",
       "entityId": "braking-car-entity",
-      "label": "The car's dashboard interior view (نمای داخل ماشین از داشبورد)",
+      "label": "نمای داخل ماشین از پشت داشبورد",
       "localAnchor": [0, 1.02, -0.48],
       "localBounds": { "type": "box", "min": [-0.82, 0.82, -0.78], "max": [0.82, 1.18, -0.12] }
     },
     {
       "id": "car",
       "entityId": "braking-car-entity",
-      "label": "The car (ماشین)",
+      "label": "ماشین",
       "localAnchor": [0, 0.75, 0],
       "localBounds": { "type": "box", "min": [-1, 0, -2.3], "max": [1, 1.5, 2.3] }
     }

@@ -5,10 +5,8 @@ import {
   validateResolvedOptimizerOptions,
 } from "./config/options";
 import { validateOptimizerInput } from "./config/validation";
-import {
-  clampToGroundClearance,
-  initializeCameraStates,
-} from "./initialization";
+import { clampToGroundClearance } from "./initialization";
+import { selectSceneAwareSeed } from "./initialization/search";
 import { withKeyframeCuts } from "./shared/keyframes";
 import { buildOptimizationTimes, buildOutputTimes } from "./shared/time";
 import { solveNumerically } from "./solver/numerical-solver";
@@ -48,19 +46,15 @@ export function optimizeCameraTrajectory(input: CameraOptimizerInput): CameraOpt
     : effectiveInput.environment.world.ground.y
       + options.cameraRadius
       + options.collisionMargin;
-  const initialStates = initializeCameraStates(
-    effectiveInput,
-    plan,
-    optimizationTimes,
-    options.initialFovYDegrees,
-    minimumCameraY,
-  );
   const evaluator = new ObjectiveEvaluator(effectiveInput, plan, optimizationTimes, {
     aspectRatio: options.aspectRatio,
     cameraRadius: options.cameraRadius,
     collisionMargin: options.collisionMargin,
     nearPlane: options.nearPlane,
   });
+  const initialStates = selectSceneAwareSeed(
+    effectiveInput, plan, optimizationTimes, options.initialFovYDegrees, minimumCameraY, evaluator,
+  );
   const solved = solveNumerically(
     initialStates,
     effectiveInput.userKeyframes ?? [],
@@ -97,6 +91,20 @@ export function optimizeCameraTrajectory(input: CameraOptimizerInput): CameraOpt
     minimumCameraY,
   );
   const warnings = [...plan.warnings, ...evaluator.warnings];
+  const outputStates = trajectory.samples.map((sample) => ({
+    time: sample.t, position: sample.position, rotation: sample.rotation!,
+    fovYDegrees: sample.fovYDegrees!,
+  }));
+  const outputEvaluator = new ObjectiveEvaluator(effectiveInput, plan, outputTimes, {
+    aspectRatio: options.aspectRatio, cameraRadius: options.cameraRadius,
+    collisionMargin: options.collisionMargin, nearPlane: options.nearPlane,
+  });
+  const maximumSafetyViolationMeters = Math.max(
+    evaluator.safetyViolation(solved.states), outputEvaluator.safetyViolation(outputStates),
+  );
+  if (maximumSafetyViolationMeters > 1e-5) {
+    warnings.push(`Camera clearance remains unsatisfied by up to ${maximumSafetyViolationMeters.toFixed(3)} m`);
+  }
   const collisionLoss = finalEvaluation.breakdown
     .filter((entry) => entry.type === "collisionClearance")
     .reduce((sum, entry) => sum + entry.weightedLoss, 0);
@@ -124,6 +132,7 @@ export function optimizeCameraTrajectory(input: CameraOptimizerInput): CameraOpt
       conflicts: plan.conflicts,
       lossBreakdown: finalEvaluation.breakdown,
       elapsedMilliseconds: Date.now() - startedAt,
+      maximumSafetyViolationMeters,
       warnings: [...new Set(warnings)],
     },
   };

@@ -3,7 +3,7 @@
   "kind": "environment",
   "id": "example-19-stairwell-ambush",
   "promptExampleId": "example-19",
-  "prompt": "از نمای Overhead روی کارآگاه شروع کن؛ همزمان Pedestal Down و Tilt Down کن تا در دو ثانیه هم‌سطح او شوی. بعد با Truck Left در راهرو همراهش برو. وقتی به انتهای مسیر رسید، یک Pan Left سریع بزن، Zoom Out کن و با Dutch Right مهاجم پشت ستون را آشکار کن؛ سپس با یک Counter Pan Right کوتاه هر دو را در قاب نهایی جمع کن.",
+  "prompt": "از نمای عمودی بالا روی کارآگاه شروع کن؛ همزمان دوربین را پایین بیاور و رو به بالا بچرخان تا در دو ثانیه هم‌سطح او شوی. سپس با حرکت جانبی به چپ در راهرو همراهش برو. وقتی به انتهای مسیر رسید، دوربین را سریع به چپ بچرخان، زوم را باز کن و با کج‌کردن دوربین به راست، مهاجم پشت ستون را آشکار کن؛ سپس با یک چرخش افقی کوتاه به راست، هر دو را در قاب نهایی جا بده.",
   "clock": {
     "durationSeconds": 10,
     "timeDomain": "playback",
@@ -50,7 +50,7 @@
   "entities": [
     {
       "id": "detective-entity",
-      "label": "Detective",
+      "label": "کارآگاه",
       "transform": {
         "space": "world",
         "position": {
@@ -158,7 +158,7 @@
     },
     {
       "id": "pursuer-entity",
-      "label": "Hidden pursuer",
+      "label": "تعقیب‌کنندهٔ پنهان",
       "transform": {
         "space": "world",
         "position": {
@@ -249,7 +249,7 @@
     },
     {
       "id": "ambush-column",
-      "label": "Ambush column",
+      "label": "ستون محل کمین",
       "transform": {
         "space": "world",
         "position": [
@@ -286,7 +286,7 @@
     },
     {
       "id": "back-wall",
-      "label": "Corridor back wall",
+      "label": "دیوار انتهای راهرو",
       "transform": {
         "space": "world",
         "position": [
@@ -323,7 +323,7 @@
     },
     {
       "id": "red-exit-sign",
-      "label": "Red exit sign",
+      "label": "تابلوی قرمز خروج",
       "transform": {
         "space": "world",
         "position": [
@@ -360,7 +360,7 @@
     },
     {
       "id": "stair-step-1",
-      "label": "Stair step 1",
+      "label": "پلهٔ اول",
       "transform": {
         "space": "world",
         "position": [
@@ -397,7 +397,7 @@
     },
     {
       "id": "stair-step-2",
-      "label": "Stair step 2",
+      "label": "پلهٔ دوم",
       "transform": {
         "space": "world",
         "position": [
@@ -437,7 +437,7 @@
     {
       "id": "detective",
       "entityId": "detective-entity",
-      "label": "The detective",
+      "label": "کارآگاه",
       "localAnchor": [
         0,
         1.18,
@@ -460,7 +460,7 @@
     {
       "id": "pursuer",
       "entityId": "pursuer-entity",
-      "label": "The hidden pursuer",
+      "label": "تعقیب‌کنندهٔ پنهان",
       "localAnchor": [
         0,
         1.18,

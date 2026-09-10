@@ -3,7 +3,7 @@
   "kind": "environment",
   "id": "example-01-football",
   "promptExampleId": "example-01",
-  "prompt": "توپ رو دنبال کن و وقتی توپ نزدیک به دروازه شد، pedestal کن و از زاویه بالا توپ رو دنبال کن",
+  "prompt": "توپ را دنبال کن و وقتی به دروازه نزدیک شد، دوربین را عمودی بالا ببر و توپ را از زاویهٔ بالا دنبال کن.",
   "clock": {
     "durationSeconds": 10,
     "timeDomain": "playback",
@@ -32,7 +32,7 @@
   "entities": [
     {
       "id": "ball-entity",
-      "label": "Football",
+      "label": "توپ فوتبال",
       "transform": {
         "space": "world",
         "position": {
@@ -62,7 +62,7 @@
     },
     {
       "id": "goal-entity",
-      "label": "Goal",
+      "label": "دروازه",
       "transform": { "space": "world", "position": [0, 0, -8] },
       "visual": { "type": "preset", "name": "soccerGoal", "params": { "width": 6, "height": 2.5, "depth": 1.2 } },
       "bounds": { "type": "box", "min": [-3, 0, -1.2], "max": [3, 2.5, 0.05] }
@@ -72,14 +72,14 @@
     {
       "id": "ball",
       "entityId": "ball-entity",
-      "label": "The ball",
+      "label": "توپ",
       "localAnchor": [0, 0, 0],
       "localBounds": { "type": "sphere", "center": [0, 0, 0], "radius": 0.35 }
     },
     {
       "id": "goal",
       "entityId": "goal-entity",
-      "label": "The goal",
+      "label": "دروازه",
       "localAnchor": [0, 1.25, 0],
       "localBounds": { "type": "box", "min": [-3, 0, -1.2], "max": [3, 2.5, 0.05] }
     }

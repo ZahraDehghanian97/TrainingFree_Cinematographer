@@ -1,0 +1,227 @@
+{
+  "schemaVersion": "1.0",
+  "kind": "timelineSolverOutput",
+  "exampleId": "example-18",
+  "environmentId": "example-18-eye-zoom",
+  "prompt": "از نمای نزدیک دست لرزان شروع کن و در ۲٫۵ ثانیه با چرخش عمودی دوربین به بالا به چشم برس. نیم‌ثانیه مکث کن؛ سپس دوربین را به جلو ببر و همزمان زوم را بیشتر کن تا وارد مردمک شوی. در یک‌ونیم ثانیهٔ آخر دوربین را ۱۰ درجه به راست کج کن و ضرب پایانی را داخل مردمک با توقف زمان ثبت کن.",
+  "totalDuration": 10,
+  "subjectBinding": {
+    "mode": "resolved",
+    "source": "resolved-fixture"
+  },
+  "timeline": {
+    "timeline": [
+      {
+        "kind": "interval",
+        "shotStartTime": 0,
+        "startTime": 0,
+        "endTime": 2.5,
+        "lossFunctions": [
+          {
+            "type": "tiltUpMovement",
+            "parameters": {
+              "speedKeyframes": [
+                {
+                  "normalizedTime": 0,
+                  "speedMultiplier": 0
+                },
+                {
+                  "normalizedTime": 0.2,
+                  "speedMultiplier": 1,
+                  "easing": "increase"
+                },
+                {
+                  "normalizedTime": 0.8,
+                  "speedMultiplier": 1
+                },
+                {
+                  "normalizedTime": 1,
+                  "speedMultiplier": 0,
+                  "easing": "decrease"
+                }
+              ]
+            },
+            "sourceActionId": "tilt_hand_to_eye"
+          }
+        ],
+        "weight": 1
+      },
+      {
+        "kind": "point",
+        "shotStartTime": 0,
+        "time": 0,
+        "lossFunctions": [
+          {
+            "type": "shotSize",
+            "parameters": {
+              "shotSize": "closeUp",
+              "subjectId": "hand"
+            }
+          }
+        ],
+        "weight": 1
+      },
+      {
+        "kind": "point",
+        "shotStartTime": 0,
+        "time": 2.5,
+        "lossFunctions": [
+          {
+            "type": "shotSize",
+            "parameters": {
+              "shotSize": "closeUp",
+              "subjectId": "eye"
+            }
+          }
+        ],
+        "weight": 1,
+        "easing": {
+          "inDuration": 1,
+          "curve": "easeInOut"
+        }
+      },
+      {
+        "kind": "interval",
+        "shotStartTime": 0,
+        "startTime": 2.5,
+        "endTime": 3,
+        "lossFunctions": [
+          {
+            "type": "Static",
+            "parameters": {},
+            "sourceActionId": "eye_breath_hold"
+          }
+        ],
+        "weight": 1
+      },
+      {
+        "kind": "interval",
+        "shotStartTime": 0,
+        "startTime": 2.5,
+        "endTime": 3,
+        "lossFunctions": [
+          {
+            "type": "shotSize",
+            "parameters": {
+              "shotSize": "closeUp",
+              "subjectId": "eye"
+            },
+            "sourceActionId": "eye_breath_hold"
+          }
+        ],
+        "weight": 1
+      },
+      {
+        "kind": "interval",
+        "shotStartTime": 0,
+        "startTime": 3,
+        "endTime": 8.5,
+        "lossFunctions": [
+          {
+            "type": "dollyInMovement",
+            "parameters": {
+              "subjectId": "pupil",
+              "speedKeyframes": [
+                {
+                  "normalizedTime": 0,
+                  "speedMultiplier": 0
+                },
+                {
+                  "normalizedTime": 0.15,
+                  "speedMultiplier": 0.75,
+                  "easing": "increase"
+                },
+                {
+                  "normalizedTime": 0.7,
+                  "speedMultiplier": 1.35
+                },
+                {
+                  "normalizedTime": 1,
+                  "speedMultiplier": 0.1,
+                  "easing": "decrease"
+                }
+              ],
+              "allowSubjectIntersection": true
+            },
+            "sourceActionId": "pupil_dolly_in"
+          }
+        ],
+        "weight": 1
+      },
+      {
+        "kind": "interval",
+        "shotStartTime": 0,
+        "startTime": 3,
+        "endTime": 8.5,
+        "lossFunctions": [
+          {
+            "type": "zoomInMovement",
+            "parameters": {},
+            "sourceActionId": "pupil_zoom_in"
+          }
+        ],
+        "weight": 1
+      },
+      {
+        "kind": "point",
+        "shotStartTime": 0,
+        "time": 8.5,
+        "lossFunctions": [
+          {
+            "type": "shotSize",
+            "parameters": {
+              "shotSize": "extremeCloseUp",
+              "subjectId": "pupil"
+            }
+          }
+        ],
+        "weight": 1,
+        "easing": {
+          "inDuration": 2,
+          "curve": "easeInOut"
+        }
+      },
+      {
+        "kind": "interval",
+        "shotStartTime": 0,
+        "startTime": 8.5,
+        "endTime": 10,
+        "lossFunctions": [
+          {
+            "type": "dutchRightMovement",
+            "parameters": {
+              "rotationAngle": 10
+            },
+            "sourceActionId": "pupil_dutch_right"
+          }
+        ],
+        "weight": 1
+      },
+      {
+        "kind": "interval",
+        "shotStartTime": 0,
+        "startTime": 8.5,
+        "endTime": 10,
+        "lossFunctions": [
+          {
+            "type": "shotSize",
+            "parameters": {
+              "shotSize": "extremeCloseUp",
+              "subjectId": "pupil"
+            },
+            "sourceActionId": "pupil_dutch_right"
+          }
+        ],
+        "weight": 1
+      }
+    ],
+    "timeWarp": [
+      {
+        "startTimePlayback": 8.5,
+        "endTimePlayback": 10,
+        "rate": 0,
+        "label": "frozen"
+      }
+    ]
+  }
+}

@@ -14,11 +14,11 @@ export interface DontCarePromptExampleFixture extends ResolvedPromptExampleFixtu
   explanation: string;
 }
 
-const dancer: Target = { id: "dancer", description: "The dancer" };
-const dancerFace: Target = { id: "dancer_face", description: "The dancer's face" };
-const agentA: Target = { id: "actor_a", description: "Agent A" };
-const agentB: Target = { id: "actor_b", description: "Agent B" };
-const runner: Target = { id: "runner", description: "The runner" };
+const dancer: Target = { id: "dancer", description: "رقصنده" };
+const dancerFace: Target = { id: "dancer_face", description: "صورت رقصنده" };
+const agentA: Target = { id: "actor_a", description: "مأمور الف" };
+const agentB: Target = { id: "actor_b", description: "مأمور ب" };
+const runner: Target = { id: "runner", description: "دونده" };
 
 /**
  * Sparse, executable reference CSL: omitted properties represent don't-care.
@@ -30,9 +30,9 @@ export const dontCarePromptExampleFixtures: DontCarePromptExampleFixture[] = [
     id: "example-24",
     environmentId: "example-24-dont-care-arc",
     sourceExampleId: "example-15",
-    title: "Don't care: bare arc",
-    prompt: "دور رقصنده آرک بزن.",
-    explanation: "شعاع، مقدار چرخش، دوربین آغازین و فریمینگ آزادند. حرکت باید دیده شود و رقصنده از قاب خارج یا بیش‌ازحد کوچک نشود.",
+    title: "پارامترهای آزاد: چرخش ساده",
+    prompt: "در مسیری قوسی دور رقصنده بچرخ.",
+    explanation: "شعاع، مقدار چرخش، دوربین آغازین و قاب‌بندی آزادند. حرکت باید دیده شود و رقصنده از قاب خارج یا بیش‌ازحد کوچک نشود.",
     resolvedCsl: {
       totalDuration: 10,
       sections: [{
@@ -48,9 +48,9 @@ export const dontCarePromptExampleFixtures: DontCarePromptExampleFixture[] = [
     id: "example-25",
     environmentId: "example-25-dont-care-radius",
     sourceExampleId: "example-15",
-    title: "Don't care: arc with explicit radius",
-    prompt: "دور رقصنده با شعاع ۴ متر آرک بزن.",
-    explanation: "با مثال ۲۴ مقایسه کنید: فقط شعاع ۴ متر صریح شده است؛ مقدار چرخش، فریمینگ و دوربین آغازین همچنان آزادند.",
+    title: "پارامترهای آزاد: چرخش با شعاع مشخص",
+    prompt: "در مسیری قوسی با شعاع ۴ متر دور رقصنده بچرخ.",
+    explanation: "با مثال ۲۴ مقایسه کنید: فقط شعاع ۴ متر صریح شده است؛ مقدار چرخش، قاب‌بندی و دوربین آغازین همچنان آزادند.",
     resolvedCsl: {
       totalDuration: 10,
       sections: [{
@@ -70,9 +70,9 @@ export const dontCarePromptExampleFixtures: DontCarePromptExampleFixture[] = [
     id: "example-26",
     environmentId: "example-26-dont-care-framing",
     sourceExampleId: "example-15",
-    title: "Don't care: right framing, free shot size",
-    prompt: "دور رقصنده آرک چپ بزن و او را سمت راست قاب نگه دار.",
-    explanation: "تنها جای سوژه در قاب تعیین شده است. رقصنده باید سمت راست بماند؛ اندازهٔ نما و شعاع آرک را اوپتیمایزر انتخاب می‌کند.",
+    title: "پارامترهای آزاد: سوژه در راست قاب با اندازهٔ نمای آزاد",
+    prompt: "در مسیری قوسی به چپ دور رقصنده بچرخ و او را سمت راست قاب نگه دار.",
+    explanation: "تنها جای سوژه در قاب تعیین شده است. رقصنده باید سمت راست بماند؛ اندازهٔ نما و شعاع مسیر قوسی را بهینه‌ساز انتخاب می‌کند.",
     resolvedCsl: {
       totalDuration: 10,
       sections: [{
@@ -96,9 +96,9 @@ export const dontCarePromptExampleFixtures: DontCarePromptExampleFixture[] = [
     id: "example-27",
     environmentId: "example-27-dont-care-closeup",
     sourceExampleId: "example-15",
-    title: "Don't care: explicit face close-up",
-    prompt: "دور رقصنده آرک چپ بزن و صورتش را کلوزآپ نگه دار.",
-    explanation: "کلوزآپ صورت صریح است؛ نمایش کامل بدن نباید به صورت تحمیل شود. جای صورت در قاب، شعاع و مقدار چرخش تعیین نشده‌اند.",
+    title: "پارامترهای آزاد: نمای نزدیک صورت",
+    prompt: "در مسیری قوسی به چپ دور رقصنده بچرخ و صورتش را در نمای نزدیک نگه دار.",
+    explanation: "نمای نزدیک صورت صریح است؛ نمایش کامل بدن نباید به صورت تحمیل شود. جای صورت در قاب، شعاع و مقدار چرخش تعیین نشده‌اند.",
     resolvedCsl: {
       totalDuration: 10,
       sections: [{
@@ -119,9 +119,9 @@ export const dontCarePromptExampleFixtures: DontCarePromptExampleFixture[] = [
     id: "example-28",
     environmentId: "example-28-dont-care-truck",
     sourceExampleId: "example-15",
-    title: "Don't care: truck with subject-only intent",
-    prompt: "با تراک راست از رقصنده فیلم بگیر.",
-    explanation: "سوژه فقط در قید subjectAware معرفی شده و فریمینگ خالی است. ترجیح دیده‌شدن رقصنده باید فعال شود و مقدار تراک آزاد بماند.",
+    title: "پارامترهای آزاد: حرکت جانبی با سوژهٔ مشخص",
+    prompt: "با حرکت جانبی دوربین به راست از رقصنده فیلم بگیر.",
+    explanation: "سوژه فقط در قید آگاه از سوژه معرفی شده و قاب‌بندی خالی است. ترجیح دیده‌شدن رقصنده باید فعال شود و مقدار حرکت جانبی آزاد بماند.",
     resolvedCsl: {
       totalDuration: 10,
       sections: [{
@@ -142,7 +142,7 @@ export const dontCarePromptExampleFixtures: DontCarePromptExampleFixture[] = [
     id: "example-29",
     environmentId: "example-29-dont-care-follow",
     sourceExampleId: "example-17",
-    title: "Don't care: follow a changing-speed runner",
+    title: "پارامترهای آزاد: دنبال‌کردن دونده با سرعت متغیر",
     prompt: "دونده را دنبال کن.",
     explanation: "در مسیر بلند و با تغییر سرعت دونده، بدون تعیین فاصله، زاویه، اندازهٔ نما یا دوربین آغازین، او باید در قاب قابل‌دیدن بماند.",
     resolvedCsl: {
@@ -160,8 +160,8 @@ export const dontCarePromptExampleFixtures: DontCarePromptExampleFixture[] = [
     id: "example-30",
     environmentId: "example-30-dont-care-group",
     sourceExampleId: "example-16",
-    title: "Don't care: track two moving subjects",
-    prompt: "هر دو مأمور را با تراکینگ دنبال کن.",
+    title: "پارامترهای آزاد: تعقیب دو سوژهٔ متحرک",
+    prompt: "هر دو مأمور را با حرکت دوربین دنبال کن.",
     explanation: "دو مأمور ابتدا از هم دورند، نزدیک می‌شوند و دوباره فاصله می‌گیرند. هر دو باید قابل‌دیدن بمانند؛ اندازهٔ نما و چینش آن‌ها در قاب آزاد است.",
     resolvedCsl: {
       totalDuration: 10,
@@ -178,9 +178,9 @@ export const dontCarePromptExampleFixtures: DontCarePromptExampleFixture[] = [
     id: "example-31",
     environmentId: "example-31-dont-care-cut",
     sourceExampleId: "example-16",
-    title: "Don't care: cut between subjects",
-    prompt: "چهار ثانیه مأمور A را دنبال کن، بعد کات بزن و مأمور B را دنبال کن.",
-    explanation: "در ثانیهٔ ۴ سوژه عوض می‌شود. هر پلان بدون دوربین آغازین مستقل حل می‌شود و ترجیح دیده‌شدن A نباید به پلان B نشت کند.",
+    title: "پارامترهای آزاد: کات بین دو سوژه",
+    prompt: "چهار ثانیه مأمور الف را دنبال کن، سپس کات بزن و مأمور ب را دنبال کن.",
+    explanation: "در ثانیهٔ ۴ سوژه عوض می‌شود. هر پلان بدون دوربین آغازین مستقل حل می‌شود و ترجیح دیده‌شدن مأمور الف نباید به پلان مأمور ب منتقل شود.",
     resolvedCsl: {
       totalDuration: 10,
       sections: [
@@ -209,9 +209,9 @@ export const dontCarePromptExampleFixtures: DontCarePromptExampleFixture[] = [
     id: "example-32",
     environmentId: "example-32-dont-care-zoom",
     sourceExampleId: "example-15",
-    title: "Don't care: lens-only initial camera",
+    title: "پارامترهای آزاد: شروع با مشخصات لنز",
     prompt: "با میدان دید ۷۰ درجه شروع کن و روی صورت رقصنده دو برابر زوم کن.",
-    explanation: "فقط میدان دید آغازین و ضریب زوم صریح‌اند. موقعیت و جهت دوربین آزاد است؛ صورت از قید بدون فریمینگ شناخته می‌شود و باید قابل‌دیدن بماند.",
+    explanation: "فقط میدان دید آغازین و ضریب زوم صریح‌اند. موقعیت و جهت دوربین آزاد است؛ صورت از قید بدون قاب‌بندی شناخته می‌شود و باید قابل‌دیدن بماند.",
     resolvedCsl: {
       totalDuration: 10,
       sections: [{

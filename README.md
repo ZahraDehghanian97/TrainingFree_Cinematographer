@@ -9,7 +9,7 @@ npm install
 npm run visualizer
 ```
 
-Open `http://127.0.0.1:4173` and choose one of the 19 prompt environments. Each
+Open `http://127.0.0.1:4173` and choose one of the 32 prompt environments. Each
 catalog entry loads its scene-matched bundled trajectory by default. You can
 still request, upload, or paste generated optimizer output. God view shows the
 environment, path, and moving camera frustum. Director POV renders through the
@@ -79,7 +79,7 @@ changing `.env`; environment settings are loaded once per server process.
 The visualizer is data-driven:
 
 - `web/public/environments/manifest.json` is the environment catalog.
-- `web/public/environments/example-01.json` through `example-19.json` contain scene geometry, optional semantic anchors, and object tracks.
+- `web/public/environments/example-01.json` through `example-32.json` contain scene geometry, optional semantic anchors, and object tracks.
 - `src/types/environment.ts` defines the environment contract.
 - `src/types/trajectory.ts` defines accepted camera documents.
 - `web/public/trajectories/ai-generated/example-01-camera.json` through
@@ -168,6 +168,11 @@ The example pipeline has an explicit `EXAMPLE_BINDING_MODE` hyperparameter:
 
 `src/data/examples.ts` only contains the conversion/evaluation helpers for the
 `llm` experiment; it is no longer the canonical example catalog.
+
+The [prompt/DSL audit](docs/example-prompt-dsl-audit.md) records corrections and
+remaining approximations for all 32 examples, including requests the current
+DSL or environment cannot fully express. Passing the fixture tests verifies
+the encoded intent and stored timelines; it does not establish visual fidelity.
 
 A draft subject is `{ ref, description }`, where `ref` is only a CSL-local
 correlation key. A resolved camera target is `{ id, description }`, where `id`
@@ -372,7 +377,8 @@ npm test               # Run Node tests, then the web Vitest suite
 npm run test:node      # Run Node timeline, grounding, and optimizer tests
 npm start              # Run timeline solver + optimizer for all examples
 npm run pipeline       # Alias for the same end-to-end pipeline
-npm run generate:trajectories # Generate all 19 trajectories without LLM/visualizer work
+npm run generate:trajectories # Generate all 32 trajectories and matching timeline JSON
+npm run generate:timelines    # Refresh all 32 timeline documents without optimization
 npm run visualizer     # Start Camera Lab in development mode
 npm run preview:visualizer
 ```
@@ -406,8 +412,14 @@ and fast smoke tests.
 `generate:trajectories` is the dependency-light resolved-fixture path: it skips
 LLM binding and timeline image generation, writes viewer JSON under
 `web/public/trajectories/optimized/`, and writes self-contained, viewer-loadable
-plans/diagnostics under `shared/optimized/`. It accepts `--example`, `--iterations`,
+plans/diagnostics under `shared/optimized/`. Matching prompts and compiled timelines
+are written to `shared/timeline/`. It accepts `--example`, `--iterations`,
 `--optimization-fps`, `--output-fps`, and `--keyframes` (with one example).
+
+After editing fixture prompts or CSL, `npm run generate:timelines` refreshes only
+the timeline documents without running the optimizer. This is the same generator's
+`--timeline-only` mode; `--example example-20` and `--suite dont-care` can narrow
+the selection. Regenerate trajectories to update camera playback after CSL changes.
 
 For each example, the pipeline writes:
 

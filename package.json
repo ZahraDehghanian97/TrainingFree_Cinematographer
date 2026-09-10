@@ -11,6 +11,7 @@
     "start": "ts-node ./src/index.ts",
     "pipeline": "ts-node ./src/index.ts",
     "generate:trajectories": "ts-node ./scripts/generate-optimized-trajectories.ts",
+    "generate:timelines": "ts-node ./scripts/generate-optimized-trajectories.ts --timeline-only",
     "generate:dont-care": "ts-node ./scripts/generate-optimized-trajectories.ts --suite dont-care",
     "visualizer": "vite --config web/vite.config.ts --configLoader runner",
     "preview:visualizer": "vite preview --config web/vite.config.ts --configLoader runner",

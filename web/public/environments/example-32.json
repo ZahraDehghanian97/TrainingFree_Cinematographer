@@ -50,7 +50,7 @@
   "entities": [
     {
       "id": "dancer-entity",
-      "label": "Dancer",
+      "label": "رقصنده",
       "transform": {
         "space": "world",
         "position": {
@@ -193,7 +193,7 @@
     },
     {
       "id": "stage",
-      "label": "Circular stage",
+      "label": "صحنهٔ دایره‌ای",
       "transform": {
         "space": "world",
         "position": [
@@ -228,7 +228,7 @@
     },
     {
       "id": "light-a",
-      "label": "Magenta light tower",
+      "label": "برج نور ارغوانی",
       "transform": {
         "space": "world",
         "position": [
@@ -265,7 +265,7 @@
     },
     {
       "id": "light-b",
-      "label": "Cyan light tower",
+      "label": "برج نور فیروزه‌ای",
       "transform": {
         "space": "world",
         "position": [
@@ -302,7 +302,7 @@
     },
     {
       "id": "light-c",
-      "label": "Amber light orb",
+      "label": "گوی نور کهربایی",
       "transform": {
         "space": "world",
         "position": [
@@ -334,7 +334,7 @@
     {
       "id": "dancer",
       "entityId": "dancer-entity",
-      "label": "The dancer",
+      "label": "رقصنده",
       "localAnchor": [
         0,
         1.18,
@@ -357,7 +357,7 @@
     {
       "id": "dancer_face",
       "entityId": "dancer-entity",
-      "label": "The dancer's face",
+      "label": "صورت رقصنده",
       "localAnchor": [
         0,
         1.58,

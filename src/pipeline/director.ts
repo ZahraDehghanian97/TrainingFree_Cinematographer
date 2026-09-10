@@ -31,7 +31,7 @@ import {
   type PipelineModelOptions,
 } from "./model-provider";
 
-const DIRECTOR_PROMPT_VERSION = "camera-director-csl-v5-dont-care";
+const DIRECTOR_PROMPT_VERSION = "camera-director-csl-v7-intent-scope";
 const MAX_REPAIR_OUTPUT_CHARS = 16_000;
 
 // Keep the AI SDK generic boundary intentionally shallow. The domain parser
@@ -62,6 +62,8 @@ Timing and intent:
 - Every action ID must be unique and stable snake_case.
 - Start at least one action with absoluteTime. Use relativeTime for sequential actions and identical triggers for concurrent actions.
 - Durations and trigger times are seconds and must fit the supplied playback window.
+- "The final N seconds" refers to [totalDuration - N, totalDuration], not the end of an earlier action. Keep any requested framing throughout that interval with allFrames=true; an eased endpoint constraint does not express holding the framing throughout the interval.
+- Camera acceleration changes camera movement pacing, not scene time. Use relativeFPS only when the user asks to slow, accelerate, or freeze the scene itself. A frozen scene can still have a moving camera; do not add a concurrent static action that would oppose that movement.
 - Omit movement.duration unless the user explicitly requests a duration. The scheduler allocates omitted durations inside the playback window; environment-triggered actions resolve their start from the scene.
 - Distance and velocity events support every comparison operator in the schema and fire on the first matching environment sample, including time zero.
 - Distance thresholds are nonnegative meters. Velocity thresholds are meters per second: without direction compare nonnegative speed magnitude; with a nonzero finite world-space direction vector, normalize it and compare the signed velocity projection. Signed thresholds are allowed only with direction.
@@ -74,6 +76,8 @@ Subject rules:
 - Every subjectAware camera constraint needs targets. keepInFrame, maintainDistance, maintainAngle, and avoidOcclusion general constraints also need targets.
 - A subjectAware config uses cameraAngle. Never emit cameraVerticalAngle; that is an internal optimizer loss name, not a CSL field.
 - Movement targets define motion axes/centers; constraint targets define framing and composition. Do not conflate them.
+- "Start with" framing belongs to initCamera only unless the user also asks to keep it. "Keep both in frame" needs an explicit keepInFrame constraint with allFrames=true; "reveal both by the end" needs keepInFrame with allFrames=false. Merely listing targets in an otherwise empty subjectAware config does not enforce this joint framing requirement.
+- A spiral approach combines orbit and dollyIn concurrently with the same trigger. Orbit around the subject and dolly toward the requested destination (for example the eyes). An initial bird's-eye angle belongs only to initCamera; the final close-up belongs to an end constraint with allFrames=false, not a constraint on the whole approach. Preserve any explicitly requested full turns in arcAngle.
 
 Unspecified values (don't care):
 - Omission is the only representation of don't care. Never output null, "dontCare", "auto", or a guessed default for an unspecified field.
@@ -105,11 +109,11 @@ function enumVocabulary(): Record<string, string[]> {
 function fewShotExamples(): Array<{ prompt: string; csl: CameraDirectionDraft }> {
   // Bundled demo trajectories contain authored artistic choices beyond their
   // short prompts. Do not teach those choices as inferred user constraints.
-  const dancer = { ref: "dancer", description: "The dancer" };
-  const actor = { ref: "actor", description: "The actor" };
+  const dancer = { ref: "dancer", description: "رقصنده" };
+  const actor = { ref: "actor", description: "بازیگر" };
   return [
     {
-      prompt: "دور رقصنده آرک به چپ بزن",
+      prompt: "در مسیری قوسی به چپ دور رقصنده بچرخ.",
       csl: { totalDuration: 8, sections: [{ actions: [{
         id: "arc_dancer",
         trigger: { type: "absoluteTime", time: 0 },
@@ -117,7 +121,7 @@ function fewShotExamples(): Array<{ prompt: string; csl: CameraDirectionDraft }>
       }] }] },
     },
     {
-      prompt: "دور بازیگر آرک بزن",
+      prompt: "در مسیری قوسی دور بازیگر بچرخ.",
       csl: { totalDuration: 8, sections: [{ actions: [{
         id: "orbit_actor",
         trigger: { type: "absoluteTime", time: 0 },
@@ -125,7 +129,7 @@ function fewShotExamples(): Array<{ prompt: string; csl: CameraDirectionDraft }>
       }] }] },
     },
     {
-      prompt: "Make one full orbit around the actor at a radius of 4 meters over 6 seconds.",
+      prompt: "در ۶ ثانیه یک دور کامل با شعاع ۴ متر دور بازیگر بچرخ.",
       csl: { totalDuration: 6, sections: [{ actions: [{
         id: "full_orbit_actor",
         trigger: { type: "absoluteTime", time: 0 },
@@ -138,7 +142,7 @@ function fewShotExamples(): Array<{ prompt: string; csl: CameraDirectionDraft }>
       }] }] },
     },
     {
-      prompt: "Start with a close-up of the actor, then dolly out while keeping the actor on the left.",
+      prompt: "از نمای نزدیک بازیگر شروع کن؛ سپس دوربین را عقب بکش و بازیگر را در چپ قاب نگه دار.",
       csl: { totalDuration: 8, sections: [{
         initCamera: {
           targets: [actor],
@@ -160,7 +164,7 @@ function fewShotExamples(): Array<{ prompt: string; csl: CameraDirectionDraft }>
       }] },
     },
     {
-      prompt: "Pan left, then tilt up.",
+      prompt: "دوربین را افقی به چپ بچرخان، سپس عمودی رو به بالا بچرخان.",
       csl: { totalDuration: 8, sections: [{ actions: [{
         id: "pan_left",
         trigger: { type: "absoluteTime", time: 0 },
@@ -175,7 +179,7 @@ function fewShotExamples(): Array<{ prompt: string; csl: CameraDirectionDraft }>
       }] }] },
     },
     {
-      prompt: "Start with a 50 mm lens and follow the actor with zero delay.",
+      prompt: "با لنز ۵۰ میلی‌متری شروع کن و بازیگر را بدون تأخیر دنبال کن.",
       csl: { totalDuration: 8, sections: [{
         initCamera: {
           targets: [],

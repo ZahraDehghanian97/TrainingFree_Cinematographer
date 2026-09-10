@@ -3,96 +3,97 @@
   "kind": "timelineSolverOutput",
   "exampleId": "example-01",
   "environmentId": "example-01-football",
-  "prompt": "توپ رو دنبال کن و وقتی توپ نزدیک به دروازه شد، pedestal کن و از زاویه بالا توپ رو دنبال کن",
+  "prompt": "توپ را دنبال کن و وقتی به دروازه نزدیک شد، دوربین را عمودی بالا ببر و توپ را از زاویهٔ بالا دنبال کن.",
   "totalDuration": 10,
+  "subjectBinding": {
+    "mode": "resolved",
+    "source": "resolved-fixture"
+  },
   "timeline": {
     "timeline": [
       {
         "kind": "interval",
+        "shotStartTime": 0,
         "startTime": 0,
-        "endTime": 5,
+        "endTime": 7,
         "lossFunctions": [
           {
             "type": "followMovement",
             "parameters": {
-              "distance": 2
-            }
+              "subjectId": "ball"
+            },
+            "sourceActionId": "follow_ball"
           }
-        ]
-      },
-      {
-        "kind": "point",
-        "time": 0,
-        "lossFunctions": [
-          {
-            "type": "shotSize",
-            "parameters": {
-              "shotSize": "mediumShot"
-            }
-          },
-          {
-            "type": "subjectView",
-            "parameters": {
-              "view": "front"
-            }
-          },
-          {
-            "type": "framingPosition",
-            "parameters": {
-              "position": "center"
-            }
-          }
-        ]
+        ],
+        "weight": 1
       },
       {
         "kind": "interval",
-        "startTime": 5,
-        "endTime": 7.5,
+        "shotStartTime": 0,
+        "startTime": 7,
+        "endTime": 10,
         "lossFunctions": [
           {
             "type": "pedestalUpMovement",
-            "parameters": {}
+            "parameters": {
+              "speedKeyframes": [
+                {
+                  "normalizedTime": 0,
+                  "speedMultiplier": 0
+                },
+                {
+                  "normalizedTime": 0.2,
+                  "speedMultiplier": 1,
+                  "easing": "increase"
+                },
+                {
+                  "normalizedTime": 0.8,
+                  "speedMultiplier": 1
+                },
+                {
+                  "normalizedTime": 1,
+                  "speedMultiplier": 0,
+                  "easing": "decrease"
+                }
+              ]
+            },
+            "sourceActionId": "pedestal_up"
           }
-        ]
+        ],
+        "weight": 1
       },
       {
         "kind": "interval",
-        "startTime": 7.5,
+        "shotStartTime": 0,
+        "startTime": 7,
         "endTime": 10,
         "lossFunctions": [
           {
             "type": "followMovement",
             "parameters": {
-              "distance": 2
-            }
+              "subjectId": "ball"
+            },
+            "sourceActionId": "follow_high_angle"
           }
-        ]
+        ],
+        "weight": 1
       },
       {
         "kind": "interval",
-        "startTime": 7.5,
+        "shotStartTime": 0,
+        "startTime": 7,
         "endTime": 10,
         "lossFunctions": [
           {
-            "type": "shotSize",
+            "type": "cameraVerticalAngle",
             "parameters": {
-              "shotSize": "mediumShot"
-            }
+              "angle": "high",
+              "subjectId": "ball"
+            },
+            "sourceActionId": "follow_high_angle"
           }
-        ]
-      },
-      {
-        "kind": "interval",
-        "startTime": 7.5,
-        "endTime": 10,
-        "lossFunctions": [
-          {
-            "type": "framingPosition",
-            "parameters": {
-              "position": "center"
-            }
-          }
-        ]
+        ],
+        "weight": 1
       }
     ],
     "timeWarp": []

@@ -1,8 +1,9 @@
-import type { Vec3 } from "../../types/environment";
+import type { Quat, Vec3 } from "../../types/environment";
 import { createInitialCameraState } from "./base-pose";
 import { advanceSeedState } from "./motion-step";
 import { seedSparseCompositionTransitions } from "./orientation-transitions";
 import { seedMotionTransitions } from "./motion-transitions";
+import type { SeedChoices } from "./seed-defaults";
 import {
   applyHardKeyframesToState,
   hardKeyframesAtTime,
@@ -25,11 +26,15 @@ function startsNewShot(input: CameraOptimizerInput, time: number): boolean {
 function applyHardKeyframesAtTime(
   state: CameraStateSample,
   input: CameraOptimizerInput,
+  shotOrientationBaselines?: Map<string, Quat>,
 ): void {
-  applyHardKeyframesToState(
-    state,
-    hardKeyframesAtTime(input.userKeyframes ?? [], state.time),
-  );
+  const keyframes = hardKeyframesAtTime(input.userKeyframes ?? [], state.time);
+  applyHardKeyframesToState(state, keyframes);
+  if (keyframes.some((keyframe) => keyframe.rotation !== undefined || keyframe.lookAt !== undefined)) {
+    // At a shot entrance, the next eased sample must start from the finalized
+    // hard pose, not a procedural pose cached while creating the shot seed.
+    shotOrientationBaselines?.clear();
+  }
 }
 
 /** Builds a compound-aware seed close enough for numerical refinement. */
@@ -39,19 +44,24 @@ export function initializeCameraStates(
   times: readonly number[],
   initialFovYDegrees: number,
   minimumCameraY?: number,
+  choices: SeedChoices = {},
 ): CameraStateSample[] {
   if (times.length === 0) {
     throw new Error("Cannot initialize an empty optimizer time grid");
   }
 
   const states: CameraStateSample[] = [];
+  const pointOrientationBaselines = new Map<string, Quat>();
+  const pointFovBaselines = new Map<string, number>();
   const first = createInitialCameraState(
     input,
     plan,
     initialFovYDegrees,
     times[0]!,
+    pointOrientationBaselines,
+    choices,
   );
-  applyHardKeyframesAtTime(first, input);
+  applyHardKeyframesAtTime(first, input, pointOrientationBaselines);
   clampToGroundClearance(first, input, minimumCameraY);
   states.push(first);
 
@@ -63,13 +73,17 @@ export function initializeCameraStates(
     if (startsNewShot(input, time)) {
       fixedAxes.clear();
       initialOrbitRadii.clear();
+      pointOrientationBaselines.clear();
+      pointFovBaselines.clear();
       const cutSeed = createInitialCameraState(
         input,
         plan,
         previous.fovYDegrees,
         time,
+        pointOrientationBaselines,
+        choices,
       );
-      applyHardKeyframesAtTime(cutSeed, input);
+      applyHardKeyframesAtTime(cutSeed, input, pointOrientationBaselines);
       clampToGroundClearance(cutSeed, input, minimumCameraY);
       states.push(cutSeed);
       continue;
@@ -82,6 +96,9 @@ export function initializeCameraStates(
       time,
       fixedAxes,
       initialOrbitRadii,
+      pointOrientationBaselines,
+      choices,
+      pointFovBaselines,
     );
     applyHardKeyframesAtTime(state, input);
     clampToGroundClearance(state, input, minimumCameraY);

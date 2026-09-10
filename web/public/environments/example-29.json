@@ -50,7 +50,7 @@
   "entities": [
     {
       "id": "runner-entity",
-      "label": "Runner",
+      "label": "دونده",
       "transform": {
         "space": "world",
         "position": {
@@ -173,7 +173,7 @@
     },
     {
       "id": "hurdle-a",
-      "label": "Track marker A",
+      "label": "نشانگر مسیر الف",
       "transform": {
         "space": "world",
         "position": [
@@ -208,7 +208,7 @@
     },
     {
       "id": "hurdle-b",
-      "label": "Track marker B",
+      "label": "نشانگر مسیر ب",
       "transform": {
         "space": "world",
         "position": [
@@ -243,7 +243,7 @@
     },
     {
       "id": "hurdle-c",
-      "label": "Track marker C",
+      "label": "نشانگر مسیر پ",
       "transform": {
         "space": "world",
         "position": [
@@ -278,7 +278,7 @@
     },
     {
       "id": "finish-left",
-      "label": "Finish gate left",
+      "label": "پایهٔ چپ دروازهٔ پایان",
       "transform": {
         "space": "world",
         "position": [
@@ -315,7 +315,7 @@
     },
     {
       "id": "finish-right",
-      "label": "Finish gate right",
+      "label": "پایهٔ راست دروازهٔ پایان",
       "transform": {
         "space": "world",
         "position": [
@@ -352,7 +352,7 @@
     },
     {
       "id": "finish-banner",
-      "label": "Finish banner",
+      "label": "بنر خط پایان",
       "transform": {
         "space": "world",
         "position": [
@@ -392,7 +392,7 @@
     {
       "id": "runner",
       "entityId": "runner-entity",
-      "label": "The runner",
+      "label": "دونده",
       "localAnchor": [
         0,
         1.08,
@@ -415,7 +415,7 @@
     {
       "id": "runner_face",
       "entityId": "runner-entity",
-      "label": "The runner's face",
+      "label": "صورت دونده",
       "localAnchor": [
         0,
         1.58,

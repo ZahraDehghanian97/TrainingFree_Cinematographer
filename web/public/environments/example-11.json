@@ -3,7 +3,7 @@
   "kind": "environment",
   "id": "example-11-horror-door",
   "promptExampleId": "example-11",
-  "prompt": "برای ایجاد حس ترس، دوربین را ۳۰ درجه کج کن و به صورت دستی و لرزان به سمت در نیمه‌باز حرکت کن.",
+  "prompt": "برای ایجاد حس ترس، دوربین را ۳۰ درجه کج کن و به‌صورت روی دست و لرزان به سمت در نیمه‌باز حرکت کن.",
   "clock": {
     "durationSeconds": 6,
     "timeDomain": "playback",
@@ -29,7 +29,7 @@
   "entities": [
     {
       "id": "half-open-door-entity",
-      "label": "Half-open door",
+      "label": "در نیمه‌باز",
       "transform": {
         "space": "world",
         "position": [0, 0, -8],
@@ -79,7 +79,7 @@
     {
       "id": "half_open_door",
       "entityId": "half-open-door-entity",
-      "label": "The half-open door (در نیمه‌باز)",
+      "label": "در نیمه‌باز",
       "localAnchor": [0, 1.1, 0],
       "localBounds": { "type": "box", "min": [-0.53, 0, -0.08], "max": [0.53, 2.2, 0.08] }
     }

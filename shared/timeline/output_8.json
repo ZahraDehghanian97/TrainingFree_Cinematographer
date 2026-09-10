@@ -3,125 +3,100 @@
   "kind": "timelineSolverOutput",
   "exampleId": "example-08",
   "environmentId": "example-08-punch-impact",
-  "prompt": "ابتدا صحنه مشت زدن را با Slow Motion (سرعت ۱۰٪) نشان بده و درست لحظه برخورد، سرعت را به Hyper Fast تغییر بده و روی محل ضربه زوم کن.",
+  "prompt": "ابتدا صحنهٔ مشت‌زدن را با حرکت آهسته و سرعت ۱۰٪ نشان بده؛ درست در لحظهٔ برخورد، سرعت را بسیار زیاد کن و روی محل ضربه زوم کن.",
   "totalDuration": 12,
+  "subjectBinding": {
+    "mode": "resolved",
+    "source": "resolved-fixture"
+  },
   "timeline": {
     "timeline": [
       {
         "kind": "interval",
+        "shotStartTime": 0,
         "startTime": 0,
-        "endTime": 5,
+        "endTime": 6.866666666666666,
         "lossFunctions": [
           {
             "type": "followMovement",
             "parameters": {
-              "distance": 2
-            }
+              "subjectId": "fist"
+            },
+            "sourceActionId": "slow_motion_punch"
           }
-        ]
+        ],
+        "weight": 1
       },
       {
         "kind": "interval",
+        "shotStartTime": 0,
         "startTime": 0,
-        "endTime": 5,
+        "endTime": 6.866666666666666,
         "lossFunctions": [
           {
-            "type": "shotSize",
+            "type": "subjectPresence",
             "parameters": {
-              "shotSize": "mediumShot"
-            }
+              "subjectId": "fist"
+            },
+            "sourceActionId": "slow_motion_punch"
           }
-        ]
+        ],
+        "weight": 1
       },
       {
         "kind": "interval",
-        "startTime": 0,
-        "endTime": 5,
-        "lossFunctions": [
-          {
-            "type": "framingPosition",
-            "parameters": {
-              "position": "center"
-            }
-          }
-        ]
-      },
-      {
-        "kind": "point",
-        "time": 0,
-        "lossFunctions": [
-          {
-            "type": "shotSize",
-            "parameters": {
-              "shotSize": "mediumShot"
-            }
-          },
-          {
-            "type": "subjectView",
-            "parameters": {
-              "view": "threeQuarterFrontRight"
-            }
-          },
-          {
-            "type": "framingPosition",
-            "parameters": {
-              "position": "center"
-            }
-          }
-        ]
-      },
-      {
-        "kind": "interval",
-        "startTime": 5,
+        "shotStartTime": 0,
+        "startTime": 6.866666666666666,
         "endTime": 12,
         "lossFunctions": [
           {
-            "type": "followMovement",
+            "type": "Static",
             "parameters": {
-              "distance": 2
-            }
+              "subjectId": "impact_point"
+            },
+            "sourceActionId": "hyper_fast_impact"
           }
-        ]
+        ],
+        "weight": 1
       },
       {
         "kind": "interval",
-        "startTime": 5,
+        "shotStartTime": 0,
+        "startTime": 6.866666666666666,
         "endTime": 12,
         "lossFunctions": [
           {
             "type": "zoomInMovement",
-            "parameters": {}
+            "parameters": {},
+            "sourceActionId": "zoom_in_impact"
           }
-        ]
+        ],
+        "weight": 1
       },
       {
         "kind": "point",
+        "shotStartTime": 0,
         "time": 12,
         "lossFunctions": [
           {
-            "type": "shotSize",
+            "type": "subjectPresence",
             "parameters": {
-              "shotSize": "extremeCloseUp"
-            }
-          },
-          {
-            "type": "framingPosition",
-            "parameters": {
-              "position": "center"
+              "subjectId": "impact_point"
             }
           }
-        ]
+        ],
+        "weight": 1
       }
     ],
     "timeWarp": [
       {
         "startTimePlayback": 0,
-        "endTimePlayback": 5,
+        "endTimePlayback": 6.866666666666666,
         "rate": 0.1,
         "label": "verySlow"
       },
       {
-        "startTimePlayback": 5,
+        "startTimePlayback": 6.866666666666666,
         "endTimePlayback": 12,
         "rate": 4,
         "label": "veryFast"

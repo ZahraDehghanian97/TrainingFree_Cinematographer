@@ -94,7 +94,8 @@ export function resolveBandConflicts({
       const removed = removeWhere((primitive) =>
         subjectEntityKey(input, subjectIdsFromParameters(primitive.parameters)) === sharedEntityKey
         && (
-          (primitive.type === "radiusHold" && primitive.sourceType === LossFunctionType.ArcMovement)
+          ((primitive.type === "radiusHold" || primitive.type === "planeHold")
+            && primitive.sourceType === LossFunctionType.ArcMovement)
           || (
             ["axisProgress", "totalProgressTarget", "orthogonalDrift", "pathProfile", "stepPacing", "stepSmoothness"].includes(primitive.type)
             && (
@@ -119,11 +120,16 @@ export function resolveBandConflicts({
             motionStartTime: dollySpan.sourceStartTime,
             motionEndTime: dollySpan.sourceEndTime,
             scheduleKey: `${arcLoss.sourceActionId ?? "arc"}:${dollyLoss.sourceActionId ?? "dolly"}`,
+            // A dolly towards a detail (for example the eyes) approaches that
+            // anchor in 3D. A horizontal body-radius schedule would discard
+            // its vertical travel and prevent an elevated spiral descending.
+            radiusMetric: "distance",
+            orbitSubjectIds: arcSubjects,
             ...(dollyLoss.parameters.speedKeyframes
               ? { speedKeyframes: dollyLoss.parameters.speedKeyframes }
               : {}),
             ...(motionTransitions.length > 0 ? { motionTransitions } : {}),
-            subjectIds: arcSubjects,
+            subjectIds: dollySubjects,
           },
         },
         {

@@ -109,6 +109,8 @@ export interface TimelineSolverOutput {
 
 export interface IntervalSegment {
   kind: "interval";
+  /** Originating shot; disambiguates endpoint constraints at a camera cut. */
+  shotStartTime?: number;
   startTime: number;
   endTime: number;
   lossFunctions: LossFunction[];
@@ -117,6 +119,8 @@ export interface IntervalSegment {
 
 export interface PointSegment {
   kind: "point";
+  /** Originating shot; an end point can share the next shot's start time. */
+  shotStartTime?: number;
   time: number;
   lossFunctions: LossFunction[];
   weight?: number;

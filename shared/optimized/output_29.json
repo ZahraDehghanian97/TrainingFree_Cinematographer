@@ -4343,7 +4343,8 @@
         "weightedLoss": 0
       }
     ],
-    "elapsedMilliseconds": 945,
+    "elapsedMilliseconds": 1598,
+    "maximumSafetyViolationMeters": 0,
     "warnings": []
   },
   "compiledPlan": {

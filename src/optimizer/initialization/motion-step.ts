@@ -1,5 +1,4 @@
 import type { Quat, Vec3 } from "../../types/environment";
-import { getPointConstraintWeight } from "../../timeline/easing";
 import {
   add3,
   applyCameraYawPitchRoll,
@@ -13,11 +12,13 @@ import {
   quatFromAxisAngle,
   rotateAroundAxis,
   scale3,
+  slerpQuat,
   sub3,
   pitchFromQuaternion,
   yawFromQuaternion,
 } from "../shared/math";
 import { motionProgress, motionProgressDelta } from "../shared/motion-profiles";
+import { pointEasingWeight } from "../shared/time";
 import {
   isPrimitiveActiveAt,
   samplePrimitiveSubject,
@@ -29,13 +30,16 @@ import type {
   CompiledLossPlan,
   PrimitiveLoss,
 } from "../types";
-import { projectWorldPoint } from "../scene/projection";
+import { projectWorldBox, projectWorldPoint } from "../scene/projection";
+import { projectedDistanceForCoverage } from "./framing-distance";
 import {
   SEED_ORBIT_DEGREES,
   SEED_ROLL_RADIANS,
   SEED_ROTATION_RADIANS,
   SEED_TRANSLATION_METERS,
   SEED_ZOOM_FACTOR,
+  seedMotionKey,
+  type SeedChoices,
 } from "./seed-defaults";
 
 function sourceMotionClock(primitive: PrimitiveLoss): [number, number] {
@@ -115,13 +119,16 @@ function applyOrbitSteps(
   state: CameraStateSample,
   previous: CameraStateSample,
   input: CameraOptimizerInput,
+  plan: CompiledLossPlan,
   active: readonly PrimitiveLoss[],
   initialOrbitRadii: Map<string, number>,
+  choices: SeedChoices,
 ): void {
   for (const primitive of active.filter((item) =>
     item.type === "angularProgress" && item.parameters.mode === "orbit",
   )) {
-    const targetDelta = seededAngularDelta(primitive, SEED_ORBIT_DEGREES * Math.PI / 180);
+    const targetDelta = seededAngularDelta(primitive,
+      choices.movementAmounts?.get(seedMotionKey(primitive)) ?? SEED_ORBIT_DEGREES * Math.PI / 180);
     const motionStartTime = typeof primitive.parameters.motionStartTime === "number"
       ? primitive.parameters.motionStartTime
       : primitive.startTime;
@@ -147,12 +154,16 @@ function applyOrbitSteps(
     const orbitSubjectKey = subjectIdsFromParameters(primitive.parameters).join("|");
     const radiusPrimitive = active.find((candidate) =>
       (candidate.type === "radiusHold" || candidate.type === "radiusSchedule")
-      && subjectIdsFromParameters(candidate.parameters).join("|") === orbitSubjectKey,
+      && (Array.isArray(candidate.parameters.orbitSubjectIds)
+        ? candidate.parameters.orbitSubjectIds.join("|")
+        : subjectIdsFromParameters(candidate.parameters).join("|")) === orbitSubjectKey,
     );
     if (!radiusPrimitive) continue;
 
+    const radiusTarget = samplePrimitiveSubject(input, radiusPrimitive, state.time) ?? target;
     const previousTarget = samplePrimitiveSubject(input, radiusPrimitive, previous.time)
-      ?? target;
+      ?? radiusTarget;
+    const spatialRadius = radiusPrimitive.parameters.radiusMetric === "distance";
     const radiusScheduleKey = typeof radiusPrimitive.parameters.scheduleKey === "string"
       ? radiusPrimitive.parameters.scheduleKey
       : `${radiusPrimitive.sourceActionId ?? radiusPrimitive.id}:${orbitSubjectKey}`;
@@ -162,15 +173,39 @@ function applyOrbitSteps(
       (time - radiusStartTime) / duration,
       radiusPrimitive.parameters.speedKeyframes,
     );
-    const deltaRadius = typeof radiusPrimitive.parameters.deltaRadius === "number"
+    let deltaRadius = typeof radiusPrimitive.parameters.deltaRadius === "number"
       ? radiusPrimitive.parameters.deltaRadius
-      : SEED_TRANSLATION_METERS * (
+      : (choices.movementAmounts?.get(seedMotionKey(radiusPrimitive)) ?? SEED_TRANSLATION_METERS) * (
           typeof radiusPrimitive.parameters.sign === "number" ? radiusPrimitive.parameters.sign : 1
         );
+    const endpointAmountKey = `${radiusScheduleKey}:endpointAmount`;
+    if (radiusPrimitive.type === "radiusSchedule"
+      && typeof radiusPrimitive.parameters.deltaRadius !== "number"
+      && !choices.movementAmounts?.has(seedMotionKey(radiusPrimitive))) {
+      const cachedAmount = initialOrbitRadii.get(endpointAmountKey);
+      if (cachedAmount !== undefined) deltaRadius = cachedAmount;
+      else {
+        const radiusSubjects = subjectIdsFromParameters(radiusPrimitive.parameters).join("|");
+        const endpointScale = plan.primitives.find((candidate) => candidate.type === "screenScale"
+          && Math.abs(Number(candidate.parameters.pointTime) - radiusEndTime) <= 1e-8
+          && subjectIdsFromParameters(candidate.parameters).join("|") === radiusSubjects);
+        const endpointTarget = endpointScale && samplePrimitiveSubject(input, endpointScale, radiusEndTime);
+        if (endpointTarget && typeof endpointScale?.parameters.targetCoverage === "number") {
+          const offset = sub3(previous.position, previousTarget.center);
+          const endpointDirection = normalize3(rotateAroundAxis(offset, [0, 0, 0], [0, 1, 0], targetDelta));
+          const endpointRadius = projectedDistanceForCoverage(input, endpointTarget,
+            endpointDirection, state.fovYDegrees, endpointScale.parameters.targetCoverage);
+          const proposed = endpointRadius - length3(offset);
+          if (proposed * deltaRadius > 0) deltaRadius = proposed;
+        }
+        initialOrbitRadii.set(endpointAmountKey, deltaRadius);
+      }
+    }
     let initialRadius = initialOrbitRadii.get(radiusScheduleKey);
     if (initialRadius === undefined) {
       initialRadius = Math.hypot(
         previous.position[0] - previousTarget.center[0],
+        spatialRadius ? previous.position[1] - previousTarget.center[1] : 0,
         previous.position[2] - previousTarget.center[2],
       );
       if (radiusPrimitive.type === "radiusSchedule") {
@@ -181,19 +216,19 @@ function applyOrbitSteps(
       initialOrbitRadii.set(radiusScheduleKey, initialRadius);
     }
 
-    const radial = sub3(state.position, target.center);
-    const horizontal: Vec3 = [radial[0], 0, radial[2]];
+    const radial = sub3(state.position, radiusTarget.center);
+    const radiusDirection: Vec3 = [radial[0], spatialRadius ? radial[1] : 0, radial[2]];
     const requested = radiusPrimitive.parameters.targetRadius;
     const targetRadius = typeof requested === "number" ? requested : initialRadius;
     const progress = radiusProgress(state.time);
     const desiredRadius = radiusPrimitive.type === "radiusSchedule"
       ? Math.max(0.2, initialRadius + deltaRadius * progress)
       : initialRadius + (targetRadius - initialRadius) * progress;
-    const direction = normalize3(horizontal, [0, 0, 1]);
+    const direction = normalize3(radiusDirection, [0, 0, 1]);
     state.position = [
-      target.center[0] + direction[0] * desiredRadius,
-      state.position[1],
-      target.center[2] + direction[2] * desiredRadius,
+      radiusTarget.center[0] + direction[0] * desiredRadius,
+      spatialRadius ? radiusTarget.center[1] + direction[1] * desiredRadius : state.position[1],
+      radiusTarget.center[2] + direction[2] * desiredRadius,
     ];
   }
 }
@@ -283,13 +318,14 @@ function applyTranslationSteps(
   active: readonly PrimitiveLoss[],
   midpoint: number,
   fixedAxes: Map<string, Vec3>,
+  choices: SeedChoices,
 ): void {
   for (const primitive of active.filter((item) => item.type === "totalProgressTarget")) {
     const distance = typeof primitive.parameters.fullTargetDistance === "number"
       ? primitive.parameters.fullTargetDistance
       : typeof primitive.parameters.targetDistance === "number"
         ? primitive.parameters.targetDistance
-      : SEED_TRANSLATION_METERS;
+      : choices.movementAmounts?.get(seedMotionKey(primitive)) ?? SEED_TRANSLATION_METERS;
     const sign = typeof primitive.parameters.sign === "number" ? primitive.parameters.sign : 1;
     const axis = translationAxis(
       primitive,
@@ -321,12 +357,14 @@ function applyRotationSteps(
   state: CameraStateSample,
   previous: CameraStateSample,
   active: readonly PrimitiveLoss[],
+  choices: SeedChoices,
 ): void {
   for (const primitive of active.filter((item) =>
     item.type === "angularProgress" && item.parameters.mode !== "orbit",
   )) {
     const [startTime, endTime] = sourceMotionClock(primitive);
-    const delta = seededAngularDelta(primitive, SEED_ROTATION_RADIANS) * motionProgressDelta(
+    const delta = seededAngularDelta(primitive,
+      choices.movementAmounts?.get(seedMotionKey(primitive)) ?? SEED_ROTATION_RADIANS) * motionProgressDelta(
       previous.time,
       state.time,
       startTime,
@@ -340,7 +378,8 @@ function applyRotationSteps(
 
   for (const primitive of active.filter((item) => item.type === "rollProgress")) {
     const [startTime, endTime] = sourceMotionClock(primitive);
-    const delta = seededAngularDelta(primitive, SEED_ROLL_RADIANS) * motionProgressDelta(
+    const delta = seededAngularDelta(primitive,
+      choices.movementAmounts?.get(seedMotionKey(primitive)) ?? SEED_ROLL_RADIANS) * motionProgressDelta(
       previous.time,
       state.time,
       startTime,
@@ -358,11 +397,13 @@ function applyZoomStep(
   state: CameraStateSample,
   previous: CameraStateSample,
   active: readonly PrimitiveLoss[],
+  choices: SeedChoices,
 ): void {
   const zoom = active.find((primitive) => primitive.type === "intrinsicsProgress");
   if (!zoom) return;
   const authoredFactor = zoom.parameters.fullFactor ?? zoom.parameters.factor;
-  const factor = typeof authoredFactor === "number" ? authoredFactor : SEED_ZOOM_FACTOR;
+  const factor = typeof authoredFactor === "number" ? authoredFactor
+    : choices.movementAmounts?.get(seedMotionKey(zoom)) ?? SEED_ZOOM_FACTOR;
   const [startTime, endTime] = sourceMotionClock(zoom);
   const stepFactor = Math.pow(factor, motionProgressDelta(
     previous.time,
@@ -378,6 +419,34 @@ function applyZoomStep(
     8,
     120,
   );
+}
+
+function applyCompositionLens(
+  state: CameraStateSample,
+  input: CameraOptimizerInput,
+  plan: CompiledLossPlan,
+  pointBaselines: Map<string, number>,
+): void {
+  const active = plan.primitives.filter((primitive) => isPrimitiveActiveAt(primitive, state.time));
+  if (active.some((primitive) => primitive.type === "intrinsicsProgress"
+    || primitive.type === "fovAnchor" || primitive.type === "fovHold")) return;
+  const composition = active.find((primitive) => primitive.type === "screenScale"
+    && typeof primitive.parameters.targetCoverage === "number");
+  if (!composition) return;
+  const target = samplePrimitiveSubject(input, composition, state.time);
+  if (!target) return;
+  const bounds = projectWorldBox(target.box, state.position, state.rotation,
+    state.fovYDegrees, input.options?.aspectRatio ?? 16 / 9);
+  if (bounds.behindCamera || bounds.height <= 0) return;
+  const targetFov = clamp(2 * Math.atan(Math.tan(state.fovYDegrees * Math.PI / 360)
+    * bounds.height / Number(composition.parameters.targetCoverage)) * 180 / Math.PI, 8, 120);
+  const window = pointOrientationWindow(composition);
+  if (window === undefined) { state.fovYDegrees = targetFov; return; }
+  if (!pointBaselines.has(window)) pointBaselines.set(window, state.fovYDegrees);
+  const baseline = pointBaselines.get(window)!;
+  const weight = pointEasingWeight(state.time, Number(composition.parameters.pointTime),
+    composition.parameters.easing as { inDuration?: number; outDuration?: number; curve?: string });
+  state.fovYDegrees = baseline + weight * (targetFov - baseline);
 }
 
 function levelOrientationForScreenTarget(
@@ -445,20 +514,19 @@ function levelOrientationForScreenTarget(
   return orientation(yaw, pitch);
 }
 
-export function applyCompositionOrientation(
+function compositionOrientationTarget(
   state: CameraStateSample,
   input: CameraOptimizerInput,
-  plan: CompiledLossPlan,
-): void {
-  const active = plan.primitives
-    .filter((primitive) => isPrimitiveActiveAt(primitive, state.time))
-    .sort((a, b) => b.startTime - a.startTime || a.id.localeCompare(b.id));
+  active: readonly PrimitiveLoss[],
+): { primitive: PrimitiveLoss; rotation: Quat } | undefined {
   const rotationAnchor = active.find((primitive) => primitive.type === "rotationAnchor");
   const anchoredRotation = asQuat(rotationAnchor?.parameters.target);
   const anchoredLookAt = asVec3(rotationAnchor?.parameters.lookAt);
   if (anchoredRotation || anchoredLookAt) {
-    state.rotation = anchoredRotation ?? lookAtQuaternion(state.position, anchoredLookAt!);
-    return;
+    return {
+      primitive: rotationAnchor!,
+      rotation: anchoredRotation ?? lookAtQuaternion(state.position, anchoredLookAt!),
+    };
   }
   const composition = active.find((primitive) => primitive.type === "screenPosition")
     ?? active.find((primitive) => primitive.type === "lookAt")
@@ -475,7 +543,30 @@ export function applyCompositionOrientation(
     primitive.type === "orientationHold" || primitive.type === "forwardHold"
     || primitive.type === "yawHold" || primitive.type === "pitchHold",
   )) return;
-  const target = samplePrimitiveSubject(input, composition, state.time);
+  let subjectComposition = composition;
+  if (isFallback) {
+    // Subject-quality preferences are emitted per subject. Seed their shared
+    // composition as a group instead of aiming only at the first emitted ID.
+    // Different point/easing windows or subject clocks retain their own owner.
+    const scope = (primitive: PrimitiveLoss): string => JSON.stringify([
+      primitive.startTime, primitive.endTime,
+      primitive.parameters.pointTime ?? primitive.parameters.keyframeTime,
+      primitive.parameters.easing,
+      primitive.parameters.followDelay ?? 0,
+      primitive.parameters.leadAmount ?? 0,
+    ]);
+    const compositionScope = scope(composition);
+    const subjectIds = [...new Set(active.filter((primitive) =>
+      primitive.weight > 0
+      && (primitive.type === "subjectVisibility" || primitive.type === "subjectScaleFloor")
+      && scope(primitive) === compositionScope,
+    ).flatMap((primitive) => subjectIdsFromParameters(primitive.parameters)))];
+    subjectComposition = {
+      ...composition,
+      parameters: { ...composition.parameters, subjectId: undefined, subjectIds },
+    };
+  }
+  const target = samplePrimitiveSubject(input, subjectComposition, state.time);
   if (!target) return;
 
   const rawScreenTarget = composition.type === "screenPosition"
@@ -487,35 +578,62 @@ export function applyCompositionOrientation(
     || typeof rawScreenTarget[0] !== "number"
     || typeof rawScreenTarget[1] !== "number"
   ) {
-    state.rotation = lookAtQuaternion(state.position, target.center);
-    return;
+    return { primitive: composition, rotation: lookAtQuaternion(state.position, target.center) };
   }
 
-  const pointTime = composition.parameters.pointTime;
-  const easing = composition.parameters.easing;
-  const pointWeight = typeof pointTime === "number"
-    ? getPointConstraintWeight(
-        {
-          time: pointTime,
-          easing: easing && typeof easing === "object"
-            ? easing as { inDuration?: number; outDuration?: number; curve?: "linear" | "easeIn" | "easeOut" | "easeInOut" }
-            : undefined,
-        },
-        state.time,
-      )
-    : 1;
-  const screenTarget = [
-    0.5 + (rawScreenTarget[0] - 0.5) * pointWeight,
-    0.5 + (rawScreenTarget[1] - 0.5) * pointWeight,
-  ];
-
   const aspectRatio = input.options?.aspectRatio ?? 16 / 9;
-  state.rotation = levelOrientationForScreenTarget(
-    state,
-    target.center,
-    screenTarget,
-    aspectRatio,
+  return {
+    primitive: composition,
+    rotation: levelOrientationForScreenTarget(state, target.center, rawScreenTarget, aspectRatio),
+  };
+}
+
+function pointOrientationWindow(primitive: PrimitiveLoss): string | undefined {
+  const { pointTime, easing } = primitive.parameters;
+  if (typeof pointTime !== "number" || !easing || typeof easing !== "object") return undefined;
+  // One point may emit several primitives and be split across multiple bands.
+  return JSON.stringify([pointTime, easing]);
+}
+
+function resolveCompositionOrientation(
+  state: CameraStateSample,
+  input: CameraOptimizerInput,
+  active: readonly PrimitiveLoss[],
+  pointBaselines: Map<string, Quat>,
+): Quat {
+  const target = compositionOrientationTarget(state, input, active);
+  if (!target) return state.rotation;
+  const window = pointOrientationWindow(target.primitive);
+  if (window === undefined) return target.rotation;
+
+  // Recompute the underlying composition at the current position/scene time.
+  // With no underlying owner, retain the window-entry pose: repeatedly easing
+  // from the previous blended sample would make the result depend on FPS.
+  if (!pointBaselines.has(window)) pointBaselines.set(window, [...state.rotation]);
+  const baseline = resolveCompositionOrientation(
+    { ...state, rotation: pointBaselines.get(window)! },
+    input,
+    active.filter((primitive) => pointOrientationWindow(primitive) !== window),
+    pointBaselines,
   );
+  const weight = pointEasingWeight(
+    state.time,
+    target.primitive.parameters.pointTime as number,
+    target.primitive.parameters.easing as Parameters<typeof pointEasingWeight>[2],
+  );
+  return slerpQuat(baseline, target.rotation, weight);
+}
+
+export function applyCompositionOrientation(
+  state: CameraStateSample,
+  input: CameraOptimizerInput,
+  plan: CompiledLossPlan,
+  pointBaselines: Map<string, Quat> = new Map(),
+): void {
+  const active = plan.primitives
+    .filter((primitive) => isPrimitiveActiveAt(primitive, state.time))
+    .sort((a, b) => b.startTime - a.startTime || a.id.localeCompare(b.id));
+  state.rotation = resolveCompositionOrientation(state, input, active, pointBaselines);
 }
 
 /** Advances one seed sample while preserving the compound-move application order. */
@@ -526,6 +644,9 @@ export function advanceSeedState(
   time: number,
   fixedAxes: Map<string, Vec3>,
   initialOrbitRadii: Map<string, number>,
+  pointOrientationBaselines: Map<string, Quat> = new Map(),
+  choices: SeedChoices = {},
+  pointFovBaselines: Map<string, number> = new Map(),
 ): CameraStateSample {
   const midpoint = (time + previous.time) / 2;
   const active = plan.primitives.filter((primitive) =>
@@ -539,16 +660,20 @@ export function advanceSeedState(
     fovYDegrees: previous.fovYDegrees,
   };
 
-  const inheritedMotion = subjectMotionPrimitive(active);
+  const inheritedMotion = subjectMotionPrimitive(active)
+    // A tracking seed keeps the existing framing useful during an unauthored
+    // gap. Only visibility/scale inequalities constrain the solved result.
+    ?? active.find((primitive) => primitive.type === "subjectVisibility" && primitive.parameters.gapSubject);
   if (inheritedMotion) {
     carrySubjectTranslation(state, input, inheritedMotion, previous.time);
   }
-  applyTranslationSteps(state, previous, input, active, midpoint, fixedAxes);
+  applyTranslationSteps(state, previous, input, active, midpoint, fixedAxes, choices);
   // Apply the orbit after any concurrent translation so a fused Arc + Dolly
   // ends on its radial schedule instead of leaving a one-frame radial offset.
-  applyOrbitSteps(state, previous, input, active, initialOrbitRadii);
-  applyRotationSteps(state, previous, active);
-  applyZoomStep(state, previous, active);
-  applyCompositionOrientation(state, input, plan);
+  applyOrbitSteps(state, previous, input, plan, active, initialOrbitRadii, choices);
+  applyRotationSteps(state, previous, active, choices);
+  applyZoomStep(state, previous, active, choices);
+  applyCompositionOrientation(state, input, plan, pointOrientationBaselines);
+  applyCompositionLens(state, input, plan, pointFovBaselines);
   return state;
 }

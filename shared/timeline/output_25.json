@@ -1,0 +1,34 @@
+{
+  "schemaVersion": "1.0",
+  "kind": "timelineSolverOutput",
+  "exampleId": "example-25",
+  "environmentId": "example-25-dont-care-radius",
+  "prompt": "در مسیری قوسی با شعاع ۴ متر دور رقصنده بچرخ.",
+  "totalDuration": 10,
+  "subjectBinding": {
+    "mode": "resolved",
+    "source": "resolved-fixture"
+  },
+  "timeline": {
+    "timeline": [
+      {
+        "kind": "interval",
+        "shotStartTime": 0,
+        "startTime": 0,
+        "endTime": 10,
+        "lossFunctions": [
+          {
+            "type": "arcMovement",
+            "parameters": {
+              "arcRadius": 4,
+              "subjectId": "dancer"
+            },
+            "sourceActionId": "orbit_dancer_radius"
+          }
+        ],
+        "weight": 1
+      }
+    ],
+    "timeWarp": []
+  }
+}

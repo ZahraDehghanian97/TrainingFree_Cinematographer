@@ -1,5 +1,6 @@
 import type { EnvironmentV1 } from "../../types/environment";
 import { LossFunctionType, type FlattenedTimeline, type TimeWarpSegment } from "../../types/solver";
+import { getPointConstraintWeight } from "../../timeline/easing";
 import type { MotionTransition, UserCameraKeyframe } from "../types";
 import { clamp } from "./math";
 import { SEED_ORBIT_DEGREES } from "../initialization/seed-defaults";
@@ -146,21 +147,15 @@ export function pointEasingWeight(
   pointTime: number,
   easing: { inDuration?: number; outDuration?: number; curve?: string } | undefined,
 ): number {
-  if (!easing) return Math.abs(time - pointTime) <= 1e-7 ? 1 : 0;
-  let alpha: number;
-  if (time <= pointTime) {
-    const duration = Math.max(1e-9, easing.inDuration ?? 0);
-    alpha = duration <= 1e-9 ? (Math.abs(time - pointTime) <= 1e-7 ? 1 : 0) : 1 - (pointTime - time) / duration;
-  } else {
-    const duration = Math.max(1e-9, easing.outDuration ?? 0);
-    alpha = duration <= 1e-9 ? 0 : 1 - (time - pointTime) / duration;
+  const curve = easing?.curve;
+  if (curve !== undefined && curve !== "linear" && curve !== "easeIn"
+    && curve !== "easeOut" && curve !== "easeInOut") {
+    throw new Error(`Unknown point easing curve: ${String(curve)}`);
   }
-  alpha = clamp(alpha, 0, 1);
-  switch (easing.curve ?? "easeInOut") {
-    case "linear": return alpha;
-    case "easeIn": return alpha * alpha;
-    case "easeOut": return 1 - (1 - alpha) * (1 - alpha);
-    case "easeInOut": return alpha * alpha * (3 - 2 * alpha);
-    default: throw new Error(`Unknown point easing curve: ${String(easing.curve)}`);
-  }
+  // Use the authored timeline curve for both seed poses and objective weights,
+  // including the complementary fade after the point constraint.
+  return getPointConstraintWeight({
+    time: pointTime,
+    easing: easing ? { ...easing, curve } : undefined,
+  }, time);
 }

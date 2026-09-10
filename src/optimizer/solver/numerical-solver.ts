@@ -225,6 +225,9 @@ export function solveNumerically(
   let vector = codec.encode(initialStates);
   let states = codec.decode(vector);
   const initialLoss = evaluator.evaluate(states, false).total;
+  let safetyLimit = Math.max(1e-6, evaluator.safetyViolation(states));
+  const respectsSafety = (candidate: readonly CameraStateSample[]): boolean =>
+    evaluator.safetyViolation(candidate) <= safetyLimit;
   if (options.iterations <= 0 || codec.references.length === 0) {
     return {
       states,
@@ -306,9 +309,11 @@ export function solveNumerically(
       }
       const candidateStates = codec.decode(candidate);
       const candidateLoss = evaluator.evaluate(candidateStates, false).total;
-      if (Number.isFinite(candidateLoss) && candidateLoss < currentLoss - Math.max(1e-9, currentLoss * 1e-9)) {
+      if (Number.isFinite(candidateLoss) && candidateLoss < currentLoss - Math.max(1e-9, currentLoss * 1e-9)
+        && respectsSafety(candidateStates)) {
         vector = candidate;
         states = candidateStates;
+        safetyLimit = Math.max(1e-6, evaluator.safetyViolation(candidateStates));
         const relativeImprovement = (currentLoss - candidateLoss) / Math.max(1, Math.abs(currentLoss));
         currentLoss = candidateLoss;
         accepted = true;
@@ -355,13 +360,16 @@ export function solveNumerically(
         for (const sign of [-1, 1]) {
           const candidate = copyVector(fallbackVector);
           candidate[dimension] += sign * coordinateStep;
-          const candidateLoss = evaluator.evaluate(codec.decode(candidate), false).total;
+          const candidateStates = codec.decode(candidate);
+          const candidateLoss = evaluator.evaluate(candidateStates, false).total;
           if (
             Number.isFinite(candidateLoss)
             && candidateLoss < dimensionBest - Math.max(1e-9, Math.abs(dimensionBest) * 1e-10)
+            && respectsSafety(candidateStates)
           ) {
             dimensionBest = candidateLoss;
             dimensionVector = candidate;
+            safetyLimit = Math.max(1e-6, evaluator.safetyViolation(candidateStates));
           }
         }
         if (dimensionVector) {

@@ -1,5 +1,4 @@
-import type { Vec3 } from "../../types/environment";
-import { DEFAULT_OPTIONS } from "../config/defaults";
+import type { Quat, Vec3 } from "../../types/environment";
 import {
   add3,
   cameraForward,
@@ -11,8 +10,7 @@ import {
   scale3,
   sub3,
 } from "../shared/math";
-import { asQuat, asVec3 } from "../shared/parameter-values";
-import { projectWorldBox } from "../scene/projection";
+import { asVec3 } from "../shared/parameter-values";
 import {
   findPrimitive,
   isPrimitiveActiveAt,
@@ -21,6 +19,8 @@ import {
 import { sampleSubjectAggregate } from "../scene/subjects";
 import { playbackToSceneTime } from "../shared/time";
 import { applyCompositionOrientation } from "./motion-step";
+import { projectedDistanceForCoverage } from "./framing-distance";
+import type { SeedChoices } from "./seed-defaults";
 import type {
   CameraOptimizerInput,
   CameraStateSample,
@@ -50,41 +50,14 @@ function firstAvailableSubject(
   return sampleSubjectAggregate(input.environment, [fallbackId], sceneTime);
 }
 
-function projectedDistanceForCoverage(
-  input: CameraOptimizerInput,
-  target: NonNullable<ReturnType<typeof samplePrimitiveSubject>>,
-  direction: Vec3,
-  fovYDegrees: number,
-  targetCoverage: number,
-): number {
-  const aspectRatio = input.options?.aspectRatio ?? DEFAULT_OPTIONS.aspectRatio;
-  let lowerDistance = 0.05;
-  let upperDistance = 80;
-  for (let iteration = 0; iteration < 36; iteration += 1) {
-    const candidateDistance = (lowerDistance + upperDistance) / 2;
-    const candidatePosition = add3(target.center, scale3(direction, candidateDistance));
-    const projected = projectWorldBox(
-      target.box,
-      candidatePosition,
-      lookAtQuaternion(candidatePosition, target.center),
-      fovYDegrees,
-      aspectRatio,
-    );
-    if (projected.behindCamera || projected.height > targetCoverage) {
-      lowerDistance = candidateDistance;
-    } else {
-      upperDistance = candidateDistance;
-    }
-  }
-  return (lowerDistance + upperDistance) / 2;
-}
-
 /** Builds the static pose used at the start of a shot or immediately after a cut. */
 export function createInitialCameraState(
   input: CameraOptimizerInput,
   plan: CompiledLossPlan,
   initialFovYDegrees: number,
   playbackTime = 0,
+  pointOrientationBaselines: Map<string, Quat> = new Map(),
+  choices: SeedChoices = {},
 ): CameraStateSample {
   const fallbackTarget = firstAvailableSubject(input, plan, playbackTime);
   const overview = input.environment.world?.overviewCamera;
@@ -97,7 +70,7 @@ export function createInitialCameraState(
           5,
         ])
       : [0, 2, 5];
-  let fovYDegrees = initialFovYDegrees;
+  let fovYDegrees = choices.fovYDegrees ?? initialFovYDegrees;
 
   const pointPrimitives = plan.primitives.filter((primitive) =>
     isPrimitiveActiveAt(primitive, playbackTime),
@@ -132,10 +105,10 @@ export function createInitialCameraState(
     );
     const azimuth = typeof viewPrimitive?.parameters.targetAzimuth === "number"
       ? viewPrimitive.parameters.targetAzimuth
-      : 0;
+      : choices.azimuth ?? 0;
     const elevation = typeof elevationPrimitive?.parameters.targetElevation === "number"
       ? elevationPrimitive.parameters.targetElevation
-      : 0.1;
+      : choices.elevation ?? 0.1;
     const horizontalDistance = distance * Math.cos(elevation);
     const localDirection: Vec3 = [
       Math.sin(azimuth) * horizontalDistance,
@@ -150,7 +123,7 @@ export function createInitialCameraState(
             scale3(scale3(cameraForward(semanticTarget.rotation), -1), localDirection[2]),
           ),
         )
-      : [0, localDirection[1], localDirection[2]];
+      : localDirection;
 
     if (scalePrimitive && semanticTarget.box.size[1] > 1e-6) {
       // Refine the flat-plane estimate against the projection model used by
@@ -165,6 +138,7 @@ export function createInitialCameraState(
       );
       worldDirection = scale3(direction, distance);
     }
+    if (!scalePrimitive) worldDirection = scale3(worldDirection, choices.distanceScale ?? 1);
     position = add3(semanticTarget.center, worldDirection);
   }
 
@@ -207,12 +181,7 @@ export function createInitialCameraState(
   const lookTarget = semanticTarget?.center
     ?? overview?.target
     ?? add3(position, [0, 0, -1]);
-  let rotation = lookAtQuaternion(position, lookTarget);
-  const rotationAnchor = findPrimitive(pointPrimitives, "rotationAnchor");
-  const anchoredRotation = asQuat(rotationAnchor?.parameters.target);
-  const anchoredLookAt = asVec3(rotationAnchor?.parameters.lookAt);
-  if (anchoredRotation) rotation = anchoredRotation;
-  else if (anchoredLookAt) rotation = lookAtQuaternion(position, anchoredLookAt);
+  const rotation = lookAtQuaternion(position, lookTarget);
 
   const fovAnchor = findPrimitive(pointPrimitives, "fovAnchor");
   const anchoredFov = fovAnchor?.parameters.target;
@@ -222,6 +191,6 @@ export function createInitialCameraState(
     rotation,
     fovYDegrees: typeof anchoredFov === "number" ? anchoredFov : fovYDegrees,
   };
-  applyCompositionOrientation(state, input, plan);
+  applyCompositionOrientation(state, input, plan, pointOrientationBaselines);
   return state;
 }

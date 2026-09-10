@@ -1,4 +1,5 @@
-import type { EnvironmentV1, Quat, Vec3 } from "../../types/environment";
+import { environmentSubjectKeyframeTimes } from "../../environment/sampler";
+import type { Quat, Vec3 } from "../../types/environment";
 import type { WorldAabbV1 } from "../../types/environment-query";
 import { LossFunctionType } from "../../types/solver";
 import { DEFAULT_OPTIONS } from "../config/defaults";
@@ -9,6 +10,7 @@ import {
   projectWorldPoint,
 } from "../scene/projection";
 import {
+  minimumSignedDistanceToMovingAabb,
   sampleObstacleBoxes,
   segmentIntersectsAabb,
   signedDistanceToAabb,
@@ -61,6 +63,8 @@ import {
 } from "../shared/time";
 import { motionProgress, motionProgressDelta } from "../shared/motion-profiles";
 import { motionTransitionScale } from "../shared/motion-transitions";
+import { createCameraPositionSampler } from "../trajectory";
+import { minimumAngularProgress, minimumTranslationProgress } from "../shared/movement-preferences";
 import type {
   CameraOptimizerInput,
   CameraStateSample,
@@ -84,6 +88,47 @@ interface ObjectiveOptions {
 interface ObjectiveResult {
   total: number;
   breakdown: LossBreakdownEntry[];
+}
+
+interface CollisionSweep {
+  startTime: number;
+  endTime: number;
+  obstacles: Array<{ startBox: WorldAabbV1; endBox: WorldAabbV1 }>;
+}
+
+/** Map scene animation knots through the same piecewise clock as the renderer. */
+function collisionBoundaryTimes(input: CameraOptimizerInput, plan: CompiledLossPlan): number[] {
+  const duration = input.environment.clock.durationSeconds;
+  const playbackBoundaries = [...new Set([
+    0, duration,
+    ...input.timeline.timeWarp.flatMap((segment) => [segment.startTimePlayback, segment.endTimePlayback]),
+  ].filter((time) => time >= 0 && time <= duration))].sort((a, b) => a - b);
+  const sceneKnots = [...new Set([
+    duration,
+    ...input.environment.entities.filter((entity) => entity.bounds !== undefined)
+      .flatMap((entity) => environmentSubjectKeyframeTimes(input.environment, entity.id)),
+  ])];
+  const boundaries = [
+    ...playbackBoundaries,
+    ...(input.timeline.cutTimes ?? []),
+    ...(input.userKeyframes ?? []).filter((keyframe) => keyframe.cutBefore).map((keyframe) => keyframe.time),
+    ...plan.primitives.flatMap((primitive) => [primitive.startTime, primitive.endTime]),
+  ];
+  for (let index = 1; index < playbackBoundaries.length; index += 1) {
+    const start = playbackBoundaries[index - 1]!;
+    const end = playbackBoundaries[index]!;
+    const active = input.timeline.timeWarp.filter((segment) =>
+      segment.startTimePlayback <= (start + end) / 2 && segment.endTimePlayback > (start + end) / 2,
+    );
+    const rate = active.at(-1)?.rate ?? 1;
+    if (rate <= 0) continue;
+    const sceneStart = playbackToSceneTime(start, input.timeline.timeWarp, duration);
+    for (const sceneTime of sceneKnots) {
+      const time = start + (sceneTime - sceneStart) / rate;
+      if (time > start && time < end) boundaries.push(time);
+    }
+  }
+  return [...new Set(boundaries)].sort((a, b) => a - b);
 }
 
 function cutTimesFrom(primitive: PrimitiveLoss): number[] {
@@ -124,6 +169,10 @@ export class ObjectiveEvaluator {
   private readonly subjectCache = new Map<string, SubjectAggregate | undefined>();
   private readonly obstacleCache = new Map<number, Array<{ entityId: string; box: WorldAabbV1 }>>();
   private readonly obstacleTimeCache = new Map<string, Array<{ entityId: string; box: WorldAabbV1 }>>();
+  private readonly collisionSweepCache = new Map<string, CollisionSweep[]>();
+  private readonly collisionBoundaries: number[];
+  private readonly cutTimes: number[];
+  private readonly collisionExemptions: Array<{ startTime: number; endTime: number; entityIds: string[] }>;
   private readonly primitiveIndices = new Map<string, number[]>();
   private readonly motionIndices = new Map<string, number[]>();
   private readonly warningSet = new Set<string>();
@@ -139,6 +188,18 @@ export class ObjectiveEvaluator {
       ...(input.userKeyframes ?? []).filter((keyframe) => keyframe.cutBefore)
         .map((keyframe) => keyframe.time),
     ];
+    this.cutTimes = cutTimes;
+    this.collisionBoundaries = collisionBoundaryTimes(input, plan);
+    this.collisionExemptions = plan.primitives.filter((primitive) =>
+      (primitive.type === "relativeOffsetHold" && primitive.sourceType === LossFunctionType.Static)
+      || primitive.parameters.allowSubjectIntersection === true,
+    ).map((primitive) => ({
+      startTime: primitive.startTime,
+      endTime: primitive.endTime,
+      entityIds: subjectIdsFromParameters(primitive.parameters).map((subjectId) =>
+        input.environment.semanticAnchors.find((anchor) => anchor.id === subjectId)?.entityId ?? subjectId,
+      ),
+    }));
     const scopedIndices = (primitive: PrimitiveLoss, startTime: number, endTime: number): number[] => {
       const indices = intervalIndices(times, startTime, endTime);
       const pointTime = primitive.parameters.pointTime ?? primitive.parameters.keyframeTime;
@@ -147,6 +208,8 @@ export class ObjectiveEvaluator {
       // Point constraints, including eased points, still own their exact time.
       if (
         endTime - startTime <= 1e-9
+        || primitive.type === "collisionClearance"
+        || primitive.type === "groundClearance"
         || typeof pointTime === "number"
         || !cutTimes.some((cutTime) => Math.abs(cutTime - endTime) <= 1e-8)
       ) return indices;
@@ -378,40 +441,49 @@ export class ObjectiveEvaluator {
   }
 
   private collisionExemptEntityIdsAt(index: number): Set<string> {
-    const time = this.times[index]!;
-    const result = new Set<string>();
-    for (const primitive of this.plan.primitives) {
-      const mountedStatic = primitive.type === "relativeOffsetHold"
-        && primitive.sourceType === LossFunctionType.Static;
-      const allowedIntersection = primitive.parameters.allowSubjectIntersection === true;
-      if (
-        (!mountedStatic && !allowedIntersection)
-        || primitive.startTime > time + 1e-9
-        || primitive.endTime < time - 1e-9
-      ) continue;
-      for (const entityId of this.subject(primitive, index)?.entityIds ?? []) {
-        result.add(entityId);
-      }
-    }
-    return result;
+    return this.collisionExemptEntityIdsAtPlaybackTime(this.times[index]!);
   }
 
   private collisionExemptEntityIdsAtPlaybackTime(time: number): Set<string> {
     const result = new Set<string>();
-    for (const primitive of this.plan.primitives) {
-      const mountedStatic = primitive.type === "relativeOffsetHold"
-        && primitive.sourceType === LossFunctionType.Static;
-      const allowedIntersection = primitive.parameters.allowSubjectIntersection === true;
-      if (
-        (!mountedStatic && !allowedIntersection)
-        || primitive.startTime > time + 1e-9
-        || primitive.endTime < time - 1e-9
-      ) continue;
-      for (const entityId of this.subjectAtPlaybackTime(primitive, time)?.entityIds ?? []) {
-        result.add(entityId);
-      }
+    for (const exemption of this.collisionExemptions) {
+      if (exemption.startTime > time + 1e-9 || exemption.endTime < time - 1e-9) continue;
+      for (const entityId of exemption.entityIds) result.add(entityId);
     }
     return result;
+  }
+
+  private collisionSweeps(previousIndex: number, index: number): CollisionSweep[] {
+    const key = `${previousIndex}:${index}`;
+    const cached = this.collisionSweepCache.get(key);
+    if (cached) return cached;
+    const start = this.times[previousIndex]!;
+    const end = this.times[index]!;
+    const boundaries = [start, ...this.collisionBoundaries.filter((time) => time > start && time < end), end];
+    const sweeps: CollisionSweep[] = [];
+    for (let boundaryIndex = 1; boundaryIndex < boundaries.length; boundaryIndex += 1) {
+      const from = boundaries[boundaryIndex - 1]!;
+      const to = boundaries[boundaryIndex]!;
+      const sceneSpan = playbackToSceneTime(to, this.input.timeline.timeWarp, this.input.environment.clock.durationSeconds)
+        - playbackToSceneTime(from, this.input.timeline.timeWarp, this.input.environment.clock.durationSeconds);
+      // Exact sweeps cover arbitrarily thin walls and linear obstacle motion.
+      // A bounded temporal grid also follows rotating/Catmull-Rom obstacles.
+      const count = Math.min(48, Math.max(1, Math.ceil(12 * Math.max(to - from, sceneSpan))));
+      for (let piece = 0; piece < count; piece += 1) {
+        const startTime = from + (to - from) * piece / count;
+        const endTime = from + (to - from) * (piece + 1) / count;
+        const exempt = this.collisionExemptEntityIdsAtPlaybackTime((startTime + endTime) / 2);
+        const startBoxes = this.obstaclesAtPlaybackTime(startTime);
+        // Step animation teleports at a knot; never sweep through the gap.
+        // The right-hand position is checked by the following piece or knot.
+        const endBoxes = this.obstaclesAtPlaybackTime(endTime - Math.min(1e-8, (endTime - startTime) * 1e-7));
+        const obstacles = startBoxes.flatMap((obstacle, obstacleIndex) => exempt.has(obstacle.entityId)
+          ? [] : [{ startBox: obstacle.box, endBox: endBoxes[obstacleIndex]!.box }]);
+        sweeps.push({ startTime, endTime, obstacles });
+      }
+    }
+    this.collisionSweepCache.set(key, sweeps);
+    return sweeps;
   }
 
   /** Step used by global regularizers, excluding inherited subject translation. */
@@ -580,8 +652,11 @@ export class ObjectiveEvaluator {
       }
       case "totalProgressTarget": {
         const target = primitive.parameters.fullTargetDistance ?? primitive.parameters.targetDistance;
-        const progress = this.translationProgress(primitive, this.motionIndices.get(primitive.id)!, states);
-        const minimum = this.input.options?.minimumMovementDistance ?? DEFAULT_OPTIONS.minimumMovementDistance;
+        const sourceIndices = this.motionIndices.get(primitive.id)!;
+        const progress = this.translationProgress(primitive, sourceIndices, states);
+        const sourceFirst = sourceIndices[0]!;
+        const minimum = minimumTranslationProgress(this.input, primitive,
+          states[sourceFirst]!.position, this.subject(primitive, sourceFirst)?.center);
         return [weighted(lastIndex, typeof target === "number"
           ? progress - target : Math.max(0, minimum - progress))];
       }
@@ -693,8 +768,7 @@ export class ObjectiveEvaluator {
         const delta = series[series.length - 1]! - series[0]!;
         const sign = primitive.parameters.sign;
         const progress = typeof sign === "number" ? sign * delta : Math.abs(delta);
-        const minimum = (this.input.options?.minimumMovementAngleDegrees
-          ?? DEFAULT_OPTIONS.minimumMovementAngleDegrees) * Math.PI / 180;
+        const minimum = minimumAngularProgress(this.input, primitive);
         return [weighted(lastIndex, typeof target === "number" ? delta - target : Math.max(0, minimum - progress))];
       }
       case "angularDirection": {
@@ -781,6 +855,8 @@ export class ObjectiveEvaluator {
         if (!initialSubject) return [];
         const initialRadius = Math.hypot(
           scheduleStartState.position[0] - initialSubject.center[0],
+          primitive.parameters.radiusMetric === "distance"
+            ? scheduleStartState.position[1] - initialSubject.center[1] : 0,
           scheduleStartState.position[2] - initialSubject.center[2],
         );
         const requestedRadius = primitive.parameters.targetRadius;
@@ -790,6 +866,8 @@ export class ObjectiveEvaluator {
             const subject = this.subject(primitive, index);
             return subject ? Math.hypot(
               states[index]!.position[0] - subject.center[0],
+              primitive.parameters.radiusMetric === "distance"
+                ? states[index]!.position[1] - subject.center[1] : 0,
               states[index]!.position[2] - subject.center[2],
             ) : initialRadius;
           };
@@ -1093,6 +1171,7 @@ export class ObjectiveEvaluator {
       }
       case "collisionClearance": {
         const requested = this.options.cameraRadius + this.options.collisionMargin;
+        const positionAt = createCameraPositionSampler(states, this.cutTimes);
         const result = indices.map((index) => {
           const exemptEntityIds = this.collisionExemptEntityIdsAt(index);
           const minimum = Math.min(
@@ -1106,25 +1185,30 @@ export class ObjectiveEvaluator {
         for (let localIndex = 1; localIndex < indices.length; localIndex += 1) {
           const previousIndex = indices[localIndex - 1]!;
           const index = indices[localIndex]!;
-          if (crossesCut(
-            this.times[previousIndex]!,
-            this.times[index]!,
-            this.input.timeline.cutTimes ?? [],
-          )) continue;
-          const midpointTime = (this.times[previousIndex]! + this.times[index]!) / 2;
-          const midpointPosition = lerp3(
-            states[previousIndex]!.position,
-            states[index]!.position,
-            0.5,
-          );
-          const exemptEntityIds = this.collisionExemptEntityIdsAtPlaybackTime(midpointTime);
-          const minimum = Math.min(
-            ...this.obstaclesAtPlaybackTime(midpointTime)
-              .filter((obstacle) => !exemptEntityIds.has(obstacle.entityId))
-              .map((obstacle) => signedDistanceToAabb(midpointPosition, obstacle.box)),
-            Infinity,
-          );
-          result.push(weighted(index, Math.max(0, requested - minimum)));
+          let violation = 0;
+          for (const sweep of this.collisionSweeps(previousIndex, index)) {
+            if (sweep.obstacles.length === 0) continue;
+            const span = sweep.endTime - sweep.startTime;
+            const start = positionAt(sweep.startTime);
+            const endsAtCut = crossesCut(sweep.startTime, sweep.endTime, this.cutTimes);
+            const end = positionAt(endsAtCut ? sweep.endTime - Math.min(1e-8, span * 1e-7) : sweep.endTime);
+            const firstDeviation = sub3(positionAt(sweep.startTime + span / 3), lerp3(start, end, 1 / 3));
+            const secondDeviation = sub3(positionAt(sweep.startTime + 2 * span / 3), lerp3(start, end, 2 / 3));
+            // The cubic's deviation from its chord is bounded by 3/4 of the
+            // largest Bezier control deviation. Including that bound prevents
+            // a curved output path from cutting into a wall its chords miss.
+            const curveBound = 0.75 * Math.max(
+              length3(sub3(scale3(firstDeviation, 3), scale3(secondDeviation, 1.5))),
+              length3(sub3(scale3(secondDeviation, 3), scale3(firstDeviation, 1.5))),
+            );
+            for (const obstacle of sweep.obstacles) {
+              const minimum = minimumSignedDistanceToMovingAabb(
+                start, end, obstacle.startBox, obstacle.endBox, requested + curveBound,
+              );
+              violation = Math.max(violation, requested + curveBound - minimum);
+            }
+          }
+          result.push(weighted(index, violation));
         }
         return result;
       }
@@ -1295,5 +1379,18 @@ export class ObjectiveEvaluator {
     }
     breakdown.sort((a, b) => b.weightedLoss - a.weightedLoss);
     return { total, breakdown };
+  }
+
+  /** Worst enabled collision/ground clearance violation, measured in meters. */
+  public safetyViolation(states: readonly CameraStateSample[]): number {
+    let maximum = 0;
+    for (const primitive of this.plan.primitives) {
+      if (primitive.type !== "collisionClearance" && primitive.type !== "groundClearance") continue;
+      if (primitive.weight <= 0) continue;
+      for (const residual of this.residuals(primitive, states)) {
+        if (residual.sampleWeight > 0) maximum = Math.max(maximum, residual.value);
+      }
+    }
+    return maximum;
   }
 }

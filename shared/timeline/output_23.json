@@ -1,0 +1,1130 @@
+{
+  "schemaVersion": "1.0",
+  "kind": "timelineSolverOutput",
+  "exampleId": "example-23",
+  "environmentId": "example-23-factory-convergence",
+  "prompt": "یک پلان پیوستهٔ ۲۰ ثانیه‌ای درون کارخانه‌ای شلوغ بگیر. با دنبال‌کردن کارگر الف از سمت شرق سالن تولید به سمت مرکز شروع کن و او را در نمای متوسطِ دور نگه دار. نزدیک‌تر شو و با حرکت او دوربین را افقی و عمودی بچرخان؛ سپس هنگام تغییر مسیرش، دوربین را جانبی و عمودی جابه‌جا کن. وقتی کنار دستگاه‌های مرکزی کند شد، در مسیری قوسی دورش بچرخ و به‌تدریج زوم را بیشتر کن تا کارگر ب که از سمت مقابل نزدیک می‌شود آشکار شود. با نزدیک‌شدن دو کارگر، نما را بازتر کن و هر دو را با هم تعقیب کن؛ آن‌ها را در دید نگه دار، فاصله و زاویه را ثابت حفظ کن و از دستگاه‌ها و لیفتراک در حال عبور دوری کن. وقتی کارگر ب به سمت سکوی بارگیری شتاب گرفت، با او دوربین را افقی بچرخان، جانبی در سالن حرکت کن، دوربین را پایین بیاور، در مسیری قوسی دورش بچرخ و کجی دوربین را اصلاح کن. سپس عقب بکش تا هر دو کارگر، نیم‌طبقه، لیفتراک و محوطهٔ بارگیری دیده شوند. در پایان دور دو کارگر بچرخ، هر دو را در یک قاب باز و پایدار نگه دار و با نمای ثابت و توقف زمان تمام کن. در تمام پلان، حرکت دوربین نرم باشد، دید سوژه‌ها مسدود نشود، دوربین از سطح زمین پایین‌تر نرود و هر گذار مانند یک حرکت پیوسته و هدفمند سینمایی احساس شود.",
+  "totalDuration": 20,
+  "subjectBinding": {
+    "mode": "resolved",
+    "source": "resolved-fixture"
+  },
+  "timeline": {
+    "timeline": [
+      {
+        "kind": "interval",
+        "shotStartTime": 0,
+        "startTime": 0,
+        "endTime": 2.2055555555555553,
+        "lossFunctions": [
+          {
+            "type": "followMovement",
+            "parameters": {
+              "subjectId": "worker_a"
+            },
+            "sourceActionId": "follow_worker_a_center"
+          }
+        ],
+        "weight": 1
+      },
+      {
+        "kind": "interval",
+        "shotStartTime": 0,
+        "startTime": 0,
+        "endTime": 2.2055555555555553,
+        "lossFunctions": [
+          {
+            "type": "shotSize",
+            "parameters": {
+              "shotSize": "mediumLongShot",
+              "subjectId": "worker_a"
+            },
+            "sourceActionId": "follow_worker_a_center"
+          }
+        ],
+        "weight": 1
+      },
+      {
+        "kind": "interval",
+        "shotStartTime": 0,
+        "startTime": 0,
+        "endTime": 2.2055555555555553,
+        "lossFunctions": [
+          {
+            "type": "noShake",
+            "parameters": {},
+            "sourceActionId": "follow_worker_a_center"
+          }
+        ],
+        "weight": 1
+      },
+      {
+        "kind": "interval",
+        "shotStartTime": 0,
+        "startTime": 0,
+        "endTime": 2.2055555555555553,
+        "lossFunctions": [
+          {
+            "type": "avoidOcclusion",
+            "parameters": {
+              "subjectId": "worker_a"
+            },
+            "sourceActionId": "follow_worker_a_center"
+          }
+        ],
+        "weight": 1
+      },
+      {
+        "kind": "point",
+        "shotStartTime": 0,
+        "time": 0,
+        "lossFunctions": [
+          {
+            "type": "shotSize",
+            "parameters": {
+              "shotSize": "mediumLongShot",
+              "subjectId": "worker_a"
+            }
+          }
+        ],
+        "weight": 1
+      },
+      {
+        "kind": "interval",
+        "shotStartTime": 0,
+        "startTime": 2.2055555555555553,
+        "endTime": 4.411111111111111,
+        "lossFunctions": [
+          {
+            "type": "dollyInMovement",
+            "parameters": {
+              "subjectId": "worker_a"
+            },
+            "sourceActionId": "push_closer_truck_pedestal"
+          }
+        ],
+        "weight": 1
+      },
+      {
+        "kind": "interval",
+        "shotStartTime": 0,
+        "startTime": 2.2055555555555553,
+        "endTime": 4.411111111111111,
+        "lossFunctions": [
+          {
+            "type": "noShake",
+            "parameters": {},
+            "sourceActionId": "push_closer_truck_pedestal"
+          }
+        ],
+        "weight": 1
+      },
+      {
+        "kind": "interval",
+        "shotStartTime": 0,
+        "startTime": 2.2055555555555553,
+        "endTime": 4.411111111111111,
+        "lossFunctions": [
+          {
+            "type": "avoidOcclusion",
+            "parameters": {
+              "subjectId": "worker_a"
+            },
+            "sourceActionId": "push_closer_truck_pedestal"
+          }
+        ],
+        "weight": 1
+      },
+      {
+        "kind": "interval",
+        "shotStartTime": 0,
+        "startTime": 2.2055555555555553,
+        "endTime": 6.616666666666667,
+        "lossFunctions": [
+          {
+            "type": "panLeftMovement",
+            "parameters": {},
+            "sourceActionId": "pan_with_worker_a"
+          }
+        ],
+        "weight": 1
+      },
+      {
+        "kind": "interval",
+        "shotStartTime": 0,
+        "startTime": 2.2055555555555553,
+        "endTime": 6.616666666666667,
+        "lossFunctions": [
+          {
+            "type": "subjectPresence",
+            "parameters": {
+              "subjectId": "worker_a"
+            },
+            "sourceActionId": "pan_with_worker_a"
+          }
+        ],
+        "weight": 1
+      },
+      {
+        "kind": "interval",
+        "shotStartTime": 0,
+        "startTime": 2.2055555555555553,
+        "endTime": 6.616666666666667,
+        "lossFunctions": [
+          {
+            "type": "noShake",
+            "parameters": {},
+            "sourceActionId": "pan_with_worker_a"
+          }
+        ],
+        "weight": 1
+      },
+      {
+        "kind": "interval",
+        "shotStartTime": 0,
+        "startTime": 2.2055555555555553,
+        "endTime": 6.616666666666667,
+        "lossFunctions": [
+          {
+            "type": "avoidOcclusion",
+            "parameters": {
+              "subjectId": "worker_a"
+            },
+            "sourceActionId": "pan_with_worker_a"
+          }
+        ],
+        "weight": 1
+      },
+      {
+        "kind": "interval",
+        "shotStartTime": 0,
+        "startTime": 2.2055555555555553,
+        "endTime": 6.616666666666667,
+        "lossFunctions": [
+          {
+            "type": "tiltUpMovement",
+            "parameters": {},
+            "sourceActionId": "tilt_with_worker_a"
+          }
+        ],
+        "weight": 1
+      },
+      {
+        "kind": "interval",
+        "shotStartTime": 0,
+        "startTime": 2.2055555555555553,
+        "endTime": 6.616666666666667,
+        "lossFunctions": [
+          {
+            "type": "noShake",
+            "parameters": {},
+            "sourceActionId": "tilt_with_worker_a"
+          }
+        ],
+        "weight": 1
+      },
+      {
+        "kind": "interval",
+        "shotStartTime": 0,
+        "startTime": 2.2055555555555553,
+        "endTime": 6.616666666666667,
+        "lossFunctions": [
+          {
+            "type": "avoidOcclusion",
+            "parameters": {
+              "subjectId": "worker_a"
+            },
+            "sourceActionId": "tilt_with_worker_a"
+          }
+        ],
+        "weight": 1
+      },
+      {
+        "kind": "interval",
+        "shotStartTime": 0,
+        "startTime": 4.411111111111111,
+        "endTime": 6.616666666666666,
+        "lossFunctions": [
+          {
+            "type": "truckLeftMovement",
+            "parameters": {},
+            "sourceActionId": "truck_with_worker_a"
+          }
+        ],
+        "weight": 1
+      },
+      {
+        "kind": "interval",
+        "shotStartTime": 0,
+        "startTime": 4.411111111111111,
+        "endTime": 6.616666666666666,
+        "lossFunctions": [
+          {
+            "type": "subjectPresence",
+            "parameters": {
+              "subjectId": "worker_a"
+            },
+            "sourceActionId": "truck_with_worker_a"
+          }
+        ],
+        "weight": 1
+      },
+      {
+        "kind": "interval",
+        "shotStartTime": 0,
+        "startTime": 4.411111111111111,
+        "endTime": 6.616666666666666,
+        "lossFunctions": [
+          {
+            "type": "noShake",
+            "parameters": {},
+            "sourceActionId": "truck_with_worker_a"
+          }
+        ],
+        "weight": 1
+      },
+      {
+        "kind": "interval",
+        "shotStartTime": 0,
+        "startTime": 4.411111111111111,
+        "endTime": 6.616666666666666,
+        "lossFunctions": [
+          {
+            "type": "avoidOcclusion",
+            "parameters": {
+              "subjectId": "worker_a"
+            },
+            "sourceActionId": "truck_with_worker_a"
+          }
+        ],
+        "weight": 1
+      },
+      {
+        "kind": "interval",
+        "shotStartTime": 0,
+        "startTime": 4.411111111111111,
+        "endTime": 6.616666666666666,
+        "lossFunctions": [
+          {
+            "type": "pedestalUpMovement",
+            "parameters": {},
+            "sourceActionId": "pedestal_with_worker_a"
+          }
+        ],
+        "weight": 1
+      },
+      {
+        "kind": "interval",
+        "shotStartTime": 0,
+        "startTime": 4.411111111111111,
+        "endTime": 6.616666666666666,
+        "lossFunctions": [
+          {
+            "type": "noShake",
+            "parameters": {},
+            "sourceActionId": "pedestal_with_worker_a"
+          }
+        ],
+        "weight": 1
+      },
+      {
+        "kind": "interval",
+        "shotStartTime": 0,
+        "startTime": 4.411111111111111,
+        "endTime": 6.616666666666666,
+        "lossFunctions": [
+          {
+            "type": "avoidOcclusion",
+            "parameters": {
+              "subjectId": "worker_a"
+            },
+            "sourceActionId": "pedestal_with_worker_a"
+          }
+        ],
+        "weight": 1
+      },
+      {
+        "kind": "interval",
+        "shotStartTime": 0,
+        "startTime": 6.616666666666666,
+        "endTime": 7.35,
+        "lossFunctions": [
+          {
+            "type": "arcMovement",
+            "parameters": {
+              "subjectId": "worker_a"
+            },
+            "sourceActionId": "arc_zoom_near_machine"
+          }
+        ],
+        "weight": 1
+      },
+      {
+        "kind": "interval",
+        "shotStartTime": 0,
+        "startTime": 6.616666666666666,
+        "endTime": 7.35,
+        "lossFunctions": [
+          {
+            "type": "noShake",
+            "parameters": {},
+            "sourceActionId": "arc_zoom_near_machine"
+          }
+        ],
+        "weight": 1
+      },
+      {
+        "kind": "interval",
+        "shotStartTime": 0,
+        "startTime": 6.616666666666666,
+        "endTime": 7.35,
+        "lossFunctions": [
+          {
+            "type": "avoidOcclusion",
+            "parameters": {
+              "subjectId": "worker_a"
+            },
+            "sourceActionId": "arc_zoom_near_machine"
+          }
+        ],
+        "weight": 1
+      },
+      {
+        "kind": "interval",
+        "shotStartTime": 0,
+        "startTime": 6.616666666666666,
+        "endTime": 7.35,
+        "lossFunctions": [
+          {
+            "type": "zoomInMovement",
+            "parameters": {},
+            "sourceActionId": "zoom_in_reveal_worker_b"
+          }
+        ],
+        "weight": 1
+      },
+      {
+        "kind": "interval",
+        "shotStartTime": 0,
+        "startTime": 6.616666666666666,
+        "endTime": 7.35,
+        "lossFunctions": [
+          {
+            "type": "noShake",
+            "parameters": {},
+            "sourceActionId": "zoom_in_reveal_worker_b"
+          }
+        ],
+        "weight": 1
+      },
+      {
+        "kind": "interval",
+        "shotStartTime": 0,
+        "startTime": 6.616666666666666,
+        "endTime": 7.35,
+        "lossFunctions": [
+          {
+            "type": "avoidOcclusion",
+            "parameters": {
+              "subjectIds": [
+                "worker_a",
+                "worker_b"
+              ]
+            },
+            "sourceActionId": "zoom_in_reveal_worker_b"
+          }
+        ],
+        "weight": 1
+      },
+      {
+        "kind": "point",
+        "shotStartTime": 0,
+        "time": 7.35,
+        "lossFunctions": [
+          {
+            "type": "keepInFrame",
+            "parameters": {
+              "subjectIds": [
+                "worker_a",
+                "worker_b"
+              ]
+            },
+            "sourceActionId": "arc_zoom_near_machine"
+          }
+        ],
+        "weight": 1
+      },
+      {
+        "kind": "point",
+        "shotStartTime": 0,
+        "time": 7.35,
+        "lossFunctions": [
+          {
+            "type": "keepInFrame",
+            "parameters": {
+              "subjectIds": [
+                "worker_a",
+                "worker_b"
+              ]
+            },
+            "sourceActionId": "zoom_in_reveal_worker_b"
+          }
+        ],
+        "weight": 1
+      },
+      {
+        "kind": "interval",
+        "shotStartTime": 0,
+        "startTime": 7.35,
+        "endTime": 8.133333333333333,
+        "lossFunctions": [
+          {
+            "type": "trackMovement",
+            "parameters": {
+              "subjectIds": [
+                "worker_a",
+                "worker_b"
+              ]
+            },
+            "sourceActionId": "converge_track_both"
+          }
+        ],
+        "weight": 1
+      },
+      {
+        "kind": "interval",
+        "shotStartTime": 0,
+        "startTime": 7.35,
+        "endTime": 8.133333333333333,
+        "lossFunctions": [
+          {
+            "type": "keepInFrame",
+            "parameters": {
+              "subjectIds": [
+                "worker_a",
+                "worker_b"
+              ]
+            },
+            "sourceActionId": "converge_track_both"
+          }
+        ],
+        "weight": 1
+      },
+      {
+        "kind": "interval",
+        "shotStartTime": 0,
+        "startTime": 7.35,
+        "endTime": 8.133333333333333,
+        "lossFunctions": [
+          {
+            "type": "maintainDistance",
+            "parameters": {
+              "subjectIds": [
+                "worker_a",
+                "worker_b"
+              ]
+            },
+            "sourceActionId": "converge_track_both"
+          }
+        ],
+        "weight": 1
+      },
+      {
+        "kind": "interval",
+        "shotStartTime": 0,
+        "startTime": 7.35,
+        "endTime": 8.133333333333333,
+        "lossFunctions": [
+          {
+            "type": "maintainAngle",
+            "parameters": {
+              "subjectIds": [
+                "worker_a",
+                "worker_b"
+              ]
+            },
+            "sourceActionId": "converge_track_both"
+          }
+        ],
+        "weight": 1
+      },
+      {
+        "kind": "interval",
+        "shotStartTime": 0,
+        "startTime": 7.35,
+        "endTime": 8.133333333333333,
+        "lossFunctions": [
+          {
+            "type": "noShake",
+            "parameters": {},
+            "sourceActionId": "converge_track_both"
+          }
+        ],
+        "weight": 1
+      },
+      {
+        "kind": "interval",
+        "shotStartTime": 0,
+        "startTime": 7.35,
+        "endTime": 8.133333333333333,
+        "lossFunctions": [
+          {
+            "type": "avoidOcclusion",
+            "parameters": {
+              "subjectIds": [
+                "worker_a",
+                "worker_b"
+              ]
+            },
+            "sourceActionId": "converge_track_both"
+          }
+        ],
+        "weight": 1
+      },
+      {
+        "kind": "interval",
+        "shotStartTime": 0,
+        "startTime": 7.35,
+        "endTime": 8.133333333333333,
+        "lossFunctions": [
+          {
+            "type": "zoomOutMovement",
+            "parameters": {},
+            "sourceActionId": "widen_convergence"
+          }
+        ],
+        "weight": 1
+      },
+      {
+        "kind": "interval",
+        "shotStartTime": 0,
+        "startTime": 7.35,
+        "endTime": 8.133333333333333,
+        "lossFunctions": [
+          {
+            "type": "noShake",
+            "parameters": {},
+            "sourceActionId": "widen_convergence"
+          }
+        ],
+        "weight": 1
+      },
+      {
+        "kind": "interval",
+        "shotStartTime": 0,
+        "startTime": 7.35,
+        "endTime": 8.133333333333333,
+        "lossFunctions": [
+          {
+            "type": "avoidOcclusion",
+            "parameters": {
+              "subjectIds": [
+                "worker_a",
+                "worker_b"
+              ]
+            },
+            "sourceActionId": "widen_convergence"
+          }
+        ],
+        "weight": 1
+      },
+      {
+        "kind": "interval",
+        "shotStartTime": 0,
+        "startTime": 8.133333333333333,
+        "endTime": 10.133333333333333,
+        "lossFunctions": [
+          {
+            "type": "truckRightMovement",
+            "parameters": {},
+            "sourceActionId": "worker_b_accelerates_pan_truck"
+          }
+        ],
+        "weight": 1
+      },
+      {
+        "kind": "interval",
+        "shotStartTime": 0,
+        "startTime": 8.133333333333333,
+        "endTime": 10.133333333333333,
+        "lossFunctions": [
+          {
+            "type": "subjectPresence",
+            "parameters": {
+              "subjectId": "worker_b"
+            },
+            "sourceActionId": "worker_b_accelerates_pan_truck"
+          }
+        ],
+        "weight": 1
+      },
+      {
+        "kind": "interval",
+        "shotStartTime": 0,
+        "startTime": 8.133333333333333,
+        "endTime": 10.133333333333333,
+        "lossFunctions": [
+          {
+            "type": "noShake",
+            "parameters": {},
+            "sourceActionId": "worker_b_accelerates_pan_truck"
+          }
+        ],
+        "weight": 1
+      },
+      {
+        "kind": "interval",
+        "shotStartTime": 0,
+        "startTime": 8.133333333333333,
+        "endTime": 10.133333333333333,
+        "lossFunctions": [
+          {
+            "type": "avoidOcclusion",
+            "parameters": {
+              "subjectId": "worker_b"
+            },
+            "sourceActionId": "worker_b_accelerates_pan_truck"
+          }
+        ],
+        "weight": 1
+      },
+      {
+        "kind": "interval",
+        "shotStartTime": 0,
+        "startTime": 8.133333333333333,
+        "endTime": 10.133333333333333,
+        "lossFunctions": [
+          {
+            "type": "panRightMovement",
+            "parameters": {},
+            "sourceActionId": "pan_with_worker_b"
+          }
+        ],
+        "weight": 1
+      },
+      {
+        "kind": "interval",
+        "shotStartTime": 0,
+        "startTime": 8.133333333333333,
+        "endTime": 10.133333333333333,
+        "lossFunctions": [
+          {
+            "type": "subjectPresence",
+            "parameters": {
+              "subjectId": "worker_b"
+            },
+            "sourceActionId": "pan_with_worker_b"
+          }
+        ],
+        "weight": 1
+      },
+      {
+        "kind": "interval",
+        "shotStartTime": 0,
+        "startTime": 8.133333333333333,
+        "endTime": 10.133333333333333,
+        "lossFunctions": [
+          {
+            "type": "noShake",
+            "parameters": {},
+            "sourceActionId": "pan_with_worker_b"
+          }
+        ],
+        "weight": 1
+      },
+      {
+        "kind": "interval",
+        "shotStartTime": 0,
+        "startTime": 8.133333333333333,
+        "endTime": 10.133333333333333,
+        "lossFunctions": [
+          {
+            "type": "avoidOcclusion",
+            "parameters": {
+              "subjectId": "worker_b"
+            },
+            "sourceActionId": "pan_with_worker_b"
+          }
+        ],
+        "weight": 1
+      },
+      {
+        "kind": "interval",
+        "shotStartTime": 0,
+        "startTime": 10.133333333333333,
+        "endTime": 12.106666666666666,
+        "lossFunctions": [
+          {
+            "type": "pedestalDownMovement",
+            "parameters": {},
+            "sourceActionId": "lower_and_arc_worker_b"
+          }
+        ],
+        "weight": 1
+      },
+      {
+        "kind": "interval",
+        "shotStartTime": 0,
+        "startTime": 10.133333333333333,
+        "endTime": 12.106666666666666,
+        "lossFunctions": [
+          {
+            "type": "subjectPresence",
+            "parameters": {
+              "subjectId": "worker_b"
+            },
+            "sourceActionId": "lower_and_arc_worker_b"
+          }
+        ],
+        "weight": 1
+      },
+      {
+        "kind": "interval",
+        "shotStartTime": 0,
+        "startTime": 10.133333333333333,
+        "endTime": 12.106666666666666,
+        "lossFunctions": [
+          {
+            "type": "noShake",
+            "parameters": {},
+            "sourceActionId": "lower_and_arc_worker_b"
+          }
+        ],
+        "weight": 1
+      },
+      {
+        "kind": "interval",
+        "shotStartTime": 0,
+        "startTime": 10.133333333333333,
+        "endTime": 12.106666666666666,
+        "lossFunctions": [
+          {
+            "type": "avoidOcclusion",
+            "parameters": {
+              "subjectId": "worker_b"
+            },
+            "sourceActionId": "lower_and_arc_worker_b"
+          }
+        ],
+        "weight": 1
+      },
+      {
+        "kind": "interval",
+        "shotStartTime": 0,
+        "startTime": 12.106666666666666,
+        "endTime": 14.079999999999998,
+        "lossFunctions": [
+          {
+            "type": "arcMovement",
+            "parameters": {
+              "subjectId": "worker_b"
+            },
+            "sourceActionId": "arc_around_worker_b"
+          }
+        ],
+        "weight": 1
+      },
+      {
+        "kind": "interval",
+        "shotStartTime": 0,
+        "startTime": 12.106666666666666,
+        "endTime": 14.079999999999998,
+        "lossFunctions": [
+          {
+            "type": "noShake",
+            "parameters": {},
+            "sourceActionId": "arc_around_worker_b"
+          }
+        ],
+        "weight": 1
+      },
+      {
+        "kind": "interval",
+        "shotStartTime": 0,
+        "startTime": 12.106666666666666,
+        "endTime": 14.079999999999998,
+        "lossFunctions": [
+          {
+            "type": "avoidOcclusion",
+            "parameters": {
+              "subjectId": "worker_b"
+            },
+            "sourceActionId": "arc_around_worker_b"
+          }
+        ],
+        "weight": 1
+      },
+      {
+        "kind": "point",
+        "shotStartTime": 0,
+        "time": 14.079999999999998,
+        "lossFunctions": [
+          {
+            "type": "framingDutchAngle",
+            "parameters": {
+              "scale": 0,
+              "subjectId": "worker_b"
+            }
+          }
+        ],
+        "weight": 1
+      },
+      {
+        "kind": "interval",
+        "shotStartTime": 0,
+        "startTime": 14.079999999999998,
+        "endTime": 16.05333333333333,
+        "lossFunctions": [
+          {
+            "type": "dollyOutMovement",
+            "parameters": {
+              "subjectIds": [
+                "worker_a",
+                "worker_b"
+              ]
+            },
+            "sourceActionId": "pull_back_reveal_all"
+          }
+        ],
+        "weight": 1
+      },
+      {
+        "kind": "interval",
+        "shotStartTime": 0,
+        "startTime": 14.079999999999998,
+        "endTime": 16.05333333333333,
+        "lossFunctions": [
+          {
+            "type": "noShake",
+            "parameters": {},
+            "sourceActionId": "pull_back_reveal_all"
+          }
+        ],
+        "weight": 1
+      },
+      {
+        "kind": "interval",
+        "shotStartTime": 0,
+        "startTime": 14.079999999999998,
+        "endTime": 16.05333333333333,
+        "lossFunctions": [
+          {
+            "type": "avoidOcclusion",
+            "parameters": {
+              "subjectIds": [
+                "worker_a",
+                "worker_b"
+              ]
+            },
+            "sourceActionId": "pull_back_reveal_all"
+          }
+        ],
+        "weight": 1
+      },
+      {
+        "kind": "point",
+        "shotStartTime": 0,
+        "time": 16.05333333333333,
+        "lossFunctions": [
+          {
+            "type": "keepInFrame",
+            "parameters": {
+              "subjectIds": [
+                "worker_a",
+                "worker_b",
+                "loading_bay_frame"
+              ]
+            },
+            "sourceActionId": "pull_back_reveal_all"
+          }
+        ],
+        "weight": 1
+      },
+      {
+        "kind": "interval",
+        "shotStartTime": 0,
+        "startTime": 16.05333333333333,
+        "endTime": 18.026666666666664,
+        "lossFunctions": [
+          {
+            "type": "arcMovement",
+            "parameters": {
+              "subjectIds": [
+                "worker_a",
+                "worker_b"
+              ]
+            },
+            "sourceActionId": "orbit_both_workers"
+          }
+        ],
+        "weight": 1
+      },
+      {
+        "kind": "interval",
+        "shotStartTime": 0,
+        "startTime": 16.05333333333333,
+        "endTime": 18.026666666666664,
+        "lossFunctions": [
+          {
+            "type": "shotSize",
+            "parameters": {
+              "shotSize": "longShot",
+              "subjectIds": [
+                "worker_a",
+                "worker_b"
+              ]
+            },
+            "sourceActionId": "orbit_both_workers"
+          }
+        ],
+        "weight": 1
+      },
+      {
+        "kind": "interval",
+        "shotStartTime": 0,
+        "startTime": 16.05333333333333,
+        "endTime": 18.026666666666664,
+        "lossFunctions": [
+          {
+            "type": "keepInFrame",
+            "parameters": {
+              "subjectIds": [
+                "worker_a",
+                "worker_b"
+              ]
+            },
+            "sourceActionId": "orbit_both_workers"
+          }
+        ],
+        "weight": 1
+      },
+      {
+        "kind": "interval",
+        "shotStartTime": 0,
+        "startTime": 16.05333333333333,
+        "endTime": 18.026666666666664,
+        "lossFunctions": [
+          {
+            "type": "noShake",
+            "parameters": {},
+            "sourceActionId": "orbit_both_workers"
+          }
+        ],
+        "weight": 1
+      },
+      {
+        "kind": "interval",
+        "shotStartTime": 0,
+        "startTime": 16.05333333333333,
+        "endTime": 18.026666666666664,
+        "lossFunctions": [
+          {
+            "type": "avoidOcclusion",
+            "parameters": {
+              "subjectIds": [
+                "worker_a",
+                "worker_b"
+              ]
+            },
+            "sourceActionId": "orbit_both_workers"
+          }
+        ],
+        "weight": 1
+      },
+      {
+        "kind": "interval",
+        "shotStartTime": 0,
+        "startTime": 18.026666666666664,
+        "endTime": 20,
+        "lossFunctions": [
+          {
+            "type": "Static",
+            "parameters": {},
+            "sourceActionId": "locked_off_freeze"
+          }
+        ],
+        "weight": 1
+      },
+      {
+        "kind": "interval",
+        "shotStartTime": 0,
+        "startTime": 18.026666666666664,
+        "endTime": 20,
+        "lossFunctions": [
+          {
+            "type": "shotSize",
+            "parameters": {
+              "shotSize": "longShot",
+              "subjectIds": [
+                "worker_a",
+                "worker_b"
+              ]
+            },
+            "sourceActionId": "locked_off_freeze"
+          }
+        ],
+        "weight": 1
+      },
+      {
+        "kind": "interval",
+        "shotStartTime": 0,
+        "startTime": 18.026666666666664,
+        "endTime": 20,
+        "lossFunctions": [
+          {
+            "type": "keepInFrame",
+            "parameters": {
+              "subjectIds": [
+                "worker_a",
+                "worker_b"
+              ]
+            },
+            "sourceActionId": "locked_off_freeze"
+          }
+        ],
+        "weight": 1
+      },
+      {
+        "kind": "interval",
+        "shotStartTime": 0,
+        "startTime": 18.026666666666664,
+        "endTime": 20,
+        "lossFunctions": [
+          {
+            "type": "noShake",
+            "parameters": {},
+            "sourceActionId": "locked_off_freeze"
+          }
+        ],
+        "weight": 1
+      },
+      {
+        "kind": "interval",
+        "shotStartTime": 0,
+        "startTime": 18.026666666666664,
+        "endTime": 20,
+        "lossFunctions": [
+          {
+            "type": "avoidOcclusion",
+            "parameters": {
+              "subjectIds": [
+                "worker_a",
+                "worker_b"
+              ]
+            },
+            "sourceActionId": "locked_off_freeze"
+          }
+        ],
+        "weight": 1
+      }
+    ],
+    "timeWarp": [
+      {
+        "startTimePlayback": 18.026666666666664,
+        "endTimePlayback": 20,
+        "rate": 0,
+        "label": "frozen"
+      }
+    ]
+  }
+}
