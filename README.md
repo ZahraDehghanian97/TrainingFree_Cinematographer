@@ -123,8 +123,11 @@ skin, `shirtColor` / `trouserColor` for clothing, and `hairColor` for hair. Leav
 `params.motion` unset (or `"auto"`) for walking, running, and idle animation based
 on the entity's path, or use `"idle"`, `"dance"`, `"float"`, or `"punch"` for a
 specific action. Motion follows environment time, so seeking, slow motion, and
-frozen segments also control the limbs. Authored entity rotations and camera
-anchors remain authoritative.
+frozen segments also control the limbs. Walking bodies face their travel direction
+with gradual turns, while standing actors and explicit actions keep their authored
+facing. Automatic humanoid paths ease between timed waypoints and hold still at
+stops; the renderer and environment queries sample the same path. Entity rotations
+still define camera anchors independently of the visual body's walking direction.
 
 `world.profile` accepts `studio`, `daylight`, `road`, `park`, `industrial`,
 `corridor`, `stage`, or `rooftop`; `world.exposure` adjusts brightness.

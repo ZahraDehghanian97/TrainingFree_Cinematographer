@@ -9,6 +9,7 @@ import type {
   SceneEntityV1,
   Vec3,
 } from "../../src/types/environment";
+import { sampleLocomotionPosition } from "../../src/environment/locomotion-path";
 import {
   clamp,
   normalizeQuat,
@@ -539,10 +540,12 @@ export function sampleEntityTransform(
   entityOrTransform: SceneEntityV1 | EntityTransformV1,
   timeSeconds: number,
 ): SampledEntityTransformV1 {
-  const transform = "transform" in entityOrTransform
-    ? entityOrTransform.transform
-    : entityOrTransform;
-  return sampleEntityTransformAt(transform, timeSeconds);
+  if (!("transform" in entityOrTransform)) {
+    return sampleEntityTransformAt(entityOrTransform, timeSeconds);
+  }
+  const sampled = sampleEntityTransformAt(entityOrTransform.transform, timeSeconds);
+  sampled.position = sampleLocomotionPosition(entityOrTransform, timeSeconds) ?? sampled.position;
+  return sampled;
 }
 
 export function sampleEnvironmentAt(
@@ -567,7 +570,7 @@ export function sampleEnvironmentAt(
     timeSeconds: sampledTime,
     entities: environment.entities.map((entity) => ({
       entity,
-      transform: sampleEntityTransformAt(entity.transform, sampledTime),
+      transform: sampleEntityTransform(entity, sampledTime),
     })),
   };
 }

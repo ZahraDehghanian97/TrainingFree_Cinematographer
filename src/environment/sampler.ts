@@ -13,6 +13,7 @@ import type {
   SubjectBoxSampleV1,
   WorldAabbV1,
 } from "../types/environment-query";
+import { sampleLocomotionPosition } from "./locomotion-path";
 
 interface SampledTransform {
   position: Vec3;
@@ -229,7 +230,8 @@ function transformLocalPoint(localPoint: Vec3, transform: SampledTransform): Vec
 
 function sampledEntityTransform(entity: SceneEntityV1, timeSeconds: number): SampledTransform {
   return {
-    position: sampleVec3Channel(entity.transform.position, timeSeconds),
+    position: sampleLocomotionPosition(entity, timeSeconds)
+      ?? sampleVec3Channel(entity.transform.position, timeSeconds),
     rotation: sampleQuatChannel(entity.transform.rotation, timeSeconds),
     scale: entity.transform.scale
       ? sampleVec3Channel(entity.transform.scale, timeSeconds)
