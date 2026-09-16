@@ -12,13 +12,14 @@ import {
 } from "./constants";
 import { subjectParameters } from "./subjects";
 import type { CompileBandContext, PrimitiveDescriptor } from "./types";
-import { motionProgress } from "../shared/motion-profiles";
+import { motionProgress, validateMotionProfile } from "../shared/motion-profiles";
 
 function optionalNumber(value: unknown): number | undefined {
   return typeof value === "number" && Number.isFinite(value) ? value : undefined;
 }
 
 function motionParameters(context: CompileBandContext): Record<string, unknown> {
+  validateMotionProfile(context.loss.parameters.speedKeyframes);
   return {
     referenceTime: context.sourceStartTime,
     motionStartTime: context.sourceStartTime,
@@ -26,6 +27,18 @@ function motionParameters(context: CompileBandContext): Record<string, unknown> 
     ...(context.loss.parameters.speedKeyframes
       ? { speedKeyframes: context.loss.parameters.speedKeyframes }
       : {}),
+  };
+}
+
+function subjectMotionParameters(context: CompileBandContext): Record<string, unknown> {
+  return {
+    ...motionParameters(context),
+    ...(context.loss.parameters.speedKeyframes === undefined ? {} : {
+      subjectTimeProfile: true,
+      subjectMotionStartTime: context.sourceStartTime,
+      subjectMotionEndTime: context.sourceEndTime,
+      subjectSpeedKeyframes: context.loss.parameters.speedKeyframes,
+    }),
   };
 }
 
@@ -76,6 +89,9 @@ function translationRecipe(
     sign,
     ...distanceParameters(context, distance),
     ...(path === undefined ? {} : { path }),
+    // `spline` is a stored-DSL compatibility alias, not a polynomial spline.
+    ...(path === "spline" ? { pathTemplate: "sinusoidal-s-bend" }
+      : path === "curved" ? { pathTemplate: "sinusoidal-arch" } : {}),
     ...(context.loss.parameters.curveIntensity === undefined
       ? {}
       : { curveIntensity: context.loss.parameters.curveIntensity }),
@@ -316,7 +332,7 @@ export function descriptorsForLoss(context: CompileBandContext): PrimitiveDescri
         ...subjects,
         ...(p.followDelay === undefined ? {} : { followDelay: p.followDelay }),
         ...(p.leadAmount === undefined ? {} : { leadAmount: p.leadAmount }),
-        ...motionParameters(context),
+        ...subjectMotionParameters(context),
       };
       return [
         { type: "relativeOffsetHold", channel: "subjectRelative", role: "primary", parameters: follow },
@@ -333,7 +349,7 @@ export function descriptorsForLoss(context: CompileBandContext): PrimitiveDescri
         ...(p.distance === undefined ? {} : { distance: p.distance }),
         ...(p.followDelay === undefined ? {} : { followDelay: p.followDelay }),
         ...(p.leadAmount === undefined ? {} : { leadAmount: p.leadAmount }),
-        ...motionParameters(context),
+        ...subjectMotionParameters(context),
       };
       return [
         { type: "distanceHold", channel: "subjectRelative", role: "primary", parameters: track },

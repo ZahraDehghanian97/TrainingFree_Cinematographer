@@ -104,7 +104,7 @@ export interface MovementParameters {
   heightChange?: number;
   horizontalDistance?: number;
 
-  // Zoom
+  // Zoom: optical focal-length multiplier (the inverse for ZoomOut), not FOV ratio.
   zoomFactor?: number;
 
   // Follow / Track
@@ -115,6 +115,7 @@ export interface MovementParameters {
   allowSubjectIntersection?: boolean;
 
   // General
+  // `curved` is a sinusoidal arch; legacy `spline` is a sinusoidal S-bend.
   path?: "linear" | "curved" | "spline";
   curveIntensity?: Scale;
 }
@@ -123,6 +124,8 @@ export interface Movement<TTarget extends CameraTargetDescriptor = Target> {
   act: CameraMovementType;
   targets?: TTarget[];
   duration?: number;
+  // Relative speeds integrate to normalized progress and require positive area.
+  // Follow/Track apply this progress to the subject reference's playback clock.
   speedKeyframes?: SpeedKeyframe[];
   relativeFPS?: RelativeFPS;
   parameters?: MovementParameters;

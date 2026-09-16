@@ -15,7 +15,7 @@
         "kind": "interval",
         "shotStartTime": 0,
         "startTime": 0,
-        "endTime": 2.2055555555555553,
+        "endTime": 2.4611111111111112,
         "lossFunctions": [
           {
             "type": "followMovement",
@@ -31,7 +31,7 @@
         "kind": "interval",
         "shotStartTime": 0,
         "startTime": 0,
-        "endTime": 2.2055555555555553,
+        "endTime": 2.4611111111111112,
         "lossFunctions": [
           {
             "type": "shotSize",
@@ -48,7 +48,7 @@
         "kind": "interval",
         "shotStartTime": 0,
         "startTime": 0,
-        "endTime": 2.2055555555555553,
+        "endTime": 2.4611111111111112,
         "lossFunctions": [
           {
             "type": "noShake",
@@ -62,7 +62,7 @@
         "kind": "interval",
         "shotStartTime": 0,
         "startTime": 0,
-        "endTime": 2.2055555555555553,
+        "endTime": 2.4611111111111112,
         "lossFunctions": [
           {
             "type": "avoidOcclusion",
@@ -70,6 +70,99 @@
               "subjectId": "worker_a"
             },
             "sourceActionId": "follow_worker_a_center"
+          }
+        ],
+        "weight": 1
+      },
+      {
+        "kind": "interval",
+        "shotStartTime": 0,
+        "startTime": 0,
+        "endTime": 7.383333333333334,
+        "lossFunctions": [
+          {
+            "type": "arcMovement",
+            "parameters": {
+              "subjectId": "worker_a"
+            },
+            "sourceActionId": "arc_zoom_near_machine"
+          }
+        ],
+        "weight": 1
+      },
+      {
+        "kind": "interval",
+        "shotStartTime": 0,
+        "startTime": 0,
+        "endTime": 7.383333333333334,
+        "lossFunctions": [
+          {
+            "type": "noShake",
+            "parameters": {},
+            "sourceActionId": "arc_zoom_near_machine"
+          }
+        ],
+        "weight": 1
+      },
+      {
+        "kind": "interval",
+        "shotStartTime": 0,
+        "startTime": 0,
+        "endTime": 7.383333333333334,
+        "lossFunctions": [
+          {
+            "type": "avoidOcclusion",
+            "parameters": {
+              "subjectId": "worker_a"
+            },
+            "sourceActionId": "arc_zoom_near_machine"
+          }
+        ],
+        "weight": 1
+      },
+      {
+        "kind": "interval",
+        "shotStartTime": 0,
+        "startTime": 0,
+        "endTime": 7.383333333333334,
+        "lossFunctions": [
+          {
+            "type": "zoomInMovement",
+            "parameters": {},
+            "sourceActionId": "zoom_in_reveal_worker_b"
+          }
+        ],
+        "weight": 1
+      },
+      {
+        "kind": "interval",
+        "shotStartTime": 0,
+        "startTime": 0,
+        "endTime": 7.383333333333334,
+        "lossFunctions": [
+          {
+            "type": "noShake",
+            "parameters": {},
+            "sourceActionId": "zoom_in_reveal_worker_b"
+          }
+        ],
+        "weight": 1
+      },
+      {
+        "kind": "interval",
+        "shotStartTime": 0,
+        "startTime": 0,
+        "endTime": 7.383333333333334,
+        "lossFunctions": [
+          {
+            "type": "avoidOcclusion",
+            "parameters": {
+              "subjectIds": [
+                "worker_a",
+                "worker_b"
+              ]
+            },
+            "sourceActionId": "zoom_in_reveal_worker_b"
           }
         ],
         "weight": 1
@@ -92,8 +185,8 @@
       {
         "kind": "interval",
         "shotStartTime": 0,
-        "startTime": 2.2055555555555553,
-        "endTime": 4.411111111111111,
+        "startTime": 2.4611111111111112,
+        "endTime": 4.9222222222222225,
         "lossFunctions": [
           {
             "type": "dollyInMovement",
@@ -108,8 +201,8 @@
       {
         "kind": "interval",
         "shotStartTime": 0,
-        "startTime": 2.2055555555555553,
-        "endTime": 4.411111111111111,
+        "startTime": 2.4611111111111112,
+        "endTime": 4.9222222222222225,
         "lossFunctions": [
           {
             "type": "noShake",
@@ -122,8 +215,8 @@
       {
         "kind": "interval",
         "shotStartTime": 0,
-        "startTime": 2.2055555555555553,
-        "endTime": 4.411111111111111,
+        "startTime": 2.4611111111111112,
+        "endTime": 4.9222222222222225,
         "lossFunctions": [
           {
             "type": "avoidOcclusion",
@@ -138,8 +231,8 @@
       {
         "kind": "interval",
         "shotStartTime": 0,
-        "startTime": 2.2055555555555553,
-        "endTime": 6.616666666666667,
+        "startTime": 2.4611111111111112,
+        "endTime": 7.383333333333334,
         "lossFunctions": [
           {
             "type": "panLeftMovement",
@@ -152,8 +245,8 @@
       {
         "kind": "interval",
         "shotStartTime": 0,
-        "startTime": 2.2055555555555553,
-        "endTime": 6.616666666666667,
+        "startTime": 2.4611111111111112,
+        "endTime": 7.383333333333334,
         "lossFunctions": [
           {
             "type": "subjectPresence",
@@ -168,8 +261,8 @@
       {
         "kind": "interval",
         "shotStartTime": 0,
-        "startTime": 2.2055555555555553,
-        "endTime": 6.616666666666667,
+        "startTime": 2.4611111111111112,
+        "endTime": 7.383333333333334,
         "lossFunctions": [
           {
             "type": "noShake",
@@ -182,8 +275,8 @@
       {
         "kind": "interval",
         "shotStartTime": 0,
-        "startTime": 2.2055555555555553,
-        "endTime": 6.616666666666667,
+        "startTime": 2.4611111111111112,
+        "endTime": 7.383333333333334,
         "lossFunctions": [
           {
             "type": "avoidOcclusion",
@@ -198,8 +291,8 @@
       {
         "kind": "interval",
         "shotStartTime": 0,
-        "startTime": 2.2055555555555553,
-        "endTime": 6.616666666666667,
+        "startTime": 2.4611111111111112,
+        "endTime": 7.383333333333334,
         "lossFunctions": [
           {
             "type": "tiltUpMovement",
@@ -212,8 +305,8 @@
       {
         "kind": "interval",
         "shotStartTime": 0,
-        "startTime": 2.2055555555555553,
-        "endTime": 6.616666666666667,
+        "startTime": 2.4611111111111112,
+        "endTime": 7.383333333333334,
         "lossFunctions": [
           {
             "type": "noShake",
@@ -226,8 +319,8 @@
       {
         "kind": "interval",
         "shotStartTime": 0,
-        "startTime": 2.2055555555555553,
-        "endTime": 6.616666666666667,
+        "startTime": 2.4611111111111112,
+        "endTime": 7.383333333333334,
         "lossFunctions": [
           {
             "type": "avoidOcclusion",
@@ -242,8 +335,8 @@
       {
         "kind": "interval",
         "shotStartTime": 0,
-        "startTime": 4.411111111111111,
-        "endTime": 6.616666666666666,
+        "startTime": 4.9222222222222225,
+        "endTime": 7.383333333333334,
         "lossFunctions": [
           {
             "type": "truckLeftMovement",
@@ -256,8 +349,8 @@
       {
         "kind": "interval",
         "shotStartTime": 0,
-        "startTime": 4.411111111111111,
-        "endTime": 6.616666666666666,
+        "startTime": 4.9222222222222225,
+        "endTime": 7.383333333333334,
         "lossFunctions": [
           {
             "type": "subjectPresence",
@@ -272,8 +365,8 @@
       {
         "kind": "interval",
         "shotStartTime": 0,
-        "startTime": 4.411111111111111,
-        "endTime": 6.616666666666666,
+        "startTime": 4.9222222222222225,
+        "endTime": 7.383333333333334,
         "lossFunctions": [
           {
             "type": "noShake",
@@ -286,8 +379,8 @@
       {
         "kind": "interval",
         "shotStartTime": 0,
-        "startTime": 4.411111111111111,
-        "endTime": 6.616666666666666,
+        "startTime": 4.9222222222222225,
+        "endTime": 7.383333333333334,
         "lossFunctions": [
           {
             "type": "avoidOcclusion",
@@ -302,8 +395,8 @@
       {
         "kind": "interval",
         "shotStartTime": 0,
-        "startTime": 4.411111111111111,
-        "endTime": 6.616666666666666,
+        "startTime": 4.9222222222222225,
+        "endTime": 7.383333333333334,
         "lossFunctions": [
           {
             "type": "pedestalUpMovement",
@@ -316,8 +409,8 @@
       {
         "kind": "interval",
         "shotStartTime": 0,
-        "startTime": 4.411111111111111,
-        "endTime": 6.616666666666666,
+        "startTime": 4.9222222222222225,
+        "endTime": 7.383333333333334,
         "lossFunctions": [
           {
             "type": "noShake",
@@ -330,8 +423,8 @@
       {
         "kind": "interval",
         "shotStartTime": 0,
-        "startTime": 4.411111111111111,
-        "endTime": 6.616666666666666,
+        "startTime": 4.9222222222222225,
+        "endTime": 7.383333333333334,
         "lossFunctions": [
           {
             "type": "avoidOcclusion",
@@ -339,99 +432,6 @@
               "subjectId": "worker_a"
             },
             "sourceActionId": "pedestal_with_worker_a"
-          }
-        ],
-        "weight": 1
-      },
-      {
-        "kind": "interval",
-        "shotStartTime": 0,
-        "startTime": 6.616666666666666,
-        "endTime": 7.35,
-        "lossFunctions": [
-          {
-            "type": "arcMovement",
-            "parameters": {
-              "subjectId": "worker_a"
-            },
-            "sourceActionId": "arc_zoom_near_machine"
-          }
-        ],
-        "weight": 1
-      },
-      {
-        "kind": "interval",
-        "shotStartTime": 0,
-        "startTime": 6.616666666666666,
-        "endTime": 7.35,
-        "lossFunctions": [
-          {
-            "type": "noShake",
-            "parameters": {},
-            "sourceActionId": "arc_zoom_near_machine"
-          }
-        ],
-        "weight": 1
-      },
-      {
-        "kind": "interval",
-        "shotStartTime": 0,
-        "startTime": 6.616666666666666,
-        "endTime": 7.35,
-        "lossFunctions": [
-          {
-            "type": "avoidOcclusion",
-            "parameters": {
-              "subjectId": "worker_a"
-            },
-            "sourceActionId": "arc_zoom_near_machine"
-          }
-        ],
-        "weight": 1
-      },
-      {
-        "kind": "interval",
-        "shotStartTime": 0,
-        "startTime": 6.616666666666666,
-        "endTime": 7.35,
-        "lossFunctions": [
-          {
-            "type": "zoomInMovement",
-            "parameters": {},
-            "sourceActionId": "zoom_in_reveal_worker_b"
-          }
-        ],
-        "weight": 1
-      },
-      {
-        "kind": "interval",
-        "shotStartTime": 0,
-        "startTime": 6.616666666666666,
-        "endTime": 7.35,
-        "lossFunctions": [
-          {
-            "type": "noShake",
-            "parameters": {},
-            "sourceActionId": "zoom_in_reveal_worker_b"
-          }
-        ],
-        "weight": 1
-      },
-      {
-        "kind": "interval",
-        "shotStartTime": 0,
-        "startTime": 6.616666666666666,
-        "endTime": 7.35,
-        "lossFunctions": [
-          {
-            "type": "avoidOcclusion",
-            "parameters": {
-              "subjectIds": [
-                "worker_a",
-                "worker_b"
-              ]
-            },
-            "sourceActionId": "zoom_in_reveal_worker_b"
           }
         ],
         "weight": 1
@@ -439,7 +439,7 @@
       {
         "kind": "point",
         "shotStartTime": 0,
-        "time": 7.35,
+        "time": 7.383333333333334,
         "lossFunctions": [
           {
             "type": "keepInFrame",
@@ -457,7 +457,7 @@
       {
         "kind": "point",
         "shotStartTime": 0,
-        "time": 7.35,
+        "time": 7.383333333333334,
         "lossFunctions": [
           {
             "type": "keepInFrame",
@@ -475,8 +475,8 @@
       {
         "kind": "interval",
         "shotStartTime": 0,
-        "startTime": 7.35,
-        "endTime": 8.133333333333333,
+        "startTime": 7.383333333333334,
+        "endTime": 8.233333333333333,
         "lossFunctions": [
           {
             "type": "trackMovement",
@@ -494,8 +494,8 @@
       {
         "kind": "interval",
         "shotStartTime": 0,
-        "startTime": 7.35,
-        "endTime": 8.133333333333333,
+        "startTime": 7.383333333333334,
+        "endTime": 8.233333333333333,
         "lossFunctions": [
           {
             "type": "keepInFrame",
@@ -513,8 +513,8 @@
       {
         "kind": "interval",
         "shotStartTime": 0,
-        "startTime": 7.35,
-        "endTime": 8.133333333333333,
+        "startTime": 7.383333333333334,
+        "endTime": 8.233333333333333,
         "lossFunctions": [
           {
             "type": "maintainDistance",
@@ -532,8 +532,8 @@
       {
         "kind": "interval",
         "shotStartTime": 0,
-        "startTime": 7.35,
-        "endTime": 8.133333333333333,
+        "startTime": 7.383333333333334,
+        "endTime": 8.233333333333333,
         "lossFunctions": [
           {
             "type": "maintainAngle",
@@ -551,8 +551,8 @@
       {
         "kind": "interval",
         "shotStartTime": 0,
-        "startTime": 7.35,
-        "endTime": 8.133333333333333,
+        "startTime": 7.383333333333334,
+        "endTime": 8.233333333333333,
         "lossFunctions": [
           {
             "type": "noShake",
@@ -565,8 +565,8 @@
       {
         "kind": "interval",
         "shotStartTime": 0,
-        "startTime": 7.35,
-        "endTime": 8.133333333333333,
+        "startTime": 7.383333333333334,
+        "endTime": 8.233333333333333,
         "lossFunctions": [
           {
             "type": "avoidOcclusion",
@@ -584,8 +584,8 @@
       {
         "kind": "interval",
         "shotStartTime": 0,
-        "startTime": 7.35,
-        "endTime": 8.133333333333333,
+        "startTime": 7.383333333333334,
+        "endTime": 8.233333333333333,
         "lossFunctions": [
           {
             "type": "zoomOutMovement",
@@ -598,8 +598,8 @@
       {
         "kind": "interval",
         "shotStartTime": 0,
-        "startTime": 7.35,
-        "endTime": 8.133333333333333,
+        "startTime": 7.383333333333334,
+        "endTime": 8.233333333333333,
         "lossFunctions": [
           {
             "type": "noShake",
@@ -612,8 +612,8 @@
       {
         "kind": "interval",
         "shotStartTime": 0,
-        "startTime": 7.35,
-        "endTime": 8.133333333333333,
+        "startTime": 7.383333333333334,
+        "endTime": 8.233333333333333,
         "lossFunctions": [
           {
             "type": "avoidOcclusion",
@@ -631,8 +631,8 @@
       {
         "kind": "interval",
         "shotStartTime": 0,
-        "startTime": 8.133333333333333,
-        "endTime": 10.133333333333333,
+        "startTime": 8.233333333333333,
+        "endTime": 10.233333333333333,
         "lossFunctions": [
           {
             "type": "truckRightMovement",
@@ -645,8 +645,8 @@
       {
         "kind": "interval",
         "shotStartTime": 0,
-        "startTime": 8.133333333333333,
-        "endTime": 10.133333333333333,
+        "startTime": 8.233333333333333,
+        "endTime": 10.233333333333333,
         "lossFunctions": [
           {
             "type": "subjectPresence",
@@ -661,8 +661,8 @@
       {
         "kind": "interval",
         "shotStartTime": 0,
-        "startTime": 8.133333333333333,
-        "endTime": 10.133333333333333,
+        "startTime": 8.233333333333333,
+        "endTime": 10.233333333333333,
         "lossFunctions": [
           {
             "type": "noShake",
@@ -675,8 +675,8 @@
       {
         "kind": "interval",
         "shotStartTime": 0,
-        "startTime": 8.133333333333333,
-        "endTime": 10.133333333333333,
+        "startTime": 8.233333333333333,
+        "endTime": 10.233333333333333,
         "lossFunctions": [
           {
             "type": "avoidOcclusion",
@@ -691,8 +691,8 @@
       {
         "kind": "interval",
         "shotStartTime": 0,
-        "startTime": 8.133333333333333,
-        "endTime": 10.133333333333333,
+        "startTime": 8.233333333333333,
+        "endTime": 10.233333333333333,
         "lossFunctions": [
           {
             "type": "panRightMovement",
@@ -705,8 +705,8 @@
       {
         "kind": "interval",
         "shotStartTime": 0,
-        "startTime": 8.133333333333333,
-        "endTime": 10.133333333333333,
+        "startTime": 8.233333333333333,
+        "endTime": 10.233333333333333,
         "lossFunctions": [
           {
             "type": "subjectPresence",
@@ -721,8 +721,8 @@
       {
         "kind": "interval",
         "shotStartTime": 0,
-        "startTime": 8.133333333333333,
-        "endTime": 10.133333333333333,
+        "startTime": 8.233333333333333,
+        "endTime": 10.233333333333333,
         "lossFunctions": [
           {
             "type": "noShake",
@@ -735,8 +735,8 @@
       {
         "kind": "interval",
         "shotStartTime": 0,
-        "startTime": 8.133333333333333,
-        "endTime": 10.133333333333333,
+        "startTime": 8.233333333333333,
+        "endTime": 10.233333333333333,
         "lossFunctions": [
           {
             "type": "avoidOcclusion",
@@ -751,8 +751,8 @@
       {
         "kind": "interval",
         "shotStartTime": 0,
-        "startTime": 10.133333333333333,
-        "endTime": 12.106666666666666,
+        "startTime": 10.233333333333333,
+        "endTime": 12.186666666666666,
         "lossFunctions": [
           {
             "type": "pedestalDownMovement",
@@ -765,8 +765,8 @@
       {
         "kind": "interval",
         "shotStartTime": 0,
-        "startTime": 10.133333333333333,
-        "endTime": 12.106666666666666,
+        "startTime": 10.233333333333333,
+        "endTime": 12.186666666666666,
         "lossFunctions": [
           {
             "type": "subjectPresence",
@@ -781,8 +781,8 @@
       {
         "kind": "interval",
         "shotStartTime": 0,
-        "startTime": 10.133333333333333,
-        "endTime": 12.106666666666666,
+        "startTime": 10.233333333333333,
+        "endTime": 12.186666666666666,
         "lossFunctions": [
           {
             "type": "noShake",
@@ -795,8 +795,8 @@
       {
         "kind": "interval",
         "shotStartTime": 0,
-        "startTime": 10.133333333333333,
-        "endTime": 12.106666666666666,
+        "startTime": 10.233333333333333,
+        "endTime": 12.186666666666666,
         "lossFunctions": [
           {
             "type": "avoidOcclusion",
@@ -811,8 +811,8 @@
       {
         "kind": "interval",
         "shotStartTime": 0,
-        "startTime": 12.106666666666666,
-        "endTime": 14.079999999999998,
+        "startTime": 12.186666666666666,
+        "endTime": 14.139999999999999,
         "lossFunctions": [
           {
             "type": "arcMovement",
@@ -827,8 +827,8 @@
       {
         "kind": "interval",
         "shotStartTime": 0,
-        "startTime": 12.106666666666666,
-        "endTime": 14.079999999999998,
+        "startTime": 12.186666666666666,
+        "endTime": 14.139999999999999,
         "lossFunctions": [
           {
             "type": "noShake",
@@ -841,8 +841,8 @@
       {
         "kind": "interval",
         "shotStartTime": 0,
-        "startTime": 12.106666666666666,
-        "endTime": 14.079999999999998,
+        "startTime": 12.186666666666666,
+        "endTime": 14.139999999999999,
         "lossFunctions": [
           {
             "type": "avoidOcclusion",
@@ -857,7 +857,7 @@
       {
         "kind": "point",
         "shotStartTime": 0,
-        "time": 14.079999999999998,
+        "time": 14.139999999999999,
         "lossFunctions": [
           {
             "type": "framingDutchAngle",
@@ -872,8 +872,8 @@
       {
         "kind": "interval",
         "shotStartTime": 0,
-        "startTime": 14.079999999999998,
-        "endTime": 16.05333333333333,
+        "startTime": 14.139999999999999,
+        "endTime": 16.093333333333334,
         "lossFunctions": [
           {
             "type": "dollyOutMovement",
@@ -891,8 +891,8 @@
       {
         "kind": "interval",
         "shotStartTime": 0,
-        "startTime": 14.079999999999998,
-        "endTime": 16.05333333333333,
+        "startTime": 14.139999999999999,
+        "endTime": 16.093333333333334,
         "lossFunctions": [
           {
             "type": "noShake",
@@ -905,8 +905,8 @@
       {
         "kind": "interval",
         "shotStartTime": 0,
-        "startTime": 14.079999999999998,
-        "endTime": 16.05333333333333,
+        "startTime": 14.139999999999999,
+        "endTime": 16.093333333333334,
         "lossFunctions": [
           {
             "type": "avoidOcclusion",
@@ -924,7 +924,7 @@
       {
         "kind": "point",
         "shotStartTime": 0,
-        "time": 16.05333333333333,
+        "time": 16.093333333333334,
         "lossFunctions": [
           {
             "type": "keepInFrame",
@@ -943,8 +943,8 @@
       {
         "kind": "interval",
         "shotStartTime": 0,
-        "startTime": 16.05333333333333,
-        "endTime": 18.026666666666664,
+        "startTime": 16.093333333333334,
+        "endTime": 18.046666666666667,
         "lossFunctions": [
           {
             "type": "arcMovement",
@@ -962,8 +962,8 @@
       {
         "kind": "interval",
         "shotStartTime": 0,
-        "startTime": 16.05333333333333,
-        "endTime": 18.026666666666664,
+        "startTime": 16.093333333333334,
+        "endTime": 18.046666666666667,
         "lossFunctions": [
           {
             "type": "shotSize",
@@ -982,8 +982,8 @@
       {
         "kind": "interval",
         "shotStartTime": 0,
-        "startTime": 16.05333333333333,
-        "endTime": 18.026666666666664,
+        "startTime": 16.093333333333334,
+        "endTime": 18.046666666666667,
         "lossFunctions": [
           {
             "type": "keepInFrame",
@@ -1001,8 +1001,8 @@
       {
         "kind": "interval",
         "shotStartTime": 0,
-        "startTime": 16.05333333333333,
-        "endTime": 18.026666666666664,
+        "startTime": 16.093333333333334,
+        "endTime": 18.046666666666667,
         "lossFunctions": [
           {
             "type": "noShake",
@@ -1015,8 +1015,8 @@
       {
         "kind": "interval",
         "shotStartTime": 0,
-        "startTime": 16.05333333333333,
-        "endTime": 18.026666666666664,
+        "startTime": 16.093333333333334,
+        "endTime": 18.046666666666667,
         "lossFunctions": [
           {
             "type": "avoidOcclusion",
@@ -1034,7 +1034,7 @@
       {
         "kind": "interval",
         "shotStartTime": 0,
-        "startTime": 18.026666666666664,
+        "startTime": 18.046666666666667,
         "endTime": 20,
         "lossFunctions": [
           {
@@ -1048,7 +1048,7 @@
       {
         "kind": "interval",
         "shotStartTime": 0,
-        "startTime": 18.026666666666664,
+        "startTime": 18.046666666666667,
         "endTime": 20,
         "lossFunctions": [
           {
@@ -1068,7 +1068,7 @@
       {
         "kind": "interval",
         "shotStartTime": 0,
-        "startTime": 18.026666666666664,
+        "startTime": 18.046666666666667,
         "endTime": 20,
         "lossFunctions": [
           {
@@ -1087,7 +1087,7 @@
       {
         "kind": "interval",
         "shotStartTime": 0,
-        "startTime": 18.026666666666664,
+        "startTime": 18.046666666666667,
         "endTime": 20,
         "lossFunctions": [
           {
@@ -1101,7 +1101,7 @@
       {
         "kind": "interval",
         "shotStartTime": 0,
-        "startTime": 18.026666666666664,
+        "startTime": 18.046666666666667,
         "endTime": 20,
         "lossFunctions": [
           {
@@ -1120,7 +1120,7 @@
     ],
     "timeWarp": [
       {
-        "startTimePlayback": 18.026666666666664,
+        "startTimePlayback": 18.046666666666667,
         "endTimePlayback": 20,
         "rate": 0,
         "label": "frozen"

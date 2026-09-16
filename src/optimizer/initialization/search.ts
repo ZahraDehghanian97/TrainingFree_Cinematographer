@@ -5,6 +5,7 @@ import { initializeCameraStates } from "./index";
 import { seedMotionKey, type SeedChoices } from "./seed-defaults";
 import { minimumAngularProgress, minimumTranslationProgress } from "../shared/movement-preferences";
 import { samplePrimitiveSubject } from "../scene/primitive-context";
+import { FramingCoverageError } from "./framing-distance";
 
 /**
  * Explore coherent whole-shot choices before optimizing individual samples.
@@ -55,7 +56,13 @@ export function selectSceneAwareSeed(
   let bestLoss = Infinity;
   let bestSafety = Infinity;
   const consider = (choices: SeedChoices): void => {
-    const states = initializeCameraStates(input, plan, times, initialFov, minimumCameraY, choices);
+    let states: CameraStateSample[];
+    try {
+      states = initializeCameraStates(input, plan, times, initialFov, minimumCameraY, choices);
+    } catch (error) {
+      if (error instanceof FramingCoverageError) return;
+      throw error;
+    }
     const safety = evaluator.safetyViolation(states);
     const loss = evaluator.evaluate(states, false).total;
     if (!Number.isFinite(loss) || !Number.isFinite(safety)) return;
@@ -101,5 +108,6 @@ export function selectSceneAwareSeed(
     for (const elevation of [0, 0.1, 0.3, 0.6]) consider({ ...bestChoices, elevation });
     for (const fovYDegrees of [25, 35, initialFov, 70, 90]) consider({ ...bestChoices, fovYDegrees });
   }
+  if (bestStates.length === 0) throw new Error("No finite camera seed could satisfy the scene's initialization constraints");
   return bestStates;
 }

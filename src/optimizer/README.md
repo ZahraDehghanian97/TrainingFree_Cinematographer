@@ -3,6 +3,10 @@
 This module converts a timeline solver result and a matching 4D environment
 into `CameraTrajectoryV1`. It has no optimizer-specific runtime dependency.
 
+The [mathematical implementation report](../../docs/mathematical-fixes.fa.md)
+records the corrected formulas, derivations, validation scope, and paper claims
+in Persian; the linked original audit preserves the pre-fix counterexamples.
+
 ## Pipeline
 
 ```text
@@ -75,9 +79,50 @@ live in `shared/`; scene sampling stays isolated from solver and output logic.
   `angularAccelerationSmoothness`,
   `jerkSmoothness`, `pathLength`
 
-Every residual is divided by a domain tolerance before its independent weight
-is applied. This keeps meters, radians, normalized frame coordinates, and FOV
-degrees compatible.
+Every residual is divided by a tolerance in its own units before weighting.
+Endpoint errors and rates use separate tolerances: meters and meters/second,
+radians and radians/second, or log focal ratio and log focal ratio/second.
+Authored FOV anchors and FOV holds retain degree-based tolerances.
+
+## Mathematical objective
+
+The optimizer solves a local, nonconvex trajectory problem. For an interval
+primitive, its cost has the form
+
+```text
+J_k = weight_k / sourceDuration_k
+      * sum_i measure_ki * activation_ki * rho(residual_ki / tolerance_ki).
+```
+
+`measure` is a temporal quadrature weight or the explicit duration of a step.
+Pointwise samples use trapezoidal weights on the actual, potentially irregular
+time grid. Derivative samples extend to the edges of their own shot support;
+their stencils and quadrature never bridge a cut. Different residual families,
+such as an endpoint amount and a rate, are integrated separately. Split bands
+retain their original source duration, including generated subject-quality and
+occlusion terms, so subdividing an instruction does not duplicate its budget.
+This is a numerical approximation of a time integral, not an assertion that
+every nonlinear cost is identical at every sampling resolution.
+
+Ordinary semantic and regularity errors use Huber loss with threshold 2 after
+normalization. User soft anchors, safety-channel terms, and `bboxInFrame` use a
+squared penalty. Easing, suppression, and transition activation multiply the
+loss outside Huber; they do not change its transition threshold. Point targets
+use unit measure rather than division by a zero duration. Nonfinite states or
+residuals produce an infinite objective and cannot silently remove a constraint.
+
+`pathLength` is the exception to duration averaging and Huber: it sums
+`norm(delta relativePosition) / distanceTolerance`. This is geometric polygonal
+length over optimization knots, excluding cuts. It is independent of traversal
+speed on a fixed polygon, and approximates the length of the resampled Hermite
+curve. A moving reference yields relative path length; this is distinct from
+world-space distance traveled.
+
+Acceleration uses the second divided difference on its three-point time
+stencil. Jerk uses the third divided difference on four consecutive points,
+which is exact for a cubic position polynomial even with unequal intervals.
+These are sampled regularizers. The output remains C1 and is not a continuous
+minimum-jerk solution; acceleration can jump at interpolation knots.
 
 ## High-level coverage
 
@@ -102,6 +147,9 @@ Dutch and Track movements preserve authored speed keyframes, including when an
 unrelated constraint splits their action into multiple optimizer bands.
 
 Shot size uses projected subject bounds rather than a distance proxy.
+Bounds are clipped against the configured near plane before perspective
+division; a close subject crossing that plane still contributes its visible
+extent. Initialization and the objective use the same near-plane convention.
 FramingPosition uses the requested normalized screen location. SubjectView is
 relative to the sampled entity quaternion; entity-local `+Z` denotes its front
 direction.
@@ -121,12 +169,14 @@ initialization still refer to the requested subject without inventing framing.
 
 The named move still defines its geometry and stable channels. Arc keeps a
 horizontal plane and constant radius, with that radius measured from the
-candidate camera when unspecified. Follow preserves a subject-relative offset,
+candidate camera when unspecified. Follow preserves an offset from its sampled subject reference,
 Track can hold a freely chosen distance, Pan/Tilt keep their inactive rotation
 axes steady, Zoom keeps the camera pose steady, and Static holds its active
 channels. These holds compare optimized camera states; they do not anchor the
 camera to a guessed starting position, radius, lens, or roll angle. Concurrent
-authored movement can release those holds through the compound rules below.
+authored movement can release passive holds through the compound rules below.
+Static's explicit primary holds remain authored intent and may conflict with
+another simultaneous instruction.
 
 For an omitted movement amount, translation, angle, and zoom objectives use
 one-sided minimum-progress penalties. They penalize a move that collapses to no
@@ -182,33 +232,87 @@ The public quality controls are soft objective parameters:
 | `weights.subjectVisibility` | `2.5` | Weight of fallback frustum and bounds visibility |
 | `weights.subjectScaleFloor` | `2.5` | Weight of fallback minimum subject size |
 
-These preferences improve the objective available to the optimizer; they do
-not guarantee a particular visual result or satisfy every conflicting request.
+These values and semantic weight ratios are empirical design preferences;
+they are not derived universal laws of cinematography. They improve the
+objective available to the optimizer but do not guarantee a particular visual
+result or satisfy every conflicting request. Numeric priority scales a soft
+weight; it does not create a lexicographic hierarchy of semantic constraints.
 The numerical solver's loss breakdown and termination diagnostics remain the
 way to inspect unresolved costs.
 
 The environment still supplies total playback duration. The timeline scheduler
 deterministically allocates omitted action durations before optimization.
-Follow/Track sample the contemporaneous subject unless lead or delay is authored;
-temporal offsets are not additional numerical state variables.
+Follow/Track sample the contemporaneous subject unless lead, delay, or a speed
+profile is authored. Those reference-clock controls are not additional
+numerical state variables.
 Sampling and output resolution, projection calibration, aspect ratio, and
 safety margins retain their infrastructure defaults. For example, output FPS
 uses the environment hint, aspect ratio falls back to 16:9, and collision and
 near-plane clearance stay enabled. Such execution settings are separate from
 an authored camera pose or composition target.
 
+## Motion clocks and optical zoom
+
+For normalized action time `u`, nonnegative speed multipliers define
+`s(u) = integral(0..u, speed) / integral(0..1, speed)`. Constant, linear, and
+quadratic pieces are integrated analytically at their authored keyframes;
+cached prefix integrals preserve narrow pulses and monotone progress. A
+profile with zero total integral is invalid; a hold is expressed as Static.
+Omitting the profile leaves pacing free in the objective. The seed still
+needs a numerical starting trajectory and uses linear progress by default.
+
+For Follow/Track with a profile, the subject reference is sampled at playback
+time `t_ref = start + duration * s(u)` within the source action; outside it the
+ordinary playback clock is retained. Lead and delay are added to `t_ref`, then
+the result is converted to scene time by integrating playback rates. Offset,
+velocity, quality, and automatic occlusion terms share this reference clock.
+Velocity matching differentiates that same sampled reference and applies no
+second speed multiplier. This can follow a past or future position on the
+subject trajectory; it does not retime the actual scene or its obstacles.
+
+Offsets and relative path measurements subtract subject translation in world
+axes. They do not use a rotating body-mounted frame. `subjectView` separately
+uses the subject's quaternion to measure its local viewing direction.
+
+`zoomFactor` is an optical focal-length ratio. With vertical FOV `phi` in
+radians and `z > 0`, zoom-in follows
+
+```text
+logFocal = -log(tan(phi / 2))
+logFocal(t) = logFocal(start) + s(u) * log(z)
+phi(t) = 2 * atan(tan(phi(start) / 2) / z**s(u)).
+```
+
+Zoom-out reverses the sign of the log-focal increment. A factor below one
+therefore reverses the usual direction, while a factor of one preserves the
+lens. The solver, initialization, and output interpolation use this optical
+coordinate; public states and hard FOV controls remain in degrees. Explicit
+factors constrain the focal ratio and leave the starting lens free.
+
+The path names are compatibility contracts: `curved` is a sinusoidal arch,
+and legacy `spline` is a sinusoidal S-bend, not a polynomial spline. An omitted
+curve amplitude is fitted to the candidate with a weighted radial-Huber
+scalar fit. Authored curve intensity retains its configured amplitude rule.
+
 ## Compound rules
 
 - Arc + Dolly -> spiral `radiusSchedule`; constant radius and linear drift are removed.
 - Arc + Pedestal/Crane -> helical/crane arc; constant horizontal plane is removed.
-- Follow + Dolly -> radial follow; fixed relative offset is removed.
+- Follow + Dolly/Pedestal/Crane on the same rig -> relative movement around the
+  shared subject reference; incompatible full offset and velocity holds are
+  removed. A world-space mover may inherit the sole active Follow rig. Its
+  relative-distance pacing stays independent of the Follow reference pacing.
+  An explicit Follow distance sets the initial rig distance during composition.
+  After a partially overlapping move, Follow holds the offset reached at that
+  move's endpoint. Unrelated band boundaries do not reset the reference.
 - Translation + Pan/Tilt/Dutch/Zoom -> position-hold stabilizers are released.
 - Explicit rotation/composition -> incompatible orientation holds are released.
 - Dutch -> level-horizon is released.
 - Level-horizon constraints replace simultaneous roll holds.
 - Under-constrained yaw/pitch holds are strengthened when no semantic loss owns that axis.
 - Off-center framing -> centered look-at stabilizers are released.
-- Static releases only channels explicitly driven by simultaneous movement.
+- Static primary holds are retained; channel-release rules remove passive
+  stabilizers rather than silently dropping an authored Static constraint.
 - Targeted Static shots remain mounted in the subject's translating frame;
   untargeted Static shots remain locked in world space.
 - Targeted Dolly/Crane translations and global path regularizers measure
@@ -216,7 +320,7 @@ an authored camera pose or composition target.
 - `allowSubjectIntersection` explicitly permits an interior/exit move through
   its targeted subject without disabling collision checks for other geometry.
 - Zoom sub-bands refer to the same source-action camera endpoints. An explicit
-  factor constrains their FOV ratio while leaving the absolute starting FOV
+  factor constrains their focal-length ratio while leaving the absolute starting FOV
   free; an omitted factor uses the minimum-change preference. No compile-time
   lens target is derived from the initialization seed.
 - Smoothness and interpolation never bridge section/user cuts.
@@ -227,9 +331,10 @@ an authored camera pose or composition target.
   Aggregate distance/angle/zoom targets and safety weights retain full strength.
   Extra optimization samples resolve short windows. Hard keyframes stay exact;
   a channel with a hard keyframe inside a window keeps its original seed.
-- Output position, rotation, and FOV share tangents across sample boundaries,
-  keeping velocity continuous within shots. Height and FOV remain bounded by
-  their neighboring samples; zoom reversals retain their lens extremum.
+- Output position, rotation, and log focal length share tangents across sample
+  boundaries, keeping velocity continuous within shots. Height and FOV remain
+  bounded by their neighboring samples; zoom reversals retain their lens
+  extremum. This C1 interpolation does not imply continuous acceleration.
 - Eased composition points blend the complete orientation from the underlying
   shot toward the requested subject and framing. With no underlying orientation
   owner, the seed retains the window-entry pose so easing is independent of
@@ -265,31 +370,88 @@ same time/channel fail validation.
 
 The state grid contains uniform optimization samples plus timeline boundaries,
 easing boundaries, cuts, user-keyframe times, and adaptive arc samples that keep
-orbit steps at or below 15 degrees. Position, FOV, and quaternion orientation
-use time-aware Hermite resampling within each cut segment, with quaternion
-signs aligned along the shortest arc. Dense output therefore does not turn a
-coarse orbit into a polygon or interpolate toward a post-cut pose.
+authored or seeded orbit steps at or below 15 degrees. Optimized angular motion
+can still require a finer grid; the rule is not an a posteriori angle bound.
+Position, log focal length, and quaternion orientation use time-aware C1
+Hermite resampling within each shot, with quaternion signs aligned along the
+shortest arc. Resampling preserves the chosen smooth curve rather than joining
+knots by straight lines, and it does not interpolate toward a post-cut pose.
 
-Refinement uses deterministic simultaneous-perturbation gradient estimates,
-Adam scaling, cut-aware temporal filtering, and monotone backtracking. The
-filter removes high-frequency cross-talk from whole-trajectory perturbations
-without coupling separate shots. Objective-evaluation count is independent of
-the number of free variables. The solver retains the best finite state and
-never returns a worse state than initialization. Rejected-step exhaustion is
-reported as `stalled`, not `converged`. Defaults are 3 Hz plus adaptive arc
-samples, 5000 iterations, environment `fpsHint` for output, and a fixed seed.
+The numerical state has seven free coordinates per unconstrained sample:
+position divided by a physical reference length, a three-component world-frame
+rotation tangent, and log focal length. Rotation increments use the SO(3)
+exponential, `R_new = Exp(deltaRotation) R_base`; accepted steps recenter the
+chart. Thus the solver does not optimize four redundant quaternion components.
+Unlocked FOV is bounded to 8–120 degrees; hard channels are reapplied exactly.
 
-Scene time is obtained by integrating timeline rate segments over the camera
-playback clock. Target centers, rotated/scaled bounds, subject orientation,
-ground, collision, and occlusion therefore follow the 4D scene during frozen,
-slow, or fast playback. Follow/Track interpret `followDelay` and `leadAmount`
-as seconds and sample the subject at `playbackTime + leadAmount - followDelay`.
+Refinement uses deterministic two-sided simultaneous perturbations, Adam
+scaling, a temporal Sobolev filter, and monotone backtracking. The filter solves
+
+```text
+min_z 1/2 * integral (z - direction)^2 dt
+      + smoothingSeconds^2/2 * integral (dz/dt)^2 dt,
+```
+
+using a mass-lumped piecewise-linear discretization on the actual timestamps.
+Its reusable tridiagonal solve accounts for uneven sample spacing. Cuts remove
+connecting edges and locked coordinates have zero update. This filters the
+proposed direction; it does not certify a minimum-jerk trajectory.
+
+Each main SPSA gradient estimate uses four objective evaluations regardless of
+the number of free coordinates. Backtracking adds evaluations; a bounded
+coordinate fallback can add up to four per free coordinate. The cost of each
+evaluation also depends on trajectory and scene size. Accepted states lower
+the objective and never exceed the preceding enabled collision/ground
+violation, apart from the explicit 1e-6-meter numerical tolerance. The best
+finite state is retained. Nonfinite probes never enter Adam's moments.
+
+Twelve accepted improvements below the relative threshold report
+`objectivePlateau`; rejected-step exhaustion reports `stalled`. The current
+solver always reports `converged: false`, because it computes no stationarity
+or global-optimality certificate. Zero iterations or no free coordinates
+report `initialState`. Defaults are 3 Hz plus adaptive arc samples, 5000
+iterations, environment `fpsHint` for output, and a fixed seed.
+
+## Scene geometry, visibility, and scale
+
+Scene time is the clamped integral of timeline rate segments over camera
+playback time. A zero rate freezes the scene; it does not freeze the camera.
+Subject transforms and obstacle bounds follow that scene clock. Authored
+Follow/Track profiles and lead/delay affect their target reference as described
+above. Rate jumps can produce subject-velocity jumps; no smooth retiming is
+inferred from a piecewise-constant rate schedule.
 
 Collision checks sweep the camera between optimization knots, using the same
-Hermite curve as output and a conservative curve bound. Obstacle animation is
-split at animation, time-warp, and exemption boundaries; nonlinear obstacle
-motion is approximated with bounded temporal subdivision. Entity bounds are
-local to the entity transform, just like its rendered geometry. The final
-resampled trajectory is also checked; `maximumSafetyViolationMeters` and a
-warning report unresolved clearance (including conflicting hard keyframes).
-This is a bounded numerical search, not a proof that every scene is feasible.
+Hermite position curve as output and a conservative curve bound. Entity bounds
+are local to the entity transform. Animation, time-warp, and exemption
+boundaries split the swept intervals. Affine obstacle boxes use an exact
+moving-box model; nonlinear translation, scale, and rotation use conservative
+enclosures of the complete interval for supported scene channels. Temporal
+subdivision tightens those enclosures rather than being relied upon to catch
+motion between samples. Step-animation teleports use one-sided poses and do
+not create a fictional sweep across the gap.
+
+These guarantees concern the supplied bounding geometry and supported motion
+model. Conservative bounds can reject a visually clear path, and inaccurate
+reconstructed bounds cannot establish physical clearance. The final resampled
+trajectory is checked too; `maximumSafetyViolationMeters` and warnings report
+remaining collision/ground shortfalls, including conflicts with hard
+keyframes. A finite local search does not prove that a feasible trajectory
+exists or that every conflicting instruction can be satisfied.
+
+`occlusion` measures clearance along representative sight segments from the
+camera to the subject center and eight bounding-box corners. Each segment uses
+its minimum signed distance to other entities' boxes and a nonnegative sight
+margin; violations combine as an RMS residual. The target's own entity is
+excluded. This provides a clearance signal for thin obstacles and near misses;
+it is not projected visible-area estimation or a guarantee that every subject
+pixel is visible. Visibility is still evaluated at temporal samples, while
+camera collision uses continuous sweeps.
+
+Canonical environments use meters. Authored scenes may omit
+`coordinates.metricScale`; reconstructed scenes can record
+`{ status: "calibrated", metersPerUnit: 1 }` after converting their coordinates.
+The optimizer rejects `metricScale.status: "relative"`, noncanonical metric
+conversion factors, and legacy `RELATIVE-SCALE` prompts. Monocular relative
+coordinates must be calibrated and converted before meter-valued safety
+margins or requested movement distances can be interpreted physically.

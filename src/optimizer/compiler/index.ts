@@ -57,6 +57,7 @@ export function compileLossPlan(input: CameraOptimizerInput): CompiledLossPlan {
           ? {
               ...descriptor,
               parameters: {
+                referenceTime: span.sourceStartTime,
                 ...(descriptor.parameters ?? {}),
                 ...(windows.length > 0 ? { motionTransitions: windows } : {}),
               },
@@ -75,6 +76,7 @@ export function compileLossPlan(input: CameraOptimizerInput): CompiledLossPlan {
           sourceType: loss.type,
           sourceWeight,
           sourceActionId: loss.sourceActionId,
+          normalizationDuration: span.endTime - span.startTime,
         });
       }
     }
@@ -157,12 +159,13 @@ export function compileLossPlan(input: CameraOptimizerInput): CompiledLossPlan {
   addSubjectQualityLosses(input, primitives, weights, add);
 
   // 5. Add enabled whole-trajectory regularizers.
-  for (const { descriptor, weight, startTime, endTime } of buildGlobalLossDescriptors(input, weights, primitives)) {
+  for (const { descriptor, weight, startTime, endTime, normalizationDuration } of buildGlobalLossDescriptors(input, weights, primitives)) {
     add(descriptor, {
       startTime: startTime ?? 0,
       endTime: endTime ?? durationSeconds,
       sourceType: "global",
       explicitWeight: weight,
+      normalizationDuration,
     });
   }
 

@@ -15,7 +15,7 @@
         "kind": "interval",
         "shotStartTime": 0,
         "startTime": 0,
-        "endTime": 7,
+        "endTime": 6.958333333333333,
         "lossFunctions": [
           {
             "type": "followMovement",
@@ -30,8 +30,8 @@
       {
         "kind": "interval",
         "shotStartTime": 0,
-        "startTime": 7,
-        "endTime": 10,
+        "startTime": 6.958333333333333,
+        "endTime": 9.958333333333332,
         "lossFunctions": [
           {
             "type": "pedestalUpMovement",
@@ -65,8 +65,8 @@
       {
         "kind": "interval",
         "shotStartTime": 0,
-        "startTime": 7,
-        "endTime": 10,
+        "startTime": 6.958333333333333,
+        "endTime": 9.958333333333332,
         "lossFunctions": [
           {
             "type": "followMovement",
@@ -81,8 +81,8 @@
       {
         "kind": "interval",
         "shotStartTime": 0,
-        "startTime": 7,
-        "endTime": 10,
+        "startTime": 6.958333333333333,
+        "endTime": 9.958333333333332,
         "lossFunctions": [
           {
             "type": "cameraVerticalAngle",

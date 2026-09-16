@@ -135,6 +135,7 @@ export function createInitialCameraState(
         direction,
         fovYDegrees,
         targetCoverage,
+        { allowNearPlaneLimited: true },
       );
       worldDirection = scale3(direction, distance);
     }

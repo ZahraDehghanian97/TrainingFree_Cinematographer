@@ -3,6 +3,7 @@ import { DEFAULT_OPTIONS } from "../config/defaults";
 import { subjectIdsFromParameters } from "../shared/parameter-values";
 import type { CameraOptimizerInput, OptimizerWeights, PrimitiveLoss } from "../types";
 import { subjectEntityKey } from "./subjects";
+import { subjectTimingParameters } from "../scene/primitive-context";
 import type { AddPrimitive } from "./types";
 
 const SUBJECT_INTENT = new Set<PrimitiveLoss["sourceType"]>([
@@ -17,7 +18,7 @@ const SUBJECT_INTENT = new Set<PrimitiveLoss["sourceType"]>([
 ]);
 
 type SubjectIntent = Pick<PrimitiveLoss,
-  "startTime" | "endTime" | "parameters" | "sourceType" | "sourceActionId" | "weight"
+  "startTime" | "endTime" | "parameters" | "sourceType" | "sourceActionId" | "weight" | "normalizationDuration"
 > & { shotStartTime?: number };
 
 /** Serializable time scope of authored composition that takes precedence over a fallback. */
@@ -146,10 +147,7 @@ export function addSubjectQualityLosses(
     if (!SUBJECT_INTENT.has(owner.sourceType) || owner.weight <= 0) continue;
     for (const subjectId of subjectIdsFromParameters(owner.parameters)) {
       const scope = windowFor(owner);
-      const timing = {
-        ...(owner.parameters.followDelay === undefined ? {} : { followDelay: owner.parameters.followDelay }),
-        ...(owner.parameters.leadAmount === undefined ? {} : { leadAmount: owner.parameters.leadAmount }),
-      };
+      const timing = subjectTimingParameters(owner.parameters);
       const key = JSON.stringify([subjectId, scope, timing]);
       if (emitted.has(key)) continue;
       emitted.add(key);
@@ -179,6 +177,7 @@ export function addSubjectQualityLosses(
         endTime: owner.endTime,
         sourceType: owner.sourceType,
         sourceActionId: owner.sourceActionId,
+        normalizationDuration: owner.normalizationDuration ?? owner.endTime - owner.startTime,
       };
       add({
         type: "subjectVisibility",

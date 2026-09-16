@@ -15,6 +15,7 @@ import {
   sub3,
 } from "../shared/math";
 import { crossesCut } from "../shared/time";
+import { fovDegreesToLogFocal, logFocalToFovDegrees } from "../shared/lens";
 import type {
   CameraOptimizerInput,
   CameraStateSample,
@@ -69,7 +70,7 @@ function tangentNeighbors(
   };
 }
 
-/** PCHIP slopes keep zoom and height within their neighboring sample values. */
+/** PCHIP slopes keep log focal length and height within neighboring values. */
 function monotoneTangent(
   previousSlope: number | undefined,
   nextSlope: number | undefined,
@@ -98,11 +99,11 @@ function sampleTangent(
   states: readonly CameraStateSample[],
   index: number,
   cutTimes: readonly number[],
-): { position: Vec3; angularVelocity: Vec3; fov: number } {
+): { position: Vec3; angularVelocity: Vec3; logFocal: number } {
   const { current, previous, next } = tangentNeighbors(states, index, cutTimes);
   // The interval immediately before a cut holds its last pre-cut sample.
   if (!next && index + 1 < states.length) {
-    return { position: [0, 0, 0], angularVelocity: [0, 0, 0], fov: 0 };
+    return { position: [0, 0, 0], angularVelocity: [0, 0, 0], logFocal: 0 };
   }
   const previousSpan = previous ? Math.max(1e-9, current.time - previous.time) : 0;
   const nextSpan = next ? Math.max(1e-9, next.time - current.time) : 0;
@@ -133,9 +134,9 @@ function sampleTangent(
   return {
     position: limitTangent(position, previousPosition, nextPosition),
     angularVelocity: limitTangent(rotation, previousRotation, nextRotation),
-    fov: monotoneTangent(
-      previous ? (current.fovYDegrees - previous.fovYDegrees) / previousSpan : undefined,
-      next ? (next.fovYDegrees - current.fovYDegrees) / nextSpan : undefined,
+    logFocal: monotoneTangent(
+      previous ? (fovDegreesToLogFocal(current.fovYDegrees) - fovDegreesToLogFocal(previous.fovYDegrees)) / previousSpan : undefined,
+      next ? (fovDegreesToLogFocal(next.fovYDegrees) - fovDegreesToLogFocal(current.fovYDegrees)) / nextSpan : undefined,
       previousSpan,
       nextSpan,
     ),
@@ -186,9 +187,13 @@ function interpolateState(
       span,
       alpha,
     ),
-    fovYDegrees: cubicHermite(
-      left.fovYDegrees, right.fovYDegrees, leftTangent.fov, rightTangent.fov, span, alpha,
-    ),
+    // The same C1, shape-preserving curve now interpolates the optical variable.
+    // Preserve authored knot angles exactly instead of round-tripping them.
+    fovYDegrees: alpha === 0 ? left.fovYDegrees : alpha === 1 ? right.fovYDegrees
+      : logFocalToFovDegrees(cubicHermite(
+        fovDegreesToLogFocal(left.fovYDegrees), fovDegreesToLogFocal(right.fovYDegrees),
+        leftTangent.logFocal, rightTangent.logFocal, span, alpha,
+      )),
   };
 }
 

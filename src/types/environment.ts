@@ -25,6 +25,12 @@ export interface CoordinateSystemV1 {
   cameraForwardAxis: "-Z";
   lengthUnit: "meter";
   rotationOrder: "quaternion-xyzw";
+  /** Reconstruction provenance. Omitted for authored scenes already in meters. */
+  metricScale?: {
+    status: "calibrated" | "relative";
+    /** Meters per exported coordinate unit; canonical calibrated scenes use 1. */
+    metersPerUnit?: number;
+  };
 }
 
 export interface SphereBoundsV1 {

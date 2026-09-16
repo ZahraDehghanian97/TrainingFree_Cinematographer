@@ -15,7 +15,7 @@
         "kind": "interval",
         "shotStartTime": 0,
         "startTime": 0,
-        "endTime": 2.7916666666666665,
+        "endTime": 7.625,
         "lossFunctions": [
           {
             "type": "followMovement",
@@ -31,7 +31,7 @@
         "kind": "interval",
         "shotStartTime": 0,
         "startTime": 0,
-        "endTime": 2.7916666666666665,
+        "endTime": 7.625,
         "lossFunctions": [
           {
             "type": "subjectPresence",
@@ -47,7 +47,7 @@
         "kind": "interval",
         "shotStartTime": 0,
         "startTime": 0,
-        "endTime": 2.7916666666666665,
+        "endTime": 7.625,
         "lossFunctions": [
           {
             "type": "noShake",
@@ -60,8 +60,8 @@
       {
         "kind": "interval",
         "shotStartTime": 0,
-        "startTime": 2.7916666666666665,
-        "endTime": 4.791666666666666,
+        "startTime": 0,
+        "endTime": 2,
         "lossFunctions": [
           {
             "type": "arcMovement",
@@ -76,8 +76,8 @@
       {
         "kind": "interval",
         "shotStartTime": 0,
-        "startTime": 2.7916666666666665,
-        "endTime": 4.791666666666666,
+        "startTime": 0,
+        "endTime": 2,
         "lossFunctions": [
           {
             "type": "subjectPresence",
@@ -92,8 +92,8 @@
       {
         "kind": "interval",
         "shotStartTime": 0,
-        "startTime": 2.7916666666666665,
-        "endTime": 4.791666666666666,
+        "startTime": 0,
+        "endTime": 2,
         "lossFunctions": [
           {
             "type": "dollyInMovement",
@@ -108,8 +108,8 @@
       {
         "kind": "interval",
         "shotStartTime": 0,
-        "startTime": 4.791666666666666,
-        "endTime": 7.291666666666666,
+        "startTime": 2,
+        "endTime": 4.5,
         "lossFunctions": [
           {
             "type": "arcMovement",
@@ -124,8 +124,8 @@
       {
         "kind": "interval",
         "shotStartTime": 0,
-        "startTime": 4.791666666666666,
-        "endTime": 7.291666666666666,
+        "startTime": 2,
+        "endTime": 4.5,
         "lossFunctions": [
           {
             "type": "pedestalUpMovement",
@@ -138,8 +138,8 @@
       {
         "kind": "interval",
         "shotStartTime": 0,
-        "startTime": 7.291666666666666,
-        "endTime": 7.75,
+        "startTime": 4.5,
+        "endTime": 7.625,
         "lossFunctions": [
           {
             "type": "followMovement",
@@ -154,8 +154,8 @@
       {
         "kind": "interval",
         "shotStartTime": 0,
-        "startTime": 7.291666666666666,
-        "endTime": 7.75,
+        "startTime": 4.5,
+        "endTime": 7.625,
         "lossFunctions": [
           {
             "type": "pedestalDownMovement",
@@ -168,8 +168,8 @@
       {
         "kind": "interval",
         "shotStartTime": 0,
-        "startTime": 7.75,
-        "endTime": 9.55,
+        "startTime": 7.625,
+        "endTime": 9.425,
         "lossFunctions": [
           {
             "type": "followMovement",
@@ -184,8 +184,8 @@
       {
         "kind": "interval",
         "shotStartTime": 0,
-        "startTime": 7.75,
-        "endTime": 9.55,
+        "startTime": 7.625,
+        "endTime": 9.425,
         "lossFunctions": [
           {
             "type": "dollyOutMovement",
@@ -200,7 +200,7 @@
       {
         "kind": "point",
         "shotStartTime": 0,
-        "time": 9.55,
+        "time": 9.425,
         "lossFunctions": [
           {
             "type": "keepInFrame",
@@ -222,8 +222,8 @@
       {
         "kind": "interval",
         "shotStartTime": 0,
-        "startTime": 9.55,
-        "endTime": 12.05,
+        "startTime": 9.425,
+        "endTime": 11.925,
         "lossFunctions": [
           {
             "type": "arcMovement",
@@ -241,8 +241,8 @@
       {
         "kind": "interval",
         "shotStartTime": 0,
-        "startTime": 9.55,
-        "endTime": 12.05,
+        "startTime": 9.425,
+        "endTime": 11.925,
         "lossFunctions": [
           {
             "type": "keepInFrame",
@@ -260,8 +260,8 @@
       {
         "kind": "interval",
         "shotStartTime": 0,
-        "startTime": 9.55,
-        "endTime": 12.05,
+        "startTime": 9.425,
+        "endTime": 11.925,
         "lossFunctions": [
           {
             "type": "dutchRightMovement",
@@ -274,8 +274,8 @@
       {
         "kind": "interval",
         "shotStartTime": 0,
-        "startTime": 12.05,
-        "endTime": 14.55,
+        "startTime": 11.925,
+        "endTime": 14.425,
         "lossFunctions": [
           {
             "type": "craneUpMovement",
@@ -293,8 +293,8 @@
       {
         "kind": "interval",
         "shotStartTime": 0,
-        "startTime": 12.05,
-        "endTime": 14.55,
+        "startTime": 11.925,
+        "endTime": 14.425,
         "lossFunctions": [
           {
             "type": "zoomOutMovement",
@@ -322,7 +322,7 @@
       {
         "kind": "point",
         "shotStartTime": 0,
-        "time": 14.55,
+        "time": 14.425,
         "lossFunctions": [
           {
             "type": "subjectPresence",
@@ -343,7 +343,7 @@
       {
         "kind": "interval",
         "shotStartTime": 0,
-        "startTime": 14.55,
+        "startTime": 14.425,
         "endTime": 22,
         "lossFunctions": [
           {
@@ -357,7 +357,7 @@
       {
         "kind": "interval",
         "shotStartTime": 0,
-        "startTime": 14.55,
+        "startTime": 14.425,
         "endTime": 22,
         "lossFunctions": [
           {
@@ -376,7 +376,7 @@
       {
         "kind": "interval",
         "shotStartTime": 0,
-        "startTime": 14.55,
+        "startTime": 14.425,
         "endTime": 22,
         "lossFunctions": [
           {

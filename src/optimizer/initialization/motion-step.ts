@@ -18,10 +18,12 @@ import {
   yawFromQuaternion,
 } from "../shared/math";
 import { motionProgress, motionProgressDelta } from "../shared/motion-profiles";
+import { applyOpticalZoom, interpolateFovLogFocal } from "../shared/lens";
 import { pointEasingWeight } from "../shared/time";
 import {
   isPrimitiveActiveAt,
   samplePrimitiveSubject,
+  subjectTimingParameters,
 } from "../scene/primitive-context";
 import { asQuat, asVec3, subjectIdsFromParameters } from "../shared/parameter-values";
 import type {
@@ -31,6 +33,7 @@ import type {
   PrimitiveLoss,
 } from "../types";
 import { projectWorldBox, projectWorldPoint } from "../scene/projection";
+import { DEFAULT_OPTIONS } from "../config/defaults";
 import { projectedDistanceForCoverage } from "./framing-distance";
 import {
   SEED_ORBIT_DEGREES,
@@ -89,29 +92,8 @@ function carrySubjectTranslation(
   const before = samplePrimitiveSubject(input, primitive, previousTime);
   const after = samplePrimitiveSubject(input, primitive, state.time);
   if (before && after) {
-    if (primitive.type !== "velocityMatch") {
-      state.position = add3(state.position, sub3(after.center, before.center));
-      return;
-    }
-    const motionStartTime = typeof primitive.parameters.motionStartTime === "number"
-      ? primitive.parameters.motionStartTime
-      : primitive.startTime;
-    const motionEndTime = typeof primitive.parameters.motionEndTime === "number"
-      ? primitive.parameters.motionEndTime
-      : primitive.endTime;
-    const duration = Math.max(1e-9, motionEndTime - motionStartTime);
-    const linearDelta = Math.max(1e-9, (state.time - previousTime) / duration);
-    const profiledDelta = motionProgressDelta(
-      previousTime,
-      state.time,
-      motionStartTime,
-      motionEndTime,
-      primitive.parameters.speedKeyframes,
-    );
-    state.position = add3(
-      state.position,
-      scale3(sub3(after.center, before.center), profiledDelta / linearDelta),
-    );
+    // samplePrimitiveSubject already applies any authored reference pacing.
+    state.position = add3(state.position, sub3(after.center, before.center));
   }
 }
 
@@ -194,7 +176,8 @@ function applyOrbitSteps(
           const offset = sub3(previous.position, previousTarget.center);
           const endpointDirection = normalize3(rotateAroundAxis(offset, [0, 0, 0], [0, 1, 0], targetDelta));
           const endpointRadius = projectedDistanceForCoverage(input, endpointTarget,
-            endpointDirection, state.fovYDegrees, endpointScale.parameters.targetCoverage);
+            endpointDirection, state.fovYDegrees, endpointScale.parameters.targetCoverage,
+            { allowNearPlaneLimited: true });
           const proposed = endpointRadius - length3(offset);
           if (proposed * deltaRadius > 0) deltaRadius = proposed;
         }
@@ -302,6 +285,7 @@ function applyPathShape(
     (state.time - motionStartTime) / duration,
     primitive.parameters.speedKeyframes,
   );
+  // Legacy `spline` denotes a sinusoidal S-bend; it remains load-compatible.
   const shape = (progress: number): number => primitive.parameters.path === "spline"
     ? Math.sin(2 * Math.PI * progress)
     : Math.sin(Math.PI * progress);
@@ -405,17 +389,16 @@ function applyZoomStep(
   const factor = typeof authoredFactor === "number" ? authoredFactor
     : choices.movementAmounts?.get(seedMotionKey(zoom)) ?? SEED_ZOOM_FACTOR;
   const [startTime, endTime] = sourceMotionClock(zoom);
-  const stepFactor = Math.pow(factor, motionProgressDelta(
+  const progressDelta = motionProgressDelta(
     previous.time,
     state.time,
     startTime,
     endTime,
     zoom.parameters.speedKeyframes,
-  ));
+  );
   state.fovYDegrees = clamp(
-    zoom.parameters.direction === "in"
-      ? state.fovYDegrees / stepFactor
-      : state.fovYDegrees * stepFactor,
+    applyOpticalZoom(state.fovYDegrees, factor,
+      zoom.parameters.direction === "in" ? "in" : "out", progressDelta),
     8,
     120,
   );
@@ -436,7 +419,8 @@ function applyCompositionLens(
   const target = samplePrimitiveSubject(input, composition, state.time);
   if (!target) return;
   const bounds = projectWorldBox(target.box, state.position, state.rotation,
-    state.fovYDegrees, input.options?.aspectRatio ?? 16 / 9);
+    state.fovYDegrees, input.options?.aspectRatio ?? DEFAULT_OPTIONS.aspectRatio,
+    input.options?.nearPlane ?? DEFAULT_OPTIONS.nearPlane);
   if (bounds.behindCamera || bounds.height <= 0) return;
   const targetFov = clamp(2 * Math.atan(Math.tan(state.fovYDegrees * Math.PI / 360)
     * bounds.height / Number(composition.parameters.targetCoverage)) * 180 / Math.PI, 8, 120);
@@ -446,7 +430,7 @@ function applyCompositionLens(
   const baseline = pointBaselines.get(window)!;
   const weight = pointEasingWeight(state.time, Number(composition.parameters.pointTime),
     composition.parameters.easing as { inDuration?: number; outDuration?: number; curve?: string });
-  state.fovYDegrees = baseline + weight * (targetFov - baseline);
+  state.fovYDegrees = interpolateFovLogFocal(baseline, targetFov, weight);
 }
 
 function levelOrientationForScreenTarget(
@@ -552,8 +536,7 @@ function compositionOrientationTarget(
       primitive.startTime, primitive.endTime,
       primitive.parameters.pointTime ?? primitive.parameters.keyframeTime,
       primitive.parameters.easing,
-      primitive.parameters.followDelay ?? 0,
-      primitive.parameters.leadAmount ?? 0,
+      subjectTimingParameters(primitive.parameters),
     ]);
     const compositionScope = scope(composition);
     const subjectIds = [...new Set(active.filter((primitive) =>

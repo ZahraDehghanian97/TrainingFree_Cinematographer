@@ -1,5 +1,6 @@
 import { assertMovementSubjectReferences } from "../grounding/validation";
 import { validatePointConstraintEasing } from "../timeline/easing";
+import { validateMotionProfile } from "../optimizer/shared/motion-profiles";
 import type { SubjectReference } from "../types/camera";
 import type {
   Action,
@@ -171,6 +172,11 @@ function validateActionDurations(
     }
 
     const speedKeyframes = action.movement.speedKeyframes ?? [];
+    try {
+      validateMotionProfile(speedKeyframes);
+    } catch (error) {
+      throw new Error(`${path}.movement: ${error instanceof Error ? error.message : String(error)}`);
+    }
     for (let index = 1; index < speedKeyframes.length; index += 1) {
       if (
         speedKeyframes[index]!.normalizedTime

@@ -62,7 +62,7 @@ export const PRIMITIVE_TOLERANCES: Record<PrimitiveLossType, number> = {
   orthogonalDrift: 0.06,
   pathProfile: 0.08,
   stepPacing: 0.15,
-  stepSmoothness: 0.15,
+  stepSmoothness: 0.35, // m/s², not a sample-dependent velocity difference
   angularProgress: Math.PI / 90,
   angularDirection: Math.PI / 90,
   angularPacing: Math.PI / 45,
@@ -85,8 +85,8 @@ export const PRIMITIVE_TOLERANCES: Record<PrimitiveLossType, number> = {
   rollProgress: Math.PI / 90,
   rollTarget: Math.PI / 90,
   levelHorizon: Math.PI / 90,
-  intrinsicsProgress: 0.75,
-  intrinsicsPacing: 0.75,
+  intrinsicsProgress: 0.02, // log focal-length ratio (dimensionless)
+  intrinsicsPacing: 0.02,
   collisionClearance: 0.05,
   nearPlaneClearance: 0.02,
   occlusion: 0.05,

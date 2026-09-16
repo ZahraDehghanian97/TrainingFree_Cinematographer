@@ -100,6 +100,8 @@ export interface PrimitiveLoss {
   role: PrimitiveRole;
   sourceType: LossFunctionType | "userKeyframe" | "global";
   sourceActionId?: string;
+  /** Duration of the original constraint support, before overlap-band splitting. */
+  normalizationDuration?: number;
   parameters: Record<string, unknown>;
 }
 
@@ -219,8 +221,9 @@ export interface OptimizerDiagnostics {
   initialLoss: number;
   finalLoss: number;
   iterations: number;
+  /** Always false until the solver computes a stationarity certificate. */
   converged: boolean;
-  terminationReason: "converged" | "stalled" | "maxIterations" | "initialState";
+  terminationReason: "objectivePlateau" | "stalled" | "maxIterations" | "initialState";
   optimizationSampleCount: number;
   outputSampleCount: number;
   primitiveCount: number;

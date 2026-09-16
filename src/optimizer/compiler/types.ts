@@ -46,6 +46,7 @@ export interface PrimitiveSource {
   sourceType: PrimitiveLoss["sourceType"];
   sourceWeight?: number;
   sourceActionId?: string;
+  normalizationDuration?: number;
   explicitWeight?: number;
 }
 

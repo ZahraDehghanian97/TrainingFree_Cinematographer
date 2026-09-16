@@ -2,6 +2,7 @@ import type { Quat, Vec3 } from "../../types/environment";
 import type { CameraStateSample, MotionTransition, UserCameraKeyframe } from "../types";
 import { angularVelocity, cubicHermite, interpolateRotationWithVelocities } from "../trajectory/interpolation";
 import { crossesCut } from "../shared/time";
+import { fovDegreesToLogFocal, logFocalToFovDegrees } from "../shared/lens";
 
 /** Bridge the two motions before optimization, matching their incoming/outgoing velocities. */
 export function seedMotionTransitions(
@@ -39,14 +40,17 @@ export function seedMotionTransitions(
     // across equal FOV endpoints and erasing the zoom at the handoff.
     const middle = original[middleIndex]!;
     const fovKnots = [left, middle, right];
+    // Work in log focal length, so magnification composes consistently with
+    // the zoom objective, seed steps, and final trajectory interpolation.
+    const focalAt = (state: CameraStateSample): number => fovDegreesToLogFocal(state.fovYDegrees);
     const fovSlopes = [
-      (middle.fovYDegrees - left.fovYDegrees) / (middle.time - left.time),
-      (right.fovYDegrees - middle.fovYDegrees) / (right.time - middle.time),
+      (focalAt(middle) - focalAt(left)) / (middle.time - left.time),
+      (focalAt(right) - focalAt(middle)) / (right.time - middle.time),
     ];
     const fovRates = [
-      (left.fovYDegrees - before.fovYDegrees) / leftDt,
+      (focalAt(left) - focalAt(before)) / leftDt,
       fovSlopes[0]! * fovSlopes[1]! <= 0 ? 0 : 2 / (1 / fovSlopes[0]! + 1 / fovSlopes[1]!),
-      (after.fovYDegrees - right.fovYDegrees) / rightDt,
+      (focalAt(after) - focalAt(right)) / rightDt,
     ];
     for (let segment = 0; segment < 2; segment += 1) {
       const slope = fovSlopes[segment]!;
@@ -69,8 +73,9 @@ export function seedMotionTransitions(
       if (!fovLocked) {
         const segment = state.time <= middle.time ? 0 : 1;
         const a = fovKnots[segment]!, b = fovKnots[segment + 1]!;
-        state.fovYDegrees = cubicHermite(a.fovYDegrees, b.fovYDegrees, fovRates[segment]!, fovRates[segment + 1]!,
-          b.time - a.time, (state.time - a.time) / (b.time - a.time));
+        state.fovYDegrees = state.time === middle.time ? middle.fovYDegrees
+          : logFocalToFovDegrees(cubicHermite(focalAt(a), focalAt(b), fovRates[segment]!, fovRates[segment + 1]!,
+            b.time - a.time, (state.time - a.time) / (b.time - a.time)));
       }
     }
   }

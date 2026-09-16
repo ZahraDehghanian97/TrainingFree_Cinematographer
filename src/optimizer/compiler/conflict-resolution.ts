@@ -16,6 +16,7 @@ import {
   YAW_PITCH_TARGETING_TYPES,
 } from "./constants";
 import { subjectEntityKey } from "./subjects";
+import { subjectTimingParameters } from "../scene/primitive-context";
 import type { ActiveLossBand, AddPrimitive } from "./types";
 
 interface BandConflictOptions {
@@ -175,58 +176,96 @@ export function resolveBandConflicts({
     });
   }
 
-  const hasFollow = highLevelTypes.includes(LossFunctionType.FollowMovement);
-  if (hasFollow && (hasDollyIn || hasDollyOut)) {
-    const followSpan = band.active.find((span) => span.loss.type === LossFunctionType.FollowMovement)!;
-    const dollySpan = band.active.find((span) =>
-      span.loss.type === LossFunctionType.DollyInMovement
-      || span.loss.type === LossFunctionType.DollyOutMovement,
-    )!;
-    const followKey = subjectEntityKey(
-      input,
-      subjectIdsFromParameters(followSpan.loss.parameters),
-    );
-    const dollyKey = subjectEntityKey(
-      input,
-      subjectIdsFromParameters(dollySpan.loss.parameters),
-    );
-    if (followKey && followKey === dollyKey) {
-      const removed = removeWhere((primitive) =>
-        primitive.type === "relativeOffsetHold"
-        && primitive.sourceType === LossFunctionType.FollowMovement,
-      );
-      if (removed.length > 0) conflicts.push({
-        interval: [band.startTime, band.endTime],
-        rule: "follow+dolly=>radial-follow",
-        removedPrimitiveIds: removed,
-        addedPrimitiveIds: [],
-      });
-    } else {
-      warnings.push(
-        `Follow and Dolly on ${band.startTime}-${band.endTime}s target different subjects; radial fusion was skipped`,
-      );
+  const follows = band.active.filter((span) => span.loss.type === LossFunctionType.FollowMovement);
+  const verticalTypes = new Set([
+    LossFunctionType.PedestalUpMovement, LossFunctionType.PedestalDownMovement,
+    LossFunctionType.CraneUpMovement, LossFunctionType.CraneDownMovement,
+  ]);
+  const companions = band.active.filter((span) => verticalTypes.has(span.loss.type)
+    || span.loss.type === LossFunctionType.DollyInMovement || span.loss.type === LossFunctionType.DollyOutMovement);
+  for (const follow of follows) {
+    const followIds = subjectIdsFromParameters(follow.loss.parameters);
+    const followKey = subjectEntityKey(input, followIds);
+    if (!followKey) continue;
+    const sameRig = (parameters: Record<string, unknown>, startTime: number, endTime: number): boolean => {
+      const ids = subjectIdsFromParameters(parameters);
+      // An otherwise world-space move may inherit the only active Follow rig.
+      if (ids.length > 0) return subjectEntityKey(input, ids) === followKey;
+      const rigs = new Set(input.timeline.timeline.flatMap((segment) =>
+        segment.kind !== "interval" || segment.startTime >= endTime || segment.endTime <= startTime
+          ? [] : segment.lossFunctions.filter((loss) => loss.type === LossFunctionType.FollowMovement)
+            .map((loss) => subjectEntityKey(input, subjectIdsFromParameters(loss.parameters))),
+      ));
+      return rigs.size === 1 && rigs.has(followKey);
+    };
+    const ownsFollow = (primitive: PrimitiveLoss): boolean =>
+      primitive.sourceType === LossFunctionType.FollowMovement
+      && primitive.sourceActionId === follow.loss.sourceActionId
+      && subjectEntityKey(input, subjectIdsFromParameters(primitive.parameters)) === followKey;
+    // After a genuine relative move, hold its resulting rig offset. Unrelated
+    // band boundaries keep the original reference and cannot reset the target.
+    const completedEnds = input.timeline.timeline.flatMap((segment) => {
+      if (segment.kind !== "interval" || segment.endTime > band.startTime + 1e-9
+        || segment.endTime <= follow.sourceStartTime || segment.startTime >= follow.sourceEndTime) return [];
+      return segment.lossFunctions.some((loss) => (verticalTypes.has(loss.type)
+        || loss.type === LossFunctionType.DollyInMovement || loss.type === LossFunctionType.DollyOutMovement)
+        && sameRig(loss.parameters, Math.max(segment.startTime, follow.sourceStartTime), segment.endTime))
+        ? [segment.endTime] : [];
+    });
+    if (completedEnds.length > 0) {
+      const referenceTime = Math.max(...completedEnds);
+      for (const primitive of bandPrimitives()) {
+        if (!ownsFollow(primitive) || !["relativeOffsetHold", "distanceHold"].includes(primitive.type)) continue;
+        primitive.parameters.referenceTime = referenceTime;
+        if (primitive.type === "distanceHold") {
+          delete primitive.parameters.distance;
+          delete primitive.parameters.targetDistance;
+        }
+      }
     }
-  }
-
-  if (hasFollow && hasPedestal) {
-    const removed = removeWhere((primitive) =>
-      (
-        primitive.type === "relativeOffsetHold"
-        && primitive.sourceType === LossFunctionType.FollowMovement
-      )
-      || (
-        primitive.type === "orthogonalDrift"
-        && (
-          primitive.sourceType === LossFunctionType.PedestalUpMovement
-          || primitive.sourceType === LossFunctionType.PedestalDownMovement
-        )
-      ),
-    );
+    const matches = companions.filter((companion) => sameRig(companion.loss.parameters, band.startTime, band.endTime));
+    if (matches.length === 0) continue;
+    const followPrimitive = bandPrimitives().find((primitive) => ownsFollow(primitive)
+      && primitive.type === "relativeOffsetHold");
+    if (!followPrimitive) continue;
+    const timing = subjectTimingParameters(followPrimitive.parameters);
+    for (const primitive of bandPrimitives()) {
+      const isCompanion = matches.some((companion) => primitive.sourceType === companion.loss.type
+        && primitive.sourceActionId === companion.loss.sourceActionId);
+      const isFusedOrbit = primitive.sourceType === LossFunctionType.ArcMovement
+        && subjectEntityKey(input, subjectIdsFromParameters(primitive.parameters)) === followKey;
+      if (!isCompanion && !isFusedOrbit) continue;
+      // Keep this action's own motionStart/End and speedKeyframes for its
+      // relative displacement; inherit only the subject reference clock.
+      primitive.parameters = {
+        ...primitive.parameters,
+        ...timing,
+        ...(subjectIdsFromParameters(primitive.parameters).length > 0 ? {} : { subjectIds: followIds }),
+      };
+    }
+    const removed = removeWhere((primitive) => ownsFollow(primitive)
+      && ["relativeOffsetHold", "velocityMatch", "distanceHold"].includes(primitive.type));
+    const addedIds: string[] = [];
+    const requestedDistance = follow.loss.parameters.distance;
+    if (typeof requestedDistance === "number" && band.startTime <= follow.sourceStartTime + 1e-9
+      && band.endTime >= follow.sourceStartTime - 1e-9) {
+      // In a compound move a Follow distance is the initial rig distance; a
+      // persistent distance hold would contradict the requested relative move.
+      addedIds.push(add({
+        type: "distanceHold", channel: "subjectRelative", role: "primary",
+        parameters: { ...followPrimitive.parameters, distance: requestedDistance },
+      }, {
+        startTime: follow.sourceStartTime, endTime: follow.sourceStartTime,
+        sourceType: follow.loss.type, sourceActionId: follow.loss.sourceActionId,
+        sourceWeight: follow.weight,
+      }).id);
+    }
     if (removed.length > 0) conflicts.push({
       interval: [band.startTime, band.endTime],
-      rule: "follow+pedestal=>vertical-follow",
+      rule: matches.some((companion) => verticalTypes.has(companion.loss.type))
+        ? "follow+pedestal=>vertical-follow" : "follow+dolly=>radial-follow",
       removedPrimitiveIds: removed,
-      addedPrimitiveIds: [],
+      addedPrimitiveIds: addedIds,
     });
   }
 

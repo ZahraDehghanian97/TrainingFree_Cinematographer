@@ -2,6 +2,7 @@ import { RelativeFPS } from "../../types/enums";
 import { LossFunctionType } from "../../types/solver";
 import { distance3, quaternionAngle } from "../shared/math";
 import type { CameraOptimizerInput, UserCameraKeyframe } from "../types";
+import { validateMotionProfile } from "../shared/motion-profiles";
 
 function assertFiniteTuple(value: readonly number[], length: number, field: string): void {
   if (value.length !== length || !value.every(Number.isFinite)) {
@@ -17,6 +18,13 @@ function hasChannel(keyframe: UserCameraKeyframe): boolean {
     || keyframe.cutBefore === true;
 }
 
+function assertFiniteParameters(value: unknown, field: string): void {
+  if (typeof value === "number" && !Number.isFinite(value)) throw new Error(`${field} must be finite`);
+  if (value && typeof value === "object") {
+    for (const [key, entry] of Object.entries(value)) assertFiniteParameters(entry, `${field}.${key}`);
+  }
+}
+
 export function validateOptimizerInput(input: CameraOptimizerInput): void {
   if (
     input.environment?.schemaVersion !== "1.0"
@@ -30,6 +38,14 @@ export function validateOptimizerInput(input: CameraOptimizerInput): void {
     || input.environment.coordinates?.rotationOrder !== "quaternion-xyzw"
   ) {
     throw new Error("environment must be a canonical EnvironmentV1 document");
+  }
+  const scale = input.environment.coordinates.metricScale;
+  if (scale?.status === "relative" || /^RELATIVE-SCALE\b/i.test(input.environment.prompt)) {
+    throw new Error("Environment has relative scale: calibrate and convert coordinates to meters before optimizing meter-based clearance");
+  }
+  if (scale !== undefined && (scale.status !== "calibrated"
+    || (scale.metersPerUnit !== undefined && scale.metersPerUnit !== 1))) {
+    throw new Error("Canonical calibrated environments must use one meter per exported coordinate unit");
   }
   const duration = input.environment?.clock?.durationSeconds;
   if (!Number.isFinite(duration) || duration <= 0) {
@@ -49,6 +65,12 @@ export function validateOptimizerInput(input: CameraOptimizerInput): void {
       throw new Error(`timeline.timeline[${index}].weight must be positive and finite`);
     }
     for (const loss of segment.lossFunctions) {
+      assertFiniteParameters(loss.parameters, `timeline.timeline[${index}].parameters`);
+      validateMotionProfile(loss.parameters.speedKeyframes);
+      const zoomFactor = loss.parameters.zoomFactor;
+      if (zoomFactor !== undefined && (typeof zoomFactor !== "number" || zoomFactor <= 0)) {
+        throw new Error(`timeline.timeline[${index}].zoomFactor must be positive and finite`);
+      }
       if (!allowedLosses.has(loss.type)) {
         throw new Error(`Unsupported high-level loss: ${String(loss.type)}`);
       }

@@ -27,6 +27,7 @@ export function createPrimitiveStore(weights: OptimizerWeights): PrimitiveStore 
       sourceWeight = 1,
       sourceActionId,
       explicitWeight,
+      normalizationDuration,
     },
   ) => {
     const primitive: PrimitiveLoss = {
@@ -41,6 +42,7 @@ export function createPrimitiveStore(weights: OptimizerWeights): PrimitiveStore 
       role: descriptor.role,
       sourceType,
       ...(sourceActionId ? { sourceActionId } : {}),
+      ...(normalizationDuration === undefined ? {} : { normalizationDuration }),
       parameters: descriptor.parameters ?? {},
     };
     primitives.push(primitive);

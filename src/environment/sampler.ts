@@ -14,8 +14,9 @@ import type {
   WorldAabbV1,
 } from "../types/environment-query";
 import { sampleLocomotionPosition } from "./locomotion-path";
+import { interpolateCubicVec3 } from "./cubic-channel";
 
-interface SampledTransform {
+export interface SampledTransform {
   position: Vec3;
   rotation: Quat;
   scale: Vec3;
@@ -124,23 +125,6 @@ function findKeyframeInterval<T>(
   };
 }
 
-function catmullRomComponent(
-  p0: number,
-  p1: number,
-  p2: number,
-  p3: number,
-  alpha: number,
-): number {
-  const alpha2 = alpha * alpha;
-  const alpha3 = alpha2 * alpha;
-  return 0.5 * (
-    2 * p1
-    + (-p0 + p2) * alpha
-    + (2 * p0 - 5 * p1 + 4 * p2 - p3) * alpha2
-    + (-p0 + 3 * p1 - 3 * p2 + p3) * alpha3
-  );
-}
-
 function sampleVec3Keyframes(
   keyframes: readonly Keyframe<Vec3>[],
   timeSeconds: number,
@@ -159,13 +143,7 @@ function sampleVec3Keyframes(
     throw new Error("Vec3 channels cannot use slerp interpolation");
   }
 
-  const p0 = keyframes[Math.max(0, interval.leftIndex - 1)]!.value;
-  const p3 = keyframes[Math.min(keyframes.length - 1, interval.rightIndex + 1)]!.value;
-  return [
-    catmullRomComponent(p0[0], left[0], right[0], p3[0], interval.alpha),
-    catmullRomComponent(p0[1], left[1], right[1], p3[1], interval.alpha),
-    catmullRomComponent(p0[2], left[2], right[2], p3[2], interval.alpha),
-  ];
+  return interpolateCubicVec3(keyframes, interval.leftIndex, interval.rightIndex, interval.alpha);
 }
 
 function sampleQuatKeyframes(
@@ -228,8 +206,10 @@ function transformLocalPoint(localPoint: Vec3, transform: SampledTransform): Vec
   ];
 }
 
-function sampledEntityTransform(entity: SceneEntityV1, timeSeconds: number): SampledTransform {
-  return {
+export function sampleEnvironmentEntityTransform(
+  entity: SceneEntityV1, timeSeconds: number, side: "left" | "right" = "right",
+): SampledTransform {
+  const sampled: SampledTransform = {
     position: sampleLocomotionPosition(entity, timeSeconds)
       ?? sampleVec3Channel(entity.transform.position, timeSeconds),
     rotation: sampleQuatChannel(entity.transform.rotation, timeSeconds),
@@ -237,6 +217,19 @@ function sampledEntityTransform(entity: SceneEntityV1, timeSeconds: number): Sam
       ? sampleVec3Channel(entity.transform.scale, timeSeconds)
       : [1, 1, 1],
   };
+  // Exact left limits preserve step-animation teleports in continuous sweeps.
+  if (side === "left") {
+    for (const component of ["position", "rotation", "scale"] as const) {
+      const channel = entity.transform[component];
+      if (channel === undefined || !isKeyframedChannel(channel) || channel.interpolation !== "step") continue;
+      const index = channel.keyframes.findIndex((keyframe) => keyframe.t === timeSeconds);
+      if (index <= 0) continue;
+      const value = channel.keyframes[index - 1]!.value;
+      if (component === "rotation") sampled.rotation = normalizeQuat(value as Quat);
+      else sampled[component] = [...value] as Vec3;
+    }
+  }
+  return sampled;
 }
 
 function aabbFromPoints(points: Vec3[]): WorldAabbV1 {
@@ -261,7 +254,7 @@ function aabbFromPoints(points: Vec3[]): WorldAabbV1 {
   return { coordinateSpace: "world", min, max, center, size };
 }
 
-function worldAabbForBounds(bounds: BoundsV1, transform: SampledTransform): WorldAabbV1 {
+export function worldAabbForBounds(bounds: BoundsV1, transform: SampledTransform): WorldAabbV1 {
   if (bounds.type === "sphere") {
     const center = transformLocalPoint(bounds.center, transform);
     const radiusAxes = ([
@@ -362,7 +355,7 @@ export function sampleEnvironmentSubject(
   timeSeconds: number,
 ): SubjectBoxSampleV1 {
   const subject = resolveEnvironmentSubject(env, subjectId);
-  const transform = sampledEntityTransform(subject.entity, timeSeconds);
+  const transform = sampleEnvironmentEntityTransform(subject.entity, timeSeconds);
   const localBounds = subject.semanticAnchor?.localBounds ?? subject.entity.bounds;
   const box = localBounds ? worldAabbForBounds(localBounds, transform) : null;
   const center = subject.semanticAnchor

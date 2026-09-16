@@ -148,8 +148,8 @@
       {
         "kind": "interval",
         "shotStartTime": 0,
-        "startTime": 3,
-        "endTime": 6,
+        "startTime": 2.5,
+        "endTime": 5.5,
         "lossFunctions": [
           {
             "type": "arcMovement",
@@ -186,8 +186,8 @@
       {
         "kind": "interval",
         "shotStartTime": 0,
-        "startTime": 3,
-        "endTime": 6,
+        "startTime": 2.5,
+        "endTime": 5.5,
         "lossFunctions": [
           {
             "type": "noShake",
@@ -200,7 +200,7 @@
       {
         "kind": "point",
         "shotStartTime": 0,
-        "time": 6,
+        "time": 5.5,
         "lossFunctions": [
           {
             "type": "subjectView",
@@ -219,8 +219,8 @@
       {
         "kind": "interval",
         "shotStartTime": 0,
-        "startTime": 6,
-        "endTime": 11,
+        "startTime": 5.5,
+        "endTime": 10.5,
         "lossFunctions": [
           {
             "type": "followMovement",
@@ -250,8 +250,8 @@
       {
         "kind": "interval",
         "shotStartTime": 0,
-        "startTime": 6,
-        "endTime": 11,
+        "startTime": 5.5,
+        "endTime": 10.5,
         "lossFunctions": [
           {
             "type": "subjectPresence",
@@ -266,8 +266,8 @@
       {
         "kind": "interval",
         "shotStartTime": 0,
-        "startTime": 6,
-        "endTime": 11,
+        "startTime": 5.5,
+        "endTime": 10.5,
         "lossFunctions": [
           {
             "type": "noShake",
@@ -280,8 +280,8 @@
       {
         "kind": "interval",
         "shotStartTime": 0,
-        "startTime": 6,
-        "endTime": 11,
+        "startTime": 5.5,
+        "endTime": 10.5,
         "lossFunctions": [
           {
             "type": "dollyOutMovement",
@@ -311,7 +311,7 @@
       {
         "kind": "point",
         "shotStartTime": 0,
-        "time": 11,
+        "time": 10.5,
         "lossFunctions": [
           {
             "type": "framingPosition",
@@ -330,14 +330,14 @@
     ],
     "timeWarp": [
       {
-        "startTimePlayback": 3,
-        "endTimePlayback": 6,
+        "startTimePlayback": 2.5,
+        "endTimePlayback": 5.5,
         "rate": 0.1,
         "label": "verySlow"
       },
       {
-        "startTimePlayback": 6,
-        "endTimePlayback": 11,
+        "startTimePlayback": 5.5,
+        "endTimePlayback": 10.5,
         "rate": 1,
         "label": "normal"
       }

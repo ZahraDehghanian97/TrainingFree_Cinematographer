@@ -11,6 +11,7 @@ import { withKeyframeCuts } from "./shared/keyframes";
 import { buildOptimizationTimes, buildOutputTimes } from "./shared/time";
 import { solveNumerically } from "./solver/numerical-solver";
 import { ObjectiveEvaluator } from "./solver/objective";
+import { sceneReferenceScale } from "./scene/scene-scale";
 import { buildCameraTrajectory } from "./trajectory";
 import type {
   CameraOptimizerInput,
@@ -64,12 +65,14 @@ export function optimizeCameraTrajectory(input: CameraOptimizerInput): CameraOpt
       randomSeed: options.randomSeed,
       cutTimes: effectiveInput.timeline.cutTimes ?? [],
       minimumCameraY,
+      sceneScale: sceneReferenceScale(effectiveInput.environment),
     },
   );
   solved.states.forEach((state) =>
     clampToGroundClearance(state, effectiveInput, minimumCameraY),
   );
   const finalEvaluation = evaluator.evaluate(solved.states, true);
+  if (!Number.isFinite(finalEvaluation.total)) throw new Error("Optimizer produced a non-finite final objective");
   const mandatoryOutputTimes = [
     ...optimizationTimes.filter((time) => (effectiveInput.timeline.cutTimes ?? []).some(
       (cutTime) => Math.abs(cutTime - time) <= 1e-8,
@@ -102,6 +105,7 @@ export function optimizeCameraTrajectory(input: CameraOptimizerInput): CameraOpt
   const maximumSafetyViolationMeters = Math.max(
     evaluator.safetyViolation(solved.states), outputEvaluator.safetyViolation(outputStates),
   );
+  if (!Number.isFinite(maximumSafetyViolationMeters)) throw new Error("Optimizer produced non-finite output geometry");
   if (maximumSafetyViolationMeters > 1e-5) {
     warnings.push(`Camera clearance remains unsatisfied by up to ${maximumSafetyViolationMeters.toFixed(3)} m`);
   }

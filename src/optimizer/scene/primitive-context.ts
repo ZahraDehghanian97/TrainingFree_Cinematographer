@@ -4,6 +4,7 @@ import {
 } from "./subjects";
 import { subjectIdsFromParameters } from "../shared/parameter-values";
 import { playbackToSceneTime } from "../shared/time";
+import { motionProgress } from "../shared/motion-profiles";
 import type {
   CameraOptimizerInput,
   PrimitiveLoss,
@@ -29,7 +30,26 @@ export function findPrimitive(
   return primitives.find((primitive) => primitive.type === type && predicate(primitive));
 }
 
-/** Applies lead/follow timing in playback space before the scene time warp. */
+/** Share a reference clock across movement, composition, and visibility terms. */
+export function subjectTimingParameters(parameters: Record<string, unknown>): Record<string, unknown> {
+  const result: Record<string, unknown> = {};
+  for (const key of ["followDelay", "leadAmount", "subjectTimeProfile", "subjectMotionStartTime",
+    "subjectMotionEndTime", "subjectSpeedKeyframes"] as const) {
+    if (parameters[key] !== undefined) result[key] = parameters[key];
+  }
+  if (parameters.subjectTimeProfile === true) {
+    result.subjectMotionStartTime ??= parameters.motionStartTime;
+    result.subjectMotionEndTime ??= parameters.motionEndTime;
+    result.subjectSpeedKeyframes ??= parameters.speedKeyframes;
+  }
+  return result;
+}
+
+/**
+ * Follow/Track pacing reparameterizes the subject reference trajectory. Position
+ * and velocity then use the same reference, with no extra velocity multiplier.
+ * Lead/delay is applied afterwards, in playback time before the scene warp.
+ */
 export function primitivePlaybackTime(
   primitive: PrimitiveLoss,
   playbackTime: number,
@@ -40,7 +60,22 @@ export function primitivePlaybackTime(
   const followDelay = typeof primitive.parameters.followDelay === "number"
     ? Math.max(0, primitive.parameters.followDelay)
     : 0;
-  return Math.max(0, playbackTime + leadAmount - followDelay);
+  let referenceTime = playbackTime;
+  if (primitive.parameters.subjectTimeProfile === true) {
+    const start = Number(primitive.parameters.subjectMotionStartTime
+      ?? primitive.parameters.motionStartTime ?? primitive.startTime);
+    const end = Number(primitive.parameters.subjectMotionEndTime
+      ?? primitive.parameters.motionEndTime ?? primitive.endTime);
+    // Preserve the ordinary clock outside the authored movement. This also
+    // keeps reference time continuous at both endpoints of a positive profile.
+    if (end > start && playbackTime >= start && playbackTime <= end) {
+      referenceTime = start + (end - start) * motionProgress(
+        (playbackTime - start) / (end - start),
+        primitive.parameters.subjectSpeedKeyframes ?? primitive.parameters.speedKeyframes,
+      );
+    }
+  }
+  return Math.max(0, referenceTime + leadAmount - followDelay);
 }
 
 /** Converts a primitive's effective playback time into sampled scene time. */

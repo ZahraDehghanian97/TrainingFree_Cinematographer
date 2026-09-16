@@ -1,31 +1,16 @@
-import type { Quat } from "../../types/environment";
-import {
-  applyHardKeyframesToState,
-  indexHardKeyframesByState,
-  lockedKeyframeChannels,
-} from "../shared/keyframes";
-import { clamp, normalizeQuat } from "../shared/math";
-import { ObjectiveEvaluator } from "./objective";
-import { crossesCut } from "../shared/time";
-import type {
-  CameraStateSample,
-  UserCameraKeyframe,
-} from "../types";
-
-type StateComponent = 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7;
-
-interface VariableReference {
-  stateIndex: number;
-  component: StateComponent;
-}
+import { clamp } from "../shared/math";
+import type { CameraStateSample, UserCameraKeyframe } from "../types";
+import type { ObjectiveEvaluator } from "./objective";
+import { finiteCameraStates, StateCodec } from "./state-codec";
 
 export interface NumericalSolveResult {
   states: CameraStateSample[];
   initialLoss: number;
   finalLoss: number;
   iterations: number;
+  /** No stationarity certificate is computed by this derivative-free solver. */
   converged: boolean;
-  terminationReason: "converged" | "stalled" | "maxIterations" | "initialState";
+  terminationReason: "objectivePlateau" | "stalled" | "maxIterations" | "initialState";
 }
 
 interface NumericalSolveOptions {
@@ -33,167 +18,9 @@ interface NumericalSolveOptions {
   randomSeed: number;
   cutTimes?: readonly number[];
   minimumCameraY?: number;
-}
-
-function estimateSceneScale(states: readonly CameraStateSample[]): number {
-  const stepDistances = states.slice(1).map((state, index) => Math.hypot(
-    state.position[0] - states[index]!.position[0],
-    state.position[1] - states[index]!.position[1],
-    state.position[2] - states[index]!.position[2],
-  )).filter((value) => value > 1e-6).sort((a, b) => a - b);
-  if (stepDistances.length === 0) return 5;
-  return clamp(stepDistances[Math.floor(stepDistances.length / 2)]! * 8, 0.5, 50);
-}
-
-class StateCodec {
-  public readonly references: VariableReference[] = [];
-  private readonly sceneScale: number;
-  private readonly hardByState: Map<number, UserCameraKeyframe[]>;
-
-  public constructor(
-    private readonly template: readonly CameraStateSample[],
-    keyframes: readonly UserCameraKeyframe[],
-    private readonly minimumCameraY?: number,
-  ) {
-    this.sceneScale = estimateSceneScale(template);
-    this.hardByState = indexHardKeyframesByState(template, keyframes);
-    template.forEach((_state, stateIndex) => {
-      const locked = lockedKeyframeChannels(this.hardByState.get(stateIndex) ?? []);
-      if (!locked.has("position")) {
-        this.references.push(
-          { stateIndex, component: 0 },
-          { stateIndex, component: 1 },
-          { stateIndex, component: 2 },
-        );
-      }
-      if (!locked.has("rotation")) {
-        this.references.push(
-          { stateIndex, component: 3 },
-          { stateIndex, component: 4 },
-          { stateIndex, component: 5 },
-          { stateIndex, component: 6 },
-        );
-      }
-      if (!locked.has("fov")) this.references.push({ stateIndex, component: 7 });
-    });
-  }
-
-  private encodeValue(state: CameraStateSample, component: StateComponent): number {
-    switch (component) {
-      case 0: return state.position[0] / this.sceneScale;
-      case 1: return state.position[1] / this.sceneScale;
-      case 2: return state.position[2] / this.sceneScale;
-      case 3: return state.rotation[0];
-      case 4: return state.rotation[1];
-      case 5: return state.rotation[2];
-      case 6: return state.rotation[3];
-      case 7: return state.fovYDegrees / 45;
-    }
-  }
-
-  private decodeValue(state: CameraStateSample, component: StateComponent, value: number): void {
-    switch (component) {
-      case 0: state.position[0] = value * this.sceneScale; break;
-      case 1:
-        state.position[1] = this.minimumCameraY === undefined
-          ? value * this.sceneScale
-          : Math.max(value * this.sceneScale, this.minimumCameraY);
-        break;
-      case 2: state.position[2] = value * this.sceneScale; break;
-      case 3: state.rotation[0] = value; break;
-      case 4: state.rotation[1] = value; break;
-      case 5: state.rotation[2] = value; break;
-      case 6: state.rotation[3] = value; break;
-      case 7: state.fovYDegrees = clamp(value * 45, 8, 120); break;
-    }
-  }
-
-  public encode(states: readonly CameraStateSample[]): Float64Array {
-    return Float64Array.from(this.references.map((reference) =>
-      this.encodeValue(states[reference.stateIndex]!, reference.component),
-    ));
-  }
-
-  public decode(vector: Float64Array): CameraStateSample[] {
-    const states = this.template.map((state) => ({
-      time: state.time,
-      position: [...state.position] as [number, number, number],
-      rotation: [...state.rotation] as Quat,
-      fovYDegrees: state.fovYDegrees,
-    }));
-    this.references.forEach((reference, index) => {
-      this.decodeValue(states[reference.stateIndex]!, reference.component, vector[index]!);
-    });
-    for (const state of states) state.rotation = normalizeQuat(state.rotation);
-    for (const [stateIndex, keyframes] of this.hardByState) {
-      applyHardKeyframesToState(states[stateIndex]!, keyframes);
-    }
-    for (let index = 1; index < states.length; index += 1) {
-      const hardOrientation = (this.hardByState.get(index) ?? []).some(
-        (keyframe) => keyframe.rotation !== undefined || keyframe.lookAt !== undefined,
-      );
-      if (hardOrientation) continue;
-      const previous = states[index - 1]!.rotation;
-      const current = states[index]!.rotation;
-      const dot = previous[0] * current[0] + previous[1] * current[1]
-        + previous[2] * current[2] + previous[3] * current[3];
-      if (dot < 0) states[index]!.rotation = [-current[0], -current[1], -current[2], -current[3]];
-    }
-    return states;
-  }
-
-  /**
-   * Removes high-frequency noise from an optimizer step while retaining the
-   * same state variables. SPSA estimates every trajectory coordinate at once;
-   * without this temporal filter its random cross-talk appears as camera
-   * shake, even when the scalar objective improves.
-   */
-  public smoothDirection(
-    direction: Float64Array,
-    cutTimes: readonly number[],
-    passes = 2,
-  ): Float64Array {
-    const dimensionsByComponent = new Map<StateComponent, Map<number, number>>();
-    this.references.forEach((reference, dimension) => {
-      const dimensions = dimensionsByComponent.get(reference.component) ?? new Map<number, number>();
-      dimensions.set(reference.stateIndex, dimension);
-      dimensionsByComponent.set(reference.component, dimensions);
-    });
-
-    let filtered = new Float64Array(direction);
-    for (let pass = 0; pass < passes; pass += 1) {
-      const next = new Float64Array(filtered);
-      this.references.forEach((reference, dimension) => {
-        const componentDimensions = dimensionsByComponent.get(reference.component)!;
-        const leftDimension = componentDimensions.get(reference.stateIndex - 1);
-        const rightDimension = componentDimensions.get(reference.stateIndex + 1);
-        const state = this.template[reference.stateIndex]!;
-        const hasLeft = leftDimension !== undefined
-          && !crossesCut(
-            this.template[reference.stateIndex - 1]!.time,
-            state.time,
-            cutTimes,
-          );
-        const hasRight = rightDimension !== undefined
-          && !crossesCut(
-            state.time,
-            this.template[reference.stateIndex + 1]!.time,
-            cutTimes,
-          );
-        if (hasLeft && hasRight) {
-          next[dimension] = 0.25 * filtered[leftDimension]!
-            + 0.5 * filtered[dimension]!
-            + 0.25 * filtered[rightDimension]!;
-        } else if (hasLeft) {
-          next[dimension] = 0.25 * filtered[leftDimension]! + 0.75 * filtered[dimension]!;
-        } else if (hasRight) {
-          next[dimension] = 0.75 * filtered[dimension]! + 0.25 * filtered[rightDimension]!;
-        }
-      });
-      filtered = next;
-    }
-    return filtered;
-  }
+  /** Physical reference length in meters, independent of temporal grid spacing. */
+  sceneScale?: number;
+  timeSmoothingSeconds?: number;
 }
 
 function xorshift32(seed: number): () => number {
@@ -212,29 +39,46 @@ function copyVector(vector: Float64Array): Float64Array {
 
 /**
  * Deterministic simultaneous-perturbation Adam with monotone backtracking.
- * It is dependency-free and keeps objective evaluation count independent of
- * the number of trajectory variables.
+ * The SPSA gradient uses four objective evaluations regardless of dimension;
+ * the bounded coordinate fallback below requires up to four per variable.
+ * Rotation steps are retracted onto SO(3), then their local chart is recentered.
  */
 export function solveNumerically(
   initialStates: readonly CameraStateSample[],
   userKeyframes: readonly UserCameraKeyframe[],
-  evaluator: ObjectiveEvaluator,
+  evaluator: Pick<ObjectiveEvaluator, "evaluate" | "safetyViolation">,
   options: NumericalSolveOptions,
 ): NumericalSolveResult {
-  const codec = new StateCodec(initialStates, userKeyframes, options.minimumCameraY);
+  const cutTimes = [
+    ...(options.cutTimes ?? []),
+    ...userKeyframes.filter((keyframe) => keyframe.cutBefore).map((keyframe) => keyframe.time),
+  ];
+  const codec = new StateCodec(initialStates, userKeyframes, { ...options, cutTimes });
   let vector = codec.encode(initialStates);
   let states = codec.decode(vector);
-  const initialLoss = evaluator.evaluate(states, false).total;
-  let safetyLimit = Math.max(1e-6, evaluator.safetyViolation(states));
-  const respectsSafety = (candidate: readonly CameraStateSample[]): boolean =>
-    evaluator.safetyViolation(candidate) <= safetyLimit;
+  const finiteLoss = (candidate: readonly CameraStateSample[]): number => {
+    if (!finiteCameraStates(candidate)) return Infinity;
+    const loss = evaluator.evaluate(candidate, false).total;
+    return Number.isFinite(loss) ? loss : Infinity;
+  };
+  const initialLoss = finiteLoss(states);
+  const initialSafetyViolation = evaluator.safetyViolation(states);
+  if (!Number.isFinite(initialLoss) || !Number.isFinite(initialSafetyViolation)) {
+    throw new Error("Numerical solver requires a finite initial objective and safety violation");
+  }
+  vector = codec.rebase(states);
+  let safetyLimit = Math.max(1e-6, initialSafetyViolation);
+  const respectsSafety = (candidate: readonly CameraStateSample[]): boolean => {
+    const violation = evaluator.safetyViolation(candidate);
+    return Number.isFinite(violation) && violation <= safetyLimit;
+  };
   if (options.iterations <= 0 || codec.references.length === 0) {
     return {
       states,
       initialLoss,
       finalLoss: initialLoss,
       iterations: 0,
-      converged: codec.references.length === 0,
+      converged: false,
       terminationReason: "initialState",
     };
   }
@@ -244,11 +88,12 @@ export function solveNumerically(
   const secondMoment = new Float64Array(vector.length);
   let currentLoss = initialLoss;
   let bestLoss = initialLoss;
-  let bestVector = copyVector(vector);
+  let bestStates = states;
   let learningRate = 0.04;
   let rejectedIterations = 0;
   let smallImprovementIterations = 0;
   let completedIterations = 0;
+  let momentUpdates = 0;
   let terminationReason: NumericalSolveResult["terminationReason"] = "maxIterations";
   const perturbationsPerIteration = 2;
 
@@ -256,6 +101,7 @@ export function solveNumerically(
     completedIterations = iteration;
     const perturbationSize = 0.025 / Math.pow(iteration, 0.101);
     const gradient = new Float64Array(vector.length);
+    let validPerturbations = 0;
     for (let sample = 0; sample < perturbationsPerIteration; sample += 1) {
       const delta = new Float64Array(vector.length);
       const plus = copyVector(vector);
@@ -265,24 +111,42 @@ export function solveNumerically(
         plus[dimension] += perturbationSize * delta[dimension]!;
         minus[dimension] -= perturbationSize * delta[dimension]!;
       }
-      const plusLoss = evaluator.evaluate(codec.decode(plus), false).total;
-      const minusLoss = evaluator.evaluate(codec.decode(minus), false).total;
-      const scale = (plusLoss - minusLoss) / (2 * perturbationSize * perturbationsPerIteration);
+      const plusLoss = finiteLoss(codec.decode(plus));
+      const minusLoss = finiteLoss(codec.decode(minus));
+      // Never feed NaN/Infinity into Adam's persistent moments. A nonfinite
+      // two-sided probe is discarded rather than converted into a direction.
+      if (!Number.isFinite(plusLoss) || !Number.isFinite(minusLoss)) continue;
+      const scale = (plusLoss - minusLoss) / (2 * perturbationSize);
+      if (!Number.isFinite(scale)) continue;
+      validPerturbations += 1;
       for (let dimension = 0; dimension < gradient.length; dimension += 1) {
         gradient[dimension] += scale * delta[dimension]!;
       }
     }
 
+    if (validPerturbations === 0 || !gradient.every(Number.isFinite)) {
+      rejectedIterations += 1;
+      smallImprovementIterations = 0;
+      if (rejectedIterations >= 12) {
+        terminationReason = "stalled";
+        break;
+      }
+      continue;
+    }
+    for (let dimension = 0; dimension < gradient.length; dimension += 1) {
+      gradient[dimension] /= validPerturbations;
+    }
     const beta1 = 0.9;
     const beta2 = 0.999;
+    momentUpdates += 1;
     let direction = new Float64Array(vector.length);
     let maximumDirection = 0;
     for (let dimension = 0; dimension < vector.length; dimension += 1) {
       const value = clamp(gradient[dimension]!, -1e4, 1e4);
       firstMoment[dimension] = beta1 * firstMoment[dimension]! + (1 - beta1) * value;
       secondMoment[dimension] = beta2 * secondMoment[dimension]! + (1 - beta2) * value * value;
-      const correctedFirst = firstMoment[dimension]! / (1 - Math.pow(beta1, iteration));
-      const correctedSecond = secondMoment[dimension]! / (1 - Math.pow(beta2, iteration));
+      const correctedFirst = firstMoment[dimension]! / (1 - Math.pow(beta1, momentUpdates));
+      const correctedSecond = secondMoment[dimension]! / (1 - Math.pow(beta2, momentUpdates));
       direction[dimension] = correctedFirst / (Math.sqrt(correctedSecond) + 1e-8);
       maximumDirection = Math.max(maximumDirection, Math.abs(direction[dimension]!));
     }
@@ -295,7 +159,7 @@ export function solveNumerically(
       }
       continue;
     }
-    direction = new Float64Array(codec.smoothDirection(direction, options.cutTimes ?? []));
+    direction = new Float64Array(codec.smoothDirection(direction));
     maximumDirection = 0;
     for (const value of direction) maximumDirection = Math.max(maximumDirection, Math.abs(value));
     const directionScale = maximumDirection > 1 ? 1 / maximumDirection : 1;
@@ -308,11 +172,11 @@ export function solveNumerically(
         candidate[dimension] -= step * directionScale * direction[dimension]!;
       }
       const candidateStates = codec.decode(candidate);
-      const candidateLoss = evaluator.evaluate(candidateStates, false).total;
+      const candidateLoss = finiteLoss(candidateStates);
       if (Number.isFinite(candidateLoss) && candidateLoss < currentLoss - Math.max(1e-9, currentLoss * 1e-9)
         && respectsSafety(candidateStates)) {
-        vector = candidate;
         states = candidateStates;
+        vector = codec.rebase(states);
         safetyLimit = Math.max(1e-6, evaluator.safetyViolation(candidateStates));
         const relativeImprovement = (currentLoss - candidateLoss) / Math.max(1, Math.abs(currentLoss));
         currentLoss = candidateLoss;
@@ -320,7 +184,7 @@ export function solveNumerically(
         learningRate = Math.min(0.08, step * 1.08);
         if (candidateLoss < bestLoss) {
           bestLoss = candidateLoss;
-          bestVector = copyVector(candidate);
+          bestStates = candidateStates;
         }
         rejectedIterations = 0;
         smallImprovementIterations = relativeImprovement < 1e-7
@@ -336,7 +200,7 @@ export function solveNumerically(
       smallImprovementIterations = 0;
     }
     if (smallImprovementIterations >= 12) {
-      terminationReason = "converged";
+      terminationReason = "objectivePlateau";
       break;
     }
     if (rejectedIterations >= 18) {
@@ -350,48 +214,49 @@ export function solveNumerically(
   // deterministic coordinate sweep. This path is intentionally rare and
   // keeps the same monotone/best-state guarantee.
   if (bestLoss >= initialLoss - Math.max(1e-9, Math.abs(initialLoss) * 1e-10)) {
-    let fallbackVector = copyVector(bestVector);
+    let fallbackVector = codec.rebase(bestStates);
     let fallbackLoss = bestLoss;
     for (const coordinateStep of [0.025, 0.008]) {
       let acceptedInSweep = 0;
       for (let dimension = 0; dimension < fallbackVector.length; dimension += 1) {
         let dimensionBest = fallbackLoss;
-        let dimensionVector: Float64Array | undefined;
+        let dimensionStates: CameraStateSample[] | undefined;
+        let dimensionSafety = safetyLimit;
         for (const sign of [-1, 1]) {
           const candidate = copyVector(fallbackVector);
           candidate[dimension] += sign * coordinateStep;
           const candidateStates = codec.decode(candidate);
-          const candidateLoss = evaluator.evaluate(candidateStates, false).total;
+          const candidateLoss = finiteLoss(candidateStates);
           if (
             Number.isFinite(candidateLoss)
             && candidateLoss < dimensionBest - Math.max(1e-9, Math.abs(dimensionBest) * 1e-10)
             && respectsSafety(candidateStates)
           ) {
             dimensionBest = candidateLoss;
-            dimensionVector = candidate;
-            safetyLimit = Math.max(1e-6, evaluator.safetyViolation(candidateStates));
+            dimensionStates = candidateStates;
+            dimensionSafety = Math.max(1e-6, evaluator.safetyViolation(candidateStates));
           }
         }
-        if (dimensionVector) {
-          fallbackVector = dimensionVector;
+        if (dimensionStates) {
+          fallbackVector = codec.rebase(dimensionStates);
+          bestStates = dimensionStates;
+          safetyLimit = dimensionSafety;
           fallbackLoss = dimensionBest;
           acceptedInSweep += 1;
         }
       }
       if (acceptedInSweep === 0) continue;
-      bestVector = copyVector(fallbackVector);
       bestLoss = fallbackLoss;
     }
   }
 
-  states = codec.decode(bestVector);
-  const converged = terminationReason === "converged";
+  states = bestStates;
   return {
     states,
     initialLoss,
     finalLoss: bestLoss,
     iterations: completedIterations,
-    converged,
+    converged: false,
     terminationReason,
   };
 }

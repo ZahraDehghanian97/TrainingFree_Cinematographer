@@ -1,4 +1,5 @@
 import type { Keyframe, Quat, Vec3 } from "../../src/types/environment";
+import { interpolateCubicVec3 } from "../../src/environment/cubic-channel";
 
 export type Vec3Interpolation = "step" | "linear" | "catmullRom";
 
@@ -109,23 +110,6 @@ export function findKeyframeInterval<T>(
   };
 }
 
-function catmullRomComponent(
-  p0: number,
-  p1: number,
-  p2: number,
-  p3: number,
-  alpha: number,
-): number {
-  const alpha2 = alpha * alpha;
-  const alpha3 = alpha2 * alpha;
-  return 0.5 * (
-    2 * p1
-    + (-p0 + p2) * alpha
-    + (2 * p0 - 5 * p1 + 4 * p2 - p3) * alpha2
-    + (-p0 + 3 * p1 - 3 * p2 + p3) * alpha3
-  );
-}
-
 export function sampleVec3Keyframes(
   keyframes: readonly Keyframe<Vec3>[],
   timeSeconds: number,
@@ -141,13 +125,7 @@ export function sampleVec3Keyframes(
     return lerpVec3(left, right, interval.alpha);
   }
 
-  const p0 = keyframes[Math.max(0, interval.leftIndex - 1)].value;
-  const p3 = keyframes[Math.min(keyframes.length - 1, interval.rightIndex + 1)].value;
-  return [
-    catmullRomComponent(p0[0], left[0], right[0], p3[0], interval.alpha),
-    catmullRomComponent(p0[1], left[1], right[1], p3[1], interval.alpha),
-    catmullRomComponent(p0[2], left[2], right[2], p3[2], interval.alpha),
-  ];
+  return interpolateCubicVec3(keyframes, interval.leftIndex, interval.rightIndex, interval.alpha);
 }
 
 export function sampleQuatKeyframes(
@@ -162,4 +140,3 @@ export function sampleQuatKeyframes(
   }
   return slerpQuat(left, keyframes[interval.rightIndex].value, interval.alpha);
 }
-

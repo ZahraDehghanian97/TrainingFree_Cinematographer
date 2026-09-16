@@ -15,7 +15,7 @@
         "kind": "interval",
         "shotStartTime": 0,
         "startTime": 0,
-        "endTime": 6.866666666666666,
+        "endTime": 7,
         "lossFunctions": [
           {
             "type": "followMovement",
@@ -31,7 +31,7 @@
         "kind": "interval",
         "shotStartTime": 0,
         "startTime": 0,
-        "endTime": 6.866666666666666,
+        "endTime": 7,
         "lossFunctions": [
           {
             "type": "subjectPresence",
@@ -46,7 +46,7 @@
       {
         "kind": "interval",
         "shotStartTime": 0,
-        "startTime": 6.866666666666666,
+        "startTime": 7,
         "endTime": 12,
         "lossFunctions": [
           {
@@ -62,7 +62,7 @@
       {
         "kind": "interval",
         "shotStartTime": 0,
-        "startTime": 6.866666666666666,
+        "startTime": 7,
         "endTime": 12,
         "lossFunctions": [
           {
@@ -91,12 +91,12 @@
     "timeWarp": [
       {
         "startTimePlayback": 0,
-        "endTimePlayback": 6.866666666666666,
+        "endTimePlayback": 7,
         "rate": 0.1,
         "label": "verySlow"
       },
       {
-        "startTimePlayback": 6.866666666666666,
+        "startTimePlayback": 7,
         "endTimePlayback": 12,
         "rate": 4,
         "label": "veryFast"

@@ -125,6 +125,15 @@ export function assertCoordinateSystemV1(
   expectLiteral(coordinates.cameraForwardAxis, "-Z", `${path}.cameraForwardAxis`);
   expectLiteral(coordinates.lengthUnit, "meter", `${path}.lengthUnit`);
   expectLiteral(coordinates.rotationOrder, "quaternion-xyzw", `${path}.rotationOrder`);
+  if (coordinates.metricScale !== undefined) {
+    const scale = expectObject(coordinates.metricScale, `${path}.metricScale`);
+    expectOneOf(scale.status, ["calibrated", "relative"] as const, `${path}.metricScale.status`);
+    if (scale.metersPerUnit !== undefined) {
+      expectPositiveNumber(scale.metersPerUnit, `${path}.metricScale.metersPerUnit`);
+      if (scale.status === "relative") fail(`${path}.metricScale.metersPerUnit`, "relative scale has no calibrated meter conversion", "invalid-scale");
+      if (scale.metersPerUnit !== 1) fail(`${path}.metricScale.metersPerUnit`, "canonical coordinates must already be converted to meters", "invalid-scale");
+    }
+  }
 }
 
 function assertStrictTimes(

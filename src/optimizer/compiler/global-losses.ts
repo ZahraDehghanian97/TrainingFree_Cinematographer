@@ -2,6 +2,7 @@ import { DEFAULT_GLOBAL_LOSSES } from "../config/defaults";
 import { subjectIdsFromParameters } from "../shared/parameter-values";
 import type { CameraOptimizerInput, OptimizerWeights, PrimitiveLoss } from "../types";
 import type { PrimitiveDescriptor } from "./types";
+import { subjectTimingParameters } from "../scene/primitive-context";
 
 export interface WeightedPrimitiveDescriptor {
   descriptor: PrimitiveDescriptor;
@@ -9,6 +10,7 @@ export interface WeightedPrimitiveDescriptor {
   /** Omitted for whole-trajectory regularizers. */
   startTime?: number;
   endTime?: number;
+  normalizationDuration?: number;
 }
 
 function subjectScope(primitive: PrimitiveLoss, subjectId: string) {
@@ -18,14 +20,13 @@ function subjectScope(primitive: PrimitiveLoss, subjectId: string) {
     subjectId,
     ...(pointTime === undefined ? {} : { pointTime }),
     ...(p.easing === undefined ? {} : { easing: p.easing }),
-    ...(p.followDelay === undefined ? {} : { followDelay: p.followDelay }),
-    ...(p.leadAmount === undefined ? {} : { leadAmount: p.leadAmount }),
+    ...subjectTimingParameters(p),
   };
   return {
     parameters,
     key: JSON.stringify([
       subjectId, primitive.startTime, primitive.endTime, pointTime,
-      p.easing, p.followDelay ?? 0, p.leadAmount ?? 0,
+      p.easing, subjectTimingParameters(p),
     ]),
   };
 }
@@ -63,6 +64,7 @@ function scopedOcclusionDescriptors(
         },
         startTime: primitive.startTime,
         endTime: primitive.endTime,
+        normalizationDuration: primitive.normalizationDuration ?? primitive.endTime - primitive.startTime,
         weight,
       });
     }
