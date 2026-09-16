@@ -104,6 +104,13 @@ export function buildOptimizationTimes(
     .filter((time) => time >= 0 && time <= duration));
 }
 
+/** Required polynomial/keyframe times win over nearby optional sampling times. */
+export function preserveMandatoryTimes(values: readonly number[], mandatoryTimes: readonly number[]): number[] {
+  const required = sortedUnique([...mandatoryTimes]);
+  return sortedUnique([...required, ...values.filter((time) =>
+    !required.some((knot) => Math.abs(knot - time) <= 1e-9))]);
+}
+
 export function buildOutputTimes(
   durationSeconds: number,
   outputFps: number,
@@ -116,7 +123,7 @@ export function buildOutputTimes(
   const uniform = Array.from({ length: count + 1 }, (_, index) =>
     index === count ? durationSeconds : index / outputFps,
   );
-  return sortedUnique([...uniform, ...mandatoryTimes].map((time) => clamp(time, 0, durationSeconds)));
+  return preserveMandatoryTimes(uniform, mandatoryTimes.map((time) => clamp(time, 0, durationSeconds)));
 }
 
 export function intervalIndices(times: readonly number[], startTime: number, endTime: number): number[] {

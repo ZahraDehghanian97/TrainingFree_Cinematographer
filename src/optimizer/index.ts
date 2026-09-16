@@ -74,9 +74,8 @@ export function optimizeCameraTrajectory(input: CameraOptimizerInput): CameraOpt
   const finalEvaluation = evaluator.evaluate(solved.states, true);
   if (!Number.isFinite(finalEvaluation.total)) throw new Error("Optimizer produced a non-finite final objective");
   const mandatoryOutputTimes = [
-    ...optimizationTimes.filter((time) => (effectiveInput.timeline.cutTimes ?? []).some(
-      (cutTime) => Math.abs(cutTime - time) <= 1e-8,
-    )),
+    // Every polynomial boundary must survive export, even below optimization FPS.
+    ...optimizationTimes,
     ...(effectiveInput.userKeyframes ?? []).map((keyframe) => keyframe.time),
   ];
   const outputTimes = buildOutputTimes(
@@ -97,8 +96,10 @@ export function optimizeCameraTrajectory(input: CameraOptimizerInput): CameraOpt
   const outputStates = trajectory.samples.map((sample) => ({
     time: sample.t, position: sample.position, rotation: sample.rotation!,
     fovYDegrees: sample.fovYDegrees!,
+    positionVelocity: sample.positionVelocity,
+    positionAcceleration: sample.positionAcceleration,
   }));
-  const outputEvaluator = new ObjectiveEvaluator(effectiveInput, plan, outputTimes, {
+  const outputEvaluator = new ObjectiveEvaluator(effectiveInput, plan, outputStates.map((state) => state.time), {
     aspectRatio: options.aspectRatio, cameraRadius: options.cameraRadius,
     collisionMargin: options.collisionMargin, nearPlane: options.nearPlane,
   });

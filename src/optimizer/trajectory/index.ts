@@ -12,9 +12,8 @@ import {
   dot3,
   normalizeQuat,
   scale3,
-  sub3,
 } from "../shared/math";
-import { crossesCut } from "../shared/time";
+import { crossesCut, preserveMandatoryTimes } from "../shared/time";
 import { fovDegreesToLogFocal, logFocalToFovDegrees } from "../shared/lens";
 import type {
   CameraOptimizerInput,
@@ -27,6 +26,8 @@ import {
   interpolateRotationWithVelocities,
 } from "./interpolation";
 import { DEFAULT_OPTIONS } from "../config/defaults";
+import { createCameraPositionCurve, type CameraPositionCurve } from "./position-curve";
+export { createCameraPositionCurve } from "./position-curve";
 
 export const CANONICAL_COORDINATES: CoordinateSystemV1 = {
   handedness: "right",
@@ -99,18 +100,14 @@ function sampleTangent(
   states: readonly CameraStateSample[],
   index: number,
   cutTimes: readonly number[],
-): { position: Vec3; angularVelocity: Vec3; logFocal: number } {
+): { angularVelocity: Vec3; logFocal: number } {
   const { current, previous, next } = tangentNeighbors(states, index, cutTimes);
   // The interval immediately before a cut holds its last pre-cut sample.
   if (!next && index + 1 < states.length) {
-    return { position: [0, 0, 0], angularVelocity: [0, 0, 0], logFocal: 0 };
+    return { angularVelocity: [0, 0, 0], logFocal: 0 };
   }
   const previousSpan = previous ? Math.max(1e-9, current.time - previous.time) : 0;
   const nextSpan = next ? Math.max(1e-9, next.time - current.time) : 0;
-  const previousPosition = previous
-    ? scale3(sub3(current.position, previous.position), 1 / previousSpan) : undefined;
-  const nextPosition = next
-    ? scale3(sub3(next.position, current.position), 1 / nextSpan) : undefined;
   const previousRotation = previous
     ? angularVelocity(previous.rotation, current.rotation, previousSpan) : undefined;
   const nextRotation = next
@@ -122,17 +119,12 @@ function sampleTangent(
       (nextSpan * value + previousSpan * outgoing[component]!) / (previousSpan + nextSpan),
     ) as Vec3;
   };
-  const position = average(previousPosition, nextPosition);
-  position[1] = monotoneTangent(
-    previousPosition?.[1], nextPosition?.[1], previousSpan, nextSpan,
-  );
   let rotation = average(previousRotation, nextRotation);
   // Stop at reversals that would otherwise start a segment rotating away from
   // its endpoint. Limit once per knot so both adjacent segments share a rate.
   if ((previousRotation && dot3(rotation, previousRotation) < 0)
     || (nextRotation && dot3(rotation, nextRotation) < 0)) rotation = [0, 0, 0];
   return {
-    position: limitTangent(position, previousPosition, nextPosition),
     angularVelocity: limitTangent(rotation, previousRotation, nextRotation),
     logFocal: monotoneTangent(
       previous ? (fovDegreesToLogFocal(current.fovYDegrees) - fovDegreesToLogFocal(previous.fovYDegrees)) / previousSpan : undefined,
@@ -148,6 +140,7 @@ function interpolateState(
   time: number,
   cutTimes: readonly number[],
   tangents: readonly ReturnType<typeof sampleTangent>[],
+  positionCurve: CameraPositionCurve,
 ): CameraStateSample {
   const [leftIndex, rightIndex, alpha] = bracket(states, time);
   const left = states[leftIndex]!;
@@ -171,14 +164,7 @@ function interpolateState(
   const rightTangent = tangents[rightIndex]!;
   return {
     time,
-    position: left.position.map((value, component) => cubicHermite(
-      value,
-      right.position[component]!,
-      leftTangent.position[component]!,
-      rightTangent.position[component]!,
-      span,
-      alpha,
-    )) as Vec3,
+    position: positionCurve.sample(time).position,
     rotation: interpolateRotationWithVelocities(
       left.rotation,
       right.rotation,
@@ -202,21 +188,8 @@ export function createCameraPositionSampler(
   states: readonly CameraStateSample[],
   cutTimes: readonly number[],
 ): (time: number) => Vec3 {
-  const tangents = states.map((_, index) => sampleTangent(states, index, cutTimes).position);
-  return (time) => {
-    const [leftIndex, rightIndex, alpha] = bracket(states, time);
-    const left = states[leftIndex]!;
-    const right = states[rightIndex]!;
-    if (leftIndex === rightIndex || crossesCut(left.time, right.time, cutTimes)) return left.position;
-    return left.position.map((value, component) => cubicHermite(
-      value,
-      right.position[component]!,
-      tangents[leftIndex]![component]!,
-      tangents[rightIndex]![component]!,
-      right.time - left.time,
-      alpha,
-    )) as Vec3;
-  };
+  const curve = createCameraPositionCurve(states, cutTimes);
+  return (time) => curve.sample(time).position;
 }
 
 function sourceActionAt(plan: CompiledLossPlan, time: number): string | undefined {
@@ -239,7 +212,7 @@ export function buildCameraTrajectory(
   outputTimes: readonly number[],
   nearPlane: number,
   farPlane: number,
-  minimumCameraY?: number,
+  _minimumCameraY?: number,
 ): CameraTrajectoryV1 {
   const userKeyframes = input.userKeyframes ?? [];
   const cutTimes = [
@@ -247,20 +220,23 @@ export function buildCameraTrajectory(
     ...userKeyframes.filter((keyframe) => keyframe.cutBefore).map((keyframe) => keyframe.time),
   ];
   const tangents = optimizedStates.map((_, index) => sampleTangent(optimizedStates, index, cutTimes));
-  const samples: CameraSampleV1[] = outputTimes.map((time) => {
-    const state = interpolateState(optimizedStates, time, cutTimes, tangents);
+  const positionCurve = createCameraPositionCurve(optimizedStates, cutTimes);
+  const sampleTimes = preserveMandatoryTimes(outputTimes,
+    [...optimizedStates.map((state) => state.time), ...userKeyframes.map((keyframe) => keyframe.time)]);
+  const samples: CameraSampleV1[] = sampleTimes.map((time) => {
+    const state = interpolateState(optimizedStates, time, cutTimes, tangents, positionCurve);
     applyHardKeyframesToState(state, hardKeyframesAtTime(userKeyframes, state.time));
-    const hasHardPosition = hardKeyframesAtTime(userKeyframes, state.time).some(
-      (keyframe) => keyframe.position !== undefined,
-    );
-    if (minimumCameraY !== undefined && !hasHardPosition) {
-      state.position[1] = Math.max(state.position[1], minimumCameraY);
-    }
+    // The curve's Bernstein height bounds preserve knot clearance. Clamping
+    // resampled points here would change that curve and break its C2 contract;
+    // hard-keyframe conflicts instead remain visible in safety diagnostics.
+    const jet = positionCurve.sample(time);
     const sample: CameraSampleV1 = {
       t: time,
       position: [...state.position] as Vec3,
       rotation: normalizeQuat(state.rotation) as Quat,
       fovYDegrees: state.fovYDegrees,
+      positionVelocity: jet.velocity,
+      positionAcceleration: jet.acceleration,
       ...(hasTime(cutTimes, time) && time > 0 ? { cutBefore: true } : {}),
     };
     const actionId = sourceActionAt(plan, time);
@@ -295,6 +271,7 @@ export function buildCameraTrajectory(
       far: farPlane,
     },
     orientation: { mode: "quaternion" },
+    interpolation: { position: "quinticHermite" },
     ...(input.timeline.timeWarp.length > 0 ? {
       playback: {
         rateSegments: input.timeline.timeWarp.map((segment) => ({

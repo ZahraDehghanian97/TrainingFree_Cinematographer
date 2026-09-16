@@ -360,12 +360,17 @@ export function descriptorsForLoss(context: CompileBandContext): PrimitiveDescri
     case LossFunctionType.FramingPosition: {
       const target = typeof p.position === "string" ? FRAMING_TARGETS[p.position] : undefined;
       if (!target) return [];
+      const region = context.semanticTargets?.framingRegions?.[String(p.position)];
       return [
         {
           type: "screenPosition",
           channel: "composition",
           role: "primary",
-          parameters: { target, ...subjects },
+          parameters: {
+            target: region ? [(region.x[0] + region.x[1]) / 2, (region.y[0] + region.y[1]) / 2] : target,
+            ...(region ? { targetRegion: { x: [...region.x], y: [...region.y] } } : {}),
+            ...subjects,
+          },
           weightScale: 3,
         },
       ];
@@ -384,12 +389,18 @@ export function descriptorsForLoss(context: CompileBandContext): PrimitiveDescri
     case LossFunctionType.ShotSize: {
       const coverage = typeof p.shotSize === "string" ? SHOT_SIZE_COVERAGE[p.shotSize] : undefined;
       if (coverage === undefined) return [];
+      const range = context.semanticTargets?.shotSizeCoverage?.[String(p.shotSize)];
       return [
         {
           type: "screenScale",
           channel: "composition",
           role: "primary",
-          parameters: { targetCoverage: coverage, ...subjects },
+          parameters: {
+            // Midpoints seed the camera only; the objective uses the full range.
+            targetCoverage: range ? (range[0] + range[1]) / 2 : coverage,
+            ...(range ? { coverageRange: [...range] } : {}),
+            ...subjects,
+          },
         },
       ];
     }

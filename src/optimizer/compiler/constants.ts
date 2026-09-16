@@ -53,6 +53,7 @@ export const YAW_PITCH_TARGETING_TYPES: ReadonlySet<LossFunctionType> = new Set(
   LossFunctionType.ArcMovement,
 ]);
 
+/** Authored composition prototypes, not calibrated perceptual laws. */
 export const FRAMING_TARGETS: Record<string, [number, number]> = {
   topLeft: [0.25, 0.25],
   top: [0.5, 0.25],
@@ -65,6 +66,7 @@ export const FRAMING_TARGETS: Record<string, [number, number]> = {
   bottomRight: [0.75, 0.75],
 };
 
+/** Authored coverage prototypes; optional semantic ranges can replace exact targets. */
 export const SHOT_SIZE_COVERAGE: Record<string, number> = {
   extremeCloseUp: 0.9,
   closeUp: 0.7,

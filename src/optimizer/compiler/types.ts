@@ -4,6 +4,7 @@ import type {
   PrimitiveLoss,
   PrimitiveLossType,
   PrimitiveRole,
+  SemanticTargetOptions,
 } from "../types";
 
 export interface CompileBandContext {
@@ -12,6 +13,7 @@ export interface CompileBandContext {
   sourceStartTime: number;
   sourceEndTime: number;
   loss: LossFunction;
+  semanticTargets?: SemanticTargetOptions;
 }
 
 export interface ActiveLossSpan {
@@ -37,6 +39,7 @@ export interface PrimitiveDescriptor {
   role: PrimitiveRole;
   parameters?: Record<string, unknown>;
   weightScale?: number;
+  /** Residual normalization scale, expressed in the residual's physical units. */
   tolerance?: number;
 }
 

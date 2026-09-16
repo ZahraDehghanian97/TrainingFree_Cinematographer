@@ -9,6 +9,7 @@ import {
   resolveEnvironmentSubject,
   sampleEnvironmentSubject,
 } from "./sampler";
+import { createEnvironmentSubjectVelocitySampler, subjectVelocitySampleRadius } from "./subject-velocity";
 
 const DEFAULT_VALUE_TOLERANCE = 1e-7;
 const MAX_SCAN_INTERVALS = 100_000;
@@ -29,26 +30,6 @@ function assertFinite(value: number, name: string, nonNegative = false): void {
   if (!Number.isFinite(value) || (nonNegative && value < 0)) {
     throw new Error(`${name} must be a finite ${nonNegative ? "non-negative " : ""}number`);
   }
-}
-
-function velocitySampleRadius(environment: EnvironmentV1): number {
-  const fps = Math.max(environment.clock.fpsHint ?? 24, 24);
-  return Math.min(1 / (fps * 4), Math.max(environment.clock.durationSeconds / 10_000, 1e-4));
-}
-
-/** Use the same centered finite difference as the environment speed queries. */
-function subjectVelocity(environment: EnvironmentV1, subjectId: string, timeSeconds: number): Vec3 {
-  const radius = velocitySampleRadius(environment);
-  const left = Math.max(0, timeSeconds - radius);
-  const right = Math.min(environment.clock.durationSeconds, timeSeconds + radius);
-  if (right <= left) return [0, 0, 0];
-  const from = sampleEnvironmentSubject(environment, subjectId, left).center;
-  const to = sampleEnvironmentSubject(environment, subjectId, right).center;
-  return [
-    (to[0] - from[0]) / (right - left),
-    (to[1] - from[1]) / (right - left),
-    (to[2] - from[2]) / (right - left),
-  ];
 }
 
 /**
@@ -102,6 +83,7 @@ function createEventPredicate(trigger: EventTrigger, environment: EnvironmentV1)
     assertFinite(threshold, "Velocity threshold", trigger.direction === undefined);
     const subjectId = resolvedTargetId(trigger.subject);
     subjectIds = [subjectId];
+    const sampleVelocity = createEnvironmentSubjectVelocitySampler(environment, subjectId);
     let direction: Vec3 | undefined;
     if (trigger.direction !== undefined) {
       const { x, y, z } = trigger.direction;
@@ -112,7 +94,11 @@ function createEventPredicate(trigger: EventTrigger, environment: EnvironmentV1)
       direction = [x / length, y / length, z / length];
     }
     valueAt = (timeSeconds) => {
-      const velocity = subjectVelocity(environment, subjectId, timeSeconds);
+      const sampled = sampleVelocity(timeSeconds);
+      // A position step has no finite instantaneous speed. NaN makes every
+      // comparator, including notEqual, false; a teleport is not a speed event.
+      if (sampled.kind === "positionJump") return NaN;
+      const velocity = sampled.velocity;
       // A direction selects the signed projection onto a normalized world axis,
       // so movement opposite that axis has a negative velocity.
       return direction
@@ -142,8 +128,9 @@ function eventSampleTimes(
     for (const time of environmentSubjectKeyframeTimes(environment, subjectId)) {
       times.push(time);
       if (trigger.type === "velocity") {
-        // The finite-difference velocity changes around both sides of a knot.
-        const radius = velocitySampleRadius(environment);
+        // Probe both sides of derivative corners and of the finite-difference
+        // window retained for unsupported animated-anchor/locomotion geometry.
+        const radius = subjectVelocitySampleRadius(environment);
         times.push(time - radius, time + radius);
       }
     }

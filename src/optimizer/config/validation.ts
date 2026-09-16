@@ -3,6 +3,7 @@ import { LossFunctionType } from "../../types/solver";
 import { distance3, quaternionAngle } from "../shared/math";
 import type { CameraOptimizerInput, UserCameraKeyframe } from "../types";
 import { validateMotionProfile } from "../shared/motion-profiles";
+import { validateSemanticTargets } from "./semantic-targets";
 
 function assertFiniteTuple(value: readonly number[], length: number, field: string): void {
   if (value.length !== length || !value.every(Number.isFinite)) {
@@ -116,6 +117,7 @@ export function validateOptimizerInput(input: CameraOptimizerInput): void {
   }
 
   const options = input.options;
+  validateSemanticTargets(options?.semanticTargets);
   for (const name of [
     "minimumSubjectCoverage", "minimumMovementDistance",
     "minimumMovementAngleDegrees", "minimumZoomChangeDegrees",

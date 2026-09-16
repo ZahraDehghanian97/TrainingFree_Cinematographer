@@ -7,6 +7,8 @@ export const DEFAULT_OPTIMIZER_WEIGHTS: OptimizerWeights = {
   globalSmoothness: 2,
   globalAngularSmoothness: 1,
   globalJerk: 0.4,
+  globalRelativeSmoothness: 0,
+  globalRelativeJerk: 0,
   globalCollision: 18,
   globalOcclusion: 5,
   globalGround: 12,
@@ -25,7 +27,7 @@ export const DEFAULT_GLOBAL_LOSSES = {
   minPath: true,
 } as const;
 
-export const DEFAULT_OPTIONS: Required<Omit<OptimizerOptions, "weights" | "globalLosses">> = {
+export const DEFAULT_OPTIONS: Required<Omit<OptimizerOptions, "weights" | "globalLosses" | "semanticTargets">> = {
   minimumSubjectCoverage: 0.12,
   minimumMovementDistance: 0.25,
   minimumDollyDistanceRatio: 0.3,
@@ -45,8 +47,8 @@ export const DEFAULT_OPTIONS: Required<Omit<OptimizerOptions, "weights" | "globa
   farPlane: 1000,
 };
 
-/** Default tolerances define acceptable error, not importance. */
-export const PRIMITIVE_TOLERANCES: Record<PrimitiveLossType, number> = {
+/** Scales sigma make residuals dimensionless; weights specify importance separately. */
+export const PRIMITIVE_RESIDUAL_SCALES: Record<PrimitiveLossType, number> = {
   positionAnchor: 0.03,
   rotationAnchor: Math.PI / 180,
   fovAnchor: 0.5,
@@ -97,3 +99,6 @@ export const PRIMITIVE_TOLERANCES: Record<PrimitiveLossType, number> = {
   jerkSmoothness: 0.8,
   pathLength: 1,
 };
+
+/** Compatibility name; these are residual scales, not zero-cost tolerance bands. */
+export const PRIMITIVE_TOLERANCES = PRIMITIVE_RESIDUAL_SCALES;

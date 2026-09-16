@@ -2,7 +2,7 @@ import { DEFAULT_OPTIONS } from "./defaults";
 import type { CameraOptimizerInput, OptimizerOptions } from "../types";
 
 export type ResolvedOptimizerOptions = Required<
-  Omit<OptimizerOptions, "weights" | "globalLosses">
+  Omit<OptimizerOptions, "weights" | "globalLosses" | "semanticTargets">
 >;
 
 /** The trajectory has one lens aspect ratio; explicit runtime settings take priority. */

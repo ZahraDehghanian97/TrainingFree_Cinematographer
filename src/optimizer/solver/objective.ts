@@ -29,7 +29,6 @@ import {
   dot3,
   huber,
   length3,
-  lerp3,
   lookAtQuaternion,
   mean,
   multiplyQuat,
@@ -63,7 +62,9 @@ import {
 import { motionProgress, motionProgressDelta } from "../shared/motion-profiles";
 import { applyOpticalZoom, fovDegreesToLogFocal, interpolateFovLogFocal } from "../shared/lens";
 import { motionTransitionScale } from "../shared/motion-transitions";
-import { createCameraPositionSampler } from "../trajectory";
+import { createCameraPositionCurve } from "../trajectory";
+import { CURVE_QUADRATURE, positionChordDeviationBound, samplePositionSegment,
+  type CameraPositionCurve } from "../trajectory/position-curve";
 import { minimumAngularProgress, minimumTranslationProgress } from "../shared/movement-preferences";
 import { temporalQuadratureWeights, fitRobustAmplitude } from "./residual-integration";
 import { certifiedObstacleSweep } from "../scene/obstacle-enclosure";
@@ -186,6 +187,7 @@ export class ObjectiveEvaluator {
   private readonly primitiveIndices = new Map<string, number[]>();
   private readonly motionIndices = new Map<string, number[]>();
   private readonly warningSet = new Set<string>();
+  private positionCurve?: CameraPositionCurve;
 
   public constructor(
     private readonly input: CameraOptimizerInput,
@@ -570,6 +572,32 @@ export class ObjectiveEvaluator {
     ), 0);
   }
 
+  /** Integrate physical derivatives of the exact exported position polynomial. */
+  private continuousPositionResiduals(
+    primitive: PrimitiveLoss,
+    states: readonly CameraStateSample[],
+    derivative: "acceleration" | "jerk",
+  ): WeightedResidual[] {
+    const curve = this.positionCurve ?? createCameraPositionCurve(states, this.cutTimes);
+    const activation = (time: number) => this.sampleWeight(primitive, time)
+      * motionTransitionScale(primitive, time) ** 2;
+    if (primitive.endTime - primitive.startTime <= 1e-9) {
+      const time = primitive.startTime;
+      return [{ value: length3(curve.sample(time)[derivative]), time,
+        sampleWeight: activation(time), measure: 1 }];
+    }
+    return curve.segments.flatMap((segment) => {
+      const start = Math.max(primitive.startTime, segment.startTime);
+      const end = Math.min(primitive.endTime, segment.endTime);
+      if (end <= start || segment.hold) return [];
+      return CURVE_QUADRATURE.map(([node, weight]) => {
+        const time = (start + end) / 2 + node * (end - start) / 2;
+        return { value: length3(samplePositionSegment(segment, time)[derivative]), time,
+          measure: weight * (end - start) / 2, sampleWeight: activation(time) };
+      });
+    });
+  }
+
   private residuals(
     primitive: PrimitiveLoss,
     states: readonly CameraStateSample[],
@@ -703,32 +731,67 @@ export class ObjectiveEvaluator {
         lateral = normalize3(sub3(lateral, scale3(axis, dot3(lateral, axis))), [0, 1, 0]);
         const motionStart = this.times[sourceFirst]!;
         const duration = Math.max(1e-9, this.times[sourceIndices[sourceIndices.length - 1]!]! - motionStart);
+        const axialTotal = dot3(this.relativeDisplacement(primitive, sourceFirst,
+          sourceIndices[sourceIndices.length - 1]!, states), axis);
         const phaseAt = (index: number): number => {
-          const progress = motionProgress((this.times[index]! - motionStart) / duration, primitive.parameters.speedKeyframes);
+          // Path geometry gamma(v) and time scaling v(t) are separate. Without
+          // an authored profile, candidate axial progress determines v, so a
+          // monotone retiming of the same curve does not change its shape.
+          const progress = primitive.parameters.speedKeyframes !== undefined
+            ? motionProgress((this.times[index]! - motionStart) / duration, primitive.parameters.speedKeyframes)
+            : Math.abs(axialTotal) > 1e-9 ? clamp(dot3(this.relativeDisplacement(
+              primitive, sourceFirst, index, states), axis) / axialTotal, 0, 1) : 0;
           return primitive.parameters.path === "spline"
             ? Math.sin(2 * Math.PI * progress) : Math.sin(Math.PI * progress);
         };
         const targetDistance = primitive.parameters.fullTargetDistance ?? primitive.parameters.targetDistance;
         const distance = typeof targetDistance === "number" ? targetDistance
           : Math.abs(this.translationProgress(primitive, sourceIndices, states));
-        // Fit the free curve amplitude to the candidate itself. Only an authored
-        // intensity imposes a numeric bend; the seed's 0.5 never becomes intent.
-        const fitWeights = temporalQuadratureWeights(sourceIndices.map((index) => this.times[index]!),
-          motionStart, motionStart + duration);
-        const fittedAmplitude = fitRobustAmplitude(sourceIndices.map((index, localIndex) => {
-          const displacement = this.relativeDisplacement(primitive, sourceFirst, index, states);
-          const orthogonal = sub3(displacement, scale3(axis, dot3(displacement, axis)));
-          const y = dot3(orthogonal, lateral);
-          return {
-            phase: phaseAt(index), lateral: y,
-            orthogonalSquared: dot3(orthogonal, orthogonal) - y * y,
-            weight: fitWeights[localIndex]! * this.sampleWeight(primitive, this.times[index]!)
-              * motionTransitionScale(primitive, this.times[index]!) ** 2,
-          };
-        }), primitive.tolerance);
+        const minimumBend = Math.max(0, distance * 0.02);
+        const fitFreeAmplitude = (): number => {
+          // All overlap bands from one motion share ONE latent amplitude. Sum
+          // their exact objective measures, including differing weights/fades;
+          // fitting each band independently would change the path on a split.
+          const geometryKey = (item: PrimitiveLoss): string => JSON.stringify([
+            item.sourceType, item.sourceActionId,
+            item.parameters.motionStartTime ?? item.startTime,
+            item.parameters.motionEndTime ?? item.endTime,
+            Object.keys(item.parameters).sort().filter((key) => key !== "motionTransitions"
+              && !(key === "targetDistance" && typeof item.parameters.fullTargetDistance === "number"))
+              .map((key) => [key, item.parameters[key]]),
+          ]);
+          const key = geometryKey(primitive);
+          const bands = this.plan.primitives.filter((item) => item.type === "pathProfile"
+            && item.weight > 0 && geometryKey(item) === key);
+          const observations: Parameters<typeof fitRobustAmplitude>[0][number][] = [];
+          const minimumBends: { amplitude: number; weight: number; tolerance: number }[] = [];
+          for (const band of bands) {
+            const bandIndices = this.primitiveIndices.get(band.id) ?? [];
+            const bandTimes = bandIndices.map((index) => this.times[index]!);
+            const measures = temporalQuadratureWeights(bandTimes, band.startTime, band.endTime);
+            const bandDuration = band.normalizationDuration ?? (
+              typeof band.parameters.motionStartTime === "number" && typeof band.parameters.motionEndTime === "number"
+                ? band.parameters.motionEndTime - band.parameters.motionStartTime : band.endTime - band.startTime);
+            const normalizer = bandDuration > 1e-9 ? bandDuration : 1;
+            let minimumWeight = 0;
+            bandIndices.forEach((index, localIndex) => {
+              const displacement = this.relativeDisplacement(primitive, sourceFirst, index, states);
+              const orthogonal = sub3(displacement, scale3(axis, dot3(displacement, axis)));
+              const y = dot3(orthogonal, lateral);
+              const weight = measures[localIndex]! * this.sampleWeight(band, this.times[index]!)
+                * motionTransitionScale(band, this.times[index]!) ** 2 * band.weight / normalizer;
+              observations.push({ phase: phaseAt(index), lateral: y,
+                orthogonalSquared: dot3(orthogonal, orthogonal) - y * y,
+                weight, tolerance: band.tolerance });
+              minimumWeight += weight;
+            });
+            minimumBends.push({ amplitude: minimumBend, weight: minimumWeight, tolerance: band.tolerance });
+          }
+          return fitRobustAmplitude(observations, primitive.tolerance, minimumBends);
+        };
         const amplitude = typeof primitive.parameters.curveIntensity === "number"
           ? distance * 0.25 * clamp(primitive.parameters.curveIntensity / 10, 0, 1)
-          : fittedAmplitude;
+          : fitFreeAmplitude();
         const residuals = indices.map((index) => {
           const phase = phaseAt(index);
           const displacement = this.relativeDisplacement(primitive, sourceFirst, index, states);
@@ -736,7 +799,10 @@ export class ObjectiveEvaluator {
           return weighted(index, distance3(orthogonal, scale3(lateral, amplitude * phase)));
         });
         if (primitive.parameters.curveIntensity === undefined) {
-          residuals.push(weighted(lastIndex, Math.max(0, distance * 0.02 - Math.abs(amplitude)), { family: "minimumBend" }));
+          // Integrate the floor over the same support/activation as the shape,
+          // rather than giving the whole interval its last sample's fade.
+          residuals.push(...indices.map((index) => weighted(index,
+            Math.max(0, minimumBend - Math.abs(amplitude)), { family: "minimumBend" })));
         }
         return residuals;
       }
@@ -1002,6 +1068,7 @@ export class ObjectiveEvaluator {
         const target = Array.isArray(primitive.parameters.target)
           ? primitive.parameters.target as number[]
           : [0.5, 0.5];
+        const region = primitive.parameters.targetRegion as { x: [number, number]; y: [number, number] } | undefined;
         return indices.flatMap((index) => {
           const subject = this.subject(primitive, index);
           if (!subject) return [];
@@ -1012,7 +1079,10 @@ export class ObjectiveEvaluator {
             states[index]!.fovYDegrees,
             this.options.aspectRatio,
           );
-          const miss = Math.hypot(projection.x - Number(target[0]), projection.y - Number(target[1]));
+          const miss = region
+            ? Math.hypot(projection.x - clamp(projection.x, region.x[0], region.x[1]),
+              projection.y - clamp(projection.y, region.y[0], region.y[1]))
+            : Math.hypot(projection.x - Number(target[0]), projection.y - Number(target[1]));
           return [weighted(index, projection.visible ? miss : miss + 1)];
         });
       }
@@ -1042,6 +1112,7 @@ export class ObjectiveEvaluator {
         const targetCoverage = typeof primitive.parameters.targetCoverage === "number"
           ? primitive.parameters.targetCoverage
           : 0.4;
+        const range = primitive.parameters.coverageRange as [number, number] | undefined;
         return indices.flatMap((index) => {
           const subject = this.subject(primitive, index);
           if (!subject) return [];
@@ -1053,7 +1124,9 @@ export class ObjectiveEvaluator {
             this.options.aspectRatio,
             this.options.nearPlane,
           );
-          return [weighted(index, bounds.height - targetCoverage)];
+          return [weighted(index, range
+            ? bounds.height - clamp(bounds.height, range[0], range[1])
+            : bounds.height - targetCoverage)];
         });
       }
       case "distanceHold": {
@@ -1206,7 +1279,7 @@ export class ObjectiveEvaluator {
       }
       case "collisionClearance": {
         const requested = this.options.cameraRadius + this.options.collisionMargin;
-        const positionAt = createCameraPositionSampler(states, this.cutTimes);
+        const curve = this.positionCurve ?? createCameraPositionCurve(states, this.cutTimes);
         const result = indices.map((index) => {
           const exemptEntityIds = this.collisionExemptEntityIdsAt(index);
           const minimum = Math.min(
@@ -1223,19 +1296,12 @@ export class ObjectiveEvaluator {
           let violation = 0;
           for (const sweep of this.collisionSweeps(previousIndex, index)) {
             if (sweep.obstacles.length === 0) continue;
-            const span = sweep.endTime - sweep.startTime;
-            const start = positionAt(sweep.startTime);
-            const endsAtCut = crossesCut(sweep.startTime, sweep.endTime, this.cutTimes);
-            const end = positionAt(endsAtCut ? sweep.endTime - Math.min(1e-8, span * 1e-7) : sweep.endTime);
-            const firstDeviation = sub3(positionAt(sweep.startTime + span / 3), lerp3(start, end, 1 / 3));
-            const secondDeviation = sub3(positionAt(sweep.startTime + 2 * span / 3), lerp3(start, end, 2 / 3));
-            // The cubic's deviation from its chord is bounded by 3/4 of the
-            // largest Bezier control deviation. Including that bound prevents
-            // a curved output path from cutting into a wall its chords miss.
-            const curveBound = 0.75 * Math.max(
-              length3(sub3(scale3(firstDeviation, 3), scale3(secondDeviation, 1.5))),
-              length3(sub3(scale3(secondDeviation, 3), scale3(firstDeviation, 1.5))),
-            );
+            const segment = curve.restrict(sweep.startTime, sweep.endTime);
+            const start = segment.controls[0]!;
+            const end = segment.controls[segment.controls.length - 1]!;
+            // Bernstein convex hull + 1-Lipschitz signed distance. This bound
+            // covers the complete quintic, including one-sided pre-cut holds.
+            const curveBound = positionChordDeviationBound(segment);
             for (const obstacle of sweep.obstacles) {
               const minimum = minimumSignedDistanceToMovingAabb(
                 start, end, obstacle.startBox, obstacle.endBox, requested + curveBound,
@@ -1307,6 +1373,9 @@ export class ObjectiveEvaluator {
         ));
       }
       case "accelerationSmoothness": {
+        if (primitive.parameters.referenceFrame !== "subjectRelative") {
+          return this.continuousPositionResiduals(primitive, states, "acceleration");
+        }
         const cutTimes = [...this.cutTimes, ...cutTimesFrom(primitive)];
         const result: WeightedResidual[] = [];
         for (let localIndex = 1; localIndex + 1 < indices.length; localIndex += 1) {
@@ -1319,7 +1388,8 @@ export class ObjectiveEvaluator {
           const steps = this.regularizedSteps([aIndex, bIndex, cIndex], states);
           const v0 = scale3(steps[0]!, 1 / dt0);
           const v1 = scale3(steps[1]!, 1 / dt1);
-          result.push(derivativeWeighted(bIndex, length3(scale3(sub3(v1, v0), 2 / (dt0 + dt1)))));
+          result.push(derivativeWeighted(bIndex, length3(scale3(sub3(v1, v0), 2 / (dt0 + dt1))),
+            (this.times[aIndex]! + this.times[bIndex]! + this.times[cIndex]!) / 3));
         }
         return result;
       }
@@ -1351,6 +1421,9 @@ export class ObjectiveEvaluator {
         return result;
       }
       case "jerkSmoothness": {
+        if (primitive.parameters.referenceFrame !== "subjectRelative") {
+          return this.continuousPositionResiduals(primitive, states, "jerk");
+        }
         const cutTimes = [...this.cutTimes, ...cutTimesFrom(primitive)];
         const result: WeightedResidual[] = [];
         for (let localIndex = 0; localIndex + 3 < indices.length; localIndex += 1) {
@@ -1396,6 +1469,7 @@ export class ObjectiveEvaluator {
 
   public evaluate(states: readonly CameraStateSample[], includeBreakdown = true): ObjectiveResult {
     if (!this.finiteStates(states)) return { total: Infinity, breakdown: [] };
+    this.positionCurve = createCameraPositionCurve(states, this.cutTimes);
     let total = 0;
     const breakdown: LossBreakdownEntry[] = [];
     for (const primitive of this.plan.primitives) {
@@ -1410,7 +1484,9 @@ export class ObjectiveEvaluator {
       if (residuals.length === 0) continue;
       const squared = primitive.sourceType === "userKeyframe"
         || primitive.channel === "safety"
-        || primitive.type === "bboxInFrame";
+        || primitive.type === "bboxInFrame"
+        || ((primitive.type === "accelerationSmoothness" || primitive.type === "jerkSmoothness")
+          && primitive.parameters.referenceFrame !== "subjectRelative");
       const families = new Map<string, WeightedResidual[]>();
       // Keep zero-activation samples in the quadrature: dropping them would
       // enlarge neighboring cells and partly undo an authored fade/suppression.
@@ -1453,6 +1529,7 @@ export class ObjectiveEvaluator {
   /** Worst enabled collision/ground clearance violation, measured in meters. */
   public safetyViolation(states: readonly CameraStateSample[]): number {
     if (!this.finiteStates(states)) return Infinity;
+    this.positionCurve = createCameraPositionCurve(states, this.cutTimes);
     let maximum = 0;
     for (const primitive of this.plan.primitives) {
       if (primitive.type !== "collisionClearance" && primitive.type !== "groundClearance") continue;

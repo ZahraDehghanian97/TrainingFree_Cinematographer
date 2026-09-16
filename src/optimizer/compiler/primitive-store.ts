@@ -1,4 +1,4 @@
-import { PRIMITIVE_TOLERANCES } from "../config/defaults";
+import { PRIMITIVE_RESIDUAL_SCALES } from "../config/defaults";
 import type { OptimizerWeights, PrimitiveLoss, PrimitiveRole } from "../types";
 import type { AddPrimitive } from "./types";
 
@@ -37,7 +37,7 @@ export function createPrimitiveStore(weights: OptimizerWeights): PrimitiveStore 
       endTime,
       weight: explicitWeight
         ?? roleWeight(descriptor.role, weights) * sourceWeight * (descriptor.weightScale ?? 1),
-      tolerance: descriptor.tolerance ?? PRIMITIVE_TOLERANCES[descriptor.type],
+      tolerance: descriptor.tolerance ?? PRIMITIVE_RESIDUAL_SCALES[descriptor.type],
       channel: descriptor.channel,
       role: descriptor.role,
       sourceType,

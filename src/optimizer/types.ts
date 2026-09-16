@@ -94,7 +94,7 @@ export interface PrimitiveLoss {
   startTime: number;
   endTime: number;
   weight: number;
-  /** Domain-specific acceptable error used to make the residual dimensionless. */
+  /** Residual scale sigma in the residual's units; not a zero-cost error allowance. */
   tolerance: number;
   channel: LossChannel;
   role: PrimitiveRole;
@@ -147,6 +147,9 @@ export interface OptimizerWeights {
   globalSmoothness: number;
   globalAngularSmoothness: number;
   globalJerk: number;
+  /** Additional subject-relative sampled regularity; separate from world motion. */
+  globalRelativeSmoothness: number;
+  globalRelativeJerk: number;
   globalCollision: number;
   globalOcclusion: number;
   globalGround: number;
@@ -155,7 +158,17 @@ export interface OptimizerWeights {
   subjectScaleFloor: number;
 }
 
+/** Explicit semantic regions; values should come from a recorded annotation or design protocol. */
+export interface SemanticTargetOptions {
+  /** Normalized projected subject-height intervals, keyed by an existing shot-size name. */
+  shotSizeCoverage?: Record<string, [number, number]>;
+  /** Normalized image coordinates (origin at top left), keyed by an existing framing name. */
+  framingRegions?: Record<string, { x: [number, number]; y: [number, number] }>;
+}
+
 export interface OptimizerOptions {
+  /** Optional acceptable regions. Omitted names keep the existing authored prototypes. */
+  semanticTargets?: SemanticTargetOptions;
   /** Soft lower bound on projected subject height when shot size is unspecified. */
   minimumSubjectCoverage?: number;
   /** Soft movement floors prevent unspecified amounts collapsing to no movement. */
@@ -209,6 +222,9 @@ export interface CameraStateSample {
   position: Vec3;
   rotation: Quat;
   fovYDegrees: number;
+  /** Optional exact output-curve jets, in meters/second and meters/second². */
+  positionVelocity?: Vec3;
+  positionAcceleration?: Vec3;
 }
 
 export interface LossBreakdownEntry {

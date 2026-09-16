@@ -20,6 +20,9 @@ export interface CameraSampleV1 {
   /** Playback time in seconds. */
   t: number;
   position: Vec3;
+  /** Physical derivatives for optional exact quintic position interpolation. */
+  positionVelocity?: Vec3;
+  positionAcceleration?: Vec3;
   /** Required for trajectories whose orientation mode is `quaternion`. */
   rotation?: Quat;
   /** Required for trajectories whose orientation mode is `perSampleLookAt`. */
@@ -67,6 +70,8 @@ export interface CameraTrajectoryV1 {
   coordinates: CoordinateSystemV1;
   intrinsics: CameraIntrinsicsV1;
   orientation: CameraOrientationV1;
+  /** Older documents without this metadata retain linear position playback. */
+  interpolation?: { position: "quinticHermite" };
   /** Optional scene-speed changes evaluated on the camera playback clock. */
   playback?: CameraPlaybackV1;
   samples: CameraSampleV1[];

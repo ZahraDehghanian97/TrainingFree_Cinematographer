@@ -1,4 +1,4 @@
-import type { EnvironmentV1, Vec3 } from "../types/environment";
+import type { EnvironmentV1 } from "../types/environment";
 import type {
   EnvironmentDistanceMetric,
   EnvironmentQuery,
@@ -12,6 +12,9 @@ import {
   resolveEnvironmentSubject,
   sampleEnvironmentSubject,
 } from "./sampler";
+import { sampleEnvironmentSubjectVelocity } from "./subject-velocity";
+import { resolveEventSceneTime } from "./trigger-events";
+import { ComparisonOperator } from "../types/enums";
 
 const ROOT_TIME_TOLERANCE_SECONDS = 1e-7;
 const VALUE_TOLERANCE = 1e-7;
@@ -84,20 +87,10 @@ function subjectDistance(env: EnvironmentV1, subjectAId: string, subjectBId: str
   return distanceBetweenCenters(a.center, b.center);
 }
 
-function vectorDistance(a: Vec3, b: Vec3): number {
-  return Math.hypot(a[0] - b[0], a[1] - b[1], a[2] - b[2]);
-}
-
 function subjectSpeed(env: EnvironmentV1, subjectId: string, timeSeconds: number): number {
-  const duration = env.clock.durationSeconds;
-  const fps = Math.max(env.clock.fpsHint ?? 24, 24);
-  const h = Math.min(1 / (fps * 4), Math.max(duration / 10_000, 1e-4));
-  const left = Math.max(0, timeSeconds - h);
-  const right = Math.min(duration, timeSeconds + h);
-  if (right <= left) return 0;
-  const p0 = sampleEnvironmentSubject(env, subjectId, left).center;
-  const p1 = sampleEnvironmentSubject(env, subjectId, right).center;
-  return vectorDistance(p0, p1) / (right - left);
+  const sampled = sampleEnvironmentSubjectVelocity(env, subjectId, timeSeconds);
+  // No finite threshold is satisfied by an instantaneous position jump.
+  return sampled.kind === "positionJump" ? NaN : Math.hypot(...sampled.velocity);
 }
 
 function eventScanStep(env: EnvironmentV1): number {
@@ -366,16 +359,12 @@ export function executeEnvironmentQuery(
     case "firstSpeedReached": {
       resolveEnvironmentSubject(env, query.subjectId);
       assertFiniteNonNegative(query.speedMetersPerSecond, "speedMetersPerSecond");
-      const fn = (timeSeconds: number) => query.speedMetersPerSecond
-        - subjectSpeed(env, query.subjectId, timeSeconds);
-      const sampleTimes = includeInteriorThresholdMinima(
-        fn,
-        eventSampleTimes(env, [query.subjectId]),
-      );
-      const timeSeconds = findFirstThresholdEntry(
-        fn,
-        sampleTimes,
-      );
+      // Velocity can jump at a linear corner. Use the same checked matching
+      // predicate as DSL triggers, rather than assuming a continuous root.
+      const timeSeconds = resolveEventSceneTime({
+        type: "velocity", subject: { id: query.subjectId, description: query.subjectId },
+        operator: ComparisonOperator.GreaterThanOrEqual, speed: query.speedMetersPerSecond,
+      }, env);
       return {
         type: query.type,
         environmentId: env.id,

@@ -3,9 +3,10 @@
 This module converts a timeline solver result and a matching 4D environment
 into `CameraTrajectoryV1`. It has no optimizer-specific runtime dependency.
 
-The [mathematical implementation report](../../docs/mathematical-fixes.fa.md)
-records the corrected formulas, derivations, validation scope, and paper claims
-in Persian; the linked original audit preserves the pre-fix counterexamples.
+The [implementation report](../../docs/mathematical-fixes.fa.md) records the
+mathematical changes, validation, and remaining research limitations in Persian.
+The [original audit](../../docs/mathematical-audit.fa.md) preserves the prior
+implementation's derivations and counterexamples.
 
 ## Pipeline
 
@@ -79,8 +80,9 @@ live in `shared/`; scene sampling stays isolated from solver and output logic.
   `angularAccelerationSmoothness`,
   `jerkSmoothness`, `pathLength`
 
-Every residual is divided by a tolerance in its own units before weighting.
-Endpoint errors and rates use separate tolerances: meters and meters/second,
+Every residual is divided by a scale in its own units before weighting.
+The serialized `tolerance` field is a residual scale, not a zero-cost error band
+or a hard feasibility tolerance. Endpoint errors and rates use separate scales: meters and meters/second,
 radians and radians/second, or log focal ratio and log focal ratio/second.
 Authored FOV anchors and FOV holds retain degree-based tolerances.
 
@@ -104,9 +106,9 @@ occlusion terms, so subdividing an instruction does not duplicate its budget.
 This is a numerical approximation of a time integral, not an assertion that
 every nonlinear cost is identical at every sampling resolution.
 
-Ordinary semantic and regularity errors use Huber loss with threshold 2 after
-normalization. User soft anchors, safety-channel terms, and `bboxInFrame` use a
-squared penalty. Easing, suppression, and transition activation multiply the
+Ordinary semantic and sampled relative-regularity errors use Huber loss with threshold 2 after
+normalization. User soft anchors, safety-channel terms, `bboxInFrame`, and world
+position acceleration/jerk use a squared penalty. Easing, suppression, and transition activation multiply the
 loss outside Huber; they do not change its transition threshold. Point targets
 use unit measure rather than division by a zero duration. Nonfinite states or
 residuals produce an infinite objective and cannot silently remove a constraint.
@@ -118,11 +120,18 @@ speed on a fixed polygon, and approximates the length of the resampled Hermite
 curve. A moving reference yields relative path length; this is distinct from
 world-space distance traveled.
 
-Acceleration uses the second divided difference on its three-point time
-stencil. Jerk uses the third divided difference on four consecutive points,
-which is exact for a cubic position polynomial even with unequal intervals.
-These are sampled regularizers. The output remains C1 and is not a continuous
-minimum-jerk solution; acceleration can jump at interpolation knots.
+World acceleration and jerk are analytic derivatives of the same C2 quintic
+position curve used for output, browser replay, and collision. Five-point
+Gauss-Legendre quadrature integrates their squared polynomial norms exactly
+on each unweighted piece; time-varying activation is evaluated numerically.
+The local nonlinear solve does not certify a globally minimum-jerk solution.
+Angular acceleration remains a sampled SO(3) finite-difference regularizer.
+
+`weights.globalRelativeSmoothness` and `weights.globalRelativeJerk` optionally
+add subject-relative divided-difference costs (both default to zero). They
+are separate from physical world acceleration/jerk. Relative acceleration uses
+the three-knot barycenter; jerk uses the four-knot barycenter. Stencils with a
+changing subject reference use world displacements throughout that stencil.
 
 ## High-level coverage
 
@@ -132,6 +141,23 @@ Framing covers shot sizes, all nine frame positions, subject-relative views,
 vertical camera angles, projected bounds, and Dutch framing scale. General
 constraints cover no-shake, keep-in-frame, distance/angle maintenance,
 occlusion, ground clearance, collision, smoothness, and minimum path.
+
+Semantic names retain their authored numeric prototypes by default. Applications
+can supply accepted regions instead of point targets without changing the DSL:
+
+```ts
+options: {
+  semanticTargets: {
+    shotSizeCoverage: { mediumShot: [0.35, 0.5] },
+    framingRegions: { center: { x: [0.45, 0.55], y: [0.45, 0.55] } },
+  },
+}
+```
+
+These example ranges are user conventions, not calibrated cinematic laws.
+The residual is distance to the interval/rectangle, with zero cost inside it.
+The midpoint is used only to initialize a candidate; it is not a target inside
+the accepted region. Invalid names, ranges, or region keys fail validation.
 
 Non-subject-aware configs accept independently optional pose position and
 rotation, lens-only settings, and `lookAt` without a pose. They also accept a
@@ -291,8 +317,12 @@ factors constrain the focal ratio and leave the starting lens free.
 
 The path names are compatibility contracts: `curved` is a sinusoidal arch,
 and legacy `spline` is a sinusoidal S-bend, not a polynomial spline. An omitted
-curve amplitude is fitted to the candidate with a weighted radial-Huber
-scalar fit. Authored curve intensity retains its configured amplitude rule.
+curve amplitude minimizes the complete weighted radial-Huber and minimum-bend
+objective shared across every band of the source action. Each sign branch is
+convex and both are compared. Without a speed profile, phase comes from the
+candidate's normalized axial displacement, leaving traversal timing free.
+An authored profile determines phase in time. Authored curve intensity retains
+its configured amplitude rule.
 
 ## Compound rules
 
@@ -315,7 +345,7 @@ scalar fit. Authored curve intensity retains its configured amplitude rule.
   stabilizers rather than silently dropping an authored Static constraint.
 - Targeted Static shots remain mounted in the subject's translating frame;
   untargeted Static shots remain locked in world space.
-- Targeted Dolly/Crane translations and global path regularizers measure
+- Targeted Dolly/Crane translations and the global path-length regularizer measure
   camera motion relative to inherited subject translation.
 - `allowSubjectIntersection` explicitly permits an interior/exit move through
   its targeted subject without disabling collision checks for other geometry.
@@ -331,18 +361,19 @@ scalar fit. Authored curve intensity retains its configured amplitude rule.
   Aggregate distance/angle/zoom targets and safety weights retain full strength.
   Extra optimization samples resolve short windows. Hard keyframes stay exact;
   a channel with a hard keyframe inside a window keeps its original seed.
-- Output position, rotation, and log focal length share tangents across sample
-  boundaries, keeping velocity continuous within shots. Height and FOV remain
-  bounded by their neighboring samples; zoom reversals retain their lens
-  extremum. This C1 interpolation does not imply continuous acceleration.
+- Position uses shared velocity and acceleration jets, giving C2 continuity
+  within shots. Bernstein control bounds keep height between optimization-knot
+  values without pointwise clamping. Rotation and log focal length retain C1
+  Hermite resampling; this does not promise continuous angular acceleration.
+  Exact exported-curve playback metadata currently applies to position only.
 - Eased composition points blend the complete orientation from the underlying
   shot toward the requested subject and framing. With no underlying orientation
   owner, the seed retains the window-entry pose so easing is independent of
   sample density. Initialization and objective weights use the same authored
   entrance and release curves.
-- Acceleration and jerk use one subject reference for each derivative window.
-  When that reference changes, the entire window uses world coordinates so a
-  real camera speed jump cannot be hidden by switching moving subjects.
+- Physical acceleration/jerk always measure world motion. Optional relative
+  regularizers use one reference per derivative window and fall back to world
+  coordinates when that reference changes.
 
 ## User keyframes
 
@@ -372,10 +403,19 @@ The state grid contains uniform optimization samples plus timeline boundaries,
 easing boundaries, cuts, user-keyframe times, and adaptive arc samples that keep
 authored or seeded orbit steps at or below 15 degrees. Optimized angular motion
 can still require a finer grid; the rule is not an a posteriori angle bound.
-Position, log focal length, and quaternion orientation use time-aware C1
-Hermite resampling within each shot, with quaternion signs aligned along the
-shortest arc. Resampling preserves the chosen smooth curve rather than joining
-knots by straight lines, and it does not interpolate toward a post-cut pose.
+Position uses C2 quintic Hermite segments. Initial shared jets come from a C2
+cubic interpolating spline with endpoint accelerations estimated from adjacent
+quadratics. A per-knot height limiter scales velocity and acceleration together,
+preserving C2 continuity and bounding the Bernstein height controls. This is a
+specified finite-dimensional curve family, not an exact minimum-jerk interpolant.
+Rotation and log focal length use C1 Hermite resampling with shortest-arc quaternion signs.
+No curve interpolates toward a post-cut pose.
+
+Every optimization knot survives output resampling. New JSON documents include
+`interpolation.position: "quinticHermite"` and each sample's `positionVelocity`
+(m/s) and `positionAcceleration` (m/s²). Camera Lab evaluates that exact position
+polynomial, including between output samples. Legacy documents retain linear
+position playback. Output FPS is a minimum sampling density, not an exact count.
 
 The numerical state has seven free coordinates per unconstrained sample:
 position divided by a physical reference length, a three-component world-frame
@@ -422,7 +462,9 @@ above. Rate jumps can produce subject-velocity jumps; no smooth retiming is
 inferred from a piecewise-constant rate schedule.
 
 Collision checks sweep the camera between optimization knots, using the same
-Hermite position curve as output and a conservative curve bound. Entity bounds
+quintic position curve as output and a Bernstein convex-hull chord-deviation
+bound. The polynomial is restricted analytically to each sweep interval; a
+cubic-only deviation estimate is not applied to quintics. Entity bounds
 are local to the entity transform. Animation, time-warp, and exemption
 boundaries split the swept intervals. Affine obstacle boxes use an exact
 moving-box model; nonlinear translation, scale, and rotation use conservative

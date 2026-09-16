@@ -28,27 +28,71 @@ export function temporalQuadratureWeights(
   return weights;
 }
 
-/** Weighted radial-Huber fit y_i ~ amplitude * phase_i; scalar convex problem. */
+interface AmplitudeObservation {
+  phase: number;
+  lateral: number;
+  orthogonalSquared: number;
+  /** Includes temporal measure, activation, and relative primitive weight. */
+  weight: number;
+  tolerance?: number;
+}
+
+interface MinimumBendPenalty {
+  amplitude: number;
+  weight: number;
+  tolerance?: number;
+}
+
+/**
+ * Eliminate the shared curve amplitude from its COMPLETE objective:
+ * sum_i w_i Huber(hypot(A*phase_i-y_i, b_i) / sigma_i)
+ * + sum_j v_j Huber(max(0, minimum_j-|A|) / sigma_j).
+ * The absolute-value floor is nonconvex across zero. Each sign branch A=+/-a,
+ * a>=0 is convex, so solve both monotone derivatives and compare their costs.
+ */
 export function fitRobustAmplitude(
-  observations: readonly { phase: number; lateral: number; orthogonalSquared: number; weight: number }[],
+  observations: readonly AmplitudeObservation[],
   tolerance: number,
+  minimumBends: readonly MinimumBendPenalty[] = [],
 ): number {
   const active = observations.filter((item) => item.weight > 0 && Math.abs(item.phase) > 1e-12);
-  if (active.length === 0) return 0;
-  // The derivative has the sign of a weighted sum of A*phase-y; the optimum
-  // lies within the ratios y/phase even for radial residuals and Huber tails.
-  let lower = Math.min(...active.map((item) => item.lateral / item.phase));
-  let upper = Math.max(...active.map((item) => item.lateral / item.phase));
-  const delta = 2 * tolerance;
-  for (let iteration = 0; iteration < 60 && upper - lower > 1e-10; iteration += 1) {
-    const amplitude = (lower + upper) / 2;
-    const derivative = active.reduce((sum, item) => {
-      const difference = amplitude * item.phase - item.lateral;
-      const norm = Math.sqrt(difference * difference + Math.max(0, item.orthogonalSquared));
-      return sum + item.weight * item.phase * difference * (norm > delta ? delta / norm : 1);
+  const floors = minimumBends.filter((item) => item.weight > 0 && item.amplitude > 0);
+  const scale = (item: { tolerance?: number }): number => Math.max(1e-12, item.tolerance ?? tolerance);
+  const cost = (amplitude: number): number => {
+    const huber = (value: number): number => value <= 2 ? 0.5 * value * value : 2 * (value - 1);
+    return active.reduce((sum, item) => sum + item.weight * huber(Math.hypot(
+      amplitude * item.phase - item.lateral, Math.sqrt(Math.max(0, item.orthogonalSquared)),
+    ) / scale(item)), 0) + floors.reduce((sum, item) => sum + item.weight * huber(
+      Math.max(0, item.amplitude - Math.abs(amplitude)) / scale(item),
+    ), 0);
+  };
+  const solveBranch = (sign: number): number => {
+    const derivative = (magnitude: number): number => active.reduce((sum, item) => {
+      const sigma = scale(item);
+      const difference = sign * magnitude * item.phase - item.lateral;
+      const norm = Math.hypot(difference, Math.sqrt(Math.max(0, item.orthogonalSquared)));
+      return sum + item.weight * sign * item.phase * difference
+        * (norm > 2 * sigma ? 2 * sigma / norm : 1) / (sigma * sigma);
+    }, 0) - floors.reduce((sum, item) => {
+      const sigma = scale(item);
+      return sum + item.weight * Math.min(Math.max(0, item.amplitude - magnitude), 2 * sigma)
+        / (sigma * sigma);
     }, 0);
-    if (derivative > 0) upper = amplitude;
-    else lower = amplitude;
-  }
-  return (lower + upper) / 2;
+    if (derivative(0) >= 0) return 0;
+    // Beyond all projected data ratios and all floors every derivative is
+    // nonnegative; this provides a finite analytical bracket on each branch.
+    let lower = 0;
+    let upper = Math.max(0, ...active.map((item) => sign * item.lateral / item.phase),
+      ...floors.map((item) => item.amplitude));
+    for (let iteration = 0; iteration < 70 && upper - lower > 1e-12 * Math.max(1, upper); iteration += 1) {
+      const midpoint = (lower + upper) / 2;
+      if (derivative(midpoint) >= 0) upper = midpoint;
+      else lower = midpoint;
+    }
+    return sign * (lower + upper) / 2;
+  };
+  const positive = solveBranch(1);
+  const negative = solveBranch(-1);
+  // A deterministic positive tie-break retains the initialization convention.
+  return cost(negative) < cost(positive) ? negative : positive;
 }

@@ -21,8 +21,10 @@ import type {
   CompileBandContext,
   PrimitiveDescriptor,
 } from "./types";
+import { validateSemanticTargets } from "../config/semantic-targets";
 
 export function compileLossPlan(input: CameraOptimizerInput): CompiledLossPlan {
+  validateSemanticTargets(input.options?.semanticTargets);
   const durationSeconds = input.environment.clock.durationSeconds;
   const weights: OptimizerWeights = { ...DEFAULT_OPTIMIZER_WEIGHTS, ...input.options?.weights };
   const { primitives, add } = createPrimitiveStore(weights);
@@ -46,6 +48,7 @@ export function compileLossPlan(input: CameraOptimizerInput): CompiledLossPlan {
         sourceStartTime: span.sourceStartTime,
         sourceEndTime: span.sourceEndTime,
         loss,
+        semanticTargets: input.options?.semanticTargets,
       };
 
       for (const descriptor of descriptorsForLoss(context)) {
@@ -114,6 +117,7 @@ export function compileLossPlan(input: CameraOptimizerInput): CompiledLossPlan {
         sourceStartTime: segment.time,
         sourceEndTime: segment.time,
         loss,
+        semanticTargets: input.options?.semanticTargets,
       };
 
       for (const descriptor of descriptorsForLoss(context)) {

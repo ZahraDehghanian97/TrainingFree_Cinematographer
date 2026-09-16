@@ -28,3 +28,18 @@ export function interpolateCubicVec3(
     + (u3 - u2) * span * knotVelocity(keyframes, rightIndex, axis),
   ) as Vec3;
 }
+
+/** Exact time derivative of the same time-aware Hermite polynomial. */
+export function differentiateCubicVec3(
+  keyframes: readonly Keyframe<Vec3>[], leftIndex: number, rightIndex: number, alpha: number,
+): Vec3 {
+  if (leftIndex === rightIndex) return [0, 0, 0];
+  const left = keyframes[leftIndex]!, right = keyframes[rightIndex]!;
+  const span = right.t - left.t;
+  const u2 = alpha * alpha;
+  return [0, 1, 2].map((axis) =>
+    (6 * u2 - 6 * alpha) * (left.value[axis]! - right.value[axis]!) / span
+    + (3 * u2 - 4 * alpha + 1) * knotVelocity(keyframes, leftIndex, axis)
+    + (3 * u2 - 2 * alpha) * knotVelocity(keyframes, rightIndex, axis),
+  ) as Vec3;
+}

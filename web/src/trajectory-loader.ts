@@ -16,6 +16,7 @@ import {
   type JsonFetcher,
 } from "./environment-loader";
 import { clamp, lerp, lerpVec3, normalizeQuat, slerpQuat } from "./interpolation";
+import { evaluateBezier, quinticPositionControls } from "../../src/optimizer/trajectory/position-curve";
 import {
   DataValidationError,
   expectArray,
@@ -359,6 +360,15 @@ export function assertCameraTrajectoryV1(
     assertCameraSample(sample, `$.samples[${index}]`, durationSeconds));
   assertStrictSampleTimes(samples as JsonObject[], "$.samples");
   assertOrientationSamples(value as CameraTrajectoryV1, "$.samples");
+  if (trajectory.interpolation !== undefined) {
+    const interpolation = expectObject(trajectory.interpolation, "$.interpolation");
+    expectLiteral(interpolation.position, "quinticHermite", "$.interpolation.position");
+    samples.forEach((value, index) => {
+      const sample = expectObject(value, `$.samples[${index}]`);
+      assertVec3(sample.positionVelocity, `$.samples[${index}].positionVelocity`);
+      assertVec3(sample.positionAcceleration, `$.samples[${index}].positionAcceleration`);
+    });
+  }
 }
 
 function parseCanonical(value: unknown): CameraTrajectoryV1 {
@@ -995,7 +1005,11 @@ export function sampleCameraTrajectoryAt(
 
   const result: CameraSampleV1 = {
     t: sampledTime,
-    position: lerpVec3(left.position, right.position, interval.alpha),
+    position: trajectory.interpolation?.position === "quinticHermite"
+      ? evaluateBezier(quinticPositionControls(left.position, right.position,
+        left.positionVelocity!, right.positionVelocity!, left.positionAcceleration!, right.positionAcceleration!,
+        right.t - left.t), interval.alpha)
+      : lerpVec3(left.position, right.position, interval.alpha),
     fovYDegrees: lerp(
       left.fovYDegrees ?? trajectory.intrinsics.fovYDegrees,
       right.fovYDegrees ?? trajectory.intrinsics.fovYDegrees,
