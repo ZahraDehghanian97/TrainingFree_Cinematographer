@@ -20,7 +20,11 @@ export function projectedDistanceForCoverage(
   direction: Vec3,
   fovYDegrees: number,
   targetCoverage: number,
-  options: { allowNearPlaneLimited?: boolean } = {},
+  options: {
+    allowNearPlaneLimited?: boolean;
+    cameraOrigin?: Vec3;
+    cameraPositionAtDistance?: (distance: number) => Vec3;
+  } = {},
 ): number {
   const aspectRatio = input.options?.aspectRatio ?? DEFAULT_OPTIONS.aspectRatio;
   const nearPlane = input.options?.nearPlane ?? DEFAULT_OPTIONS.nearPlane;
@@ -29,7 +33,8 @@ export function projectedDistanceForCoverage(
   if (!direction.every(Number.isFinite) || length3(direction) <= 1e-12) throw new Error("Framing direction must be nonzero and finite");
   const unitDirection = normalize3(direction);
   const projectionAt = (distance: number) => {
-    const candidatePosition = add3(target.center, scale3(unitDirection, distance));
+    const candidatePosition = options.cameraPositionAtDistance?.(distance)
+      ?? add3(options.cameraOrigin ?? target.center, scale3(unitDirection, distance));
     return projectWorldBox(
       target.box, candidatePosition, lookAtQuaternion(candidatePosition, target.center),
       fovYDegrees, aspectRatio, nearPlane,

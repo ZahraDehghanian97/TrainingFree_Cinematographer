@@ -1,4 +1,5 @@
 import { sampleEnvironmentSubject } from "../../environment/sampler";
+import { localSubjectFrame } from "../../environment/subject-frame";
 import type {
   Channel,
   EnvironmentV1,
@@ -11,6 +12,7 @@ import type { WorldAabbV1 } from "../../types/environment-query";
 import {
   clamp,
   mean,
+  multiplyQuat,
   normalizeQuat,
   scale3,
 } from "../shared/math";
@@ -20,6 +22,7 @@ export interface SubjectAggregate {
   entityIds: string[];
   center: Vec3;
   box: WorldAabbV1;
+  /** View frame whose +Z points toward the modeled front; does not rotate subject geometry. */
   rotation: Quat;
 }
 
@@ -126,6 +129,8 @@ export function sampleSubjectAggregate(
       center: [(min[0] + max[0]) / 2, (min[1] + max[1]) / 2, (min[2] + max[2]) / 2],
       size: [max[0] - min[0], max[1] - min[1], max[2] - min[2]],
     },
-    rotation: primaryEntity ? sampleEntityRotation(primaryEntity, time) : [0, 0, 0, 1],
+    rotation: primaryEntity
+      ? multiplyQuat(sampleEntityRotation(primaryEntity, time), localSubjectFrame(primaryEntity))
+      : [0, 0, 0, 1],
   };
 }

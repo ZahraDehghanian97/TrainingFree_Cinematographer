@@ -1,5 +1,13 @@
 import { clamp } from "./math";
 
+/** A qualitative constant-speed request supplies an internal uniform clock. */
+export function effectiveSpeedKeyframes(parameters: Record<string, unknown>): unknown {
+  return parameters.speedKeyframes ?? (parameters.constantSpeed === true ? [
+    { normalizedTime: 0, speedMultiplier: 1 },
+    { normalizedTime: 1, speedMultiplier: 1 },
+  ] : undefined);
+}
+
 /** Exact integrals of the authored, piecewise-polynomial speed profile. */
 interface SpeedProfileKeyframe {
   normalizedTime: number;

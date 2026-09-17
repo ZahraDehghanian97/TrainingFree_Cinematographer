@@ -5,13 +5,14 @@ import {
   validateResolvedOptimizerOptions,
 } from "./config/options";
 import { validateOptimizerInput } from "./config/validation";
-import { clampToGroundClearance } from "./initialization";
 import { selectSceneAwareSeed } from "./initialization/search";
 import { withKeyframeCuts } from "./shared/keyframes";
 import { buildOptimizationTimes, buildOutputTimes } from "./shared/time";
 import { solveNumerically } from "./solver/numerical-solver";
 import { ObjectiveEvaluator } from "./solver/objective";
 import { sceneReferenceScale } from "./scene/scene-scale";
+import { createMotionManifold } from "./solver/motion-manifold";
+import { applyHandheldMotion } from "./trajectory/handheld";
 import { buildCameraTrajectory } from "./trajectory";
 import type {
   CameraOptimizerInput,
@@ -22,6 +23,11 @@ import type {
 export * from "./compiler";
 export * from "./types";
 export { validateOptimizerInput } from "./config/validation";
+
+function improvementPercent(before: number | null, after: number): number | null {
+  if (before === null || !Number.isFinite(before) || Math.abs(before) < 1e-12) return null;
+  return (before - after) / Math.abs(before) * 100;
+}
 
 /** Optimizes position, quaternion orientation, and FOV entirely in TypeScript. */
 export function optimizeCameraTrajectory(input: CameraOptimizerInput): CameraOptimizerResult {
@@ -53,11 +59,13 @@ export function optimizeCameraTrajectory(input: CameraOptimizerInput): CameraOpt
     collisionMargin: options.collisionMargin,
     nearPlane: options.nearPlane,
   });
-  const initialStates = selectSceneAwareSeed(
+  const projectMotion = createMotionManifold(effectiveInput, plan, optimizationTimes);
+  const selectedSeed = selectSceneAwareSeed(
     effectiveInput, plan, optimizationTimes, options.initialFovYDegrees, minimumCameraY, evaluator,
+    projectMotion,
   );
   const solved = solveNumerically(
-    initialStates,
+    selectedSeed.states,
     effectiveInput.userKeyframes ?? [],
     evaluator,
     {
@@ -66,11 +74,12 @@ export function optimizeCameraTrajectory(input: CameraOptimizerInput): CameraOpt
       cutTimes: effectiveInput.timeline.cutTimes ?? [],
       minimumCameraY,
       sceneScale: sceneReferenceScale(effectiveInput.environment),
+      projectMotion,
     },
   );
-  solved.states.forEach((state) =>
-    clampToGroundClearance(state, effectiveInput, minimumCameraY),
-  );
+  // Export the accepted rig itself. A late pointwise ground clamp changes its
+  // motion contracts, derivatives and objective after the search has ended.
+  // Conflicting constraints remain visible in the swept safety diagnostics.
   const finalEvaluation = evaluator.evaluate(solved.states, true);
   if (!Number.isFinite(finalEvaluation.total)) throw new Error("Optimizer produced a non-finite final objective");
   const mandatoryOutputTimes = [
@@ -83,7 +92,7 @@ export function optimizeCameraTrajectory(input: CameraOptimizerInput): CameraOpt
     options.outputFps,
     mandatoryOutputTimes,
   );
-  const trajectory = buildCameraTrajectory(
+  let trajectory = buildCameraTrajectory(
     effectiveInput,
     plan,
     solved.states,
@@ -93,18 +102,33 @@ export function optimizeCameraTrajectory(input: CameraOptimizerInput): CameraOpt
     minimumCameraY,
   );
   const warnings = [...plan.warnings, ...evaluator.warnings];
-  const outputStates = trajectory.samples.map((sample) => ({
+  const toOutputStates = (document: typeof trajectory) => document.samples.map((sample) => ({
     time: sample.t, position: sample.position, rotation: sample.rotation!,
     fovYDegrees: sample.fovYDegrees!,
     positionVelocity: sample.positionVelocity,
     positionAcceleration: sample.positionAcceleration,
   }));
+  const outputStates = toOutputStates(trajectory);
   const outputEvaluator = new ObjectiveEvaluator(effectiveInput, plan, outputStates.map((state) => state.time), {
     aspectRatio: options.aspectRatio, cameraRadius: options.cameraRadius,
     collisionMargin: options.collisionMargin, nearPlane: options.nearPlane,
   });
+  const baseSafety = outputEvaluator.safetyViolation(outputStates);
+  const baseTrajectory = trajectory;
+  let handheldStrength = 1;
+  let shaken = applyHandheldMotion(baseTrajectory, effectiveInput, handheldStrength);
+  if (shaken !== baseTrajectory) {
+    while (handheldStrength > 1 / 256
+      && outputEvaluator.safetyViolation(toOutputStates(shaken)) > Math.max(1e-6, baseSafety)) {
+      handheldStrength /= 2;
+      shaken = applyHandheldMotion(baseTrajectory, effectiveInput, handheldStrength);
+    }
+    if (outputEvaluator.safetyViolation(toOutputStates(shaken)) <= Math.max(1e-6, baseSafety)) trajectory = shaken;
+    else handheldStrength = 0;
+    warnings.push(`Authored handheld rig applied at ${Math.round(handheldStrength * 100)}% strength; loss describes the optimized base rig`);
+  }
   const maximumSafetyViolationMeters = Math.max(
-    evaluator.safetyViolation(solved.states), outputEvaluator.safetyViolation(outputStates),
+    evaluator.safetyViolation(solved.states), outputEvaluator.safetyViolation(toOutputStates(trajectory)),
   );
   if (!Number.isFinite(maximumSafetyViolationMeters)) throw new Error("Optimizer produced non-finite output geometry");
   if (maximumSafetyViolationMeters > 1e-5) {
@@ -126,8 +150,16 @@ export function optimizeCameraTrajectory(input: CameraOptimizerInput): CameraOpt
     trajectory,
     compiledPlan: plan,
     diagnostics: {
+      baselineLoss: selectedSeed.baselineLoss,
       initialLoss: solved.initialLoss,
       finalLoss: finalEvaluation.total,
+      seedCandidateCount: selectedSeed.evaluatedCandidateCount,
+      seedImprovementPercent: improvementPercent(selectedSeed.baselineLoss, solved.initialLoss),
+      refinementImprovementPercent: improvementPercent(solved.initialLoss, finalEvaluation.total),
+      totalImprovementPercent: improvementPercent(selectedSeed.baselineLoss, finalEvaluation.total),
+      objectiveEvaluations: solved.objectiveEvaluations,
+      acceptedSteps: solved.acceptedSteps,
+      searchSweeps: solved.searchSweeps,
       iterations: solved.iterations,
       converged: solved.converged,
       terminationReason: solved.terminationReason,

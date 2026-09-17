@@ -23,6 +23,13 @@ import type {
 } from "./types";
 import { validateSemanticTargets } from "../config/semantic-targets";
 
+const EASED_POINT_ENDPOINT_TYPES = new Set([
+  LossFunctionType.ShotSize, LossFunctionType.FramingPosition,
+  LossFunctionType.SubjectView, LossFunctionType.CameraVerticalAngle,
+  LossFunctionType.FramingDutchAngle, LossFunctionType.KeepInFrame,
+  LossFunctionType.MinPath,
+]);
+
 export function compileLossPlan(input: CameraOptimizerInput): CompiledLossPlan {
   validateSemanticTargets(input.options?.semanticTargets);
   const durationSeconds = input.environment.clock.durationSeconds;
@@ -98,7 +105,9 @@ export function compileLossPlan(input: CameraOptimizerInput): CompiledLossPlan {
     warnings.push(...resolution.warnings);
   }
 
-  // 3. Compile point constraints with no easing window.
+  // 3. Preserve composition at the actual authored point as well as its eased
+  // support. Otherwise a tiny final quadrature interval can make the requested
+  // endpoint negligible compared with the earlier, partially weighted window.
   for (const segment of input.timeline.timeline) {
     if (segment.kind !== "point") continue;
 
@@ -106,14 +115,15 @@ export function compileLossPlan(input: CameraOptimizerInput): CompiledLossPlan {
     const outDuration = finiteNumber(segment.easing?.outDuration, 0);
     const startTime = Math.max(0, segment.time - inDuration);
     const endTime = Math.min(durationSeconds, segment.time + outDuration);
-    if (endTime - startTime > 1e-9) continue;
+    const hasEasingWindow = endTime - startTime > 1e-9;
 
     for (const loss of segment.lossFunctions) {
+      if (hasEasingWindow && !EASED_POINT_ENDPOINT_TYPES.has(loss.type)) continue;
       const priorityScale = 1 + Math.max(0, finiteNumber(loss.priority, 0)) * 0.1;
       const sourceWeight = finiteNumber(segment.weight, 1) * priorityScale;
       const context: CompileBandContext = {
-        startTime,
-        endTime,
+        startTime: segment.time,
+        endTime: segment.time,
         sourceStartTime: segment.time,
         sourceEndTime: segment.time,
         loss,
@@ -121,6 +131,7 @@ export function compileLossPlan(input: CameraOptimizerInput): CompiledLossPlan {
       };
 
       for (const descriptor of descriptorsForLoss(context)) {
+        if (hasEasingWindow && descriptor.role !== "primary") continue;
         add(
           {
             ...descriptor,
@@ -131,8 +142,8 @@ export function compileLossPlan(input: CameraOptimizerInput): CompiledLossPlan {
             },
           },
           {
-            startTime,
-            endTime,
+            startTime: segment.time,
+            endTime: segment.time,
             sourceType: loss.type,
             sourceWeight,
             sourceActionId: loss.sourceActionId,

@@ -10,6 +10,7 @@ import type {
   Vec3,
 } from "../../src/types/environment";
 import { sampleLocomotionPosition } from "../../src/environment/locomotion-path";
+import { assertEntityOcclusion } from "../../src/environment/occlusion-geometry";
 import {
   clamp,
   normalizeQuat,
@@ -326,10 +327,17 @@ function assertEntity(
   if (entity.label !== undefined) {
     expectNonEmptyString(entity.label, `${path}.label`);
   }
+  if (entity.forwardAxis !== undefined) {
+    expectOneOf(entity.forwardAxis, ["+X", "-X", "+Z", "-Z"] as const, `${path}.forwardAxis`);
+  }
   assertTransform(entity.transform, `${path}.transform`, durationSeconds);
   assertVisual(entity.visual, `${path}.visual`);
   if (entity.bounds !== undefined) {
     assertBounds(entity.bounds, `${path}.bounds`);
+  }
+  if (entity.occlusion !== undefined) {
+    try { assertEntityOcclusion(entity.occlusion, `${path}.occlusion`); }
+    catch (error) { fail(`${path}.occlusion`, error instanceof Error ? error.message : String(error), "invalid-occlusion"); }
   }
   const visual = expectObject(entity.visual, `${path}.visual`);
   if (visual.type === "model" && visual.fitToBounds === true && entity.bounds === undefined) {

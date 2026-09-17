@@ -112,6 +112,7 @@ export interface ConflictResolution {
     | "arc+pedestal=>helical-crane"
     | "follow+dolly=>radial-follow"
     | "translation-removes-position-hold"
+    | "compound-motion-removes-orthogonal-hold"
     | "rotation-removes-orientation-hold"
     | "zoom-removes-fov-hold"
     | "framing-removes-fov-hold"
@@ -234,8 +235,23 @@ export interface LossBreakdownEntry {
 }
 
 export interface OptimizerDiagnostics {
+  /** Objective before scene-aware seed search; null for a non-finite baseline. */
+  baselineLoss: number | null;
+  /** Selected seed objective at the start of numerical refinement (legacy field). */
   initialLoss: number;
   finalLoss: number;
+  /** Number of seed candidates evaluated, including the baseline. */
+  seedCandidateCount: number;
+  /** Stage improvements are percentages; null for non-finite or negligible (<1e-12) starting loss. */
+  seedImprovementPercent: number | null;
+  refinementImprovementPercent: number | null;
+  totalImprovementPercent: number | null;
+  /** Objective evaluations during numerical refinement, including its initial state. */
+  objectiveEvaluations: number;
+  /** Monotone, safety-preserving updates accepted during numerical refinement. */
+  acceptedSteps: number;
+  /** Complete or partial numerical search passes. */
+  searchSweeps: number;
   iterations: number;
   /** Always false until the solver computes a stationarity certificate. */
   converged: boolean;

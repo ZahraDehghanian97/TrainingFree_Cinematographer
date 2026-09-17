@@ -17,6 +17,7 @@ interface VariableReference {
 }
 
 interface CodecOptions {
+  projectMotion?: (states: CameraStateSample[]) => void;
   minimumCameraY?: number;
   sceneScale?: number;
   cutTimes?: readonly number[];
@@ -161,6 +162,7 @@ export class StateCodec {
     states.forEach((state, index) => {
       state.rotation = multiplyQuat(rotationExponential(rotations[index]!), this.rotationBases[index]!);
     });
+    this.options.projectMotion?.(states);
     for (const [stateIndex, keyframes] of this.hardByState) {
       applyHardKeyframesToState(states[stateIndex]!, keyframes);
     }

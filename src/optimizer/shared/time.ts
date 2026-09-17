@@ -71,7 +71,11 @@ export function buildOptimizationTimes(
         if (typeof angle !== "number" || !Number.isFinite(angle)) continue;
         const baseSampleCount = Math.max(
           1,
-          Math.ceil((segment.endTime - segment.startTime) * samplesPerSecond),
+          // A constant-speed spiral accelerates its bearing as its radius
+          // shrinks. Its final spline derivatives need a denser source grid
+          // to preserve physical speed through the endpoint.
+          Math.ceil((segment.endTime - segment.startTime) * samplesPerSecond
+            * (loss.parameters.constantSpeed === true ? 4 : 1)),
         );
         const subdivisions = Math.max(
           1,
@@ -84,6 +88,15 @@ export function buildOptimizationTimes(
               + (segment.endTime - segment.startTime) * index / arcSampleCount,
           );
         }
+        if (loss.parameters.constantSpeed === true) {
+          // Close-up endpoints can have a much smaller radius than the rest
+          // of the spiral. Refine the one-sided endpoint jets independently
+          // of its otherwise sufficient interior angular sampling.
+          for (let offset = 1; offset <= 8; offset++) {
+            const delta = Math.min((segment.endTime - segment.startTime) / 2, offset / 60);
+            values.push(segment.startTime + delta, segment.endTime - delta);
+          }
+        }
       }
     } else {
       values.push(segment.time);
@@ -93,6 +106,25 @@ export function buildOptimizationTimes(
   }
   values.push(...(timeline.cutTimes ?? []));
   values.push(...userKeyframes.map((keyframe) => keyframe.time));
+  // Relative rigs inherit the carrier's endpoint derivatives. Resolve those
+  // derivatives locally when the moving subject's path is curved, rather
+  // than extrapolating a coarse cubic across the last third of a second.
+  const followsSubject = timeline.timeline.some(segment => segment.lossFunctions.some(loss =>
+    loss.type === LossFunctionType.FollowMovement || loss.type === LossFunctionType.TrackMovement));
+  if (followsSubject) for (let offset = 1; offset <= 8; offset++) {
+    values.push(offset / 60, duration - offset / 60);
+  }
+  // A rate change can instantaneously change the subject's playback velocity.
+  // Resolve its short C2 camera handoff locally; a coarse subject-reference
+  // spline otherwise creates a visible following error after slow motion.
+  for (const boundary of new Set(timeline.timeWarp.flatMap(segment =>
+    [segment.startTimePlayback, segment.endTimePlayback]))) {
+    if (boundary <= 0 || boundary >= duration) continue;
+    const before = activeRate(timeline.timeWarp, boundary - 1e-7);
+    const after = activeRate(timeline.timeWarp, boundary + 1e-7);
+    if (Math.abs(before - after) < 1e-9) continue;
+    for (let offset = -8; offset <= 8; offset++) values.push(boundary + offset / 60);
+  }
   for (const window of motionTransitions) {
     // Even short actions need enough samples to represent a smooth handoff.
     for (let index = 0; index <= 8; index += 1) {

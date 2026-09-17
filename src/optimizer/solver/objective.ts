@@ -12,6 +12,7 @@ import {
 import {
   minimumSignedDistanceToMovingAabb,
   sampleObstacleBoxes,
+  sampleOcclusionBoxes,
   signedDistanceToAabb,
 } from "../scene/spatial-geometry";
 import {
@@ -60,11 +61,12 @@ import {
   pointEasingWeight,
 } from "../shared/time";
 import { motionProgress, motionProgressDelta } from "../shared/motion-profiles";
+import { createSpiralPacing } from "../shared/spiral-pacing";
 import { applyOpticalZoom, fovDegreesToLogFocal, interpolateFovLogFocal } from "../shared/lens";
 import { motionTransitionScale } from "../shared/motion-transitions";
 import { createCameraPositionCurve } from "../trajectory";
 import { CURVE_QUADRATURE, positionChordDeviationBound, samplePositionSegment,
-  type CameraPositionCurve } from "../trajectory/position-curve";
+  type CameraPositionCurve, type PositionJet, type PositionSegment } from "../trajectory/position-curve";
 import { minimumAngularProgress, minimumTranslationProgress } from "../shared/movement-preferences";
 import { temporalQuadratureWeights, fitRobustAmplitude } from "./residual-integration";
 import { certifiedObstacleSweep } from "../scene/obstacle-enclosure";
@@ -178,8 +180,10 @@ function quaternionAngularVelocity(from: Quat, to: Quat, dt: number): Vec3 {
 }
 
 export class ObjectiveEvaluator {
+  private readonly spiralClocks = new Map<string, ReturnType<typeof createSpiralPacing>>();
   private readonly subjectCache = new Map<string, SubjectAggregate | undefined>();
   private readonly obstacleCache = new Map<number, Array<{ entityId: string; box: WorldAabbV1 }>>();
+  private readonly occlusionCache = new Map<number, Array<{ entityId: string; box: WorldAabbV1 }>>();
   private readonly collisionSweepCache = new Map<string, CollisionSweep[]>();
   private readonly collisionBoundaries: number[];
   private readonly cutTimes: number[];
@@ -188,6 +192,42 @@ export class ObjectiveEvaluator {
   private readonly motionIndices = new Map<string, number[]>();
   private readonly warningSet = new Set<string>();
   private positionCurve?: CameraPositionCurve;
+  private positionSignature: number[] = [];
+  private readonly positionResidualCache = new Map<string, WeightedResidual[]>();
+  private readonly quadratureJets = new Map<PositionSegment, Map<number, PositionJet>>();
+
+  /** Lens/rotation searches share exactly the same physical path and safety checks. */
+  private preparePositionGeometry(states: readonly CameraStateSample[]): void {
+    // Snapshot scalar values, not array identities: callers may mutate a state in place.
+    // Include exported jets, which override interpolated jets during output validation.
+    const signature = states.flatMap((state) => [
+      state.time, ...state.position,
+      ...(state.positionVelocity ?? [NaN, NaN, NaN]),
+      ...(state.positionAcceleration ?? [NaN, NaN, NaN]),
+    ]);
+    if (this.positionCurve && signature.length === this.positionSignature.length
+      && signature.every((value, index) => Object.is(value, this.positionSignature[index]))) return;
+    const curve = createCameraPositionCurve(states, this.cutTimes);
+    this.positionSignature = signature;
+    this.positionCurve = curve;
+    this.positionResidualCache.clear();
+    this.quadratureJets.clear();
+  }
+
+  private cachedResiduals(primitive: PrimitiveLoss, states: readonly CameraStateSample[]): WeightedResidual[] {
+    // This whitelist contains only terms independent of camera rotation and lens.
+    // Other position-channel terms can use camera-local axes and must be recomputed.
+    const positionOnly = primitive.type === "collisionClearance" || primitive.type === "groundClearance"
+      || primitive.type === "occlusion" || primitive.type === "accelerationSmoothness"
+      || primitive.type === "jerkSmoothness";
+    if (!positionOnly) return this.residuals(primitive, states);
+    let cached = this.positionResidualCache.get(primitive.id);
+    if (!cached) {
+      cached = this.residuals(primitive, states);
+      this.positionResidualCache.set(primitive.id, cached);
+    }
+    return cached;
+  }
 
   public constructor(
     private readonly input: CameraOptimizerInput,
@@ -356,6 +396,13 @@ export class ObjectiveEvaluator {
         ? easing as { inDuration?: number; outDuration?: number; curve?: string }
         : undefined,
     );
+  }
+
+  private occluders(index: number): Array<{ entityId: string; box: WorldAabbV1 }> {
+    if (!this.occlusionCache.has(index)) {
+      this.occlusionCache.set(index, sampleOcclusionBoxes(this.input.environment, this.sceneTime(index)));
+    }
+    return this.occlusionCache.get(index)!;
   }
 
   private axis(primitive: PrimitiveLoss, index: number, states: readonly CameraStateSample[]): Vec3 {
@@ -572,6 +619,32 @@ export class ObjectiveEvaluator {
     ), 0);
   }
 
+  private spiralClock(primitive: PrimitiveLoss, states: readonly CameraStateSample[]) {
+    if (primitive.parameters.constantSpeed !== true) return undefined;
+    const schedule = this.plan.primitives.find(p => p.type === "radiusSchedule"
+      && p.sourceActionId === primitive.sourceActionId && p.parameters.constantSpeed === true);
+    const arc = this.plan.primitives.find(p => p.type === "angularPacing"
+      && p.sourceActionId === primitive.sourceActionId);
+    const sweep = arc?.parameters.fullTargetDelta ?? arc?.parameters.targetDelta;
+    if (!schedule || typeof sweep !== "number") return undefined;
+    const source = this.motionIndices.get(schedule.id)!;
+    const first = source[0]!, last = source[source.length - 1]!;
+    const a = this.subject(schedule, first), b = this.subject(schedule, last);
+    if (!a || !b) return undefined;
+    const start = sub3(states[first]!.position, a.center);
+    let end = sub3(states[last]!.position, b.center);
+    if (typeof schedule.parameters.deltaRadius === "number") end = scale3(normalize3(end),
+      Math.max(1e-4, length3(start) + schedule.parameters.deltaRadius));
+    const key = JSON.stringify([start, end, sweep]);
+    let clock = this.spiralClocks.get(key);
+    if (!clock) {
+      clock = createSpiralPacing(start, end, sweep);
+      if (this.spiralClocks.size > 64) this.spiralClocks.clear();
+      this.spiralClocks.set(key, clock);
+    }
+    return (time: number) => clock!.phase((time - this.times[first]!) / Math.max(1e-9, this.times[last]! - this.times[first]!));
+  }
+
   /** Integrate physical derivatives of the exact exported position polynomial. */
   private continuousPositionResiduals(
     primitive: PrimitiveLoss,
@@ -590,9 +663,19 @@ export class ObjectiveEvaluator {
       const start = Math.max(primitive.startTime, segment.startTime);
       const end = Math.min(primitive.endTime, segment.endTime);
       if (end <= start || segment.hold) return [];
+      let samples = this.quadratureJets.get(segment);
+      if (!samples) {
+        samples = new Map();
+        this.quadratureJets.set(segment, samples);
+      }
       return CURVE_QUADRATURE.map(([node, weight]) => {
         const time = (start + end) / 2 + node * (end - start) / 2;
-        return { value: length3(samplePositionSegment(segment, time)[derivative]), time,
+        let jet = samples.get(time);
+        if (!jet) {
+          jet = samplePositionSegment(segment, time);
+          samples.set(time, jet);
+        }
+        return { value: length3(jet[derivative]), time,
           measure: weight * (end - start) / 2, sampleWeight: activation(time) };
       });
     });
@@ -892,6 +975,7 @@ export class ObjectiveEvaluator {
         ));
       }
       case "angularPacing": {
+        const spiralPhase = this.spiralClock(primitive, states);
         const angles = this.angularSeries(primitive, indices, states);
         if (angles.length < 2) return [];
         const sourceAngles = this.angularSeries(primitive, this.motionIndices.get(primitive.id)!, states);
@@ -913,13 +997,15 @@ export class ObjectiveEvaluator {
           );
           return stepWeighted(
             indices[index]!, indices[index + 1]!,
-            (angle - angles[index]! - (fullTargetDelta ?? targetDelta) * motionProgressDelta(
+            (angle - angles[index]! - (fullTargetDelta ?? targetDelta) * (spiralPhase
+              ? spiralPhase(this.times[indices[index + 1]!]!) - spiralPhase(this.times[indices[index]!]!)
+              : motionProgressDelta(
             this.times[indices[index]!]!,
             this.times[indices[index + 1]!]!,
             motionStartTime,
             motionEndTime,
             primitive.parameters.speedKeyframes,
-            )) / dt,
+            ))) / dt,
           );
         });
       }
@@ -943,6 +1029,7 @@ export class ObjectiveEvaluator {
       }
       case "radiusHold":
       case "radiusSchedule": {
+        const spiralPhase = this.spiralClock(primitive, states);
         const scheduleStartTime = typeof primitive.parameters.motionStartTime === "number"
           ? primitive.parameters.motionStartTime
           : primitive.startTime;
@@ -991,7 +1078,8 @@ export class ObjectiveEvaluator {
               Math.max(0, -sign * (radiusAt(index) - radiusAt(previousIndex)) / dt),
               { family: "directionRate", tolerance: 0.12 }));
             if (primitive.parameters.speedKeyframes !== undefined) {
-              const progress = motionProgress((this.times[index]! - scheduleStartTime) / duration, primitive.parameters.speedKeyframes);
+              const progress = spiralPhase ? spiralPhase(this.times[index]!)
+                : motionProgress((this.times[index]! - scheduleStartTime) / duration, primitive.parameters.speedKeyframes);
               const delta = typeof requestedDelta === "number" ? requestedDelta : actualDelta;
               residuals.push(weighted(index, radiusAt(index) - initialRadius - delta * progress));
             }
@@ -1339,7 +1427,7 @@ export class ObjectiveEvaluator {
             const subject = this.subject({ ...primitive, parameters: { ...primitive.parameters, subjectId } }, index);
             if (!subject) return [];
             const ownEntities = new Set(subject.entityIds);
-            const obstacles = this.obstacles(index).filter((obstacle) => !ownEntities.has(obstacle.entityId));
+            const obstacles = this.occluders(index).filter((obstacle) => !ownEntities.has(obstacle.entityId));
             const clearance = typeof primitive.parameters.sightMargin === "number"
               ? primitive.parameters.sightMargin : 0.05;
             return [sightClearanceResidual(states[index]!.position,
@@ -1469,12 +1557,12 @@ export class ObjectiveEvaluator {
 
   public evaluate(states: readonly CameraStateSample[], includeBreakdown = true): ObjectiveResult {
     if (!this.finiteStates(states)) return { total: Infinity, breakdown: [] };
-    this.positionCurve = createCameraPositionCurve(states, this.cutTimes);
+    this.preparePositionGeometry(states);
     let total = 0;
     const breakdown: LossBreakdownEntry[] = [];
     for (const primitive of this.plan.primitives) {
       if (primitive.weight <= 0) continue;
-      const rawResiduals = this.residuals(primitive, states);
+      const rawResiduals = this.cachedResiduals(primitive, states);
       if (rawResiduals.some((residual) => !Number.isFinite(residual.value)
         || !Number.isFinite(residual.time) || !Number.isFinite(residual.sampleWeight)
         || (residual.measure !== undefined && !Number.isFinite(residual.measure)))) {
@@ -1484,9 +1572,12 @@ export class ObjectiveEvaluator {
       if (residuals.length === 0) continue;
       const squared = primitive.sourceType === "userKeyframe"
         || primitive.channel === "safety"
-        || primitive.type === "bboxInFrame"
-        || ((primitive.type === "accelerationSmoothness" || primitive.type === "jerkSmoothness")
-          && primitive.parameters.referenceFrame !== "subjectRelative");
+        || primitive.type === "bboxInFrame";
+      // Physical derivatives still use the exported continuous curve, but a
+      // requested orbit or scene-rate jump can require large acceleration.
+      // A quadratic penalty there overwhelmed camera intent and collapsed
+      // radii or made a following rig lag. Huber bounds that influence while
+      // retaining a quadratic basin for small, unwanted motion variations.
       const families = new Map<string, WeightedResidual[]>();
       // Keep zero-activation samples in the quadrature: dropping them would
       // enlarge neighboring cells and partly undo an authored fade/suppression.
@@ -1529,12 +1620,12 @@ export class ObjectiveEvaluator {
   /** Worst enabled collision/ground clearance violation, measured in meters. */
   public safetyViolation(states: readonly CameraStateSample[]): number {
     if (!this.finiteStates(states)) return Infinity;
-    this.positionCurve = createCameraPositionCurve(states, this.cutTimes);
+    this.preparePositionGeometry(states);
     let maximum = 0;
     for (const primitive of this.plan.primitives) {
       if (primitive.type !== "collisionClearance" && primitive.type !== "groundClearance") continue;
       if (primitive.weight <= 0) continue;
-      for (const residual of this.residuals(primitive, states)) {
+      for (const residual of this.cachedResiduals(primitive, states)) {
         if (!Number.isFinite(residual.value)) return Infinity;
         if (residual.sampleWeight > 0) maximum = Math.max(maximum, residual.value);
       }

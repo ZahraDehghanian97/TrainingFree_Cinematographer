@@ -116,6 +116,8 @@ function buildMovementLossParameters(
     ...(action.movement.speedKeyframes ? { speedKeyframes: action.movement.speedKeyframes } : {}),
     ...(p.path ? { path: p.path } : {}),
     ...(p.curveIntensity === undefined ? {} : { curveIntensity: p.curveIntensity }),
+    ...(p.handheld === undefined ? {} : { handheld: p.handheld }),
+    ...(p.constantSpeed === undefined ? {} : { constantSpeed: p.constantSpeed }),
     ...(p.allowSubjectIntersection === undefined ? {} : { allowSubjectIntersection: p.allowSubjectIntersection }),
   };
 

@@ -1,19 +1,25 @@
 import { clamp } from "../shared/math";
 import type { CameraStateSample, UserCameraKeyframe } from "../types";
 import type { ObjectiveEvaluator } from "./objective";
+import { createSearchDirections, type SearchDirection } from "./search-directions";
 import { finiteCameraStates, StateCodec } from "./state-codec";
 
 export interface NumericalSolveResult {
   states: CameraStateSample[];
   initialLoss: number;
   finalLoss: number;
+  /** Number of one-dimensional searches, including displacement searches. */
   iterations: number;
-  /** No stationarity certificate is computed by this derivative-free solver. */
+  objectiveEvaluations: number;
+  acceptedSteps: number;
+  searchSweeps: number;
+  /** A derivative-free search does not provide a stationarity certificate. */
   converged: boolean;
   terminationReason: "objectivePlateau" | "stalled" | "maxIterations" | "initialState";
 }
 
 interface NumericalSolveOptions {
+  projectMotion?: (states: CameraStateSample[]) => void;
   iterations: number;
   randomSeed: number;
   cutTimes?: readonly number[];
@@ -23,25 +29,13 @@ interface NumericalSolveOptions {
   timeSmoothingSeconds?: number;
 }
 
-function xorshift32(seed: number): () => number {
-  let state = seed >>> 0 || 0x9e3779b9;
-  return () => {
-    state ^= state << 13;
-    state ^= state >>> 17;
-    state ^= state << 5;
-    return (state >>> 0) / 0x100000000;
-  };
-}
-
-function copyVector(vector: Float64Array): Float64Array {
-  return new Float64Array(vector);
-}
-
 /**
- * Deterministic simultaneous-perturbation Adam with monotone backtracking.
- * The SPSA gradient uses four objective evaluations regardless of dimension;
- * the bounded coordinate fallback below requires up to four per variable.
- * Rotation steps are retracted onto SO(3), then their local chart is recentered.
+ * Monotone derivative-free search in coherent temporal directions.
+ * Random independent knot perturbations can create enormous artificial jerk.
+ * Shot-wide modes and an invertibly smoothed coordinate basis avoid that noise.
+ * Symmetric probes fit a safeguarded one-dimensional quadratic, adapting each
+ * channel's step to its curvature. Only actual finite, safe descent is accepted.
+ * A complete sweep, including fine directions, precedes any plateau decision.
  */
 export function solveNumerically(
   initialStates: readonly CameraStateSample[],
@@ -56,7 +50,9 @@ export function solveNumerically(
   const codec = new StateCodec(initialStates, userKeyframes, { ...options, cutTimes });
   let vector = codec.encode(initialStates);
   let states = codec.decode(vector);
+  let objectiveEvaluations = 0;
   const finiteLoss = (candidate: readonly CameraStateSample[]): number => {
+    objectiveEvaluations += 1;
     if (!finiteCameraStates(candidate)) return Infinity;
     const loss = evaluator.evaluate(candidate, false).total;
     return Number.isFinite(loss) ? loss : Infinity;
@@ -68,195 +64,169 @@ export function solveNumerically(
   }
   vector = codec.rebase(states);
   let safetyLimit = Math.max(1e-6, initialSafetyViolation);
-  const respectsSafety = (candidate: readonly CameraStateSample[]): boolean => {
-    const violation = evaluator.safetyViolation(candidate);
-    return Number.isFinite(violation) && violation <= safetyLimit;
-  };
-  if (options.iterations <= 0 || codec.references.length === 0) {
-    return {
-      states,
-      initialLoss,
-      finalLoss: initialLoss,
-      iterations: 0,
-      converged: false,
-      terminationReason: "initialState",
-    };
-  }
-
-  const random = xorshift32(options.randomSeed);
-  const firstMoment = new Float64Array(vector.length);
-  const secondMoment = new Float64Array(vector.length);
   let currentLoss = initialLoss;
-  let bestLoss = initialLoss;
-  let bestStates = states;
-  let learningRate = 0.04;
-  let rejectedIterations = 0;
-  let smallImprovementIterations = 0;
-  let completedIterations = 0;
-  let momentUpdates = 0;
-  let terminationReason: NumericalSolveResult["terminationReason"] = "maxIterations";
-  const perturbationsPerIteration = 2;
+  let iterations = 0;
+  let acceptedSteps = 0;
+  let searchSweeps = 0;
+  let terminationReason: NumericalSolveResult["terminationReason"] = "initialState";
+  const result = (): NumericalSolveResult => ({
+    states, initialLoss, finalLoss: currentLoss, iterations, objectiveEvaluations,
+    acceptedSteps, searchSweeps, converged: false, terminationReason,
+  });
+  if (options.iterations <= 0 || codec.references.length === 0) return result();
+  // This objective is a sum of nonnegative energies. Numerical zero already
+  // meets its lower bound; calling it a stalled search would be misleading.
+  if (initialLoss >= 0 && initialLoss <= 1e-12) {
+    terminationReason = "objectivePlateau";
+    return result();
+  }
 
-  for (let iteration = 1; iteration <= options.iterations; iteration += 1) {
-    completedIterations = iteration;
-    const perturbationSize = 0.025 / Math.pow(iteration, 0.101);
-    const gradient = new Float64Array(vector.length);
-    let validPerturbations = 0;
-    for (let sample = 0; sample < perturbationsPerIteration; sample += 1) {
-      const delta = new Float64Array(vector.length);
-      const plus = copyVector(vector);
-      const minus = copyVector(vector);
-      for (let dimension = 0; dimension < vector.length; dimension += 1) {
-        delta[dimension] = random() < 0.5 ? -1 : 1;
-        plus[dimension] += perturbationSize * delta[dimension]!;
-        minus[dimension] -= perturbationSize * delta[dimension]!;
-      }
-      const plusLoss = finiteLoss(codec.decode(plus));
-      const minusLoss = finiteLoss(codec.decode(minus));
-      // Never feed NaN/Infinity into Adam's persistent moments. A nonfinite
-      // two-sided probe is discarded rather than converted into a direction.
-      if (!Number.isFinite(plusLoss) || !Number.isFinite(minusLoss)) continue;
-      const scale = (plusLoss - minusLoss) / (2 * perturbationSize);
-      if (!Number.isFinite(scale)) continue;
-      validPerturbations += 1;
-      for (let dimension = 0; dimension < gradient.length; dimension += 1) {
-        gradient[dimension] += scale * delta[dimension]!;
-      }
-    }
+  const directions = createSearchDirections(codec, initialStates, cutTimes);
+  const coarseDirections = directions.filter((direction) => direction.coarse);
+  const minimumRadius = 1e-8;
+  const maximumRadius = 0.25;
+  let sweepDisplacement = new Float64Array(vector.length);
 
-    if (validPerturbations === 0 || !gradient.every(Number.isFinite)) {
-      rejectedIterations += 1;
-      smallImprovementIterations = 0;
-      if (rejectedIterations >= 12) {
-        terminationReason = "stalled";
-        break;
-      }
-      continue;
-    }
-    for (let dimension = 0; dimension < gradient.length; dimension += 1) {
-      gradient[dimension] /= validPerturbations;
-    }
-    const beta1 = 0.9;
-    const beta2 = 0.999;
-    momentUpdates += 1;
-    let direction = new Float64Array(vector.length);
-    let maximumDirection = 0;
-    for (let dimension = 0; dimension < vector.length; dimension += 1) {
-      const value = clamp(gradient[dimension]!, -1e4, 1e4);
-      firstMoment[dimension] = beta1 * firstMoment[dimension]! + (1 - beta1) * value;
-      secondMoment[dimension] = beta2 * secondMoment[dimension]! + (1 - beta2) * value * value;
-      const correctedFirst = firstMoment[dimension]! / (1 - Math.pow(beta1, momentUpdates));
-      const correctedSecond = secondMoment[dimension]! / (1 - Math.pow(beta2, momentUpdates));
-      direction[dimension] = correctedFirst / (Math.sqrt(correctedSecond) + 1e-8);
-      maximumDirection = Math.max(maximumDirection, Math.abs(direction[dimension]!));
-    }
-    if (!Number.isFinite(maximumDirection) || maximumDirection <= 1e-12) {
-      rejectedIterations += 1;
-      smallImprovementIterations = 0;
-      if (rejectedIterations >= 12) {
-        terminationReason = "stalled";
-        break;
-      }
-      continue;
-    }
-    direction = new Float64Array(codec.smoothDirection(direction));
-    maximumDirection = 0;
-    for (const value of direction) maximumDirection = Math.max(maximumDirection, Math.abs(value));
-    const directionScale = maximumDirection > 1 ? 1 / maximumDirection : 1;
-
-    let accepted = false;
-    let step = learningRate;
-    for (let backtrack = 0; backtrack < 8; backtrack += 1) {
-      const candidate = copyVector(vector);
-      for (let dimension = 0; dimension < candidate.length; dimension += 1) {
-        candidate[dimension] -= step * directionScale * direction[dimension]!;
-      }
+  const search = (direction: SearchDirection): void => {
+    iterations += 1;
+    const origin = vector;
+    const originLoss = currentLoss;
+    const sufficientDecrease = Math.max(1e-10, Math.abs(originLoss) * 1e-10);
+    let bestLoss = originLoss;
+    let bestStates: CameraStateSample[] | undefined;
+    let bestSafety = safetyLimit;
+    let bestStep = 0;
+    const evaluated = new Map<number, number>();
+    let unsafeDescentStep: number | undefined;
+    const probe = (step: number): number => {
+      const cached = evaluated.get(step);
+      if (cached !== undefined) return cached;
+      if (!Number.isFinite(step) || step === 0) return originLoss;
+      const candidate = Float64Array.from(origin, (value, dimension) =>
+        value + step * direction.values[dimension]!);
       const candidateStates = codec.decode(candidate);
-      const candidateLoss = finiteLoss(candidateStates);
-      if (Number.isFinite(candidateLoss) && candidateLoss < currentLoss - Math.max(1e-9, currentLoss * 1e-9)
-        && respectsSafety(candidateStates)) {
-        states = candidateStates;
-        vector = codec.rebase(states);
-        safetyLimit = Math.max(1e-6, evaluator.safetyViolation(candidateStates));
-        const relativeImprovement = (currentLoss - candidateLoss) / Math.max(1, Math.abs(currentLoss));
-        currentLoss = candidateLoss;
-        accepted = true;
-        learningRate = Math.min(0.08, step * 1.08);
-        if (candidateLoss < bestLoss) {
-          bestLoss = candidateLoss;
+      const loss = finiteLoss(candidateStates);
+      evaluated.set(step, loss);
+      if (loss < bestLoss - sufficientDecrease) {
+        const safety = evaluator.safetyViolation(candidateStates);
+        if (Number.isFinite(safety) && safety <= safetyLimit) {
+          bestLoss = loss;
           bestStates = candidateStates;
-        }
-        rejectedIterations = 0;
-        smallImprovementIterations = relativeImprovement < 1e-7
-          ? smallImprovementIterations + 1
-          : 0;
-        break;
-      }
-      step *= 0.5;
-    }
-    if (!accepted) {
-      learningRate = Math.max(1e-4, learningRate * 0.5);
-      rejectedIterations += 1;
-      smallImprovementIterations = 0;
-    }
-    if (smallImprovementIterations >= 12) {
-      terminationReason = "objectivePlateau";
-      break;
-    }
-    if (rejectedIterations >= 18) {
-      terminationReason = "stalled";
-      break;
-    }
-  }
-
-  // SPSA can be too noisy when a long trajectory has many unrelated active
-  // channels. If it could not find any descent direction, perform a bounded
-  // deterministic coordinate sweep. This path is intentionally rare and
-  // keeps the same monotone/best-state guarantee.
-  if (bestLoss >= initialLoss - Math.max(1e-9, Math.abs(initialLoss) * 1e-10)) {
-    let fallbackVector = codec.rebase(bestStates);
-    let fallbackLoss = bestLoss;
-    for (const coordinateStep of [0.025, 0.008]) {
-      let acceptedInSweep = 0;
-      for (let dimension = 0; dimension < fallbackVector.length; dimension += 1) {
-        let dimensionBest = fallbackLoss;
-        let dimensionStates: CameraStateSample[] | undefined;
-        let dimensionSafety = safetyLimit;
-        for (const sign of [-1, 1]) {
-          const candidate = copyVector(fallbackVector);
-          candidate[dimension] += sign * coordinateStep;
-          const candidateStates = codec.decode(candidate);
-          const candidateLoss = finiteLoss(candidateStates);
-          if (
-            Number.isFinite(candidateLoss)
-            && candidateLoss < dimensionBest - Math.max(1e-9, Math.abs(dimensionBest) * 1e-10)
-            && respectsSafety(candidateStates)
-          ) {
-            dimensionBest = candidateLoss;
-            dimensionStates = candidateStates;
-            dimensionSafety = Math.max(1e-6, evaluator.safetyViolation(candidateStates));
-          }
-        }
-        if (dimensionStates) {
-          fallbackVector = codec.rebase(dimensionStates);
-          bestStates = dimensionStates;
-          safetyLimit = dimensionSafety;
-          fallbackLoss = dimensionBest;
-          acceptedInSweep += 1;
+          bestSafety = Math.max(1e-6, safety);
+          bestStep = step;
+        } else if (unsafeDescentStep === undefined || Math.abs(step) < Math.abs(unsafeDescentStep)) {
+          unsafeDescentStep = step;
         }
       }
-      if (acceptedInSweep === 0) continue;
-      bestLoss = fallbackLoss;
-    }
-  }
+      return loss;
+    };
 
-  states = bestStates;
-  return {
-    states,
-    initialLoss,
-    finalLoss: bestLoss,
-    iterations: completedIterations,
-    converged: false,
-    terminationReason,
+    let radius = clamp(direction.radius, minimumRadius, maximumRadius);
+    // A smaller-scale retry handles nonfinite probes and visibility/clipping
+    // boundaries. Its scale is retained for subsequent sweeps.
+    for (let attempt = 0; attempt < 2; attempt += 1) {
+      const plus = probe(radius);
+      const minus = probe(-radius);
+      if (Number.isFinite(plus) && Number.isFinite(minus)) {
+        const curvature = plus + minus - 2 * originLoss;
+        const slope = plus - minus;
+        if (curvature > Math.max(1e-14, Math.abs(originLoss) * 1e-14)) {
+          const interpolated = clamp(-0.5 * radius * slope / curvature, -4 * radius, 4 * radius);
+          if (Math.abs(interpolated) > 1e-12) probe(interpolated);
+        }
+        // A flat direction or a resolved quadratic minimum need not repeat
+        // the same unproductive probes immediately. Retry at a smaller scale
+        // on the next pass, after other channels may have changed the minimum.
+        if (!bestStates && unsafeDescentStep === undefined
+          && ((Math.abs(plus - originLoss) <= sufficientDecrease
+              && Math.abs(minus - originLoss) <= sufficientDecrease)
+            || (curvature > 0 && slope * slope / (8 * curvature) <= sufficientDecrease))) {
+          radius *= 0.2;
+          break;
+        }
+      }
+      if (bestStates) break;
+      radius *= 0.2;
+    }
+
+    if (bestStates && Math.abs(bestStep) >= radius * 0.9) {
+      // Coherent motion can travel farther than its initial probe. Expansion
+      // avoids inching along a broad, gently sloped valley.
+      for (let expansion = 0; expansion < 2; expansion += 1) {
+        const previousBest = bestLoss;
+        probe(clamp(bestStep * 2, -maximumRadius, maximumRadius));
+        if (bestLoss >= previousBest - sufficientDecrease) break;
+      }
+    } else if (!bestStates && unsafeDescentStep !== undefined) {
+      let step = unsafeDescentStep;
+      for (let backtrack = 0; backtrack < 6 && !bestStates; backtrack += 1) {
+        step *= 0.25;
+        probe(step);
+      }
+    }
+
+    if (bestStates) {
+      states = bestStates;
+      currentLoss = bestLoss;
+      safetyLimit = bestSafety;
+      vector = codec.rebase(states);
+      acceptedSteps += 1;
+      for (let dimension = 0; dimension < sweepDisplacement.length; dimension += 1) {
+        sweepDisplacement[dimension] += bestStep * direction.values[dimension]!;
+      }
+      direction.radius = clamp(Math.abs(bestStep) * 1.5, minimumRadius, maximumRadius);
+    } else {
+      direction.radius = Math.max(minimumRadius, radius);
+    }
   };
+
+  terminationReason = "maxIterations";
+  let quietSweeps = 0;
+  const searchDisplacement = (): void => {
+    let displacementSize = 0;
+    for (const value of sweepDisplacement) displacementSize = Math.max(displacementSize, Math.abs(value));
+    if (displacementSize > 1e-10 && iterations < options.iterations) {
+      // Accumulated world tangents only propose a direction: validate the
+      // actual SO(3) retraction with the same objective and safety checks.
+      search({
+        values: sweepDisplacement.map((value) => value / displacementSize),
+        radius: Math.min(maximumRadius, displacementSize),
+      });
+    }
+    sweepDisplacement = new Float64Array(vector.length);
+  };
+  while (iterations < options.iterations) {
+    searchSweeps += 1;
+    const sweepLoss = currentLoss;
+    const sweepAccepted = acceptedSteps;
+    sweepDisplacement = new Float64Array(vector.length);
+    let complete = true;
+    let localSearches = 0;
+    for (const direction of directions) {
+      if (iterations >= options.iterations) { complete = false; break; }
+      search(direction);
+      if (!direction.coarse) localSearches += 1;
+      if (localSearches >= 64) {
+        searchDisplacement();
+        // Long shots should revisit broad, coupled motion before exhausting
+        // hundreds of fine coordinates. All fine coordinates are still covered
+        // before the sweep can contribute to a plateau decision.
+        for (const coarse of coarseDirections) {
+          if (iterations >= options.iterations) break;
+          coarse.radius = Math.max(coarse.radius, 1e-4);
+          search(coarse);
+        }
+        localSearches = 0;
+      }
+    }
+    if (!complete) break;
+    searchDisplacement();
+    const improvement = (sweepLoss - currentLoss) / Math.max(1, Math.abs(sweepLoss));
+    quietSweeps = improvement < 1e-6 ? quietSweeps + 1 : 0;
+    if (quietSweeps >= 3) {
+      terminationReason = acceptedSteps === sweepAccepted ? "stalled" : "objectivePlateau";
+      break;
+    }
+  }
+  return result();
 }

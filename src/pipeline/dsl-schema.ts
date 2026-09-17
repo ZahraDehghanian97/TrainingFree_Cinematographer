@@ -222,6 +222,8 @@ const movementParametersSchema = z.strictObject({
   followDelay: nonNegativeNumberSchema.optional(),
   leadAmount: nonNegativeNumberSchema.optional(),
   allowSubjectIntersection: z.boolean().optional(),
+  handheld: z.boolean().optional(),
+  constantSpeed: z.boolean().optional(),
   path: z.enum(["linear", "curved", "spline"]).optional(),
   curveIntensity: scaleSchema.optional(),
 });

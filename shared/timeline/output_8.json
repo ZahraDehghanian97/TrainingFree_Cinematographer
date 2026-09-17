@@ -44,6 +44,35 @@
         "weight": 1
       },
       {
+        "kind": "point",
+        "shotStartTime": 0,
+        "time": 0,
+        "lossFunctions": [
+          {
+            "type": "shotSize",
+            "parameters": {
+              "shotSize": "longShot",
+              "subjectId": "fist"
+            }
+          },
+          {
+            "type": "subjectView",
+            "parameters": {
+              "view": "threeQuarterFrontRight",
+              "subjectId": "fist"
+            }
+          },
+          {
+            "type": "cameraVerticalAngle",
+            "parameters": {
+              "angle": "eye",
+              "subjectId": "fist"
+            }
+          }
+        ],
+        "weight": 1
+      },
+      {
         "kind": "interval",
         "shotStartTime": 0,
         "startTime": 7,
@@ -79,8 +108,9 @@
         "time": 12,
         "lossFunctions": [
           {
-            "type": "subjectPresence",
+            "type": "framingPosition",
             "parameters": {
+              "position": "center",
               "subjectId": "impact_point"
             }
           }

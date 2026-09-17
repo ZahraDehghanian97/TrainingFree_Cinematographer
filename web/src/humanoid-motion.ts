@@ -127,6 +127,11 @@ export function createHumanoidMotion(
   durationSeconds: number,
   rig: HumanoidRig,
 ): HumanoidMotion {
+  const visual = entity.visual.type === "model" ? entity.visual.fallback : entity.visual;
+  if (visual?.type === "preset" && visual.params?.pose === "driving") {
+    // The entity follows the car; locomotion must not turn a seated driver into a runner.
+    return { update: () => undefined };
+  }
   const duration = Math.max(0, durationSeconds);
   const style = motionStyle(entity);
   const path = buildPath(entity, duration, rig.root.scale.y);
@@ -135,6 +140,7 @@ export function createHumanoidMotion(
   const restRotation = rig.root.quaternion.clone();
   // Tiny authored shifts in a standing performance should remain idle.
   const followsPath = style === "auto" && path.some((sample) => sample.speed >= 0.12);
+  const followsHeading = followsPath && !(visual?.type === "preset" && visual.params?.facing === "authored");
   const parentRotation = new THREE.Quaternion();
   const facingRotation = new THREE.Quaternion();
   const up = new THREE.Vector3(0, 1, 0);
@@ -220,7 +226,7 @@ export function createHumanoidMotion(
       rig.rightHand.rotation.set(-0.018 * breath, 0, -0.025);
 
       rig.root.quaternion.copy(restRotation);
-      if (followsPath) {
+      if (followsHeading) {
         // Entity rotations live on the parent. Compensate there so +Z of the
         // walking body follows world travel, including coarse authored yaws.
         parentRotation.fromArray(entity.transform.rotation

@@ -28,6 +28,21 @@
         "weight": 1
       },
       {
+        "kind": "point",
+        "shotStartTime": 0,
+        "time": 0,
+        "lossFunctions": [
+          {
+            "type": "cameraVerticalAngle",
+            "parameters": {
+              "angle": "eye",
+              "subjectId": "driver"
+            }
+          }
+        ],
+        "weight": 1
+      },
+      {
         "kind": "interval",
         "shotStartTime": 0,
         "startTime": 2,
@@ -38,6 +53,23 @@
             "parameters": {
               "sign": 1,
               "subjectId": "car"
+            },
+            "sourceActionId": "arc_right_car"
+          }
+        ],
+        "weight": 1
+      },
+      {
+        "kind": "interval",
+        "shotStartTime": 0,
+        "startTime": 2,
+        "endTime": 15,
+        "lossFunctions": [
+          {
+            "type": "cameraVerticalAngle",
+            "parameters": {
+              "angle": "eye",
+              "subjectId": "driver"
             },
             "sourceActionId": "arc_right_car"
           }
@@ -94,6 +126,25 @@
           }
         ],
         "weight": 1
+      },
+      {
+        "kind": "point",
+        "shotStartTime": 0,
+        "time": 15,
+        "lossFunctions": [
+          {
+            "type": "shotSize",
+            "parameters": {
+              "shotSize": "closeUp",
+              "subjectId": "driver"
+            }
+          }
+        ],
+        "weight": 1,
+        "easing": {
+          "inDuration": 13,
+          "curve": "easeInOut"
+        }
       }
     ],
     "timeWarp": []

@@ -73,8 +73,7 @@
                   "easing": "decrease"
                 }
               ],
-              "path": "spline",
-              "curveIntensity": 2
+              "handheld": true
             },
             "sourceActionId": "dolly_out_shake"
           }

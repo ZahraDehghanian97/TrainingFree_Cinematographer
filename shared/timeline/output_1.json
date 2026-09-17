@@ -36,6 +36,7 @@
           {
             "type": "pedestalUpMovement",
             "parameters": {
+              "distance": 2.5,
               "speedKeyframes": [
                 {
                   "normalizedTime": 0,
@@ -79,21 +80,23 @@
         "weight": 1
       },
       {
-        "kind": "interval",
+        "kind": "point",
         "shotStartTime": 0,
-        "startTime": 6.958333333333333,
-        "endTime": 9.958333333333332,
+        "time": 9.958333333333332,
         "lossFunctions": [
           {
             "type": "cameraVerticalAngle",
             "parameters": {
               "angle": "high",
               "subjectId": "ball"
-            },
-            "sourceActionId": "follow_high_angle"
+            }
           }
         ],
-        "weight": 1
+        "weight": 1,
+        "easing": {
+          "inDuration": 3,
+          "curve": "easeInOut"
+        }
       }
     ],
     "timeWarp": []

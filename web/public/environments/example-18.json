@@ -161,7 +161,8 @@
           0
         ],
         "radius": 0.035
-      }
+      },
+      "occlusion": { "transparent": true }
     },
     {
       "id": "red-practical",

@@ -89,12 +89,21 @@ export function createInitialCameraState(
         : compositionPrimitive
           ? samplePrimitiveSubject(input, compositionPrimitive, playbackTime)
           : fallbackTarget;
+  // An over-the-shoulder shot can use one person for camera bearing/height
+  // and another for shot size. Keep those references distinct when locating
+  // the camera along the bearing ray.
+  const framingTarget = scalePrimitive
+    ? samplePrimitiveSubject(input, scalePrimitive, playbackTime) ?? semanticTarget
+    : semanticTarget;
+  const elevationTarget = elevationPrimitive
+    ? samplePrimitiveSubject(input, elevationPrimitive, playbackTime)
+    : undefined;
 
   if (semanticTarget) {
     const targetCoverage = typeof scalePrimitive?.parameters.targetCoverage === "number"
       ? scalePrimitive.parameters.targetCoverage
       : 0.35;
-    const targetHeight = Math.max(0.2, semanticTarget.box.size[1]);
+    const targetHeight = Math.max(0.2, (framingTarget ?? semanticTarget).box.size[1]);
     let distance = clamp(
       targetHeight / Math.max(
         0.05,
@@ -124,23 +133,33 @@ export function createInitialCameraState(
           ),
         )
       : localDirection;
+    const direction = normalize3(worldDirection, [0, 0, 1]);
+    const cameraPositionAtDistance = (candidateDistance: number): Vec3 => {
+      const candidate = add3(semanticTarget.center, scale3(direction, candidateDistance));
+      if (elevationTarget) {
+        // Bearing may be relative to a foreground shoulder while elevation
+        // is relative to the other person's eyes. Honor each target's center.
+        candidate[1] = elevationTarget.center[1] + Math.tan(elevation)
+          * Math.hypot(candidate[0] - elevationTarget.center[0], candidate[2] - elevationTarget.center[2]);
+      }
+      return candidate;
+    };
 
-    if (scalePrimitive && semanticTarget.box.size[1] > 1e-6) {
+    if (scalePrimitive && framingTarget && framingTarget.box.size[1] > 1e-6) {
       // Refine the flat-plane estimate against the projection model used by
       // the objective so deep AABBs do not start tighter than requested.
-      const direction = normalize3(worldDirection, [0, 0, 1]);
       distance = projectedDistanceForCoverage(
         input,
-        semanticTarget,
+        framingTarget,
         direction,
         fovYDegrees,
         targetCoverage,
-        { allowNearPlaneLimited: true },
+        { allowNearPlaneLimited: true, cameraPositionAtDistance },
       );
       worldDirection = scale3(direction, distance);
     }
     if (!scalePrimitive) worldDirection = scale3(worldDirection, choices.distanceScale ?? 1);
-    position = add3(semanticTarget.center, worldDirection);
+    position = cameraPositionAtDistance(length3(worldDirection));
   }
 
   const radiusPrimitive = findPrimitive(pointPrimitives, "radiusHold");
@@ -159,12 +178,12 @@ export function createInitialCameraState(
 
     // A requested orbit radius owns camera position, so the lens absorbs any
     // simultaneous shot-size request.
-    if (semanticTarget && scalePrimitive) {
+    if (framingTarget && scalePrimitive) {
       const targetCoverage = typeof scalePrimitive.parameters.targetCoverage === "number"
         ? scalePrimitive.parameters.targetCoverage
         : 0.35;
-      const targetHeight = Math.max(0.2, semanticTarget.box.size[1]);
-      const distance = Math.max(0.05, length3(sub3(position, semanticTarget.center)));
+      const targetHeight = Math.max(0.2, framingTarget.box.size[1]);
+      const distance = Math.max(0.05, length3(sub3(position, framingTarget.center)));
       fovYDegrees = clamp(
         2 * Math.atan(
           targetHeight / Math.max(0.05, 2 * targetCoverage * distance),

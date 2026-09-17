@@ -28,6 +28,9 @@
     "orientation": {
       "mode": "quaternion"
     },
+    "interpolation": {
+      "position": "quinticHermite"
+    },
     "samples": [
       {
         "t": 0,
@@ -43,6 +46,16 @@
           0.9987502603949663
         ],
         "fovYDegrees": 70,
+        "positionVelocity": [
+          0,
+          0,
+          0
+        ],
+        "positionAcceleration": [
+          0,
+          0,
+          0
+        ],
         "actionId": "zoom_dancer_face_free_pose"
       },
       {
@@ -58,7 +71,17 @@
           0,
           0.9987502603949663
         ],
-        "fovYDegrees": 69.79989721430664,
+        "fovYDegrees": 69.84457973089081,
+        "positionVelocity": [
+          0,
+          0,
+          0
+        ],
+        "positionAcceleration": [
+          0,
+          0,
+          0
+        ],
         "actionId": "zoom_dancer_face_free_pose"
       },
       {
@@ -74,7 +97,17 @@
           0,
           0.9987502603949663
         ],
-        "fovYDegrees": 69.59943370076616,
+        "fovYDegrees": 69.689314051214,
+        "positionVelocity": [
+          0,
+          0,
+          0
+        ],
+        "positionAcceleration": [
+          0,
+          0,
+          0
+        ],
         "actionId": "zoom_dancer_face_free_pose"
       },
       {
@@ -90,7 +123,17 @@
           0,
           0.9987502603949663
         ],
-        "fovYDegrees": 69.39882589608679,
+        "fovYDegrees": 69.53420394626706,
+        "positionVelocity": [
+          0,
+          0,
+          0
+        ],
+        "positionAcceleration": [
+          0,
+          0,
+          0
+        ],
         "actionId": "zoom_dancer_face_free_pose"
       },
       {
@@ -106,7 +149,17 @@
           0,
           0.9987502603949663
         ],
-        "fovYDegrees": 69.19829023697686,
+        "fovYDegrees": 69.37925039579727,
+        "positionVelocity": [
+          0,
+          0,
+          0
+        ],
+        "positionAcceleration": [
+          0,
+          0,
+          0
+        ],
         "actionId": "zoom_dancer_face_free_pose"
       },
       {
@@ -122,7 +175,17 @@
           0,
           0.9987502603949663
         ],
-        "fovYDegrees": 68.99804316014466,
+        "fovYDegrees": 69.22445437398066,
+        "positionVelocity": [
+          0,
+          0,
+          0
+        ],
+        "positionAcceleration": [
+          0,
+          0,
+          0
+        ],
         "actionId": "zoom_dancer_face_free_pose"
       },
       {
@@ -138,7 +201,17 @@
           0,
           0.9987502603949663
         ],
-        "fovYDegrees": 68.79830110229844,
+        "fovYDegrees": 69.06981684940114,
+        "positionVelocity": [
+          0,
+          0,
+          0
+        ],
+        "positionAcceleration": [
+          0,
+          0,
+          0
+        ],
         "actionId": "zoom_dancer_face_free_pose"
       },
       {
@@ -154,7 +227,17 @@
           0,
           0.9987502603949663
         ],
-        "fovYDegrees": 68.59928050014655,
+        "fovYDegrees": 68.9153387850305,
+        "positionVelocity": [
+          0,
+          0,
+          0
+        ],
+        "positionAcceleration": [
+          0,
+          0,
+          0
+        ],
         "actionId": "zoom_dancer_face_free_pose"
       },
       {
@@ -170,14 +253,24 @@
           0,
           0.9987502603949663
         ],
-        "fovYDegrees": 68.40119779039722,
+        "fovYDegrees": 68.76102113820859,
+        "positionVelocity": [
+          0,
+          0,
+          0
+        ],
+        "positionAcceleration": [
+          0,
+          0,
+          0
+        ],
         "actionId": "zoom_dancer_face_free_pose"
       },
       {
         "t": 0.375,
         "position": [
           0,
-          1.8225951975849195,
+          1.8225951975849193,
           2.27886074042143
         ],
         "rotation": [
@@ -186,7 +279,17 @@
           0,
           0.9987502603949663
         ],
-        "fovYDegrees": 68.203938163468,
+        "fovYDegrees": 68.6068648606239,
+        "positionVelocity": [
+          0,
+          0,
+          0
+        ],
+        "positionAcceleration": [
+          0,
+          0,
+          0
+        ],
         "actionId": "zoom_dancer_face_free_pose"
       },
       {
@@ -202,7 +305,17 @@
           0,
           0.9987502603949663
         ],
-        "fovYDegrees": 68.00724251863757,
+        "fovYDegrees": 68.45287089829482,
+        "positionVelocity": [
+          0,
+          0,
+          0
+        ],
+        "positionAcceleration": [
+          0,
+          0,
+          0
+        ],
         "actionId": "zoom_dancer_face_free_pose"
       },
       {
@@ -218,7 +331,17 @@
           0,
           0.9987502603949663
         ],
-        "fovYDegrees": 67.8111108559059,
+        "fovYDegrees": 68.29904019155104,
+        "positionVelocity": [
+          0,
+          0,
+          0
+        ],
+        "positionAcceleration": [
+          0,
+          0,
+          0
+        ],
         "actionId": "zoom_dancer_face_free_pose"
       },
       {
@@ -234,7 +357,17 @@
           0,
           0.9987502603949663
         ],
-        "fovYDegrees": 67.615543175273,
+        "fovYDegrees": 68.1453736750157,
+        "positionVelocity": [
+          0,
+          0,
+          0
+        ],
+        "positionAcceleration": [
+          0,
+          0,
+          0
+        ],
         "actionId": "zoom_dancer_face_free_pose"
       },
       {
@@ -250,7 +383,17 @@
           0,
           0.9987502603949663
         ],
-        "fovYDegrees": 67.42053947673888,
+        "fovYDegrees": 67.99187227758785,
+        "positionVelocity": [
+          0,
+          0,
+          0
+        ],
+        "positionAcceleration": [
+          0,
+          0,
+          0
+        ],
         "actionId": "zoom_dancer_face_free_pose"
       },
       {
@@ -266,7 +409,17 @@
           0,
           0.9987502603949663
         ],
-        "fovYDegrees": 67.22609976030353,
+        "fovYDegrees": 67.83853692242508,
+        "positionVelocity": [
+          0,
+          0,
+          0
+        ],
+        "positionAcceleration": [
+          0,
+          0,
+          0
+        ],
         "actionId": "zoom_dancer_face_free_pose"
       },
       {
@@ -282,7 +435,17 @@
           0,
           0.9987502603949663
         ],
-        "fovYDegrees": 67.03222402596695,
+        "fovYDegrees": 67.68536852692722,
+        "positionVelocity": [
+          0,
+          0,
+          0
+        ],
+        "positionAcceleration": [
+          0,
+          0,
+          0
+        ],
         "actionId": "zoom_dancer_face_free_pose"
       },
       {
@@ -298,7 +461,17 @@
           0,
           0.9987502603949663
         ],
-        "fovYDegrees": 66.83891227372915,
+        "fovYDegrees": 67.53236800271983,
+        "positionVelocity": [
+          0,
+          0,
+          0
+        ],
+        "positionAcceleration": [
+          0,
+          0,
+          0
+        ],
         "actionId": "zoom_dancer_face_free_pose"
       },
       {
@@ -314,7 +487,17 @@
           0,
           0.9987502603949663
         ],
-        "fovYDegrees": 66.64615806290566,
+        "fovYDegrees": 67.37953625563851,
+        "positionVelocity": [
+          0,
+          0,
+          0
+        ],
+        "positionAcceleration": [
+          0,
+          0,
+          0
+        ],
         "actionId": "zoom_dancer_face_free_pose"
       },
       {
@@ -330,7 +513,17 @@
           0,
           0.9987502603949663
         ],
-        "fovYDegrees": 66.45395495281198,
+        "fovYDegrees": 67.22687418571357,
+        "positionVelocity": [
+          0,
+          0,
+          0
+        ],
+        "positionAcceleration": [
+          0,
+          0,
+          0
+        ],
         "actionId": "zoom_dancer_face_free_pose"
       },
       {
@@ -346,7 +539,17 @@
           0,
           0.9987502603949663
         ],
-        "fovYDegrees": 66.26230294344815,
+        "fovYDegrees": 67.07438268715501,
+        "positionVelocity": [
+          0,
+          0,
+          0
+        ],
+        "positionAcceleration": [
+          0,
+          0,
+          0
+        ],
         "actionId": "zoom_dancer_face_free_pose"
       },
       {
@@ -362,7 +565,17 @@
           0,
           0.9987502603949663
         ],
-        "fovYDegrees": 66.07120203481416,
+        "fovYDegrees": 66.92206264833817,
+        "positionVelocity": [
+          0,
+          0,
+          0
+        ],
+        "positionAcceleration": [
+          0,
+          0,
+          0
+        ],
         "actionId": "zoom_dancer_face_free_pose"
       },
       {
@@ -378,7 +591,17 @@
           0,
           0.9987502603949663
         ],
-        "fovYDegrees": 65.88065222691,
+        "fovYDegrees": 66.7699149517896,
+        "positionVelocity": [
+          0,
+          0,
+          0
+        ],
+        "positionAcceleration": [
+          0,
+          0,
+          0
+        ],
         "actionId": "zoom_dancer_face_free_pose"
       },
       {
@@ -394,7 +617,17 @@
           0,
           0.9987502603949663
         ],
-        "fovYDegrees": 65.69065351973566,
+        "fovYDegrees": 66.61794047417347,
+        "positionVelocity": [
+          0,
+          0,
+          0
+        ],
+        "positionAcceleration": [
+          0,
+          0,
+          0
+        ],
         "actionId": "zoom_dancer_face_free_pose"
       },
       {
@@ -410,7 +643,17 @@
           0,
           0.9987502603949663
         ],
-        "fovYDegrees": 65.50120591329117,
+        "fovYDegrees": 66.46614008627841,
+        "positionVelocity": [
+          0,
+          0,
+          0
+        ],
+        "positionAcceleration": [
+          0,
+          0,
+          0
+        ],
         "actionId": "zoom_dancer_face_free_pose"
       },
       {
@@ -426,7 +669,17 @@
           0,
           0.9987502603949663
         ],
-        "fovYDegrees": 65.3123094075765,
+        "fovYDegrees": 66.31451465300478,
+        "positionVelocity": [
+          0,
+          0,
+          0
+        ],
+        "positionAcceleration": [
+          0,
+          0,
+          0
+        ],
         "actionId": "zoom_dancer_face_free_pose"
       },
       {
@@ -442,7 +695,17 @@
           0,
           0.9987502603949663
         ],
-        "fovYDegrees": 65.12395770901264,
+        "fovYDegrees": 66.16306503335227,
+        "positionVelocity": [
+          0,
+          0,
+          0
+        ],
+        "positionAcceleration": [
+          0,
+          0,
+          0
+        ],
         "actionId": "zoom_dancer_face_free_pose"
       },
       {
@@ -458,7 +721,17 @@
           0,
           0.9987502603949663
         ],
-        "fovYDegrees": 64.93614452402055,
+        "fovYDegrees": 66.01179208040813,
+        "positionVelocity": [
+          0,
+          0,
+          0
+        ],
+        "positionAcceleration": [
+          0,
+          0,
+          0
+        ],
         "actionId": "zoom_dancer_face_free_pose"
       },
       {
@@ -474,7 +747,17 @@
           0,
           0.9987502603949663
         ],
-        "fovYDegrees": 64.74886985260024,
+        "fovYDegrees": 65.8606966413357,
+        "positionVelocity": [
+          0,
+          0,
+          0
+        ],
+        "positionAcceleration": [
+          0,
+          0,
+          0
+        ],
         "actionId": "zoom_dancer_face_free_pose"
       },
       {
@@ -490,7 +773,17 @@
           0,
           0.9987502603949663
         ],
-        "fovYDegrees": 64.5621336947517,
+        "fovYDegrees": 65.70977955736325,
+        "positionVelocity": [
+          0,
+          0,
+          0
+        ],
+        "positionAcceleration": [
+          0,
+          0,
+          0
+        ],
         "actionId": "zoom_dancer_face_free_pose"
       },
       {
@@ -506,7 +799,17 @@
           0,
           0.9987502603949663
         ],
-        "fovYDegrees": 64.3759360504749,
+        "fovYDegrees": 65.55904166377364,
+        "positionVelocity": [
+          0,
+          0,
+          0
+        ],
+        "positionAcceleration": [
+          0,
+          0,
+          0
+        ],
         "actionId": "zoom_dancer_face_free_pose"
       },
       {
@@ -522,7 +825,17 @@
           0,
           0.9987502603949663
         ],
-        "fovYDegrees": 64.19027691976989,
+        "fovYDegrees": 65.40848378989388,
+        "positionVelocity": [
+          0,
+          0,
+          0
+        ],
+        "positionAcceleration": [
+          0,
+          0,
+          0
+        ],
         "actionId": "zoom_dancer_face_free_pose"
       },
       {
@@ -538,7 +851,17 @@
           0,
           0.9987502603949663
         ],
-        "fovYDegrees": 64.00515630263664,
+        "fovYDegrees": 65.2581067590855,
+        "positionVelocity": [
+          0,
+          0,
+          0
+        ],
+        "positionAcceleration": [
+          0,
+          0,
+          0
+        ],
         "actionId": "zoom_dancer_face_free_pose"
       },
       {
@@ -554,7 +877,17 @@
           0,
           0.9987502603949663
         ],
-        "fovYDegrees": 63.82057419907516,
+        "fovYDegrees": 65.1079113887353,
+        "positionVelocity": [
+          0,
+          0,
+          0
+        ],
+        "positionAcceleration": [
+          0,
+          0,
+          0
+        ],
         "actionId": "zoom_dancer_face_free_pose"
       },
       {
@@ -570,7 +903,17 @@
           0,
           0.9987502603949663
         ],
-        "fovYDegrees": 63.63652445925196,
+        "fovYDegrees": 64.95789849024634,
+        "positionVelocity": [
+          0,
+          0,
+          0
+        ],
+        "positionAcceleration": [
+          0,
+          0,
+          0
+        ],
         "actionId": "zoom_dancer_face_free_pose"
       },
       {
@@ -586,7 +929,17 @@
           0,
           0.9987502603949663
         ],
-        "fovYDegrees": 63.453000933333556,
+        "fovYDegrees": 64.80806886902941,
+        "positionVelocity": [
+          0,
+          0,
+          0
+        ],
+        "positionAcceleration": [
+          0,
+          0,
+          0
+        ],
         "actionId": "zoom_dancer_face_free_pose"
       },
       {
@@ -602,7 +955,17 @@
           0,
           0.9987502603949663
         ],
-        "fovYDegrees": 63.27000362131994,
+        "fovYDegrees": 64.6584233244951,
+        "positionVelocity": [
+          0,
+          0,
+          0
+        ],
+        "positionAcceleration": [
+          0,
+          0,
+          0
+        ],
         "actionId": "zoom_dancer_face_free_pose"
       },
       {
@@ -618,7 +981,17 @@
           0,
           0.9987502603949663
         ],
-        "fovYDegrees": 63.08753252321112,
+        "fovYDegrees": 64.50896265004606,
+        "positionVelocity": [
+          0,
+          0,
+          0
+        ],
+        "positionAcceleration": [
+          0,
+          0,
+          0
+        ],
         "actionId": "zoom_dancer_face_free_pose"
       },
       {
@@ -634,7 +1007,17 @@
           0,
           0.9987502603949663
         ],
-        "fovYDegrees": 62.90558763900709,
+        "fovYDegrees": 64.3596876330697,
+        "positionVelocity": [
+          0,
+          0,
+          0
+        ],
+        "positionAcceleration": [
+          0,
+          0,
+          0
+        ],
         "actionId": "zoom_dancer_face_free_pose"
       },
       {
@@ -650,7 +1033,17 @@
           0,
           0.9987502603949663
         ],
-        "fovYDegrees": 62.72416896870784,
+        "fovYDegrees": 64.21059905493155,
+        "positionVelocity": [
+          0,
+          0,
+          0
+        ],
+        "positionAcceleration": [
+          0,
+          0,
+          0
+        ],
         "actionId": "zoom_dancer_face_free_pose"
       },
       {
@@ -666,7 +1059,17 @@
           0,
           0.9987502603949663
         ],
-        "fovYDegrees": 62.54327651231339,
+        "fovYDegrees": 64.06169769096866,
+        "positionVelocity": [
+          0,
+          0,
+          0
+        ],
+        "positionAcceleration": [
+          0,
+          0,
+          0
+        ],
         "actionId": "zoom_dancer_face_free_pose"
       },
       {
@@ -682,15 +1085,25 @@
           0,
           0.9987502603949663
         ],
-        "fovYDegrees": 62.36291026982373,
+        "fovYDegrees": 63.91298431048364,
+        "positionVelocity": [
+          0,
+          0,
+          0
+        ],
+        "positionAcceleration": [
+          0,
+          0,
+          0
+        ],
         "actionId": "zoom_dancer_face_free_pose"
       },
       {
         "t": 1.7083333333333333,
         "position": [
           0,
-          1.822595197584919,
-          2.2788607404214294
+          1.8225951975849193,
+          2.27886074042143
         ],
         "rotation": [
           -0.04997916927067835,
@@ -698,7 +1111,17 @@
           0,
           0.9987502603949663
         ],
-        "fovYDegrees": 62.18306423186775,
+        "fovYDegrees": 63.7644596767391,
+        "positionVelocity": [
+          0,
+          0,
+          0
+        ],
+        "positionAcceleration": [
+          0,
+          0,
+          0
+        ],
         "actionId": "zoom_dancer_face_free_pose"
       },
       {
@@ -714,7 +1137,17 @@
           0,
           0.9987502603949663
         ],
-        "fovYDegrees": 62.00373238907439,
+        "fovYDegrees": 63.61612454695245,
+        "positionVelocity": [
+          0,
+          0,
+          0
+        ],
+        "positionAcceleration": [
+          0,
+          0,
+          0
+        ],
         "actionId": "zoom_dancer_face_free_pose"
       },
       {
@@ -730,7 +1163,17 @@
           0,
           0.9987502603949663
         ],
-        "fovYDegrees": 61.824914741443614,
+        "fovYDegrees": 63.467979672291044,
+        "positionVelocity": [
+          0,
+          0,
+          0
+        ],
+        "positionAcceleration": [
+          0,
+          0,
+          0
+        ],
         "actionId": "zoom_dancer_face_free_pose"
       },
       {
@@ -746,7 +1189,17 @@
           0,
           0.9987502603949663
         ],
-        "fovYDegrees": 61.64661128897544,
+        "fovYDegrees": 63.32002579786783,
+        "positionVelocity": [
+          0,
+          0,
+          0
+        ],
+        "positionAcceleration": [
+          0,
+          0,
+          0
+        ],
         "actionId": "zoom_dancer_face_free_pose"
       },
       {
@@ -762,7 +1215,17 @@
           0,
           0.9987502603949663
         ],
-        "fovYDegrees": 61.46882203166985,
+        "fovYDegrees": 63.172263662737386,
+        "positionVelocity": [
+          0,
+          0,
+          0
+        ],
+        "positionAcceleration": [
+          0,
+          0,
+          0
+        ],
         "actionId": "zoom_dancer_face_free_pose"
       },
       {
@@ -778,7 +1241,17 @@
           0,
           0.9987502603949663
         ],
-        "fovYDegrees": 61.29154696952687,
+        "fovYDegrees": 63.02469399989223,
+        "positionVelocity": [
+          0,
+          0,
+          0
+        ],
+        "positionAcceleration": [
+          0,
+          0,
+          0
+        ],
         "actionId": "zoom_dancer_face_free_pose"
       },
       {
@@ -794,7 +1267,17 @@
           0,
           0.9987502603949663
         ],
-        "fovYDegrees": 61.114786102546475,
+        "fovYDegrees": 62.877317536259724,
+        "positionVelocity": [
+          0,
+          0,
+          0
+        ],
+        "positionAcceleration": [
+          0,
+          0,
+          0
+        ],
         "actionId": "zoom_dancer_face_free_pose"
       },
       {
@@ -810,7 +1293,17 @@
           0,
           0.9987502603949663
         ],
-        "fovYDegrees": 60.938539430728675,
+        "fovYDegrees": 62.73013499269919,
+        "positionVelocity": [
+          0,
+          0,
+          0
+        ],
+        "positionAcceleration": [
+          0,
+          0,
+          0
+        ],
         "actionId": "zoom_dancer_face_free_pose"
       },
       {
@@ -826,7 +1319,17 @@
           0,
           0.9987502603949663
         ],
-        "fovYDegrees": 60.7628010819566,
+        "fovYDegrees": 62.58314708399951,
+        "positionVelocity": [
+          0,
+          0,
+          0
+        ],
+        "positionAcceleration": [
+          0,
+          0,
+          0
+        ],
         "actionId": "zoom_dancer_face_free_pose"
       },
       {
@@ -842,7 +1345,17 @@
           0,
           0.9987502603949663
         ],
-        "fovYDegrees": 60.587565184113366,
+        "fovYDegrees": 62.4363545188771,
+        "positionVelocity": [
+          0,
+          0,
+          0
+        ],
+        "positionAcceleration": [
+          0,
+          0,
+          0
+        ],
         "actionId": "zoom_dancer_face_free_pose"
       },
       {
@@ -858,7 +1371,17 @@
           0,
           0.9987502603949663
         ],
-        "fovYDegrees": 60.41283173719899,
+        "fovYDegrees": 62.28975799997424,
+        "positionVelocity": [
+          0,
+          0,
+          0
+        ],
+        "positionAcceleration": [
+          0,
+          0,
+          0
+        ],
         "actionId": "zoom_dancer_face_free_pose"
       },
       {
@@ -874,7 +1397,17 @@
           0,
           0.9987502603949663
         ],
-        "fovYDegrees": 60.23860074121347,
+        "fovYDegrees": 62.143358223857895,
+        "positionVelocity": [
+          0,
+          0,
+          0
+        ],
+        "positionAcceleration": [
+          0,
+          0,
+          0
+        ],
         "actionId": "zoom_dancer_face_free_pose"
       },
       {
@@ -890,7 +1423,17 @@
           0,
           0.9987502603949663
         ],
-        "fovYDegrees": 60.06487219615679,
+        "fovYDegrees": 61.99715588101869,
+        "positionVelocity": [
+          0,
+          0,
+          0
+        ],
+        "positionAcceleration": [
+          0,
+          0,
+          0
+        ],
         "actionId": "zoom_dancer_face_free_pose"
       },
       {
@@ -906,7 +1449,17 @@
           0,
           0.9987502603949663
         ],
-        "fovYDegrees": 59.891646102028965,
+        "fovYDegrees": 61.851151655870545,
+        "positionVelocity": [
+          0,
+          0,
+          0
+        ],
+        "positionAcceleration": [
+          0,
+          0,
+          0
+        ],
         "actionId": "zoom_dancer_face_free_pose"
       },
       {
@@ -922,7 +1475,17 @@
           0,
           0.9987502603949663
         ],
-        "fovYDegrees": 59.71892245883,
+        "fovYDegrees": 61.705346226750464,
+        "positionVelocity": [
+          0,
+          0,
+          0
+        ],
+        "positionAcceleration": [
+          0,
+          0,
+          0
+        ],
         "actionId": "zoom_dancer_face_free_pose"
       },
       {
@@ -938,7 +1501,17 @@
           0,
           0.9987502603949663
         ],
-        "fovYDegrees": 59.54670126655987,
+        "fovYDegrees": 61.559740265918826,
+        "positionVelocity": [
+          0,
+          0,
+          0
+        ],
+        "positionAcceleration": [
+          0,
+          0,
+          0
+        ],
         "actionId": "zoom_dancer_face_free_pose"
       },
       {
@@ -954,7 +1527,17 @@
           0,
           0.9987502603949663
         ],
-        "fovYDegrees": 59.374976787221065,
+        "fovYDegrees": 61.414334439559994,
+        "positionVelocity": [
+          0,
+          0,
+          0
+        ],
+        "positionAcceleration": [
+          0,
+          0,
+          0
+        ],
         "actionId": "zoom_dancer_face_free_pose"
       },
       {
@@ -970,7 +1553,17 @@
           0,
           0.9987502603949663
         ],
-        "fovYDegrees": 59.203743282816035,
+        "fovYDegrees": 61.269129407783275,
+        "positionVelocity": [
+          0,
+          0,
+          0
+        ],
+        "positionAcceleration": [
+          0,
+          0,
+          0
+        ],
         "actionId": "zoom_dancer_face_free_pose"
       },
       {
@@ -986,7 +1579,17 @@
           0,
           0.9987502603949663
         ],
-        "fovYDegrees": 59.03300075334477,
+        "fovYDegrees": 61.12412582462436,
+        "positionVelocity": [
+          0,
+          0,
+          0
+        ],
+        "positionAcceleration": [
+          0,
+          0,
+          0
+        ],
         "actionId": "zoom_dancer_face_free_pose"
       },
       {
@@ -1002,7 +1605,17 @@
           0,
           0.9987502603949663
         ],
-        "fovYDegrees": 58.862749198807286,
+        "fovYDegrees": 60.97932433804693,
+        "positionVelocity": [
+          0,
+          0,
+          0
+        ],
+        "positionAcceleration": [
+          0,
+          0,
+          0
+        ],
         "actionId": "zoom_dancer_face_free_pose"
       },
       {
@@ -1018,7 +1631,17 @@
           0,
           0.9987502603949663
         ],
-        "fovYDegrees": 58.69298861920359,
+        "fovYDegrees": 60.83472558994486,
+        "positionVelocity": [
+          0,
+          0,
+          0
+        ],
+        "positionAcceleration": [
+          0,
+          0,
+          0
+        ],
         "actionId": "zoom_dancer_face_free_pose"
       },
       {
@@ -1034,7 +1657,17 @@
           0,
           0.9987502603949663
         ],
-        "fovYDegrees": 58.523719014533654,
+        "fovYDegrees": 60.69033021614454,
+        "positionVelocity": [
+          0,
+          0,
+          0
+        ],
+        "positionAcceleration": [
+          0,
+          0,
+          0
+        ],
         "actionId": "zoom_dancer_face_free_pose"
       },
       {
@@ -1050,7 +1683,17 @@
           0,
           0.9987502603949663
         ],
-        "fovYDegrees": 58.354940384797494,
+        "fovYDegrees": 60.54613884640776,
+        "positionVelocity": [
+          0,
+          0,
+          0
+        ],
+        "positionAcceleration": [
+          0,
+          0,
+          0
+        ],
         "actionId": "zoom_dancer_face_free_pose"
       },
       {
@@ -1066,7 +1709,17 @@
           0,
           0.9987502603949663
         ],
-        "fovYDegrees": 58.18665272999512,
+        "fovYDegrees": 60.40215210443488,
+        "positionVelocity": [
+          0,
+          0,
+          0
+        ],
+        "positionAcceleration": [
+          0,
+          0,
+          0
+        ],
         "actionId": "zoom_dancer_face_free_pose"
       },
       {
@@ -1082,7 +1735,17 @@
           0,
           0.9987502603949663
         ],
-        "fovYDegrees": 58.01885044318502,
+        "fovYDegrees": 60.25837060786824,
+        "positionVelocity": [
+          0,
+          0,
+          0
+        ],
+        "positionAcceleration": [
+          0,
+          0,
+          0
+        ],
         "actionId": "zoom_dancer_face_free_pose"
       },
       {
@@ -1098,7 +1761,17 @@
           0,
           0.9987502603949663
         ],
-        "fovYDegrees": 57.851527917425706,
+        "fovYDegrees": 60.11479496829606,
+        "positionVelocity": [
+          0,
+          0,
+          0
+        ],
+        "positionAcceleration": [
+          0,
+          0,
+          0
+        ],
         "actionId": "zoom_dancer_face_free_pose"
       },
       {
@@ -1114,7 +1787,17 @@
           0,
           0.9987502603949663
         ],
-        "fovYDegrees": 57.6846851527172,
+        "fovYDegrees": 59.97142579125667,
+        "positionVelocity": [
+          0,
+          0,
+          0
+        ],
+        "positionAcceleration": [
+          0,
+          0,
+          0
+        ],
         "actionId": "zoom_dancer_face_free_pose"
       },
       {
@@ -1130,7 +1813,17 @@
           0,
           0.9987502603949663
         ],
-        "fovYDegrees": 57.51832214905947,
+        "fovYDegrees": 59.82826367624304,
+        "positionVelocity": [
+          0,
+          0,
+          0
+        ],
+        "positionAcceleration": [
+          0,
+          0,
+          0
+        ],
         "actionId": "zoom_dancer_face_free_pose"
       },
       {
@@ -1146,7 +1839,17 @@
           0,
           0.9987502603949663
         ],
-        "fovYDegrees": 57.35243890645253,
+        "fovYDegrees": 59.685309216707644,
+        "positionVelocity": [
+          0,
+          0,
+          0
+        ],
+        "positionAcceleration": [
+          0,
+          0,
+          0
+        ],
         "actionId": "zoom_dancer_face_free_pose"
       },
       {
@@ -1162,7 +1865,17 @@
           0,
           0.9987502603949663
         ],
-        "fovYDegrees": 57.18703542489638,
+        "fovYDegrees": 59.542563000067624,
+        "positionVelocity": [
+          0,
+          0,
+          0
+        ],
+        "positionAcceleration": [
+          0,
+          0,
+          0
+        ],
         "actionId": "zoom_dancer_face_free_pose"
       },
       {
@@ -1178,7 +1891,17 @@
           0,
           0.9987502603949663
         ],
-        "fovYDegrees": 57.02211170439102,
+        "fovYDegrees": 59.400025607710496,
+        "positionVelocity": [
+          0,
+          0,
+          0
+        ],
+        "positionAcceleration": [
+          0,
+          0,
+          0
+        ],
         "actionId": "zoom_dancer_face_free_pose"
       },
       {
@@ -1194,7 +1917,17 @@
           0,
           0.9987502603949663
         ],
-        "fovYDegrees": 56.85766774493646,
+        "fovYDegrees": 59.2576976149999,
+        "positionVelocity": [
+          0,
+          0,
+          0
+        ],
+        "positionAcceleration": [
+          0,
+          0,
+          0
+        ],
         "actionId": "zoom_dancer_face_free_pose"
       },
       {
@@ -1210,7 +1943,17 @@
           0,
           0.9987502603949663
         ],
-        "fovYDegrees": 56.69369806765391,
+        "fovYDegrees": 59.11557959128188,
+        "positionVelocity": [
+          0,
+          0,
+          0
+        ],
+        "positionAcceleration": [
+          0,
+          0,
+          0
+        ],
         "actionId": "zoom_dancer_face_free_pose"
       },
       {
@@ -1226,7 +1969,17 @@
           0,
           0.9987502603949663
         ],
-        "fovYDegrees": 56.53019719366459,
+        "fovYDegrees": 58.97367209989143,
+        "positionVelocity": [
+          0,
+          0,
+          0
+        ],
+        "positionAcceleration": [
+          0,
+          0,
+          0
+        ],
         "actionId": "zoom_dancer_face_free_pose"
       },
       {
@@ -1242,7 +1995,17 @@
           0,
           0.9987502603949663
         ],
-        "fovYDegrees": 56.36716512296855,
+        "fovYDegrees": 58.83197569815932,
+        "positionVelocity": [
+          0,
+          0,
+          0
+        ],
+        "positionAcceleration": [
+          0,
+          0,
+          0
+        ],
         "actionId": "zoom_dancer_face_free_pose"
       },
       {
@@ -1258,7 +2021,17 @@
           0,
           0.9987502603949663
         ],
-        "fovYDegrees": 56.204601855565734,
+        "fovYDegrees": 58.69049093741931,
+        "positionVelocity": [
+          0,
+          0,
+          0
+        ],
+        "positionAcceleration": [
+          0,
+          0,
+          0
+        ],
         "actionId": "zoom_dancer_face_free_pose"
       },
       {
@@ -1274,7 +2047,17 @@
           0,
           0.9987502603949663
         ],
-        "fovYDegrees": 56.042507391456176,
+        "fovYDegrees": 58.5492183630157,
+        "positionVelocity": [
+          0,
+          0,
+          0
+        ],
+        "positionAcceleration": [
+          0,
+          0,
+          0
+        ],
         "actionId": "zoom_dancer_face_free_pose"
       },
       {
@@ -1290,7 +2073,17 @@
           0,
           0.9987502603949663
         ],
-        "fovYDegrees": 55.88088173063985,
+        "fovYDegrees": 58.408158514311054,
+        "positionVelocity": [
+          0,
+          0,
+          0
+        ],
+        "positionAcceleration": [
+          0,
+          0,
+          0
+        ],
         "actionId": "zoom_dancer_face_free_pose"
       },
       {
@@ -1306,7 +2099,17 @@
           0,
           0.9987502603949663
         ],
-        "fovYDegrees": 55.71972487311678,
+        "fovYDegrees": 58.26731192469444,
+        "positionVelocity": [
+          0,
+          0,
+          0
+        ],
+        "positionAcceleration": [
+          0,
+          0,
+          0
+        ],
         "actionId": "zoom_dancer_face_free_pose"
       },
       {
@@ -1322,7 +2125,17 @@
           0,
           0.9987502603949663
         ],
-        "fovYDegrees": 55.55903681888695,
+        "fovYDegrees": 58.12667912158982,
+        "positionVelocity": [
+          0,
+          0,
+          0
+        ],
+        "positionAcceleration": [
+          0,
+          0,
+          0
+        ],
         "actionId": "zoom_dancer_face_free_pose"
       },
       {
@@ -1338,7 +2151,17 @@
           0,
           0.9987502603949663
         ],
-        "fovYDegrees": 55.398812214209364,
+        "fovYDegrees": 57.98626062646472,
+        "positionVelocity": [
+          0,
+          0,
+          0
+        ],
+        "positionAcceleration": [
+          0,
+          0,
+          0
+        ],
         "actionId": "zoom_dancer_face_free_pose"
       },
       {
@@ -1354,7 +2177,17 @@
           0,
           0.9987502603949663
         ],
-        "fovYDegrees": 55.23904570534301,
+        "fovYDegrees": 57.84605695483948,
+        "positionVelocity": [
+          0,
+          0,
+          0
+        ],
+        "positionAcceleration": [
+          0,
+          0,
+          0
+        ],
         "actionId": "zoom_dancer_face_free_pose"
       },
       {
@@ -1370,7 +2203,17 @@
           0,
           0.9987502603949663
         ],
-        "fovYDegrees": 55.07973729228788,
+        "fovYDegrees": 57.70606861629639,
+        "positionVelocity": [
+          0,
+          0,
+          0
+        ],
+        "positionAcceleration": [
+          0,
+          0,
+          0
+        ],
         "actionId": "zoom_dancer_face_free_pose"
       },
       {
@@ -1386,7 +2229,17 @@
           0,
           0.9987502603949663
         ],
-        "fovYDegrees": 54.92088697504398,
+        "fovYDegrees": 57.56629611448954,
+        "positionVelocity": [
+          0,
+          0,
+          0
+        ],
+        "positionAcceleration": [
+          0,
+          0,
+          0
+        ],
         "actionId": "zoom_dancer_face_free_pose"
       },
       {
@@ -1402,7 +2255,17 @@
           0,
           0.9987502603949663
         ],
-        "fovYDegrees": 54.7624947536113,
+        "fovYDegrees": 57.42673994715455,
+        "positionVelocity": [
+          0,
+          0,
+          0
+        ],
+        "positionAcceleration": [
+          0,
+          0,
+          0
+        ],
         "actionId": "zoom_dancer_face_free_pose"
       },
       {
@@ -1418,7 +2281,17 @@
           0,
           0.9987502603949663
         ],
-        "fovYDegrees": 54.60456062798987,
+        "fovYDegrees": 57.28740060611902,
+        "positionVelocity": [
+          0,
+          0,
+          0
+        ],
+        "positionAcceleration": [
+          0,
+          0,
+          0
+        ],
         "actionId": "zoom_dancer_face_free_pose"
       },
       {
@@ -1434,7 +2307,17 @@
           0,
           0.9987502603949663
         ],
-        "fovYDegrees": 54.44708459817966,
+        "fovYDegrees": 57.148278577312894,
+        "positionVelocity": [
+          0,
+          0,
+          0
+        ],
+        "positionAcceleration": [
+          0,
+          0,
+          0
+        ],
         "actionId": "zoom_dancer_face_free_pose"
       },
       {
@@ -1450,7 +2333,17 @@
           0,
           0.9987502603949663
         ],
-        "fovYDegrees": 54.29006666418068,
+        "fovYDegrees": 57.00937434077933,
+        "positionVelocity": [
+          0,
+          0,
+          0
+        ],
+        "positionAcceleration": [
+          0,
+          0,
+          0
+        ],
         "actionId": "zoom_dancer_face_free_pose"
       },
       {
@@ -1466,7 +2359,17 @@
           0,
           0.9987502603949663
         ],
-        "fovYDegrees": 54.13350159453153,
+        "fovYDegrees": 56.87068837068584,
+        "positionVelocity": [
+          0,
+          0,
+          0
+        ],
+        "positionAcceleration": [
+          0,
+          0,
+          0
+        ],
         "actionId": "zoom_dancer_face_free_pose"
       },
       {
@@ -1482,7 +2385,17 @@
           0,
           0.9987502603949663
         ],
-        "fovYDegrees": 53.97738415777083,
+        "fovYDegrees": 56.73222113533555,
+        "positionVelocity": [
+          0,
+          0,
+          0
+        ],
+        "positionAcceleration": [
+          0,
+          0,
+          0
+        ],
         "actionId": "zoom_dancer_face_free_pose"
       },
       {
@@ -1498,7 +2411,17 @@
           0,
           0.9987502603949663
         ],
-        "fovYDegrees": 53.82171435389857,
+        "fovYDegrees": 56.59397309717894,
+        "positionVelocity": [
+          0,
+          0,
+          0
+        ],
+        "positionAcceleration": [
+          0,
+          0,
+          0
+        ],
         "actionId": "zoom_dancer_face_free_pose"
       },
       {
@@ -1514,7 +2437,17 @@
           0,
           0.9987502603949663
         ],
-        "fovYDegrees": 53.66649218291476,
+        "fovYDegrees": 56.45594471282573,
+        "positionVelocity": [
+          0,
+          0,
+          0
+        ],
+        "positionAcceleration": [
+          0,
+          0,
+          0
+        ],
         "actionId": "zoom_dancer_face_free_pose"
       },
       {
@@ -1530,7 +2463,17 @@
           0,
           0.9987502603949663
         ],
-        "fovYDegrees": 53.51171764481938,
+        "fovYDegrees": 56.31813643305708,
+        "positionVelocity": [
+          0,
+          0,
+          0
+        ],
+        "positionAcceleration": [
+          0,
+          0,
+          0
+        ],
         "actionId": "zoom_dancer_face_free_pose"
       },
       {
@@ -1546,7 +2489,17 @@
           0,
           0.9987502603949663
         ],
-        "fovYDegrees": 53.35739073961244,
+        "fovYDegrees": 56.180548702838,
+        "positionVelocity": [
+          0,
+          0,
+          0
+        ],
+        "positionAcceleration": [
+          0,
+          0,
+          0
+        ],
         "actionId": "zoom_dancer_face_free_pose"
       },
       {
@@ -1562,7 +2515,17 @@
           0,
           0.9987502603949663
         ],
-        "fovYDegrees": 53.20351146729395,
+        "fovYDegrees": 56.043181961330134,
+        "positionVelocity": [
+          0,
+          0,
+          0
+        ],
+        "positionAcceleration": [
+          0,
+          0,
+          0
+        ],
         "actionId": "zoom_dancer_face_free_pose"
       },
       {
@@ -1578,7 +2541,17 @@
           0,
           0.9987502603949663
         ],
-        "fovYDegrees": 53.0500798278639,
+        "fovYDegrees": 55.90603664190468,
+        "positionVelocity": [
+          0,
+          0,
+          0
+        ],
+        "positionAcceleration": [
+          0,
+          0,
+          0
+        ],
         "actionId": "zoom_dancer_face_free_pose"
       },
       {
@@ -1594,7 +2567,17 @@
           0,
           0.9987502603949663
         ],
-        "fovYDegrees": 52.89709070934763,
+        "fovYDegrees": 55.76911317215572,
+        "positionVelocity": [
+          0,
+          0,
+          0
+        ],
+        "positionAcceleration": [
+          0,
+          0,
+          0
+        ],
         "actionId": "zoom_dancer_face_free_pose"
       },
       {
@@ -1610,7 +2593,17 @@
           0,
           0.9987502603949663
         ],
-        "fovYDegrees": 52.74453899977051,
+        "fovYDegrees": 55.63241197391364,
+        "positionVelocity": [
+          0,
+          0,
+          0
+        ],
+        "positionAcceleration": [
+          0,
+          0,
+          0
+        ],
         "actionId": "zoom_dancer_face_free_pose"
       },
       {
@@ -1626,7 +2619,17 @@
           0,
           0.9987502603949663
         ],
-        "fovYDegrees": 52.592424699132536,
+        "fovYDegrees": 55.49593346325883,
+        "positionVelocity": [
+          0,
+          0,
+          0
+        ],
+        "positionAcceleration": [
+          0,
+          0,
+          0
+        ],
         "actionId": "zoom_dancer_face_free_pose"
       },
       {
@@ -1642,7 +2645,17 @@
           0,
           0.9987502603949663
         ],
-        "fovYDegrees": 52.44074780743368,
+        "fovYDegrees": 55.35967805053582,
+        "positionVelocity": [
+          0,
+          0,
+          0
+        ],
+        "positionAcceleration": [
+          0,
+          0,
+          0
+        ],
         "actionId": "zoom_dancer_face_free_pose"
       },
       {
@@ -1658,7 +2671,17 @@
           0,
           0.9987502603949663
         ],
-        "fovYDegrees": 52.28950832467398,
+        "fovYDegrees": 55.22364614036737,
+        "positionVelocity": [
+          0,
+          0,
+          0
+        ],
+        "positionAcceleration": [
+          0,
+          0,
+          0
+        ],
         "actionId": "zoom_dancer_face_free_pose"
       },
       {
@@ -1674,7 +2697,17 @@
           0,
           0.9987502603949663
         ],
-        "fovYDegrees": 52.13870625085342,
+        "fovYDegrees": 55.08783813166906,
+        "positionVelocity": [
+          0,
+          0,
+          0
+        ],
+        "positionAcceleration": [
+          0,
+          0,
+          0
+        ],
         "actionId": "zoom_dancer_face_free_pose"
       },
       {
@@ -1690,7 +2723,17 @@
           0,
           0.9987502603949663
         ],
-        "fovYDegrees": 51.98834158597199,
+        "fovYDegrees": 54.95225441766394,
+        "positionVelocity": [
+          0,
+          0,
+          0
+        ],
+        "positionAcceleration": [
+          0,
+          0,
+          0
+        ],
         "actionId": "zoom_dancer_face_free_pose"
       },
       {
@@ -1706,7 +2749,17 @@
           0,
           0.9987502603949663
         ],
-        "fovYDegrees": 51.83841433002971,
+        "fovYDegrees": 54.8168953858975,
+        "positionVelocity": [
+          0,
+          0,
+          0
+        ],
+        "positionAcceleration": [
+          0,
+          0,
+          0
+        ],
         "actionId": "zoom_dancer_face_free_pose"
       },
       {
@@ -1722,7 +2775,17 @@
           0,
           0.9987502603949663
         ],
-        "fovYDegrees": 51.688919487809564,
+        "fovYDegrees": 54.6817614182529,
+        "positionVelocity": [
+          0,
+          0,
+          0
+        ],
+        "positionAcceleration": [
+          0,
+          0,
+          0
+        ],
         "actionId": "zoom_dancer_face_free_pose"
       },
       {
@@ -1738,7 +2801,17 @@
           0,
           0.9987502603949663
         ],
-        "fovYDegrees": 51.5398520640946,
+        "fovYDegrees": 54.54685289096631,
+        "positionVelocity": [
+          0,
+          0,
+          0
+        ],
+        "positionAcceleration": [
+          0,
+          0,
+          0
+        ],
         "actionId": "zoom_dancer_face_free_pose"
       },
       {
@@ -1754,7 +2827,17 @@
           0,
           0.9987502603949663
         ],
-        "fovYDegrees": 51.39121205888479,
+        "fovYDegrees": 54.412170174642654,
+        "positionVelocity": [
+          0,
+          0,
+          0
+        ],
+        "positionAcceleration": [
+          0,
+          0,
+          0
+        ],
         "actionId": "zoom_dancer_face_free_pose"
       },
       {
@@ -1770,7 +2853,17 @@
           0,
           0.9987502603949663
         ],
-        "fovYDegrees": 51.24299947218014,
+        "fovYDegrees": 54.27771363427137,
+        "positionVelocity": [
+          0,
+          0,
+          0
+        ],
+        "positionAcceleration": [
+          0,
+          0,
+          0
+        ],
         "actionId": "zoom_dancer_face_free_pose"
       },
       {
@@ -1786,7 +2879,17 @@
           0,
           0.9987502603949663
         ],
-        "fovYDegrees": 51.09521430398067,
+        "fovYDegrees": 54.14348362924259,
+        "positionVelocity": [
+          0,
+          0,
+          0
+        ],
+        "positionAcceleration": [
+          0,
+          0,
+          0
+        ],
         "actionId": "zoom_dancer_face_free_pose"
       },
       {
@@ -1802,7 +2905,17 @@
           0,
           0.9987502603949663
         ],
-        "fovYDegrees": 50.94785655428634,
+        "fovYDegrees": 54.00948051336336,
+        "positionVelocity": [
+          0,
+          0,
+          0
+        ],
+        "positionAcceleration": [
+          0,
+          0,
+          0
+        ],
         "actionId": "zoom_dancer_face_free_pose"
       },
       {
@@ -1818,7 +2931,17 @@
           0,
           0.9987502603949663
         ],
-        "fovYDegrees": 50.80092622309718,
+        "fovYDegrees": 53.87570463487423,
+        "positionVelocity": [
+          0,
+          0,
+          0
+        ],
+        "positionAcceleration": [
+          0,
+          0,
+          0
+        ],
         "actionId": "zoom_dancer_face_free_pose"
       },
       {
@@ -1834,7 +2957,17 @@
           0,
           0.9987502603949663
         ],
-        "fovYDegrees": 50.65442331041318,
+        "fovYDegrees": 53.742156336465975,
+        "positionVelocity": [
+          0,
+          0,
+          0
+        ],
+        "positionAcceleration": [
+          0,
+          0,
+          0
+        ],
         "actionId": "zoom_dancer_face_free_pose"
       },
       {
@@ -1850,7 +2983,17 @@
           0,
           0.9987502603949663
         ],
-        "fovYDegrees": 50.508342935108274,
+        "fovYDegrees": 53.60883595529648,
+        "positionVelocity": [
+          0,
+          0,
+          0
+        ],
+        "positionAcceleration": [
+          0,
+          0,
+          0
+        ],
         "actionId": "zoom_dancer_face_free_pose"
       },
       {
@@ -1866,7 +3009,17 @@
           0,
           0.9987502603949663
         ],
-        "fovYDegrees": 50.362680216056376,
+        "fovYDegrees": 53.47574382300794,
+        "positionVelocity": [
+          0,
+          0,
+          0
+        ],
+        "positionAcceleration": [
+          0,
+          0,
+          0
+        ],
         "actionId": "zoom_dancer_face_free_pose"
       },
       {
@@ -1882,7 +3035,17 @@
           0,
           0.9987502603949663
         ],
-        "fovYDegrees": 50.2174351532575,
+        "fovYDegrees": 53.342880265744185,
+        "positionVelocity": [
+          0,
+          0,
+          0
+        ],
+        "positionAcceleration": [
+          0,
+          0,
+          0
+        ],
         "actionId": "zoom_dancer_face_free_pose"
       },
       {
@@ -1898,7 +3061,17 @@
           0,
           0.9987502603949663
         ],
-        "fovYDegrees": 50.07260774671162,
+        "fovYDegrees": 53.210245604168186,
+        "positionVelocity": [
+          0,
+          0,
+          0
+        ],
+        "positionAcceleration": [
+          0,
+          0,
+          0
+        ],
         "actionId": "zoom_dancer_face_free_pose"
       },
       {
@@ -1914,7 +3087,17 @@
           0,
           0.9987502603949663
         ],
-        "fovYDegrees": 49.92819799641877,
+        "fovYDegrees": 53.07784015347987,
+        "positionVelocity": [
+          0,
+          0,
+          0
+        ],
+        "positionAcceleration": [
+          0,
+          0,
+          0
+        ],
         "actionId": "zoom_dancer_face_free_pose"
       },
       {
@@ -1930,7 +3113,17 @@
           0,
           0.9987502603949663
         ],
-        "fovYDegrees": 49.784205902378915,
+        "fovYDegrees": 52.94566422343401,
+        "positionVelocity": [
+          0,
+          0,
+          0
+        ],
+        "positionAcceleration": [
+          0,
+          0,
+          0
+        ],
         "actionId": "zoom_dancer_face_free_pose"
       },
       {
@@ -1946,7 +3139,17 @@
           0,
           0.9987502603949663
         ],
-        "fovYDegrees": 49.64063146459209,
+        "fovYDegrees": 52.8137181183583,
+        "positionVelocity": [
+          0,
+          0,
+          0
+        ],
+        "positionAcceleration": [
+          0,
+          0,
+          0
+        ],
         "actionId": "zoom_dancer_face_free_pose"
       },
       {
@@ -1962,7 +3165,17 @@
           0,
           0.9987502603949663
         ],
-        "fovYDegrees": 49.49747468305827,
+        "fovYDegrees": 52.68200213717175,
+        "positionVelocity": [
+          0,
+          0,
+          0
+        ],
+        "positionAcceleration": [
+          0,
+          0,
+          0
+        ],
         "actionId": "zoom_dancer_face_free_pose"
       },
       {
@@ -1978,7 +3191,17 @@
           0,
           0.9987502603949663
         ],
-        "fovYDegrees": 49.35473078813646,
+        "fovYDegrees": 52.55051657340314,
+        "positionVelocity": [
+          0,
+          0,
+          0
+        ],
+        "positionAcceleration": [
+          0,
+          0,
+          0
+        ],
         "actionId": "zoom_dancer_face_free_pose"
       },
       {
@@ -1994,7 +3217,17 @@
           0,
           0.9987502603949663
         ],
-        "fovYDegrees": 49.21239501018567,
+        "fovYDegrees": 52.41926171520962,
+        "positionVelocity": [
+          0,
+          0,
+          0
+        ],
+        "positionAcceleration": [
+          0,
+          0,
+          0
+        ],
         "actionId": "zoom_dancer_face_free_pose"
       },
       {
@@ -2010,7 +3243,17 @@
           0,
           0.9987502603949663
         ],
-        "fovYDegrees": 49.070467349205884,
+        "fovYDegrees": 52.28823784539573,
+        "positionVelocity": [
+          0,
+          0,
+          0
+        ],
+        "positionAcceleration": [
+          0,
+          0,
+          0
+        ],
         "actionId": "zoom_dancer_face_free_pose"
       },
       {
@@ -2026,7 +3269,17 @@
           0,
           0.9987502603949663
         ],
-        "fovYDegrees": 48.928947805197105,
+        "fovYDegrees": 52.15744524143221,
+        "positionVelocity": [
+          0,
+          0,
+          0
+        ],
+        "positionAcceleration": [
+          0,
+          0,
+          0
+        ],
         "actionId": "zoom_dancer_face_free_pose"
       },
       {
@@ -2042,7 +3295,17 @@
           0,
           0.9987502603949663
         ],
-        "fovYDegrees": 48.78783637815934,
+        "fovYDegrees": 52.026884175475345,
+        "positionVelocity": [
+          0,
+          0,
+          0
+        ],
+        "positionAcceleration": [
+          0,
+          0,
+          0
+        ],
         "actionId": "zoom_dancer_face_free_pose"
       },
       {
@@ -2058,7 +3321,17 @@
           0,
           0.9987502603949663
         ],
-        "fovYDegrees": 48.647133068092586,
+        "fovYDegrees": 51.896554914386286,
+        "positionVelocity": [
+          0,
+          0,
+          0
+        ],
+        "positionAcceleration": [
+          0,
+          0,
+          0
+        ],
         "actionId": "zoom_dancer_face_free_pose"
       },
       {
@@ -2074,7 +3347,17 @@
           0,
           0.9987502603949663
         ],
-        "fovYDegrees": 48.50683787499684,
+        "fovYDegrees": 51.76645771975054,
+        "positionVelocity": [
+          0,
+          0,
+          0
+        ],
+        "positionAcceleration": [
+          0,
+          0,
+          0
+        ],
         "actionId": "zoom_dancer_face_free_pose"
       },
       {
@@ -2090,7 +3373,17 @@
           0,
           0.9987502603949663
         ],
-        "fovYDegrees": 48.36695079887211,
+        "fovYDegrees": 51.636592847897724,
+        "positionVelocity": [
+          0,
+          0,
+          0
+        ],
+        "positionAcceleration": [
+          0,
+          0,
+          0
+        ],
         "actionId": "zoom_dancer_face_free_pose"
       },
       {
@@ -2106,7 +3399,17 @@
           0,
           0.9987502603949663
         ],
-        "fovYDegrees": 48.22746717901613,
+        "fovYDegrees": 51.506960549921345,
+        "positionVelocity": [
+          0,
+          0,
+          0
+        ],
+        "positionAcceleration": [
+          0,
+          0,
+          0
+        ],
         "actionId": "zoom_dancer_face_free_pose"
       },
       {
@@ -2122,7 +3425,17 @@
           0,
           0.9987502603949663
         ],
-        "fovYDegrees": 48.08838235472667,
+        "fovYDegrees": 51.37756107169886,
+        "positionVelocity": [
+          0,
+          0,
+          0
+        ],
+        "positionAcceleration": [
+          0,
+          0,
+          0
+        ],
         "actionId": "zoom_dancer_face_free_pose"
       },
       {
@@ -2138,7 +3451,17 @@
           0,
           0.9987502603949663
         ],
-        "fovYDegrees": 47.94969632600372,
+        "fovYDegrees": 51.24839465391176,
+        "positionVelocity": [
+          0,
+          0,
+          0
+        ],
+        "positionAcceleration": [
+          0,
+          0,
+          0
+        ],
         "actionId": "zoom_dancer_face_free_pose"
       },
       {
@@ -2154,7 +3477,17 @@
           0,
           0.9987502603949663
         ],
-        "fovYDegrees": 47.81140909284728,
+        "fovYDegrees": 51.11946153206602,
+        "positionVelocity": [
+          0,
+          0,
+          0
+        ],
+        "positionAcceleration": [
+          0,
+          0,
+          0
+        ],
         "actionId": "zoom_dancer_face_free_pose"
       },
       {
@@ -2170,7 +3503,17 @@
           0,
           0.9987502603949663
         ],
-        "fovYDegrees": 47.67352065525734,
+        "fovYDegrees": 50.99076193651236,
+        "positionVelocity": [
+          0,
+          0,
+          0
+        ],
+        "positionAcceleration": [
+          0,
+          0,
+          0
+        ],
         "actionId": "zoom_dancer_face_free_pose"
       },
       {
@@ -2186,7 +3529,17 @@
           0,
           0.9987502603949663
         ],
-        "fovYDegrees": 47.53603101323392,
+        "fovYDegrees": 50.862296092467005,
+        "positionVelocity": [
+          0,
+          0,
+          0
+        ],
+        "positionAcceleration": [
+          0,
+          0,
+          0
+        ],
         "actionId": "zoom_dancer_face_free_pose"
       },
       {
@@ -2202,7 +3555,17 @@
           0,
           0.9987502603949663
         ],
-        "fovYDegrees": 47.398940166777,
+        "fovYDegrees": 50.73406422003234,
+        "positionVelocity": [
+          0,
+          0,
+          0
+        ],
+        "positionAcceleration": [
+          0,
+          0,
+          0
+        ],
         "actionId": "zoom_dancer_face_free_pose"
       },
       {
@@ -2218,7 +3581,17 @@
           0,
           0.9987502603949663
         ],
-        "fovYDegrees": 47.2622481158866,
+        "fovYDegrees": 50.60606653421783,
+        "positionVelocity": [
+          0,
+          0,
+          0
+        ],
+        "positionAcceleration": [
+          0,
+          0,
+          0
+        ],
         "actionId": "zoom_dancer_face_free_pose"
       },
       {
@@ -2234,7 +3607,17 @@
           0,
           0.9987502603949663
         ],
-        "fovYDegrees": 47.12595030631104,
+        "fovYDegrees": 50.47830324496101,
+        "positionVelocity": [
+          0,
+          0,
+          0
+        ],
+        "positionAcceleration": [
+          0,
+          0,
+          0
+        ],
         "actionId": "zoom_dancer_face_free_pose"
       },
       {
@@ -2250,7 +3633,17 @@
           0,
           0.9987502603949663
         ],
-        "fovYDegrees": 46.99004218379867,
+        "fovYDegrees": 50.350774557148625,
+        "positionVelocity": [
+          0,
+          0,
+          0
+        ],
+        "positionAcceleration": [
+          0,
+          0,
+          0
+        ],
         "actionId": "zoom_dancer_face_free_pose"
       },
       {
@@ -2266,7 +3659,17 @@
           0,
           0.9987502603949663
         ],
-        "fovYDegrees": 46.85452374834947,
+        "fovYDegrees": 50.223480670637976,
+        "positionVelocity": [
+          0,
+          0,
+          0
+        ],
+        "positionAcceleration": [
+          0,
+          0,
+          0
+        ],
         "actionId": "zoom_dancer_face_free_pose"
       },
       {
@@ -2282,7 +3685,17 @@
           0,
           0.9987502603949663
         ],
-        "fovYDegrees": 46.719394999963455,
+        "fovYDegrees": 50.09642178027822,
+        "positionVelocity": [
+          0,
+          0,
+          0
+        ],
+        "positionAcceleration": [
+          0,
+          0,
+          0
+        ],
         "actionId": "zoom_dancer_face_free_pose"
       },
       {
@@ -2298,7 +3711,17 @@
           0,
           0.9987502603949663
         ],
-        "fovYDegrees": 46.58465593864062,
+        "fovYDegrees": 49.96959807593198,
+        "positionVelocity": [
+          0,
+          0,
+          0
+        ],
+        "positionAcceleration": [
+          0,
+          0,
+          0
+        ],
         "actionId": "zoom_dancer_face_free_pose"
       },
       {
@@ -2314,7 +3737,17 @@
           0,
           0.9987502603949663
         ],
-        "fovYDegrees": 46.45030656438098,
+        "fovYDegrees": 49.84300974249696,
+        "positionVelocity": [
+          0,
+          0,
+          0
+        ],
+        "positionAcceleration": [
+          0,
+          0,
+          0
+        ],
         "actionId": "zoom_dancer_face_free_pose"
       },
       {
@@ -2330,7 +3763,17 @@
           0,
           0.9987502603949663
         ],
-        "fovYDegrees": 46.316346877184515,
+        "fovYDegrees": 49.71665695992771,
+        "positionVelocity": [
+          0,
+          0,
+          0
+        ],
+        "positionAcceleration": [
+          0,
+          0,
+          0
+        ],
         "actionId": "zoom_dancer_face_free_pose"
       },
       {
@@ -2346,7 +3789,17 @@
           0,
           0.9987502603949663
         ],
-        "fovYDegrees": 46.18277687705124,
+        "fovYDegrees": 49.59053990325756,
+        "positionVelocity": [
+          0,
+          0,
+          0
+        ],
+        "positionAcceleration": [
+          0,
+          0,
+          0
+        ],
         "actionId": "zoom_dancer_face_free_pose"
       },
       {
@@ -2362,7 +3815,17 @@
           0,
           0.9987502603949663
         ],
-        "fovYDegrees": 46.04959211374872,
+        "fovYDegrees": 49.46465874262055,
+        "positionVelocity": [
+          0,
+          0,
+          0
+        ],
+        "positionAcceleration": [
+          0,
+          0,
+          0
+        ],
         "actionId": "zoom_dancer_face_free_pose"
       },
       {
@@ -2378,7 +3841,17 @@
           0,
           0.9987502603949663
         ],
-        "fovYDegrees": 45.916788137044584,
+        "fovYDegrees": 49.339013643273574,
+        "positionVelocity": [
+          0,
+          0,
+          0
+        ],
+        "positionAcceleration": [
+          0,
+          0,
+          0
+        ],
         "actionId": "zoom_dancer_face_free_pose"
       },
       {
@@ -2394,7 +3867,17 @@
           0,
           0.9987502603949663
         ],
-        "fovYDegrees": 45.78436494693879,
+        "fovYDegrees": 49.21360476561859,
+        "positionVelocity": [
+          0,
+          0,
+          0
+        ],
+        "positionAcceleration": [
+          0,
+          0,
+          0
+        ],
         "actionId": "zoom_dancer_face_free_pose"
       },
       {
@@ -2410,7 +3893,17 @@
           0,
           0.9987502603949663
         ],
-        "fovYDegrees": 45.65232254343135,
+        "fovYDegrees": 49.08843226522497,
+        "positionVelocity": [
+          0,
+          0,
+          0
+        ],
+        "positionAcceleration": [
+          0,
+          0,
+          0
+        ],
         "actionId": "zoom_dancer_face_free_pose"
       },
       {
@@ -2426,7 +3919,17 @@
           0,
           0.9987502603949663
         ],
-        "fovYDegrees": 45.52066092652228,
+        "fovYDegrees": 48.96349629285185,
+        "positionVelocity": [
+          0,
+          0,
+          0
+        ],
+        "positionAcceleration": [
+          0,
+          0,
+          0
+        ],
         "actionId": "zoom_dancer_face_free_pose"
       },
       {
@@ -2442,7 +3945,17 @@
           0,
           0.9987502603949663
         ],
-        "fovYDegrees": 45.38938009621157,
+        "fovYDegrees": 48.838796994470734,
+        "positionVelocity": [
+          0,
+          0,
+          0
+        ],
+        "positionAcceleration": [
+          0,
+          0,
+          0
+        ],
         "actionId": "zoom_dancer_face_free_pose"
       },
       {
@@ -2458,7 +3971,17 @@
           0,
           0.9987502603949663
         ],
-        "fovYDegrees": 45.25848005249921,
+        "fovYDegrees": 48.71433451128802,
+        "positionVelocity": [
+          0,
+          0,
+          0
+        ],
+        "positionAcceleration": [
+          0,
+          0,
+          0
+        ],
         "actionId": "zoom_dancer_face_free_pose"
       },
       {
@@ -2474,7 +3997,17 @@
           0,
           0.9987502603949663
         ],
-        "fovYDegrees": 45.12796079538521,
+        "fovYDegrees": 48.59010897976784,
+        "positionVelocity": [
+          0,
+          0,
+          0
+        ],
+        "positionAcceleration": [
+          0,
+          0,
+          0
+        ],
         "actionId": "zoom_dancer_face_free_pose"
       },
       {
@@ -2490,7 +4023,17 @@
           0,
           0.9987502603949663
         ],
-        "fovYDegrees": 44.99781797628061,
+        "fovYDegrees": 48.46612053165476,
+        "positionVelocity": [
+          0,
+          0,
+          0
+        ],
+        "positionAcceleration": [
+          0,
+          0,
+          0
+        ],
         "actionId": "zoom_dancer_face_free_pose"
       },
       {
@@ -2506,7 +4049,17 @@
           0,
           0.9987502603949663
         ],
-        "fovYDegrees": 44.86804724659643,
+        "fovYDegrees": 48.34236929399666,
+        "positionVelocity": [
+          0,
+          0,
+          0
+        ],
+        "positionAcceleration": [
+          0,
+          0,
+          0
+        ],
         "actionId": "zoom_dancer_face_free_pose"
       },
       {
@@ -2522,7 +4075,17 @@
           0,
           0.9987502603949663
         ],
-        "fovYDegrees": 44.7386486063327,
+        "fovYDegrees": 48.218855389167835,
+        "positionVelocity": [
+          0,
+          0,
+          0
+        ],
+        "positionAcceleration": [
+          0,
+          0,
+          0
+        ],
         "actionId": "zoom_dancer_face_free_pose"
       },
       {
@@ -2538,7 +4101,17 @@
           0,
           0.9987502603949663
         ],
-        "fovYDegrees": 44.6096220554894,
+        "fovYDegrees": 48.095578934891904,
+        "positionVelocity": [
+          0,
+          0,
+          0
+        ],
+        "positionAcceleration": [
+          0,
+          0,
+          0
+        ],
         "actionId": "zoom_dancer_face_free_pose"
       },
       {
@@ -2554,7 +4127,17 @@
           0,
           0.9987502603949663
         ],
-        "fovYDegrees": 44.480967594066534,
+        "fovYDegrees": 47.97254004426509,
+        "positionVelocity": [
+          0,
+          0,
+          0
+        ],
+        "positionAcceleration": [
+          0,
+          0,
+          0
+        ],
         "actionId": "zoom_dancer_face_free_pose"
       },
       {
@@ -2570,7 +4153,17 @@
           0,
           0.9987502603949663
         ],
-        "fovYDegrees": 44.35268522206409,
+        "fovYDegrees": 47.84973882577934,
+        "positionVelocity": [
+          0,
+          0,
+          0
+        ],
+        "positionAcceleration": [
+          0,
+          0,
+          0
+        ],
         "actionId": "zoom_dancer_face_free_pose"
       },
       {
@@ -2586,7 +4179,17 @@
           0,
           0.9987502603949663
         ],
-        "fovYDegrees": 44.224774939482074,
+        "fovYDegrees": 47.72717538334567,
+        "positionVelocity": [
+          0,
+          0,
+          0
+        ],
+        "positionAcceleration": [
+          0,
+          0,
+          0
+        ],
         "actionId": "zoom_dancer_face_free_pose"
       },
       {
@@ -2602,7 +4205,17 @@
           0,
           0.9987502603949663
         ],
-        "fovYDegrees": 44.097236746320505,
+        "fovYDegrees": 47.604849816317525,
+        "positionVelocity": [
+          0,
+          0,
+          0
+        ],
+        "positionAcceleration": [
+          0,
+          0,
+          0
+        ],
         "actionId": "zoom_dancer_face_free_pose"
       },
       {
@@ -2618,7 +4231,17 @@
           0,
           0.9987502603949663
         ],
-        "fovYDegrees": 43.97006639331231,
+        "fovYDegrees": 47.482762219514235,
+        "positionVelocity": [
+          0,
+          0,
+          0
+        ],
+        "positionAcceleration": [
+          0,
+          0,
+          0
+        ],
         "actionId": "zoom_dancer_face_free_pose"
       },
       {
@@ -2634,7 +4257,17 @@
           0,
           0.9987502603949663
         ],
-        "fovYDegrees": 43.84325963119045,
+        "fovYDegrees": 47.3609126832445,
+        "positionVelocity": [
+          0,
+          0,
+          0
+        ],
+        "positionAcceleration": [
+          0,
+          0,
+          0
+        ],
         "actionId": "zoom_dancer_face_free_pose"
       },
       {
@@ -2650,7 +4283,17 @@
           0,
           0.9987502603949663
         ],
-        "fovYDegrees": 43.71681645995489,
+        "fovYDegrees": 47.239301293329966,
+        "positionVelocity": [
+          0,
+          0,
+          0
+        ],
+        "positionAcceleration": [
+          0,
+          0,
+          0
+        ],
         "actionId": "zoom_dancer_face_free_pose"
       },
       {
@@ -2666,7 +4309,17 @@
           0,
           0.9987502603949663
         ],
-        "fovYDegrees": 43.59073687960567,
+        "fovYDegrees": 47.117928131128906,
+        "positionVelocity": [
+          0,
+          0,
+          0
+        ],
+        "positionAcceleration": [
+          0,
+          0,
+          0
+        ],
         "actionId": "zoom_dancer_face_free_pose"
       },
       {
@@ -2682,7 +4335,17 @@
           0,
           0.9987502603949663
         ],
-        "fovYDegrees": 43.46502089014277,
+        "fovYDegrees": 46.996793273559845,
+        "positionVelocity": [
+          0,
+          0,
+          0
+        ],
+        "positionAcceleration": [
+          0,
+          0,
+          0
+        ],
         "actionId": "zoom_dancer_face_free_pose"
       },
       {
@@ -2698,7 +4361,17 @@
           0,
           0.9987502603949663
         ],
-        "fovYDegrees": 43.339668491566194,
+        "fovYDegrees": 46.875896793125385,
+        "positionVelocity": [
+          0,
+          0,
+          0
+        ],
+        "positionAcceleration": [
+          0,
+          0,
+          0
+        ],
         "actionId": "zoom_dancer_face_free_pose"
       },
       {
@@ -2714,7 +4387,17 @@
           0,
           0.9987502603949663
         ],
-        "fovYDegrees": 43.21467968387594,
+        "fovYDegrees": 46.755238757936,
+        "positionVelocity": [
+          0,
+          0,
+          0
+        ],
+        "positionAcceleration": [
+          0,
+          0,
+          0
+        ],
         "actionId": "zoom_dancer_face_free_pose"
       },
       {
@@ -2730,7 +4413,17 @@
           0,
           0.9987502603949663
         ],
-        "fovYDegrees": 43.09005446707202,
+        "fovYDegrees": 46.63481923173388,
+        "positionVelocity": [
+          0,
+          0,
+          0
+        ],
+        "positionAcceleration": [
+          0,
+          0,
+          0
+        ],
         "actionId": "zoom_dancer_face_free_pose"
       },
       {
@@ -2746,7 +4439,17 @@
           0,
           0.9987502603949663
         ],
-        "fovYDegrees": 42.965788688940755,
+        "fovYDegrees": 46.514638273916866,
+        "positionVelocity": [
+          0,
+          0,
+          0
+        ],
+        "positionAcceleration": [
+          0,
+          0,
+          0
+        ],
         "actionId": "zoom_dancer_face_free_pose"
       },
       {
@@ -2762,7 +4465,17 @@
           0,
           0.9987502603949663
         ],
-        "fovYDegrees": 42.84187819726851,
+        "fovYDegrees": 46.394695939562425,
+        "positionVelocity": [
+          0,
+          0,
+          0
+        ],
+        "positionAcceleration": [
+          0,
+          0,
+          0
+        ],
         "actionId": "zoom_dancer_face_free_pose"
       },
       {
@@ -2778,7 +4491,17 @@
           0,
           0.9987502603949663
         ],
-        "fovYDegrees": 42.71832299205525,
+        "fovYDegrees": 46.27499227945166,
+        "positionVelocity": [
+          0,
+          0,
+          0
+        ],
+        "positionAcceleration": [
+          0,
+          0,
+          0
+        ],
         "actionId": "zoom_dancer_face_free_pose"
       },
       {
@@ -2794,7 +4517,17 @@
           0,
           0.9987502603949663
         ],
-        "fovYDegrees": 42.595123073301004,
+        "fovYDegrees": 46.15552734009337,
+        "positionVelocity": [
+          0,
+          0,
+          0
+        ],
+        "positionAcceleration": [
+          0,
+          0,
+          0
+        ],
         "actionId": "zoom_dancer_face_free_pose"
       },
       {
@@ -2810,7 +4543,17 @@
           0,
           0.9987502603949663
         ],
-        "fovYDegrees": 42.472278441005756,
+        "fovYDegrees": 46.036301163748135,
+        "positionVelocity": [
+          0,
+          0,
+          0
+        ],
+        "positionAcceleration": [
+          0,
+          0,
+          0
+        ],
         "actionId": "zoom_dancer_face_free_pose"
       },
       {
@@ -2826,7 +4569,17 @@
           0,
           0.9987502603949663
         ],
-        "fovYDegrees": 42.349789095169506,
+        "fovYDegrees": 45.91731378845247,
+        "positionVelocity": [
+          0,
+          0,
+          0
+        ],
+        "positionAcceleration": [
+          0,
+          0,
+          0
+        ],
         "actionId": "zoom_dancer_face_free_pose"
       },
       {
@@ -2842,7 +4595,17 @@
           0,
           0.9987502603949663
         ],
-        "fovYDegrees": 42.22765503579227,
+        "fovYDegrees": 45.798565248043005,
+        "positionVelocity": [
+          0,
+          0,
+          0
+        ],
+        "positionAcceleration": [
+          0,
+          0,
+          0
+        ],
         "actionId": "zoom_dancer_face_free_pose"
       },
       {
@@ -2858,7 +4621,17 @@
           0,
           0.9987502603949663
         ],
-        "fovYDegrees": 42.105876262874034,
+        "fovYDegrees": 45.68005557218069,
+        "positionVelocity": [
+          0,
+          0,
+          0
+        ],
+        "positionAcceleration": [
+          0,
+          0,
+          0
+        ],
         "actionId": "zoom_dancer_face_free_pose"
       },
       {
@@ -2874,7 +4647,17 @@
           0,
           0.9987502603949663
         ],
-        "fovYDegrees": 41.98444871903783,
+        "fovYDegrees": 45.56178478637506,
+        "positionVelocity": [
+          0,
+          0,
+          0
+        ],
+        "positionAcceleration": [
+          0,
+          0,
+          0
+        ],
         "actionId": "zoom_dancer_face_free_pose"
       },
       {
@@ -2890,7 +4673,17 @@
           0,
           0.9987502603949663
         ],
-        "fovYDegrees": 41.86336834690669,
+        "fovYDegrees": 45.443752912008485,
+        "positionVelocity": [
+          0,
+          0,
+          0
+        ],
+        "positionAcceleration": [
+          0,
+          0,
+          0
+        ],
         "actionId": "zoom_dancer_face_free_pose"
       },
       {
@@ -2906,7 +4699,17 @@
           0,
           0.9987502603949663
         ],
-        "fovYDegrees": 41.74263514648062,
+        "fovYDegrees": 45.32595996636047,
+        "positionVelocity": [
+          0,
+          0,
+          0
+        ],
+        "positionAcceleration": [
+          0,
+          0,
+          0
+        ],
         "actionId": "zoom_dancer_face_free_pose"
       },
       {
@@ -2922,7 +4725,17 @@
           0,
           0.9987502603949663
         ],
-        "fovYDegrees": 41.622249117759615,
+        "fovYDegrees": 45.20840596263207,
+        "positionVelocity": [
+          0,
+          0,
+          0
+        ],
+        "positionAcceleration": [
+          0,
+          0,
+          0
+        ],
         "actionId": "zoom_dancer_face_free_pose"
       },
       {
@@ -2938,7 +4751,17 @@
           0,
           0.9987502603949663
         ],
-        "fovYDegrees": 41.50221026074368,
+        "fovYDegrees": 45.0910909099701,
+        "positionVelocity": [
+          0,
+          0,
+          0
+        ],
+        "positionAcceleration": [
+          0,
+          0,
+          0
+        ],
         "actionId": "zoom_dancer_face_free_pose"
       },
       {
@@ -2954,7 +4777,17 @@
           0,
           0.9987502603949663
         ],
-        "fovYDegrees": 41.38251857543281,
+        "fovYDegrees": 44.97401481349167,
+        "positionVelocity": [
+          0,
+          0,
+          0
+        ],
+        "positionAcceleration": [
+          0,
+          0,
+          0
+        ],
         "actionId": "zoom_dancer_face_free_pose"
       },
       {
@@ -2970,7 +4803,17 @@
           0,
           0.9987502603949663
         ],
-        "fovYDegrees": 41.26317406182701,
+        "fovYDegrees": 44.85717767430846,
+        "positionVelocity": [
+          0,
+          0,
+          0
+        ],
+        "positionAcceleration": [
+          0,
+          0,
+          0
+        ],
         "actionId": "zoom_dancer_face_free_pose"
       },
       {
@@ -2986,7 +4829,17 @@
           0,
           0.9987502603949663
         ],
-        "fovYDegrees": 41.14417671992626,
+        "fovYDegrees": 44.740579489551216,
+        "positionVelocity": [
+          0,
+          0,
+          0
+        ],
+        "positionAcceleration": [
+          0,
+          0,
+          0
+        ],
         "actionId": "zoom_dancer_face_free_pose"
       },
       {
@@ -3002,7 +4855,17 @@
           0,
           0.9987502603949663
         ],
-        "fovYDegrees": 41.025522585024234,
+        "fovYDegrees": 44.62422025239418,
+        "positionVelocity": [
+          0,
+          0,
+          0
+        ],
+        "positionAcceleration": [
+          0,
+          0,
+          0
+        ],
         "actionId": "zoom_dancer_face_free_pose"
       },
       {
@@ -3018,7 +4881,17 @@
           0,
           0.9987502603949663
         ],
-        "fovYDegrees": 40.90720769241456,
+        "fovYDegrees": 44.508099952079455,
+        "positionVelocity": [
+          0,
+          0,
+          0
+        ],
+        "positionAcceleration": [
+          0,
+          0,
+          0
+        ],
         "actionId": "zoom_dancer_face_free_pose"
       },
       {
@@ -3034,7 +4907,17 @@
           0,
           0.9987502603949663
         ],
-        "fovYDegrees": 40.789232042097254,
+        "fovYDegrees": 44.39221857394159,
+        "positionVelocity": [
+          0,
+          0,
+          0
+        ],
+        "positionAcceleration": [
+          0,
+          0,
+          0
+        ],
         "actionId": "zoom_dancer_face_free_pose"
       },
       {
@@ -3050,7 +4933,17 @@
           0,
           0.9987502603949663
         ],
-        "fovYDegrees": 40.67159563407231,
+        "fovYDegrees": 44.27657609943196,
+        "positionVelocity": [
+          0,
+          0,
+          0
+        ],
+        "positionAcceleration": [
+          0,
+          0,
+          0
+        ],
         "actionId": "zoom_dancer_face_free_pose"
       },
       {
@@ -3066,7 +4959,17 @@
           0,
           0.9987502603949663
         ],
-        "fovYDegrees": 40.55429846833973,
+        "fovYDegrees": 44.16117250614327,
+        "positionVelocity": [
+          0,
+          0,
+          0
+        ],
+        "positionAcceleration": [
+          0,
+          0,
+          0
+        ],
         "actionId": "zoom_dancer_face_free_pose"
       },
       {
@@ -3082,7 +4985,17 @@
           0,
           0.9987502603949663
         ],
-        "fovYDegrees": 40.43734054489952,
+        "fovYDegrees": 44.04600776783405,
+        "positionVelocity": [
+          0,
+          0,
+          0
+        ],
+        "positionAcceleration": [
+          0,
+          0,
+          0
+        ],
         "actionId": "zoom_dancer_face_free_pose"
       },
       {
@@ -3098,7 +5011,17 @@
           0,
           0.9987502603949663
         ],
-        "fovYDegrees": 40.32072186375167,
+        "fovYDegrees": 43.931081854453154,
+        "positionVelocity": [
+          0,
+          0,
+          0
+        ],
+        "positionAcceleration": [
+          0,
+          0,
+          0
+        ],
         "actionId": "zoom_dancer_face_free_pose"
       },
       {
@@ -3114,14 +5037,24 @@
           0,
           0.9987502603949663
         ],
-        "fovYDegrees": 40.20444242489618,
+        "fovYDegrees": 43.816394732164184,
+        "positionVelocity": [
+          0,
+          0,
+          0
+        ],
+        "positionAcceleration": [
+          0,
+          0,
+          0
+        ],
         "actionId": "zoom_dancer_face_free_pose"
       },
       {
         "t": 8.041666666666666,
         "position": [
           0,
-          1.8225951975849195,
+          1.8225951975849193,
           2.27886074042143
         ],
         "rotation": [
@@ -3130,7 +5063,17 @@
           0,
           0.9987502603949663
         ],
-        "fovYDegrees": 40.088498354180715,
+        "fovYDegrees": 43.70194636337009,
+        "positionVelocity": [
+          0,
+          0,
+          0
+        ],
+        "positionAcceleration": [
+          0,
+          0,
+          0
+        ],
         "actionId": "zoom_dancer_face_free_pose"
       },
       {
@@ -3146,7 +5089,17 @@
           0,
           0.9987502603949663
         ],
-        "fovYDegrees": 39.972885777452944,
+        "fovYDegrees": 43.58773670673759,
+        "positionVelocity": [
+          0,
+          0,
+          0
+        ],
+        "positionAcceleration": [
+          0,
+          0,
+          0
+        ],
         "actionId": "zoom_dancer_face_free_pose"
       },
       {
@@ -3162,7 +5115,17 @@
           0,
           0.9987502603949663
         ],
-        "fovYDegrees": 39.85760469471288,
+        "fovYDegrees": 43.47376571722165,
+        "positionVelocity": [
+          0,
+          0,
+          0
+        ],
+        "positionAcceleration": [
+          0,
+          0,
+          0
+        ],
         "actionId": "zoom_dancer_face_free_pose"
       },
       {
@@ -3178,7 +5141,17 @@
           0,
           0.9987502603949663
         ],
-        "fovYDegrees": 39.74265510596052,
+        "fovYDegrees": 43.36003334608999,
+        "positionVelocity": [
+          0,
+          0,
+          0
+        ],
+        "positionAcceleration": [
+          0,
+          0,
+          0
+        ],
         "actionId": "zoom_dancer_face_free_pose"
       },
       {
@@ -3194,7 +5167,17 @@
           0,
           0.9987502603949663
         ],
-        "fovYDegrees": 39.62803701119584,
+        "fovYDegrees": 43.24653954094761,
+        "positionVelocity": [
+          0,
+          0,
+          0
+        ],
+        "positionAcceleration": [
+          0,
+          0,
+          0
+        ],
         "actionId": "zoom_dancer_face_free_pose"
       },
       {
@@ -3210,7 +5193,17 @@
           0,
           0.9987502603949663
         ],
-        "fovYDegrees": 39.513750410418865,
+        "fovYDegrees": 43.13328424576116,
+        "positionVelocity": [
+          0,
+          0,
+          0
+        ],
+        "positionAcceleration": [
+          0,
+          0,
+          0
+        ],
         "actionId": "zoom_dancer_face_free_pose"
       },
       {
@@ -3226,7 +5219,17 @@
           0,
           0.9987502603949663
         ],
-        "fovYDegrees": 39.39979530362959,
+        "fovYDegrees": 43.020267400883455,
+        "positionVelocity": [
+          0,
+          0,
+          0
+        ],
+        "positionAcceleration": [
+          0,
+          0,
+          0
+        ],
         "actionId": "zoom_dancer_face_free_pose"
       },
       {
@@ -3242,7 +5245,17 @@
           0,
           0.9987502603949663
         ],
-        "fovYDegrees": 39.286171690828006,
+        "fovYDegrees": 42.907488943077915,
+        "positionVelocity": [
+          0,
+          0,
+          0
+        ],
+        "positionAcceleration": [
+          0,
+          0,
+          0
+        ],
         "actionId": "zoom_dancer_face_free_pose"
       },
       {
@@ -3258,7 +5271,17 @@
           0,
           0.9987502603949663
         ],
-        "fovYDegrees": 39.172875786347554,
+        "fovYDegrees": 42.794948805543015,
+        "positionVelocity": [
+          0,
+          0,
+          0
+        ],
+        "positionAcceleration": [
+          0,
+          0,
+          0
+        ],
         "actionId": "zoom_dancer_face_free_pose"
       },
       {
@@ -3274,7 +5297,17 @@
           0,
           0.9987502603949663
         ],
-        "fovYDegrees": 39.059903804521646,
+        "fovYDegrees": 42.68264691793664,
+        "positionVelocity": [
+          0,
+          0,
+          0
+        ],
+        "positionAcceleration": [
+          0,
+          0,
+          0
+        ],
         "actionId": "zoom_dancer_face_free_pose"
       },
       {
@@ -3290,7 +5323,17 @@
           0,
           0.9987502603949663
         ],
-        "fovYDegrees": 38.947255745350304,
+        "fovYDegrees": 42.570583206400556,
+        "positionVelocity": [
+          0,
+          0,
+          0
+        ],
+        "positionAcceleration": [
+          0,
+          0,
+          0
+        ],
         "actionId": "zoom_dancer_face_free_pose"
       },
       {
@@ -3306,7 +5349,17 @@
           0,
           0.9987502603949663
         ],
-        "fovYDegrees": 38.8349316088335,
+        "fovYDegrees": 42.45875759358474,
+        "positionVelocity": [
+          0,
+          0,
+          0
+        ],
+        "positionAcceleration": [
+          0,
+          0,
+          0
+        ],
         "actionId": "zoom_dancer_face_free_pose"
       },
       {
@@ -3322,7 +5375,17 @@
           0,
           0.9987502603949663
         ],
-        "fovYDegrees": 38.72293139497126,
+        "fovYDegrees": 42.34716999867179,
+        "positionVelocity": [
+          0,
+          0,
+          0
+        ],
+        "positionAcceleration": [
+          0,
+          0,
+          0
+        ],
         "actionId": "zoom_dancer_face_free_pose"
       },
       {
@@ -3338,7 +5401,17 @@
           0,
           0.9987502603949663
         ],
-        "fovYDegrees": 38.611255103763575,
+        "fovYDegrees": 42.23582033740119,
+        "positionVelocity": [
+          0,
+          0,
+          0
+        ],
+        "positionAcceleration": [
+          0,
+          0,
+          0
+        ],
         "actionId": "zoom_dancer_face_free_pose"
       },
       {
@@ -3354,7 +5427,17 @@
           0,
           0.9987502603949663
         ],
-        "fovYDegrees": 38.49990273521044,
+        "fovYDegrees": 42.124708522093705,
+        "positionVelocity": [
+          0,
+          0,
+          0
+        ],
+        "positionAcceleration": [
+          0,
+          0,
+          0
+        ],
         "actionId": "zoom_dancer_face_free_pose"
       },
       {
@@ -3370,14 +5453,24 @@
           0,
           0.9987502603949663
         ],
-        "fovYDegrees": 38.388874289311865,
+        "fovYDegrees": 42.01383446167561,
+        "positionVelocity": [
+          0,
+          0,
+          0
+        ],
+        "positionAcceleration": [
+          0,
+          0,
+          0
+        ],
         "actionId": "zoom_dancer_face_free_pose"
       },
       {
         "t": 8.708333333333334,
         "position": [
           0,
-          1.822595197584919,
+          1.8225951975849193,
           2.27886074042143
         ],
         "rotation": [
@@ -3386,7 +5479,17 @@
           0,
           0.9987502603949663
         ],
-        "fovYDegrees": 38.278166066866014,
+        "fovYDegrees": 41.903198061703,
+        "positionVelocity": [
+          0,
+          0,
+          0
+        ],
+        "positionAcceleration": [
+          0,
+          0,
+          0
+        ],
         "actionId": "zoom_dancer_face_free_pose"
       },
       {
@@ -3402,7 +5505,17 @@
           0,
           0.9987502603949663
         ],
-        "fovYDegrees": 38.167774368671054,
+        "fovYDegrees": 41.79279922438598,
+        "positionVelocity": [
+          0,
+          0,
+          0
+        ],
+        "positionAcceleration": [
+          0,
+          0,
+          0
+        ],
         "actionId": "zoom_dancer_face_free_pose"
       },
       {
@@ -3418,7 +5531,17 @@
           0,
           0.9987502603949663
         ],
-        "fovYDegrees": 38.057699194727,
+        "fovYDegrees": 41.682637848612906,
+        "positionVelocity": [
+          0,
+          0,
+          0
+        ],
+        "positionAcceleration": [
+          0,
+          0,
+          0
+        ],
         "actionId": "zoom_dancer_face_free_pose"
       },
       {
@@ -3434,7 +5557,17 @@
           0,
           0.9987502603949663
         ],
-        "fovYDegrees": 37.94794054503384,
+        "fovYDegrees": 41.57271382997454,
+        "positionVelocity": [
+          0,
+          0,
+          0
+        ],
+        "positionAcceleration": [
+          0,
+          0,
+          0
+        ],
         "actionId": "zoom_dancer_face_free_pose"
       },
       {
@@ -3450,7 +5583,17 @@
           0,
           0.9987502603949663
         ],
-        "fovYDegrees": 37.83849841959159,
+        "fovYDegrees": 41.46302706078821,
+        "positionVelocity": [
+          0,
+          0,
+          0
+        ],
+        "positionAcceleration": [
+          0,
+          0,
+          0
+        ],
         "actionId": "zoom_dancer_face_free_pose"
       },
       {
@@ -3466,7 +5609,17 @@
           0,
           0.9987502603949663
         ],
-        "fovYDegrees": 37.729372818400236,
+        "fovYDegrees": 41.35357743012188,
+        "positionVelocity": [
+          0,
+          0,
+          0
+        ],
+        "positionAcceleration": [
+          0,
+          0,
+          0
+        ],
         "actionId": "zoom_dancer_face_free_pose"
       },
       {
@@ -3482,7 +5635,17 @@
           0,
           0.9987502603949663
         ],
-        "fovYDegrees": 37.62056374145977,
+        "fovYDegrees": 41.24436482381825,
+        "positionVelocity": [
+          0,
+          0,
+          0
+        ],
+        "positionAcceleration": [
+          0,
+          0,
+          0
+        ],
         "actionId": "zoom_dancer_face_free_pose"
       },
       {
@@ -3498,14 +5661,24 @@
           0,
           0.9987502603949663
         ],
-        "fovYDegrees": 37.512071188770214,
+        "fovYDegrees": 41.135389124518824,
+        "positionVelocity": [
+          0,
+          0,
+          0
+        ],
+        "positionAcceleration": [
+          0,
+          0,
+          0
+        ],
         "actionId": "zoom_dancer_face_free_pose"
       },
       {
         "t": 9.041666666666666,
         "position": [
           0,
-          1.8225951975849195,
+          1.8225951975849193,
           2.27886074042143
         ],
         "rotation": [
@@ -3514,7 +5687,17 @@
           0,
           0.9987502603949663
         ],
-        "fovYDegrees": 37.40389154561961,
+        "fovYDegrees": 41.02665021168783,
+        "positionVelocity": [
+          0,
+          0,
+          0
+        ],
+        "positionAcceleration": [
+          0,
+          0,
+          0
+        ],
         "actionId": "zoom_dancer_face_free_pose"
       },
       {
@@ -3530,7 +5713,17 @@
           0,
           0.9987502603949663
         ],
-        "fovYDegrees": 37.29602119729602,
+        "fovYDegrees": 40.918147961636215,
+        "positionVelocity": [
+          0,
+          0,
+          0
+        ],
+        "positionAcceleration": [
+          0,
+          0,
+          0
+        ],
         "actionId": "zoom_dancer_face_free_pose"
       },
       {
@@ -3546,7 +5739,17 @@
           0,
           0.9987502603949663
         ],
-        "fovYDegrees": 37.18846014379945,
+        "fovYDegrees": 40.809882247545595,
+        "positionVelocity": [
+          0,
+          0,
+          0
+        ],
+        "positionAcceleration": [
+          0,
+          0,
+          0
+        ],
         "actionId": "zoom_dancer_face_free_pose"
       },
       {
@@ -3562,7 +5765,17 @@
           0,
           0.9987502603949663
         ],
-        "fovYDegrees": 37.08120838512991,
+        "fovYDegrees": 40.70185293949204,
+        "positionVelocity": [
+          0,
+          0,
+          0
+        ],
+        "positionAcceleration": [
+          0,
+          0,
+          0
+        ],
         "actionId": "zoom_dancer_face_free_pose"
       },
       {
@@ -3578,7 +5791,17 @@
           0,
           0.9987502603949663
         ],
-        "fovYDegrees": 36.97426592128738,
+        "fovYDegrees": 40.594059904470036,
+        "positionVelocity": [
+          0,
+          0,
+          0
+        ],
+        "positionAcceleration": [
+          0,
+          0,
+          0
+        ],
         "actionId": "zoom_dancer_face_free_pose"
       },
       {
@@ -3594,7 +5817,17 @@
           0,
           0.9987502603949663
         ],
-        "fovYDegrees": 36.86763275227186,
+        "fovYDegrees": 40.48650300641613,
+        "positionVelocity": [
+          0,
+          0,
+          0
+        ],
+        "positionAcceleration": [
+          0,
+          0,
+          0
+        ],
         "actionId": "zoom_dancer_face_free_pose"
       },
       {
@@ -3610,7 +5843,17 @@
           0,
           0.9987502603949663
         ],
-        "fovYDegrees": 36.76130887808337,
+        "fovYDegrees": 40.379182106232726,
+        "positionVelocity": [
+          0,
+          0,
+          0
+        ],
+        "positionAcceleration": [
+          0,
+          0,
+          0
+        ],
         "actionId": "zoom_dancer_face_free_pose"
       },
       {
@@ -3626,7 +5869,17 @@
           0,
           0.9987502603949663
         ],
-        "fovYDegrees": 36.655294298721884,
+        "fovYDegrees": 40.27209706181184,
+        "positionVelocity": [
+          0,
+          0,
+          0
+        ],
+        "positionAcceleration": [
+          0,
+          0,
+          0
+        ],
         "actionId": "zoom_dancer_face_free_pose"
       },
       {
@@ -3642,7 +5895,17 @@
           0,
           0.9987502603949663
         ],
-        "fovYDegrees": 36.54958548203562,
+        "fovYDegrees": 40.16524772805863,
+        "positionVelocity": [
+          0,
+          0,
+          0
+        ],
+        "positionAcceleration": [
+          0,
+          0,
+          0
+        ],
         "actionId": "zoom_dancer_face_free_pose"
       },
       {
@@ -3658,7 +5921,17 @@
           0,
           0.9987502603949663
         ],
-        "fovYDegrees": 36.44417889587276,
+        "fovYDegrees": 40.05863395691507,
+        "positionVelocity": [
+          0,
+          0,
+          0
+        ],
+        "positionAcceleration": [
+          0,
+          0,
+          0
+        ],
         "actionId": "zoom_dancer_face_free_pose"
       },
       {
@@ -3674,7 +5947,17 @@
           0,
           0.9987502603949663
         ],
-        "fovYDegrees": 36.33907454023329,
+        "fovYDegrees": 39.952255597383434,
+        "positionVelocity": [
+          0,
+          0,
+          0
+        ],
+        "positionAcceleration": [
+          0,
+          0,
+          0
+        ],
         "actionId": "zoom_dancer_face_free_pose"
       },
       {
@@ -3690,7 +5973,17 @@
           0,
           0.9987502603949663
         ],
-        "fovYDegrees": 36.23427241511724,
+        "fovYDegrees": 39.84611249554983,
+        "positionVelocity": [
+          0,
+          0,
+          0
+        ],
+        "positionAcceleration": [
+          0,
+          0,
+          0
+        ],
         "actionId": "zoom_dancer_face_free_pose"
       },
       {
@@ -3706,7 +5999,17 @@
           0,
           0.9987502603949663
         ],
-        "fovYDegrees": 36.12977252052459,
+        "fovYDegrees": 39.74020449460764,
+        "positionVelocity": [
+          0,
+          0,
+          0
+        ],
+        "positionAcceleration": [
+          0,
+          0,
+          0
+        ],
         "actionId": "zoom_dancer_face_free_pose"
       },
       {
@@ -3722,7 +6025,17 @@
           0,
           0.9987502603949663
         ],
-        "fovYDegrees": 36.02557485645535,
+        "fovYDegrees": 39.634531434880834,
+        "positionVelocity": [
+          0,
+          0,
+          0
+        ],
+        "positionAcceleration": [
+          0,
+          0,
+          0
+        ],
         "actionId": "zoom_dancer_face_free_pose"
       },
       {
@@ -3738,7 +6051,17 @@
           0,
           0.9987502603949663
         ],
-        "fovYDegrees": 35.921679422909506,
+        "fovYDegrees": 39.52909315384738,
+        "positionVelocity": [
+          0,
+          0,
+          0
+        ],
+        "positionAcceleration": [
+          0,
+          0,
+          0
+        ],
         "actionId": "zoom_dancer_face_free_pose"
       },
       {
@@ -3754,14 +6077,24 @@
           0,
           0.9987502603949663
         ],
-        "fovYDegrees": 35.81808621988708,
+        "fovYDegrees": 39.42388948616244,
+        "positionVelocity": [
+          0,
+          0,
+          0
+        ],
+        "positionAcceleration": [
+          0,
+          0,
+          0
+        ],
         "actionId": "zoom_dancer_face_free_pose"
       },
       {
         "t": 9.708333333333334,
         "position": [
           0,
-          1.822595197584919,
+          1.8225951975849193,
           2.27886074042143
         ],
         "rotation": [
@@ -3770,7 +6103,17 @@
           0,
           0.9987502603949663
         ],
-        "fovYDegrees": 35.714921001722004,
+        "fovYDegrees": 39.31892026368163,
+        "positionVelocity": [
+          0,
+          0,
+          0
+        ],
+        "positionAcceleration": [
+          0,
+          0,
+          0
+        ],
         "actionId": "zoom_dancer_face_free_pose"
       },
       {
@@ -3786,7 +6129,17 @@
           0,
           0.9987502603949663
         ],
-        "fovYDegrees": 35.612235690856096,
+        "fovYDegrees": 39.214185315484166,
+        "positionVelocity": [
+          0,
+          0,
+          0
+        ],
+        "positionAcceleration": [
+          0,
+          0,
+          0
+        ],
         "actionId": "zoom_dancer_face_free_pose"
       },
       {
@@ -3802,7 +6155,17 @@
           0,
           0.9987502603949663
         ],
-        "fovYDegrees": 35.509919539451076,
+        "fovYDegrees": 39.109684467895896,
+        "positionVelocity": [
+          0,
+          0,
+          0
+        ],
+        "positionAcceleration": [
+          0,
+          0,
+          0
+        ],
         "actionId": "zoom_dancer_face_free_pose"
       },
       {
@@ -3818,7 +6181,17 @@
           0,
           0.9987502603949663
         ],
-        "fovYDegrees": 35.40786179966867,
+        "fovYDegrees": 39.005417544512405,
+        "positionVelocity": [
+          0,
+          0,
+          0
+        ],
+        "positionAcceleration": [
+          0,
+          0,
+          0
+        ],
         "actionId": "zoom_dancer_face_free_pose"
       },
       {
@@ -3834,7 +6207,17 @@
           0,
           0.9987502603949663
         ],
-        "fovYDegrees": 35.30595172367063,
+        "fovYDegrees": 38.90138436622198,
+        "positionVelocity": [
+          0,
+          0,
+          0
+        ],
+        "positionAcceleration": [
+          0,
+          0,
+          0
+        ],
         "actionId": "zoom_dancer_face_free_pose"
       },
       {
@@ -3850,7 +6233,17 @@
           0,
           0.9987502603949663
         ],
-        "fovYDegrees": 35.20407856361868,
+        "fovYDegrees": 38.797584751228484,
+        "positionVelocity": [
+          0,
+          0,
+          0
+        ],
+        "positionAcceleration": [
+          0,
+          0,
+          0
+        ],
         "actionId": "zoom_dancer_face_free_pose"
       },
       {
@@ -3866,7 +6259,17 @@
           0,
           0.9987502603949663
         ],
-        "fovYDegrees": 35.10213157167454,
+        "fovYDegrees": 38.694018515074134,
+        "positionVelocity": [
+          0,
+          0,
+          0
+        ],
+        "positionAcceleration": [
+          0,
+          0,
+          0
+        ],
         "actionId": "zoom_dancer_face_free_pose"
       },
       {
@@ -3882,91 +6285,20 @@
           0,
           0.9987502603949663
         ],
-        "fovYDegrees": 34.99999999999996,
+        "fovYDegrees": 38.59068547066243,
+        "positionVelocity": [
+          0,
+          0,
+          0
+        ],
+        "positionAcceleration": [
+          0,
+          0,
+          0
+        ],
         "actionId": "zoom_dancer_face_free_pose"
       }
     ]
-  },
-  "diagnostics": {
-    "initialLoss": 5.211571399653652e-28,
-    "finalLoss": 5.211571399653652e-28,
-    "iterations": 18,
-    "converged": false,
-    "terminationReason": "stalled",
-    "optimizationSampleCount": 31,
-    "outputSampleCount": 241,
-    "primitiveCount": 13,
-    "conflicts": [],
-    "lossBreakdown": [
-      {
-        "id": "p1",
-        "type": "intrinsicsProgress",
-        "weightedLoss": 5.211571399653652e-28
-      },
-      {
-        "id": "p4",
-        "type": "fovAnchor",
-        "weightedLoss": 0
-      },
-      {
-        "id": "p10",
-        "type": "collisionClearance",
-        "weightedLoss": 0
-      },
-      {
-        "id": "p11",
-        "type": "groundClearance",
-        "weightedLoss": 0
-      },
-      {
-        "id": "p12",
-        "type": "pathLength",
-        "weightedLoss": 0
-      },
-      {
-        "id": "p13",
-        "type": "occlusion",
-        "weightedLoss": 0
-      },
-      {
-        "id": "p2",
-        "type": "positionHold",
-        "weightedLoss": 0
-      },
-      {
-        "id": "p3",
-        "type": "orientationHold",
-        "weightedLoss": 0
-      },
-      {
-        "id": "p5",
-        "type": "subjectVisibility",
-        "weightedLoss": 0
-      },
-      {
-        "id": "p6",
-        "type": "subjectScaleFloor",
-        "weightedLoss": 0
-      },
-      {
-        "id": "p7",
-        "type": "accelerationSmoothness",
-        "weightedLoss": 0
-      },
-      {
-        "id": "p8",
-        "type": "angularAccelerationSmoothness",
-        "weightedLoss": 0
-      },
-      {
-        "id": "p9",
-        "type": "jerkSmoothness",
-        "weightedLoss": 0
-      }
-    ],
-    "elapsedMilliseconds": 893,
-    "maximumSafetyViolationMeters": 0,
-    "warnings": []
   },
   "compiledPlan": {
     "durationSeconds": 10,
@@ -3993,11 +6325,12 @@
         "startTime": 0,
         "endTime": 10,
         "weight": 10,
-        "tolerance": 0.75,
+        "tolerance": 0.02,
         "channel": "intrinsics",
         "role": "primary",
         "sourceType": "zoomInMovement",
         "sourceActionId": "zoom_dancer_face_free_pose",
+        "normalizationDuration": 10,
         "parameters": {
           "referenceTime": 0,
           "motionStartTime": 0,
@@ -4053,6 +6386,7 @@
         "channel": "safety",
         "role": "regularizer",
         "sourceType": "global",
+        "normalizationDuration": 10,
         "parameters": {
           "subjectId": "dancer_face",
           "suppressionWindows": []
@@ -4069,7 +6403,10 @@
         "role": "stabilizer",
         "sourceType": "zoomInMovement",
         "sourceActionId": "zoom_dancer_face_free_pose",
-        "parameters": {}
+        "normalizationDuration": 10,
+        "parameters": {
+          "referenceTime": 0
+        }
       },
       {
         "id": "p3",
@@ -4082,7 +6419,10 @@
         "role": "stabilizer",
         "sourceType": "zoomInMovement",
         "sourceActionId": "zoom_dancer_face_free_pose",
-        "parameters": {}
+        "normalizationDuration": 10,
+        "parameters": {
+          "referenceTime": 0
+        }
       },
       {
         "id": "p5",
@@ -4095,6 +6435,7 @@
         "role": "stabilizer",
         "sourceType": "subjectPresence",
         "sourceActionId": "zoom_dancer_face_free_pose",
+        "normalizationDuration": 10,
         "parameters": {
           "subjectId": "dancer_face",
           "cropWindows": [],
@@ -4112,6 +6453,7 @@
         "role": "stabilizer",
         "sourceType": "subjectPresence",
         "sourceActionId": "zoom_dancer_face_free_pose",
+        "normalizationDuration": 10,
         "parameters": {
           "subjectId": "dancer_face",
           "minimumCoverage": 0.12,
@@ -4129,7 +6471,8 @@
         "role": "regularizer",
         "sourceType": "global",
         "parameters": {
-          "cutTimes": []
+          "cutTimes": [],
+          "referenceFrame": "world"
         }
       },
       {
@@ -4157,11 +6500,101 @@
         "role": "regularizer",
         "sourceType": "global",
         "parameters": {
-          "cutTimes": []
+          "cutTimes": [],
+          "referenceFrame": "world"
         }
       }
     ],
     "conflicts": [],
+    "warnings": []
+  },
+  "diagnostics": {
+    "baselineLoss": 61.27153315359129,
+    "initialLoss": 6.162975822039155e-28,
+    "finalLoss": 6.162975822039155e-28,
+    "seedCandidateCount": 175,
+    "seedImprovementPercent": 100,
+    "refinementImprovementPercent": null,
+    "totalImprovementPercent": 100,
+    "objectiveEvaluations": 1,
+    "acceptedSteps": 0,
+    "searchSweeps": 0,
+    "iterations": 0,
+    "converged": false,
+    "terminationReason": "objectivePlateau",
+    "optimizationSampleCount": 31,
+    "outputSampleCount": 241,
+    "primitiveCount": 13,
+    "conflicts": [],
+    "lossBreakdown": [
+      {
+        "id": "p1",
+        "type": "intrinsicsProgress",
+        "weightedLoss": 6.162975822039155e-28
+      },
+      {
+        "id": "p4",
+        "type": "fovAnchor",
+        "weightedLoss": 0
+      },
+      {
+        "id": "p10",
+        "type": "collisionClearance",
+        "weightedLoss": 0
+      },
+      {
+        "id": "p11",
+        "type": "groundClearance",
+        "weightedLoss": 0
+      },
+      {
+        "id": "p12",
+        "type": "pathLength",
+        "weightedLoss": 0
+      },
+      {
+        "id": "p13",
+        "type": "occlusion",
+        "weightedLoss": 0
+      },
+      {
+        "id": "p2",
+        "type": "positionHold",
+        "weightedLoss": 0
+      },
+      {
+        "id": "p3",
+        "type": "orientationHold",
+        "weightedLoss": 0
+      },
+      {
+        "id": "p5",
+        "type": "subjectVisibility",
+        "weightedLoss": 0
+      },
+      {
+        "id": "p6",
+        "type": "subjectScaleFloor",
+        "weightedLoss": 0
+      },
+      {
+        "id": "p7",
+        "type": "accelerationSmoothness",
+        "weightedLoss": 0
+      },
+      {
+        "id": "p8",
+        "type": "angularAccelerationSmoothness",
+        "weightedLoss": 0
+      },
+      {
+        "id": "p9",
+        "type": "jerkSmoothness",
+        "weightedLoss": 0
+      }
+    ],
+    "elapsedMilliseconds": 873,
+    "maximumSafetyViolationMeters": 0,
     "warnings": []
   }
 }

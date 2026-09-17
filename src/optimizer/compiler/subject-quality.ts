@@ -17,6 +17,13 @@ const SUBJECT_INTENT = new Set<PrimitiveLoss["sourceType"]>([
   LossFunctionType.SubjectPresence,
 ]);
 
+const MOVEMENT_SUBJECT_INTENT = new Set<PrimitiveLoss["sourceType"]>([
+  LossFunctionType.DollyInMovement, LossFunctionType.DollyOutMovement,
+  LossFunctionType.ArcMovement, LossFunctionType.FollowMovement,
+  LossFunctionType.TrackMovement, LossFunctionType.CraneUpMovement,
+  LossFunctionType.CraneDownMovement, LossFunctionType.Static,
+]);
+
 type SubjectIntent = Pick<PrimitiveLoss,
   "startTime" | "endTime" | "parameters" | "sourceType" | "sourceActionId" | "weight" | "normalizationDuration"
 > & { shotStartTime?: number };
@@ -164,6 +171,21 @@ export function addSubjectQualityLosses(
         other.type === "rotationAnchor"
         || (other.type === "lookAt" && other.sourceType === LossFunctionType.MinPath)
       )).map(windowFor);
+      // A movement target defines the rig's reference, which may differ from
+      // the visible subject: orbit a car while framing its driver, for example.
+      // Explicit composition takes ownership of the image for its own window;
+      // the orbit center does not also have to stay visible or fill the frame.
+      const framingWindows = MOVEMENT_SUBJECT_INTENT.has(owner.sourceType)
+        ? authored.filter((other) => overlaps(other) && !sameSubject(other)
+          && ["screenScale", "screenPosition", "bboxInFrame"].includes(other.type)).map(windowFor)
+        : [];
+      // A close-up of an entity's eyes/face also owns visibility of that
+      // entity. Keeping the whole body's center visible would aim below the
+      // close-up even after its bounding-box cropping preference was released.
+      const detailWindows = authored.filter((other) => other.type === "screenScale"
+        && overlaps(other) && sameSubject(other)
+        && !subjectIdsFromParameters(other.parameters).includes(subjectId)).map(windowFor);
+      const suppressionWindows = [...orientationWindows, ...framingWindows, ...detailWindows];
       const parameters = {
         subjectId,
         ...timing,
@@ -183,7 +205,7 @@ export function addSubjectQualityLosses(
         type: "subjectVisibility",
         channel: "composition",
         role: "stabilizer",
-        parameters: { ...parameters, cropWindows: sizeWindows, suppressionWindows: orientationWindows },
+        parameters: { ...parameters, cropWindows: sizeWindows, suppressionWindows },
       }, { ...source, explicitWeight: weights.subjectVisibility });
       add({
         type: "subjectScaleFloor",
@@ -192,7 +214,7 @@ export function addSubjectQualityLosses(
         parameters: {
           ...parameters,
           minimumCoverage: input.options?.minimumSubjectCoverage ?? DEFAULT_OPTIONS.minimumSubjectCoverage,
-          suppressionWindows: [...sizeWindows, ...orientationWindows],
+          suppressionWindows: [...sizeWindows, ...suppressionWindows],
         },
       }, { ...source, explicitWeight: weights.subjectScaleFloor });
     }

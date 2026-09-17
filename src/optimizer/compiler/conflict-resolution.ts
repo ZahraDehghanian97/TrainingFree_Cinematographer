@@ -10,13 +10,13 @@ import type {
   PrimitiveLoss,
 } from "../types";
 import {
-  FOV_DRIVING_TYPES,
   ORIENTATION_DRIVING_TYPES,
   TRANSLATION_TYPES,
   YAW_PITCH_TARGETING_TYPES,
 } from "./constants";
 import { subjectEntityKey } from "./subjects";
 import { subjectTimingParameters } from "../scene/primitive-context";
+import { effectiveSpeedKeyframes } from "../shared/motion-profiles";
 import type { ActiveLossBand, AddPrimitive } from "./types";
 
 interface BandConflictOptions {
@@ -110,6 +110,8 @@ export function resolveBandConflicts({
         ? Math.abs(dollyLoss.parameters.distance)
         : undefined;
       const sign = dollyLoss.type === LossFunctionType.DollyInMovement ? -1 : 1;
+      const constantSpeed = arcLoss.parameters.constantSpeed === true || dollyLoss.parameters.constantSpeed === true;
+      const radialSpeedKeyframes = effectiveSpeedKeyframes({ ...dollyLoss.parameters, constantSpeed });
       const added = add(
         {
           type: "radiusSchedule",
@@ -126,8 +128,9 @@ export function resolveBandConflicts({
             // its vertical travel and prevent an elevated spiral descending.
             radiusMetric: "distance",
             orbitSubjectIds: arcSubjects,
-            ...(dollyLoss.parameters.speedKeyframes
-              ? { speedKeyframes: dollyLoss.parameters.speedKeyframes }
+            ...(constantSpeed ? { constantSpeed: true } : {}),
+            ...(radialSpeedKeyframes
+              ? { speedKeyframes: radialSpeedKeyframes }
               : {}),
             ...(motionTransitions.length > 0 ? { motionTransitions } : {}),
             subjectIds: dollySubjects,
@@ -171,6 +174,24 @@ export function resolveBandConflicts({
     if (removed.length > 0) conflicts.push({
       interval: [band.startTime, band.endTime],
       rule: "arc+pedestal=>helical-crane",
+      removedPrimitiveIds: removed,
+      addedPrimitiveIds: [],
+    });
+  }
+
+  // A passive straight-axis hold must not cancel another authored component
+  // of a compound rig move, such as a simultaneous truck and dolly. Its
+  // progress primitives continue to own the requested axis and distance.
+  {
+    const translationAxes = new Set(bandPrimitives()
+      .filter((primitive) => primitive.type === "totalProgressTarget")
+      .map((primitive) => primitive.parameters.axis));
+    const removed = removeWhere((primitive) => primitive.type === "orthogonalDrift"
+      && primitive.role === "stabilizer"
+      && (hasArc || [...translationAxes].some((axis) => axis !== primitive.parameters.axis)));
+    if (removed.length > 0) conflicts.push({
+      interval: [band.startTime, band.endTime],
+      rule: "compound-motion-removes-orthogonal-hold",
       removedPrimitiveIds: removed,
       addedPrimitiveIds: [],
     });
@@ -320,19 +341,38 @@ export function resolveBandConflicts({
       addedPrimitiveIds: [],
     });
   }
-  if (highLevelTypes.some((type) => FOV_DRIVING_TYPES.has(type))) {
+  // Framing describes the image that the moving rig should produce; it does
+  // not request an optical zoom. Retain its passive lens hold through shot-size
+  // and visibility targets, including endpoint targets on a dolly or orbit.
+  if (highLevelTypes.includes(LossFunctionType.ZoomIn)
+    || highLevelTypes.includes(LossFunctionType.ZoomOut)) {
     const removed = removeWhere((primitive) =>
-      primitive.type === "fovHold" && primitive.role === "stabilizer",
+      primitive.type === "fovHold" && (primitive.role === "stabilizer"
+        || primitive.sourceType === LossFunctionType.Static),
     );
     if (removed.length > 0) conflicts.push({
       interval: [band.startTime, band.endTime],
-      rule: highLevelTypes.includes(LossFunctionType.ZoomIn)
-        || highLevelTypes.includes(LossFunctionType.ZoomOut)
-        ? "zoom-removes-fov-hold"
-        : "framing-removes-fov-hold",
+      rule: "zoom-removes-fov-hold",
       removedPrimitiveIds: removed,
       addedPrimitiveIds: [],
     });
+  }
+  // A hold resumed after an optical move inherits that move's final lens.
+  // Its original pre-zoom reference would otherwise undo the authored zoom
+  // exactly at the shared endpoint, even when the holding action continues.
+  for (const primitive of bandPrimitives()) {
+    if (primitive.type !== "fovHold") continue;
+    const referenceTime = Number(primitive.parameters.referenceTime ?? primitive.startTime);
+    const completedZoomEnds = input.timeline.timeline.flatMap((segment) =>
+      segment.kind === "interval" && segment.endTime <= band.startTime + 1e-9
+        && segment.endTime > referenceTime + 1e-9
+        && segment.lossFunctions.some(loss => loss.type === LossFunctionType.ZoomIn
+          || loss.type === LossFunctionType.ZoomOut)
+        ? [segment.endTime] : [],
+    );
+    if (completedZoomEnds.length > 0) {
+      primitive.parameters.referenceTime = Math.max(...completedZoomEnds);
+    }
   }
   if (
     highLevelTypes.includes(LossFunctionType.DutchLeftMovement)

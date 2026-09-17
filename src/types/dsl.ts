@@ -115,6 +115,10 @@ export interface MovementParameters {
   allowSubjectIntersection?: boolean;
 
   // General
+  /** Authored handheld camera shake, layered on top of the movement path. */
+  handheld?: boolean;
+  /** Traverse the spatial camera path at constant speed, including a spiral. */
+  constantSpeed?: boolean;
   // `curved` is a sinusoidal arch; legacy `spline` is a sinusoidal S-bend.
   path?: "linear" | "curved" | "spline";
   curveIntensity?: Scale;

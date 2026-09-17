@@ -106,12 +106,25 @@ export type WorldProfileV1 =
 
 export type GroundSurfaceV1 = "concrete" | "wood" | "asphalt" | "grass" | "stage";
 
+/** Visibility geometry, independent of collision and semantic subject bounds. */
+export interface EntityOcclusionV1 {
+  /** Transparent entities never block sight rays. Does not disable collision. */
+  transparent?: boolean;
+  /** Opaque pieces in entity-local coordinates; omitted pieces transmit sight rays.
+   * Defaults to the entity's bounds. Use a nonempty list for hollow objects.
+   */
+  bounds?: BoundsV1[];
+}
+
 export interface SceneEntityV1 {
   id: string;
   label?: string;
+  /** Modeled front in entity-local coordinates. Defaults to -Z for cars/driving poses, +Z otherwise. */
+  forwardAxis?: "+X" | "-X" | "+Z" | "-Z";
   transform: EntityTransformV1;
   visual: SceneVisualV1;
   bounds?: BoundsV1;
+  occlusion?: EntityOcclusionV1;
 }
 
 /**

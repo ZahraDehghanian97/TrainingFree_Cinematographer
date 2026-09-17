@@ -34,16 +34,6 @@
       "transform": { "space": "world", "position": [0, 0, 0] },
       "visual": { "type": "preset", "name": "humanoid", "params": { "color": "#dab28e", "shirtColor": "#2c6375" } },
       "bounds": { "type": "box", "min": [-0.45, 0, -0.3], "max": [0.45, 1.85, 0.3] }
-    },
-    {
-      "id": "eye-marker-left",
-      "transform": { "space": "world", "position": [-0.065, 1.68, 0.185] },
-      "visual": { "type": "primitive", "shape": "sphere", "params": { "radius": 0.018 }, "color": "#4aa8ff" }
-    },
-    {
-      "id": "eye-marker-right",
-      "transform": { "space": "world", "position": [0.065, 1.68, 0.185] },
-      "visual": { "type": "primitive", "shape": "sphere", "params": { "radius": 0.018 }, "color": "#4aa8ff" }
     }
   ],
   "semanticAnchors": [

@@ -3,17 +3,79 @@ import { createInitialCameraState } from "./base-pose";
 import { advanceSeedState } from "./motion-step";
 import { seedSparseCompositionTransitions } from "./orientation-transitions";
 import { seedMotionTransitions } from "./motion-transitions";
-import type { SeedChoices } from "./seed-defaults";
+import { seedMotionKey, type SeedChoices } from "./seed-defaults";
 import {
   applyHardKeyframesToState,
   hardKeyframesAtTime,
 } from "../shared/keyframes";
-import { normalizeQuat } from "../shared/math";
+import { add3, length3, normalize3, normalizeQuat, rotateAroundAxis, scale3, sub3, wrapAngle } from "../shared/math";
+import { createSpiralPacing } from "../shared/spiral-pacing";
+import { samplePrimitiveSubject } from "../scene/primitive-context";
+import { applyCompositionOrientation } from "./motion-step";
 import type {
   CameraOptimizerInput,
   CameraStateSample,
   CompiledLossPlan,
 } from "../types";
+
+/** Seed authored spiral endpoints before evaluating coherent lens/pose choices. */
+function seedConstantSpeedEndpoints(
+  input: CameraOptimizerInput,
+  plan: CompiledLossPlan,
+  states: CameraStateSample[],
+  choices: SeedChoices,
+): void {
+  const completed = new Set<string>();
+  for (const schedule of plan.primitives) {
+    if (schedule.type !== "radiusSchedule" || schedule.parameters.constantSpeed !== true) continue;
+    const start = Number(schedule.parameters.motionStartTime ?? schedule.startTime);
+    const end = Number(schedule.parameters.motionEndTime ?? schedule.endTime);
+    const key = JSON.stringify([schedule.sourceActionId, start, end]);
+    if (completed.has(key)) continue;
+    completed.add(key);
+    if ((input.timeline.cutTimes ?? []).some(cut => cut > start && cut <= end)
+      || (input.userKeyframes ?? []).some(frame => (frame.mode ?? "hard") === "hard"
+        && frame.time >= start && frame.time <= end
+        && (frame.position || frame.rotation || frame.lookAt || frame.cutBefore))) continue;
+    const arc = plan.primitives.find(primitive => primitive.type === "angularProgress"
+      && primitive.parameters.mode === "orbit" && primitive.sourceActionId === schedule.sourceActionId
+      && primitive.parameters.motionStartTime === start && primitive.parameters.motionEndTime === end);
+    const sweep = arc?.parameters.fullTargetDelta ?? arc?.parameters.targetDelta;
+    if (typeof sweep !== "number" || !plan.primitives.some(primitive =>
+      ["screenScale", "subjectView", "subjectElevation"].includes(primitive.type)
+      && primitive.parameters.pointTime === end)) continue;
+    const first = states.find(state => Math.abs(state.time - start) < 1e-8);
+    const last = states.find(state => Math.abs(state.time - end) < 1e-8);
+    if (!first || !last) continue;
+    const startTarget = samplePrimitiveSubject(input, schedule, start);
+    const endTarget = samplePrimitiveSubject(input, schedule, end);
+    if (!startTarget || !endTarget) continue;
+    const endpoint = createInitialCameraState(input, plan, last.fovYDegrees, end,
+      new Map(), { ...choices, fovYDegrees: last.fovYDegrees });
+    const initialOffset = sub3(first.position, startTarget.center);
+    const finalOffset = sub3(endpoint.position, endTarget.center);
+    const turn = wrapAngle(Math.atan2(finalOffset[0], finalOffset[2])
+      - sweep - Math.atan2(initialOffset[0], initialOffset[2]));
+    let alignedStart = rotateAroundAxis(initialOffset, [0, 0, 0], [0, 1, 0], turn);
+    const selectedAmount = choices.movementAmounts?.get(seedMotionKey(schedule));
+    const radialDelta = typeof schedule.parameters.deltaRadius === "number" ? schedule.parameters.deltaRadius
+      : selectedAmount === undefined ? undefined : selectedAmount * Number(schedule.parameters.sign ?? 1);
+    if (radialDelta !== undefined) {
+      const initialRadius = length3(finalOffset) - radialDelta;
+      if (initialRadius <= 1e-4) continue;
+      alignedStart = scale3(normalize3(alignedStart), initialRadius);
+    }
+    const spiral = createSpiralPacing(alignedStart, finalOffset, sweep);
+    const baselines = new Map<string, Quat>();
+    for (const state of states) {
+      if (state.time < start - 1e-9 || state.time > end + 1e-9) continue;
+      const target = samplePrimitiveSubject(input, schedule, state.time);
+      if (!target) continue;
+      state.position = add3(target.center, spiral.offset(spiral.phase((state.time - start) / (end - start))));
+      applyCompositionOrientation(state, input, plan, baselines);
+    }
+  }
+}
 
 function startsNewShot(input: CameraOptimizerInput, time: number): boolean {
   return (input.timeline.cutTimes ?? []).some((cutTime) =>
@@ -113,6 +175,7 @@ export function initializeCameraStates(
     input.timeline.cutTimes ?? [],
   );
   seedMotionTransitions(states, plan.motionTransitions ?? [], input.userKeyframes ?? [], input.timeline.cutTimes ?? []);
+  seedConstantSpeedEndpoints(input, plan, states, choices);
   for (const state of states) {
     applyHardKeyframesAtTime(state, input);
     clampToGroundClearance(state, input, minimumCameraY);

@@ -77,26 +77,7 @@
           {
             "type": "followMovement",
             "parameters": {
-              "subjectId": "person2"
-            },
-            "sourceActionId": "ots_cut"
-          }
-        ],
-        "weight": 1
-      },
-      {
-        "kind": "interval",
-        "shotStartTime": 13.333333333333334,
-        "startTime": 13.333333333333334,
-        "endTime": 24,
-        "lossFunctions": [
-          {
-            "type": "subjectPresence",
-            "parameters": {
-              "subjectIds": [
-                "person1_shoulder",
-                "person2"
-              ]
+              "subjectId": "person2_face"
             },
             "sourceActionId": "ots_cut"
           }
@@ -112,8 +93,93 @@
           {
             "type": "subjectView",
             "parameters": {
-              "view": "threeQuarterFrontLeft",
-              "subjectId": "person2"
+              "view": "threeQuarterBackRight",
+              "subjectId": "person1_shoulder"
+            },
+            "sourceActionId": "ots_cut"
+          }
+        ],
+        "weight": 1
+      },
+      {
+        "kind": "interval",
+        "shotStartTime": 13.333333333333334,
+        "startTime": 13.333333333333334,
+        "endTime": 24,
+        "lossFunctions": [
+          {
+            "type": "framingPosition",
+            "parameters": {
+              "position": "bottomLeft",
+              "subjectId": "person1_shoulder"
+            },
+            "sourceActionId": "ots_cut"
+          }
+        ],
+        "weight": 1
+      },
+      {
+        "kind": "interval",
+        "shotStartTime": 13.333333333333334,
+        "startTime": 13.333333333333334,
+        "endTime": 24,
+        "lossFunctions": [
+          {
+            "type": "framingDutchAngle",
+            "parameters": {
+              "scale": 0,
+              "subjectId": "person1_shoulder"
+            },
+            "sourceActionId": "ots_cut"
+          }
+        ],
+        "weight": 1
+      },
+      {
+        "kind": "interval",
+        "shotStartTime": 13.333333333333334,
+        "startTime": 13.333333333333334,
+        "endTime": 24,
+        "lossFunctions": [
+          {
+            "type": "shotSize",
+            "parameters": {
+              "shotSize": "mediumCloseUp",
+              "subjectId": "person2_face"
+            },
+            "sourceActionId": "ots_cut"
+          }
+        ],
+        "weight": 1
+      },
+      {
+        "kind": "interval",
+        "shotStartTime": 13.333333333333334,
+        "startTime": 13.333333333333334,
+        "endTime": 24,
+        "lossFunctions": [
+          {
+            "type": "cameraVerticalAngle",
+            "parameters": {
+              "angle": "eye",
+              "subjectId": "person2_face"
+            },
+            "sourceActionId": "ots_cut"
+          }
+        ],
+        "weight": 1
+      },
+      {
+        "kind": "interval",
+        "shotStartTime": 13.333333333333334,
+        "startTime": 13.333333333333334,
+        "endTime": 24,
+        "lossFunctions": [
+          {
+            "type": "framingPosition",
+            "parameters": {
+              "position": "center",
+              "subjectId": "person2_face"
             },
             "sourceActionId": "ots_cut"
           }
@@ -129,7 +195,7 @@
             "type": "shotSize",
             "parameters": {
               "shotSize": "mediumCloseUp",
-              "subjectId": "person2"
+              "subjectId": "person2_face"
             }
           }
         ],

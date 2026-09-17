@@ -22,27 +22,18 @@
             "parameters": {
               "sign": 1,
               "arcAngle": 360,
-              "subjectId": "subject",
+              "subjectId": "subject_eyes",
               "speedKeyframes": [
                 {
                   "normalizedTime": 0,
-                  "speedMultiplier": 0
-                },
-                {
-                  "normalizedTime": 0.15,
-                  "speedMultiplier": 1,
-                  "easing": "increase"
-                },
-                {
-                  "normalizedTime": 0.85,
                   "speedMultiplier": 1
                 },
                 {
                   "normalizedTime": 1,
-                  "speedMultiplier": 0,
-                  "easing": "decrease"
+                  "speedMultiplier": 1
                 }
-              ]
+              ],
+              "constantSpeed": true
             },
             "sourceActionId": "spiral_orbit"
           }
@@ -78,23 +69,14 @@
               "speedKeyframes": [
                 {
                   "normalizedTime": 0,
-                  "speedMultiplier": 0
-                },
-                {
-                  "normalizedTime": 0.15,
-                  "speedMultiplier": 1,
-                  "easing": "increase"
-                },
-                {
-                  "normalizedTime": 0.85,
                   "speedMultiplier": 1
                 },
                 {
                   "normalizedTime": 1,
-                  "speedMultiplier": 0,
-                  "easing": "decrease"
+                  "speedMultiplier": 1
                 }
-              ]
+              ],
+              "constantSpeed": true
             },
             "sourceActionId": "spiral_dolly_in"
           }
@@ -127,6 +109,13 @@
               "shotSize": "closeUp",
               "subjectId": "subject_eyes"
             }
+          },
+          {
+            "type": "framingPosition",
+            "parameters": {
+              "position": "center",
+              "subjectId": "subject_eyes"
+            }
           }
         ],
         "weight": 1,
@@ -134,6 +123,28 @@
           "inDuration": 3,
           "curve": "easeInOut"
         }
+      },
+      {
+        "kind": "point",
+        "shotStartTime": 0,
+        "time": 9,
+        "lossFunctions": [
+          {
+            "type": "subjectView",
+            "parameters": {
+              "view": "front",
+              "subjectId": "subject_eyes"
+            }
+          },
+          {
+            "type": "cameraVerticalAngle",
+            "parameters": {
+              "angle": "eye",
+              "subjectId": "subject_eyes"
+            }
+          }
+        ],
+        "weight": 1
       }
     ],
     "timeWarp": []

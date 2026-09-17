@@ -533,6 +533,56 @@ export function createHumanoid(visual: PresetVisualV1): THREE.Group {
   }
   addFace(model, head, skin, hair, whites, iris, dark, lips);
   model.finish(root);
+  if (visual.params?.pose === "driving") poseSeatedDriver(rig, visual);
   rigs.set(root, rig);
   return root;
+}
+
+/** Driving visuals use the head center as their entity origin, facing the car's -Z front. */
+function poseSeatedDriver(rig: HumanoidRig, visual: PresetVisualV1): void {
+  const height = typeof visual.params?.carHeight === "number" && visual.params.carHeight > 0 ? visual.params.carHeight : 1.4;
+  const length = typeof visual.params?.carLength === "number" && visual.params.carLength > 0 ? visual.params.carLength : 4.4;
+  const scale = height * 0.5;
+  rig.root.name = "seated-driver";
+  rig.root.scale.setScalar(scale);
+  rig.root.position.y = -1.736 * scale;
+  rig.root.rotation.y = Math.PI;
+  for (const side of ["left", "right"] as const) {
+    rig[`${side}Thigh`].rotation.x = -1.3;
+    rig[`${side}Shin`].rotation.x = 1.45;
+    rig[`${side}Foot`].rotation.x = -0.15;
+  }
+  rig.root.updateMatrixWorld(true);
+
+  const rimRadius = height * 0.095;
+  for (const side of ["left", "right"] as const) {
+    const upper = rig[`${side}UpperArm`];
+    const forearm = rig[`${side}Forearm`];
+    const hand = rig[`${side}Hand`];
+    const sign = side === "left" ? 1 : -1;
+    // Place the palms on the same tilted wheel rendered by the car preset.
+    const wrist = rig.root.worldToLocal(new THREE.Vector3(
+      -sign * rimRadius,
+      -height * 0.1,
+      -length * 0.118 + 0.15 + scale * 0.085,
+    ));
+    const shoulder = upper.getWorldPosition(new THREE.Vector3());
+    rig.root.worldToLocal(shoulder);
+    const upperLength = forearm.position.length();
+    const lowerLength = hand.position.length();
+    const direction = wrist.clone().sub(shoulder);
+    const distance = Math.min(direction.length(), (upperLength + lowerLength) * 0.999);
+    direction.normalize();
+    const along = (upperLength ** 2 - lowerLength ** 2 + distance ** 2) / (2 * distance);
+    const bend = new THREE.Vector3(sign * 0.35, -1, 0);
+    bend.addScaledVector(direction, -bend.dot(direction)).normalize();
+    const elbow = shoulder.clone().addScaledVector(direction, along)
+      .addScaledVector(bend, Math.sqrt(Math.max(0, upperLength ** 2 - along ** 2)));
+    upper.quaternion.setFromUnitVectors(forearm.position.clone().normalize(), elbow.clone().sub(shoulder).normalize());
+    forearm.quaternion.setFromUnitVectors(hand.position.clone().normalize(),
+      wrist.clone().sub(elbow).normalize().applyQuaternion(upper.quaternion.clone().invert()));
+    hand.quaternion.copy(upper.quaternion).multiply(forearm.quaternion).invert()
+      .multiply(new THREE.Quaternion().setFromAxisAngle(new THREE.Vector3(1, 0, 0), -Math.PI / 2));
+  }
+  rig.root.updateMatrixWorld(true);
 }

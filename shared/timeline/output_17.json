@@ -15,7 +15,7 @@
         "kind": "interval",
         "shotStartTime": 0,
         "startTime": 0,
-        "endTime": 3,
+        "endTime": 2.5,
         "lossFunctions": [
           {
             "type": "trackMovement",
@@ -31,7 +31,7 @@
         "kind": "interval",
         "shotStartTime": 0,
         "startTime": 0,
-        "endTime": 3,
+        "endTime": 2.5,
         "lossFunctions": [
           {
             "type": "shotSize",
@@ -48,7 +48,7 @@
         "kind": "interval",
         "shotStartTime": 0,
         "startTime": 0,
-        "endTime": 3,
+        "endTime": 2.5,
         "lossFunctions": [
           {
             "type": "subjectView",
@@ -65,7 +65,7 @@
         "kind": "interval",
         "shotStartTime": 0,
         "startTime": 0,
-        "endTime": 3,
+        "endTime": 2.5,
         "lossFunctions": [
           {
             "type": "cameraVerticalAngle",
@@ -82,7 +82,7 @@
         "kind": "interval",
         "shotStartTime": 0,
         "startTime": 0,
-        "endTime": 3,
+        "endTime": 2.5,
         "lossFunctions": [
           {
             "type": "framingPosition",
@@ -99,7 +99,7 @@
         "kind": "interval",
         "shotStartTime": 0,
         "startTime": 0,
-        "endTime": 3,
+        "endTime": 2.5,
         "lossFunctions": [
           {
             "type": "noShake",
@@ -220,27 +220,12 @@
         "kind": "interval",
         "shotStartTime": 0,
         "startTime": 5.5,
-        "endTime": 10.5,
+        "endTime": 11,
         "lossFunctions": [
           {
             "type": "followMovement",
             "parameters": {
-              "subjectId": "runner",
-              "speedKeyframes": [
-                {
-                  "normalizedTime": 0,
-                  "speedMultiplier": 0.12
-                },
-                {
-                  "normalizedTime": 0.25,
-                  "speedMultiplier": 1,
-                  "easing": "increase"
-                },
-                {
-                  "normalizedTime": 1,
-                  "speedMultiplier": 1
-                }
-              ]
+              "subjectId": "runner"
             },
             "sourceActionId": "release_follow"
           }
@@ -251,7 +236,7 @@
         "kind": "interval",
         "shotStartTime": 0,
         "startTime": 5.5,
-        "endTime": 10.5,
+        "endTime": 11,
         "lossFunctions": [
           {
             "type": "subjectPresence",
@@ -267,7 +252,7 @@
         "kind": "interval",
         "shotStartTime": 0,
         "startTime": 5.5,
-        "endTime": 10.5,
+        "endTime": 11,
         "lossFunctions": [
           {
             "type": "noShake",
@@ -281,7 +266,7 @@
         "kind": "interval",
         "shotStartTime": 0,
         "startTime": 5.5,
-        "endTime": 10.5,
+        "endTime": 11,
         "lossFunctions": [
           {
             "type": "dollyOutMovement",
@@ -311,7 +296,7 @@
       {
         "kind": "point",
         "shotStartTime": 0,
-        "time": 10.5,
+        "time": 11,
         "lossFunctions": [
           {
             "type": "framingPosition",
@@ -337,7 +322,7 @@
       },
       {
         "startTimePlayback": 5.5,
-        "endTimePlayback": 10.5,
+        "endTimePlayback": 11,
         "rate": 1,
         "label": "normal"
       }

@@ -1,6 +1,7 @@
 import { readFile } from "node:fs/promises";
 import * as path from "node:path";
 import type { EnvironmentV1 } from "../types/environment";
+import { assertEntityOcclusion } from "../environment/occlusion-geometry";
 
 interface EnvironmentManifestEntry {
   id: string;
@@ -215,6 +216,10 @@ function assertTrustedEnvironment(
     assertNonEmptyString(candidate.id, `${entityPath}.id`);
     if (entityIds.has(candidate.id)) throw new Error(`Duplicate entity ID ${JSON.stringify(candidate.id)}.`);
     entityIds.add(candidate.id);
+    if (candidate.forwardAxis !== undefined && (typeof candidate.forwardAxis !== "string"
+      || !["+X", "-X", "+Z", "-Z"].includes(candidate.forwardAxis))) {
+      throw new Error(`${entityPath}.forwardAxis must be +X, -X, +Z, or -Z.`);
+    }
     if (!isRecord(candidate.transform) || candidate.transform.space !== "world") {
       throw new Error(`${entityPath}.transform must be world-space.`);
     }
@@ -227,6 +232,7 @@ function assertTrustedEnvironment(
     }
     assertVisual(candidate.visual, `${entityPath}.visual`);
     if (candidate.bounds !== undefined) assertBounds(candidate.bounds, `${entityPath}.bounds`);
+    if (candidate.occlusion !== undefined) assertEntityOcclusion(candidate.occlusion, `${entityPath}.occlusion`);
     if (
       isRecord(candidate.visual) && candidate.visual.type === "model"
       && candidate.visual.fitToBounds === true && candidate.bounds === undefined

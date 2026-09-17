@@ -4,6 +4,7 @@ import * as path from "node:path";
 import { resolvedPromptExampleFixtures } from "../src/data/resolved-example-fixtures";
 import { dontCarePromptExampleFixtures } from "../src/data/dont-care-examples";
 import { optimizeCameraTrajectory } from "../src/optimizer/index";
+import { DEFAULT_OPTIONS } from "../src/optimizer/config/defaults";
 import { flattenTimeline } from "../src/timeline/flattener";
 import { solveTimeline } from "../src/timeline/solver";
 import type { EnvironmentV1 } from "../src/types/environment";
@@ -32,7 +33,7 @@ function parsePositiveNumber(value: string | undefined, option: string): number 
 }
 
 function parseOptions(args: readonly string[]): GeneratorOptions {
-  const options: GeneratorOptions = { iterations: 500 };
+  const options: GeneratorOptions = { iterations: DEFAULT_OPTIONS.iterations };
   for (let index = 0; index < args.length; index += 1) {
     const argument = args[index]!;
     const [name, inlineValue] = argument.split("=", 2);
@@ -162,22 +163,31 @@ function main(): void {
       path.join(trajectoryDirectory, `${fixture.id}-camera.json`),
       result.trajectory,
     );
+    writeJsonAtomically(path.join(diagnosticsDirectory, `output_${index + 1}_camera.json`), result.trajectory);
+    const document = {
+      schemaVersion: "1.0", kind: "cameraOptimizerDiagnostics", exampleId: fixture.id,
+      environmentId: environment.id, trajectory: result.trajectory,
+      diagnostics: result.diagnostics, compiledPlan: result.compiledPlan,
+    } satisfies CameraOptimizerDiagnosticsDocumentV1;
+    writeJsonAtomically(path.join(diagnosticsDirectory, `output_${index + 1}.json`), document);
     writeJsonAtomically(
-      path.join(diagnosticsDirectory, `output_${index + 1}.json`),
-      {
-        schemaVersion: "1.0",
-        kind: "cameraOptimizerDiagnostics",
-        exampleId: fixture.id,
-        environmentId: environment.id,
-        trajectory: result.trajectory,
-        diagnostics: result.diagnostics,
-        compiledPlan: result.compiledPlan,
-      } satisfies CameraOptimizerDiagnosticsDocumentV1,
+      path.join(diagnosticsDirectory, `output_${index + 1}_optimized.json`),
+      document,
     );
+    const diagnostics = result.diagnostics;
+    const percentage = (value: number | null): string => value === null ? "n/a" : `${value.toFixed(2)}%`;
     console.log(
-      `${fixture.id}: ${result.diagnostics.initialLoss.toFixed(3)} -> `
-      + `${result.diagnostics.finalLoss.toFixed(3)} `
-      + `(${result.diagnostics.terminationReason})`,
+      `${fixture.id}: baseline ${diagnostics.baselineLoss?.toFixed(3) ?? "non-finite"}`
+      + ` → selected seed ${diagnostics.initialLoss.toFixed(3)}`
+      + ` → refined ${diagnostics.finalLoss.toFixed(3)}; `
+      + `seed ${percentage(diagnostics.seedImprovementPercent)}, `
+      + `refinement ${percentage(diagnostics.refinementImprovementPercent)}, `
+      + `total ${percentage(diagnostics.totalImprovementPercent)}; `
+      + `${diagnostics.terminationReason}, ${diagnostics.iterations} directional searches, `
+      + `${diagnostics.searchSweeps} sweeps, `
+      + `${diagnostics.seedCandidateCount} seed candidates, `
+      + `${diagnostics.objectiveEvaluations} refinement evaluations, `
+      + `${diagnostics.acceptedSteps} accepted steps`,
     );
   });
 }

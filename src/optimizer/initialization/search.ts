@@ -7,6 +7,13 @@ import { minimumAngularProgress, minimumTranslationProgress } from "../shared/mo
 import { samplePrimitiveSubject } from "../scene/primitive-context";
 import { FramingCoverageError } from "./framing-distance";
 
+export interface SceneAwareSeedResult {
+  states: CameraStateSample[];
+  /** Null when the unsearched baseline has a non-finite objective. */
+  baselineLoss: number | null;
+  evaluatedCandidateCount: number;
+}
+
 /**
  * Explore coherent whole-shot choices before optimizing individual samples.
  * A local solver cannot move an entire arc to the other side of a wall through
@@ -19,7 +26,8 @@ export function selectSceneAwareSeed(
   initialFov: number,
   minimumCameraY: number | undefined,
   evaluator: ObjectiveEvaluator,
-): CameraStateSample[] {
+  projectMotion?: (states: CameraStateSample[]) => void,
+): SceneAwareSeedResult {
   const minimumDistance = input.options?.minimumMovementDistance
     ?? DEFAULT_OPTIONS.minimumMovementDistance;
   const baseline = initializeCameraStates(input, plan, times, initialFov, minimumCameraY);
@@ -47,7 +55,10 @@ export function selectSceneAwareSeed(
         0.5, 1, 2, 4, 8, 16])].filter((distance) => distance >= minimum));
     } else if (primitive.type === "intrinsicsProgress") {
       if (typeof (p.fullFactor ?? p.factor) === "number") continue;
-      movements.set(key, [1.1, 1.25, 1.5]);
+      // A driver/face close-up can require several times the starting focal
+      // length. Restricting the coherent seeds to tiny zooms trapped the local
+      // search in a wide composition even with an explicit close-up endpoint.
+      movements.set(key, [1.1, 1.25, 1.5, 2, 3, 4, 6, 8]);
     }
   }
 
@@ -55,16 +66,22 @@ export function selectSceneAwareSeed(
   let bestStates: CameraStateSample[] = [];
   let bestLoss = Infinity;
   let bestSafety = Infinity;
-  const consider = (choices: SeedChoices): void => {
+  let baselineLoss: number | null = null;
+  let evaluatedCandidateCount = 0;
+  const consider = (choices: SeedChoices, initializedStates?: CameraStateSample[]): void => {
     let states: CameraStateSample[];
     try {
-      states = initializeCameraStates(input, plan, times, initialFov, minimumCameraY, choices);
+      states = initializedStates
+        ?? initializeCameraStates(input, plan, times, initialFov, minimumCameraY, choices);
     } catch (error) {
       if (error instanceof FramingCoverageError) return;
       throw error;
     }
+    projectMotion?.(states);
     const safety = evaluator.safetyViolation(states);
     const loss = evaluator.evaluate(states, false).total;
+    evaluatedCandidateCount += 1;
+    if (initializedStates === baseline) baselineLoss = Number.isFinite(loss) ? loss : null;
     if (!Number.isFinite(loss) || !Number.isFinite(safety)) return;
     const safe = safety <= 1e-6;
     const bestSafe = bestSafety <= 1e-6;
@@ -79,7 +96,7 @@ export function selectSceneAwareSeed(
       bestSafety = safety;
     }
   };
-  consider({});
+  consider({}, baseline);
   const compactAmounts = new Map([...movements].map(([key, values]) => [key, values[0]!]));
   // Search both ordinary and compact motion, since a large arbitrary sweep
   // can block every starting bearing in a confined room.
@@ -109,5 +126,5 @@ export function selectSceneAwareSeed(
     for (const fovYDegrees of [25, 35, initialFov, 70, 90]) consider({ ...bestChoices, fovYDegrees });
   }
   if (bestStates.length === 0) throw new Error("No finite camera seed could satisfy the scene's initialization constraints");
-  return bestStates;
+  return { states: bestStates, baselineLoss, evaluatedCandidateCount };
 }

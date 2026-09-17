@@ -114,7 +114,8 @@ function car(visual: PresetVisualV1): THREE.Group {
   const alloy = material("alloy", "#a2a8ac", { metalness: 0.88, roughness: 0.25 });
   const glass = material("glass", "#3c5360", {
     metalness: 0.3, roughness: 0.09, side: THREE.DoubleSide,
-    transparent: visual.params?.interior === true, opacity: visual.params?.interior === true ? 0.43 : 1,
+    transparent: visual.params?.interior === true, opacity: visual.params?.interior === true ? 0.22 : 1,
+    depthWrite: visual.params?.interior !== true,
   });
   const headlights = material("headlights", "#e7f2f8", {
     emissive: "#b9d3e3", emissiveIntensity: 0.35, metalness: 0.3, roughness: 0.18,
@@ -211,10 +212,22 @@ function car(visual: PresetVisualV1): THREE.Group {
       model.box([w * 0.265, h * 0.28, l * 0.06], trim, [side * w * 0.202, h * 0.633, l * 0.074], h * 0.045, [-0.12, 0, 0]);
       model.box([w * 0.126, h * 0.105, l * 0.042], trim, [side * w * 0.202, h * 0.831, l * 0.086], h * 0.031);
     }
-    model.add(new THREE.TorusGeometry(h * 0.095, h * 0.011, 8, 28), rubber,
-      [-w * 0.202, h * 0.73, -l * 0.118], [-0.32, 0, 0]);
   }
-  return model.finish("detailed-car");
+  const group = model.finish("detailed-car");
+  if (visual.params?.interior === true) {
+    const steering = new Model();
+    steering.add(new THREE.TorusGeometry(h * 0.095, h * 0.011, 8, 28), rubber);
+    steering.ellipsoid([h * 0.032, h * 0.027, h * 0.014], trim, [0, 0, 0]);
+    for (const angle of [0, Math.PI, -Math.PI / 2]) {
+      steering.rod([0, 0, 0], [Math.cos(angle) * h * 0.09, Math.sin(angle) * h * 0.09, 0], h * 0.008, trim);
+    }
+    const wheel = steering.finish("steering-wheel");
+    // A car facing -Z has its left-hand driver's seat on +X.
+    wheel.position.set(w * 0.202, h * 0.73, -l * 0.118);
+    wheel.rotation.x = -0.32;
+    group.add(wheel);
+  }
+  return group;
 }
 
 function woodGrain(): THREE.DataTexture {

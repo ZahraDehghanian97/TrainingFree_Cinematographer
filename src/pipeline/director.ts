@@ -31,7 +31,7 @@ import {
   type PipelineModelOptions,
 } from "./model-provider";
 
-const DIRECTOR_PROMPT_VERSION = "camera-director-csl-v7-intent-scope";
+const DIRECTOR_PROMPT_VERSION = "camera-director-csl-v8-handheld";
 const MAX_REPAIR_OUTPUT_CHARS = 16_000;
 
 // Keep the AI SDK generic boundary intentionally shallow. The domain parser
@@ -78,6 +78,8 @@ Subject rules:
 - Movement targets define motion axes/centers; constraint targets define framing and composition. Do not conflate them.
 - "Start with" framing belongs to initCamera only unless the user also asks to keep it. "Keep both in frame" needs an explicit keepInFrame constraint with allFrames=true; "reveal both by the end" needs keepInFrame with allFrames=false. Merely listing targets in an otherwise empty subjectAware config does not enforce this joint framing requirement.
 - A spiral approach combines orbit and dollyIn concurrently with the same trigger. Orbit around the subject and dolly toward the requested destination (for example the eyes). An initial bird's-eye angle belongs only to initCamera; the final close-up belongs to an end constraint with allFrames=false, not a constraint on the whole approach. Preserve any explicitly requested full turns in arcAngle.
+- Express handheld or shaky camera motion with movement.parameters.handheld=true on the affected movement. Shake is separate from the underlying path; a curved or spline path does not express handheld shake. Do not pair requested shake with noShake on the same interval.
+- When constant camera travel speed is explicitly requested, set movement.parameters.constantSpeed=true. On a spiral, set it on both the orbit and dolly: constant spatial speed differs from constant angular speed as the radius changes. Omit it when speed is unspecified.
 
 Unspecified values (don't care):
 - Omission is the only representation of don't care. Never output null, "dontCare", "auto", or a guessed default for an unspecified field.

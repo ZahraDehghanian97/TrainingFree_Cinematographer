@@ -13,7 +13,55 @@
     "timeline": [
       {
         "kind": "interval",
-        "shotStartTime": 2,
+        "shotStartTime": 0,
+        "startTime": 0,
+        "endTime": 2,
+        "lossFunctions": [
+          {
+            "type": "Static",
+            "parameters": {
+              "subjectId": "subject"
+            },
+            "sourceActionId": "follow_before_freeze"
+          }
+        ],
+        "weight": 1
+      },
+      {
+        "kind": "interval",
+        "shotStartTime": 0,
+        "startTime": 0,
+        "endTime": 2,
+        "lossFunctions": [
+          {
+            "type": "cameraVerticalAngle",
+            "parameters": {
+              "angle": "eye",
+              "subjectId": "subject"
+            },
+            "sourceActionId": "follow_before_freeze"
+          }
+        ],
+        "weight": 1
+      },
+      {
+        "kind": "point",
+        "shotStartTime": 0,
+        "time": 0,
+        "lossFunctions": [
+          {
+            "type": "cameraVerticalAngle",
+            "parameters": {
+              "angle": "eye",
+              "subjectId": "subject"
+            }
+          }
+        ],
+        "weight": 1
+      },
+      {
+        "kind": "interval",
+        "shotStartTime": 0,
         "startTime": 2,
         "endTime": 4,
         "lossFunctions": [
@@ -51,13 +99,14 @@
       },
       {
         "kind": "interval",
-        "shotStartTime": 2,
+        "shotStartTime": 0,
         "startTime": 2,
         "endTime": 4,
         "lossFunctions": [
           {
-            "type": "subjectPresence",
+            "type": "cameraVerticalAngle",
             "parameters": {
+              "angle": "eye",
               "subjectId": "subject"
             },
             "sourceActionId": "frozen_orbit_360"
@@ -67,13 +116,30 @@
       },
       {
         "kind": "interval",
-        "shotStartTime": 2,
+        "shotStartTime": 0,
         "startTime": 4,
         "endTime": 5,
         "lossFunctions": [
           {
-            "type": "followMovement",
+            "type": "Static",
             "parameters": {
+              "subjectId": "subject"
+            },
+            "sourceActionId": "resume_normal_speed"
+          }
+        ],
+        "weight": 1
+      },
+      {
+        "kind": "interval",
+        "shotStartTime": 0,
+        "startTime": 4,
+        "endTime": 5,
+        "lossFunctions": [
+          {
+            "type": "cameraVerticalAngle",
+            "parameters": {
+              "angle": "eye",
               "subjectId": "subject"
             },
             "sourceActionId": "resume_normal_speed"

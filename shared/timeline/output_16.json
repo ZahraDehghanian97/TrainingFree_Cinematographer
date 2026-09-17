@@ -19,7 +19,9 @@
         "lossFunctions": [
           {
             "type": "truckRightMovement",
-            "parameters": {},
+            "parameters": {
+              "path": "linear"
+            },
             "sourceActionId": "truck_right_exchange_setup"
           }
         ],

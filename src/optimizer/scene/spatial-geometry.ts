@@ -1,4 +1,4 @@
-import { sampleEnvironmentSubject } from "../../environment/sampler";
+import { sampleEnvironmentEntityTransform, sampleEnvironmentSubject, worldAabbForBounds } from "../../environment/sampler";
 import type { EnvironmentV1, Vec3 } from "../../types/environment";
 import type { WorldAabbV1 } from "../../types/environment-query";
 import { add3, scale3 } from "../shared/math";
@@ -141,4 +141,18 @@ export function sampleObstacleBoxes(
     if (sample.box) result.push({ entityId: entity.id, box: sample.box });
   }
   return result;
+}
+
+/** Sight proxies may omit glass/open space; collision continues using entity.bounds. */
+export function sampleOcclusionBoxes(
+  environment: EnvironmentV1,
+  time: number,
+): Array<{ entityId: string; box: WorldAabbV1 }> {
+  return environment.entities.flatMap((entity) => {
+    if (entity.occlusion?.transparent === true) return [];
+    const bounds = entity.occlusion?.bounds ?? (entity.bounds ? [entity.bounds] : []);
+    if (bounds.length === 0) return [];
+    const transform = sampleEnvironmentEntityTransform(entity, time);
+    return bounds.map((piece) => ({ entityId: entity.id, box: worldAabbForBounds(piece, transform) }));
+  });
 }

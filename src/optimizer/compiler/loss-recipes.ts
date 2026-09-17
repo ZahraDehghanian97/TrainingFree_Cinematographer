@@ -12,20 +12,22 @@ import {
 } from "./constants";
 import { subjectParameters } from "./subjects";
 import type { CompileBandContext, PrimitiveDescriptor } from "./types";
-import { motionProgress, validateMotionProfile } from "../shared/motion-profiles";
+import { effectiveSpeedKeyframes, motionProgress, validateMotionProfile } from "../shared/motion-profiles";
 
 function optionalNumber(value: unknown): number | undefined {
   return typeof value === "number" && Number.isFinite(value) ? value : undefined;
 }
 
 function motionParameters(context: CompileBandContext): Record<string, unknown> {
-  validateMotionProfile(context.loss.parameters.speedKeyframes);
+  const speedKeyframes = effectiveSpeedKeyframes(context.loss.parameters);
+  validateMotionProfile(speedKeyframes);
   return {
     referenceTime: context.sourceStartTime,
     motionStartTime: context.sourceStartTime,
     motionEndTime: context.sourceEndTime,
-    ...(context.loss.parameters.speedKeyframes
-      ? { speedKeyframes: context.loss.parameters.speedKeyframes }
+    ...(context.loss.parameters.constantSpeed === true ? { constantSpeed: true } : {}),
+    ...(speedKeyframes
+      ? { speedKeyframes }
       : {}),
   };
 }
@@ -98,17 +100,18 @@ function translationRecipe(
     ...(context.loss.parameters.allowSubjectIntersection === true
       ? { allowSubjectIntersection: true }
       : {}),
+    ...(context.loss.parameters.handheld === true ? { handheld: true } : {}),
     ...subjectParameters(context.loss.parameters),
   };
   const shapeDescriptors: PrimitiveDescriptor[] = path === "curved" || path === "spline"
     ? [{ type: "pathProfile", channel: "position", role: "stabilizer", parameters: shared }]
-    : path === "linear" || path === "straight" ? [{
+    : path === undefined || path === "linear" || path === "straight" ? [{
         type: "orthogonalDrift",
         channel: "position",
         role: "stabilizer",
         parameters: shared,
-        // A straight move is a geometric promise. Give it enough authority to
-        // resist the small per-sample cross-talk introduced by SPSA.
+        // A dolly, truck or pedestal follows its rig axis unless a bend was
+        // requested. Stabilize that geometry without fixing its travel amount.
         weightScale: 4,
         tolerance: 0.02,
       }] : [];
@@ -116,7 +119,7 @@ function translationRecipe(
     { type: "axisProgress", channel: "position", role: "primary", parameters: shared },
     { type: "totalProgressTarget", channel: "position", role: "primary", parameters: shared },
     ...shapeDescriptors,
-    ...(context.loss.parameters.speedKeyframes ? [{
+    ...(effectiveSpeedKeyframes(context.loss.parameters) ? [{
       type: "stepPacing", channel: "regularity", role: "stabilizer", parameters: shared, weightScale: 1.2,
     } as PrimitiveDescriptor] : []),
     { type: "stepSmoothness", channel: "regularity", role: "stabilizer", parameters: shared, weightScale: 1.2 },
@@ -147,7 +150,7 @@ function rotationRecipe(
   return [
     { type: "angularProgress", channel: "rotation", role: "primary", parameters: shared },
     { type: "angularDirection", channel: "rotation", role: "primary", parameters: shared, weightScale: 0.7 },
-    ...(context.loss.parameters.speedKeyframes ? [{
+    ...(effectiveSpeedKeyframes(context.loss.parameters) ? [{
       type: "angularPacing", channel: "regularity", role: "stabilizer", parameters: shared, weightScale: 0.65,
     } as PrimitiveDescriptor] : []),
     mode === "yaw"
@@ -205,11 +208,12 @@ export function descriptorsForLoss(context: CompileBandContext): PrimitiveDescri
           role: "stabilizer",
           parameters: { plane: "cameraMovement", ...subjects },
         },
-        ...(p.speedKeyframes ? [
+        ...(effectiveSpeedKeyframes(p) ? [
           { type: "stepPacing", channel: "regularity", role: "stabilizer", parameters: vertical, weightScale: 0.6 },
           { type: "stepPacing", channel: "regularity", role: "stabilizer", parameters: horizontal, weightScale: 0.6 },
         ] as PrimitiveDescriptor[] : []),
         { type: "stepSmoothness", channel: "regularity", role: "stabilizer", parameters: vertical, weightScale: 0.45 },
+        { type: "fovHold", channel: "intrinsics", role: "stabilizer", weightScale: 2 },
         { type: "rollHold", channel: "rotation", role: "stabilizer" },
       ];
     }
@@ -232,7 +236,7 @@ export function descriptorsForLoss(context: CompileBandContext): PrimitiveDescri
       return [
         { type: "rollProgress", channel: "rotation", role: "primary", parameters: shared },
         { type: "angularDirection", channel: "rotation", role: "primary", parameters: { mode: "roll", ...shared } },
-        ...(p.speedKeyframes ? [{
+        ...(effectiveSpeedKeyframes(p) ? [{
           type: "angularPacing", channel: "regularity", role: "stabilizer", parameters: { mode: "roll", ...shared },
         } as PrimitiveDescriptor] : []),
         { type: "positionHold", channel: "position", role: "stabilizer" },
@@ -265,9 +269,10 @@ export function descriptorsForLoss(context: CompileBandContext): PrimitiveDescri
         },
         { type: "angularProgress", channel: "subjectRelative", role: "primary", parameters: { mode: "orbit", ...shared } },
         { type: "angularDirection", channel: "subjectRelative", role: "primary", parameters: { mode: "orbit", ...shared } },
-        ...(p.speedKeyframes ? [{
+        ...(effectiveSpeedKeyframes(p) ? [{
           type: "angularPacing", channel: "regularity", role: "stabilizer", parameters: { mode: "orbit", ...shared },
         } as PrimitiveDescriptor] : []),
+        { type: "fovHold", channel: "intrinsics", role: "stabilizer", weightScale: 2 },
         { type: "rollHold", channel: "rotation", role: "stabilizer" },
       ];
     }
@@ -290,7 +295,7 @@ export function descriptorsForLoss(context: CompileBandContext): PrimitiveDescri
           role: "primary",
           parameters: shared,
         },
-        ...(p.speedKeyframes ? [{
+        ...(effectiveSpeedKeyframes(p) ? [{
           type: "intrinsicsPacing",
           channel: "regularity",
           role: "stabilizer",
@@ -340,6 +345,7 @@ export function descriptorsForLoss(context: CompileBandContext): PrimitiveDescri
           type: "distanceHold", channel: "subjectRelative", role: "primary", parameters: { ...follow, distance: p.distance },
         } as PrimitiveDescriptor]),
         { type: "velocityMatch", channel: "subjectRelative", role: "primary", parameters: follow },
+        { type: "fovHold", channel: "intrinsics", role: "stabilizer", weightScale: 2 },
         { type: "rollHold", channel: "rotation", role: "stabilizer" },
       ];
     }
@@ -354,6 +360,7 @@ export function descriptorsForLoss(context: CompileBandContext): PrimitiveDescri
       return [
         { type: "distanceHold", channel: "subjectRelative", role: "primary", parameters: track },
         { type: "velocityMatch", channel: "subjectRelative", role: "stabilizer", parameters: track },
+        { type: "fovHold", channel: "intrinsics", role: "stabilizer", weightScale: 2 },
         { type: "rollHold", channel: "rotation", role: "stabilizer" },
       ];
     }

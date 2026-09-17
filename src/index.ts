@@ -411,9 +411,24 @@ async function main(): Promise<void> {
     }
 
     console.log(`Viewer trajectory: ${viewerTrajectoryPath}`);
+    const diagnostics = optimizerResult.diagnostics;
+    const percentage = (value: number | null): string => value === null ? "n/a" : `${value.toFixed(2)}%`;
     console.log(
-      `Optimizer: ${optimizerResult.diagnostics.terminationReason}; `
-      + `${optimizerResult.diagnostics.initialLoss.toFixed(3)} → ${optimizerResult.diagnostics.finalLoss.toFixed(3)}`,
+      `Optimizer: baseline ${diagnostics.baselineLoss?.toFixed(3) ?? "non-finite"}`
+      + ` → selected seed ${diagnostics.initialLoss.toFixed(3)}`
+      + ` → refined ${diagnostics.finalLoss.toFixed(3)}`,
+    );
+    console.log(
+      `Improvement: seed ${percentage(diagnostics.seedImprovementPercent)}; `
+      + `refinement ${percentage(diagnostics.refinementImprovementPercent)}; `
+      + `total ${percentage(diagnostics.totalImprovementPercent)}`,
+    );
+    console.log(
+      `Search: ${diagnostics.terminationReason}; ${diagnostics.iterations} directional searches; `
+      + `${diagnostics.searchSweeps} sweeps; `
+      + `${diagnostics.seedCandidateCount} seed candidates; `
+      + `${diagnostics.objectiveEvaluations} refinement evaluations; `
+      + `${diagnostics.acceptedSteps} accepted steps`,
     );
     console.log(
       "Camera Lab: "

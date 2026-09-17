@@ -512,11 +512,21 @@ function compositionOrientationTarget(
       rotation: anchoredRotation ?? lookAtQuaternion(state.position, anchoredLookAt!),
     };
   }
-  const composition = active.find((primitive) => primitive.type === "screenPosition")
-    ?? active.find((primitive) => primitive.type === "lookAt")
-    ?? active.find((primitive) => primitive.type === "screenScale")
-    ?? active.find((primitive) => primitive.type === "subjectVisibility")
-    ?? active.find((primitive) => primitive.type === "subjectScaleFloor");
+  const compositionActive = active.filter((primitive) => {
+    if (primitive.type !== "subjectVisibility" && primitive.type !== "subjectScaleFloor") return true;
+    if (primitive.weight <= 0) return false;
+    const windows = primitive.parameters.suppressionWindows;
+    return !Array.isArray(windows) || !windows.some((window: {
+      startTime: number; endTime: number; pointTime?: number;
+      easing?: Parameters<typeof pointEasingWeight>[2];
+    }) => state.time >= window.startTime - 1e-9 && state.time <= window.endTime + 1e-9
+      && (window.pointTime === undefined ? 1 : pointEasingWeight(state.time, window.pointTime, window.easing)) >= 1 - 1e-9);
+  });
+  const composition = compositionActive.find((primitive) => primitive.type === "screenPosition")
+    ?? compositionActive.find((primitive) => primitive.type === "lookAt")
+    ?? compositionActive.find((primitive) => primitive.type === "screenScale")
+    ?? compositionActive.find((primitive) => primitive.type === "subjectVisibility")
+    ?? compositionActive.find((primitive) => primitive.type === "subjectScaleFloor");
   const hasExplicitRotation = active.some((primitive) =>
     (primitive.type === "angularProgress" && primitive.parameters.mode !== "orbit")
     || primitive.type === "rollProgress",
@@ -539,7 +549,7 @@ function compositionOrientationTarget(
       subjectTimingParameters(primitive.parameters),
     ]);
     const compositionScope = scope(composition);
-    const subjectIds = [...new Set(active.filter((primitive) =>
+    const subjectIds = [...new Set(compositionActive.filter((primitive) =>
       primitive.weight > 0
       && (primitive.type === "subjectVisibility" || primitive.type === "subjectScaleFloor")
       && scope(primitive) === compositionScope,

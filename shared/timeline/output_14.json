@@ -162,7 +162,24 @@
         "lossFunctions": [
           {
             "type": "zoomInMovement",
-            "parameters": {},
+            "parameters": {
+              "speedKeyframes": [
+                {
+                  "normalizedTime": 0,
+                  "speedMultiplier": 0
+                },
+                {
+                  "normalizedTime": 0.5,
+                  "speedMultiplier": 1,
+                  "easing": "increase"
+                },
+                {
+                  "normalizedTime": 1,
+                  "speedMultiplier": 0,
+                  "easing": "decrease"
+                }
+              ]
+            },
             "sourceActionId": "last_breath_zoom"
           }
         ],

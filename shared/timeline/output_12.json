@@ -37,16 +37,19 @@
             "parameters": {
               "targetPose": {
                 "position": {
-                  "x": 0,
+                  "x": -0.15,
                   "y": 1.23,
-                  "z": 30.75
+                  "z": 30.25
                 },
                 "rotation": {
-                  "x": -0.08444990967903022,
+                  "x": 0,
                   "y": 0,
                   "z": 0,
-                  "w": 0.9964277258061438
+                  "w": 1
                 }
+              },
+              "targetIntrinsics": {
+                "fov": 70
               }
             }
           }
@@ -62,17 +65,29 @@
           {
             "type": "dollyInMovement",
             "parameters": {
-              "subjectId": "car",
+              "distance": 5,
+              "subjectId": "car_front_exit",
               "speedKeyframes": [
                 {
                   "normalizedTime": 0,
+                  "speedMultiplier": 0
+                },
+                {
+                  "normalizedTime": 0.2,
+                  "speedMultiplier": 1,
+                  "easing": "increase"
+                },
+                {
+                  "normalizedTime": 0.8,
                   "speedMultiplier": 1
                 },
                 {
                   "normalizedTime": 1,
-                  "speedMultiplier": 2
+                  "speedMultiplier": 0,
+                  "easing": "decrease"
                 }
               ],
+              "path": "linear",
               "allowSubjectIntersection": true
             },
             "sourceActionId": "exit_through_windshield"
@@ -92,7 +107,11 @@
             }
           }
         ],
-        "weight": 1
+        "weight": 1,
+        "easing": {
+          "inDuration": 1,
+          "curve": "easeInOut"
+        }
       },
       {
         "kind": "interval",
@@ -104,11 +123,17 @@
             "type": "arcMovement",
             "parameters": {
               "sign": 1,
+              "arcAngle": 360,
               "subjectId": "car",
               "speedKeyframes": [
                 {
                   "normalizedTime": 0,
-                  "speedMultiplier": 2
+                  "speedMultiplier": 0
+                },
+                {
+                  "normalizedTime": 0.15,
+                  "speedMultiplier": 1,
+                  "easing": "increase"
                 },
                 {
                   "normalizedTime": 1,

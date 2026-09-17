@@ -4,6 +4,7 @@ import { distance3, quaternionAngle } from "../shared/math";
 import type { CameraOptimizerInput, UserCameraKeyframe } from "../types";
 import { validateMotionProfile } from "../shared/motion-profiles";
 import { validateSemanticTargets } from "./semantic-targets";
+import { assertEntityOcclusion } from "../../environment/occlusion-geometry";
 
 function assertFiniteTuple(value: readonly number[], length: number, field: string): void {
   if (value.length !== length || !value.every(Number.isFinite)) {
@@ -41,6 +42,9 @@ export function validateOptimizerInput(input: CameraOptimizerInput): void {
     throw new Error("environment must be a canonical EnvironmentV1 document");
   }
   const scale = input.environment.coordinates.metricScale;
+  input.environment.entities.forEach((entity, index) => {
+    if (entity.occlusion !== undefined) assertEntityOcclusion(entity.occlusion, `environment.entities[${index}].occlusion`);
+  });
   if (scale?.status === "relative" || /^RELATIVE-SCALE\b/i.test(input.environment.prompt)) {
     throw new Error("Environment has relative scale: calibrate and convert coordinates to meters before optimizing meter-based clearance");
   }

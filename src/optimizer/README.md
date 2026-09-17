@@ -30,6 +30,13 @@ timeline; `optimizeTimelineSolverOutput()` accepts the direct `solveTimeline()`
 result. Both return the plan, canonical trajectory, loss breakdown, conflicts,
 warnings, and termination diagnostics.
 
+Diagnostics separate the unsearched `baselineLoss`, selected seed `initialLoss`,
+and refined `finalLoss`. `seedCandidateCount` and the three stage improvement
+percentages show work that previously happened before the logged initial loss.
+A percentage is unavailable when its starting objective is zero. Numerical
+`objectiveEvaluations`, `acceptedSteps`, and `searchSweeps` report the actual
+search work; an iteration limit alone does not describe it.
+
 ## Module layout
 
 ```text
@@ -198,19 +205,22 @@ horizontal plane and constant radius, with that radius measured from the
 candidate camera when unspecified. Follow preserves an offset from its sampled subject reference,
 Track can hold a freely chosen distance, Pan/Tilt keep their inactive rotation
 axes steady, Zoom keeps the camera pose steady, and Static holds its active
-channels. These holds compare optimized camera states; they do not anchor the
+channels. Dolly, Truck, and Pedestal keep their rig axis straight unless a curved
+path is requested. Translation, tracking, and orbit rigs keep a steady lens;
+ShotSize and KeepInFrame describe composition without requesting optical zoom.
+These holds compare optimized camera states; they do not anchor the
 camera to a guessed starting position, radius, lens, or roll angle. Concurrent
 authored movement can release passive holds through the compound rules below.
-Static's explicit primary holds remain authored intent and may conflict with
-another simultaneous instruction.
+Static's explicit primary holds remain authored intent; an explicit concurrent
+Zoom releases its lens hold while retaining its position and orientation holds.
 
 For an omitted movement amount, translation, angle, and zoom objectives use
 one-sided minimum-progress penalties. They penalize a move that collapses to no
 motion and stop penalizing its amount once the minimum is reached. They do not
 request an exact replacement distance, sweep, or zoom factor. Authored path and
 speed profiles apply to the whole source action even when other constraints
-split it into multiple bands. Without an authored profile, no exact linear path
-or uniform pacing target is added. Numerical initialization chooses a feasible
+split it into multiple bands. The named rig supplies passive geometry, while
+omitting a speed profile adds no uniform pacing target. Numerical initialization chooses a feasible
 starting candidate using seed constants and scene bounds; those values are
 never promoted into compiler targets.
 
@@ -399,6 +409,43 @@ same time/channel fail validation.
 
 ## Numerical method
 
+Named camera rigs are parameterized before seed scoring and every numerical
+evaluation. Surviving radius/plane, relative-offset, straight-axis, fixed-lens,
+and explicitly paced motion contracts share their solved origin and endpoints;
+independent knot updates cannot introduce radial pumping or tracking drift.
+Compound conflict resolution releases incompatible holds before this step.
+Cuts start independent rig references. A later hard user keyframe that conflicts
+with a rig keeps that channel soft, and the exact authored key remains intact.
+A mounted/static hold also keeps its orientation. An explicit numeric pose or
+lens at that hold's origin establishes its direction or fixed lens; a hard user
+key takes precedence. Passive orientation stabilizers remain soft.
+Collision acceptance evaluates the parameterized path itself, not a repaired
+export. Exported interpolation approximates curved rig geometry between knots;
+the example motion audit measures the resulting path at playback resolution.
+
+`movement.parameters.constantSpeed: true` on a compound spiral uses one spatial
+arc-length clock for its radial, vertical, and angular progress. This preserves
+physical speed as its radius shrinks. Ordinary independent action profiles keep
+their existing meaning. Such spirals receive a denser optimization grid so
+endpoint interpolation does not create a visible speed change.
+Relative following and constant-speed spiral endpoints get local 60 Hz samples
+to resolve their one-sided derivatives. Scene-rate changes receive the same
+local refinement so a following camera does not interpolate across an extended
+stale subject position after slow motion.
+
+Physical acceleration and jerk are integrated on the continuous position curve
+with a Huber cost. Its bounded influence prevents an authored fast orbit or a
+scene-rate discontinuity from overwhelming the requested camera movement.
+Safety and user-keyframe penalties retain their squared costs.
+
+`movement.parameters.handheld: true` adds a deterministic transverse and angular
+handheld layer after solving the base rig. It runs on camera playback time,
+fades with zero position velocity/acceleration at its edges, preserves the lens,
+and exports analytic position derivatives. Hard-keyed channels are preserved.
+The complete output is swept for collision; the layer is reduced if it would
+worsen clearance. Diagnostics explicitly distinguish the base-rig loss from
+the applied handheld strength.
+
 The state grid contains uniform optimization samples plus timeline boundaries,
 easing boundaries, cuts, user-keyframe times, and adaptive arc samples that keep
 authored or seeded orbit steps at or below 15 degrees. Optimized angular motion
@@ -424,8 +471,9 @@ exponential, `R_new = Exp(deltaRotation) R_base`; accepted steps recenter the
 chart. Thus the solver does not optimize four redundant quaternion components.
 Unlocked FOV is bounded to 8–120 degrees; hard channels are reapplied exactly.
 
-Refinement uses deterministic two-sided simultaneous perturbations, Adam
-scaling, a temporal Sobolev filter, and monotone backtracking. The filter solves
+Refinement uses deterministic directional searches: whole-shot offsets and
+ramps followed by a complete temporal basis for each free channel. The temporal
+Sobolev filter solves
 
 ```text
 min_z 1/2 * integral (z - direction)^2 dt
@@ -434,23 +482,36 @@ min_z 1/2 * integral (z - direction)^2 dt
 
 using a mass-lumped piecewise-linear discretization on the actual timestamps.
 Its reusable tridiagonal solve accounts for uneven sample spacing. Cuts remove
-connecting edges and locked coordinates have zero update. This filters the
-proposed direction; it does not certify a minimum-jerk trajectory.
+connecting edges and locked coordinates have zero update. A single application
+smooths the probing directions themselves, avoiding independent knot noise
+without suppressing the fine corrections needed around closely spaced knots.
+The filter is invertible on free coordinates,
+so the basis retains independent knot motion. This is a search preconditioner;
+it does not certify a minimum-jerk trajectory.
 
-Each main SPSA gradient estimate uses four objective evaluations regardless of
-the number of free coordinates. Backtracking adds evaluations; a bounded
-coordinate fallback can add up to four per free coordinate. The cost of each
-evaluation also depends on trajectory and scene size. Accepted states lower
-the objective and never exceed the preceding enabled collision/ground
-violation, apart from the explicit 1e-6-meter numerical tolerance. The best
-finite state is retained. Nonfinite probes never enter Adam's moments.
+Each one-dimensional search probes both signs, estimates curvature, tests a
+safeguarded interpolated step, and expands or contracts its step as needed.
+Accepted displacements also supply a combined search direction. Recovery stays
+active after partial improvement. An iteration now counts a directional search;
+`objectiveEvaluations` reports its actual evaluation cost. Position-only geometry
+and residuals are reused when rotation or lens changes leave the complete
+position curve unchanged, including its optional exported derivative data.
+Accepted states lower the objective and never exceed the preceding enabled
+collision/ground violation, apart from the explicit 1e-6-meter numerical
+tolerance. Nonfinite and unsafe candidates are rejected.
 
-Twelve accepted improvements below the relative threshold report
-`objectivePlateau`; rejected-step exhaustion reports `stalled`. The current
-solver always reports `converged: false`, because it computes no stationarity
-or global-optimality certificate. Zero iterations or no free coordinates
-report `initialState`. Defaults are 3 Hz plus adaptive arc samples, 5000
-iterations, environment `fpsHint` for output, and a fixed seed.
+Plateau/stall decisions require three complete search sweeps with negligible
+relative improvement, including the fine directions. No-progress sweeps report
+`stalled`; small remaining improvements report `objectivePlateau`. A nonnegative
+objective already at numerical zero also reports `objectivePlateau` immediately.
+The solver always reports `converged: false`, because it computes no stationarity
+or global-optimality certificate. Zero iterations or no free coordinates report
+`initialState`. Defaults are 3 Hz plus adaptive arc samples, 5000 directional
+searches, and environment `fpsHint` for output. Search is deterministic; the
+legacy `randomSeed` option is retained for input compatibility.
+The current dense direction basis uses quadratic memory in the number of free
+coordinates; long timelines should use a lazy basis or optimize separate shots
+independently before substantially increasing the optimization grid.
 
 ## Scene geometry, visibility, and scale
 
@@ -489,6 +550,30 @@ excluded. This provides a clearance signal for thin obstacles and near misses;
 it is not projected visible-area estimation or a guarantee that every subject
 pixel is visible. Visibility is still evaluated at temporal samples, while
 camera collision uses continuous sweeps.
+
+Entities are opaque by default. Set `occlusion: { transparent: true }` on an
+entity to exclude it from visibility rays while retaining its collision bounds.
+For hollow or partly transparent objects, `occlusion: { bounds: [...] }` supplies
+a nonempty list of local boxes/spheres covering only the opaque parts. These
+follow the entity transform. For example, a car can retain its complete collision
+box while its opaque sight geometry covers its body, roof, and pillars, leaving
+the windows open. Transparency and explicit opaque bounds cannot be combined.
+These visibility settings do not replace the visual material of a rendered mesh.
+
+The sight margin is limited by the nonnegative distance from its target endpoint
+to each obstacle. This prevents a subject resting on a desk from receiving an
+unavoidable positive clearance penalty. Actual penetration is still penalized:
+neither a target inside an opaque obstacle nor an intervening thin wall is
+exempted by contact handling.
+
+Run `npm run benchmark:optimizer -- --write-trajectories` to regenerate all
+examples and save diagnostics to `docs/optimizer-benchmark.json`. Optional
+`--examples 1,4,18`, `--iterations 5000`, and `--jobs 3` control the run. To compare
+with prior trajectories, pass `--baseline <directory>` containing their
+`output_N_optimized.json` documents. The benchmark re-evaluates those paths with
+the current objective before comparing them: raw old losses are not comparable
+when geometry or loss definitions change. The benchmark invokes the optimizer
+directly on the resolved fixtures without calling an LLM or redrawing timelines.
 
 Canonical environments use meters. Authored scenes may omit
 `coordinates.metricScale`; reconstructed scenes can record

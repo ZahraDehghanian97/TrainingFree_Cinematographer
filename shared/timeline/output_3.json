@@ -41,7 +41,8 @@
                   "speedMultiplier": 0,
                   "easing": "decrease"
                 }
-              ]
+              ],
+              "path": "linear"
             },
             "sourceActionId": "dolly_out_reveal"
           }
