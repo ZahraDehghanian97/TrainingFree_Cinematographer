@@ -5,232 +5,301 @@
     {
       "id": "example-01-football",
       "promptExampleId": "example-01",
-      "title": "دنبال‌کردن توپ و بالابردن دوربین",
-      "prompt": "توپ را دنبال کن و وقتی به دروازه نزدیک شد، دوربین را عمودی بالا ببر و توپ را از زاویهٔ بالا دنبال کن.",
+      "title": "The last attack · event-driven vertical follow",
+      "prompt": "A 10-second uninterrupted sports shot in the populated football ground. Follow the ball toward the goal, not the supporting players. When the surface-to-surface distance between ball and goal first falls below 5 metres, continue following and raise the camera by 2.5 metres relative to the ball over 3 seconds, easing into and out of the rise. Finish looking down at the ball from a high angle. Do not cut.",
       "durationSeconds": 10,
       "url": "/environments/example-01.json",
       "optimizedTrajectoryUrl": "/trajectories/optimized/example-01-camera.json",
-      "sampleTrajectoryUrl": "/trajectories/ai-generated/example-01-camera.json"
+      "sampleTrajectoryUrl": "/trajectories/ai-generated/example-01-camera.json",
+      "referenceTrajectoryUrl": "/trajectories/ai-generated/example-01-camera.json",
+      "referenceMetadataUrl": "/trajectories/reference-metadata/example-01.json",
+      "optimizedTrajectoryStale": true
     },
     {
       "id": "example-02-face-orbit",
       "promptExampleId": "example-02",
-      "title": "چرخش دور صورت با توقف زمان",
-      "prompt": "از نمای بسیار نزدیک صورت مرد شروع کن، زمان را متوقف کن و سه دور کامل دور صورت او بچرخ.",
+      "title": "A moment suspended · three-turn face orbit",
+      "prompt": "A 15-second frozen-time portrait on the studio set. Begin in an extreme close-up of the principal man’s face. Freeze the scene from the first frame while the camera makes exactly three complete revolutions (1080 degrees) around his face. Keep the orbit radius fixed; the crew and set remain frozen. No cut and no scene-time speed-up.",
       "durationSeconds": 15,
       "url": "/environments/example-02.json",
       "optimizedTrajectoryUrl": "/trajectories/optimized/example-02-camera.json",
-      "sampleTrajectoryUrl": "/trajectories/ai-generated/example-02-camera.json"
+      "sampleTrajectoryUrl": "/trajectories/ai-generated/example-02-camera.json",
+      "referenceTrajectoryUrl": "/trajectories/ai-generated/example-02-camera.json",
+      "referenceMetadataUrl": "/trajectories/reference-metadata/example-02.json",
+      "optimizedTrajectoryStale": true
     },
     {
       "id": "example-03-vase-reveal",
       "promptExampleId": "example-03",
-      "title": "آشکارکردن گلدان و مانیتور",
-      "prompt": "ابتدا گلدان را در نمای نزدیک نشان بده، سپس دوربین را عقب بکش تا گلدان و مانیتور همزمان در قاب دیده شوند.",
+      "title": "The hidden workspace · two-subject reveal",
+      "prompt": "A 20-second product reveal in the furnished workspace. Start close on the ceramic vase. Dolly straight backward in one continuous move, gently accelerating out of rest and easing to a stop, until both the vase and the monitor are fully inside the final frame. Reveal their relationship across the desk; do not zoom or cut.",
       "durationSeconds": 20,
       "url": "/environments/example-03.json",
       "optimizedTrajectoryUrl": "/trajectories/optimized/example-03-camera.json",
-      "sampleTrajectoryUrl": "/trajectories/ai-generated/example-03-camera.json"
+      "sampleTrajectoryUrl": "/trajectories/ai-generated/example-03-camera.json",
+      "referenceTrajectoryUrl": "/trajectories/ai-generated/example-03-camera.json",
+      "referenceMetadataUrl": "/trajectories/reference-metadata/example-03.json",
+      "optimizedTrajectoryStale": true
     },
     {
       "id": "example-04-car-arc",
       "promptExampleId": "example-04",
-      "title": "تعقیب ماشین، چرخش و زوم روی راننده",
-      "prompt": "دو ثانیه ماشین را تعقیب کن، سپس در یک مسیر قوسی به سمت راست دور آن بچرخ و همزمان روی راننده زوم کن.",
+      "title": "Midnight test drive · track, arc, optical zoom",
+      "prompt": "A 15-second tracking shot on the dressed test road. Track the principal car for exactly 2 seconds. For the remaining 13 seconds, arc 90 degrees to the right around the moving car while simultaneously zooming optically toward the driver. Finish with the driver as the visual emphasis. No cut; camera travel is not a request to change scene speed.",
       "durationSeconds": 15,
       "url": "/environments/example-04.json",
       "optimizedTrajectoryUrl": "/trajectories/optimized/example-04-camera.json",
-      "sampleTrajectoryUrl": "/trajectories/ai-generated/example-04-camera.json"
+      "sampleTrajectoryUrl": "/trajectories/ai-generated/example-04-camera.json",
+      "referenceTrajectoryUrl": "/trajectories/ai-generated/example-04-camera.json",
+      "referenceMetadataUrl": "/trajectories/reference-metadata/example-04.json",
+      "optimizedTrajectoryStale": true
     },
     {
       "id": "example-05-dolly-zoom",
       "promptExampleId": "example-05",
-      "title": "دالی‌زوم روی بازیگر",
-      "prompt": "دوربین را از چهرهٔ بازیگر دور کن و همزمان زوم را بیشتر کن تا پرسپکتیو پس‌زمینه تغییر کند اما اندازهٔ صورت در قاب ثابت بماند.",
+      "title": "The realization · constant-scale dolly zoom",
+      "prompt": "A 25-second realization shot against the receding studio columns. Start with a close-up of the principal actor’s face. Dolly backward continuously while increasing optical focal length so that the face retains its initial projected size throughout. Let the background perspective change, not the face size. Keep the move smooth and uncut.",
       "durationSeconds": 25,
       "url": "/environments/example-05.json",
       "optimizedTrajectoryUrl": "/trajectories/optimized/example-05-camera.json",
-      "sampleTrajectoryUrl": "/trajectories/ai-generated/example-05-camera.json"
+      "sampleTrajectoryUrl": "/trajectories/ai-generated/example-05-camera.json",
+      "referenceTrajectoryUrl": "/trajectories/ai-generated/example-05-camera.json",
+      "referenceMetadataUrl": "/trajectories/reference-metadata/example-05.json",
+      "optimizedTrajectoryStale": true
     },
     {
       "id": "example-06-frozen-orbit",
       "promptExampleId": "example-06",
-      "title": "چرخش ۳۶۰ درجه با توقف زمان",
-      "prompt": "زمان را در ثانیهٔ ۲ متوقف کن و یک دور کامل ۳۶۰ درجه دور سوژهٔ معلق در هوا بچرخ، سپس حرکت را با سرعت عادی ادامه بده.",
+      "title": "Suspended time · freeze, orbit, release",
+      "prompt": "A 5-second suspended-time shot. Hold the camera for the first 2 seconds while the floating subject moves normally. At exactly 2 seconds freeze the scene, but orbit the camera one complete revolution (360 degrees) around the subject over the next 2 seconds. At 4 seconds hold the camera again and restore normal scene speed for the final second. No cut.",
       "durationSeconds": 5,
       "url": "/environments/example-06.json",
       "optimizedTrajectoryUrl": "/trajectories/optimized/example-06-camera.json",
-      "sampleTrajectoryUrl": "/trajectories/ai-generated/example-06-camera.json"
+      "sampleTrajectoryUrl": "/trajectories/ai-generated/example-06-camera.json",
+      "referenceTrajectoryUrl": "/trajectories/ai-generated/example-06-camera.json",
+      "referenceMetadataUrl": "/trajectories/reference-metadata/example-06.json",
+      "optimizedTrajectoryStale": true
     },
     {
       "id": "example-07-spiral-closeup",
       "promptExampleId": "example-07",
-      "title": "حرکت حلزونی از نمای بالا تا نمای نزدیک",
-      "prompt": "از نمای بالا شروع کن و با یک حرکت حلزونی، همزمان با یک دور کامل چرخش به سوژه نزدیک شو تا به نمای نزدیک چشم‌هایش برسی.",
+      "title": "Into the gaze · descending spiral",
+      "prompt": "A 9-second unbroken spiral toward the principal subject. Begin from a bird’s-eye view. Orbit one full turn (360 degrees) while simultaneously dollying closer and descending toward the eyes. Finish in a close-up of the eyes, not inside the head. The initial high angle is not a constraint on the entire approach. No cut.",
       "durationSeconds": 9,
       "url": "/environments/example-07.json",
       "optimizedTrajectoryUrl": "/trajectories/optimized/example-07-camera.json",
-      "sampleTrajectoryUrl": "/trajectories/ai-generated/example-07-camera.json"
+      "sampleTrajectoryUrl": "/trajectories/ai-generated/example-07-camera.json",
+      "referenceTrajectoryUrl": "/trajectories/ai-generated/example-07-camera.json",
+      "referenceMetadataUrl": "/trajectories/reference-metadata/example-07.json",
+      "optimizedTrajectoryStale": true
     },
     {
       "id": "example-08-punch-impact",
       "promptExampleId": "example-08",
-      "title": "برخورد مشت با حرکت آهسته",
-      "prompt": "ابتدا صحنهٔ مشت‌زدن را با حرکت آهسته و سرعت ۱۰٪ نشان بده؛ درست در لحظهٔ برخورد، سرعت را بسیار زیاد کن و روی محل ضربه زوم کن.",
+      "title": "Contact · scene-time speed ramp",
+      "prompt": "A 12-second impact study on the boxing set. Begin in an eye-level, three-quarter-right long shot of the approaching fist and follow it at 10% scene speed. At the first surface contact between fist and target, stop translating the camera, switch scene speed to 4 times normal, and zoom optically into the impact point, centring it by the end. Keep the event tied to contact, not an invented playback timestamp.",
       "durationSeconds": 12,
       "url": "/environments/example-08.json",
       "optimizedTrajectoryUrl": "/trajectories/optimized/example-08-camera.json",
-      "sampleTrajectoryUrl": "/trajectories/ai-generated/example-08-camera.json"
+      "sampleTrajectoryUrl": "/trajectories/ai-generated/example-08-camera.json",
+      "referenceTrajectoryUrl": "/trajectories/ai-generated/example-08-camera.json",
+      "referenceMetadataUrl": "/trajectories/reference-metadata/example-08.json",
+      "optimizedTrajectoryStale": true
     },
     {
       "id": "example-09-two-people",
       "promptExampleId": "example-09",
-      "title": "دنبال‌کردن دو نفر و کات به نمای روی شانه",
-      "prompt": "دو نفر را در نمای دور دنبال کن؛ به‌محض اینکه فاصلهٔ آن‌ها به کمتر از یک متر رسید، به نمای روی شانه کات بزن.",
+      "title": "The rendezvous · proximity-triggered over-the-shoulder cut",
+      "prompt": "A 24-second rendezvous in the populated park. Follow the two principal people in a long two-shot. When the distance between their tracked anchor centres first falls below 1 metre, make one hard cut to an eye-level, medium close-up of the second person, centred, with the first person’s shoulder in the bottom-left foreground and a level horizon. Continue following the second person. Background walkers are not the principals.",
       "durationSeconds": 24,
       "url": "/environments/example-09.json",
       "optimizedTrajectoryUrl": "/trajectories/optimized/example-09-camera.json",
-      "sampleTrajectoryUrl": "/trajectories/ai-generated/example-09-camera.json"
+      "sampleTrajectoryUrl": "/trajectories/ai-generated/example-09-camera.json",
+      "referenceTrajectoryUrl": "/trajectories/ai-generated/example-09-camera.json",
+      "referenceMetadataUrl": "/trajectories/reference-metadata/example-09.json",
+      "optimizedTrajectoryStale": true
     },
     {
       "id": "example-10-race-car",
       "promptExampleId": "example-10",
-      "title": "شتاب‌گیری ماشین مسابقه",
-      "prompt": "ماشین مسابقه را دنبال کن؛ اگر سرعت آن از ۱۰۰ کیلومتر بر ساعت بیشتر شد، دوربین را بلرزان و عقب بکش تا حس سرعت القا شود.",
+      "title": "Redline · speed-triggered retreat",
+      "prompt": "A 13-second racing shot. Follow the principal race car. When its speed first exceeds 100 kilometres per hour (27.7777778 metres per second), keep following it while dollying backward with an accelerating then settling handheld retreat. Keep the car as the subject. Shake the camera, not the scene clock; do not cut.",
       "durationSeconds": 13,
       "url": "/environments/example-10.json",
       "optimizedTrajectoryUrl": "/trajectories/optimized/example-10-camera.json",
-      "sampleTrajectoryUrl": "/trajectories/ai-generated/example-10-camera.json"
+      "sampleTrajectoryUrl": "/trajectories/ai-generated/example-10-camera.json",
+      "referenceTrajectoryUrl": "/trajectories/ai-generated/example-10-camera.json",
+      "referenceMetadataUrl": "/trajectories/reference-metadata/example-10.json",
+      "optimizedTrajectoryStale": true
     },
     {
       "id": "example-11-horror-door",
       "promptExampleId": "example-11",
-      "title": "نزدیک‌شدن به در با دوربین کج و روی دست",
-      "prompt": "برای ایجاد حس ترس، دوربین را ۳۰ درجه کج کن و به‌صورت روی دست و لرزان به سمت در نیمه‌باز حرکت کن.",
+      "title": "The unlatched door · handheld push",
+      "prompt": "A 6-second uncut approach through the narrow corridor toward the half-open door. Move forward with restrained handheld shake while gradually rolling the camera 30 degrees to the left over the take. Keep the door as the visual destination and do not pass through it. Do not request a lighting change or a cut.",
       "durationSeconds": 6,
       "url": "/environments/example-11.json",
       "optimizedTrajectoryUrl": "/trajectories/optimized/example-11-camera.json",
-      "sampleTrajectoryUrl": "/trajectories/ai-generated/example-11-camera.json"
+      "sampleTrajectoryUrl": "/trajectories/ai-generated/example-11-camera.json",
+      "referenceTrajectoryUrl": "/trajectories/ai-generated/example-11-camera.json",
+      "referenceMetadataUrl": "/trajectories/reference-metadata/example-11.json",
+      "optimizedTrajectoryStale": true
     },
     {
       "id": "example-12-dashboard-exit",
       "promptExampleId": "example-12",
-      "title": "خروج از پشت داشبورد و چرخش دور ماشین",
-      "prompt": "از نمای داخل ماشین و پشت داشبورد شروع کن؛ وقتی راننده ترمز کرد، دوربین از شیشهٔ جلو بیرون بیاید و با یک چرخش قوسی سریع، نمای جلوی ماشین را نشان بدهد.",
+      "title": "Beyond the windshield · vehicle-relative escape",
+      "prompt": "An 18-second virtual-camera shot from inside the braking car. Start behind the dashboard at world position (-0.15, 1.23, 30.25), facing world -Z with a 70-degree vertical field of view. Follow the dashboard so the camera rides with the car. When the car first slows below 5 metres per second, continue riding with the car while travelling 5 metres forward relative to it through the windshield over 2.5 seconds, with a soft launch and landing; treat the mounted cabin as intentional interior occupancy, and permit body crossing only during this explicitly virtual exit. Then make one complete rightward 360-degree arc around the car, ending on its front. No cut.",
       "durationSeconds": 18,
       "url": "/environments/example-12.json",
       "optimizedTrajectoryUrl": "/trajectories/optimized/example-12-camera.json",
-      "sampleTrajectoryUrl": "/trajectories/ai-generated/example-12-camera.json"
+      "sampleTrajectoryUrl": "/trajectories/ai-generated/example-12-camera.json",
+      "referenceTrajectoryUrl": "/trajectories/ai-generated/example-12-camera.json",
+      "referenceMetadataUrl": "/trajectories/reference-metadata/example-12.json",
+      "optimizedTrajectoryStale": true
     },
     {
       "id": "example-13-horror-door-v2",
       "promptExampleId": "example-13",
-      "title": "نزدیک‌شدن زمان‌بندی‌شده به در با دوربین کج و روی دست",
-      "prompt": "نسخهٔ دوم: برای ایجاد حس ترس، دوربین را ۳۰ درجه کج کن و به‌صورت روی دست و لرزان به سمت در نیمه‌باز حرکت کن.",
+      "title": "The second corridor · restrained horror",
+      "prompt": "A 7-second alternate corridor take. Approach the half-open door in one restrained handheld dolly, gradually rolling 30 degrees to the left. Finish outside the doorway. Leave the scene clock at normal speed. The distant caretaker is background, not the framing target.",
       "durationSeconds": 7,
       "url": "/environments/example-13.json",
       "optimizedTrajectoryUrl": "/trajectories/optimized/example-13-camera.json",
-      "sampleTrajectoryUrl": "/trajectories/ai-generated/example-13-camera.json"
+      "sampleTrajectoryUrl": "/trajectories/ai-generated/example-13-camera.json",
+      "referenceTrajectoryUrl": "/trajectories/ai-generated/example-13-camera.json",
+      "referenceMetadataUrl": "/trajectories/reference-metadata/example-13.json",
+      "optimizedTrajectoryStale": true
     },
     {
       "id": "example-14-soft-closeup",
       "promptExampleId": "example-14",
-      "title": "نزدیک‌شدن و چرخش نرم هنگام اعتراف",
-      "prompt": "از یک نمای متوسط سه‌رخ و سکوت ۱٫۵ ثانیه‌ای شروع کن؛ سپس با حرکت آهستهٔ دوربین به جلو و یک چرخش قوسی کوتاه به راست، به صورت نزدیک شو. در دو ثانیهٔ آخر، زوم بسیار نرمی به جلو اضافه کن و چهره را در نمای نزدیک روی یک‌سوم چپ قاب نگه دار.",
+      "title": "The confession · held close-up finish",
+      "prompt": "A 10-second confession on the furnished studio set. Hold a medium, three-quarter-front-left view of the principal actor for 1.5 seconds. Then ease closer in a small rightward arc and dolly. Arrive at a close-up of the face on the left third by 8 seconds. Throughout the final 2 seconds hold that close-up and left-third composition while adding a very gentle optical zoom. No cut.",
       "durationSeconds": 10,
       "url": "/environments/example-14.json",
       "optimizedTrajectoryUrl": "/trajectories/optimized/example-14-camera.json",
-      "sampleTrajectoryUrl": "/trajectories/ai-generated/example-14-camera.json"
+      "sampleTrajectoryUrl": "/trajectories/ai-generated/example-14-camera.json",
+      "referenceTrajectoryUrl": "/trajectories/ai-generated/example-14-camera.json",
+      "referenceMetadataUrl": "/trajectories/reference-metadata/example-14.json",
+      "optimizedTrajectoryStale": true
     },
     {
       "id": "example-15-dancer-arc",
       "promptExampleId": "example-15",
-      "title": "تغییر سرعت رقصنده در موزیک‌ویدئو",
-      "prompt": "از نمای متوسطِ دور با زاویهٔ پایین شروع کن. چهار ثانیهٔ اول با چرخش قوسی آرام به چپ و حرکت آهسته دور رقصنده بچرخ؛ روی ضرب موسیقی، چرخش به چپ را سریع کن و همزمان دوربین را عمودی بالا ببر. در دو ثانیهٔ آخر، با فرودی نرم رقصنده را روی یک‌سوم راست قاب نگه دار.",
+      "title": "On the beat · arc and pedestal",
+      "prompt": "A 10-second stage portrait of the principal dancer, not the stagehands. Start medium-long and low. During seconds 0–4 arc gently left at 50% scene speed. During seconds 4–8 make a faster leftward arc while pedestalling upward. During seconds 8–10 settle with a gentle downward pedestal, finishing with the dancer on the right third. Keep one continuous shot.",
       "durationSeconds": 10,
       "url": "/environments/example-15.json",
       "optimizedTrajectoryUrl": "/trajectories/optimized/example-15-camera.json",
-      "sampleTrajectoryUrl": "/trajectories/ai-generated/example-15-camera.json"
+      "sampleTrajectoryUrl": "/trajectories/ai-generated/example-15-camera.json",
+      "referenceTrajectoryUrl": "/trajectories/ai-generated/example-15-camera.json",
+      "referenceMetadataUrl": "/trajectories/reference-metadata/example-15.json",
+      "optimizedTrajectoryStale": true
     },
     {
       "id": "example-16-two-actor-truck",
       "promptExampleId": "example-16",
-      "title": "تبادل کیف و عبور از محور نگاه",
-      "prompt": "در یک پلان بدون کات، با حرکت جانبی دوربین به راست هر دو مأمور را در یک نمای دونفره نگه دار. وقتی فاصله‌شان به کمتر از یک متر رسید، زومی کوتاه به جلو روی کیف بزن؛ بلافاصله با چرخش قوسی سریع به راست از خط نگاه عبور کن و همزمان زوم را باز کن تا در پایان جای دو بازیگر عوض شود: مأمور الف در راست قاب و مأمور ب در چپ قاب.",
+      "title": "The exchange · two-shot, insert, axis crossing",
+      "prompt": "A 10-second spy exchange in the populated concourse. Truck right in a straight line for the first 5 seconds, keeping both principal agents fully in the two-shot. When they first come within 1 metre of each other, use a 1-second optical punch-in on their briefcase. Immediately arc quickly right while zooming back out, crossing their eyeline so the final frame places agent A on the right and agent B on the left. No cut; bystanders are not the two agents.",
       "durationSeconds": 10,
       "url": "/environments/example-16.json",
       "optimizedTrajectoryUrl": "/trajectories/optimized/example-16-camera.json",
-      "sampleTrajectoryUrl": "/trajectories/ai-generated/example-16-camera.json"
+      "sampleTrajectoryUrl": "/trajectories/ai-generated/example-16-camera.json",
+      "referenceTrajectoryUrl": "/trajectories/ai-generated/example-16-camera.json",
+      "referenceMetadataUrl": "/trajectories/reference-metadata/example-16.json",
+      "optimizedTrajectoryStale": true
     },
     {
       "id": "example-17-runner-speed",
       "promptExampleId": "example-17",
-      "title": "کاهش زمان هنگام رسیدن دونده به سرعت مشخص",
-      "prompt": "از نمای تمام‌قد با زاویهٔ پایین در کنار دونده شروع کن، همراه او حرکت کن و جلوی مسیرش فضای خالی بده. لحظه‌ای که سرعتش به ۸ متر بر ثانیه رسید، سرعت صحنه را به ۱۰٪ کاهش بده و با چرخش قوسی ۱۲۰ درجه به چپ، از کنار به روبه‌رویش برس. سپس سرعت عادی را برگردان، دوربین را عقب بکش و او را دنبال کن تا در پایان، دونده در چپ قاب باشد و جلوی حرکتش فضای باز بماند.",
+      "title": "The sprinter · velocity-triggered slow motion",
+      "prompt": "An 11-second athletic shot. Start full-body and low beside the principal runner, tracking with lead room. When speed first reaches 8 metres per second, reduce scene speed to 10% and arc 120 degrees left over 3 seconds, coming from the side to the front. Restore normal scene speed, follow while dollying backward, and finish with the runner on the left of frame and open space ahead. No cut.",
       "durationSeconds": 11,
       "url": "/environments/example-17.json",
       "optimizedTrajectoryUrl": "/trajectories/optimized/example-17-camera.json",
-      "sampleTrajectoryUrl": "/trajectories/ai-generated/example-17-camera.json"
+      "sampleTrajectoryUrl": "/trajectories/ai-generated/example-17-camera.json",
+      "referenceTrajectoryUrl": "/trajectories/ai-generated/example-17-camera.json",
+      "referenceMetadataUrl": "/trajectories/reference-metadata/example-17.json",
+      "optimizedTrajectoryStale": true
     },
     {
       "id": "example-18-eye-zoom",
       "promptExampleId": "example-18",
-      "title": "حرکت از دست به مردمک و توقف زمان",
-      "prompt": "از نمای نزدیک دست لرزان شروع کن و در ۲٫۵ ثانیه با چرخش عمودی دوربین به بالا به چشم برس. نیم‌ثانیه مکث کن؛ سپس دوربین را به جلو ببر و همزمان زوم را بیشتر کن تا وارد مردمک شوی. در یک‌ونیم ثانیهٔ آخر دوربین را ۱۰ درجه به راست کج کن و ضرب پایانی را داخل مردمک با توقف زمان ثبت کن.",
+      "title": "The tell · hand-to-eye approach",
+      "prompt": "A 10-second psychological detail shot. Start close on the principal subject’s trembling hand. Tilt upward over 2.5 seconds to the eye, then hold for 0.5 seconds. From 3 to 8.5 seconds dolly toward the pupil while zooming optically, ending just outside the eye in an extreme close-up: do not enter the head or fabricate an interior-eye world. Over the final 1.5 seconds roll 10 degrees right and freeze scene time. No cut.",
       "durationSeconds": 10,
       "url": "/environments/example-18.json",
       "optimizedTrajectoryUrl": "/trajectories/optimized/example-18-camera.json",
-      "sampleTrajectoryUrl": "/trajectories/ai-generated/example-18-camera.json"
+      "sampleTrajectoryUrl": "/trajectories/ai-generated/example-18-camera.json",
+      "referenceTrajectoryUrl": "/trajectories/ai-generated/example-18-camera.json",
+      "referenceMetadataUrl": "/trajectories/reference-metadata/example-18.json",
+      "optimizedTrajectoryStale": true
     },
     {
       "id": "example-19-stairwell-ambush",
       "promptExampleId": "example-19",
-      "title": "آشکارکردن کمین در راه‌پله",
-      "prompt": "از نمای عمودی بالا روی کارآگاه شروع کن؛ همزمان دوربین را پایین بیاور و رو به بالا بچرخان تا در دو ثانیه هم‌سطح او شوی. سپس با حرکت جانبی به چپ در راهرو همراهش برو. وقتی به انتهای مسیر رسید، دوربین را سریع به چپ بچرخان، زوم را باز کن و با کج‌کردن دوربین به راست، مهاجم پشت ستون را آشکار کن؛ سپس با یک چرخش افقی کوتاه به راست، هر دو را در قاب نهایی جا بده.",
+      "title": "The ambush · descent, truck, whip reveal",
+      "prompt": "A 10-second stairwell ambush. Begin looking vertically down at the detective. During the first 2 seconds pedestal down while tilting up to eye level. Truck left with the detective from 2 to 7 seconds. At 7 seconds pan quickly left to reveal the pursuer behind the column, widening the lens and rolling right. After the 1.2-second reveal pan, counter-pan briefly right to include both principals by the end. Use one continuous take.",
       "durationSeconds": 10,
       "url": "/environments/example-19.json",
       "optimizedTrajectoryUrl": "/trajectories/optimized/example-19-camera.json",
-      "sampleTrajectoryUrl": "/trajectories/ai-generated/example-19-camera.json"
+      "sampleTrajectoryUrl": "/trajectories/ai-generated/example-19-camera.json",
+      "referenceTrajectoryUrl": "/trajectories/ai-generated/example-19-camera.json",
+      "referenceMetadataUrl": "/trajectories/reference-metadata/example-19.json",
+      "optimizedTrajectoryStale": true
     },
     {
       "id": "example-20-jogger-reveal",
       "promptExampleId": "example-20",
-      "title": "دنبال‌کردن دونده و آشکارکردن میدان",
-      "prompt": "دونده را در مسیر دنبال کن و نگذار درخت جلوی دید را بگیرد. وقتی به میدان رسید، دوربین را بالا ببر تا میدان و آب‌نما آشکار شوند؛ سپس با فاصله و زاویهٔ ثابت او را در قاب نگه دار.",
+      "title": "An opening in the park · crane reveal",
+      "prompt": "A 10-second park reveal. Follow the jogger for 4 seconds without letting the tree block the subject. From 4 to 7 seconds crane upward to reveal the courtyard fountain. During the final 3 seconds continue following at a fixed relative distance and angle, keeping the jogger framed. No cut and no frozen world.",
       "durationSeconds": 10,
       "url": "/environments/example-20.json",
       "optimizedTrajectoryUrl": "/trajectories/optimized/example-20-camera.json",
-      "sampleTrajectoryUrl": "/trajectories/ai-generated/example-20-camera.json"
+      "sampleTrajectoryUrl": "/trajectories/ai-generated/example-20-camera.json",
+      "referenceTrajectoryUrl": "/trajectories/ai-generated/example-20-camera.json",
+      "referenceMetadataUrl": "/trajectories/reference-metadata/example-20.json",
+      "optimizedTrajectoryStale": true
     },
     {
       "id": "example-21-rooftop-chase",
       "promptExampleId": "example-21",
-      "title": "تعقیب‌وگریز روی پشت‌بام",
-      "prompt": "دونده را روی پشت‌بام تعقیب کن تا تعقیب‌کننده به فاصلهٔ ۲٫۵ متری او برسد؛ سپس در مسیری قوسی دور دونده بچرخ و همزمان زوم را بیشتر کن تا تعقیب‌کننده آشکار شود. در پایان، با یک نمای ثابت و بدون لرزش، زاویه را حفظ کن و هر دو را در قاب نگه دار.",
+      "title": "Closing distance · rooftop pursuit",
+      "prompt": "A 10-second rooftop pursuit among vents and maintenance workers. Track the principal runner until the pursuer first closes to 2.5 metres. Over the next 1.5 seconds arc around the runner and zoom optically to reveal the pursuer. For the remainder track both principals with a stable, level two-shot. Do not confuse maintenance staff with the pursuer, and do not freeze scene time.",
       "durationSeconds": 10,
       "url": "/environments/example-21.json",
       "optimizedTrajectoryUrl": "/trajectories/optimized/example-21-camera.json",
-      "sampleTrajectoryUrl": "/trajectories/ai-generated/example-21-camera.json"
+      "sampleTrajectoryUrl": "/trajectories/ai-generated/example-21-camera.json",
+      "referenceTrajectoryUrl": "/trajectories/ai-generated/example-21-camera.json",
+      "referenceMetadataUrl": "/trajectories/reference-metadata/example-21.json",
+      "optimizedTrajectoryStale": true
     },
     {
       "id": "example-22-warehouse-onetake",
       "promptExampleId": "example-22",
-      "title": "برداشت پیوسته در انبار",
-      "prompt": "کارگر را از کنار قفسه‌ها دنبال کن. وقتی کنار جعبه‌ها کند شد، با حرکت قوسی دور او بچرخ و همزمان نزدیک شو. هنگام بالارفتن او به نیم‌طبقه، در مسیری قوسی دورش بالا برو؛ سپس در بازگشت به پایین و به سمت سکوی بارگیری دنبالش کن. وقتی به همکارش نزدیک شد، دوربین را عقب بکش تا همکار آشکار شود. با دوربین کج دور هر دو بچرخ، دوربین را بالا ببر و زوم را باز کن تا کل سالن دیده شود؛ سپس با یک نمای ثابت و بدون لرزش پایان بده.",
+      "title": "The night shift · warehouse one-take",
+      "prompt": "A 22-second warehouse one-take. Follow the principal worker through the open aisle for 6 seconds. From 6 to 10 seconds arc right while dollying closer to the worker. From 10 to 14 seconds crane upward to reveal the coworker and mezzanine. From 14 to 18 seconds follow both workers while dollying back into a shared frame. From 18 to 20 seconds crane up and zoom out to include both workers, the yellow forklift, and the mezzanine. Freeze scene time and hold the camera for the last 2 seconds. Keep motion smooth and subjects unobstructed; no cut. Use these authored beats, not a speed-below-threshold event that is already true at the start.",
       "durationSeconds": 22,
       "url": "/environments/example-22.json",
       "optimizedTrajectoryUrl": "/trajectories/optimized/example-22-camera.json",
-      "sampleTrajectoryUrl": "/trajectories/ai-generated/example-22-camera.json"
+      "sampleTrajectoryUrl": "/trajectories/ai-generated/example-22-camera.json",
+      "referenceTrajectoryUrl": "/trajectories/ai-generated/example-22-camera.json",
+      "referenceMetadataUrl": "/trajectories/reference-metadata/example-22.json",
+      "optimizedTrajectoryStale": true
     },
     {
       "id": "example-23-factory-convergence",
       "promptExampleId": "example-23",
-      "title": "نزدیک‌شدن دو کارگر در کارخانه",
-      "prompt": "یک پلان پیوستهٔ ۲۰ ثانیه‌ای درون کارخانه‌ای شلوغ بگیر. با دنبال‌کردن کارگر الف از سمت شرق سالن تولید به سمت مرکز شروع کن و او را در نمای متوسطِ دور نگه دار. نزدیک‌تر شو و با حرکت او دوربین را افقی و عمودی بچرخان؛ سپس هنگام تغییر مسیرش، دوربین را جانبی و عمودی جابه‌جا کن. وقتی کنار دستگاه‌های مرکزی کند شد، در مسیری قوسی دورش بچرخ و به‌تدریج زوم را بیشتر کن تا کارگر ب که از سمت مقابل نزدیک می‌شود آشکار شود. با نزدیک‌شدن دو کارگر، نما را بازتر کن و هر دو را با هم تعقیب کن؛ آن‌ها را در دید نگه دار، فاصله و زاویه را ثابت حفظ کن و از دستگاه‌ها و لیفتراک در حال عبور دوری کن. وقتی کارگر ب به سمت سکوی بارگیری شتاب گرفت، با او دوربین را افقی بچرخان، جانبی در سالن حرکت کن، دوربین را پایین بیاور، در مسیری قوسی دورش بچرخ و کجی دوربین را اصلاح کن. سپس عقب بکش تا هر دو کارگر، نیم‌طبقه، لیفتراک و محوطهٔ بارگیری دیده شوند. در پایان دور دو کارگر بچرخ، هر دو را در یک قاب باز و پایدار نگه دار و با نمای ثابت و توقف زمان تمام کن. در تمام پلان، حرکت دوربین نرم باشد، دید سوژه‌ها مسدود نشود، دوربین از سطح زمین پایین‌تر نرود و هر گذار مانند یک حرکت پیوسته و هدفمند سینمایی احساس شود.",
+      "title": "Convergence · factory ensemble reveal",
+      "prompt": "A 20-second ensemble reveal in the populated factory. Follow worker A for the first 6 seconds. From 6 to 10 seconds arc 90 degrees right around workers A and B, bringing both fully into frame by 10 seconds. Track both from 10 to 15 seconds. From 15 to 18 seconds dolly backward while craning upward, revealing the workers, yellow forklift, steel mezzanine, and loading bay together. Freeze the scene and lock off for the final 2 seconds, holding that wide ensemble frame. Keep a level horizon, smooth motion and clear sightlines; no cut. Supporting technicians remain secondary.",
       "durationSeconds": 20,
       "url": "/environments/example-23.json",
       "optimizedTrajectoryUrl": "/trajectories/optimized/example-23-camera.json",
-      "sampleTrajectoryUrl": "/trajectories/ai-generated/example-23-camera.json"
+      "sampleTrajectoryUrl": "/trajectories/ai-generated/example-23-camera.json",
+      "referenceTrajectoryUrl": "/trajectories/ai-generated/example-23-camera.json",
+      "referenceMetadataUrl": "/trajectories/reference-metadata/example-23.json",
+      "optimizedTrajectoryStale": true
     },
     {
       "id": "example-24-dont-care-arc",
@@ -240,7 +309,10 @@
       "durationSeconds": 10,
       "url": "/environments/example-24.json",
       "optimizedTrajectoryUrl": "/trajectories/optimized/example-24-camera.json",
-      "sampleTrajectoryUrl": "/trajectories/optimized/example-24-camera.json"
+      "sampleTrajectoryUrl": "/trajectories/ai-generated/example-24-camera.json",
+      "referenceTrajectoryUrl": "/trajectories/ai-generated/example-24-camera.json",
+      "referenceMetadataUrl": "/trajectories/reference-metadata/example-24.json",
+      "optimizedTrajectoryStale": true
     },
     {
       "id": "example-25-dont-care-radius",
@@ -250,7 +322,10 @@
       "durationSeconds": 10,
       "url": "/environments/example-25.json",
       "optimizedTrajectoryUrl": "/trajectories/optimized/example-25-camera.json",
-      "sampleTrajectoryUrl": "/trajectories/optimized/example-25-camera.json"
+      "sampleTrajectoryUrl": "/trajectories/ai-generated/example-25-camera.json",
+      "referenceTrajectoryUrl": "/trajectories/ai-generated/example-25-camera.json",
+      "referenceMetadataUrl": "/trajectories/reference-metadata/example-25.json",
+      "optimizedTrajectoryStale": true
     },
     {
       "id": "example-26-dont-care-framing",
@@ -260,7 +335,10 @@
       "durationSeconds": 10,
       "url": "/environments/example-26.json",
       "optimizedTrajectoryUrl": "/trajectories/optimized/example-26-camera.json",
-      "sampleTrajectoryUrl": "/trajectories/optimized/example-26-camera.json"
+      "sampleTrajectoryUrl": "/trajectories/ai-generated/example-26-camera.json",
+      "referenceTrajectoryUrl": "/trajectories/ai-generated/example-26-camera.json",
+      "referenceMetadataUrl": "/trajectories/reference-metadata/example-26.json",
+      "optimizedTrajectoryStale": true
     },
     {
       "id": "example-27-dont-care-closeup",
@@ -270,7 +348,10 @@
       "durationSeconds": 10,
       "url": "/environments/example-27.json",
       "optimizedTrajectoryUrl": "/trajectories/optimized/example-27-camera.json",
-      "sampleTrajectoryUrl": "/trajectories/optimized/example-27-camera.json"
+      "sampleTrajectoryUrl": "/trajectories/ai-generated/example-27-camera.json",
+      "referenceTrajectoryUrl": "/trajectories/ai-generated/example-27-camera.json",
+      "referenceMetadataUrl": "/trajectories/reference-metadata/example-27.json",
+      "optimizedTrajectoryStale": true
     },
     {
       "id": "example-28-dont-care-truck",
@@ -280,7 +361,10 @@
       "durationSeconds": 10,
       "url": "/environments/example-28.json",
       "optimizedTrajectoryUrl": "/trajectories/optimized/example-28-camera.json",
-      "sampleTrajectoryUrl": "/trajectories/optimized/example-28-camera.json"
+      "sampleTrajectoryUrl": "/trajectories/ai-generated/example-28-camera.json",
+      "referenceTrajectoryUrl": "/trajectories/ai-generated/example-28-camera.json",
+      "referenceMetadataUrl": "/trajectories/reference-metadata/example-28.json",
+      "optimizedTrajectoryStale": true
     },
     {
       "id": "example-29-dont-care-follow",
@@ -290,7 +374,10 @@
       "durationSeconds": 11,
       "url": "/environments/example-29.json",
       "optimizedTrajectoryUrl": "/trajectories/optimized/example-29-camera.json",
-      "sampleTrajectoryUrl": "/trajectories/optimized/example-29-camera.json"
+      "sampleTrajectoryUrl": "/trajectories/ai-generated/example-29-camera.json",
+      "referenceTrajectoryUrl": "/trajectories/ai-generated/example-29-camera.json",
+      "referenceMetadataUrl": "/trajectories/reference-metadata/example-29.json",
+      "optimizedTrajectoryStale": true
     },
     {
       "id": "example-30-dont-care-group",
@@ -300,7 +387,10 @@
       "durationSeconds": 10,
       "url": "/environments/example-30.json",
       "optimizedTrajectoryUrl": "/trajectories/optimized/example-30-camera.json",
-      "sampleTrajectoryUrl": "/trajectories/optimized/example-30-camera.json"
+      "sampleTrajectoryUrl": "/trajectories/ai-generated/example-30-camera.json",
+      "referenceTrajectoryUrl": "/trajectories/ai-generated/example-30-camera.json",
+      "referenceMetadataUrl": "/trajectories/reference-metadata/example-30.json",
+      "optimizedTrajectoryStale": true
     },
     {
       "id": "example-31-dont-care-cut",
@@ -310,7 +400,10 @@
       "durationSeconds": 10,
       "url": "/environments/example-31.json",
       "optimizedTrajectoryUrl": "/trajectories/optimized/example-31-camera.json",
-      "sampleTrajectoryUrl": "/trajectories/optimized/example-31-camera.json"
+      "sampleTrajectoryUrl": "/trajectories/ai-generated/example-31-camera.json",
+      "referenceTrajectoryUrl": "/trajectories/ai-generated/example-31-camera.json",
+      "referenceMetadataUrl": "/trajectories/reference-metadata/example-31.json",
+      "optimizedTrajectoryStale": true
     },
     {
       "id": "example-32-dont-care-zoom",
@@ -320,7 +413,10 @@
       "durationSeconds": 10,
       "url": "/environments/example-32.json",
       "optimizedTrajectoryUrl": "/trajectories/optimized/example-32-camera.json",
-      "sampleTrajectoryUrl": "/trajectories/optimized/example-32-camera.json"
+      "sampleTrajectoryUrl": "/trajectories/ai-generated/example-32-camera.json",
+      "referenceTrajectoryUrl": "/trajectories/ai-generated/example-32-camera.json",
+      "referenceMetadataUrl": "/trajectories/reference-metadata/example-32.json",
+      "optimizedTrajectoryStale": true
     }
   ]
 }

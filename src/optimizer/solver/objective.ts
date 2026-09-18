@@ -1,6 +1,6 @@
 import { environmentSubjectKeyframeTimes } from "../../environment/sampler";
 import type { Quat, Vec3 } from "../../types/environment";
-import type { WorldAabbV1 } from "../../types/environment-query";
+import type { WorldAabbV1 } from "../../types/environment-spatial";
 import { LossFunctionType } from "../../types/solver";
 import { DEFAULT_OPTIONS } from "../config/defaults";
 import type { CompositionWindow } from "../compiler/subject-quality";

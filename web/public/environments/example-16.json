@@ -3,7 +3,7 @@
   "kind": "environment",
   "id": "example-16-two-actor-truck",
   "promptExampleId": "example-16",
-  "prompt": "در یک پلان بدون کات، با حرکت جانبی دوربین به راست هر دو مأمور را در یک نمای دونفره نگه دار. وقتی فاصله‌شان به کمتر از یک متر رسید، زومی کوتاه به جلو روی کیف بزن؛ بلافاصله با چرخش قوسی سریع به راست از خط نگاه عبور کن و همزمان زوم را باز کن تا در پایان جای دو بازیگر عوض شود: مأمور الف در راست قاب و مأمور ب در چپ قاب.",
+  "prompt": "A 10-second spy exchange in the populated concourse. Truck right in a straight line for the first 5 seconds, keeping both principal agents fully in the two-shot. When they first come within 1 metre of each other, use a 1-second optical punch-in on their briefcase. Immediately arc quickly right while zooming back out, crossing their eyeline so the final frame places agent A on the right and agent B on the left. No cut; bystanders are not the two agents.",
   "clock": {
     "durationSeconds": 10,
     "timeDomain": "playback",
@@ -41,7 +41,8 @@
         34,
         24
       ],
-      "color": "#66625c", "surface": "concrete"
+      "color": "#66625c",
+      "surface": "concrete"
     },
     "grid": {
       "size": 28,
@@ -109,7 +110,7 @@
             {
               "t": 8,
               "value": [
-                -2.0,
+                -2,
                 0,
                 0.6
               ]
@@ -119,7 +120,7 @@
               "value": [
                 -3.2,
                 0,
-                1.0
+                1
               ]
             }
           ]
@@ -381,7 +382,7 @@
             {
               "t": 10,
               "value": [
-                3.0,
+                3,
                 0.82,
                 -0.75
               ]
@@ -390,15 +391,13 @@
         }
       },
       "visual": {
-        "type": "preset",
-        "name": "genericObject",
-        "params": {
-          "shape": "box",
-          "width": 0.72,
-          "height": 0.42,
-          "depth": 0.24,
-          "color": "#c79b42"
-        }
+        "type": "model",
+        "url": "/models/generated/briefcase.glb",
+        "position": [
+          0,
+          -0.28,
+          0
+        ]
       },
       "bounds": {
         "type": "box",
@@ -524,6 +523,502 @@
           0.06
         ]
       }
+    },
+    {
+      "id": "set-planter-tree-00",
+      "label": "planter tree",
+      "transform": {
+        "space": "world",
+        "position": [
+          -13,
+          0,
+          -8
+        ]
+      },
+      "visual": {
+        "type": "model",
+        "url": "/models/generated/planter-tree.glb",
+        "fallback": {
+          "type": "primitive",
+          "shape": "box",
+          "params": {
+            "width": 2.186677,
+            "height": 0.2,
+            "depth": 0.3
+          },
+          "color": "#717c87"
+        }
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.986677,
+          0,
+          -1.034048
+        ],
+        "max": [
+          1.2,
+          3.48,
+          1.034048
+        ]
+      }
+    },
+    {
+      "id": "set-slatted-bench-01",
+      "label": "slatted bench",
+      "transform": {
+        "space": "world",
+        "position": [
+          -13,
+          0,
+          -10
+        ]
+      },
+      "visual": {
+        "type": "model",
+        "url": "/models/generated/slatted-bench.glb",
+        "fallback": {
+          "type": "primitive",
+          "shape": "box",
+          "params": {
+            "width": 2,
+            "height": 0.2,
+            "depth": 0.3
+          },
+          "color": "#717c87"
+        }
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -1,
+          0,
+          -0.325
+        ],
+        "max": [
+          1,
+          1.215,
+          0.325
+        ]
+      }
+    },
+    {
+      "id": "set-planter-tree-02",
+      "label": "planter tree",
+      "transform": {
+        "space": "world",
+        "position": [
+          13,
+          0,
+          -8
+        ]
+      },
+      "visual": {
+        "type": "model",
+        "url": "/models/generated/planter-tree.glb",
+        "fallback": {
+          "type": "primitive",
+          "shape": "box",
+          "params": {
+            "width": 2.186677,
+            "height": 0.2,
+            "depth": 0.3
+          },
+          "color": "#717c87"
+        }
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.986677,
+          0,
+          -1.034048
+        ],
+        "max": [
+          1.2,
+          3.48,
+          1.034048
+        ]
+      }
+    },
+    {
+      "id": "set-slatted-bench-03",
+      "label": "slatted bench",
+      "transform": {
+        "space": "world",
+        "position": [
+          13,
+          0,
+          -10
+        ]
+      },
+      "visual": {
+        "type": "model",
+        "url": "/models/generated/slatted-bench.glb",
+        "fallback": {
+          "type": "primitive",
+          "shape": "box",
+          "params": {
+            "width": 2,
+            "height": 0.2,
+            "depth": 0.3
+          },
+          "color": "#717c87"
+        }
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -1,
+          0,
+          -0.325
+        ],
+        "max": [
+          1,
+          1.215,
+          0.325
+        ]
+      }
+    },
+    {
+      "id": "set-planter-tree-04",
+      "label": "planter tree",
+      "transform": {
+        "space": "world",
+        "position": [
+          -13,
+          0,
+          8
+        ]
+      },
+      "visual": {
+        "type": "model",
+        "url": "/models/generated/planter-tree.glb",
+        "fallback": {
+          "type": "primitive",
+          "shape": "box",
+          "params": {
+            "width": 2.186677,
+            "height": 0.2,
+            "depth": 0.3
+          },
+          "color": "#717c87"
+        }
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.986677,
+          0,
+          -1.034048
+        ],
+        "max": [
+          1.2,
+          3.48,
+          1.034048
+        ]
+      }
+    },
+    {
+      "id": "set-slatted-bench-05",
+      "label": "slatted bench",
+      "transform": {
+        "space": "world",
+        "position": [
+          -13,
+          0,
+          6
+        ]
+      },
+      "visual": {
+        "type": "model",
+        "url": "/models/generated/slatted-bench.glb",
+        "fallback": {
+          "type": "primitive",
+          "shape": "box",
+          "params": {
+            "width": 2,
+            "height": 0.2,
+            "depth": 0.3
+          },
+          "color": "#717c87"
+        }
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -1,
+          0,
+          -0.325
+        ],
+        "max": [
+          1,
+          1.215,
+          0.325
+        ]
+      }
+    },
+    {
+      "id": "set-planter-tree-06",
+      "label": "planter tree",
+      "transform": {
+        "space": "world",
+        "position": [
+          13,
+          0,
+          8
+        ]
+      },
+      "visual": {
+        "type": "model",
+        "url": "/models/generated/planter-tree.glb",
+        "fallback": {
+          "type": "primitive",
+          "shape": "box",
+          "params": {
+            "width": 2.186677,
+            "height": 0.2,
+            "depth": 0.3
+          },
+          "color": "#717c87"
+        }
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.986677,
+          0,
+          -1.034048
+        ],
+        "max": [
+          1.2,
+          3.48,
+          1.034048
+        ]
+      }
+    },
+    {
+      "id": "set-slatted-bench-07",
+      "label": "slatted bench",
+      "transform": {
+        "space": "world",
+        "position": [
+          13,
+          0,
+          6
+        ]
+      },
+      "visual": {
+        "type": "model",
+        "url": "/models/generated/slatted-bench.glb",
+        "fallback": {
+          "type": "primitive",
+          "shape": "box",
+          "params": {
+            "width": 2,
+            "height": 0.2,
+            "depth": 0.3
+          },
+          "color": "#717c87"
+        }
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -1,
+          0,
+          -0.325
+        ],
+        "max": [
+          1,
+          1.215,
+          0.325
+        ]
+      }
+    },
+    {
+      "id": "set-vending-machine-08",
+      "label": "vending machine",
+      "transform": {
+        "space": "world",
+        "position": [
+          -7,
+          0,
+          -5
+        ]
+      },
+      "visual": {
+        "type": "model",
+        "url": "/models/generated/vending-machine.glb",
+        "fallback": {
+          "type": "primitive",
+          "shape": "box",
+          "params": {
+            "width": 1.15,
+            "height": 0.2,
+            "depth": 0.3
+          },
+          "color": "#717c87"
+        }
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.575,
+          0,
+          -0.2
+        ],
+        "max": [
+          0.575,
+          1.7,
+          0.2525
+        ]
+      }
+    },
+    {
+      "id": "set-streetlamp-09",
+      "label": "streetlamp",
+      "transform": {
+        "space": "world",
+        "position": [
+          7,
+          0,
+          -5
+        ]
+      },
+      "visual": {
+        "type": "model",
+        "url": "/models/generated/streetlamp.glb",
+        "fallback": {
+          "type": "primitive",
+          "shape": "box",
+          "params": {
+            "width": 1.2149999999999999,
+            "height": 0.2,
+            "depth": 0.3
+          },
+          "color": "#717c87"
+        }
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.24,
+          0,
+          -0.24
+        ],
+        "max": [
+          0.975,
+          3.65,
+          0.24
+        ]
+      }
+    },
+    {
+      "id": "set-support-10",
+      "label": "commuter, #77664f jacket; supporting subject, not the principal actor",
+      "transform": {
+        "space": "world",
+        "position": {
+          "interpolation": "linear",
+          "extrapolation": "hold",
+          "keyframes": [
+            {
+              "t": 0,
+              "value": [
+                -8,
+                0,
+                2
+              ]
+            },
+            {
+              "t": 10,
+              "value": [
+                -8,
+                0,
+                -3
+              ]
+            }
+          ]
+        }
+      },
+      "visual": {
+        "type": "preset",
+        "name": "humanoid",
+        "params": {
+          "height": 1.8,
+          "shirtColor": "#77664f",
+          "trouserColor": "#283341",
+          "color": "#ad805f",
+          "motion": "auto"
+        }
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.325,
+          0,
+          -0.25
+        ],
+        "max": [
+          0.325,
+          1.8,
+          0.25
+        ]
+      }
+    },
+    {
+      "id": "set-support-11",
+      "label": "commuter, #566981 jacket; supporting subject, not the principal actor",
+      "transform": {
+        "space": "world",
+        "position": {
+          "interpolation": "linear",
+          "extrapolation": "hold",
+          "keyframes": [
+            {
+              "t": 0,
+              "value": [
+                8,
+                0,
+                -3
+              ]
+            },
+            {
+              "t": 10,
+              "value": [
+                8,
+                0,
+                4
+              ]
+            }
+          ]
+        }
+      },
+      "visual": {
+        "type": "preset",
+        "name": "humanoid",
+        "params": {
+          "height": 1.8,
+          "shirtColor": "#566981",
+          "trouserColor": "#283341",
+          "color": "#ad805f",
+          "motion": "auto"
+        }
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.325,
+          0,
+          -0.25
+        ],
+        "max": [
+          0.325,
+          1.8,
+          0.25
+        ]
+      }
     }
   ],
   "semanticAnchors": [
@@ -594,6 +1089,44 @@
           0.21,
           0.12
         ]
+      }
+    },
+    {
+      "id": "set-support-10-face",
+      "entityId": "set-support-10",
+      "label": "commuter, #77664f jacket; supporting subject, not the principal actor face",
+      "localAnchor": [
+        0,
+        1.63,
+        0.12
+      ],
+      "localBounds": {
+        "type": "sphere",
+        "center": [
+          0,
+          1.63,
+          0.12
+        ],
+        "radius": 0.16
+      }
+    },
+    {
+      "id": "set-support-11-face",
+      "entityId": "set-support-11",
+      "label": "commuter, #566981 jacket; supporting subject, not the principal actor face",
+      "localAnchor": [
+        0,
+        1.63,
+        0.12
+      ],
+      "localBounds": {
+        "type": "sphere",
+        "center": [
+          0,
+          1.63,
+          0.12
+        ],
+        "radius": 0.16
       }
     }
   ]

@@ -1,0 +1,109 @@
+{
+  "schemaVersion": "1.0",
+  "kind": "authoredCameraReference",
+  "exampleId": "example-13",
+  "environmentId": "example-13-horror-door-v2",
+  "provenance": {
+    "method": "assistant-authored analytical storyboard",
+    "optimizerDerived": false,
+    "llmInferenceRun": false,
+    "measuredGroundTruth": false
+  },
+  "prompt": "A 7-second alternate corridor take. Approach the half-open door in one restrained handheld dolly, gradually rolling 30 degrees to the left. Finish outside the doorway. Leave the scene clock at normal speed. The distant caretaker is background, not the framing target.",
+  "promptSha256": "29dd566e54aa246e3f7231f6b54d3efe99287cda5653b35c41039833a0e6dee9",
+  "environmentSha256": "34ddacec4945ef57f476db3e111747b944664210770b2dc5adc37318a427e438",
+  "cslSha256": "f59d2662b8034f0b3706346032a07c0d3cef93119b1ba147acd81cdcad4c5276",
+  "recipeSha256": "07d7c849130709ec16ff988d881244520cc6b30f58d6332b9d978ea466f8b8f5",
+  "trajectorySha256": "d1f3de9b30861afc9680090b862c4af2b26e80690e74cc0781ecec572036806e",
+  "fullPoseIsGroundTruth": false,
+  "artisticChoices": [
+    "Unrequested rig offsets, radii, lens choices and smoothstep pacing are authored illustration choices, not inferred user constraints.",
+    "Camera paths are synthetic assistant-authored references, not measured ground truth, not LLM inference runs, and not optimized outputs."
+  ],
+  "limitations": [],
+  "plan": {
+    "version": "1.0",
+    "exampleId": "example-13",
+    "knots": [
+      {
+        "at": 0,
+        "rig": {
+          "ids": [
+            "half_open_door"
+          ]
+        },
+        "offset": [
+          0,
+          0.12,
+          8.5
+        ],
+        "aim": {
+          "ids": [
+            "half_open_door"
+          ]
+        },
+        "fov": 52
+      },
+      {
+        "at": 7,
+        "rig": {
+          "ids": [
+            "half_open_door"
+          ]
+        },
+        "offset": [
+          0,
+          0.12,
+          2.1
+        ],
+        "aim": {
+          "ids": [
+            "half_open_door"
+          ]
+        },
+        "fov": 52,
+        "roll": 30
+      }
+    ],
+    "handheldActionIds": [
+      "handheld_dolly_in"
+    ],
+    "artisticChoices": [
+      "Unrequested rig offsets, radii, lens choices and smoothstep pacing are authored illustration choices, not inferred user constraints.",
+      "Camera paths are synthetic assistant-authored references, not measured ground truth, not LLM inference runs, and not optimized outputs."
+    ]
+  },
+  "actions": [
+    {
+      "id": "dutch_tilt_30",
+      "act": "dutchLeft",
+      "start": 0,
+      "end": 7,
+      "targets": []
+    },
+    {
+      "id": "handheld_dolly_in",
+      "act": "dollyIn",
+      "start": 0,
+      "end": 7,
+      "targets": [
+        "half_open_door"
+      ]
+    }
+  ],
+  "cutTimes": [],
+  "rateSegments": [],
+  "sampleCount": 211,
+  "sampledAudit": {
+    "qualification": "sampled-checks-pass",
+    "contractFailures": 0,
+    "compositionFailures": 0,
+    "geometryWarnings": 0,
+    "samplingFps": 10,
+    "limitations": [
+      "Sampled at 10 Hz plus action boundaries; no continuous collision certificate or mesh ray tracing.",
+      "Shot size uses conservative projected AABBs; view-side, speed-keyframe fidelity, jerk and all perceptual qualities still require review.",
+      "Passing a subset of explicit contracts never makes the entire arbitrary reference pose ground truth."
+    ]
+  }
+}

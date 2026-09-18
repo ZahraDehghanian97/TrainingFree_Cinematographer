@@ -1,0 +1,25 @@
+import * as fs from 'node:fs';
+import * as path from 'node:path';
+import { resolvedPromptExampleFixtures } from '../src/data/resolved-example-fixtures';
+import { auditTrajectory } from '../src/reference/audit';
+import { assertEnvironmentV1 } from '../web/src/environment-loader';
+import { assertCameraTrajectoryV1 } from '../web/src/trajectory-loader';
+const root=path.resolve(__dirname,'..');
+const args=process.argv.slice(2);
+if(args.some(a=>!['--strict','--contracts-only'].includes(a)))throw new Error('Usage: audit-references.ts [--strict] [--contracts-only]');
+const results=resolvedPromptExampleFixtures.map(f=>{
+ const env:unknown=JSON.parse(fs.readFileSync(path.join(root,`web/public/environments/${f.id}.json`),'utf8'));assertEnvironmentV1(env);
+ const tr:unknown=JSON.parse(fs.readFileSync(path.join(root,`web/public/trajectories/ai-generated/${f.id}-camera.json`),'utf8'));assertCameraTrajectoryV1(tr);
+ const result=auditTrajectory(f,env,tr);
+ const metadataPath=path.join(root,`web/public/trajectories/reference-metadata/${f.id}.json`);
+ const metadata=JSON.parse(fs.readFileSync(metadataPath,'utf8'));
+ metadata.sampledAudit={qualification:result.qualification,contractFailures:result.contractFailures,compositionFailures:result.compositionFailures,geometryWarnings:result.geometryWarnings,samplingFps:10,limitations:result.limitations};
+ fs.writeFileSync(metadataPath,JSON.stringify(metadata,null,2)+'\n');
+ console.log(`${f.id}: contract=${result.contractFailures}, composition=${result.compositionFailures}, geometry=${result.geometryWarnings}`);
+ return result;
+});
+const summary={examples:results.length,contractFailures:results.reduce((n,r)=>n+r.contractFailures,0),compositionFailures:results.reduce((n,r)=>n+r.compositionFailures,0),geometryWarnings:results.reduce((n,r)=>n+r.geometryWarnings,0),qualified:results.filter(r=>r.qualification==='sampled-checks-pass').length};
+fs.mkdirSync(path.join(root,'docs'),{recursive:true});
+fs.writeFileSync(path.join(root,'docs/reference-audit.json'),JSON.stringify({schemaVersion:'1.0',method:'Independent sampled semantics, not optimizer loss or a measured oracle',summary,results},null,2)+'\n');
+console.log(JSON.stringify(summary));
+if(summary.contractFailures || (args.includes('--strict')&&(summary.compositionFailures+summary.geometryWarnings)))process.exitCode=1;

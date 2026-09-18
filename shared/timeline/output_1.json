@@ -3,7 +3,7 @@
   "kind": "timelineSolverOutput",
   "exampleId": "example-01",
   "environmentId": "example-01-football",
-  "prompt": "توپ را دنبال کن و وقتی به دروازه نزدیک شد، دوربین را عمودی بالا ببر و توپ را از زاویهٔ بالا دنبال کن.",
+  "prompt": "A 10-second uninterrupted sports shot in the populated football ground. Follow the ball toward the goal, not the supporting players. When the surface-to-surface distance between ball and goal first falls below 5 metres, continue following and raise the camera by 2.5 metres relative to the ball over 3 seconds, easing into and out of the rise. Finish looking down at the ball from a high angle. Do not cut.",
   "totalDuration": 10,
   "subjectBinding": {
     "mode": "resolved",

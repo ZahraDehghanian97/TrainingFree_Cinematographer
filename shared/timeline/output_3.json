@@ -3,7 +3,7 @@
   "kind": "timelineSolverOutput",
   "exampleId": "example-03",
   "environmentId": "example-03-vase-reveal",
-  "prompt": "ابتدا گلدان را در نمای نزدیک نشان بده، سپس دوربین را عقب بکش تا گلدان و مانیتور همزمان در قاب دیده شوند.",
+  "prompt": "A 20-second product reveal in the furnished workspace. Start close on the ceramic vase. Dolly straight backward in one continuous move, gently accelerating out of rest and easing to a stop, until both the vase and the monitor are fully inside the final frame. Reveal their relationship across the desk; do not zoom or cut.",
   "totalDuration": 20,
   "subjectBinding": {
     "mode": "resolved",

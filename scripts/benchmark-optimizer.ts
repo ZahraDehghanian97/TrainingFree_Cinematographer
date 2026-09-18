@@ -1,5 +1,6 @@
 import * as fs from "node:fs";
 import * as path from "node:path";
+import { publishOptimizedProvenance } from './reference-io';
 import { fork } from "node:child_process";
 import { resolvedPromptExampleFixtures } from "../src/data/resolved-example-fixtures";
 import { optimizeCameraTrajectory, compileLossPlan } from "../src/optimizer";
@@ -127,6 +128,7 @@ function runExample(number: number, config: Settings) {
     writeJson(path.resolve("shared/optimized", `output_${number}.json`), document);
     writeJson(path.resolve("shared/optimized", `output_${number}_camera.json`), result.trajectory);
     writeJson(path.resolve("web/public/trajectories/optimized", `${fixture.id}-camera.json`), result.trajectory);
+    publishOptimizedProvenance(process.cwd(),fixture,environment,result.trajectory);
   }
   return {
     example: number, exampleId: fixture.id, environmentId: environment.id,

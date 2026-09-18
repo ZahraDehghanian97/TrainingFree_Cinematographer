@@ -3,7 +3,7 @@
   "kind": "timelineSolverOutput",
   "exampleId": "example-14",
   "environmentId": "example-14-soft-closeup",
-  "prompt": "از یک نمای متوسط سه‌رخ و سکوت ۱٫۵ ثانیه‌ای شروع کن؛ سپس با حرکت آهستهٔ دوربین به جلو و یک چرخش قوسی کوتاه به راست، به صورت نزدیک شو. در دو ثانیهٔ آخر، زوم بسیار نرمی به جلو اضافه کن و چهره را در نمای نزدیک روی یک‌سوم چپ قاب نگه دار.",
+  "prompt": "A 10-second confession on the furnished studio set. Hold a medium, three-quarter-front-left view of the principal actor for 1.5 seconds. Then ease closer in a small rightward arc and dolly. Arrive at a close-up of the face on the left third by 8 seconds. Throughout the final 2 seconds hold that close-up and left-third composition while adding a very gentle optical zoom. No cut.",
   "totalDuration": 10,
   "subjectBinding": {
     "mode": "resolved",
@@ -85,7 +85,7 @@
         "kind": "interval",
         "shotStartTime": 0,
         "startTime": 1.5,
-        "endTime": 10,
+        "endTime": 8,
         "lossFunctions": [
           {
             "type": "dollyInMovement",
@@ -121,7 +121,7 @@
         "kind": "interval",
         "shotStartTime": 0,
         "startTime": 1.5,
-        "endTime": 10,
+        "endTime": 8,
         "lossFunctions": [
           {
             "type": "arcMovement",
@@ -150,6 +150,28 @@
               ]
             },
             "sourceActionId": "confession_arc_right"
+          }
+        ],
+        "weight": 1
+      },
+      {
+        "kind": "point",
+        "shotStartTime": 0,
+        "time": 8,
+        "lossFunctions": [
+          {
+            "type": "shotSize",
+            "parameters": {
+              "shotSize": "closeUp",
+              "subjectId": "actor_face"
+            }
+          },
+          {
+            "type": "framingPosition",
+            "parameters": {
+              "position": "left",
+              "subjectId": "actor_face"
+            }
           }
         ],
         "weight": 1

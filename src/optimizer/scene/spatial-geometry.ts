@@ -1,6 +1,6 @@
 import { sampleEnvironmentEntityTransform, sampleEnvironmentSubject, worldAabbForBounds } from "../../environment/sampler";
 import type { EnvironmentV1, Vec3 } from "../../types/environment";
-import type { WorldAabbV1 } from "../../types/environment-query";
+import type { WorldAabbV1 } from "../../types/environment-spatial";
 import { add3, scale3 } from "../shared/math";
 
 /** Positive outside the box; negative inside by distance to the nearest face. */

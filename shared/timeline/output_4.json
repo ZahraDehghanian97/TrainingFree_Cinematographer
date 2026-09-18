@@ -3,7 +3,7 @@
   "kind": "timelineSolverOutput",
   "exampleId": "example-04",
   "environmentId": "example-04-car-arc",
-  "prompt": "دو ثانیه ماشین را تعقیب کن، سپس در یک مسیر قوسی به سمت راست دور آن بچرخ و همزمان روی راننده زوم کن.",
+  "prompt": "A 15-second tracking shot on the dressed test road. Track the principal car for exactly 2 seconds. For the remaining 13 seconds, arc 90 degrees to the right around the moving car while simultaneously zooming optically toward the driver. Finish with the driver as the visual emphasis. No cut; camera travel is not a request to change scene speed.",
   "totalDuration": 15,
   "subjectBinding": {
     "mode": "resolved",
@@ -52,6 +52,7 @@
             "type": "arcMovement",
             "parameters": {
               "sign": 1,
+              "arcAngle": 90,
               "subjectId": "car"
             },
             "sourceActionId": "arc_right_car"

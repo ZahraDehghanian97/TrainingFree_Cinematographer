@@ -3,7 +3,7 @@
   "kind": "timelineSolverOutput",
   "exampleId": "example-11",
   "environmentId": "example-11-horror-door",
-  "prompt": "برای ایجاد حس ترس، دوربین را ۳۰ درجه کج کن و به‌صورت روی دست و لرزان به سمت در نیمه‌باز حرکت کن.",
+  "prompt": "A 6-second uncut approach through the narrow corridor toward the half-open door. Move forward with restrained handheld shake while gradually rolling the camera 30 degrees to the left over the take. Keep the door as the visual destination and do not pass through it. Do not request a lighting change or a cut.",
   "totalDuration": 6,
   "subjectBinding": {
     "mode": "resolved",

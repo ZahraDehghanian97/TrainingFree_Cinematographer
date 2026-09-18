@@ -1,0 +1,102 @@
+{
+  "schemaVersion": "1.0",
+  "kind": "authoredCameraReference",
+  "exampleId": "example-28",
+  "environmentId": "example-28-dont-care-truck",
+  "provenance": {
+    "method": "assistant-authored analytical storyboard",
+    "optimizerDerived": false,
+    "llmInferenceRun": false,
+    "measuredGroundTruth": false
+  },
+  "prompt": "با حرکت جانبی دوربین به راست از رقصنده فیلم بگیر.",
+  "promptSha256": "8cced41307b00e44603072210badcca7a9b45775c842c1bf45055f75d79bbb49",
+  "environmentSha256": "6c97a094e476a6f9aa9c017a6f255fb20e11f3072c46aee69aa87e5e6ec519a6",
+  "cslSha256": "ce2532699975755b86c1ec8107f7913c54bc91e64761429d9159a2fa3340e8fe",
+  "recipeSha256": "f02c8454c3360eb330ea825868e8af466476e1aaa66969c01d0f9a190e75b1af",
+  "trajectorySha256": "b3b6ed34e2994e90d9f3846a4f3c00acc58b9bd81691be6ac921efe796804080",
+  "fullPoseIsGroundTruth": false,
+  "artisticChoices": [
+    "Unrequested rig offsets, radii, lens choices and smoothstep pacing are authored illustration choices, not inferred user constraints.",
+    "Camera paths are synthetic assistant-authored references, not measured ground truth, not LLM inference runs, and not optimized outputs.",
+    "This is an under-specified ablation: compare only prompt-requested semantic constraints, never force its entire reference pose."
+  ],
+  "limitations": [],
+  "plan": {
+    "version": "1.0",
+    "exampleId": "example-28",
+    "knots": [
+      {
+        "at": 0,
+        "rig": {
+          "point": [
+            0,
+            0,
+            0
+          ]
+        },
+        "offset": [
+          -3,
+          1.9,
+          5.5
+        ],
+        "aim": {
+          "ids": [
+            "dancer"
+          ]
+        },
+        "fov": 50
+      },
+      {
+        "at": 10,
+        "rig": {
+          "point": [
+            0,
+            0,
+            0
+          ]
+        },
+        "offset": [
+          3,
+          1.9,
+          5.5
+        ],
+        "aim": {
+          "ids": [
+            "dancer"
+          ]
+        },
+        "fov": 50
+      }
+    ],
+    "artisticChoices": [
+      "Unrequested rig offsets, radii, lens choices and smoothstep pacing are authored illustration choices, not inferred user constraints.",
+      "Camera paths are synthetic assistant-authored references, not measured ground truth, not LLM inference runs, and not optimized outputs.",
+      "This is an under-specified ablation: compare only prompt-requested semantic constraints, never force its entire reference pose."
+    ]
+  },
+  "actions": [
+    {
+      "id": "truck_right_dancer",
+      "act": "truckRight",
+      "start": 0,
+      "end": 10,
+      "targets": []
+    }
+  ],
+  "cutTimes": [],
+  "rateSegments": [],
+  "sampleCount": 301,
+  "sampledAudit": {
+    "qualification": "sampled-checks-pass",
+    "contractFailures": 0,
+    "compositionFailures": 0,
+    "geometryWarnings": 0,
+    "samplingFps": 10,
+    "limitations": [
+      "Sampled at 10 Hz plus action boundaries; no continuous collision certificate or mesh ray tracing.",
+      "Shot size uses conservative projected AABBs; view-side, speed-keyframe fidelity, jerk and all perceptual qualities still require review.",
+      "Passing a subset of explicit contracts never makes the entire arbitrary reference pose ground truth."
+    ]
+  }
+}

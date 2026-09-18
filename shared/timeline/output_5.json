@@ -3,7 +3,7 @@
   "kind": "timelineSolverOutput",
   "exampleId": "example-05",
   "environmentId": "example-05-dolly-zoom",
-  "prompt": "دوربین را از چهرهٔ بازیگر دور کن و همزمان زوم را بیشتر کن تا پرسپکتیو پس‌زمینه تغییر کند اما اندازهٔ صورت در قاب ثابت بماند.",
+  "prompt": "A 25-second realization shot against the receding studio columns. Start with a close-up of the principal actor’s face. Dolly backward continuously while increasing optical focal length so that the face retains its initial projected size throughout. Let the background perspective change, not the face size. Keep the move smooth and uncut.",
   "totalDuration": 25,
   "subjectBinding": {
     "mode": "resolved",

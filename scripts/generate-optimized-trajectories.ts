@@ -1,5 +1,6 @@
 import * as fs from "node:fs";
 import * as path from "node:path";
+import { publishOptimizedProvenance } from './reference-io';
 
 import { resolvedPromptExampleFixtures } from "../src/data/resolved-example-fixtures";
 import { dontCarePromptExampleFixtures } from "../src/data/dont-care-examples";
@@ -174,6 +175,7 @@ function main(): void {
       path.join(diagnosticsDirectory, `output_${index + 1}_optimized.json`),
       document,
     );
+    publishOptimizedProvenance(process.cwd(), fixture, environment, result.trajectory);
     const diagnostics = result.diagnostics;
     const percentage = (value: number | null): string => value === null ? "n/a" : `${value.toFixed(2)}%`;
     console.log(

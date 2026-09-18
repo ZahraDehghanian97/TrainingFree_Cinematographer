@@ -1,0 +1,266 @@
+{
+  "schemaVersion": "1.0",
+  "kind": "authoredCameraReference",
+  "exampleId": "example-23",
+  "environmentId": "example-23-factory-convergence",
+  "provenance": {
+    "method": "assistant-authored analytical storyboard",
+    "optimizerDerived": false,
+    "llmInferenceRun": false,
+    "measuredGroundTruth": false
+  },
+  "prompt": "A 20-second ensemble reveal in the populated factory. Follow worker A for the first 6 seconds. From 6 to 10 seconds arc 90 degrees right around workers A and B, bringing both fully into frame by 10 seconds. Track both from 10 to 15 seconds. From 15 to 18 seconds dolly backward while craning upward, revealing the workers, yellow forklift, steel mezzanine, and loading bay together. Freeze the scene and lock off for the final 2 seconds, holding that wide ensemble frame. Keep a level horizon, smooth motion and clear sightlines; no cut. Supporting technicians remain secondary.",
+  "promptSha256": "7005a7ac54d2646343fb584d11fa7ab5c1c71da7dd9f76267938cb3febe42712",
+  "environmentSha256": "3fdf7d981548bb4810bd1565ee15212bfb0b8f2100ec4c6b1dc193902fb48432",
+  "cslSha256": "d2718b51b7cdb9132d1bfb8ddbd6acbc01903ec636b581cd15a81d3c795dfe32",
+  "recipeSha256": "81d40191e63a2e3316c6d953607032bb31b70de80d71614af0b47365727a3d3b",
+  "trajectorySha256": "3e1d5a52fc89ce3478b416942e94aa6f30a7ba215f5a2558c3f9731bf4d4e41f",
+  "fullPoseIsGroundTruth": false,
+  "artisticChoices": [
+    "Unrequested rig offsets, radii, lens choices and smoothstep pacing are authored illustration choices, not inferred user constraints.",
+    "Camera paths are synthetic assistant-authored references, not measured ground truth, not LLM inference runs, and not optimized outputs."
+  ],
+  "limitations": [],
+  "plan": {
+    "version": "1.0",
+    "exampleId": "example-23",
+    "knots": [
+      {
+        "at": 0,
+        "rig": {
+          "ids": [
+            "worker_a"
+          ]
+        },
+        "offset": [
+          -1.5,
+          3.9875,
+          13.5
+        ],
+        "aim": {
+          "ids": [
+            "worker_a"
+          ]
+        },
+        "fov": 55
+      },
+      {
+        "at": 6,
+        "rig": {
+          "ids": [
+            "worker_a"
+          ]
+        },
+        "offset": [
+          -1.5,
+          3.9875,
+          13.5
+        ],
+        "aim": {
+          "ids": [
+            "worker_a",
+            "worker_b"
+          ]
+        },
+        "fov": 55
+      },
+      {
+        "at": 6,
+        "rig": {
+          "ids": [
+            "worker_a",
+            "worker_b"
+          ]
+        },
+        "polar": [
+          0,
+          4,
+          14
+        ],
+        "aim": {
+          "ids": [
+            "worker_a",
+            "worker_b"
+          ]
+        },
+        "fov": 55,
+        "transitionBefore": true
+      },
+      {
+        "at": 10,
+        "rig": {
+          "ids": [
+            "worker_a",
+            "worker_b"
+          ]
+        },
+        "polar": [
+          90,
+          4,
+          14
+        ],
+        "aim": {
+          "ids": [
+            "worker_a",
+            "worker_b"
+          ]
+        },
+        "fov": 55
+      },
+      {
+        "at": 15,
+        "rig": {
+          "ids": [
+            "worker_a",
+            "worker_b"
+          ]
+        },
+        "polar": [
+          90,
+          4,
+          14
+        ],
+        "aim": {
+          "ids": [
+            "worker_a",
+            "worker_b"
+          ]
+        },
+        "fov": 55
+      },
+      {
+        "at": 18,
+        "rig": {
+          "ids": [
+            "worker_a",
+            "worker_b"
+          ],
+          "holdAfter": 18
+        },
+        "polar": [
+          90,
+          17,
+          45
+        ],
+        "aim": {
+          "ids": [
+            "worker_a",
+            "worker_b",
+            "set-forklift",
+            "set-mezzanine",
+            "loading_bay_frame"
+          ],
+          "holdAfter": 18
+        },
+        "fov": 55
+      },
+      {
+        "at": 20,
+        "rig": {
+          "ids": [
+            "worker_a",
+            "worker_b"
+          ],
+          "holdAfter": 18
+        },
+        "polar": [
+          90,
+          17,
+          45
+        ],
+        "aim": {
+          "ids": [
+            "worker_a",
+            "worker_b",
+            "set-forklift",
+            "set-mezzanine",
+            "loading_bay_frame"
+          ],
+          "holdAfter": 18
+        },
+        "fov": 55
+      }
+    ],
+    "artisticChoices": [
+      "Unrequested rig offsets, radii, lens choices and smoothstep pacing are authored illustration choices, not inferred user constraints.",
+      "Camera paths are synthetic assistant-authored references, not measured ground truth, not LLM inference runs, and not optimized outputs."
+    ]
+  },
+  "actions": [
+    {
+      "id": "follow_worker_a",
+      "act": "follow",
+      "start": 0,
+      "end": 6,
+      "targets": [
+        "worker_a"
+      ]
+    },
+    {
+      "id": "arc_reveal_worker_b",
+      "act": "arcRight",
+      "start": 6,
+      "end": 10,
+      "targets": [
+        "worker_a",
+        "worker_b"
+      ]
+    },
+    {
+      "id": "track_both",
+      "act": "track",
+      "start": 10,
+      "end": 15,
+      "targets": [
+        "worker_a",
+        "worker_b"
+      ]
+    },
+    {
+      "id": "pull_back_reveal_all",
+      "act": "dollyOut",
+      "start": 15,
+      "end": 18,
+      "targets": [
+        "worker_a",
+        "worker_b"
+      ]
+    },
+    {
+      "id": "crane_ensemble",
+      "act": "craneUp",
+      "start": 15,
+      "end": 18,
+      "targets": []
+    },
+    {
+      "id": "locked_off_freeze",
+      "act": "static",
+      "start": 18,
+      "end": 20,
+      "targets": []
+    }
+  ],
+  "cutTimes": [],
+  "rateSegments": [
+    {
+      "startTime": 18,
+      "endTime": 20,
+      "rate": 0,
+      "label": "frozen"
+    }
+  ],
+  "sampleCount": 601,
+  "sampledAudit": {
+    "qualification": "sampled-checks-pass",
+    "contractFailures": 0,
+    "compositionFailures": 0,
+    "geometryWarnings": 0,
+    "samplingFps": 10,
+    "limitations": [
+      "Sampled at 10 Hz plus action boundaries; no continuous collision certificate or mesh ray tracing.",
+      "Shot size uses conservative projected AABBs; view-side, speed-keyframe fidelity, jerk and all perceptual qualities still require review.",
+      "Passing a subset of explicit contracts never makes the entire arbitrary reference pose ground truth."
+    ]
+  }
+}

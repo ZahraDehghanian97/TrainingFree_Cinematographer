@@ -1,0 +1,100 @@
+{
+  "schemaVersion": "1.0",
+  "kind": "authoredCameraReference",
+  "exampleId": "example-32",
+  "environmentId": "example-32-dont-care-zoom",
+  "provenance": {
+    "method": "assistant-authored analytical storyboard",
+    "optimizerDerived": false,
+    "llmInferenceRun": false,
+    "measuredGroundTruth": false
+  },
+  "prompt": "با میدان دید ۷۰ درجه شروع کن و روی صورت رقصنده دو برابر زوم کن.",
+  "promptSha256": "45a0052e9d4e7077cd622279a64bb23f06a4186d1b3acc93c3324bfaac1a78a6",
+  "environmentSha256": "6e9aa1abc85cde0d948009ad9fe879ef411c5631d4ad1456e3a4fde778d133d3",
+  "cslSha256": "89e3b45fd6ba4d0741ee62a08ac9be9e6ff8e14a0b6278972d1f9877508d2b4f",
+  "recipeSha256": "2d48dbba8d66e20932cf096dc968f84fe0262e18038c51662aeafb9477acf7d0",
+  "trajectorySha256": "cb6e0f86bf0538844862f4759f11bd6df6e22060514005d70678e335516833b3",
+  "fullPoseIsGroundTruth": false,
+  "artisticChoices": [
+    "Unrequested rig offsets, radii, lens choices and smoothstep pacing are authored illustration choices, not inferred user constraints.",
+    "Camera paths are synthetic assistant-authored references, not measured ground truth, not LLM inference runs, and not optimized outputs.",
+    "This is an under-specified ablation: compare only prompt-requested semantic constraints, never force its entire reference pose."
+  ],
+  "limitations": [],
+  "plan": {
+    "version": "1.0",
+    "exampleId": "example-32",
+    "knots": [
+      {
+        "at": 0,
+        "rig": {
+          "ids": [
+            "dancer_face"
+          ],
+          "freezeAt": 0
+        },
+        "offset": [
+          0,
+          0,
+          3.5
+        ],
+        "aim": {
+          "ids": [
+            "dancer_face"
+          ]
+        },
+        "fov": 70
+      },
+      {
+        "at": 10,
+        "rig": {
+          "ids": [
+            "dancer_face"
+          ],
+          "freezeAt": 0
+        },
+        "offset": [
+          0,
+          0,
+          3.5
+        ],
+        "aim": {
+          "ids": [
+            "dancer_face"
+          ]
+        },
+        "fov": 38.59068547066244
+      }
+    ],
+    "artisticChoices": [
+      "Unrequested rig offsets, radii, lens choices and smoothstep pacing are authored illustration choices, not inferred user constraints.",
+      "Camera paths are synthetic assistant-authored references, not measured ground truth, not LLM inference runs, and not optimized outputs.",
+      "This is an under-specified ablation: compare only prompt-requested semantic constraints, never force its entire reference pose."
+    ]
+  },
+  "actions": [
+    {
+      "id": "zoom_dancer_face_free_pose",
+      "act": "zoomIn",
+      "start": 0,
+      "end": 10,
+      "targets": []
+    }
+  ],
+  "cutTimes": [],
+  "rateSegments": [],
+  "sampleCount": 301,
+  "sampledAudit": {
+    "qualification": "sampled-checks-pass",
+    "contractFailures": 0,
+    "compositionFailures": 0,
+    "geometryWarnings": 0,
+    "samplingFps": 10,
+    "limitations": [
+      "Sampled at 10 Hz plus action boundaries; no continuous collision certificate or mesh ray tracing.",
+      "Shot size uses conservative projected AABBs; view-side, speed-keyframe fidelity, jerk and all perceptual qualities still require review.",
+      "Passing a subset of explicit contracts never makes the entire arbitrary reference pose ground truth."
+    ]
+  }
+}

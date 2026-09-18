@@ -3,7 +3,7 @@
   "kind": "timelineSolverOutput",
   "exampleId": "example-15",
   "environmentId": "example-15-dancer-arc",
-  "prompt": "از نمای متوسطِ دور با زاویهٔ پایین شروع کن. چهار ثانیهٔ اول با چرخش قوسی آرام به چپ و حرکت آهسته دور رقصنده بچرخ؛ روی ضرب موسیقی، چرخش به چپ را سریع کن و همزمان دوربین را عمودی بالا ببر. در دو ثانیهٔ آخر، با فرودی نرم رقصنده را روی یک‌سوم راست قاب نگه دار.",
+  "prompt": "A 10-second stage portrait of the principal dancer, not the stagehands. Start medium-long and low. During seconds 0–4 arc gently left at 50% scene speed. During seconds 4–8 make a faster leftward arc while pedestalling upward. During seconds 8–10 settle with a gentle downward pedestal, finishing with the dancer on the right third. Keep one continuous shot.",
   "totalDuration": 10,
   "subjectBinding": {
     "mode": "resolved",
@@ -218,23 +218,34 @@
         "weight": 1
       },
       {
-        "kind": "interval",
+        "kind": "point",
         "shotStartTime": 0,
-        "startTime": 8,
-        "endTime": 10,
+        "time": 10,
         "lossFunctions": [
           {
             "type": "framingPosition",
             "parameters": {
               "position": "right",
               "subjectId": "dancer"
-            },
-            "sourceActionId": "hero_pose_settle"
+            }
           }
         ],
         "weight": 1
       }
     ],
-    "timeWarp": []
+    "timeWarp": [
+      {
+        "startTimePlayback": 0,
+        "endTimePlayback": 4,
+        "rate": 0.5,
+        "label": "slow"
+      },
+      {
+        "startTimePlayback": 4,
+        "endTimePlayback": 8,
+        "rate": 1,
+        "label": "normal"
+      }
+    ]
   }
 }

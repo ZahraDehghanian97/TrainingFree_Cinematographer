@@ -45,6 +45,10 @@ interface EnvironmentManifestEntry {
   url: string;
   optimizedTrajectoryUrl?: string;
   sampleTrajectoryUrl?: string;
+  referenceTrajectoryUrl?: string;
+  referenceMetadataUrl?: string;
+  optimizedTrajectoryStale?: boolean;
+  optimizedProvenanceUrl?: string;
 }
 
 interface EnvironmentManifest {
@@ -796,7 +800,7 @@ async function replayBundledExample(): Promise<void> {
     const response = await fetch(trajectoryUrl(entry.sampleTrajectoryUrl));
     if (request !== environmentRequest) return;
     if (!response.ok) throw new Error(`Could not load bundled example (HTTP ${response.status}).`);
-    await applyTrajectory(await response.json() as unknown, "Bundled demo");
+    await applyTrajectory(await response.json() as unknown, entry.referenceTrajectoryUrl ? "Authored reference (not optimized)" : "Bundled demo");
   } catch (error) {
     if (request !== environmentRequest) return;
     const message = error instanceof Error ? error.message : String(error);

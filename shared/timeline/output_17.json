@@ -3,7 +3,7 @@
   "kind": "timelineSolverOutput",
   "exampleId": "example-17",
   "environmentId": "example-17-runner-speed",
-  "prompt": "از نمای تمام‌قد با زاویهٔ پایین در کنار دونده شروع کن، همراه او حرکت کن و جلوی مسیرش فضای خالی بده. لحظه‌ای که سرعتش به ۸ متر بر ثانیه رسید، سرعت صحنه را به ۱۰٪ کاهش بده و با چرخش قوسی ۱۲۰ درجه به چپ، از کنار به روبه‌رویش برس. سپس سرعت عادی را برگردان، دوربین را عقب بکش و او را دنبال کن تا در پایان، دونده در چپ قاب باشد و جلوی حرکتش فضای باز بماند.",
+  "prompt": "An 11-second athletic shot. Start full-body and low beside the principal runner, tracking with lead room. When speed first reaches 8 metres per second, reduce scene speed to 10% and arc 120 degrees left over 3 seconds, coming from the side to the front. Restore normal scene speed, follow while dollying backward, and finish with the runner on the left of frame and open space ahead. No cut.",
   "totalDuration": 11,
   "subjectBinding": {
     "mode": "resolved",

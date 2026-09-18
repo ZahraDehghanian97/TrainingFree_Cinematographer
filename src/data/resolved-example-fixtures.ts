@@ -1,3 +1,4 @@
+import { improveCinematicFixtures } from "./cinematic-improvements";
 import type { Action, ResolvedCameraDirectionDSL } from "../types/dsl";
 import type { Target } from "../types/camera";
 import { ShotSize, SubjectView, SubjectInFramePosition, CameraMovementType, ComparisonOperator, RelativeTimeReference, CameraVerticalAngle, RelativeFPS, SpeedFunction, ConstraintType } from "../types/enums";
@@ -42,7 +43,7 @@ function withContinuousSafety(actions: Action[]): Action[] {
   });
 }
 
-export const resolvedPromptExampleFixtures: ResolvedPromptExampleFixture[] = [{
+const basePromptExampleFixtures: ResolvedPromptExampleFixture[] = [{
   id: "example-01",
   environmentId: "example-01-football",
   prompt: "توپ را دنبال کن و وقتی به دروازه نزدیک شد، دوربین را عمودی بالا ببر و توپ را از زاویهٔ بالا دنبال کن.",
@@ -2585,3 +2586,6 @@ export const resolvedPromptExampleFixtures: ResolvedPromptExampleFixture[] = [{
 },
 ...dontCarePromptExampleFixtures,
 ]
+
+/** Canonical public fixtures; prompt/CSL corrections are applied once. */
+export const resolvedPromptExampleFixtures = improveCinematicFixtures(basePromptExampleFixtures);

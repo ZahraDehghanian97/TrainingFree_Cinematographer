@@ -3,7 +3,7 @@
   "kind": "environment",
   "id": "example-02-face-orbit",
   "promptExampleId": "example-02",
-  "prompt": "از نمای بسیار نزدیک صورت مرد شروع کن، زمان را متوقف کن و سه دور کامل دور صورت او بچرخ.",
+  "prompt": "A 15-second frozen-time portrait on the studio set. Begin in an extreme close-up of the principal man’s face. Freeze the scene from the first frame while the camera makes exactly three complete revolutions (1080 degrees) around his face. Keep the orbit radius fixed; the crew and set remain frozen. No cut and no scene-time speed-up.",
   "clock": {
     "durationSeconds": 15,
     "timeDomain": "playback",
@@ -16,36 +16,503 @@
     "lengthUnit": "meter",
     "rotationOrder": "quaternion-xyzw"
   },
-  "evaluation": { "distanceMetric": "anchorCenter" },
+  "evaluation": {
+    "distanceMetric": "anchorCenter"
+  },
   "world": {
     "profile": "studio",
     "background": "#36383e",
     "overviewCamera": {
-      "position": [5.5, 4, 6.5],
-      "target": [0, 1, 0]
+      "position": [
+        5.5,
+        4,
+        6.5
+      ],
+      "target": [
+        0,
+        1,
+        0
+      ]
     },
-    "ground": { "y": 0, "size": [14, 14], "color": "#83766c", "surface": "wood" },
-    "grid": { "size": 14, "divisions": 14 }
+    "ground": {
+      "y": 0,
+      "size": [
+        14,
+        14
+      ],
+      "color": "#83766c",
+      "surface": "wood"
+    },
+    "grid": {
+      "size": 14,
+      "divisions": 14
+    }
   },
   "entities": [
     {
       "id": "man-entity",
       "label": "مرد در زمان متوقف‌شده",
-      "transform": { "space": "world", "position": [0, 0, 0] },
-      "visual": { "type": "preset", "name": "humanoid", "params": { "color": "#d7b596", "shirtColor": "#304b6f" } },
-      "bounds": { "type": "box", "min": [-0.45, 0, -0.3], "max": [0.45, 1.85, 0.3] }
+      "transform": {
+        "space": "world",
+        "position": [
+          0,
+          0,
+          0
+        ]
+      },
+      "visual": {
+        "type": "preset",
+        "name": "humanoid",
+        "params": {
+          "color": "#d7b596",
+          "shirtColor": "#304b6f"
+        }
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.45,
+          0,
+          -0.3
+        ],
+        "max": [
+          0.45,
+          1.85,
+          0.3
+        ]
+      }
     },
     {
       "id": "studio-column-left",
       "label": "نشانگر چپ استودیو",
-      "transform": { "space": "world", "position": [-3.2, 1.2, -1.5] },
-      "visual": { "type": "primitive", "shape": "box", "params": { "size": [0.25, 2.4, 0.25] }, "color": "#34e0c2" }
+      "transform": {
+        "space": "world",
+        "position": [
+          -3.2,
+          1.2,
+          -1.5
+        ]
+      },
+      "visual": {
+        "type": "primitive",
+        "shape": "box",
+        "params": {
+          "size": [
+            0.25,
+            2.4,
+            0.25
+          ]
+        },
+        "color": "#34e0c2"
+      }
     },
     {
       "id": "studio-column-right",
       "label": "نشانگر راست استودیو",
-      "transform": { "space": "world", "position": [3.2, 1.2, 1.5] },
-      "visual": { "type": "primitive", "shape": "box", "params": { "size": [0.25, 2.4, 0.25] }, "color": "#ff9e3d" }
+      "transform": {
+        "space": "world",
+        "position": [
+          3.2,
+          1.2,
+          1.5
+        ]
+      },
+      "visual": {
+        "type": "primitive",
+        "shape": "box",
+        "params": {
+          "size": [
+            0.25,
+            2.4,
+            0.25
+          ]
+        },
+        "color": "#ff9e3d"
+      }
+    },
+    {
+      "id": "set-lighting-truss-00",
+      "label": "lighting truss",
+      "transform": {
+        "space": "world",
+        "position": [
+          -6,
+          0,
+          -5
+        ]
+      },
+      "visual": {
+        "type": "model",
+        "url": "/models/generated/lighting-truss.glb",
+        "fallback": {
+          "type": "primitive",
+          "shape": "box",
+          "params": {
+            "width": 1.1,
+            "height": 0.2,
+            "depth": 0.3
+          },
+          "color": "#717c87"
+        }
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.55,
+          0,
+          -0.55
+        ],
+        "max": [
+          0.55,
+          3.6,
+          0.55
+        ]
+      }
+    },
+    {
+      "id": "set-lighting-truss-01",
+      "label": "lighting truss",
+      "transform": {
+        "space": "world",
+        "position": [
+          6,
+          0,
+          -5
+        ]
+      },
+      "visual": {
+        "type": "model",
+        "url": "/models/generated/lighting-truss.glb",
+        "fallback": {
+          "type": "primitive",
+          "shape": "box",
+          "params": {
+            "width": 1.1,
+            "height": 0.2,
+            "depth": 0.3
+          },
+          "color": "#717c87"
+        }
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.55,
+          0,
+          -0.55
+        ],
+        "max": [
+          0.55,
+          3.6,
+          0.55
+        ]
+      }
+    },
+    {
+      "id": "set-lighting-truss-02",
+      "label": "lighting truss",
+      "transform": {
+        "space": "world",
+        "position": [
+          -6,
+          0,
+          5
+        ]
+      },
+      "visual": {
+        "type": "model",
+        "url": "/models/generated/lighting-truss.glb",
+        "fallback": {
+          "type": "primitive",
+          "shape": "box",
+          "params": {
+            "width": 1.1,
+            "height": 0.2,
+            "depth": 0.3
+          },
+          "color": "#717c87"
+        }
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.55,
+          0,
+          -0.55
+        ],
+        "max": [
+          0.55,
+          3.6,
+          0.55
+        ]
+      }
+    },
+    {
+      "id": "set-lighting-truss-03",
+      "label": "lighting truss",
+      "transform": {
+        "space": "world",
+        "position": [
+          6,
+          0,
+          5
+        ]
+      },
+      "visual": {
+        "type": "model",
+        "url": "/models/generated/lighting-truss.glb",
+        "fallback": {
+          "type": "primitive",
+          "shape": "box",
+          "params": {
+            "width": 1.1,
+            "height": 0.2,
+            "depth": 0.3
+          },
+          "color": "#717c87"
+        }
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.55,
+          0,
+          -0.55
+        ],
+        "max": [
+          0.55,
+          3.6,
+          0.55
+        ]
+      }
+    },
+    {
+      "id": "set-workbench-04",
+      "label": "workbench",
+      "transform": {
+        "space": "world",
+        "position": [
+          -5,
+          0,
+          -7
+        ]
+      },
+      "visual": {
+        "type": "model",
+        "url": "/models/generated/workbench.glb",
+        "fallback": {
+          "type": "primitive",
+          "shape": "box",
+          "params": {
+            "width": 1.8,
+            "height": 0.2,
+            "depth": 0.3
+          },
+          "color": "#717c87"
+        }
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.9,
+          0,
+          -0.36
+        ],
+        "max": [
+          0.9,
+          0.93,
+          0.36
+        ]
+      }
+    },
+    {
+      "id": "set-crate-stack-05",
+      "label": "crate stack",
+      "transform": {
+        "space": "world",
+        "position": [
+          -4,
+          0,
+          -7
+        ]
+      },
+      "visual": {
+        "type": "model",
+        "url": "/models/generated/crate-stack.glb",
+        "fallback": {
+          "type": "primitive",
+          "shape": "box",
+          "params": {
+            "width": 1.9,
+            "height": 0.2,
+            "depth": 0.3
+          },
+          "color": "#717c87"
+        }
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.95,
+          0,
+          -0.6
+        ],
+        "max": [
+          0.95,
+          1.725,
+          0.6
+        ]
+      }
+    },
+    {
+      "id": "set-workbench-06",
+      "label": "workbench",
+      "transform": {
+        "space": "world",
+        "position": [
+          5,
+          0,
+          -7
+        ]
+      },
+      "visual": {
+        "type": "model",
+        "url": "/models/generated/workbench.glb",
+        "fallback": {
+          "type": "primitive",
+          "shape": "box",
+          "params": {
+            "width": 1.8,
+            "height": 0.2,
+            "depth": 0.3
+          },
+          "color": "#717c87"
+        }
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.9,
+          0,
+          -0.36
+        ],
+        "max": [
+          0.9,
+          0.93,
+          0.36
+        ]
+      }
+    },
+    {
+      "id": "set-crate-stack-07",
+      "label": "crate stack",
+      "transform": {
+        "space": "world",
+        "position": [
+          6,
+          0,
+          -7
+        ]
+      },
+      "visual": {
+        "type": "model",
+        "url": "/models/generated/crate-stack.glb",
+        "fallback": {
+          "type": "primitive",
+          "shape": "box",
+          "params": {
+            "width": 1.9,
+            "height": 0.2,
+            "depth": 0.3
+          },
+          "color": "#717c87"
+        }
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.95,
+          0,
+          -0.6
+        ],
+        "max": [
+          0.95,
+          1.725,
+          0.6
+        ]
+      }
+    },
+    {
+      "id": "set-support-08",
+      "label": "stagehand, #4e586b jacket; supporting subject, not the principal actor",
+      "transform": {
+        "space": "world",
+        "position": [
+          -5,
+          0,
+          -5
+        ]
+      },
+      "visual": {
+        "type": "preset",
+        "name": "humanoid",
+        "params": {
+          "height": 1.8,
+          "shirtColor": "#4e586b",
+          "trouserColor": "#283341",
+          "color": "#ad805f",
+          "motion": "idle"
+        }
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.325,
+          0,
+          -0.25
+        ],
+        "max": [
+          0.325,
+          1.8,
+          0.25
+        ]
+      }
+    },
+    {
+      "id": "set-support-09",
+      "label": "lighting technician, #745c49 jacket; supporting subject, not the principal actor",
+      "transform": {
+        "space": "world",
+        "position": [
+          5,
+          0,
+          -6
+        ]
+      },
+      "visual": {
+        "type": "preset",
+        "name": "humanoid",
+        "params": {
+          "height": 1.8,
+          "shirtColor": "#745c49",
+          "trouserColor": "#283341",
+          "color": "#ad805f",
+          "motion": "idle"
+        }
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.325,
+          0,
+          -0.25
+        ],
+        "max": [
+          0.325,
+          1.8,
+          0.25
+        ]
+      }
     }
   ],
   "semanticAnchors": [
@@ -53,8 +520,58 @@
       "id": "man_face",
       "entityId": "man-entity",
       "label": "صورت مرد",
-      "localAnchor": [0, 1.65, 0.12],
-      "localBounds": { "type": "sphere", "center": [0, 1.65, 0.12], "radius": 0.18 }
+      "localAnchor": [
+        0,
+        1.65,
+        0.12
+      ],
+      "localBounds": {
+        "type": "sphere",
+        "center": [
+          0,
+          1.65,
+          0.12
+        ],
+        "radius": 0.18
+      }
+    },
+    {
+      "id": "set-support-08-face",
+      "entityId": "set-support-08",
+      "label": "stagehand, #4e586b jacket; supporting subject, not the principal actor face",
+      "localAnchor": [
+        0,
+        1.63,
+        0.12
+      ],
+      "localBounds": {
+        "type": "sphere",
+        "center": [
+          0,
+          1.63,
+          0.12
+        ],
+        "radius": 0.16
+      }
+    },
+    {
+      "id": "set-support-09-face",
+      "entityId": "set-support-09",
+      "label": "lighting technician, #745c49 jacket; supporting subject, not the principal actor face",
+      "localAnchor": [
+        0,
+        1.63,
+        0.12
+      ],
+      "localBounds": {
+        "type": "sphere",
+        "center": [
+          0,
+          1.63,
+          0.12
+        ],
+        "radius": 0.16
+      }
     }
   ]
 }

@@ -3,7 +3,7 @@
   "kind": "timelineSolverOutput",
   "exampleId": "example-21",
   "environmentId": "example-21-rooftop-chase",
-  "prompt": "دونده را روی پشت‌بام تعقیب کن تا تعقیب‌کننده به فاصلهٔ ۲٫۵ متری او برسد؛ سپس در مسیری قوسی دور دونده بچرخ و همزمان زوم را بیشتر کن تا تعقیب‌کننده آشکار شود. در پایان، با یک نمای ثابت و بدون لرزش، زاویه را حفظ کن و هر دو را در قاب نگه دار.",
+  "prompt": "A 10-second rooftop pursuit among vents and maintenance workers. Track the principal runner until the pursuer first closes to 2.5 metres. Over the next 1.5 seconds arc around the runner and zoom optically to reveal the pursuer. For the remainder track both principals with a stable, level two-shot. Do not confuse maintenance staff with the pursuer, and do not freeze scene time.",
   "totalDuration": 10,
   "subjectBinding": {
     "mode": "resolved",
@@ -120,8 +120,13 @@
         "endTime": 10,
         "lossFunctions": [
           {
-            "type": "Static",
-            "parameters": {},
+            "type": "trackMovement",
+            "parameters": {
+              "subjectIds": [
+                "runner",
+                "pursuer"
+              ]
+            },
             "sourceActionId": "tense_hold"
           }
         ],

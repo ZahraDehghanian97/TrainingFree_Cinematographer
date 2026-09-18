@@ -1,0 +1,208 @@
+{
+  "schemaVersion": "1.0",
+  "kind": "authoredCameraReference",
+  "exampleId": "example-19",
+  "environmentId": "example-19-stairwell-ambush",
+  "provenance": {
+    "method": "assistant-authored analytical storyboard",
+    "optimizerDerived": false,
+    "llmInferenceRun": false,
+    "measuredGroundTruth": false
+  },
+  "prompt": "A 10-second stairwell ambush. Begin looking vertically down at the detective. During the first 2 seconds pedestal down while tilting up to eye level. Truck left with the detective from 2 to 7 seconds. At 7 seconds pan quickly left to reveal the pursuer behind the column, widening the lens and rolling right. After the 1.2-second reveal pan, counter-pan briefly right to include both principals by the end. Use one continuous take.",
+  "promptSha256": "971d9b9961d33a275d48c05088a3d1693d48335348f18a3f95ce5a26bb1192ab",
+  "environmentSha256": "fa68da5d69a6aa4d352d990c1ce129b346b6a54795090f7fccbeafcc30685960",
+  "cslSha256": "1adaee823b18f4633e0f399a1e4be60eea47d45816b8d5183a69555d6ca42cc2",
+  "recipeSha256": "b19a16ee871d521b5c056aece7ceb8f1085f8c7b35719abe0a5db9895062a38e",
+  "trajectorySha256": "f13b56c5fdd3e0fa3cab773fde7834619489121ca10ce3bb73341ff4e060108c",
+  "fullPoseIsGroundTruth": false,
+  "artisticChoices": [
+    "Unrequested rig offsets, radii, lens choices and smoothstep pacing are authored illustration choices, not inferred user constraints.",
+    "Camera paths are synthetic assistant-authored references, not measured ground truth, not LLM inference runs, and not optimized outputs."
+  ],
+  "limitations": [],
+  "plan": {
+    "version": "1.0",
+    "exampleId": "example-19",
+    "knots": [
+      {
+        "at": 0,
+        "rig": {
+          "point": [
+            0,
+            0,
+            0
+          ]
+        },
+        "offset": [
+          4.2,
+          7,
+          2.01
+        ],
+        "aim": {
+          "ids": [
+            "detective"
+          ]
+        },
+        "fov": 57
+      },
+      {
+        "at": 2,
+        "rig": {
+          "point": [
+            0,
+            0,
+            0
+          ]
+        },
+        "offset": [
+          4.2,
+          1.18,
+          2.01
+        ],
+        "aim": {
+          "ids": [
+            "detective"
+          ]
+        },
+        "fov": 57
+      },
+      {
+        "at": 7,
+        "rig": {
+          "point": [
+            0,
+            0,
+            0
+          ]
+        },
+        "offset": [
+          -2.5,
+          1.18,
+          2.01
+        ],
+        "aim": {
+          "ids": [
+            "detective"
+          ]
+        },
+        "fov": 47
+      },
+      {
+        "at": 8.2,
+        "rig": {
+          "point": [
+            0,
+            0,
+            0
+          ]
+        },
+        "offset": [
+          -2.5,
+          1.18,
+          2.01
+        ],
+        "aim": {
+          "ids": [
+            "pursuer"
+          ]
+        },
+        "fov": 53,
+        "roll": -12
+      },
+      {
+        "at": 10,
+        "rig": {
+          "point": [
+            0,
+            0,
+            0
+          ]
+        },
+        "offset": [
+          -2.5,
+          1.18,
+          2.01
+        ],
+        "aim": {
+          "ids": [
+            "detective",
+            "pursuer"
+          ]
+        },
+        "fov": 110,
+        "roll": -12
+      }
+    ],
+    "artisticChoices": [
+      "Unrequested rig offsets, radii, lens choices and smoothstep pacing are authored illustration choices, not inferred user constraints.",
+      "Camera paths are synthetic assistant-authored references, not measured ground truth, not LLM inference runs, and not optimized outputs."
+    ]
+  },
+  "actions": [
+    {
+      "id": "descent_pedestal_down",
+      "act": "pedestalDown",
+      "start": 0,
+      "end": 2,
+      "targets": []
+    },
+    {
+      "id": "descent_tilt_up",
+      "act": "tiltUp",
+      "start": 0,
+      "end": 2,
+      "targets": []
+    },
+    {
+      "id": "corridor_truck_left",
+      "act": "truckLeft",
+      "start": 2,
+      "end": 7,
+      "targets": []
+    },
+    {
+      "id": "ambush_pan_left",
+      "act": "panLeft",
+      "start": 7,
+      "end": 8.2,
+      "targets": []
+    },
+    {
+      "id": "ambush_counter_pan_right",
+      "act": "panRight",
+      "start": 8.2,
+      "end": 10,
+      "targets": []
+    },
+    {
+      "id": "ambush_zoom_out",
+      "act": "zoomOut",
+      "start": 7,
+      "end": 10,
+      "targets": []
+    },
+    {
+      "id": "ambush_dutch_right",
+      "act": "dutchRight",
+      "start": 7,
+      "end": 10,
+      "targets": []
+    }
+  ],
+  "cutTimes": [],
+  "rateSegments": [],
+  "sampleCount": 301,
+  "sampledAudit": {
+    "qualification": "sampled-checks-pass",
+    "contractFailures": 0,
+    "compositionFailures": 0,
+    "geometryWarnings": 0,
+    "samplingFps": 10,
+    "limitations": [
+      "Sampled at 10 Hz plus action boundaries; no continuous collision certificate or mesh ray tracing.",
+      "Shot size uses conservative projected AABBs; view-side, speed-keyframe fidelity, jerk and all perceptual qualities still require review.",
+      "Passing a subset of explicit contracts never makes the entire arbitrary reference pose ground truth."
+    ]
+  }
+}

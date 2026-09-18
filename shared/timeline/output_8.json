@@ -3,7 +3,7 @@
   "kind": "timelineSolverOutput",
   "exampleId": "example-08",
   "environmentId": "example-08-punch-impact",
-  "prompt": "ابتدا صحنهٔ مشت‌زدن را با حرکت آهسته و سرعت ۱۰٪ نشان بده؛ درست در لحظهٔ برخورد، سرعت را بسیار زیاد کن و روی محل ضربه زوم کن.",
+  "prompt": "A 12-second impact study on the boxing set. Begin in an eye-level, three-quarter-right long shot of the approaching fist and follow it at 10% scene speed. At the first surface contact between fist and target, stop translating the camera, switch scene speed to 4 times normal, and zoom optically into the impact point, centring it by the end. Keep the event tied to contact, not an invented playback timestamp.",
   "totalDuration": 12,
   "subjectBinding": {
     "mode": "resolved",

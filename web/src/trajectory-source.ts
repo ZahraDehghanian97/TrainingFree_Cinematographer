@@ -2,9 +2,11 @@ export interface TrajectorySourceManifestEntry {
   promptExampleId: string;
   optimizedTrajectoryUrl?: string;
   sampleTrajectoryUrl?: string;
+  referenceTrajectoryUrl?: string;
+  optimizedTrajectoryStale?: boolean;
 }
 
-export type AutomaticTrajectorySourceKind = "requested" | "optimized" | "sample";
+export type AutomaticTrajectorySourceKind = "requested" | "reference" | "optimized" | "sample";
 
 export interface AutomaticTrajectorySource {
   kind: AutomaticTrajectorySourceKind;
@@ -20,6 +22,8 @@ function nonEmpty(value: string | null | undefined): string | undefined {
 /**
  * Returns automatic trajectory sources in priority order.
  *
+ * Explicit requests win, then the authored reference. Legacy optimizer outputs
+ * marked stale are never silently used as a fallback.
  * Optimizer output has a deterministic public path so the pipeline can publish
  * a result without rewriting the environment manifest. A manifest URL can
  * override that convention for deployments with a different layout.
@@ -37,7 +41,13 @@ export function automaticTrajectorySources(
   if (requested) {
     sources.push({ kind: "requested", label: "Requested trajectory", url: requested });
   }
-  if (sample === optimized) {
+  const reference = nonEmpty(entry.referenceTrajectoryUrl);
+  if (reference) {
+    sources.push({ kind: "reference", label: "Authored reference (not optimized)", url: reference });
+  }
+  if (entry.optimizedTrajectoryStale) {
+    if (sample && sample !== optimized) sources.push({ kind: 'sample', label: 'Bundled demo', url: sample });
+  } else if (sample === optimized) {
     sources.push({ kind: "sample", label: "Bundled demo", url: sample });
   } else {
     sources.push({ kind: "optimized", label: "Optimized trajectory", url: optimized });

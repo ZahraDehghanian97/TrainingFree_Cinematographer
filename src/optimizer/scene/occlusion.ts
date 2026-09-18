@@ -1,5 +1,5 @@
 import type { Vec3 } from "../../types/environment";
-import type { WorldAabbV1 } from "../../types/environment-query";
+import type { WorldAabbV1 } from "../../types/environment-spatial";
 import { aabbCorners } from "./projection";
 import { minimumSignedDistanceToMovingAabb, signedDistanceToAabb } from "./spatial-geometry";
 

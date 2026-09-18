@@ -1,0 +1,176 @@
+{
+  "schemaVersion": "1.0",
+  "kind": "authoredCameraReference",
+  "exampleId": "example-15",
+  "environmentId": "example-15-dancer-arc",
+  "provenance": {
+    "method": "assistant-authored analytical storyboard",
+    "optimizerDerived": false,
+    "llmInferenceRun": false,
+    "measuredGroundTruth": false
+  },
+  "prompt": "A 10-second stage portrait of the principal dancer, not the stagehands. Start medium-long and low. During seconds 0–4 arc gently left at 50% scene speed. During seconds 4–8 make a faster leftward arc while pedestalling upward. During seconds 8–10 settle with a gentle downward pedestal, finishing with the dancer on the right third. Keep one continuous shot.",
+  "promptSha256": "13bb7dac9f9159542dd83f59e1c01618f1b8e188bd342542310bedfb3a6426bf",
+  "environmentSha256": "4622eff6af9299d7344bca2831f89135af98d7d6fce5b8e869a50d9b70c9afe9",
+  "cslSha256": "1e72c76b008bc307a722cebc789f6a3f32c4c651aa63beec81c711817fd062a2",
+  "recipeSha256": "02c11b6cdccede28db432f44a31c7f1cfe6543d76cad18cf7d751310dfd01ddb",
+  "trajectorySha256": "07122f67ab834a4c1517d28b0fd66ce4a52080a87c8216bd9d07aeb8ed1af7e9",
+  "fullPoseIsGroundTruth": false,
+  "artisticChoices": [
+    "Unrequested rig offsets, radii, lens choices and smoothstep pacing are authored illustration choices, not inferred user constraints.",
+    "Camera paths are synthetic assistant-authored references, not measured ground truth, not LLM inference runs, and not optimized outputs."
+  ],
+  "limitations": [],
+  "plan": {
+    "version": "1.0",
+    "exampleId": "example-15",
+    "knots": [
+      {
+        "at": 0,
+        "rig": {
+          "ids": [
+            "dancer"
+          ]
+        },
+        "polar": [
+          10,
+          -0.7,
+          6
+        ],
+        "aim": {
+          "ids": [
+            "dancer"
+          ]
+        },
+        "fov": 50
+      },
+      {
+        "at": 4,
+        "rig": {
+          "ids": [
+            "dancer"
+          ]
+        },
+        "polar": [
+          -35,
+          -0.7,
+          6
+        ],
+        "aim": {
+          "ids": [
+            "dancer"
+          ]
+        },
+        "fov": 50
+      },
+      {
+        "at": 8,
+        "rig": {
+          "ids": [
+            "dancer"
+          ]
+        },
+        "polar": [
+          -165,
+          1.7,
+          6
+        ],
+        "aim": {
+          "ids": [
+            "dancer"
+          ]
+        },
+        "fov": 50
+      },
+      {
+        "at": 10,
+        "rig": {
+          "ids": [
+            "dancer"
+          ]
+        },
+        "polar": [
+          -165,
+          0.8,
+          6
+        ],
+        "aim": {
+          "ids": [
+            "dancer"
+          ]
+        },
+        "fov": 50,
+        "screen": [
+          0.6666666666666666,
+          0.5
+        ]
+      }
+    ],
+    "artisticChoices": [
+      "Unrequested rig offsets, radii, lens choices and smoothstep pacing are authored illustration choices, not inferred user constraints.",
+      "Camera paths are synthetic assistant-authored references, not measured ground truth, not LLM inference runs, and not optimized outputs."
+    ]
+  },
+  "actions": [
+    {
+      "id": "slow_arc_intro",
+      "act": "arcLeft",
+      "start": 0,
+      "end": 4,
+      "targets": [
+        "dancer"
+      ]
+    },
+    {
+      "id": "beat_arc_accelerate",
+      "act": "arcLeft",
+      "start": 4,
+      "end": 8,
+      "targets": [
+        "dancer"
+      ]
+    },
+    {
+      "id": "beat_pedestal_rise",
+      "act": "pedestalUp",
+      "start": 4,
+      "end": 8,
+      "targets": []
+    },
+    {
+      "id": "hero_pose_settle",
+      "act": "pedestalDown",
+      "start": 8,
+      "end": 10,
+      "targets": []
+    }
+  ],
+  "cutTimes": [],
+  "rateSegments": [
+    {
+      "startTime": 0,
+      "endTime": 4,
+      "rate": 0.5,
+      "label": "slow"
+    },
+    {
+      "startTime": 4,
+      "endTime": 8,
+      "rate": 1,
+      "label": "normal"
+    }
+  ],
+  "sampleCount": 301,
+  "sampledAudit": {
+    "qualification": "sampled-checks-pass",
+    "contractFailures": 0,
+    "compositionFailures": 0,
+    "geometryWarnings": 0,
+    "samplingFps": 10,
+    "limitations": [
+      "Sampled at 10 Hz plus action boundaries; no continuous collision certificate or mesh ray tracing.",
+      "Shot size uses conservative projected AABBs; view-side, speed-keyframe fidelity, jerk and all perceptual qualities still require review.",
+      "Passing a subset of explicit contracts never makes the entire arbitrary reference pose ground truth."
+    ]
+  }
+}

@@ -3,7 +3,7 @@
   "kind": "environment",
   "id": "example-21-rooftop-chase",
   "promptExampleId": "example-21",
-  "prompt": "دونده را روی پشت‌بام تعقیب کن تا تعقیب‌کننده به فاصلهٔ ۲٫۵ متری او برسد؛ سپس در مسیری قوسی دور دونده بچرخ و همزمان زوم را بیشتر کن تا تعقیب‌کننده آشکار شود. در پایان، با یک نمای ثابت و بدون لرزش، زاویه را حفظ کن و هر دو را در قاب نگه دار.",
+  "prompt": "A 10-second rooftop pursuit among vents and maintenance workers. Track the principal runner until the pursuer first closes to 2.5 metres. Over the next 1.5 seconds arc around the runner and zoom optically to reveal the pursuer. For the remainder track both principals with a stable, level two-shot. Do not confuse maintenance staff with the pursuer, and do not freeze scene time.",
   "clock": {
     "durationSeconds": 10,
     "timeDomain": "playback",
@@ -24,13 +24,25 @@
     "profile": "rooftop",
     "background": "#bdc2c8",
     "overviewCamera": {
-      "position": [5, 6, 9],
-      "target": [0, 1, -1]
+      "position": [
+        5,
+        6,
+        9
+      ],
+      "target": [
+        0,
+        1,
+        -1
+      ]
     },
     "ground": {
       "y": 0,
-      "size": [16, 26],
-      "color": "#858383", "surface": "concrete"
+      "size": [
+        16,
+        26
+      ],
+      "color": "#858383",
+      "surface": "concrete"
     },
     "grid": {
       "size": 16,
@@ -49,27 +61,51 @@
           "keyframes": [
             {
               "t": 0,
-              "value": [1.2, 0, 6]
+              "value": [
+                1.2,
+                0,
+                6
+              ]
             },
             {
               "t": 2,
-              "value": [1, 0, 4]
+              "value": [
+                1,
+                0,
+                4
+              ]
             },
             {
               "t": 4,
-              "value": [0.7, 0, 2]
+              "value": [
+                0.7,
+                0,
+                2
+              ]
             },
             {
               "t": 6,
-              "value": [0.5, 0, 0]
+              "value": [
+                0.5,
+                0,
+                0
+              ]
             },
             {
               "t": 8,
-              "value": [0.5, 0, 0]
+              "value": [
+                0.5,
+                0,
+                0
+              ]
             },
             {
               "t": 10,
-              "value": [0.5, 0, 0]
+              "value": [
+                0.5,
+                0,
+                0
+              ]
             }
           ]
         },
@@ -79,11 +115,21 @@
           "keyframes": [
             {
               "t": 0,
-              "value": [0, 0.9998, 0, -0.0175]
+              "value": [
+                0,
+                0.9998,
+                0,
+                -0.0175
+              ]
             },
             {
               "t": 10,
-              "value": [0, 0.9998, 0, -0.0175]
+              "value": [
+                0,
+                0.9998,
+                0,
+                -0.0175
+              ]
             }
           ]
         }
@@ -99,8 +145,16 @@
       },
       "bounds": {
         "type": "box",
-        "min": [-0.35, 0, -0.25],
-        "max": [0.35, 1.75, 0.25]
+        "min": [
+          -0.35,
+          0,
+          -0.25
+        ],
+        "max": [
+          0.35,
+          1.75,
+          0.25
+        ]
       }
     },
     {
@@ -114,27 +168,51 @@
           "keyframes": [
             {
               "t": 0,
-              "value": [1.6, 0, 11]
+              "value": [
+                1.6,
+                0,
+                11
+              ]
             },
             {
               "t": 2,
-              "value": [1.35, 0, 8]
+              "value": [
+                1.35,
+                0,
+                8
+              ]
             },
             {
               "t": 4,
-              "value": [1, 0, 5]
+              "value": [
+                1,
+                0,
+                5
+              ]
             },
             {
               "t": 6,
-              "value": [0.8, 0, 1.8]
+              "value": [
+                0.8,
+                0,
+                1.8
+              ]
             },
             {
               "t": 8,
-              "value": [0.8, 0, 1.8]
+              "value": [
+                0.8,
+                0,
+                1.8
+              ]
             },
             {
               "t": 10,
-              "value": [0.8, 0, 1.8]
+              "value": [
+                0.8,
+                0,
+                1.8
+              ]
             }
           ]
         },
@@ -144,11 +222,21 @@
           "keyframes": [
             {
               "t": 0,
-              "value": [0, 0.9998, 0, -0.0175]
+              "value": [
+                0,
+                0.9998,
+                0,
+                -0.0175
+              ]
             },
             {
               "t": 10,
-              "value": [0, 0.9998, 0, -0.0175]
+              "value": [
+                0,
+                0.9998,
+                0,
+                -0.0175
+              ]
             }
           ]
         }
@@ -164,8 +252,16 @@
       },
       "bounds": {
         "type": "box",
-        "min": [-0.35, 0, -0.25],
-        "max": [0.35, 1.75, 0.25]
+        "min": [
+          -0.35,
+          0,
+          -0.25
+        ],
+        "max": [
+          0.35,
+          1.75,
+          0.25
+        ]
       }
     },
     {
@@ -173,20 +269,28 @@
       "label": "دستگاه تهویهٔ پشت‌بام",
       "transform": {
         "space": "world",
-        "position": [-1.4, 0, 2]
+        "position": [
+          -1.4,
+          0,
+          2
+        ]
       },
       "visual": {
-        "type": "primitive",
-        "shape": "box",
-        "params": {
-          "size": [1.1, 1.3, 0.9]
-        },
-        "color": "#555b63"
+        "type": "model",
+        "url": "/models/generated/rooftop-hvac.glb"
       },
       "bounds": {
         "type": "box",
-        "min": [-0.55, -0.65, -0.45],
-        "max": [0.55, 0.65, 0.45]
+        "min": [
+          -0.975,
+          0,
+          -0.71
+        ],
+        "max": [
+          0.975,
+          1.465,
+          0.71
+        ]
       }
     },
     {
@@ -194,20 +298,303 @@
       "label": "لولهٔ تهویه",
       "transform": {
         "space": "world",
-        "position": [1.8, 0, -2.5]
+        "position": [
+          1.8,
+          0,
+          -2.5
+        ]
       },
       "visual": {
         "type": "primitive",
         "shape": "box",
         "params": {
-          "size": [0.3, 2.0, 0.3]
+          "size": [
+            0.3,
+            2,
+            0.3
+          ]
         },
         "color": "#6b7075"
       },
       "bounds": {
         "type": "box",
-        "min": [-0.15, -1, -0.15],
-        "max": [0.15, 1, 0.15]
+        "min": [
+          -0.15,
+          -1,
+          -0.15
+        ],
+        "max": [
+          0.15,
+          1,
+          0.15
+        ]
+      }
+    },
+    {
+      "id": "set-rooftop-hvac-00",
+      "label": "rooftop hvac",
+      "transform": {
+        "space": "world",
+        "position": [
+          -6,
+          0,
+          -9
+        ]
+      },
+      "visual": {
+        "type": "model",
+        "url": "/models/generated/rooftop-hvac.glb",
+        "fallback": {
+          "type": "primitive",
+          "shape": "box",
+          "params": {
+            "width": 1.95,
+            "height": 0.2,
+            "depth": 0.3
+          },
+          "color": "#717c87"
+        }
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.975,
+          0,
+          -0.71
+        ],
+        "max": [
+          0.975,
+          1.465,
+          0.71
+        ]
+      }
+    },
+    {
+      "id": "set-rooftop-hvac-01",
+      "label": "rooftop hvac",
+      "transform": {
+        "space": "world",
+        "position": [
+          6,
+          0,
+          -9
+        ]
+      },
+      "visual": {
+        "type": "model",
+        "url": "/models/generated/rooftop-hvac.glb",
+        "fallback": {
+          "type": "primitive",
+          "shape": "box",
+          "params": {
+            "width": 1.95,
+            "height": 0.2,
+            "depth": 0.3
+          },
+          "color": "#717c87"
+        }
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.975,
+          0,
+          -0.71
+        ],
+        "max": [
+          0.975,
+          1.465,
+          0.71
+        ]
+      }
+    },
+    {
+      "id": "set-rooftop-hvac-02",
+      "label": "rooftop hvac",
+      "transform": {
+        "space": "world",
+        "position": [
+          -6,
+          0,
+          8
+        ]
+      },
+      "visual": {
+        "type": "model",
+        "url": "/models/generated/rooftop-hvac.glb",
+        "fallback": {
+          "type": "primitive",
+          "shape": "box",
+          "params": {
+            "width": 1.95,
+            "height": 0.2,
+            "depth": 0.3
+          },
+          "color": "#717c87"
+        }
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.975,
+          0,
+          -0.71
+        ],
+        "max": [
+          0.975,
+          1.465,
+          0.71
+        ]
+      }
+    },
+    {
+      "id": "set-rooftop-hvac-03",
+      "label": "rooftop hvac",
+      "transform": {
+        "space": "world",
+        "position": [
+          6,
+          0,
+          8
+        ]
+      },
+      "visual": {
+        "type": "model",
+        "url": "/models/generated/rooftop-hvac.glb",
+        "fallback": {
+          "type": "primitive",
+          "shape": "box",
+          "params": {
+            "width": 1.95,
+            "height": 0.2,
+            "depth": 0.3
+          },
+          "color": "#717c87"
+        }
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.975,
+          0,
+          -0.71
+        ],
+        "max": [
+          0.975,
+          1.465,
+          0.71
+        ]
+      }
+    },
+    {
+      "id": "set-crate-stack-04",
+      "label": "crate stack",
+      "transform": {
+        "space": "world",
+        "position": [
+          -6,
+          0,
+          2
+        ]
+      },
+      "visual": {
+        "type": "model",
+        "url": "/models/generated/crate-stack.glb",
+        "fallback": {
+          "type": "primitive",
+          "shape": "box",
+          "params": {
+            "width": 1.9,
+            "height": 0.2,
+            "depth": 0.3
+          },
+          "color": "#717c87"
+        }
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.95,
+          0,
+          -0.6
+        ],
+        "max": [
+          0.95,
+          1.725,
+          0.6
+        ]
+      }
+    },
+    {
+      "id": "set-support-05",
+      "label": "roof maintenance technician, #8e774c jacket; supporting subject, not the principal actor",
+      "transform": {
+        "space": "world",
+        "position": [
+          6,
+          0,
+          -4
+        ]
+      },
+      "visual": {
+        "type": "preset",
+        "name": "humanoid",
+        "params": {
+          "height": 1.8,
+          "shirtColor": "#8e774c",
+          "trouserColor": "#283341",
+          "color": "#ad805f",
+          "motion": "idle"
+        }
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.325,
+          0,
+          -0.25
+        ],
+        "max": [
+          0.325,
+          1.8,
+          0.25
+        ]
+      }
+    },
+    {
+      "id": "set-support-06",
+      "label": "second maintenance technician, #546a89 jacket; supporting subject, not the principal actor",
+      "transform": {
+        "space": "world",
+        "position": [
+          -6,
+          0,
+          -4
+        ]
+      },
+      "visual": {
+        "type": "preset",
+        "name": "humanoid",
+        "params": {
+          "height": 1.8,
+          "shirtColor": "#546a89",
+          "trouserColor": "#283341",
+          "color": "#ad805f",
+          "motion": "idle"
+        }
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.325,
+          0,
+          -0.25
+        ],
+        "max": [
+          0.325,
+          1.8,
+          0.25
+        ]
       }
     }
   ],
@@ -216,22 +603,84 @@
       "id": "runner",
       "entityId": "runner-entity",
       "label": "دونده",
-      "localAnchor": [0, 1.4, 0],
+      "localAnchor": [
+        0,
+        1.4,
+        0
+      ],
       "localBounds": {
         "type": "box",
-        "min": [-0.35, 0, -0.25],
-        "max": [0.35, 1.75, 0.25]
+        "min": [
+          -0.35,
+          0,
+          -0.25
+        ],
+        "max": [
+          0.35,
+          1.75,
+          0.25
+        ]
       }
     },
     {
       "id": "pursuer",
       "entityId": "pursuer-entity",
       "label": "تعقیب‌کننده",
-      "localAnchor": [0, 1.4, 0],
+      "localAnchor": [
+        0,
+        1.4,
+        0
+      ],
       "localBounds": {
         "type": "box",
-        "min": [-0.35, 0, -0.25],
-        "max": [0.35, 1.75, 0.25]
+        "min": [
+          -0.35,
+          0,
+          -0.25
+        ],
+        "max": [
+          0.35,
+          1.75,
+          0.25
+        ]
+      }
+    },
+    {
+      "id": "set-support-05-face",
+      "entityId": "set-support-05",
+      "label": "roof maintenance technician, #8e774c jacket; supporting subject, not the principal actor face",
+      "localAnchor": [
+        0,
+        1.63,
+        0.12
+      ],
+      "localBounds": {
+        "type": "sphere",
+        "center": [
+          0,
+          1.63,
+          0.12
+        ],
+        "radius": 0.16
+      }
+    },
+    {
+      "id": "set-support-06-face",
+      "entityId": "set-support-06",
+      "label": "second maintenance technician, #546a89 jacket; supporting subject, not the principal actor face",
+      "localAnchor": [
+        0,
+        1.63,
+        0.12
+      ],
+      "localBounds": {
+        "type": "sphere",
+        "center": [
+          0,
+          1.63,
+          0.12
+        ],
+        "radius": 0.16
       }
     }
   ]

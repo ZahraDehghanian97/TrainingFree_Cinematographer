@@ -18,11 +18,18 @@
     "preview:visualizer": "vite preview --config web/vite.config.ts --configLoader runner",
     "test": "npm run test:node && vitest run --config web/vitest.config.ts --configLoader runner --passWithNoTests",
     "test:node": "node --test -r ts-node/register tests/*.test.ts",
-    "audit:motion": "ts-node ./scripts/audit-example-motion.ts"
+    "audit:motion": "ts-node ./scripts/audit-example-motion.ts",
+    "generate:assets": "python3 scripts/generate-scene-assets.py",
+    "generate:references": "ts-node scripts/generate-reference-trajectories.ts",
+    "generate:examples": "npm run generate:assets && npm run generate:references && npm run audit:references",
+    "audit:references": "ts-node scripts/audit-references.ts --strict",
+    "benchmark:references": "ts-node scripts/benchmark-references.ts",
+    "typecheck:references": "tsc -p tsconfig.references.json",
+    "test:references": "node --test -r ts-node/register tests/reference*.test.ts"
   },
   "keywords": [],
   "author": "",
-  "license": "ISC",
+  "license": "MIT",
   "engines": {
     "node": ">=22"
   },

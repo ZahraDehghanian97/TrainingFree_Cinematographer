@@ -3,7 +3,7 @@
   "kind": "timelineSolverOutput",
   "exampleId": "example-19",
   "environmentId": "example-19-stairwell-ambush",
-  "prompt": "از نمای عمودی بالا روی کارآگاه شروع کن؛ همزمان دوربین را پایین بیاور و رو به بالا بچرخان تا در دو ثانیه هم‌سطح او شوی. سپس با حرکت جانبی به چپ در راهرو همراهش برو. وقتی به انتهای مسیر رسید، دوربین را سریع به چپ بچرخان، زوم را باز کن و با کج‌کردن دوربین به راست، مهاجم پشت ستون را آشکار کن؛ سپس با یک چرخش افقی کوتاه به راست، هر دو را در قاب نهایی جا بده.",
+  "prompt": "A 10-second stairwell ambush. Begin looking vertically down at the detective. During the first 2 seconds pedestal down while tilting up to eye level. Truck left with the detective from 2 to 7 seconds. At 7 seconds pan quickly left to reveal the pursuer behind the column, widening the lens and rolling right. After the 1.2-second reveal pan, counter-pan briefly right to include both principals by the end. Use one continuous take.",
   "totalDuration": 10,
   "subjectBinding": {
     "mode": "resolved",

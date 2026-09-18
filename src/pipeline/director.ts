@@ -31,7 +31,7 @@ import {
   type PipelineModelOptions,
 } from "./model-provider";
 
-const DIRECTOR_PROMPT_VERSION = "camera-director-csl-v8-handheld";
+const DIRECTOR_PROMPT_VERSION = "camera-director-csl-v9-grounded-cinematic";
 const MAX_REPAIR_OUTPUT_CHARS = 16_000;
 
 // Keep the AI SDK generic boundary intentionally shallow. The domain parser
@@ -80,6 +80,15 @@ Subject rules:
 - A spiral approach combines orbit and dollyIn concurrently with the same trigger. Orbit around the subject and dolly toward the requested destination (for example the eyes). An initial bird's-eye angle belongs only to initCamera; the final close-up belongs to an end constraint with allFrames=false, not a constraint on the whole approach. Preserve any explicitly requested full turns in arcAngle.
 - Express handheld or shaky camera motion with movement.parameters.handheld=true on the affected movement. Shake is separate from the underlying path; a curved or spline path does not express handheld shake. Do not pair requested shake with noShake on the same interval.
 - When constant camera travel speed is explicitly requested, set movement.parameters.constantSpeed=true. On a spiral, set it on both the orbit and dolly: constant spatial speed differs from constant angular speed as the radius changes. Omit it when speed is unspecified.
+
+Cinematic feasibility:
+- Atmosphere, lighting, set dressing, sound, and an actor's performance are scene context, not supported camera controls. Do not invent actions to animate actors, relight the set, rack focus, change aperture, simulate depth of field, or generate a world inside an eye.
+- Separate the principal subject from explicitly secondary crew, spectators, bystanders, and supporting vehicles. Resolve "both agents" to the two named principals, not every person in the scene.
+- A camera riding inside a moving vehicle is track/follow relative to that vehicle or dashboard, not world-space static. Use static only for a world-locked camera.
+- A continuing moving-subject retreat requires concurrent follow/track and dollyOut when the user says to keep following. DollyOut alone is not a chase rig.
+- Do not reinterpret a generic "when they slow down" as an event that must happen after motion begins. Events fire on the first match, possibly time zero. Preserve explicitly provided time guards; never invent them. Keep the event predicate faithful to the request; do not silently assign a later timestamp or emit unsupported warning fields in CSL.
+- In a populated scene, include only the requested reveal subjects in keepInFrame, not the whole environment.
+- Prefer endpoint constraints for arrivals and interval constraints for holds. A hold in the final two seconds must begin at totalDuration minus two.
 
 Unspecified values (don't care):
 - Omission is the only representation of don't care. Never output null, "dontCare", "auto", or a guessed default for an unspecified field.

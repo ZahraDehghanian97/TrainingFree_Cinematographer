@@ -12,7 +12,7 @@ import type {
   EnvironmentSubjectKind,
   SubjectBoxSampleV1,
   WorldAabbV1,
-} from "../types/environment-query";
+} from "../types/environment-spatial";
 import { sampleLocomotionPosition } from "./locomotion-path";
 import { interpolateCubicVec3 } from "./cubic-channel";
 

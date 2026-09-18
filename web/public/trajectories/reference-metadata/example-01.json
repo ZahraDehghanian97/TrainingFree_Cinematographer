@@ -1,0 +1,158 @@
+{
+  "schemaVersion": "1.0",
+  "kind": "authoredCameraReference",
+  "exampleId": "example-01",
+  "environmentId": "example-01-football",
+  "provenance": {
+    "method": "assistant-authored analytical storyboard",
+    "optimizerDerived": false,
+    "llmInferenceRun": false,
+    "measuredGroundTruth": false
+  },
+  "prompt": "A 10-second uninterrupted sports shot in the populated football ground. Follow the ball toward the goal, not the supporting players. When the surface-to-surface distance between ball and goal first falls below 5 metres, continue following and raise the camera by 2.5 metres relative to the ball over 3 seconds, easing into and out of the rise. Finish looking down at the ball from a high angle. Do not cut.",
+  "promptSha256": "77976ab869dfd90dc0f47727739670d3bbb7e6511050871929f1d2159e593a20",
+  "environmentSha256": "3bdbdf0c413395c0335f3f5857b4d37323804041a5e356caadc18995bfbf1667",
+  "cslSha256": "2b2b325cd26f636f4dbc4648de38b9b1fff74f73d4788412af7e1173894154e8",
+  "recipeSha256": "d0e127f245413c5ac3f29e3dc3081d5dbaab4f18aececfff279142b756c5a3ae",
+  "trajectorySha256": "5c00fd9e8a66114e55a443b631d695e01b9d459f40f4d6657f83deb36d49fff7",
+  "fullPoseIsGroundTruth": false,
+  "artisticChoices": [
+    "Unrequested rig offsets, radii, lens choices and smoothstep pacing are authored illustration choices, not inferred user constraints.",
+    "Camera paths are synthetic assistant-authored references, not measured ground truth, not LLM inference runs, and not optimized outputs."
+  ],
+  "limitations": [],
+  "plan": {
+    "version": "1.0",
+    "exampleId": "example-01",
+    "knots": [
+      {
+        "at": 0,
+        "rig": {
+          "ids": [
+            "ball"
+          ]
+        },
+        "offset": [
+          2.2,
+          1.4,
+          3.6
+        ],
+        "aim": {
+          "ids": [
+            "ball"
+          ]
+        },
+        "fov": 44
+      },
+      {
+        "at": {
+          "actionId": "pedestal_up",
+          "edge": "start"
+        },
+        "rig": {
+          "ids": [
+            "ball"
+          ]
+        },
+        "offset": [
+          2.2,
+          1.4,
+          3.6
+        ],
+        "aim": {
+          "ids": [
+            "ball"
+          ]
+        },
+        "fov": 44
+      },
+      {
+        "at": {
+          "actionId": "pedestal_up",
+          "edge": "end"
+        },
+        "rig": {
+          "ids": [
+            "ball"
+          ]
+        },
+        "offset": [
+          2.2,
+          3.9,
+          3.6
+        ],
+        "aim": {
+          "ids": [
+            "ball"
+          ]
+        },
+        "fov": 44
+      },
+      {
+        "at": 10,
+        "rig": {
+          "ids": [
+            "ball"
+          ]
+        },
+        "offset": [
+          2.2,
+          3.9,
+          3.6
+        ],
+        "aim": {
+          "ids": [
+            "ball"
+          ]
+        },
+        "fov": 44
+      }
+    ],
+    "artisticChoices": [
+      "Unrequested rig offsets, radii, lens choices and smoothstep pacing are authored illustration choices, not inferred user constraints.",
+      "Camera paths are synthetic assistant-authored references, not measured ground truth, not LLM inference runs, and not optimized outputs."
+    ]
+  },
+  "actions": [
+    {
+      "id": "follow_ball",
+      "act": "follow",
+      "start": 0,
+      "end": 6.958333333333333,
+      "targets": [
+        "ball"
+      ]
+    },
+    {
+      "id": "pedestal_up",
+      "act": "pedestalUp",
+      "start": 6.958333333333333,
+      "end": 9.958333333333332,
+      "targets": []
+    },
+    {
+      "id": "follow_high_angle",
+      "act": "follow",
+      "start": 6.958333333333333,
+      "end": 9.958333333333332,
+      "targets": [
+        "ball"
+      ]
+    }
+  ],
+  "cutTimes": [],
+  "rateSegments": [],
+  "sampleCount": 303,
+  "sampledAudit": {
+    "qualification": "sampled-checks-pass",
+    "contractFailures": 0,
+    "compositionFailures": 0,
+    "geometryWarnings": 0,
+    "samplingFps": 10,
+    "limitations": [
+      "Sampled at 10 Hz plus action boundaries; no continuous collision certificate or mesh ray tracing.",
+      "Shot size uses conservative projected AABBs; view-side, speed-keyframe fidelity, jerk and all perceptual qualities still require review.",
+      "Passing a subset of explicit contracts never makes the entire arbitrary reference pose ground truth."
+    ]
+  }
+}

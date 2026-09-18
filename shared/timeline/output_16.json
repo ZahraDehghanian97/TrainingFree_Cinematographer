@@ -3,7 +3,7 @@
   "kind": "timelineSolverOutput",
   "exampleId": "example-16",
   "environmentId": "example-16-two-actor-truck",
-  "prompt": "در یک پلان بدون کات، با حرکت جانبی دوربین به راست هر دو مأمور را در یک نمای دونفره نگه دار. وقتی فاصله‌شان به کمتر از یک متر رسید، زومی کوتاه به جلو روی کیف بزن؛ بلافاصله با چرخش قوسی سریع به راست از خط نگاه عبور کن و همزمان زوم را باز کن تا در پایان جای دو بازیگر عوض شود: مأمور الف در راست قاب و مأمور ب در چپ قاب.",
+  "prompt": "A 10-second spy exchange in the populated concourse. Truck right in a straight line for the first 5 seconds, keeping both principal agents fully in the two-shot. When they first come within 1 metre of each other, use a 1-second optical punch-in on their briefcase. Immediately arc quickly right while zooming back out, crossing their eyeline so the final frame places agent A on the right and agent B on the left. No cut; bystanders are not the two agents.",
   "totalDuration": 10,
   "subjectBinding": {
     "mode": "resolved",

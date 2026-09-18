@@ -1,5 +1,5 @@
 import type { Quat, Vec3 } from "../../types/environment";
-import type { WorldAabbV1 } from "../../types/environment-query";
+import type { WorldAabbV1 } from "../../types/environment-spatial";
 import {
   add3,
   conjugateQuat,

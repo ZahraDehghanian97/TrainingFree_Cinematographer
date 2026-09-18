@@ -10,3 +10,18 @@
 - The visualizer uniformly fits the model to the existing vase bounds in example 03. Original geometry, textures, and entity tracks are retained.
 
 These files are served locally; viewing the scene does not contact Poly Haven.
+
+## Original procedural scene kit
+
+The 15 `.glb` files in `generated/` are original geometric assets authored for
+this repository by `scripts/generate-scene-assets.py`. They were generated
+locally from procedural geometry, not downloaded or inferred by an external
+model. They are licensed under the repository's MIT license (see `/LICENSE`).
+`generated/manifest.json` lists every model's dimensions, triangle count,
+SHA-256 checksum, byte size, generation method, and license.
+
+The kit consists of slatted-bench, planter-tree, streetlamp, warehouse-shelf,
+crate-stack, forklift, rooftop-hvac, courtyard-fountain, briefcase, road-barrier,
+lighting-truss, vending-machine, workbench, mezzanine, and loading-bay-portal.
+The files are served locally and have no external buffers or texture requests.
+The previously bundled ceramic vase and its attribution above are unchanged.

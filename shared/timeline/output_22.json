@@ -3,7 +3,7 @@
   "kind": "timelineSolverOutput",
   "exampleId": "example-22",
   "environmentId": "example-22-warehouse-onetake",
-  "prompt": "کارگر را از کنار قفسه‌ها دنبال کن. وقتی کنار جعبه‌ها کند شد، با حرکت قوسی دور او بچرخ و همزمان نزدیک شو. هنگام بالارفتن او به نیم‌طبقه، در مسیری قوسی دورش بالا برو؛ سپس در بازگشت به پایین و به سمت سکوی بارگیری دنبالش کن. وقتی به همکارش نزدیک شد، دوربین را عقب بکش تا همکار آشکار شود. با دوربین کج دور هر دو بچرخ، دوربین را بالا ببر و زوم را باز کن تا کل سالن دیده شود؛ سپس با یک نمای ثابت و بدون لرزش پایان بده.",
+  "prompt": "A 22-second warehouse one-take. Follow the principal worker through the open aisle for 6 seconds. From 6 to 10 seconds arc right while dollying closer to the worker. From 10 to 14 seconds crane upward to reveal the coworker and mezzanine. From 14 to 18 seconds follow both workers while dollying back into a shared frame. From 18 to 20 seconds crane up and zoom out to include both workers, the yellow forklift, and the mezzanine. Freeze scene time and hold the camera for the last 2 seconds. Keep motion smooth and subjects unobstructed; no cut. Use these authored beats, not a speed-below-threshold event that is already true at the start.",
   "totalDuration": 22,
   "subjectBinding": {
     "mode": "resolved",
@@ -15,7 +15,7 @@
         "kind": "interval",
         "shotStartTime": 0,
         "startTime": 0,
-        "endTime": 7.625,
+        "endTime": 6,
         "lossFunctions": [
           {
             "type": "followMovement",
@@ -31,23 +31,7 @@
         "kind": "interval",
         "shotStartTime": 0,
         "startTime": 0,
-        "endTime": 7.625,
-        "lossFunctions": [
-          {
-            "type": "subjectPresence",
-            "parameters": {
-              "subjectId": "worker"
-            },
-            "sourceActionId": "follow_worker"
-          }
-        ],
-        "weight": 1
-      },
-      {
-        "kind": "interval",
-        "shotStartTime": 0,
-        "startTime": 0,
-        "endTime": 7.625,
+        "endTime": 6,
         "lossFunctions": [
           {
             "type": "noShake",
@@ -61,11 +45,28 @@
         "kind": "interval",
         "shotStartTime": 0,
         "startTime": 0,
-        "endTime": 2,
+        "endTime": 6,
+        "lossFunctions": [
+          {
+            "type": "avoidOcclusion",
+            "parameters": {
+              "subjectId": "worker"
+            },
+            "sourceActionId": "follow_worker"
+          }
+        ],
+        "weight": 1
+      },
+      {
+        "kind": "interval",
+        "shotStartTime": 0,
+        "startTime": 6,
+        "endTime": 10,
         "lossFunctions": [
           {
             "type": "arcMovement",
             "parameters": {
+              "sign": 1,
               "subjectId": "worker"
             },
             "sourceActionId": "arc_dolly_crates"
@@ -76,11 +77,25 @@
       {
         "kind": "interval",
         "shotStartTime": 0,
-        "startTime": 0,
-        "endTime": 2,
+        "startTime": 6,
+        "endTime": 10,
         "lossFunctions": [
           {
-            "type": "subjectPresence",
+            "type": "noShake",
+            "parameters": {},
+            "sourceActionId": "arc_dolly_crates"
+          }
+        ],
+        "weight": 1
+      },
+      {
+        "kind": "interval",
+        "shotStartTime": 0,
+        "startTime": 6,
+        "endTime": 10,
+        "lossFunctions": [
+          {
+            "type": "avoidOcclusion",
             "parameters": {
               "subjectId": "worker"
             },
@@ -92,8 +107,8 @@
       {
         "kind": "interval",
         "shotStartTime": 0,
-        "startTime": 0,
-        "endTime": 2,
+        "startTime": 6,
+        "endTime": 10,
         "lossFunctions": [
           {
             "type": "dollyInMovement",
@@ -108,13 +123,30 @@
       {
         "kind": "interval",
         "shotStartTime": 0,
-        "startTime": 2,
-        "endTime": 4.5,
+        "startTime": 10,
+        "endTime": 14,
         "lossFunctions": [
           {
-            "type": "arcMovement",
+            "type": "craneUpMovement",
+            "parameters": {},
+            "sourceActionId": "climb_mezzanine"
+          }
+        ],
+        "weight": 1
+      },
+      {
+        "kind": "point",
+        "shotStartTime": 0,
+        "time": 14,
+        "lossFunctions": [
+          {
+            "type": "keepInFrame",
             "parameters": {
-              "subjectId": "worker"
+              "subjectIds": [
+                "worker",
+                "coworker",
+                "set-mezzanine"
+              ]
             },
             "sourceActionId": "climb_mezzanine"
           }
@@ -124,57 +156,16 @@
       {
         "kind": "interval",
         "shotStartTime": 0,
-        "startTime": 2,
-        "endTime": 4.5,
-        "lossFunctions": [
-          {
-            "type": "pedestalUpMovement",
-            "parameters": {},
-            "sourceActionId": "pedestal_up_mezzanine"
-          }
-        ],
-        "weight": 1
-      },
-      {
-        "kind": "interval",
-        "shotStartTime": 0,
-        "startTime": 4.5,
-        "endTime": 7.625,
+        "startTime": 14,
+        "endTime": 18,
         "lossFunctions": [
           {
             "type": "followMovement",
             "parameters": {
-              "subjectId": "worker"
-            },
-            "sourceActionId": "descend_to_bay"
-          }
-        ],
-        "weight": 1
-      },
-      {
-        "kind": "interval",
-        "shotStartTime": 0,
-        "startTime": 4.5,
-        "endTime": 7.625,
-        "lossFunctions": [
-          {
-            "type": "pedestalDownMovement",
-            "parameters": {},
-            "sourceActionId": "pedestal_down_bay"
-          }
-        ],
-        "weight": 1
-      },
-      {
-        "kind": "interval",
-        "shotStartTime": 0,
-        "startTime": 7.625,
-        "endTime": 9.425,
-        "lossFunctions": [
-          {
-            "type": "followMovement",
-            "parameters": {
-              "subjectId": "worker"
+              "subjectIds": [
+                "worker",
+                "coworker"
+              ]
             },
             "sourceActionId": "reveal_both"
           }
@@ -184,13 +175,49 @@
       {
         "kind": "interval",
         "shotStartTime": 0,
-        "startTime": 7.625,
-        "endTime": 9.425,
+        "startTime": 14,
+        "endTime": 18,
+        "lossFunctions": [
+          {
+            "type": "noShake",
+            "parameters": {},
+            "sourceActionId": "reveal_both"
+          }
+        ],
+        "weight": 1
+      },
+      {
+        "kind": "interval",
+        "shotStartTime": 0,
+        "startTime": 14,
+        "endTime": 18,
+        "lossFunctions": [
+          {
+            "type": "avoidOcclusion",
+            "parameters": {
+              "subjectIds": [
+                "worker",
+                "coworker"
+              ]
+            },
+            "sourceActionId": "reveal_both"
+          }
+        ],
+        "weight": 1
+      },
+      {
+        "kind": "interval",
+        "shotStartTime": 0,
+        "startTime": 14,
+        "endTime": 18,
         "lossFunctions": [
           {
             "type": "dollyOutMovement",
             "parameters": {
-              "subjectId": "worker"
+              "subjectIds": [
+                "worker",
+                "coworker"
+              ]
             },
             "sourceActionId": "dolly_out_reveal"
           }
@@ -200,7 +227,7 @@
       {
         "kind": "point",
         "shotStartTime": 0,
-        "time": 9.425,
+        "time": 18,
         "lossFunctions": [
           {
             "type": "keepInFrame",
@@ -210,30 +237,7 @@
                 "coworker"
               ]
             },
-            "sourceActionId": "reveal_both"
-          }
-        ],
-        "weight": 1,
-        "easing": {
-          "inDuration": 0.8,
-          "curve": "easeOut"
-        }
-      },
-      {
-        "kind": "interval",
-        "shotStartTime": 0,
-        "startTime": 9.425,
-        "endTime": 11.925,
-        "lossFunctions": [
-          {
-            "type": "arcMovement",
-            "parameters": {
-              "subjectIds": [
-                "worker",
-                "coworker"
-              ]
-            },
-            "sourceActionId": "orbit_both"
+            "sourceActionId": "dolly_out_reveal"
           }
         ],
         "weight": 1
@@ -241,48 +245,44 @@
       {
         "kind": "interval",
         "shotStartTime": 0,
-        "startTime": 9.425,
-        "endTime": 11.925,
-        "lossFunctions": [
-          {
-            "type": "keepInFrame",
-            "parameters": {
-              "subjectIds": [
-                "worker",
-                "coworker"
-              ]
-            },
-            "sourceActionId": "orbit_both"
-          }
-        ],
-        "weight": 1
-      },
-      {
-        "kind": "interval",
-        "shotStartTime": 0,
-        "startTime": 9.425,
-        "endTime": 11.925,
-        "lossFunctions": [
-          {
-            "type": "dutchRightMovement",
-            "parameters": {},
-            "sourceActionId": "dutch_tension"
-          }
-        ],
-        "weight": 1
-      },
-      {
-        "kind": "interval",
-        "shotStartTime": 0,
-        "startTime": 11.925,
-        "endTime": 14.425,
+        "startTime": 18,
+        "endTime": 20,
         "lossFunctions": [
           {
             "type": "craneUpMovement",
+            "parameters": {},
+            "sourceActionId": "crane_reveal"
+          }
+        ],
+        "weight": 1
+      },
+      {
+        "kind": "interval",
+        "shotStartTime": 0,
+        "startTime": 18,
+        "endTime": 20,
+        "lossFunctions": [
+          {
+            "type": "zoomOutMovement",
+            "parameters": {},
+            "sourceActionId": "zoom_out_reveal"
+          }
+        ],
+        "weight": 1
+      },
+      {
+        "kind": "point",
+        "shotStartTime": 0,
+        "time": 20,
+        "lossFunctions": [
+          {
+            "type": "keepInFrame",
             "parameters": {
               "subjectIds": [
                 "worker",
-                "coworker"
+                "coworker",
+                "set-forklift",
+                "set-mezzanine"
               ]
             },
             "sourceActionId": "crane_reveal"
@@ -293,57 +293,7 @@
       {
         "kind": "interval",
         "shotStartTime": 0,
-        "startTime": 11.925,
-        "endTime": 14.425,
-        "lossFunctions": [
-          {
-            "type": "zoomOutMovement",
-            "parameters": {
-              "speedKeyframes": [
-                {
-                  "normalizedTime": 0,
-                  "speedMultiplier": 0.4
-                },
-                {
-                  "normalizedTime": 0.6,
-                  "speedMultiplier": 1.3
-                },
-                {
-                  "normalizedTime": 1,
-                  "speedMultiplier": 0.4
-                }
-              ]
-            },
-            "sourceActionId": "zoom_out_reveal"
-          }
-        ],
-        "weight": 1
-      },
-      {
-        "kind": "point",
-        "shotStartTime": 0,
-        "time": 14.425,
-        "lossFunctions": [
-          {
-            "type": "subjectPresence",
-            "parameters": {
-              "subjectIds": [
-                "worker",
-                "coworker"
-              ]
-            }
-          }
-        ],
-        "weight": 1,
-        "easing": {
-          "inDuration": 1.5,
-          "curve": "easeInOut"
-        }
-      },
-      {
-        "kind": "interval",
-        "shotStartTime": 0,
-        "startTime": 14.425,
+        "startTime": 20,
         "endTime": 22,
         "lossFunctions": [
           {
@@ -357,7 +307,7 @@
       {
         "kind": "interval",
         "shotStartTime": 0,
-        "startTime": 14.425,
+        "startTime": 20,
         "endTime": 22,
         "lossFunctions": [
           {
@@ -365,7 +315,9 @@
             "parameters": {
               "subjectIds": [
                 "worker",
-                "coworker"
+                "coworker",
+                "set-forklift",
+                "set-mezzanine"
               ]
             },
             "sourceActionId": "finale_hold"
@@ -376,7 +328,7 @@
       {
         "kind": "interval",
         "shotStartTime": 0,
-        "startTime": 14.425,
+        "startTime": 20,
         "endTime": 22,
         "lossFunctions": [
           {
@@ -386,8 +338,34 @@
           }
         ],
         "weight": 1
+      },
+      {
+        "kind": "interval",
+        "shotStartTime": 0,
+        "startTime": 20,
+        "endTime": 22,
+        "lossFunctions": [
+          {
+            "type": "avoidOcclusion",
+            "parameters": {
+              "subjectIds": [
+                "worker",
+                "coworker"
+              ]
+            },
+            "sourceActionId": "finale_hold"
+          }
+        ],
+        "weight": 1
       }
     ],
-    "timeWarp": []
+    "timeWarp": [
+      {
+        "startTimePlayback": 20,
+        "endTimePlayback": 22,
+        "rate": 0,
+        "label": "frozen"
+      }
+    ]
   }
 }

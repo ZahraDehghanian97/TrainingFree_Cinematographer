@@ -8,7 +8,7 @@ import type {
   SceneEntityV1,
   Vec3,
 } from "../../types/environment";
-import type { WorldAabbV1 } from "../../types/environment-query";
+import type { WorldAabbV1 } from "../../types/environment-spatial";
 import {
   clamp,
   mean,

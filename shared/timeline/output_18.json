@@ -3,7 +3,7 @@
   "kind": "timelineSolverOutput",
   "exampleId": "example-18",
   "environmentId": "example-18-eye-zoom",
-  "prompt": "از نمای نزدیک دست لرزان شروع کن و در ۲٫۵ ثانیه با چرخش عمودی دوربین به بالا به چشم برس. نیم‌ثانیه مکث کن؛ سپس دوربین را به جلو ببر و همزمان زوم را بیشتر کن تا وارد مردمک شوی. در یک‌ونیم ثانیهٔ آخر دوربین را ۱۰ درجه به راست کج کن و ضرب پایانی را داخل مردمک با توقف زمان ثبت کن.",
+  "prompt": "A 10-second psychological detail shot. Start close on the principal subject’s trembling hand. Tilt upward over 2.5 seconds to the eye, then hold for 0.5 seconds. From 3 to 8.5 seconds dolly toward the pupil while zooming optically, ending just outside the eye in an extreme close-up: do not enter the head or fabricate an interior-eye world. Over the final 1.5 seconds roll 10 degrees right and freeze scene time. No cut.",
   "totalDuration": 10,
   "subjectBinding": {
     "mode": "resolved",
@@ -140,8 +140,7 @@
                   "speedMultiplier": 0.1,
                   "easing": "decrease"
                 }
-              ],
-              "allowSubjectIntersection": true
+              ]
             },
             "sourceActionId": "pupil_dolly_in"
           }
@@ -158,6 +157,21 @@
             "type": "zoomInMovement",
             "parameters": {},
             "sourceActionId": "pupil_zoom_in"
+          }
+        ],
+        "weight": 1
+      },
+      {
+        "kind": "point",
+        "shotStartTime": 0,
+        "time": 8.5,
+        "lossFunctions": [
+          {
+            "type": "shotSize",
+            "parameters": {
+              "shotSize": "extremeCloseUp",
+              "subjectId": "pupil"
+            }
           }
         ],
         "weight": 1

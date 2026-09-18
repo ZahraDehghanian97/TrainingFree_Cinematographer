@@ -1,0 +1,107 @@
+{
+  "schemaVersion": "1.0",
+  "kind": "authoredCameraReference",
+  "exampleId": "example-07",
+  "environmentId": "example-07-spiral-closeup",
+  "provenance": {
+    "method": "assistant-authored analytical storyboard",
+    "optimizerDerived": false,
+    "llmInferenceRun": false,
+    "measuredGroundTruth": false
+  },
+  "prompt": "A 9-second unbroken spiral toward the principal subject. Begin from a bird’s-eye view. Orbit one full turn (360 degrees) while simultaneously dollying closer and descending toward the eyes. Finish in a close-up of the eyes, not inside the head. The initial high angle is not a constraint on the entire approach. No cut.",
+  "promptSha256": "e040bdef8d81ecc8a28be4d6af378359e037dcdb5f22d6a365c2effcbc1add3b",
+  "environmentSha256": "3b98f569d21075c75c5695fc840af67413fbb8fc21c52699dca71d60f96a9d4d",
+  "cslSha256": "a47ab273a5c15d43a50c86dd04ac4bbf9732e485916a795fd47718cca01b8661",
+  "recipeSha256": "e194c94d14134b37c248312ff4ac5195fa976f0603b54e6fa3e4a2398fdd1d0c",
+  "trajectorySha256": "ff57ec6cd0af257ce5879862502dbf5be185dd16e2681ac6119315d599600c49",
+  "fullPoseIsGroundTruth": false,
+  "artisticChoices": [
+    "Unrequested rig offsets, radii, lens choices and smoothstep pacing are authored illustration choices, not inferred user constraints.",
+    "Camera paths are synthetic assistant-authored references, not measured ground truth, not LLM inference runs, and not optimized outputs."
+  ],
+  "limitations": [],
+  "plan": {
+    "version": "1.0",
+    "exampleId": "example-07",
+    "knots": [
+      {
+        "at": 0,
+        "rig": {
+          "ids": [
+            "subject"
+          ]
+        },
+        "polar": [
+          0,
+          7.4,
+          2.2
+        ],
+        "aim": {
+          "ids": [
+            "subject"
+          ]
+        },
+        "fov": 52
+      },
+      {
+        "at": 9,
+        "rig": {
+          "ids": [
+            "subject_eyes"
+          ]
+        },
+        "polar": [
+          360,
+          0.03,
+          0.55
+        ],
+        "aim": {
+          "ids": [
+            "subject_eyes"
+          ]
+        },
+        "fov": 24
+      }
+    ],
+    "artisticChoices": [
+      "Unrequested rig offsets, radii, lens choices and smoothstep pacing are authored illustration choices, not inferred user constraints.",
+      "Camera paths are synthetic assistant-authored references, not measured ground truth, not LLM inference runs, and not optimized outputs."
+    ]
+  },
+  "actions": [
+    {
+      "id": "spiral_orbit",
+      "act": "orbit",
+      "start": 0,
+      "end": 9,
+      "targets": [
+        "subject_eyes"
+      ]
+    },
+    {
+      "id": "spiral_dolly_in",
+      "act": "dollyIn",
+      "start": 0,
+      "end": 9,
+      "targets": [
+        "subject_eyes"
+      ]
+    }
+  ],
+  "cutTimes": [],
+  "rateSegments": [],
+  "sampleCount": 271,
+  "sampledAudit": {
+    "qualification": "sampled-checks-pass",
+    "contractFailures": 0,
+    "compositionFailures": 0,
+    "geometryWarnings": 0,
+    "samplingFps": 10,
+    "limitations": [
+      "Sampled at 10 Hz plus action boundaries; no continuous collision certificate or mesh ray tracing.",
+      "Shot size uses conservative projected AABBs; view-side, speed-keyframe fidelity, jerk and all perceptual qualities still require review.",
+      "Passing a subset of explicit contracts never makes the entire arbitrary reference pose ground truth."
+    ]
+  }
+}

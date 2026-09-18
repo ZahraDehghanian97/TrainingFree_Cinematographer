@@ -3,7 +3,7 @@
   "kind": "environment",
   "id": "example-03-vase-reveal",
   "promptExampleId": "example-03",
-  "prompt": "ابتدا گلدان را در نمای نزدیک نشان بده، سپس دوربین را عقب بکش تا گلدان و مانیتور همزمان در قاب دیده شوند.",
+  "prompt": "A 20-second product reveal in the furnished workspace. Start close on the ceramic vase. Dolly straight backward in one continuous move, gently accelerating out of rest and easing to a stop, until both the vase and the monitor are fully inside the final frame. Reveal their relationship across the desk; do not zoom or cut.",
   "clock": {
     "durationSeconds": 20,
     "timeDomain": "playback",
@@ -16,43 +16,609 @@
     "lengthUnit": "meter",
     "rotationOrder": "quaternion-xyzw"
   },
-  "evaluation": { "distanceMetric": "anchorCenter" },
+  "evaluation": {
+    "distanceMetric": "anchorCenter"
+  },
   "world": {
     "profile": "studio",
     "background": "#36383e",
     "overviewCamera": {
-      "position": [5, 3.5, 5.5],
-      "target": [0, 0.9, 0]
+      "position": [
+        5,
+        3.5,
+        5.5
+      ],
+      "target": [
+        0,
+        0.9,
+        0
+      ]
     },
-    "ground": { "y": 0, "size": [16, 16], "color": "#83766c", "surface": "wood" },
-    "grid": { "size": 16, "divisions": 16 }
+    "ground": {
+      "y": 0,
+      "size": [
+        16,
+        16
+      ],
+      "color": "#83766c",
+      "surface": "wood"
+    },
+    "grid": {
+      "size": 16,
+      "divisions": 16
+    }
   },
   "entities": [
     {
       "id": "desk-entity",
       "label": "میز",
-      "transform": { "space": "world", "position": [0, 0.55, 0] },
-      "visual": { "type": "primitive", "shape": "box", "params": { "size": [4.6, 0.15, 1.8] }, "color": "#5a3d2d" },
-      "bounds": { "type": "box", "min": [-2.3, -0.55, -0.9], "max": [2.3, 0.075, 0.9] }
+      "transform": {
+        "space": "world",
+        "position": [
+          0,
+          0.55,
+          0
+        ]
+      },
+      "visual": {
+        "type": "primitive",
+        "shape": "box",
+        "params": {
+          "size": [
+            4.6,
+            0.15,
+            1.8
+          ]
+        },
+        "color": "#5a3d2d"
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -2.3,
+          -0.55,
+          -0.9
+        ],
+        "max": [
+          2.3,
+          0.075,
+          0.9
+        ]
+      }
     },
     {
       "id": "vase-entity",
       "label": "گلدان سرامیکی",
-      "transform": { "space": "world", "position": [-1.15, 0.64, 0.05] },
+      "transform": {
+        "space": "world",
+        "position": [
+          -1.15,
+          0.64,
+          0.05
+        ]
+      },
       "visual": {
         "type": "model",
         "url": "/models/ceramic-vase/ceramic_vase_01_1k.gltf",
         "fitToBounds": true,
-        "fallback": { "type": "preset", "name": "vase", "params": { "color": "#b3b6ae", "height": 0.95 } }
+        "fallback": {
+          "type": "preset",
+          "name": "vase",
+          "params": {
+            "color": "#b3b6ae",
+            "height": 0.95
+          }
+        }
       },
-      "bounds": { "type": "box", "min": [-0.28, 0, -0.28], "max": [0.28, 0.95, 0.28] }
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.28,
+          0,
+          -0.28
+        ],
+        "max": [
+          0.28,
+          0.95,
+          0.28
+        ]
+      }
     },
     {
       "id": "monitor-entity",
       "label": "مانیتور رومیزی",
-      "transform": { "space": "world", "position": [1.1, 0.64, -0.18] },
-      "visual": { "type": "preset", "name": "monitor", "params": { "width": 1.35, "height": 0.82, "screenColor": "#4aa8ff" } },
-      "bounds": { "type": "box", "min": [-0.68, 0, -0.15], "max": [0.68, 1.15, 0.15] }
+      "transform": {
+        "space": "world",
+        "position": [
+          1.1,
+          0.64,
+          -0.18
+        ]
+      },
+      "visual": {
+        "type": "preset",
+        "name": "monitor",
+        "params": {
+          "width": 1.35,
+          "height": 0.82,
+          "screenColor": "#4aa8ff"
+        }
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.68,
+          0,
+          -0.15
+        ],
+        "max": [
+          0.68,
+          1.15,
+          0.15
+        ]
+      }
+    },
+    {
+      "id": "set-lighting-truss-00",
+      "label": "lighting truss",
+      "transform": {
+        "space": "world",
+        "position": [
+          -6,
+          0,
+          -5
+        ]
+      },
+      "visual": {
+        "type": "model",
+        "url": "/models/generated/lighting-truss.glb",
+        "fallback": {
+          "type": "primitive",
+          "shape": "box",
+          "params": {
+            "width": 1.1,
+            "height": 0.2,
+            "depth": 0.3
+          },
+          "color": "#717c87"
+        }
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.55,
+          0,
+          -0.55
+        ],
+        "max": [
+          0.55,
+          3.6,
+          0.55
+        ]
+      }
+    },
+    {
+      "id": "set-lighting-truss-01",
+      "label": "lighting truss",
+      "transform": {
+        "space": "world",
+        "position": [
+          6,
+          0,
+          -5
+        ]
+      },
+      "visual": {
+        "type": "model",
+        "url": "/models/generated/lighting-truss.glb",
+        "fallback": {
+          "type": "primitive",
+          "shape": "box",
+          "params": {
+            "width": 1.1,
+            "height": 0.2,
+            "depth": 0.3
+          },
+          "color": "#717c87"
+        }
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.55,
+          0,
+          -0.55
+        ],
+        "max": [
+          0.55,
+          3.6,
+          0.55
+        ]
+      }
+    },
+    {
+      "id": "set-lighting-truss-02",
+      "label": "lighting truss",
+      "transform": {
+        "space": "world",
+        "position": [
+          -6,
+          0,
+          5
+        ]
+      },
+      "visual": {
+        "type": "model",
+        "url": "/models/generated/lighting-truss.glb",
+        "fallback": {
+          "type": "primitive",
+          "shape": "box",
+          "params": {
+            "width": 1.1,
+            "height": 0.2,
+            "depth": 0.3
+          },
+          "color": "#717c87"
+        }
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.55,
+          0,
+          -0.55
+        ],
+        "max": [
+          0.55,
+          3.6,
+          0.55
+        ]
+      }
+    },
+    {
+      "id": "set-lighting-truss-03",
+      "label": "lighting truss",
+      "transform": {
+        "space": "world",
+        "position": [
+          6,
+          0,
+          5
+        ]
+      },
+      "visual": {
+        "type": "model",
+        "url": "/models/generated/lighting-truss.glb",
+        "fallback": {
+          "type": "primitive",
+          "shape": "box",
+          "params": {
+            "width": 1.1,
+            "height": 0.2,
+            "depth": 0.3
+          },
+          "color": "#717c87"
+        }
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.55,
+          0,
+          -0.55
+        ],
+        "max": [
+          0.55,
+          3.6,
+          0.55
+        ]
+      }
+    },
+    {
+      "id": "set-workbench-04",
+      "label": "workbench",
+      "transform": {
+        "space": "world",
+        "position": [
+          -5,
+          0,
+          -7
+        ]
+      },
+      "visual": {
+        "type": "model",
+        "url": "/models/generated/workbench.glb",
+        "fallback": {
+          "type": "primitive",
+          "shape": "box",
+          "params": {
+            "width": 1.8,
+            "height": 0.2,
+            "depth": 0.3
+          },
+          "color": "#717c87"
+        }
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.9,
+          0,
+          -0.36
+        ],
+        "max": [
+          0.9,
+          0.93,
+          0.36
+        ]
+      }
+    },
+    {
+      "id": "set-crate-stack-05",
+      "label": "crate stack",
+      "transform": {
+        "space": "world",
+        "position": [
+          -4,
+          0,
+          -7
+        ]
+      },
+      "visual": {
+        "type": "model",
+        "url": "/models/generated/crate-stack.glb",
+        "fallback": {
+          "type": "primitive",
+          "shape": "box",
+          "params": {
+            "width": 1.9,
+            "height": 0.2,
+            "depth": 0.3
+          },
+          "color": "#717c87"
+        }
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.95,
+          0,
+          -0.6
+        ],
+        "max": [
+          0.95,
+          1.725,
+          0.6
+        ]
+      }
+    },
+    {
+      "id": "set-workbench-06",
+      "label": "workbench",
+      "transform": {
+        "space": "world",
+        "position": [
+          5,
+          0,
+          -7
+        ]
+      },
+      "visual": {
+        "type": "model",
+        "url": "/models/generated/workbench.glb",
+        "fallback": {
+          "type": "primitive",
+          "shape": "box",
+          "params": {
+            "width": 1.8,
+            "height": 0.2,
+            "depth": 0.3
+          },
+          "color": "#717c87"
+        }
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.9,
+          0,
+          -0.36
+        ],
+        "max": [
+          0.9,
+          0.93,
+          0.36
+        ]
+      }
+    },
+    {
+      "id": "set-crate-stack-07",
+      "label": "crate stack",
+      "transform": {
+        "space": "world",
+        "position": [
+          6,
+          0,
+          -7
+        ]
+      },
+      "visual": {
+        "type": "model",
+        "url": "/models/generated/crate-stack.glb",
+        "fallback": {
+          "type": "primitive",
+          "shape": "box",
+          "params": {
+            "width": 1.9,
+            "height": 0.2,
+            "depth": 0.3
+          },
+          "color": "#717c87"
+        }
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.95,
+          0,
+          -0.6
+        ],
+        "max": [
+          0.95,
+          1.725,
+          0.6
+        ]
+      }
+    },
+    {
+      "id": "set-support-08",
+      "label": "stagehand, #4e586b jacket; supporting subject, not the principal actor",
+      "transform": {
+        "space": "world",
+        "position": [
+          -5,
+          0,
+          -5
+        ]
+      },
+      "visual": {
+        "type": "preset",
+        "name": "humanoid",
+        "params": {
+          "height": 1.8,
+          "shirtColor": "#4e586b",
+          "trouserColor": "#283341",
+          "color": "#ad805f",
+          "motion": "idle"
+        }
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.325,
+          0,
+          -0.25
+        ],
+        "max": [
+          0.325,
+          1.8,
+          0.25
+        ]
+      }
+    },
+    {
+      "id": "set-support-09",
+      "label": "lighting technician, #745c49 jacket; supporting subject, not the principal actor",
+      "transform": {
+        "space": "world",
+        "position": [
+          5,
+          0,
+          -6
+        ]
+      },
+      "visual": {
+        "type": "preset",
+        "name": "humanoid",
+        "params": {
+          "height": 1.8,
+          "shirtColor": "#745c49",
+          "trouserColor": "#283341",
+          "color": "#ad805f",
+          "motion": "idle"
+        }
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.325,
+          0,
+          -0.25
+        ],
+        "max": [
+          0.325,
+          1.8,
+          0.25
+        ]
+      }
+    },
+    {
+      "id": "set-planter-tree-10",
+      "label": "planter tree",
+      "transform": {
+        "space": "world",
+        "position": [
+          -4,
+          0,
+          -3
+        ]
+      },
+      "visual": {
+        "type": "model",
+        "url": "/models/generated/planter-tree.glb",
+        "fallback": {
+          "type": "primitive",
+          "shape": "box",
+          "params": {
+            "width": 2.186677,
+            "height": 0.2,
+            "depth": 0.3
+          },
+          "color": "#717c87"
+        }
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.986677,
+          0,
+          -1.034048
+        ],
+        "max": [
+          1.2,
+          3.48,
+          1.034048
+        ]
+      }
+    },
+    {
+      "id": "set-slatted-bench-11",
+      "label": "slatted bench",
+      "transform": {
+        "space": "world",
+        "position": [
+          3.5,
+          0,
+          -3
+        ]
+      },
+      "visual": {
+        "type": "model",
+        "url": "/models/generated/slatted-bench.glb",
+        "fallback": {
+          "type": "primitive",
+          "shape": "box",
+          "params": {
+            "width": 2,
+            "height": 0.2,
+            "depth": 0.3
+          },
+          "color": "#717c87"
+        }
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -1,
+          0,
+          -0.325
+        ],
+        "max": [
+          1,
+          1.215,
+          0.325
+        ]
+      }
     }
   ],
   "semanticAnchors": [
@@ -60,15 +626,85 @@
       "id": "vase",
       "entityId": "vase-entity",
       "label": "گلدان",
-      "localAnchor": [0, 0.48, 0],
-      "localBounds": { "type": "box", "min": [-0.28, 0, -0.28], "max": [0.28, 0.95, 0.28] }
+      "localAnchor": [
+        0,
+        0.48,
+        0
+      ],
+      "localBounds": {
+        "type": "box",
+        "min": [
+          -0.28,
+          0,
+          -0.28
+        ],
+        "max": [
+          0.28,
+          0.95,
+          0.28
+        ]
+      }
     },
     {
       "id": "monitor",
       "entityId": "monitor-entity",
       "label": "مانیتور",
-      "localAnchor": [0, 0.62, 0],
-      "localBounds": { "type": "box", "min": [-0.68, 0, -0.15], "max": [0.68, 1.15, 0.15] }
+      "localAnchor": [
+        0,
+        0.62,
+        0
+      ],
+      "localBounds": {
+        "type": "box",
+        "min": [
+          -0.68,
+          0,
+          -0.15
+        ],
+        "max": [
+          0.68,
+          1.15,
+          0.15
+        ]
+      }
+    },
+    {
+      "id": "set-support-08-face",
+      "entityId": "set-support-08",
+      "label": "stagehand, #4e586b jacket; supporting subject, not the principal actor face",
+      "localAnchor": [
+        0,
+        1.63,
+        0.12
+      ],
+      "localBounds": {
+        "type": "sphere",
+        "center": [
+          0,
+          1.63,
+          0.12
+        ],
+        "radius": 0.16
+      }
+    },
+    {
+      "id": "set-support-09-face",
+      "entityId": "set-support-09",
+      "label": "lighting technician, #745c49 jacket; supporting subject, not the principal actor face",
+      "localAnchor": [
+        0,
+        1.63,
+        0.12
+      ],
+      "localBounds": {
+        "type": "sphere",
+        "center": [
+          0,
+          1.63,
+          0.12
+        ],
+        "radius": 0.16
+      }
     }
   ]
 }

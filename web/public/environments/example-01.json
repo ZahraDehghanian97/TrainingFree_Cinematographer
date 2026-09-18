@@ -3,7 +3,7 @@
   "kind": "environment",
   "id": "example-01-football",
   "promptExampleId": "example-01",
-  "prompt": "توپ را دنبال کن و وقتی به دروازه نزدیک شد، دوربین را عمودی بالا ببر و توپ را از زاویهٔ بالا دنبال کن.",
+  "prompt": "A 10-second uninterrupted sports shot in the populated football ground. Follow the ball toward the goal, not the supporting players. When the surface-to-surface distance between ball and goal first falls below 5 metres, continue following and raise the camera by 2.5 metres relative to the ball over 3 seconds, easing into and out of the rise. Finish looking down at the ball from a high angle. Do not cut.",
   "clock": {
     "durationSeconds": 10,
     "timeDomain": "playback",
@@ -24,11 +24,30 @@
     "profile": "daylight",
     "background": "#b6cfde",
     "overviewCamera": {
-      "position": [12, 8, 14],
-      "target": [0, 0.8, -1]
+      "position": [
+        12,
+        8,
+        14
+      ],
+      "target": [
+        0,
+        0.8,
+        -1
+      ]
     },
-    "ground": { "y": 0, "size": [22, 32], "color": "#598044", "surface": "grass" },
-    "grid": { "size": 22, "divisions": 22 }
+    "ground": {
+      "y": 0,
+      "size": [
+        22,
+        32
+      ],
+      "color": "#598044",
+      "surface": "grass"
+    },
+    "grid": {
+      "size": 22,
+      "divisions": 22
+    }
   },
   "entities": [
     {
@@ -40,43 +59,910 @@
           "interpolation": "catmullRom",
           "extrapolation": "hold",
           "keyframes": [
-            { "t": 0, "value": [1.5, 0.35, 8] },
-            { "t": 2, "value": [1.9, 0.51, 5.1] },
-            { "t": 4, "value": [1.45, 0.4, 2.2] },
-            { "t": 6, "value": [0.85, 0.53, -0.8] },
-            { "t": 7.5, "value": [0.35, 0.42, -3.7] },
-            { "t": 10, "value": [0, 0.35, -8.3] }
+            {
+              "t": 0,
+              "value": [
+                1.5,
+                0.35,
+                8
+              ]
+            },
+            {
+              "t": 2,
+              "value": [
+                1.9,
+                0.51,
+                5.1
+              ]
+            },
+            {
+              "t": 4,
+              "value": [
+                1.45,
+                0.4,
+                2.2
+              ]
+            },
+            {
+              "t": 6,
+              "value": [
+                0.85,
+                0.53,
+                -0.8
+              ]
+            },
+            {
+              "t": 7.5,
+              "value": [
+                0.35,
+                0.42,
+                -3.7
+              ]
+            },
+            {
+              "t": 10,
+              "value": [
+                0,
+                0.35,
+                -8.3
+              ]
+            }
           ]
         },
         "rotation": {
           "interpolation": "slerp",
           "extrapolation": "hold",
           "keyframes": [
-            { "t": 0, "value": [0, 0, 0, 1] },
-            { "t": 5, "value": [0.7071, 0, 0, 0.7071] },
-            { "t": 10, "value": [0, 0, 0, -1] }
+            {
+              "t": 0,
+              "value": [
+                0,
+                0,
+                0,
+                1
+              ]
+            },
+            {
+              "t": 5,
+              "value": [
+                0.7071,
+                0,
+                0,
+                0.7071
+              ]
+            },
+            {
+              "t": 10,
+              "value": [
+                0,
+                0,
+                0,
+                -1
+              ]
+            }
           ]
         }
       },
-      "visual": { "type": "preset", "name": "soccerBall", "params": { "radius": 0.35 } },
-      "bounds": { "type": "sphere", "center": [0, 0, 0], "radius": 0.35 }
+      "visual": {
+        "type": "preset",
+        "name": "soccerBall",
+        "params": {
+          "radius": 0.35
+        }
+      },
+      "bounds": {
+        "type": "sphere",
+        "center": [
+          0,
+          0,
+          0
+        ],
+        "radius": 0.35
+      }
     },
     {
       "id": "goal-entity",
       "label": "دروازه",
-      "transform": { "space": "world", "position": [0, 0, -8] },
-      "visual": { "type": "preset", "name": "soccerGoal", "params": { "width": 6, "height": 2.5, "depth": 1.2 } },
-      "bounds": { "type": "box", "min": [-3, 0, -1.2], "max": [3, 2.5, 0.05] },
+      "transform": {
+        "space": "world",
+        "position": [
+          0,
+          0,
+          -8
+        ]
+      },
+      "visual": {
+        "type": "preset",
+        "name": "soccerGoal",
+        "params": {
+          "width": 6,
+          "height": 2.5,
+          "depth": 1.2
+        }
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -3,
+          0,
+          -1.2
+        ],
+        "max": [
+          3,
+          2.5,
+          0.05
+        ]
+      },
       "occlusion": {
         "bounds": [
-          { "type": "box", "min": [-3.05, 0, -0.05], "max": [-2.95, 2.55, 0.05] },
-          { "type": "box", "min": [2.95, 0, -0.05], "max": [3.05, 2.55, 0.05] },
-          { "type": "box", "min": [-3.05, 2.45, -0.05], "max": [3.05, 2.55, 0.05] },
-          { "type": "box", "min": [-3.04, 0.01, -1.24], "max": [-2.96, 0.09, 0] },
-          { "type": "box", "min": [2.96, 0.01, -1.24], "max": [3.04, 0.09, 0] },
-          { "type": "box", "min": [-3.03, 0.02, -1.23], "max": [3.03, 0.08, -1.17] },
-          { "type": "box", "min": [-3.03, 0.05, -1.23], "max": [-2.97, 2.53, -0.48] },
-          { "type": "box", "min": [2.97, 0.05, -1.23], "max": [3.03, 2.53, -0.48] }
+          {
+            "type": "box",
+            "min": [
+              -3.05,
+              0,
+              -0.05
+            ],
+            "max": [
+              -2.95,
+              2.55,
+              0.05
+            ]
+          },
+          {
+            "type": "box",
+            "min": [
+              2.95,
+              0,
+              -0.05
+            ],
+            "max": [
+              3.05,
+              2.55,
+              0.05
+            ]
+          },
+          {
+            "type": "box",
+            "min": [
+              -3.05,
+              2.45,
+              -0.05
+            ],
+            "max": [
+              3.05,
+              2.55,
+              0.05
+            ]
+          },
+          {
+            "type": "box",
+            "min": [
+              -3.04,
+              0.01,
+              -1.24
+            ],
+            "max": [
+              -2.96,
+              0.09,
+              0
+            ]
+          },
+          {
+            "type": "box",
+            "min": [
+              2.96,
+              0.01,
+              -1.24
+            ],
+            "max": [
+              3.04,
+              0.09,
+              0
+            ]
+          },
+          {
+            "type": "box",
+            "min": [
+              -3.03,
+              0.02,
+              -1.23
+            ],
+            "max": [
+              3.03,
+              0.08,
+              -1.17
+            ]
+          },
+          {
+            "type": "box",
+            "min": [
+              -3.03,
+              0.05,
+              -1.23
+            ],
+            "max": [
+              -2.97,
+              2.53,
+              -0.48
+            ]
+          },
+          {
+            "type": "box",
+            "min": [
+              2.97,
+              0.05,
+              -1.23
+            ],
+            "max": [
+              3.03,
+              2.53,
+              -0.48
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "id": "set-road-barrier-00",
+      "label": "road barrier",
+      "transform": {
+        "space": "world",
+        "position": [
+          -9,
+          0,
+          -10
+        ]
+      },
+      "visual": {
+        "type": "model",
+        "url": "/models/generated/road-barrier.glb",
+        "fallback": {
+          "type": "primitive",
+          "shape": "box",
+          "params": {
+            "width": 2,
+            "height": 0.2,
+            "depth": 0.3
+          },
+          "color": "#717c87"
+        }
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -1,
+          0,
+          -0.275
+        ],
+        "max": [
+          1,
+          0.8,
+          0.292
+        ]
+      }
+    },
+    {
+      "id": "set-road-barrier-01",
+      "label": "road barrier",
+      "transform": {
+        "space": "world",
+        "position": [
+          -9,
+          0,
+          0
+        ]
+      },
+      "visual": {
+        "type": "model",
+        "url": "/models/generated/road-barrier.glb",
+        "fallback": {
+          "type": "primitive",
+          "shape": "box",
+          "params": {
+            "width": 2,
+            "height": 0.2,
+            "depth": 0.3
+          },
+          "color": "#717c87"
+        }
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -1,
+          0,
+          -0.275
+        ],
+        "max": [
+          1,
+          0.8,
+          0.292
+        ]
+      }
+    },
+    {
+      "id": "set-road-barrier-02",
+      "label": "road barrier",
+      "transform": {
+        "space": "world",
+        "position": [
+          -9,
+          0,
+          10
+        ]
+      },
+      "visual": {
+        "type": "model",
+        "url": "/models/generated/road-barrier.glb",
+        "fallback": {
+          "type": "primitive",
+          "shape": "box",
+          "params": {
+            "width": 2,
+            "height": 0.2,
+            "depth": 0.3
+          },
+          "color": "#717c87"
+        }
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -1,
+          0,
+          -0.275
+        ],
+        "max": [
+          1,
+          0.8,
+          0.292
+        ]
+      }
+    },
+    {
+      "id": "set-support-03",
+      "label": "sideline spectator, #526b96 jacket; supporting subject, not the principal actor",
+      "transform": {
+        "space": "world",
+        "position": [
+          -10,
+          0,
+          -8
+        ]
+      },
+      "visual": {
+        "type": "preset",
+        "name": "humanoid",
+        "params": {
+          "height": 1.8,
+          "shirtColor": "#526b96",
+          "trouserColor": "#283341",
+          "color": "#ad805f",
+          "motion": "idle"
+        }
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.325,
+          0,
+          -0.25
+        ],
+        "max": [
+          0.325,
+          1.8,
+          0.25
+        ]
+      }
+    },
+    {
+      "id": "set-support-04",
+      "label": "sideline spectator, #526b96 jacket; supporting subject, not the principal actor",
+      "transform": {
+        "space": "world",
+        "position": [
+          -10,
+          0,
+          -3
+        ]
+      },
+      "visual": {
+        "type": "preset",
+        "name": "humanoid",
+        "params": {
+          "height": 1.8,
+          "shirtColor": "#526b96",
+          "trouserColor": "#283341",
+          "color": "#ad805f",
+          "motion": "idle"
+        }
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.325,
+          0,
+          -0.25
+        ],
+        "max": [
+          0.325,
+          1.8,
+          0.25
+        ]
+      }
+    },
+    {
+      "id": "set-support-05",
+      "label": "sideline spectator, #526b96 jacket; supporting subject, not the principal actor",
+      "transform": {
+        "space": "world",
+        "position": [
+          -10,
+          0,
+          3
+        ]
+      },
+      "visual": {
+        "type": "preset",
+        "name": "humanoid",
+        "params": {
+          "height": 1.8,
+          "shirtColor": "#526b96",
+          "trouserColor": "#283341",
+          "color": "#ad805f",
+          "motion": "idle"
+        }
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.325,
+          0,
+          -0.25
+        ],
+        "max": [
+          0.325,
+          1.8,
+          0.25
+        ]
+      }
+    },
+    {
+      "id": "set-support-06",
+      "label": "sideline spectator, #526b96 jacket; supporting subject, not the principal actor",
+      "transform": {
+        "space": "world",
+        "position": [
+          -10,
+          0,
+          8
+        ]
+      },
+      "visual": {
+        "type": "preset",
+        "name": "humanoid",
+        "params": {
+          "height": 1.8,
+          "shirtColor": "#526b96",
+          "trouserColor": "#283341",
+          "color": "#ad805f",
+          "motion": "idle"
+        }
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.325,
+          0,
+          -0.25
+        ],
+        "max": [
+          0.325,
+          1.8,
+          0.25
+        ]
+      }
+    },
+    {
+      "id": "set-road-barrier-07",
+      "label": "road barrier",
+      "transform": {
+        "space": "world",
+        "position": [
+          9,
+          0,
+          -10
+        ]
+      },
+      "visual": {
+        "type": "model",
+        "url": "/models/generated/road-barrier.glb",
+        "fallback": {
+          "type": "primitive",
+          "shape": "box",
+          "params": {
+            "width": 2,
+            "height": 0.2,
+            "depth": 0.3
+          },
+          "color": "#717c87"
+        }
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -1,
+          0,
+          -0.275
+        ],
+        "max": [
+          1,
+          0.8,
+          0.292
+        ]
+      }
+    },
+    {
+      "id": "set-road-barrier-08",
+      "label": "road barrier",
+      "transform": {
+        "space": "world",
+        "position": [
+          9,
+          0,
+          0
+        ]
+      },
+      "visual": {
+        "type": "model",
+        "url": "/models/generated/road-barrier.glb",
+        "fallback": {
+          "type": "primitive",
+          "shape": "box",
+          "params": {
+            "width": 2,
+            "height": 0.2,
+            "depth": 0.3
+          },
+          "color": "#717c87"
+        }
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -1,
+          0,
+          -0.275
+        ],
+        "max": [
+          1,
+          0.8,
+          0.292
+        ]
+      }
+    },
+    {
+      "id": "set-road-barrier-09",
+      "label": "road barrier",
+      "transform": {
+        "space": "world",
+        "position": [
+          9,
+          0,
+          10
+        ]
+      },
+      "visual": {
+        "type": "model",
+        "url": "/models/generated/road-barrier.glb",
+        "fallback": {
+          "type": "primitive",
+          "shape": "box",
+          "params": {
+            "width": 2,
+            "height": 0.2,
+            "depth": 0.3
+          },
+          "color": "#717c87"
+        }
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -1,
+          0,
+          -0.275
+        ],
+        "max": [
+          1,
+          0.8,
+          0.292
+        ]
+      }
+    },
+    {
+      "id": "set-support-10",
+      "label": "sideline spectator, #526b96 jacket; supporting subject, not the principal actor",
+      "transform": {
+        "space": "world",
+        "position": [
+          10,
+          0,
+          -8
+        ]
+      },
+      "visual": {
+        "type": "preset",
+        "name": "humanoid",
+        "params": {
+          "height": 1.8,
+          "shirtColor": "#526b96",
+          "trouserColor": "#283341",
+          "color": "#ad805f",
+          "motion": "idle"
+        }
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.325,
+          0,
+          -0.25
+        ],
+        "max": [
+          0.325,
+          1.8,
+          0.25
+        ]
+      }
+    },
+    {
+      "id": "set-support-11",
+      "label": "sideline spectator, #526b96 jacket; supporting subject, not the principal actor",
+      "transform": {
+        "space": "world",
+        "position": [
+          10,
+          0,
+          -3
+        ]
+      },
+      "visual": {
+        "type": "preset",
+        "name": "humanoid",
+        "params": {
+          "height": 1.8,
+          "shirtColor": "#526b96",
+          "trouserColor": "#283341",
+          "color": "#ad805f",
+          "motion": "idle"
+        }
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.325,
+          0,
+          -0.25
+        ],
+        "max": [
+          0.325,
+          1.8,
+          0.25
+        ]
+      }
+    },
+    {
+      "id": "set-support-12",
+      "label": "sideline spectator, #526b96 jacket; supporting subject, not the principal actor",
+      "transform": {
+        "space": "world",
+        "position": [
+          10,
+          0,
+          3
+        ]
+      },
+      "visual": {
+        "type": "preset",
+        "name": "humanoid",
+        "params": {
+          "height": 1.8,
+          "shirtColor": "#526b96",
+          "trouserColor": "#283341",
+          "color": "#ad805f",
+          "motion": "idle"
+        }
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.325,
+          0,
+          -0.25
+        ],
+        "max": [
+          0.325,
+          1.8,
+          0.25
+        ]
+      }
+    },
+    {
+      "id": "set-support-13",
+      "label": "sideline spectator, #526b96 jacket; supporting subject, not the principal actor",
+      "transform": {
+        "space": "world",
+        "position": [
+          10,
+          0,
+          8
+        ]
+      },
+      "visual": {
+        "type": "preset",
+        "name": "humanoid",
+        "params": {
+          "height": 1.8,
+          "shirtColor": "#526b96",
+          "trouserColor": "#283341",
+          "color": "#ad805f",
+          "motion": "idle"
+        }
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.325,
+          0,
+          -0.25
+        ],
+        "max": [
+          0.325,
+          1.8,
+          0.25
+        ]
+      }
+    },
+    {
+      "id": "set-support-14",
+      "label": "goalkeeper, #daa344 jacket; supporting subject, not the principal actor",
+      "transform": {
+        "space": "world",
+        "position": [
+          -3.6,
+          0,
+          -7.1
+        ]
+      },
+      "visual": {
+        "type": "preset",
+        "name": "humanoid",
+        "params": {
+          "height": 1.8,
+          "shirtColor": "#daa344",
+          "trouserColor": "#283341",
+          "color": "#ad805f",
+          "motion": "idle"
+        }
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.325,
+          0,
+          -0.25
+        ],
+        "max": [
+          0.325,
+          1.8,
+          0.25
+        ]
+      }
+    },
+    {
+      "id": "set-support-15",
+      "label": "defender, #80563f jacket; supporting subject, not the principal actor",
+      "transform": {
+        "space": "world",
+        "position": {
+          "interpolation": "linear",
+          "extrapolation": "hold",
+          "keyframes": [
+            {
+              "t": 0,
+              "value": [
+                -4,
+                0,
+                7
+              ]
+            },
+            {
+              "t": 10,
+              "value": [
+                -3,
+                0,
+                -5
+              ]
+            }
+          ]
+        }
+      },
+      "visual": {
+        "type": "preset",
+        "name": "humanoid",
+        "params": {
+          "height": 1.8,
+          "shirtColor": "#80563f",
+          "trouserColor": "#283341",
+          "color": "#ad805f",
+          "motion": "auto"
+        }
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.325,
+          0,
+          -0.25
+        ],
+        "max": [
+          0.325,
+          1.8,
+          0.25
+        ]
+      }
+    },
+    {
+      "id": "set-support-16",
+      "label": "supporting striker, #344975 jacket; supporting subject, not the principal actor",
+      "transform": {
+        "space": "world",
+        "position": {
+          "interpolation": "linear",
+          "extrapolation": "hold",
+          "keyframes": [
+            {
+              "t": 0,
+              "value": [
+                3.8,
+                0,
+                6
+              ]
+            },
+            {
+              "t": 10,
+              "value": [
+                3,
+                0,
+                -6
+              ]
+            }
+          ]
+        }
+      },
+      "visual": {
+        "type": "preset",
+        "name": "humanoid",
+        "params": {
+          "height": 1.8,
+          "shirtColor": "#344975",
+          "trouserColor": "#283341",
+          "color": "#ad805f",
+          "motion": "auto"
+        }
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.325,
+          0,
+          -0.25
+        ],
+        "max": [
+          0.325,
+          1.8,
+          0.25
         ]
       }
     }
@@ -86,15 +972,252 @@
       "id": "ball",
       "entityId": "ball-entity",
       "label": "توپ",
-      "localAnchor": [0, 0, 0],
-      "localBounds": { "type": "sphere", "center": [0, 0, 0], "radius": 0.35 }
+      "localAnchor": [
+        0,
+        0,
+        0
+      ],
+      "localBounds": {
+        "type": "sphere",
+        "center": [
+          0,
+          0,
+          0
+        ],
+        "radius": 0.35
+      }
     },
     {
       "id": "goal",
       "entityId": "goal-entity",
       "label": "دروازه",
-      "localAnchor": [0, 1.25, 0],
-      "localBounds": { "type": "box", "min": [-3, 0, -1.2], "max": [3, 2.5, 0.05] }
+      "localAnchor": [
+        0,
+        1.25,
+        0
+      ],
+      "localBounds": {
+        "type": "box",
+        "min": [
+          -3,
+          0,
+          -1.2
+        ],
+        "max": [
+          3,
+          2.5,
+          0.05
+        ]
+      }
+    },
+    {
+      "id": "set-support-03-face",
+      "entityId": "set-support-03",
+      "label": "sideline spectator, #526b96 jacket; supporting subject, not the principal actor face",
+      "localAnchor": [
+        0,
+        1.63,
+        0.12
+      ],
+      "localBounds": {
+        "type": "sphere",
+        "center": [
+          0,
+          1.63,
+          0.12
+        ],
+        "radius": 0.16
+      }
+    },
+    {
+      "id": "set-support-04-face",
+      "entityId": "set-support-04",
+      "label": "sideline spectator, #526b96 jacket; supporting subject, not the principal actor face",
+      "localAnchor": [
+        0,
+        1.63,
+        0.12
+      ],
+      "localBounds": {
+        "type": "sphere",
+        "center": [
+          0,
+          1.63,
+          0.12
+        ],
+        "radius": 0.16
+      }
+    },
+    {
+      "id": "set-support-05-face",
+      "entityId": "set-support-05",
+      "label": "sideline spectator, #526b96 jacket; supporting subject, not the principal actor face",
+      "localAnchor": [
+        0,
+        1.63,
+        0.12
+      ],
+      "localBounds": {
+        "type": "sphere",
+        "center": [
+          0,
+          1.63,
+          0.12
+        ],
+        "radius": 0.16
+      }
+    },
+    {
+      "id": "set-support-06-face",
+      "entityId": "set-support-06",
+      "label": "sideline spectator, #526b96 jacket; supporting subject, not the principal actor face",
+      "localAnchor": [
+        0,
+        1.63,
+        0.12
+      ],
+      "localBounds": {
+        "type": "sphere",
+        "center": [
+          0,
+          1.63,
+          0.12
+        ],
+        "radius": 0.16
+      }
+    },
+    {
+      "id": "set-support-10-face",
+      "entityId": "set-support-10",
+      "label": "sideline spectator, #526b96 jacket; supporting subject, not the principal actor face",
+      "localAnchor": [
+        0,
+        1.63,
+        0.12
+      ],
+      "localBounds": {
+        "type": "sphere",
+        "center": [
+          0,
+          1.63,
+          0.12
+        ],
+        "radius": 0.16
+      }
+    },
+    {
+      "id": "set-support-11-face",
+      "entityId": "set-support-11",
+      "label": "sideline spectator, #526b96 jacket; supporting subject, not the principal actor face",
+      "localAnchor": [
+        0,
+        1.63,
+        0.12
+      ],
+      "localBounds": {
+        "type": "sphere",
+        "center": [
+          0,
+          1.63,
+          0.12
+        ],
+        "radius": 0.16
+      }
+    },
+    {
+      "id": "set-support-12-face",
+      "entityId": "set-support-12",
+      "label": "sideline spectator, #526b96 jacket; supporting subject, not the principal actor face",
+      "localAnchor": [
+        0,
+        1.63,
+        0.12
+      ],
+      "localBounds": {
+        "type": "sphere",
+        "center": [
+          0,
+          1.63,
+          0.12
+        ],
+        "radius": 0.16
+      }
+    },
+    {
+      "id": "set-support-13-face",
+      "entityId": "set-support-13",
+      "label": "sideline spectator, #526b96 jacket; supporting subject, not the principal actor face",
+      "localAnchor": [
+        0,
+        1.63,
+        0.12
+      ],
+      "localBounds": {
+        "type": "sphere",
+        "center": [
+          0,
+          1.63,
+          0.12
+        ],
+        "radius": 0.16
+      }
+    },
+    {
+      "id": "set-support-14-face",
+      "entityId": "set-support-14",
+      "label": "goalkeeper, #daa344 jacket; supporting subject, not the principal actor face",
+      "localAnchor": [
+        0,
+        1.63,
+        0.12
+      ],
+      "localBounds": {
+        "type": "sphere",
+        "center": [
+          0,
+          1.63,
+          0.12
+        ],
+        "radius": 0.16
+      }
+    },
+    {
+      "id": "set-support-15-face",
+      "entityId": "set-support-15",
+      "label": "defender, #80563f jacket; supporting subject, not the principal actor face",
+      "localAnchor": [
+        0,
+        1.63,
+        0.12
+      ],
+      "localBounds": {
+        "type": "sphere",
+        "center": [
+          0,
+          1.63,
+          0.12
+        ],
+        "radius": 0.16
+      }
+    },
+    {
+      "id": "set-support-16-face",
+      "entityId": "set-support-16",
+      "label": "supporting striker, #344975 jacket; supporting subject, not the principal actor face",
+      "localAnchor": [
+        0,
+        1.63,
+        0.12
+      ],
+      "localBounds": {
+        "type": "sphere",
+        "center": [
+          0,
+          1.63,
+          0.12
+        ],
+        "radius": 0.16
+      }
     }
   ]
 }

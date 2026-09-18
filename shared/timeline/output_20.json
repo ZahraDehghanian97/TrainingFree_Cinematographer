@@ -3,7 +3,7 @@
   "kind": "timelineSolverOutput",
   "exampleId": "example-20",
   "environmentId": "example-20-jogger-reveal",
-  "prompt": "دونده را در مسیر دنبال کن و نگذار درخت جلوی دید را بگیرد. وقتی به میدان رسید، دوربین را بالا ببر تا میدان و آب‌نما آشکار شوند؛ سپس با فاصله و زاویهٔ ثابت او را در قاب نگه دار.",
+  "prompt": "A 10-second park reveal. Follow the jogger for 4 seconds without letting the tree block the subject. From 4 to 7 seconds crane upward to reveal the courtyard fountain. During the final 3 seconds continue following at a fixed relative distance and angle, keeping the jogger framed. No cut and no frozen world.",
   "totalDuration": 10,
   "subjectBinding": {
     "mode": "resolved",
@@ -103,7 +103,7 @@
         "endTime": 10,
         "lossFunctions": [
           {
-            "type": "Static",
+            "type": "followMovement",
             "parameters": {
               "subjectId": "jogger"
             },

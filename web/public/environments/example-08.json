@@ -3,7 +3,7 @@
   "kind": "environment",
   "id": "example-08-punch-impact",
   "promptExampleId": "example-08",
-  "prompt": "ابتدا صحنهٔ مشت‌زدن را با حرکت آهسته و سرعت ۱۰٪ نشان بده؛ درست در لحظهٔ برخورد، سرعت را بسیار زیاد کن و روی محل ضربه زوم کن.",
+  "prompt": "A 12-second impact study on the boxing set. Begin in an eye-level, three-quarter-right long shot of the approaching fist and follow it at 10% scene speed. At the first surface contact between fist and target, stop translating the camera, switch scene speed to 4 times normal, and zoom optically into the impact point, centring it by the end. Keep the event tied to contact, not an invented playback timestamp.",
   "clock": {
     "durationSeconds": 12,
     "timeDomain": "playback",
@@ -24,11 +24,30 @@
     "profile": "studio",
     "background": "#36383e",
     "overviewCamera": {
-      "position": [6, 4.5, 6.5],
-      "target": [0, 1.1, -0.2]
+      "position": [
+        6,
+        4.5,
+        6.5
+      ],
+      "target": [
+        0,
+        1.1,
+        -0.2
+      ]
     },
-    "ground": { "y": 0, "size": [16, 16], "color": "#83766c", "surface": "wood" },
-    "grid": { "size": 16, "divisions": 16 }
+    "ground": {
+      "y": 0,
+      "size": [
+        16,
+        16
+      ],
+      "color": "#83766c",
+      "surface": "wood"
+    },
+    "grid": {
+      "size": 16,
+      "divisions": 16
+    }
   },
   "entities": [
     {
@@ -36,11 +55,40 @@
       "label": "بازیگر در حال مشت‌زدن",
       "transform": {
         "space": "world",
-        "position": [-0.3, 0, 2.1],
-        "rotation": [0, 1, 0, 0]
+        "position": [
+          -0.3,
+          0,
+          2.1
+        ],
+        "rotation": [
+          0,
+          1,
+          0,
+          0
+        ]
       },
-      "visual": { "type": "preset", "name": "humanoid", "params": { "color": "#c79e82", "shirtColor": "#323946", "motion": "punch" } },
-      "bounds": { "type": "box", "min": [-0.45, 0, -0.3], "max": [0.45, 1.85, 0.3] }
+      "visual": {
+        "type": "preset",
+        "name": "humanoid",
+        "params": {
+          "color": "#c79e82",
+          "shirtColor": "#323946",
+          "motion": "punch"
+        }
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.45,
+          0,
+          -0.3
+        ],
+        "max": [
+          0.45,
+          1.85,
+          0.3
+        ]
+      }
     },
     {
       "id": "fist-entity",
@@ -51,29 +99,506 @@
           "interpolation": "catmullRom",
           "extrapolation": "hold",
           "keyframes": [
-            { "t": 0, "value": [0.2, 1.3, 1.75] },
-              { "t": 0.3, "value": [0.16, 1.33, 1.1] },
-              { "t": 0.55, "value": [0.15, 1.35, 0.15] },
-              { "t": 0.68, "value": [0.15, 1.35, -0.95] },
-              { "t": 0.7, "value": [0.15, 1.35, -1.09] },
-              { "t": 1.7, "value": [0.15, 1.35, -0.35] },
-              { "t": 8.7, "value": [0.2, 1.3, 1.65] }
+            {
+              "t": 0,
+              "value": [
+                0.2,
+                1.3,
+                1.75
+              ]
+            },
+            {
+              "t": 0.3,
+              "value": [
+                0.16,
+                1.33,
+                1.1
+              ]
+            },
+            {
+              "t": 0.55,
+              "value": [
+                0.15,
+                1.35,
+                0.15
+              ]
+            },
+            {
+              "t": 0.68,
+              "value": [
+                0.15,
+                1.35,
+                -0.95
+              ]
+            },
+            {
+              "t": 0.7,
+              "value": [
+                0.15,
+                1.35,
+                -1.09
+              ]
+            },
+            {
+              "t": 1.7,
+              "value": [
+                0.15,
+                1.35,
+                -0.35
+              ]
+            },
+            {
+              "t": 8.7,
+              "value": [
+                0.2,
+                1.3,
+                1.65
+              ]
+            }
           ]
         }
       },
-      "visual": { "type": "primitive", "shape": "sphere", "params": { "radius": 0.16 }, "color": "#d7aa8c" },
-      "bounds": { "type": "sphere", "center": [0, 0, 0], "radius": 0.16 }
+      "visual": {
+        "type": "primitive",
+        "shape": "sphere",
+        "params": {
+          "radius": 0.16
+        },
+        "color": "#d7aa8c"
+      },
+      "bounds": {
+        "type": "sphere",
+        "center": [
+          0,
+          0,
+          0
+        ],
+        "radius": 0.16
+      }
     },
     {
       "id": "impact-target-entity",
       "label": "بالشتک ضربه",
       "transform": {
         "space": "world",
-        "position": [0, 1.35, -1.5],
-        "rotation": [0.7071068, 0, 0, 0.7071068]
+        "position": [
+          0,
+          1.35,
+          -1.5
+        ],
+        "rotation": [
+          0.7071068,
+          0,
+          0,
+          0.7071068
+        ]
       },
-      "visual": { "type": "primitive", "shape": "cylinder", "params": { "radius": 0.72, "height": 0.5 }, "color": "#813b3b" },
-      "bounds": { "type": "box", "min": [-0.72, -0.25, -0.72], "max": [0.72, 0.25, 0.72] }
+      "visual": {
+        "type": "primitive",
+        "shape": "cylinder",
+        "params": {
+          "radius": 0.72,
+          "height": 0.5
+        },
+        "color": "#813b3b"
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.72,
+          -0.25,
+          -0.72
+        ],
+        "max": [
+          0.72,
+          0.25,
+          0.72
+        ]
+      }
+    },
+    {
+      "id": "set-lighting-truss-00",
+      "label": "lighting truss",
+      "transform": {
+        "space": "world",
+        "position": [
+          -6,
+          0,
+          -5
+        ]
+      },
+      "visual": {
+        "type": "model",
+        "url": "/models/generated/lighting-truss.glb",
+        "fallback": {
+          "type": "primitive",
+          "shape": "box",
+          "params": {
+            "width": 1.1,
+            "height": 0.2,
+            "depth": 0.3
+          },
+          "color": "#717c87"
+        }
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.55,
+          0,
+          -0.55
+        ],
+        "max": [
+          0.55,
+          3.6,
+          0.55
+        ]
+      }
+    },
+    {
+      "id": "set-lighting-truss-01",
+      "label": "lighting truss",
+      "transform": {
+        "space": "world",
+        "position": [
+          6,
+          0,
+          -5
+        ]
+      },
+      "visual": {
+        "type": "model",
+        "url": "/models/generated/lighting-truss.glb",
+        "fallback": {
+          "type": "primitive",
+          "shape": "box",
+          "params": {
+            "width": 1.1,
+            "height": 0.2,
+            "depth": 0.3
+          },
+          "color": "#717c87"
+        }
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.55,
+          0,
+          -0.55
+        ],
+        "max": [
+          0.55,
+          3.6,
+          0.55
+        ]
+      }
+    },
+    {
+      "id": "set-lighting-truss-02",
+      "label": "lighting truss",
+      "transform": {
+        "space": "world",
+        "position": [
+          -6,
+          0,
+          5
+        ]
+      },
+      "visual": {
+        "type": "model",
+        "url": "/models/generated/lighting-truss.glb",
+        "fallback": {
+          "type": "primitive",
+          "shape": "box",
+          "params": {
+            "width": 1.1,
+            "height": 0.2,
+            "depth": 0.3
+          },
+          "color": "#717c87"
+        }
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.55,
+          0,
+          -0.55
+        ],
+        "max": [
+          0.55,
+          3.6,
+          0.55
+        ]
+      }
+    },
+    {
+      "id": "set-lighting-truss-03",
+      "label": "lighting truss",
+      "transform": {
+        "space": "world",
+        "position": [
+          6,
+          0,
+          5
+        ]
+      },
+      "visual": {
+        "type": "model",
+        "url": "/models/generated/lighting-truss.glb",
+        "fallback": {
+          "type": "primitive",
+          "shape": "box",
+          "params": {
+            "width": 1.1,
+            "height": 0.2,
+            "depth": 0.3
+          },
+          "color": "#717c87"
+        }
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.55,
+          0,
+          -0.55
+        ],
+        "max": [
+          0.55,
+          3.6,
+          0.55
+        ]
+      }
+    },
+    {
+      "id": "set-workbench-04",
+      "label": "workbench",
+      "transform": {
+        "space": "world",
+        "position": [
+          -5,
+          0,
+          -7
+        ]
+      },
+      "visual": {
+        "type": "model",
+        "url": "/models/generated/workbench.glb",
+        "fallback": {
+          "type": "primitive",
+          "shape": "box",
+          "params": {
+            "width": 1.8,
+            "height": 0.2,
+            "depth": 0.3
+          },
+          "color": "#717c87"
+        }
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.9,
+          0,
+          -0.36
+        ],
+        "max": [
+          0.9,
+          0.93,
+          0.36
+        ]
+      }
+    },
+    {
+      "id": "set-crate-stack-05",
+      "label": "crate stack",
+      "transform": {
+        "space": "world",
+        "position": [
+          -4,
+          0,
+          -7
+        ]
+      },
+      "visual": {
+        "type": "model",
+        "url": "/models/generated/crate-stack.glb",
+        "fallback": {
+          "type": "primitive",
+          "shape": "box",
+          "params": {
+            "width": 1.9,
+            "height": 0.2,
+            "depth": 0.3
+          },
+          "color": "#717c87"
+        }
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.95,
+          0,
+          -0.6
+        ],
+        "max": [
+          0.95,
+          1.725,
+          0.6
+        ]
+      }
+    },
+    {
+      "id": "set-workbench-06",
+      "label": "workbench",
+      "transform": {
+        "space": "world",
+        "position": [
+          5,
+          0,
+          -7
+        ]
+      },
+      "visual": {
+        "type": "model",
+        "url": "/models/generated/workbench.glb",
+        "fallback": {
+          "type": "primitive",
+          "shape": "box",
+          "params": {
+            "width": 1.8,
+            "height": 0.2,
+            "depth": 0.3
+          },
+          "color": "#717c87"
+        }
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.9,
+          0,
+          -0.36
+        ],
+        "max": [
+          0.9,
+          0.93,
+          0.36
+        ]
+      }
+    },
+    {
+      "id": "set-crate-stack-07",
+      "label": "crate stack",
+      "transform": {
+        "space": "world",
+        "position": [
+          6,
+          0,
+          -7
+        ]
+      },
+      "visual": {
+        "type": "model",
+        "url": "/models/generated/crate-stack.glb",
+        "fallback": {
+          "type": "primitive",
+          "shape": "box",
+          "params": {
+            "width": 1.9,
+            "height": 0.2,
+            "depth": 0.3
+          },
+          "color": "#717c87"
+        }
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.95,
+          0,
+          -0.6
+        ],
+        "max": [
+          0.95,
+          1.725,
+          0.6
+        ]
+      }
+    },
+    {
+      "id": "set-support-08",
+      "label": "stagehand, #4e586b jacket; supporting subject, not the principal actor",
+      "transform": {
+        "space": "world",
+        "position": [
+          -5,
+          0,
+          -5
+        ]
+      },
+      "visual": {
+        "type": "preset",
+        "name": "humanoid",
+        "params": {
+          "height": 1.8,
+          "shirtColor": "#4e586b",
+          "trouserColor": "#283341",
+          "color": "#ad805f",
+          "motion": "idle"
+        }
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.325,
+          0,
+          -0.25
+        ],
+        "max": [
+          0.325,
+          1.8,
+          0.25
+        ]
+      }
+    },
+    {
+      "id": "set-support-09",
+      "label": "lighting technician, #745c49 jacket; supporting subject, not the principal actor",
+      "transform": {
+        "space": "world",
+        "position": [
+          5,
+          0,
+          -6
+        ]
+      },
+      "visual": {
+        "type": "preset",
+        "name": "humanoid",
+        "params": {
+          "height": 1.8,
+          "shirtColor": "#745c49",
+          "trouserColor": "#283341",
+          "color": "#ad805f",
+          "motion": "idle"
+        }
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.325,
+          0,
+          -0.25
+        ],
+        "max": [
+          0.325,
+          1.8,
+          0.25
+        ]
+      }
     }
   ],
   "semanticAnchors": [
@@ -81,22 +606,100 @@
       "id": "fist",
       "entityId": "fist-entity",
       "label": "مشت",
-      "localAnchor": [0, 0, 0],
-      "localBounds": { "type": "sphere", "center": [0, 0, 0], "radius": 0.16 }
+      "localAnchor": [
+        0,
+        0,
+        0
+      ],
+      "localBounds": {
+        "type": "sphere",
+        "center": [
+          0,
+          0,
+          0
+        ],
+        "radius": 0.16
+      }
     },
     {
       "id": "target",
       "entityId": "impact-target-entity",
       "label": "هدف ضربه",
-      "localAnchor": [0.15, 0.25, 0],
-      "localBounds": { "type": "box", "min": [-0.72, -0.25, -0.72], "max": [0.72, 0.25, 0.72] }
+      "localAnchor": [
+        0.15,
+        0.25,
+        0
+      ],
+      "localBounds": {
+        "type": "box",
+        "min": [
+          -0.72,
+          -0.25,
+          -0.72
+        ],
+        "max": [
+          0.72,
+          0.25,
+          0.72
+        ]
+      }
     },
     {
       "id": "impact_point",
       "entityId": "impact-target-entity",
       "label": "محل برخورد ضربه",
-      "localAnchor": [0.15, 0.25, 0],
-      "localBounds": { "type": "sphere", "center": [0.15, 0.25, 0], "radius": 0.04 }
+      "localAnchor": [
+        0.15,
+        0.25,
+        0
+      ],
+      "localBounds": {
+        "type": "sphere",
+        "center": [
+          0.15,
+          0.25,
+          0
+        ],
+        "radius": 0.04
+      }
+    },
+    {
+      "id": "set-support-08-face",
+      "entityId": "set-support-08",
+      "label": "stagehand, #4e586b jacket; supporting subject, not the principal actor face",
+      "localAnchor": [
+        0,
+        1.63,
+        0.12
+      ],
+      "localBounds": {
+        "type": "sphere",
+        "center": [
+          0,
+          1.63,
+          0.12
+        ],
+        "radius": 0.16
+      }
+    },
+    {
+      "id": "set-support-09-face",
+      "entityId": "set-support-09",
+      "label": "lighting technician, #745c49 jacket; supporting subject, not the principal actor face",
+      "localAnchor": [
+        0,
+        1.63,
+        0.12
+      ],
+      "localBounds": {
+        "type": "sphere",
+        "center": [
+          0,
+          1.63,
+          0.12
+        ],
+        "radius": 0.16
+      }
     }
   ]
 }

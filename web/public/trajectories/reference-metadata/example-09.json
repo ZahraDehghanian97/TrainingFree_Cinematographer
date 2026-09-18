@@ -1,0 +1,164 @@
+{
+  "schemaVersion": "1.0",
+  "kind": "authoredCameraReference",
+  "exampleId": "example-09",
+  "environmentId": "example-09-two-people",
+  "provenance": {
+    "method": "assistant-authored analytical storyboard",
+    "optimizerDerived": false,
+    "llmInferenceRun": false,
+    "measuredGroundTruth": false
+  },
+  "prompt": "A 24-second rendezvous in the populated park. Follow the two principal people in a long two-shot. When the distance between their tracked anchor centres first falls below 1 metre, make one hard cut to an eye-level, medium close-up of the second person, centred, with the first person’s shoulder in the bottom-left foreground and a level horizon. Continue following the second person. Background walkers are not the principals.",
+  "promptSha256": "e434912291d986962570f393fce8bff25b82e06f5c6dafdccfc35e165b261c4e",
+  "environmentSha256": "2a31d60e8a12c11df297a38768e255b40e813cffb6853c56ddf07aa00ad2a80f",
+  "cslSha256": "d837dff2e79e1f4cbdfd332c401f71403c721a0fb64d836f5c8aba778b909f9b",
+  "recipeSha256": "be44b70b1e0cebe947a78fd4cfeb2b2f77842477215d69a6d67d8e7f0860bd6f",
+  "trajectorySha256": "3d811712f06b98bc9f60058f9f17528dea34a92c22b7b0793e0ed563dd8cb39b",
+  "fullPoseIsGroundTruth": false,
+  "artisticChoices": [
+    "Unrequested rig offsets, radii, lens choices and smoothstep pacing are authored illustration choices, not inferred user constraints.",
+    "Camera paths are synthetic assistant-authored references, not measured ground truth, not LLM inference runs, and not optimized outputs."
+  ],
+  "limitations": [
+    "OTS foreground placement is a composition target; projected shoulder coverage is reported separately, not assumed from the cut."
+  ],
+  "plan": {
+    "version": "1.0",
+    "exampleId": "example-09",
+    "knots": [
+      {
+        "at": 0,
+        "rig": {
+          "ids": [
+            "person1",
+            "person2"
+          ]
+        },
+        "offset": [
+          0,
+          3,
+          -18
+        ],
+        "aim": {
+          "ids": [
+            "person1",
+            "person2"
+          ]
+        },
+        "fov": 50
+      },
+      {
+        "at": {
+          "actionId": "ots_cut",
+          "edge": "start"
+        },
+        "rig": {
+          "ids": [
+            "person1",
+            "person2"
+          ]
+        },
+        "offset": [
+          0,
+          3,
+          -18
+        ],
+        "aim": {
+          "ids": [
+            "person1",
+            "person2"
+          ]
+        },
+        "fov": 50
+      },
+      {
+        "at": {
+          "actionId": "ots_cut",
+          "edge": "start"
+        },
+        "rig": {
+          "ids": [
+            "person2_face"
+          ]
+        },
+        "offset": [
+          -1.44,
+          0,
+          1.36
+        ],
+        "aim": {
+          "ids": [
+            "person2_face"
+          ]
+        },
+        "fov": 40,
+        "cutBefore": true
+      },
+      {
+        "at": 24,
+        "rig": {
+          "ids": [
+            "person2_face"
+          ]
+        },
+        "offset": [
+          -1.44,
+          0,
+          1.36
+        ],
+        "aim": {
+          "ids": [
+            "person2_face"
+          ]
+        },
+        "fov": 40
+      }
+    ],
+    "artisticChoices": [
+      "Unrequested rig offsets, radii, lens choices and smoothstep pacing are authored illustration choices, not inferred user constraints.",
+      "Camera paths are synthetic assistant-authored references, not measured ground truth, not LLM inference runs, and not optimized outputs."
+    ],
+    "limitations": [
+      "OTS foreground placement is a composition target; projected shoulder coverage is reported separately, not assumed from the cut."
+    ]
+  },
+  "actions": [
+    {
+      "id": "follow_two_people",
+      "act": "follow",
+      "start": 0,
+      "end": 13.333333333333334,
+      "targets": [
+        "person1",
+        "person2"
+      ]
+    },
+    {
+      "id": "ots_cut",
+      "act": "follow",
+      "start": 13.333333333333334,
+      "end": 24,
+      "targets": [
+        "person2_face"
+      ]
+    }
+  ],
+  "cutTimes": [
+    13.333333333333334
+  ],
+  "rateSegments": [],
+  "sampleCount": 722,
+  "sampledAudit": {
+    "qualification": "sampled-checks-pass",
+    "contractFailures": 0,
+    "compositionFailures": 0,
+    "geometryWarnings": 0,
+    "samplingFps": 10,
+    "limitations": [
+      "Sampled at 10 Hz plus action boundaries; no continuous collision certificate or mesh ray tracing.",
+      "Shot size uses conservative projected AABBs; view-side, speed-keyframe fidelity, jerk and all perceptual qualities still require review.",
+      "Passing a subset of explicit contracts never makes the entire arbitrary reference pose ground truth."
+    ]
+  }
+}

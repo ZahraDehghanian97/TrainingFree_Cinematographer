@@ -1,0 +1,161 @@
+{
+  "schemaVersion": "1.0",
+  "kind": "authoredCameraReference",
+  "exampleId": "example-08",
+  "environmentId": "example-08-punch-impact",
+  "provenance": {
+    "method": "assistant-authored analytical storyboard",
+    "optimizerDerived": false,
+    "llmInferenceRun": false,
+    "measuredGroundTruth": false
+  },
+  "prompt": "A 12-second impact study on the boxing set. Begin in an eye-level, three-quarter-right long shot of the approaching fist and follow it at 10% scene speed. At the first surface contact between fist and target, stop translating the camera, switch scene speed to 4 times normal, and zoom optically into the impact point, centring it by the end. Keep the event tied to contact, not an invented playback timestamp.",
+  "promptSha256": "982e33f0ef8e50aefb3690101735ac67585574b52bf1fddbf224ec7e69249666",
+  "environmentSha256": "0945012725452639ac38d48b16614d729b92f2c10d03ee77351acf90328c047c",
+  "cslSha256": "3a4e88b882a221ad444496fdb216ff342b955032dcbafd7a93d6912ac02880d6",
+  "recipeSha256": "08f37087d02c4ba658c1f26a95c957c22758f1e1f7f302347ca0a8f1b703b10d",
+  "trajectorySha256": "0553db2aa897795089131721a5d3b86f2b56d62a3dfa93680c180bb52fae9c8c",
+  "fullPoseIsGroundTruth": false,
+  "artisticChoices": [
+    "Unrequested rig offsets, radii, lens choices and smoothstep pacing are authored illustration choices, not inferred user constraints.",
+    "Camera paths are synthetic assistant-authored references, not measured ground truth, not LLM inference runs, and not optimized outputs."
+  ],
+  "limitations": [],
+  "plan": {
+    "version": "1.0",
+    "exampleId": "example-08",
+    "knots": [
+      {
+        "at": 0,
+        "rig": {
+          "ids": [
+            "fist"
+          ],
+          "holdAfter": {
+            "actionId": "hyper_fast_impact",
+            "edge": "start"
+          }
+        },
+        "offset": [
+          3,
+          0.7,
+          4.5
+        ],
+        "aim": {
+          "ids": [
+            "fist"
+          ]
+        },
+        "fov": 52
+      },
+      {
+        "at": {
+          "actionId": "hyper_fast_impact",
+          "edge": "start"
+        },
+        "rig": {
+          "ids": [
+            "fist"
+          ],
+          "holdAfter": {
+            "actionId": "hyper_fast_impact",
+            "edge": "start"
+          }
+        },
+        "offset": [
+          3,
+          0.7,
+          4.5
+        ],
+        "aim": {
+          "ids": [
+            "impact_point"
+          ]
+        },
+        "fov": 52
+      },
+      {
+        "at": 12,
+        "rig": {
+          "ids": [
+            "fist"
+          ],
+          "holdAfter": {
+            "actionId": "hyper_fast_impact",
+            "edge": "start"
+          }
+        },
+        "offset": [
+          3,
+          0.7,
+          4.5
+        ],
+        "aim": {
+          "ids": [
+            "impact_point"
+          ]
+        },
+        "fov": 15
+      }
+    ],
+    "artisticChoices": [
+      "Unrequested rig offsets, radii, lens choices and smoothstep pacing are authored illustration choices, not inferred user constraints.",
+      "Camera paths are synthetic assistant-authored references, not measured ground truth, not LLM inference runs, and not optimized outputs."
+    ]
+  },
+  "actions": [
+    {
+      "id": "slow_motion_punch",
+      "act": "follow",
+      "start": 0,
+      "end": 7,
+      "targets": [
+        "fist"
+      ]
+    },
+    {
+      "id": "hyper_fast_impact",
+      "act": "static",
+      "start": 7,
+      "end": 12,
+      "targets": [
+        "impact_point"
+      ]
+    },
+    {
+      "id": "zoom_in_impact",
+      "act": "zoomIn",
+      "start": 7,
+      "end": 12,
+      "targets": []
+    }
+  ],
+  "cutTimes": [],
+  "rateSegments": [
+    {
+      "startTime": 0,
+      "endTime": 7,
+      "rate": 0.1,
+      "label": "verySlow"
+    },
+    {
+      "startTime": 7,
+      "endTime": 12,
+      "rate": 4,
+      "label": "veryFast"
+    }
+  ],
+  "sampleCount": 361,
+  "sampledAudit": {
+    "qualification": "sampled-checks-pass",
+    "contractFailures": 0,
+    "compositionFailures": 0,
+    "geometryWarnings": 0,
+    "samplingFps": 10,
+    "limitations": [
+      "Sampled at 10 Hz plus action boundaries; no continuous collision certificate or mesh ray tracing.",
+      "Shot size uses conservative projected AABBs; view-side, speed-keyframe fidelity, jerk and all perceptual qualities still require review.",
+      "Passing a subset of explicit contracts never makes the entire arbitrary reference pose ground truth."
+    ]
+  }
+}

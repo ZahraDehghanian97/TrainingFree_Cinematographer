@@ -4,7 +4,7 @@ import {
 } from "../../environment/sampler";
 import { sampleLocomotionPosition } from "../../environment/locomotion-path";
 import type { Channel, EnvironmentV1, Quat, SceneEntityV1, Vec3 } from "../../types/environment";
-import type { WorldAabbV1 } from "../../types/environment-query";
+import type { WorldAabbV1 } from "../../types/environment-spatial";
 import { conjugateQuat, multiplyQuat, rotate3 } from "../shared/math";
 
 export interface CertifiedObstacleSweep {

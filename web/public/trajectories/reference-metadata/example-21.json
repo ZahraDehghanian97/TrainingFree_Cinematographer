@@ -1,0 +1,172 @@
+{
+  "schemaVersion": "1.0",
+  "kind": "authoredCameraReference",
+  "exampleId": "example-21",
+  "environmentId": "example-21-rooftop-chase",
+  "provenance": {
+    "method": "assistant-authored analytical storyboard",
+    "optimizerDerived": false,
+    "llmInferenceRun": false,
+    "measuredGroundTruth": false
+  },
+  "prompt": "A 10-second rooftop pursuit among vents and maintenance workers. Track the principal runner until the pursuer first closes to 2.5 metres. Over the next 1.5 seconds arc around the runner and zoom optically to reveal the pursuer. For the remainder track both principals with a stable, level two-shot. Do not confuse maintenance staff with the pursuer, and do not freeze scene time.",
+  "promptSha256": "09c3d1ae368d612438eb88bdf8e5e58cd38235c9a5aa4845e6c4f70a7ab0c477",
+  "environmentSha256": "cc1c1e1b4efb427ba5ce50a5ea7cb0b394030f34e75b540f00d21fd094adb639",
+  "cslSha256": "4c36e340a44359540d9ec03a5e9e3557209e58a3c0eb58d7ac41a9c8644cca19",
+  "recipeSha256": "745c9702bb5a26f416f04eda09f97a1247269243c012877bc9ed7f05631d7531",
+  "trajectorySha256": "cd795669372eeeb1dd12a8a1261ec2150409d5fdd3ff8e372deefd28054e6d63",
+  "fullPoseIsGroundTruth": false,
+  "artisticChoices": [
+    "Unrequested rig offsets, radii, lens choices and smoothstep pacing are authored illustration choices, not inferred user constraints.",
+    "Camera paths are synthetic assistant-authored references, not measured ground truth, not LLM inference runs, and not optimized outputs."
+  ],
+  "limitations": [],
+  "plan": {
+    "version": "1.0",
+    "exampleId": "example-21",
+    "knots": [
+      {
+        "at": 0,
+        "rig": {
+          "ids": [
+            "runner"
+          ]
+        },
+        "polar": [
+          40,
+          0.6,
+          6.5
+        ],
+        "aim": {
+          "ids": [
+            "runner"
+          ]
+        },
+        "fov": 54
+      },
+      {
+        "at": {
+          "actionId": "pursuer_closes_in",
+          "edge": "start"
+        },
+        "rig": {
+          "ids": [
+            "runner"
+          ]
+        },
+        "polar": [
+          40,
+          0.6,
+          6.5
+        ],
+        "aim": {
+          "ids": [
+            "runner"
+          ]
+        },
+        "fov": 54
+      },
+      {
+        "at": {
+          "actionId": "tense_hold",
+          "edge": "start"
+        },
+        "rig": {
+          "ids": [
+            "runner",
+            "pursuer"
+          ]
+        },
+        "polar": [
+          120,
+          0.6,
+          6.5
+        ],
+        "aim": {
+          "ids": [
+            "runner",
+            "pursuer"
+          ]
+        },
+        "fov": 43
+      },
+      {
+        "at": 10,
+        "rig": {
+          "ids": [
+            "runner",
+            "pursuer"
+          ]
+        },
+        "polar": [
+          120,
+          0.6,
+          6.5
+        ],
+        "aim": {
+          "ids": [
+            "runner",
+            "pursuer"
+          ]
+        },
+        "fov": 43
+      }
+    ],
+    "artisticChoices": [
+      "Unrequested rig offsets, radii, lens choices and smoothstep pacing are authored illustration choices, not inferred user constraints.",
+      "Camera paths are synthetic assistant-authored references, not measured ground truth, not LLM inference runs, and not optimized outputs."
+    ]
+  },
+  "actions": [
+    {
+      "id": "track_runner",
+      "act": "track",
+      "start": 0,
+      "end": 3.9583333333333335,
+      "targets": [
+        "runner"
+      ]
+    },
+    {
+      "id": "pursuer_closes_in",
+      "act": "orbit",
+      "start": 3.9583333333333335,
+      "end": 5.458333333333334,
+      "targets": [
+        "runner"
+      ]
+    },
+    {
+      "id": "zoom_on_pursuer",
+      "act": "zoomIn",
+      "start": 3.9583333333333335,
+      "end": 5.458333333333334,
+      "targets": []
+    },
+    {
+      "id": "tense_hold",
+      "act": "track",
+      "start": 5.458333333333334,
+      "end": 10,
+      "targets": [
+        "runner",
+        "pursuer"
+      ]
+    }
+  ],
+  "cutTimes": [],
+  "rateSegments": [],
+  "sampleCount": 303,
+  "sampledAudit": {
+    "qualification": "sampled-checks-pass",
+    "contractFailures": 0,
+    "compositionFailures": 0,
+    "geometryWarnings": 0,
+    "samplingFps": 10,
+    "limitations": [
+      "Sampled at 10 Hz plus action boundaries; no continuous collision certificate or mesh ray tracing.",
+      "Shot size uses conservative projected AABBs; view-side, speed-keyframe fidelity, jerk and all perceptual qualities still require review.",
+      "Passing a subset of explicit contracts never makes the entire arbitrary reference pose ground truth."
+    ]
+  }
+}

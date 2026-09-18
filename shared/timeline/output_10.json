@@ -3,7 +3,7 @@
   "kind": "timelineSolverOutput",
   "exampleId": "example-10",
   "environmentId": "example-10-race-car",
-  "prompt": "ماشین مسابقه را دنبال کن؛ اگر سرعت آن از ۱۰۰ کیلومتر بر ساعت بیشتر شد، دوربین را بلرزان و عقب بکش تا حس سرعت القا شود.",
+  "prompt": "A 13-second racing shot. Follow the principal race car. When its speed first exceeds 100 kilometres per hour (27.7777778 metres per second), keep following it while dollying backward with an accelerating then settling handheld retreat. Keep the car as the subject. Shake the camera, not the scene clock; do not cut.",
   "totalDuration": 13,
   "subjectBinding": {
     "mode": "resolved",
@@ -92,6 +92,22 @@
               "subjectId": "race_car"
             },
             "sourceActionId": "dolly_out_shake"
+          }
+        ],
+        "weight": 1
+      },
+      {
+        "kind": "interval",
+        "shotStartTime": 0,
+        "startTime": 6.6,
+        "endTime": 13,
+        "lossFunctions": [
+          {
+            "type": "followMovement",
+            "parameters": {
+              "subjectId": "race_car"
+            },
+            "sourceActionId": "follow_during_retreat"
           }
         ],
         "weight": 1

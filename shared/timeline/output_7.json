@@ -3,7 +3,7 @@
   "kind": "timelineSolverOutput",
   "exampleId": "example-07",
   "environmentId": "example-07-spiral-closeup",
-  "prompt": "از نمای بالا شروع کن و با یک حرکت حلزونی، همزمان با یک دور کامل چرخش به سوژه نزدیک شو تا به نمای نزدیک چشم‌هایش برسی.",
+  "prompt": "A 9-second unbroken spiral toward the principal subject. Begin from a bird’s-eye view. Orbit one full turn (360 degrees) while simultaneously dollying closer and descending toward the eyes. Finish in a close-up of the eyes, not inside the head. The initial high angle is not a constraint on the entire approach. No cut.",
   "totalDuration": 9,
   "subjectBinding": {
     "mode": "resolved",
@@ -32,8 +32,7 @@
                   "normalizedTime": 1,
                   "speedMultiplier": 1
                 }
-              ],
-              "constantSpeed": true
+              ]
             },
             "sourceActionId": "spiral_orbit"
           }
@@ -75,8 +74,7 @@
                   "normalizedTime": 1,
                   "speedMultiplier": 1
                 }
-              ],
-              "constantSpeed": true
+              ]
             },
             "sourceActionId": "spiral_dolly_in"
           }

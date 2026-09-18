@@ -3,7 +3,7 @@
   "kind": "timelineSolverOutput",
   "exampleId": "example-23",
   "environmentId": "example-23-factory-convergence",
-  "prompt": "یک پلان پیوستهٔ ۲۰ ثانیه‌ای درون کارخانه‌ای شلوغ بگیر. با دنبال‌کردن کارگر الف از سمت شرق سالن تولید به سمت مرکز شروع کن و او را در نمای متوسطِ دور نگه دار. نزدیک‌تر شو و با حرکت او دوربین را افقی و عمودی بچرخان؛ سپس هنگام تغییر مسیرش، دوربین را جانبی و عمودی جابه‌جا کن. وقتی کنار دستگاه‌های مرکزی کند شد، در مسیری قوسی دورش بچرخ و به‌تدریج زوم را بیشتر کن تا کارگر ب که از سمت مقابل نزدیک می‌شود آشکار شود. با نزدیک‌شدن دو کارگر، نما را بازتر کن و هر دو را با هم تعقیب کن؛ آن‌ها را در دید نگه دار، فاصله و زاویه را ثابت حفظ کن و از دستگاه‌ها و لیفتراک در حال عبور دوری کن. وقتی کارگر ب به سمت سکوی بارگیری شتاب گرفت، با او دوربین را افقی بچرخان، جانبی در سالن حرکت کن، دوربین را پایین بیاور، در مسیری قوسی دورش بچرخ و کجی دوربین را اصلاح کن. سپس عقب بکش تا هر دو کارگر، نیم‌طبقه، لیفتراک و محوطهٔ بارگیری دیده شوند. در پایان دور دو کارگر بچرخ، هر دو را در یک قاب باز و پایدار نگه دار و با نمای ثابت و توقف زمان تمام کن. در تمام پلان، حرکت دوربین نرم باشد، دید سوژه‌ها مسدود نشود، دوربین از سطح زمین پایین‌تر نرود و هر گذار مانند یک حرکت پیوسته و هدفمند سینمایی احساس شود.",
+  "prompt": "A 20-second ensemble reveal in the populated factory. Follow worker A for the first 6 seconds. From 6 to 10 seconds arc 90 degrees right around workers A and B, bringing both fully into frame by 10 seconds. Track both from 10 to 15 seconds. From 15 to 18 seconds dolly backward while craning upward, revealing the workers, yellow forklift, steel mezzanine, and loading bay together. Freeze the scene and lock off for the final 2 seconds, holding that wide ensemble frame. Keep a level horizon, smooth motion and clear sightlines; no cut. Supporting technicians remain secondary.",
   "totalDuration": 20,
   "subjectBinding": {
     "mode": "resolved",
@@ -15,14 +15,14 @@
         "kind": "interval",
         "shotStartTime": 0,
         "startTime": 0,
-        "endTime": 2.4611111111111112,
+        "endTime": 6,
         "lossFunctions": [
           {
             "type": "followMovement",
             "parameters": {
               "subjectId": "worker_a"
             },
-            "sourceActionId": "follow_worker_a_center"
+            "sourceActionId": "follow_worker_a"
           }
         ],
         "weight": 1
@@ -31,29 +31,12 @@
         "kind": "interval",
         "shotStartTime": 0,
         "startTime": 0,
-        "endTime": 2.4611111111111112,
-        "lossFunctions": [
-          {
-            "type": "shotSize",
-            "parameters": {
-              "shotSize": "mediumLongShot",
-              "subjectId": "worker_a"
-            },
-            "sourceActionId": "follow_worker_a_center"
-          }
-        ],
-        "weight": 1
-      },
-      {
-        "kind": "interval",
-        "shotStartTime": 0,
-        "startTime": 0,
-        "endTime": 2.4611111111111112,
+        "endTime": 6,
         "lossFunctions": [
           {
             "type": "noShake",
             "parameters": {},
-            "sourceActionId": "follow_worker_a_center"
+            "sourceActionId": "follow_worker_a"
           }
         ],
         "weight": 1
@@ -62,14 +45,14 @@
         "kind": "interval",
         "shotStartTime": 0,
         "startTime": 0,
-        "endTime": 2.4611111111111112,
+        "endTime": 6,
         "lossFunctions": [
           {
             "type": "avoidOcclusion",
             "parameters": {
               "subjectId": "worker_a"
             },
-            "sourceActionId": "follow_worker_a_center"
+            "sourceActionId": "follow_worker_a"
           }
         ],
         "weight": 1
@@ -77,15 +60,20 @@
       {
         "kind": "interval",
         "shotStartTime": 0,
-        "startTime": 0,
-        "endTime": 7.383333333333334,
+        "startTime": 6,
+        "endTime": 10,
         "lossFunctions": [
           {
             "type": "arcMovement",
             "parameters": {
-              "subjectId": "worker_a"
+              "sign": 1,
+              "arcAngle": 90,
+              "subjectIds": [
+                "worker_a",
+                "worker_b"
+              ]
             },
-            "sourceActionId": "arc_zoom_near_machine"
+            "sourceActionId": "arc_reveal_worker_b"
           }
         ],
         "weight": 1
@@ -93,13 +81,13 @@
       {
         "kind": "interval",
         "shotStartTime": 0,
-        "startTime": 0,
-        "endTime": 7.383333333333334,
+        "startTime": 6,
+        "endTime": 10,
         "lossFunctions": [
           {
             "type": "noShake",
             "parameters": {},
-            "sourceActionId": "arc_zoom_near_machine"
+            "sourceActionId": "arc_reveal_worker_b"
           }
         ],
         "weight": 1
@@ -107,52 +95,8 @@
       {
         "kind": "interval",
         "shotStartTime": 0,
-        "startTime": 0,
-        "endTime": 7.383333333333334,
-        "lossFunctions": [
-          {
-            "type": "avoidOcclusion",
-            "parameters": {
-              "subjectId": "worker_a"
-            },
-            "sourceActionId": "arc_zoom_near_machine"
-          }
-        ],
-        "weight": 1
-      },
-      {
-        "kind": "interval",
-        "shotStartTime": 0,
-        "startTime": 0,
-        "endTime": 7.383333333333334,
-        "lossFunctions": [
-          {
-            "type": "zoomInMovement",
-            "parameters": {},
-            "sourceActionId": "zoom_in_reveal_worker_b"
-          }
-        ],
-        "weight": 1
-      },
-      {
-        "kind": "interval",
-        "shotStartTime": 0,
-        "startTime": 0,
-        "endTime": 7.383333333333334,
-        "lossFunctions": [
-          {
-            "type": "noShake",
-            "parameters": {},
-            "sourceActionId": "zoom_in_reveal_worker_b"
-          }
-        ],
-        "weight": 1
-      },
-      {
-        "kind": "interval",
-        "shotStartTime": 0,
-        "startTime": 0,
-        "endTime": 7.383333333333334,
+        "startTime": 6,
+        "endTime": 10,
         "lossFunctions": [
           {
             "type": "avoidOcclusion",
@@ -162,7 +106,7 @@
                 "worker_b"
               ]
             },
-            "sourceActionId": "zoom_in_reveal_worker_b"
+            "sourceActionId": "arc_reveal_worker_b"
           }
         ],
         "weight": 1
@@ -170,276 +114,7 @@
       {
         "kind": "point",
         "shotStartTime": 0,
-        "time": 0,
-        "lossFunctions": [
-          {
-            "type": "shotSize",
-            "parameters": {
-              "shotSize": "mediumLongShot",
-              "subjectId": "worker_a"
-            }
-          }
-        ],
-        "weight": 1
-      },
-      {
-        "kind": "interval",
-        "shotStartTime": 0,
-        "startTime": 2.4611111111111112,
-        "endTime": 4.9222222222222225,
-        "lossFunctions": [
-          {
-            "type": "dollyInMovement",
-            "parameters": {
-              "subjectId": "worker_a"
-            },
-            "sourceActionId": "push_closer_truck_pedestal"
-          }
-        ],
-        "weight": 1
-      },
-      {
-        "kind": "interval",
-        "shotStartTime": 0,
-        "startTime": 2.4611111111111112,
-        "endTime": 4.9222222222222225,
-        "lossFunctions": [
-          {
-            "type": "noShake",
-            "parameters": {},
-            "sourceActionId": "push_closer_truck_pedestal"
-          }
-        ],
-        "weight": 1
-      },
-      {
-        "kind": "interval",
-        "shotStartTime": 0,
-        "startTime": 2.4611111111111112,
-        "endTime": 4.9222222222222225,
-        "lossFunctions": [
-          {
-            "type": "avoidOcclusion",
-            "parameters": {
-              "subjectId": "worker_a"
-            },
-            "sourceActionId": "push_closer_truck_pedestal"
-          }
-        ],
-        "weight": 1
-      },
-      {
-        "kind": "interval",
-        "shotStartTime": 0,
-        "startTime": 2.4611111111111112,
-        "endTime": 7.383333333333334,
-        "lossFunctions": [
-          {
-            "type": "panLeftMovement",
-            "parameters": {},
-            "sourceActionId": "pan_with_worker_a"
-          }
-        ],
-        "weight": 1
-      },
-      {
-        "kind": "interval",
-        "shotStartTime": 0,
-        "startTime": 2.4611111111111112,
-        "endTime": 7.383333333333334,
-        "lossFunctions": [
-          {
-            "type": "subjectPresence",
-            "parameters": {
-              "subjectId": "worker_a"
-            },
-            "sourceActionId": "pan_with_worker_a"
-          }
-        ],
-        "weight": 1
-      },
-      {
-        "kind": "interval",
-        "shotStartTime": 0,
-        "startTime": 2.4611111111111112,
-        "endTime": 7.383333333333334,
-        "lossFunctions": [
-          {
-            "type": "noShake",
-            "parameters": {},
-            "sourceActionId": "pan_with_worker_a"
-          }
-        ],
-        "weight": 1
-      },
-      {
-        "kind": "interval",
-        "shotStartTime": 0,
-        "startTime": 2.4611111111111112,
-        "endTime": 7.383333333333334,
-        "lossFunctions": [
-          {
-            "type": "avoidOcclusion",
-            "parameters": {
-              "subjectId": "worker_a"
-            },
-            "sourceActionId": "pan_with_worker_a"
-          }
-        ],
-        "weight": 1
-      },
-      {
-        "kind": "interval",
-        "shotStartTime": 0,
-        "startTime": 2.4611111111111112,
-        "endTime": 7.383333333333334,
-        "lossFunctions": [
-          {
-            "type": "tiltUpMovement",
-            "parameters": {},
-            "sourceActionId": "tilt_with_worker_a"
-          }
-        ],
-        "weight": 1
-      },
-      {
-        "kind": "interval",
-        "shotStartTime": 0,
-        "startTime": 2.4611111111111112,
-        "endTime": 7.383333333333334,
-        "lossFunctions": [
-          {
-            "type": "noShake",
-            "parameters": {},
-            "sourceActionId": "tilt_with_worker_a"
-          }
-        ],
-        "weight": 1
-      },
-      {
-        "kind": "interval",
-        "shotStartTime": 0,
-        "startTime": 2.4611111111111112,
-        "endTime": 7.383333333333334,
-        "lossFunctions": [
-          {
-            "type": "avoidOcclusion",
-            "parameters": {
-              "subjectId": "worker_a"
-            },
-            "sourceActionId": "tilt_with_worker_a"
-          }
-        ],
-        "weight": 1
-      },
-      {
-        "kind": "interval",
-        "shotStartTime": 0,
-        "startTime": 4.9222222222222225,
-        "endTime": 7.383333333333334,
-        "lossFunctions": [
-          {
-            "type": "truckLeftMovement",
-            "parameters": {},
-            "sourceActionId": "truck_with_worker_a"
-          }
-        ],
-        "weight": 1
-      },
-      {
-        "kind": "interval",
-        "shotStartTime": 0,
-        "startTime": 4.9222222222222225,
-        "endTime": 7.383333333333334,
-        "lossFunctions": [
-          {
-            "type": "subjectPresence",
-            "parameters": {
-              "subjectId": "worker_a"
-            },
-            "sourceActionId": "truck_with_worker_a"
-          }
-        ],
-        "weight": 1
-      },
-      {
-        "kind": "interval",
-        "shotStartTime": 0,
-        "startTime": 4.9222222222222225,
-        "endTime": 7.383333333333334,
-        "lossFunctions": [
-          {
-            "type": "noShake",
-            "parameters": {},
-            "sourceActionId": "truck_with_worker_a"
-          }
-        ],
-        "weight": 1
-      },
-      {
-        "kind": "interval",
-        "shotStartTime": 0,
-        "startTime": 4.9222222222222225,
-        "endTime": 7.383333333333334,
-        "lossFunctions": [
-          {
-            "type": "avoidOcclusion",
-            "parameters": {
-              "subjectId": "worker_a"
-            },
-            "sourceActionId": "truck_with_worker_a"
-          }
-        ],
-        "weight": 1
-      },
-      {
-        "kind": "interval",
-        "shotStartTime": 0,
-        "startTime": 4.9222222222222225,
-        "endTime": 7.383333333333334,
-        "lossFunctions": [
-          {
-            "type": "pedestalUpMovement",
-            "parameters": {},
-            "sourceActionId": "pedestal_with_worker_a"
-          }
-        ],
-        "weight": 1
-      },
-      {
-        "kind": "interval",
-        "shotStartTime": 0,
-        "startTime": 4.9222222222222225,
-        "endTime": 7.383333333333334,
-        "lossFunctions": [
-          {
-            "type": "noShake",
-            "parameters": {},
-            "sourceActionId": "pedestal_with_worker_a"
-          }
-        ],
-        "weight": 1
-      },
-      {
-        "kind": "interval",
-        "shotStartTime": 0,
-        "startTime": 4.9222222222222225,
-        "endTime": 7.383333333333334,
-        "lossFunctions": [
-          {
-            "type": "avoidOcclusion",
-            "parameters": {
-              "subjectId": "worker_a"
-            },
-            "sourceActionId": "pedestal_with_worker_a"
-          }
-        ],
-        "weight": 1
-      },
-      {
-        "kind": "point",
-        "shotStartTime": 0,
-        "time": 7.383333333333334,
+        "time": 10,
         "lossFunctions": [
           {
             "type": "keepInFrame",
@@ -449,25 +124,7 @@
                 "worker_b"
               ]
             },
-            "sourceActionId": "arc_zoom_near_machine"
-          }
-        ],
-        "weight": 1
-      },
-      {
-        "kind": "point",
-        "shotStartTime": 0,
-        "time": 7.383333333333334,
-        "lossFunctions": [
-          {
-            "type": "keepInFrame",
-            "parameters": {
-              "subjectIds": [
-                "worker_a",
-                "worker_b"
-              ]
-            },
-            "sourceActionId": "zoom_in_reveal_worker_b"
+            "sourceActionId": "arc_reveal_worker_b"
           }
         ],
         "weight": 1
@@ -475,8 +132,8 @@
       {
         "kind": "interval",
         "shotStartTime": 0,
-        "startTime": 7.383333333333334,
-        "endTime": 8.233333333333333,
+        "startTime": 10,
+        "endTime": 15,
         "lossFunctions": [
           {
             "type": "trackMovement",
@@ -486,7 +143,7 @@
                 "worker_b"
               ]
             },
-            "sourceActionId": "converge_track_both"
+            "sourceActionId": "track_both"
           }
         ],
         "weight": 1
@@ -494,8 +151,8 @@
       {
         "kind": "interval",
         "shotStartTime": 0,
-        "startTime": 7.383333333333334,
-        "endTime": 8.233333333333333,
+        "startTime": 10,
+        "endTime": 15,
         "lossFunctions": [
           {
             "type": "keepInFrame",
@@ -505,7 +162,7 @@
                 "worker_b"
               ]
             },
-            "sourceActionId": "converge_track_both"
+            "sourceActionId": "track_both"
           }
         ],
         "weight": 1
@@ -513,51 +170,13 @@
       {
         "kind": "interval",
         "shotStartTime": 0,
-        "startTime": 7.383333333333334,
-        "endTime": 8.233333333333333,
-        "lossFunctions": [
-          {
-            "type": "maintainDistance",
-            "parameters": {
-              "subjectIds": [
-                "worker_a",
-                "worker_b"
-              ]
-            },
-            "sourceActionId": "converge_track_both"
-          }
-        ],
-        "weight": 1
-      },
-      {
-        "kind": "interval",
-        "shotStartTime": 0,
-        "startTime": 7.383333333333334,
-        "endTime": 8.233333333333333,
-        "lossFunctions": [
-          {
-            "type": "maintainAngle",
-            "parameters": {
-              "subjectIds": [
-                "worker_a",
-                "worker_b"
-              ]
-            },
-            "sourceActionId": "converge_track_both"
-          }
-        ],
-        "weight": 1
-      },
-      {
-        "kind": "interval",
-        "shotStartTime": 0,
-        "startTime": 7.383333333333334,
-        "endTime": 8.233333333333333,
+        "startTime": 10,
+        "endTime": 15,
         "lossFunctions": [
           {
             "type": "noShake",
             "parameters": {},
-            "sourceActionId": "converge_track_both"
+            "sourceActionId": "track_both"
           }
         ],
         "weight": 1
@@ -565,8 +184,8 @@
       {
         "kind": "interval",
         "shotStartTime": 0,
-        "startTime": 7.383333333333334,
-        "endTime": 8.233333333333333,
+        "startTime": 10,
+        "endTime": 15,
         "lossFunctions": [
           {
             "type": "avoidOcclusion",
@@ -576,7 +195,7 @@
                 "worker_b"
               ]
             },
-            "sourceActionId": "converge_track_both"
+            "sourceActionId": "track_both"
           }
         ],
         "weight": 1
@@ -584,296 +203,8 @@
       {
         "kind": "interval",
         "shotStartTime": 0,
-        "startTime": 7.383333333333334,
-        "endTime": 8.233333333333333,
-        "lossFunctions": [
-          {
-            "type": "zoomOutMovement",
-            "parameters": {},
-            "sourceActionId": "widen_convergence"
-          }
-        ],
-        "weight": 1
-      },
-      {
-        "kind": "interval",
-        "shotStartTime": 0,
-        "startTime": 7.383333333333334,
-        "endTime": 8.233333333333333,
-        "lossFunctions": [
-          {
-            "type": "noShake",
-            "parameters": {},
-            "sourceActionId": "widen_convergence"
-          }
-        ],
-        "weight": 1
-      },
-      {
-        "kind": "interval",
-        "shotStartTime": 0,
-        "startTime": 7.383333333333334,
-        "endTime": 8.233333333333333,
-        "lossFunctions": [
-          {
-            "type": "avoidOcclusion",
-            "parameters": {
-              "subjectIds": [
-                "worker_a",
-                "worker_b"
-              ]
-            },
-            "sourceActionId": "widen_convergence"
-          }
-        ],
-        "weight": 1
-      },
-      {
-        "kind": "interval",
-        "shotStartTime": 0,
-        "startTime": 8.233333333333333,
-        "endTime": 10.233333333333333,
-        "lossFunctions": [
-          {
-            "type": "truckRightMovement",
-            "parameters": {},
-            "sourceActionId": "worker_b_accelerates_pan_truck"
-          }
-        ],
-        "weight": 1
-      },
-      {
-        "kind": "interval",
-        "shotStartTime": 0,
-        "startTime": 8.233333333333333,
-        "endTime": 10.233333333333333,
-        "lossFunctions": [
-          {
-            "type": "subjectPresence",
-            "parameters": {
-              "subjectId": "worker_b"
-            },
-            "sourceActionId": "worker_b_accelerates_pan_truck"
-          }
-        ],
-        "weight": 1
-      },
-      {
-        "kind": "interval",
-        "shotStartTime": 0,
-        "startTime": 8.233333333333333,
-        "endTime": 10.233333333333333,
-        "lossFunctions": [
-          {
-            "type": "noShake",
-            "parameters": {},
-            "sourceActionId": "worker_b_accelerates_pan_truck"
-          }
-        ],
-        "weight": 1
-      },
-      {
-        "kind": "interval",
-        "shotStartTime": 0,
-        "startTime": 8.233333333333333,
-        "endTime": 10.233333333333333,
-        "lossFunctions": [
-          {
-            "type": "avoidOcclusion",
-            "parameters": {
-              "subjectId": "worker_b"
-            },
-            "sourceActionId": "worker_b_accelerates_pan_truck"
-          }
-        ],
-        "weight": 1
-      },
-      {
-        "kind": "interval",
-        "shotStartTime": 0,
-        "startTime": 8.233333333333333,
-        "endTime": 10.233333333333333,
-        "lossFunctions": [
-          {
-            "type": "panRightMovement",
-            "parameters": {},
-            "sourceActionId": "pan_with_worker_b"
-          }
-        ],
-        "weight": 1
-      },
-      {
-        "kind": "interval",
-        "shotStartTime": 0,
-        "startTime": 8.233333333333333,
-        "endTime": 10.233333333333333,
-        "lossFunctions": [
-          {
-            "type": "subjectPresence",
-            "parameters": {
-              "subjectId": "worker_b"
-            },
-            "sourceActionId": "pan_with_worker_b"
-          }
-        ],
-        "weight": 1
-      },
-      {
-        "kind": "interval",
-        "shotStartTime": 0,
-        "startTime": 8.233333333333333,
-        "endTime": 10.233333333333333,
-        "lossFunctions": [
-          {
-            "type": "noShake",
-            "parameters": {},
-            "sourceActionId": "pan_with_worker_b"
-          }
-        ],
-        "weight": 1
-      },
-      {
-        "kind": "interval",
-        "shotStartTime": 0,
-        "startTime": 8.233333333333333,
-        "endTime": 10.233333333333333,
-        "lossFunctions": [
-          {
-            "type": "avoidOcclusion",
-            "parameters": {
-              "subjectId": "worker_b"
-            },
-            "sourceActionId": "pan_with_worker_b"
-          }
-        ],
-        "weight": 1
-      },
-      {
-        "kind": "interval",
-        "shotStartTime": 0,
-        "startTime": 10.233333333333333,
-        "endTime": 12.186666666666666,
-        "lossFunctions": [
-          {
-            "type": "pedestalDownMovement",
-            "parameters": {},
-            "sourceActionId": "lower_and_arc_worker_b"
-          }
-        ],
-        "weight": 1
-      },
-      {
-        "kind": "interval",
-        "shotStartTime": 0,
-        "startTime": 10.233333333333333,
-        "endTime": 12.186666666666666,
-        "lossFunctions": [
-          {
-            "type": "subjectPresence",
-            "parameters": {
-              "subjectId": "worker_b"
-            },
-            "sourceActionId": "lower_and_arc_worker_b"
-          }
-        ],
-        "weight": 1
-      },
-      {
-        "kind": "interval",
-        "shotStartTime": 0,
-        "startTime": 10.233333333333333,
-        "endTime": 12.186666666666666,
-        "lossFunctions": [
-          {
-            "type": "noShake",
-            "parameters": {},
-            "sourceActionId": "lower_and_arc_worker_b"
-          }
-        ],
-        "weight": 1
-      },
-      {
-        "kind": "interval",
-        "shotStartTime": 0,
-        "startTime": 10.233333333333333,
-        "endTime": 12.186666666666666,
-        "lossFunctions": [
-          {
-            "type": "avoidOcclusion",
-            "parameters": {
-              "subjectId": "worker_b"
-            },
-            "sourceActionId": "lower_and_arc_worker_b"
-          }
-        ],
-        "weight": 1
-      },
-      {
-        "kind": "interval",
-        "shotStartTime": 0,
-        "startTime": 12.186666666666666,
-        "endTime": 14.139999999999999,
-        "lossFunctions": [
-          {
-            "type": "arcMovement",
-            "parameters": {
-              "subjectId": "worker_b"
-            },
-            "sourceActionId": "arc_around_worker_b"
-          }
-        ],
-        "weight": 1
-      },
-      {
-        "kind": "interval",
-        "shotStartTime": 0,
-        "startTime": 12.186666666666666,
-        "endTime": 14.139999999999999,
-        "lossFunctions": [
-          {
-            "type": "noShake",
-            "parameters": {},
-            "sourceActionId": "arc_around_worker_b"
-          }
-        ],
-        "weight": 1
-      },
-      {
-        "kind": "interval",
-        "shotStartTime": 0,
-        "startTime": 12.186666666666666,
-        "endTime": 14.139999999999999,
-        "lossFunctions": [
-          {
-            "type": "avoidOcclusion",
-            "parameters": {
-              "subjectId": "worker_b"
-            },
-            "sourceActionId": "arc_around_worker_b"
-          }
-        ],
-        "weight": 1
-      },
-      {
-        "kind": "point",
-        "shotStartTime": 0,
-        "time": 14.139999999999999,
-        "lossFunctions": [
-          {
-            "type": "framingDutchAngle",
-            "parameters": {
-              "scale": 0,
-              "subjectId": "worker_b"
-            }
-          }
-        ],
-        "weight": 1
-      },
-      {
-        "kind": "interval",
-        "shotStartTime": 0,
-        "startTime": 14.139999999999999,
-        "endTime": 16.093333333333334,
+        "startTime": 15,
+        "endTime": 18,
         "lossFunctions": [
           {
             "type": "dollyOutMovement",
@@ -891,8 +222,8 @@
       {
         "kind": "interval",
         "shotStartTime": 0,
-        "startTime": 14.139999999999999,
-        "endTime": 16.093333333333334,
+        "startTime": 15,
+        "endTime": 18,
         "lossFunctions": [
           {
             "type": "noShake",
@@ -905,8 +236,8 @@
       {
         "kind": "interval",
         "shotStartTime": 0,
-        "startTime": 14.139999999999999,
-        "endTime": 16.093333333333334,
+        "startTime": 15,
+        "endTime": 18,
         "lossFunctions": [
           {
             "type": "avoidOcclusion",
@@ -922,9 +253,23 @@
         "weight": 1
       },
       {
+        "kind": "interval",
+        "shotStartTime": 0,
+        "startTime": 15,
+        "endTime": 18,
+        "lossFunctions": [
+          {
+            "type": "craneUpMovement",
+            "parameters": {},
+            "sourceActionId": "crane_ensemble"
+          }
+        ],
+        "weight": 1
+      },
+      {
         "kind": "point",
         "shotStartTime": 0,
-        "time": 16.093333333333334,
+        "time": 18,
         "lossFunctions": [
           {
             "type": "keepInFrame",
@@ -932,6 +277,8 @@
               "subjectIds": [
                 "worker_a",
                 "worker_b",
+                "set-forklift",
+                "set-mezzanine",
                 "loading_bay_frame"
               ]
             },
@@ -943,98 +290,7 @@
       {
         "kind": "interval",
         "shotStartTime": 0,
-        "startTime": 16.093333333333334,
-        "endTime": 18.046666666666667,
-        "lossFunctions": [
-          {
-            "type": "arcMovement",
-            "parameters": {
-              "subjectIds": [
-                "worker_a",
-                "worker_b"
-              ]
-            },
-            "sourceActionId": "orbit_both_workers"
-          }
-        ],
-        "weight": 1
-      },
-      {
-        "kind": "interval",
-        "shotStartTime": 0,
-        "startTime": 16.093333333333334,
-        "endTime": 18.046666666666667,
-        "lossFunctions": [
-          {
-            "type": "shotSize",
-            "parameters": {
-              "shotSize": "longShot",
-              "subjectIds": [
-                "worker_a",
-                "worker_b"
-              ]
-            },
-            "sourceActionId": "orbit_both_workers"
-          }
-        ],
-        "weight": 1
-      },
-      {
-        "kind": "interval",
-        "shotStartTime": 0,
-        "startTime": 16.093333333333334,
-        "endTime": 18.046666666666667,
-        "lossFunctions": [
-          {
-            "type": "keepInFrame",
-            "parameters": {
-              "subjectIds": [
-                "worker_a",
-                "worker_b"
-              ]
-            },
-            "sourceActionId": "orbit_both_workers"
-          }
-        ],
-        "weight": 1
-      },
-      {
-        "kind": "interval",
-        "shotStartTime": 0,
-        "startTime": 16.093333333333334,
-        "endTime": 18.046666666666667,
-        "lossFunctions": [
-          {
-            "type": "noShake",
-            "parameters": {},
-            "sourceActionId": "orbit_both_workers"
-          }
-        ],
-        "weight": 1
-      },
-      {
-        "kind": "interval",
-        "shotStartTime": 0,
-        "startTime": 16.093333333333334,
-        "endTime": 18.046666666666667,
-        "lossFunctions": [
-          {
-            "type": "avoidOcclusion",
-            "parameters": {
-              "subjectIds": [
-                "worker_a",
-                "worker_b"
-              ]
-            },
-            "sourceActionId": "orbit_both_workers"
-          }
-        ],
-        "weight": 1
-      },
-      {
-        "kind": "interval",
-        "shotStartTime": 0,
-        "startTime": 18.046666666666667,
+        "startTime": 18,
         "endTime": 20,
         "lossFunctions": [
           {
@@ -1048,27 +304,7 @@
       {
         "kind": "interval",
         "shotStartTime": 0,
-        "startTime": 18.046666666666667,
-        "endTime": 20,
-        "lossFunctions": [
-          {
-            "type": "shotSize",
-            "parameters": {
-              "shotSize": "longShot",
-              "subjectIds": [
-                "worker_a",
-                "worker_b"
-              ]
-            },
-            "sourceActionId": "locked_off_freeze"
-          }
-        ],
-        "weight": 1
-      },
-      {
-        "kind": "interval",
-        "shotStartTime": 0,
-        "startTime": 18.046666666666667,
+        "startTime": 18,
         "endTime": 20,
         "lossFunctions": [
           {
@@ -1076,7 +312,10 @@
             "parameters": {
               "subjectIds": [
                 "worker_a",
-                "worker_b"
+                "worker_b",
+                "set-forklift",
+                "set-mezzanine",
+                "loading_bay_frame"
               ]
             },
             "sourceActionId": "locked_off_freeze"
@@ -1087,7 +326,7 @@
       {
         "kind": "interval",
         "shotStartTime": 0,
-        "startTime": 18.046666666666667,
+        "startTime": 18,
         "endTime": 20,
         "lossFunctions": [
           {
@@ -1101,7 +340,7 @@
       {
         "kind": "interval",
         "shotStartTime": 0,
-        "startTime": 18.046666666666667,
+        "startTime": 18,
         "endTime": 20,
         "lossFunctions": [
           {
@@ -1120,7 +359,7 @@
     ],
     "timeWarp": [
       {
-        "startTimePlayback": 18.046666666666667,
+        "startTimePlayback": 18,
         "endTimePlayback": 20,
         "rate": 0,
         "label": "frozen"

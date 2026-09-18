@@ -3,7 +3,7 @@
   "kind": "timelineSolverOutput",
   "exampleId": "example-02",
   "environmentId": "example-02-face-orbit",
-  "prompt": "از نمای بسیار نزدیک صورت مرد شروع کن، زمان را متوقف کن و سه دور کامل دور صورت او بچرخ.",
+  "prompt": "A 15-second frozen-time portrait on the studio set. Begin in an extreme close-up of the principal man’s face. Freeze the scene from the first frame while the camera makes exactly three complete revolutions (1080 degrees) around his face. Keep the orbit radius fixed; the crew and set remain frozen. No cut and no scene-time speed-up.",
   "totalDuration": 15,
   "subjectBinding": {
     "mode": "resolved",

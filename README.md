@@ -2,6 +2,32 @@
 
 A TypeScript camera-direction DSL and timeline solver, with a browser visualizer for evaluating generated camera trajectories inside prompt-specific 4D environments (3D space over playback time).
 
+## Cinematic environment and reference upgrade
+
+The bundled suite now contains **32 dressed environments, 557 entities (410 added,
+including 113 supporting characters), 15 original procedural GLB assets, and 32
+independently authored camera references**. Examples 01–23 have revised cinematic
+prompts and grounded shot beats; the nine omission/“don't-care” prompts remain
+unchanged. Bundled references are synthetic storyboards, not optimized output or
+measured camera ground truth.
+
+See [the upgrade guide](docs/CINEMATIC_UPGRADE.md) for changes and validation,
+and [the reference protocol](docs/REFERENCE_PROTOCOL.md) for benchmark targets,
+provenance, and optional soft-keyframe supervision.
+
+```bash
+npm ci
+npm run generate:examples        # Assets, scenes, references, and strict sampled audit
+npm run typecheck:references
+npm run test:references
+npm run visualizer
+```
+
+The delivered tree is based on the archive's full `origin/integration` branch at
+`00a36939706e3f2eae9efa7c7540172b0ecc4fd0`, not its timeline-only `master` checkout.
+Legacy optimizer snapshots remain available for historical inspection, but are
+marked stale and are not used as automatic replay fallbacks.
+
 ## Camera Lab visualizer
 
 ```bash
@@ -10,7 +36,7 @@ npm run visualizer
 ```
 
 Open `http://127.0.0.1:4173` and choose one of the 32 prompt environments. Each
-catalog entry loads its scene-matched bundled trajectory by default. You can
+catalog entry loads its scene-matched authored reference by default. You can
 still request, upload, or paste generated optimizer output. God view shows the
 environment, path, and moving camera frustum. Director POV renders through the
 camera.
@@ -19,7 +45,7 @@ camera.
 
 Camera Lab supports both paths after an environment is selected:
 
-- **Replay bundled** loads the checked-in trajectory immediately, without an LLM call.
+- **Replay reference** loads the checked-in authored reference immediately, without an LLM call. The UI labels it “Authored reference (not optimized)”.
 - **Run full pipeline** sends the example prompt through the same live pipeline as a custom request.
 - **Custom prompt** accepts up to 4,000 characters in any language and runs the complete flow.
 
@@ -86,9 +112,10 @@ The visualizer is data-driven:
   grid, and bounds; **Object bounds** also shows the grid in God view.
 - Example 03 includes a locally bundled CC0 ceramic vase from Poly Haven. See
   [asset credits](web/public/models/ATTRIBUTION.md).
+- Fifteen original procedural models under `web/public/models/generated/` add benches, trees, streetlamps, industrial equipment, stage structures, and an open loading-bay portal. Their manifest records dimensions, checksums, and MIT provenance.
 - `src/types/trajectory.ts` defines accepted camera documents.
 - `web/public/trajectories/ai-generated/example-01-camera.json` through
-  `example-19-camera.json` are complete scene-matched reference trajectories. Examples 14–18 add cinematic multi-action/easing coverage, and example 19 completes coverage for the remaining implemented Pan/Tilt/Truck/Pedestal/Zoom/Dutch directions.
+  `example-32-camera.json` are reproducible scene-matched authored references. Per-example plans, input hashes, provenance, artistic choices, and sampled audit results live under `web/public/trajectories/reference-metadata/`. The legacy `ai-generated` directory name is retained for compatibility; generation does not call an external AI model.
 
 ### Adding 3D models and environment appearance
 

@@ -3,7 +3,7 @@
   "kind": "environment",
   "id": "example-23-factory-convergence",
   "promptExampleId": "example-23",
-  "prompt": "یک پلان پیوستهٔ ۲۰ ثانیه‌ای درون کارخانه‌ای شلوغ بگیر. با دنبال‌کردن کارگر الف از سمت شرق سالن تولید به سمت مرکز شروع کن و او را در نمای متوسطِ دور نگه دار. نزدیک‌تر شو و با حرکت او دوربین را افقی و عمودی بچرخان؛ سپس هنگام تغییر مسیرش، دوربین را جانبی و عمودی جابه‌جا کن. وقتی کنار دستگاه‌های مرکزی کند شد، در مسیری قوسی دورش بچرخ و به‌تدریج زوم را بیشتر کن تا کارگر ب که از سمت مقابل نزدیک می‌شود آشکار شود. با نزدیک‌شدن دو کارگر، نما را بازتر کن و هر دو را با هم تعقیب کن؛ آن‌ها را در دید نگه دار، فاصله و زاویه را ثابت حفظ کن و از دستگاه‌ها و لیفتراک در حال عبور دوری کن. وقتی کارگر ب به سمت سکوی بارگیری شتاب گرفت، با او دوربین را افقی بچرخان، جانبی در سالن حرکت کن، دوربین را پایین بیاور، در مسیری قوسی دورش بچرخ و کجی دوربین را اصلاح کن. سپس عقب بکش تا هر دو کارگر، نیم‌طبقه، لیفتراک و محوطهٔ بارگیری دیده شوند. در پایان دور دو کارگر بچرخ، هر دو را در یک قاب باز و پایدار نگه دار و با نمای ثابت و توقف زمان تمام کن. در تمام پلان، حرکت دوربین نرم باشد، دید سوژه‌ها مسدود نشود، دوربین از سطح زمین پایین‌تر نرود و هر گذار مانند یک حرکت پیوسته و هدفمند سینمایی احساس شود.",
+  "prompt": "A 20-second ensemble reveal in the populated factory. Follow worker A for the first 6 seconds. From 6 to 10 seconds arc 90 degrees right around workers A and B, bringing both fully into frame by 10 seconds. Track both from 10 to 15 seconds. From 15 to 18 seconds dolly backward while craning upward, revealing the workers, yellow forklift, steel mezzanine, and loading bay together. Freeze the scene and lock off for the final 2 seconds, holding that wide ensemble frame. Keep a level horizon, smooth motion and clear sightlines; no cut. Supporting technicians remain secondary.",
   "clock": {
     "durationSeconds": 20,
     "timeDomain": "playback",
@@ -41,7 +41,8 @@
         32,
         26
       ],
-      "color": "#85847e", "surface": "concrete"
+      "color": "#85847e",
+      "surface": "concrete"
     },
     "grid": {
       "size": 32,
@@ -77,7 +78,7 @@
             {
               "t": 6,
               "value": [
-                1.0,
+                1,
                 0,
                 1.5
               ]
@@ -85,16 +86,16 @@
             {
               "t": 9,
               "value": [
-                0.0,
-                1.2,
-                0.0
+                0,
+                0,
+                0
               ]
             },
             {
               "t": 12,
               "value": [
-                -1.0,
-                2.8,
+                -1,
+                0,
                 -0.5
               ]
             },
@@ -102,16 +103,16 @@
               "t": 15,
               "value": [
                 -3.5,
-                2.8,
+                0,
                 -2.5
               ]
             },
             {
               "t": 20,
               "value": [
-                -5.0,
-                2.8,
-                -4.0
+                -5,
+                0,
+                -4
               ]
             }
           ]
@@ -159,7 +160,7 @@
             {
               "t": 3,
               "value": [
-                -4.0,
+                -4,
                 0,
                 -1.5
               ]
@@ -167,7 +168,7 @@
             {
               "t": 6,
               "value": [
-                -2.0,
+                -2,
                 0,
                 0.5
               ]
@@ -177,7 +178,7 @@
               "value": [
                 -0.5,
                 0,
-                2.0
+                2
               ]
             },
             {
@@ -199,17 +200,17 @@
             {
               "t": 15,
               "value": [
-                6.0,
+                6,
                 0,
-                7.0
+                7
               ]
             },
             {
               "t": 20,
               "value": [
-                9.0,
+                9,
                 0,
-                9.0
+                9
               ]
             }
           ]
@@ -237,7 +238,6 @@
         ]
       }
     },
-    
     {
       "id": "central_machine",
       "label": "دستگاه مرکزی",
@@ -245,8 +245,8 @@
         "space": "world",
         "position": [
           0,
-          2.0,
-          -4.0
+          2,
+          -11
         ]
       },
       "visual": {
@@ -282,33 +282,25 @@
         "space": "world",
         "position": [
           -7,
-          2.5,
+          0,
           2.5
         ]
       },
       "visual": {
-        "type": "primitive",
-        "shape": "box",
-        "params": {
-          "size": [
-            2,
-            5,
-            8
-          ]
-        },
-        "color": "#8a6f4d"
+        "type": "model",
+        "url": "/models/generated/warehouse-shelf.glb"
       },
       "bounds": {
         "type": "box",
         "min": [
-          -1,
-          -2.5,
-          -4
+          -1.5,
+          0,
+          -0.54
         ],
         "max": [
-          1,
-          2.5,
-          4
+          1.5,
+          3,
+          0.54
         ]
       }
     },
@@ -319,33 +311,25 @@
         "space": "world",
         "position": [
           7,
-          2.5,
+          0,
           -2.5
         ]
       },
       "visual": {
-        "type": "primitive",
-        "shape": "box",
-        "params": {
-          "size": [
-            2,
-            5,
-            8
-          ]
-        },
-        "color": "#8a6f4d"
+        "type": "model",
+        "url": "/models/generated/warehouse-shelf.glb"
       },
       "bounds": {
         "type": "box",
         "min": [
-          -1,
-          -2.5,
-          -4
+          -1.5,
+          0,
+          -0.54
         ],
         "max": [
-          1,
-          2.5,
-          4
+          1.5,
+          3,
+          0.54
         ]
       }
     },
@@ -355,9 +339,9 @@
       "transform": {
         "space": "world",
         "position": [
-          -4.5,
+          -9,
           3.5,
-          5
+          7
         ]
       },
       "visual": {
@@ -417,46 +401,744 @@
         ]
       }
     },
-    
-   
-  
     {
       "id": "loading_bay_frame",
       "label": "چارچوب سکوی بارگیری",
       "transform": {
         "space": "world",
         "position": [
-          10,
-          3,
-          9
+          20,
+          0,
+          14
         ]
       },
       "visual": {
-        "type": "primitive",
-        "shape": "box",
-        "params": {
-          "size": [
-            1,
-            6,
-            8
-          ]
-        },
-        "color": "#333333"
+        "type": "model",
+        "url": "/models/generated/loading-bay-portal.glb"
       },
       "bounds": {
         "type": "box",
         "min": [
-          -0.5,
-          -3,
+          -0.25,
+          0,
           -4
         ],
         "max": [
-          0.5,
-          3,
+          0.25,
+          6,
           4
+        ]
+      },
+      "occlusion": {
+        "bounds": [
+          {
+            "type": "box",
+            "min": [
+              -0.25,
+              0,
+              -4
+            ],
+            "max": [
+              0.25,
+              6,
+              -3.5999999999999996
+            ]
+          },
+          {
+            "type": "box",
+            "min": [
+              -0.25,
+              0,
+              3.5999999999999996
+            ],
+            "max": [
+              0.25,
+              6,
+              4
+            ]
+          },
+          {
+            "type": "box",
+            "min": [
+              -0.25,
+              5.6,
+              -4
+            ],
+            "max": [
+              0.25,
+              6,
+              4
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "id": "set-warehouse-shelf-00",
+      "label": "warehouse shelf",
+      "transform": {
+        "space": "world",
+        "position": [
+          -16,
+          0,
+          -15
+        ]
+      },
+      "visual": {
+        "type": "model",
+        "url": "/models/generated/warehouse-shelf.glb",
+        "fallback": {
+          "type": "primitive",
+          "shape": "box",
+          "params": {
+            "width": 3,
+            "height": 0.2,
+            "depth": 0.3
+          },
+          "color": "#717c87"
+        }
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -1.5,
+          0,
+          -0.54
+        ],
+        "max": [
+          1.5,
+          3,
+          0.54
+        ]
+      }
+    },
+    {
+      "id": "set-crate-stack-01",
+      "label": "crate stack",
+      "transform": {
+        "space": "world",
+        "position": [
+          -16,
+          0,
+          -15
+        ]
+      },
+      "visual": {
+        "type": "model",
+        "url": "/models/generated/crate-stack.glb",
+        "fallback": {
+          "type": "primitive",
+          "shape": "box",
+          "params": {
+            "width": 1.9,
+            "height": 0.2,
+            "depth": 0.3
+          },
+          "color": "#717c87"
+        }
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.95,
+          0,
+          -0.6
+        ],
+        "max": [
+          0.95,
+          1.725,
+          0.6
+        ]
+      }
+    },
+    {
+      "id": "set-warehouse-shelf-02",
+      "label": "warehouse shelf",
+      "transform": {
+        "space": "world",
+        "position": [
+          16,
+          0,
+          -15
+        ]
+      },
+      "visual": {
+        "type": "model",
+        "url": "/models/generated/warehouse-shelf.glb",
+        "fallback": {
+          "type": "primitive",
+          "shape": "box",
+          "params": {
+            "width": 3,
+            "height": 0.2,
+            "depth": 0.3
+          },
+          "color": "#717c87"
+        }
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -1.5,
+          0,
+          -0.54
+        ],
+        "max": [
+          1.5,
+          3,
+          0.54
+        ]
+      }
+    },
+    {
+      "id": "set-crate-stack-03",
+      "label": "crate stack",
+      "transform": {
+        "space": "world",
+        "position": [
+          16,
+          0,
+          -15
+        ]
+      },
+      "visual": {
+        "type": "model",
+        "url": "/models/generated/crate-stack.glb",
+        "fallback": {
+          "type": "primitive",
+          "shape": "box",
+          "params": {
+            "width": 1.9,
+            "height": 0.2,
+            "depth": 0.3
+          },
+          "color": "#717c87"
+        }
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.95,
+          0,
+          -0.6
+        ],
+        "max": [
+          0.95,
+          1.725,
+          0.6
+        ]
+      }
+    },
+    {
+      "id": "set-warehouse-shelf-04",
+      "label": "warehouse shelf",
+      "transform": {
+        "space": "world",
+        "position": [
+          -16,
+          0,
+          14
+        ]
+      },
+      "visual": {
+        "type": "model",
+        "url": "/models/generated/warehouse-shelf.glb",
+        "fallback": {
+          "type": "primitive",
+          "shape": "box",
+          "params": {
+            "width": 3,
+            "height": 0.2,
+            "depth": 0.3
+          },
+          "color": "#717c87"
+        }
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -1.5,
+          0,
+          -0.54
+        ],
+        "max": [
+          1.5,
+          3,
+          0.54
+        ]
+      }
+    },
+    {
+      "id": "set-crate-stack-05",
+      "label": "crate stack",
+      "transform": {
+        "space": "world",
+        "position": [
+          -16,
+          0,
+          14
+        ]
+      },
+      "visual": {
+        "type": "model",
+        "url": "/models/generated/crate-stack.glb",
+        "fallback": {
+          "type": "primitive",
+          "shape": "box",
+          "params": {
+            "width": 1.9,
+            "height": 0.2,
+            "depth": 0.3
+          },
+          "color": "#717c87"
+        }
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.95,
+          0,
+          -0.6
+        ],
+        "max": [
+          0.95,
+          1.725,
+          0.6
+        ]
+      }
+    },
+    {
+      "id": "set-warehouse-shelf-06",
+      "label": "warehouse shelf",
+      "transform": {
+        "space": "world",
+        "position": [
+          16,
+          0,
+          14
+        ]
+      },
+      "visual": {
+        "type": "model",
+        "url": "/models/generated/warehouse-shelf.glb",
+        "fallback": {
+          "type": "primitive",
+          "shape": "box",
+          "params": {
+            "width": 3,
+            "height": 0.2,
+            "depth": 0.3
+          },
+          "color": "#717c87"
+        }
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -1.5,
+          0,
+          -0.54
+        ],
+        "max": [
+          1.5,
+          3,
+          0.54
+        ]
+      }
+    },
+    {
+      "id": "set-crate-stack-07",
+      "label": "crate stack",
+      "transform": {
+        "space": "world",
+        "position": [
+          16,
+          0,
+          14
+        ]
+      },
+      "visual": {
+        "type": "model",
+        "url": "/models/generated/crate-stack.glb",
+        "fallback": {
+          "type": "primitive",
+          "shape": "box",
+          "params": {
+            "width": 1.9,
+            "height": 0.2,
+            "depth": 0.3
+          },
+          "color": "#717c87"
+        }
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.95,
+          0,
+          -0.6
+        ],
+        "max": [
+          0.95,
+          1.725,
+          0.6
+        ]
+      }
+    },
+    {
+      "id": "set-workbench-08",
+      "label": "workbench",
+      "transform": {
+        "space": "world",
+        "position": [
+          -8,
+          0,
+          -4
+        ]
+      },
+      "visual": {
+        "type": "model",
+        "url": "/models/generated/workbench.glb",
+        "fallback": {
+          "type": "primitive",
+          "shape": "box",
+          "params": {
+            "width": 1.8,
+            "height": 0.2,
+            "depth": 0.3
+          },
+          "color": "#717c87"
+        }
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.9,
+          0,
+          -0.36
+        ],
+        "max": [
+          0.9,
+          0.93,
+          0.36
+        ]
+      }
+    },
+    {
+      "id": "set-lighting-truss-09",
+      "label": "lighting truss",
+      "transform": {
+        "space": "world",
+        "position": [
+          9,
+          0,
+          -4
+        ]
+      },
+      "visual": {
+        "type": "model",
+        "url": "/models/generated/lighting-truss.glb",
+        "fallback": {
+          "type": "primitive",
+          "shape": "box",
+          "params": {
+            "width": 1.1,
+            "height": 0.2,
+            "depth": 0.3
+          },
+          "color": "#717c87"
+        }
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.55,
+          0,
+          -0.55
+        ],
+        "max": [
+          0.55,
+          3.6,
+          0.55
+        ]
+      }
+    },
+    {
+      "id": "set-support-10",
+      "label": "supporting warehouse technician, #bd893d jacket; supporting subject, not the principal actor",
+      "transform": {
+        "space": "world",
+        "position": [
+          -8,
+          0,
+          3
+        ]
+      },
+      "visual": {
+        "type": "preset",
+        "name": "humanoid",
+        "params": {
+          "height": 1.8,
+          "shirtColor": "#bd893d",
+          "trouserColor": "#283341",
+          "color": "#ad805f",
+          "motion": "idle"
+        }
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.325,
+          0,
+          -0.25
+        ],
+        "max": [
+          0.325,
+          1.8,
+          0.25
+        ]
+      }
+    },
+    {
+      "id": "set-support-11",
+      "label": "supporting warehouse technician, #bd893d jacket; supporting subject, not the principal actor",
+      "transform": {
+        "space": "world",
+        "position": [
+          8,
+          0,
+          3
+        ]
+      },
+      "visual": {
+        "type": "preset",
+        "name": "humanoid",
+        "params": {
+          "height": 1.8,
+          "shirtColor": "#bd893d",
+          "trouserColor": "#283341",
+          "color": "#ad805f",
+          "motion": "idle"
+        }
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.325,
+          0,
+          -0.25
+        ],
+        "max": [
+          0.325,
+          1.8,
+          0.25
+        ]
+      }
+    },
+    {
+      "id": "set-support-12",
+      "label": "supporting warehouse technician, #bd893d jacket; supporting subject, not the principal actor",
+      "transform": {
+        "space": "world",
+        "position": [
+          -7,
+          0,
+          -8
+        ]
+      },
+      "visual": {
+        "type": "preset",
+        "name": "humanoid",
+        "params": {
+          "height": 1.8,
+          "shirtColor": "#bd893d",
+          "trouserColor": "#283341",
+          "color": "#ad805f",
+          "motion": "idle"
+        }
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.325,
+          0,
+          -0.25
+        ],
+        "max": [
+          0.325,
+          1.8,
+          0.25
+        ]
+      }
+    },
+    {
+      "id": "set-forklift",
+      "label": "Yellow forklift crossing the marked rear service lane",
+      "transform": {
+        "space": "world",
+        "position": {
+          "interpolation": "linear",
+          "keyframes": [
+            {
+              "t": 0,
+              "value": [
+                8,
+                0,
+                -7
+              ]
+            },
+            {
+              "t": 7,
+              "value": [
+                8,
+                0,
+                -7
+              ]
+            },
+            {
+              "t": 15,
+              "value": [
+                -6,
+                0,
+                -7
+              ]
+            },
+            {
+              "t": 20,
+              "value": [
+                -6,
+                0,
+                -7
+              ]
+            }
+          ]
+        }
+      },
+      "visual": {
+        "type": "model",
+        "url": "/models/generated/forklift.glb",
+        "fallback": {
+          "type": "primitive",
+          "shape": "box",
+          "params": {
+            "width": 1.47,
+            "height": 0.2,
+            "depth": 0.3
+          },
+          "color": "#717c87"
+        }
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.735,
+          0.02,
+          -2.425
+        ],
+        "max": [
+          0.735,
+          2.775,
+          0.994227
+        ]
+      }
+    },
+    {
+      "id": "set-mezzanine",
+      "label": "Steel mezzanine with orange safety railings",
+      "transform": {
+        "space": "world",
+        "position": [
+          -7,
+          0,
+          -10
+        ]
+      },
+      "visual": {
+        "type": "model",
+        "url": "/models/generated/mezzanine.glb",
+        "fallback": {
+          "type": "primitive",
+          "shape": "box",
+          "params": {
+            "width": 4,
+            "height": 0.2,
+            "depth": 0.3
+          },
+          "color": "#717c87"
+        }
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -2,
+          0,
+          -1.4
+        ],
+        "max": [
+          2,
+          3.38,
+          1.4
         ]
       }
     }
   ],
-  "semanticAnchors": []
+  "semanticAnchors": [
+    {
+      "id": "set-support-10-face",
+      "entityId": "set-support-10",
+      "label": "supporting warehouse technician, #bd893d jacket; supporting subject, not the principal actor face",
+      "localAnchor": [
+        0,
+        1.63,
+        0.12
+      ],
+      "localBounds": {
+        "type": "sphere",
+        "center": [
+          0,
+          1.63,
+          0.12
+        ],
+        "radius": 0.16
+      }
+    },
+    {
+      "id": "set-support-11-face",
+      "entityId": "set-support-11",
+      "label": "supporting warehouse technician, #bd893d jacket; supporting subject, not the principal actor face",
+      "localAnchor": [
+        0,
+        1.63,
+        0.12
+      ],
+      "localBounds": {
+        "type": "sphere",
+        "center": [
+          0,
+          1.63,
+          0.12
+        ],
+        "radius": 0.16
+      }
+    },
+    {
+      "id": "set-support-12-face",
+      "entityId": "set-support-12",
+      "label": "supporting warehouse technician, #bd893d jacket; supporting subject, not the principal actor face",
+      "localAnchor": [
+        0,
+        1.63,
+        0.12
+      ],
+      "localBounds": {
+        "type": "sphere",
+        "center": [
+          0,
+          1.63,
+          0.12
+        ],
+        "radius": 0.16
+      }
+    }
+  ]
 }

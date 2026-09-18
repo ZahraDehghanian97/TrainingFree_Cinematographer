@@ -3,7 +3,7 @@
   "kind": "environment",
   "id": "example-04-car-arc",
   "promptExampleId": "example-04",
-  "prompt": "دو ثانیه ماشین را تعقیب کن، سپس در یک مسیر قوسی به سمت راست دور آن بچرخ و همزمان روی راننده زوم کن.",
+  "prompt": "A 15-second tracking shot on the dressed test road. Track the principal car for exactly 2 seconds. For the remaining 13 seconds, arc 90 degrees to the right around the moving car while simultaneously zooming optically toward the driver. Finish with the driver as the visual emphasis. No cut; camera travel is not a request to change scene speed.",
   "clock": {
     "durationSeconds": 15,
     "timeDomain": "playback",
@@ -16,16 +16,37 @@
     "lengthUnit": "meter",
     "rotationOrder": "quaternion-xyzw"
   },
-  "evaluation": { "distanceMetric": "anchorCenter" },
+  "evaluation": {
+    "distanceMetric": "anchorCenter"
+  },
   "world": {
     "profile": "road",
     "background": "#afc1cb",
     "overviewCamera": {
-      "position": [12, 8, 20],
-      "target": [0, 0.7, 5]
+      "position": [
+        12,
+        8,
+        20
+      ],
+      "target": [
+        0,
+        0.7,
+        5
+      ]
     },
-    "ground": { "y": 0, "size": [14, 70], "color": "#62666a", "surface": "asphalt" },
-    "grid": { "size": 14, "divisions": 14 }
+    "ground": {
+      "y": 0,
+      "size": [
+        14,
+        70
+      ],
+      "color": "#62666a",
+      "surface": "asphalt"
+    },
+    "grid": {
+      "size": 14,
+      "divisions": 14
+    }
   },
   "entities": [
     {
@@ -38,29 +59,209 @@
           "interpolation": "catmullRom",
           "extrapolation": "hold",
           "keyframes": [
-            { "t": 0, "value": [-1.5, 0, 12] },
-            { "t": 2, "value": [-1.2, 0, 7.5] },
-            { "t": 6, "value": [-0.3, 0, -1] },
-            { "t": 10, "value": [1.2, 0, -9] },
-            { "t": 15, "value": [2.4, 0, -18] }
+            {
+              "t": 0,
+              "value": [
+                -1.5,
+                0,
+                12
+              ]
+            },
+            {
+              "t": 2,
+              "value": [
+                -1.2,
+                0,
+                7.5
+              ]
+            },
+            {
+              "t": 6,
+              "value": [
+                -0.3,
+                0,
+                -1
+              ]
+            },
+            {
+              "t": 10,
+              "value": [
+                1.2,
+                0,
+                -9
+              ]
+            },
+            {
+              "t": 15,
+              "value": [
+                2.4,
+                0,
+                -18
+              ]
+            }
           ]
         },
-        "rotation": [0, 0, 0, 1]
+        "rotation": [
+          0,
+          0,
+          0,
+          1
+        ]
       },
-      "visual": { "type": "preset", "name": "car", "params": { "color": "#d34f3f", "length": 4.4, "interior": true } },
-      "bounds": { "type": "box", "min": [-1, 0, -2.2], "max": [1, 1.45, 2.2] },
+      "visual": {
+        "type": "preset",
+        "name": "car",
+        "params": {
+          "color": "#d34f3f",
+          "length": 4.4,
+          "interior": true
+        }
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -1,
+          0,
+          -2.2
+        ],
+        "max": [
+          1,
+          1.45,
+          2.2
+        ]
+      },
       "occlusion": {
         "bounds": [
-          { "type": "box", "min": [-1, 0.1, -2.2], "max": [1, 0.8, 2.2] },
-          { "type": "box", "min": [-0.93, 0.75, -2.1], "max": [0.93, 0.85, -0.87] },
-          { "type": "box", "min": [-0.93, 0.75, 1.2], "max": [0.93, 0.85, 2.05] },
-          { "type": "box", "min": [-0.71, 1.302, -0.524], "max": [0.71, 1.375, 0.718] },
-          { "type": "box", "min": [-0.88, 0.8, -1.06], "max": [-0.65, 1.35, -0.48] },
-          { "type": "box", "min": [0.65, 0.8, -1.06], "max": [0.88, 1.35, -0.48] },
-          { "type": "box", "min": [-0.88, 0.8, 0.035], "max": [-0.65, 1.35, 0.115] },
-          { "type": "box", "min": [0.65, 0.8, 0.035], "max": [0.88, 1.35, 0.115] },
-          { "type": "box", "min": [-0.88, 0.8, 0.68], "max": [-0.65, 1.35, 1.28] },
-          { "type": "box", "min": [0.65, 0.8, 0.68], "max": [0.88, 1.35, 1.28] }
+          {
+            "type": "box",
+            "min": [
+              -1,
+              0.1,
+              -2.2
+            ],
+            "max": [
+              1,
+              0.8,
+              2.2
+            ]
+          },
+          {
+            "type": "box",
+            "min": [
+              -0.93,
+              0.75,
+              -2.1
+            ],
+            "max": [
+              0.93,
+              0.85,
+              -0.87
+            ]
+          },
+          {
+            "type": "box",
+            "min": [
+              -0.93,
+              0.75,
+              1.2
+            ],
+            "max": [
+              0.93,
+              0.85,
+              2.05
+            ]
+          },
+          {
+            "type": "box",
+            "min": [
+              -0.71,
+              1.302,
+              -0.524
+            ],
+            "max": [
+              0.71,
+              1.375,
+              0.718
+            ]
+          },
+          {
+            "type": "box",
+            "min": [
+              -0.88,
+              0.8,
+              -1.06
+            ],
+            "max": [
+              -0.65,
+              1.35,
+              -0.48
+            ]
+          },
+          {
+            "type": "box",
+            "min": [
+              0.65,
+              0.8,
+              -1.06
+            ],
+            "max": [
+              0.88,
+              1.35,
+              -0.48
+            ]
+          },
+          {
+            "type": "box",
+            "min": [
+              -0.88,
+              0.8,
+              0.035
+            ],
+            "max": [
+              -0.65,
+              1.35,
+              0.115
+            ]
+          },
+          {
+            "type": "box",
+            "min": [
+              0.65,
+              0.8,
+              0.035
+            ],
+            "max": [
+              0.88,
+              1.35,
+              0.115
+            ]
+          },
+          {
+            "type": "box",
+            "min": [
+              -0.88,
+              0.8,
+              0.68
+            ],
+            "max": [
+              -0.65,
+              1.35,
+              1.28
+            ]
+          },
+          {
+            "type": "box",
+            "min": [
+              0.65,
+              0.8,
+              0.68
+            ],
+            "max": [
+              0.88,
+              1.35,
+              1.28
+            ]
+          }
         ]
       }
     },
@@ -73,30 +274,850 @@
           "interpolation": "catmullRom",
           "extrapolation": "hold",
           "keyframes": [
-            { "t": 0, "value": [-1.096, 1.162, 11.85] },
-            { "t": 2, "value": [-0.796, 1.162, 7.35] },
-            { "t": 6, "value": [0.104, 1.162, -1.15] },
-            { "t": 10, "value": [1.604, 1.162, -9.15] },
-            { "t": 15, "value": [2.804, 1.162, -18.15] }
+            {
+              "t": 0,
+              "value": [
+                -1.096,
+                1.162,
+                11.85
+              ]
+            },
+            {
+              "t": 2,
+              "value": [
+                -0.796,
+                1.162,
+                7.35
+              ]
+            },
+            {
+              "t": 6,
+              "value": [
+                0.104,
+                1.162,
+                -1.15
+              ]
+            },
+            {
+              "t": 10,
+              "value": [
+                1.604,
+                1.162,
+                -9.15
+              ]
+            },
+            {
+              "t": 15,
+              "value": [
+                2.804,
+                1.162,
+                -18.15
+              ]
+            }
           ]
         }
       },
       "visual": {
         "type": "preset",
         "name": "humanoid",
-        "params": { "pose": "driving", "color": "#d6a17f", "shirtColor": "#e0ccb7", "carHeight": 1.4, "carLength": 4.4 }
+        "params": {
+          "pose": "driving",
+          "color": "#d6a17f",
+          "shirtColor": "#e0ccb7",
+          "carHeight": 1.4,
+          "carLength": 4.4
+        }
       },
-      "bounds": { "type": "sphere", "center": [0, 0, 0], "radius": 0.13 }
+      "bounds": {
+        "type": "sphere",
+        "center": [
+          0,
+          0,
+          0
+        ],
+        "radius": 0.13
+      }
     },
     {
       "id": "road-marker-left",
-      "transform": { "space": "world", "position": [-4.5, 0.02, -3] },
-      "visual": { "type": "primitive", "shape": "box", "params": { "size": [0.12, 0.03, 55] }, "color": "#d8d6bd" }
+      "transform": {
+        "space": "world",
+        "position": [
+          -4.5,
+          0.02,
+          -3
+        ]
+      },
+      "visual": {
+        "type": "primitive",
+        "shape": "box",
+        "params": {
+          "size": [
+            0.12,
+            0.03,
+            55
+          ]
+        },
+        "color": "#d8d6bd"
+      }
     },
     {
       "id": "road-marker-right",
-      "transform": { "space": "world", "position": [4.5, 0.02, -3] },
-      "visual": { "type": "primitive", "shape": "box", "params": { "size": [0.12, 0.03, 55] }, "color": "#d8d6bd" }
+      "transform": {
+        "space": "world",
+        "position": [
+          4.5,
+          0.02,
+          -3
+        ]
+      },
+      "visual": {
+        "type": "primitive",
+        "shape": "box",
+        "params": {
+          "size": [
+            0.12,
+            0.03,
+            55
+          ]
+        },
+        "color": "#d8d6bd"
+      }
+    },
+    {
+      "id": "set-road-barrier-00",
+      "label": "road barrier",
+      "transform": {
+        "space": "world",
+        "position": [
+          -6.5,
+          0,
+          -26.6
+        ]
+      },
+      "visual": {
+        "type": "model",
+        "url": "/models/generated/road-barrier.glb",
+        "fallback": {
+          "type": "primitive",
+          "shape": "box",
+          "params": {
+            "width": 2,
+            "height": 0.2,
+            "depth": 0.3
+          },
+          "color": "#717c87"
+        }
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -1,
+          0,
+          -0.275
+        ],
+        "max": [
+          1,
+          0.8,
+          0.292
+        ]
+      }
+    },
+    {
+      "id": "set-streetlamp-01",
+      "label": "streetlamp",
+      "transform": {
+        "space": "world",
+        "position": [
+          -8,
+          0,
+          -22.6
+        ]
+      },
+      "visual": {
+        "type": "model",
+        "url": "/models/generated/streetlamp.glb",
+        "fallback": {
+          "type": "primitive",
+          "shape": "box",
+          "params": {
+            "width": 1.2149999999999999,
+            "height": 0.2,
+            "depth": 0.3
+          },
+          "color": "#717c87"
+        }
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.24,
+          0,
+          -0.24
+        ],
+        "max": [
+          0.975,
+          3.65,
+          0.24
+        ]
+      }
+    },
+    {
+      "id": "set-road-barrier-02",
+      "label": "road barrier",
+      "transform": {
+        "space": "world",
+        "position": [
+          6.5,
+          0,
+          -26.6
+        ]
+      },
+      "visual": {
+        "type": "model",
+        "url": "/models/generated/road-barrier.glb",
+        "fallback": {
+          "type": "primitive",
+          "shape": "box",
+          "params": {
+            "width": 2,
+            "height": 0.2,
+            "depth": 0.3
+          },
+          "color": "#717c87"
+        }
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -1,
+          0,
+          -0.275
+        ],
+        "max": [
+          1,
+          0.8,
+          0.292
+        ]
+      }
+    },
+    {
+      "id": "set-streetlamp-03",
+      "label": "streetlamp",
+      "transform": {
+        "space": "world",
+        "position": [
+          8,
+          0,
+          -22.6
+        ]
+      },
+      "visual": {
+        "type": "model",
+        "url": "/models/generated/streetlamp.glb",
+        "fallback": {
+          "type": "primitive",
+          "shape": "box",
+          "params": {
+            "width": 1.2149999999999999,
+            "height": 0.2,
+            "depth": 0.3
+          },
+          "color": "#717c87"
+        }
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.24,
+          0,
+          -0.24
+        ],
+        "max": [
+          0.975,
+          3.65,
+          0.24
+        ]
+      }
+    },
+    {
+      "id": "set-road-barrier-04",
+      "label": "road barrier",
+      "transform": {
+        "space": "world",
+        "position": [
+          -6.5,
+          0,
+          -14
+        ]
+      },
+      "visual": {
+        "type": "model",
+        "url": "/models/generated/road-barrier.glb",
+        "fallback": {
+          "type": "primitive",
+          "shape": "box",
+          "params": {
+            "width": 2,
+            "height": 0.2,
+            "depth": 0.3
+          },
+          "color": "#717c87"
+        }
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -1,
+          0,
+          -0.275
+        ],
+        "max": [
+          1,
+          0.8,
+          0.292
+        ]
+      }
+    },
+    {
+      "id": "set-streetlamp-05",
+      "label": "streetlamp",
+      "transform": {
+        "space": "world",
+        "position": [
+          -8,
+          0,
+          -10
+        ]
+      },
+      "visual": {
+        "type": "model",
+        "url": "/models/generated/streetlamp.glb",
+        "fallback": {
+          "type": "primitive",
+          "shape": "box",
+          "params": {
+            "width": 1.2149999999999999,
+            "height": 0.2,
+            "depth": 0.3
+          },
+          "color": "#717c87"
+        }
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.24,
+          0,
+          -0.24
+        ],
+        "max": [
+          0.975,
+          3.65,
+          0.24
+        ]
+      }
+    },
+    {
+      "id": "set-road-barrier-06",
+      "label": "road barrier",
+      "transform": {
+        "space": "world",
+        "position": [
+          6.5,
+          0,
+          -14
+        ]
+      },
+      "visual": {
+        "type": "model",
+        "url": "/models/generated/road-barrier.glb",
+        "fallback": {
+          "type": "primitive",
+          "shape": "box",
+          "params": {
+            "width": 2,
+            "height": 0.2,
+            "depth": 0.3
+          },
+          "color": "#717c87"
+        }
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -1,
+          0,
+          -0.275
+        ],
+        "max": [
+          1,
+          0.8,
+          0.292
+        ]
+      }
+    },
+    {
+      "id": "set-streetlamp-07",
+      "label": "streetlamp",
+      "transform": {
+        "space": "world",
+        "position": [
+          8,
+          0,
+          -10
+        ]
+      },
+      "visual": {
+        "type": "model",
+        "url": "/models/generated/streetlamp.glb",
+        "fallback": {
+          "type": "primitive",
+          "shape": "box",
+          "params": {
+            "width": 1.2149999999999999,
+            "height": 0.2,
+            "depth": 0.3
+          },
+          "color": "#717c87"
+        }
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.24,
+          0,
+          -0.24
+        ],
+        "max": [
+          0.975,
+          3.65,
+          0.24
+        ]
+      }
+    },
+    {
+      "id": "set-road-barrier-08",
+      "label": "road barrier",
+      "transform": {
+        "space": "world",
+        "position": [
+          -6.5,
+          0,
+          0
+        ]
+      },
+      "visual": {
+        "type": "model",
+        "url": "/models/generated/road-barrier.glb",
+        "fallback": {
+          "type": "primitive",
+          "shape": "box",
+          "params": {
+            "width": 2,
+            "height": 0.2,
+            "depth": 0.3
+          },
+          "color": "#717c87"
+        }
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -1,
+          0,
+          -0.275
+        ],
+        "max": [
+          1,
+          0.8,
+          0.292
+        ]
+      }
+    },
+    {
+      "id": "set-streetlamp-09",
+      "label": "streetlamp",
+      "transform": {
+        "space": "world",
+        "position": [
+          -8,
+          0,
+          4
+        ]
+      },
+      "visual": {
+        "type": "model",
+        "url": "/models/generated/streetlamp.glb",
+        "fallback": {
+          "type": "primitive",
+          "shape": "box",
+          "params": {
+            "width": 1.2149999999999999,
+            "height": 0.2,
+            "depth": 0.3
+          },
+          "color": "#717c87"
+        }
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.24,
+          0,
+          -0.24
+        ],
+        "max": [
+          0.975,
+          3.65,
+          0.24
+        ]
+      }
+    },
+    {
+      "id": "set-road-barrier-10",
+      "label": "road barrier",
+      "transform": {
+        "space": "world",
+        "position": [
+          6.5,
+          0,
+          0
+        ]
+      },
+      "visual": {
+        "type": "model",
+        "url": "/models/generated/road-barrier.glb",
+        "fallback": {
+          "type": "primitive",
+          "shape": "box",
+          "params": {
+            "width": 2,
+            "height": 0.2,
+            "depth": 0.3
+          },
+          "color": "#717c87"
+        }
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -1,
+          0,
+          -0.275
+        ],
+        "max": [
+          1,
+          0.8,
+          0.292
+        ]
+      }
+    },
+    {
+      "id": "set-streetlamp-11",
+      "label": "streetlamp",
+      "transform": {
+        "space": "world",
+        "position": [
+          8,
+          0,
+          4
+        ]
+      },
+      "visual": {
+        "type": "model",
+        "url": "/models/generated/streetlamp.glb",
+        "fallback": {
+          "type": "primitive",
+          "shape": "box",
+          "params": {
+            "width": 1.2149999999999999,
+            "height": 0.2,
+            "depth": 0.3
+          },
+          "color": "#717c87"
+        }
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.24,
+          0,
+          -0.24
+        ],
+        "max": [
+          0.975,
+          3.65,
+          0.24
+        ]
+      }
+    },
+    {
+      "id": "set-road-barrier-12",
+      "label": "road barrier",
+      "transform": {
+        "space": "world",
+        "position": [
+          -6.5,
+          0,
+          12.6
+        ]
+      },
+      "visual": {
+        "type": "model",
+        "url": "/models/generated/road-barrier.glb",
+        "fallback": {
+          "type": "primitive",
+          "shape": "box",
+          "params": {
+            "width": 2,
+            "height": 0.2,
+            "depth": 0.3
+          },
+          "color": "#717c87"
+        }
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -1,
+          0,
+          -0.275
+        ],
+        "max": [
+          1,
+          0.8,
+          0.292
+        ]
+      }
+    },
+    {
+      "id": "set-streetlamp-13",
+      "label": "streetlamp",
+      "transform": {
+        "space": "world",
+        "position": [
+          -8,
+          0,
+          16.6
+        ]
+      },
+      "visual": {
+        "type": "model",
+        "url": "/models/generated/streetlamp.glb",
+        "fallback": {
+          "type": "primitive",
+          "shape": "box",
+          "params": {
+            "width": 1.2149999999999999,
+            "height": 0.2,
+            "depth": 0.3
+          },
+          "color": "#717c87"
+        }
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.24,
+          0,
+          -0.24
+        ],
+        "max": [
+          0.975,
+          3.65,
+          0.24
+        ]
+      }
+    },
+    {
+      "id": "set-road-barrier-14",
+      "label": "road barrier",
+      "transform": {
+        "space": "world",
+        "position": [
+          6.5,
+          0,
+          12.6
+        ]
+      },
+      "visual": {
+        "type": "model",
+        "url": "/models/generated/road-barrier.glb",
+        "fallback": {
+          "type": "primitive",
+          "shape": "box",
+          "params": {
+            "width": 2,
+            "height": 0.2,
+            "depth": 0.3
+          },
+          "color": "#717c87"
+        }
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -1,
+          0,
+          -0.275
+        ],
+        "max": [
+          1,
+          0.8,
+          0.292
+        ]
+      }
+    },
+    {
+      "id": "set-streetlamp-15",
+      "label": "streetlamp",
+      "transform": {
+        "space": "world",
+        "position": [
+          8,
+          0,
+          16.6
+        ]
+      },
+      "visual": {
+        "type": "model",
+        "url": "/models/generated/streetlamp.glb",
+        "fallback": {
+          "type": "primitive",
+          "shape": "box",
+          "params": {
+            "width": 1.2149999999999999,
+            "height": 0.2,
+            "depth": 0.3
+          },
+          "color": "#717c87"
+        }
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.24,
+          0,
+          -0.24
+        ],
+        "max": [
+          0.975,
+          3.65,
+          0.24
+        ]
+      }
+    },
+    {
+      "id": "set-support-16",
+      "label": "track marshal, #d3a039 jacket; supporting subject, not the principal actor",
+      "transform": {
+        "space": "world",
+        "position": [
+          7.5,
+          0,
+          12
+        ]
+      },
+      "visual": {
+        "type": "preset",
+        "name": "humanoid",
+        "params": {
+          "height": 1.8,
+          "shirtColor": "#d3a039",
+          "trouserColor": "#283341",
+          "color": "#ad805f",
+          "motion": "idle"
+        }
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.325,
+          0,
+          -0.25
+        ],
+        "max": [
+          0.325,
+          1.8,
+          0.25
+        ]
+      }
+    },
+    {
+      "id": "set-support-17",
+      "label": "service mechanic, #405f8c jacket; supporting subject, not the principal actor",
+      "transform": {
+        "space": "world",
+        "position": [
+          -8,
+          0,
+          -12
+        ]
+      },
+      "visual": {
+        "type": "preset",
+        "name": "humanoid",
+        "params": {
+          "height": 1.8,
+          "shirtColor": "#405f8c",
+          "trouserColor": "#283341",
+          "color": "#ad805f",
+          "motion": "idle"
+        }
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.325,
+          0,
+          -0.25
+        ],
+        "max": [
+          0.325,
+          1.8,
+          0.25
+        ]
+      }
+    },
+    {
+      "id": "set-workbench-18",
+      "label": "workbench",
+      "transform": {
+        "space": "world",
+        "position": [
+          9,
+          0,
+          -8
+        ]
+      },
+      "visual": {
+        "type": "model",
+        "url": "/models/generated/workbench.glb",
+        "fallback": {
+          "type": "primitive",
+          "shape": "box",
+          "params": {
+            "width": 1.8,
+            "height": 0.2,
+            "depth": 0.3
+          },
+          "color": "#717c87"
+        }
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.9,
+          0,
+          -0.36
+        ],
+        "max": [
+          0.9,
+          0.93,
+          0.36
+        ]
+      }
     }
   ],
   "semanticAnchors": [
@@ -104,15 +1125,81 @@
       "id": "car",
       "entityId": "car-entity",
       "label": "ماشین",
-      "localAnchor": [0, 0.75, 0],
-      "localBounds": { "type": "box", "min": [-1, 0, -2.2], "max": [1, 1.45, 2.2] }
+      "localAnchor": [
+        0,
+        0.75,
+        0
+      ],
+      "localBounds": {
+        "type": "box",
+        "min": [
+          -1,
+          0,
+          -2.2
+        ],
+        "max": [
+          1,
+          1.45,
+          2.2
+        ]
+      }
     },
     {
       "id": "driver",
       "entityId": "driver-head-entity",
       "label": "راننده",
-      "localAnchor": [0, 0, 0],
-      "localBounds": { "type": "sphere", "center": [0, 0, 0], "radius": 0.13 }
+      "localAnchor": [
+        0,
+        0,
+        0
+      ],
+      "localBounds": {
+        "type": "sphere",
+        "center": [
+          0,
+          0,
+          0
+        ],
+        "radius": 0.13
+      }
+    },
+    {
+      "id": "set-support-16-face",
+      "entityId": "set-support-16",
+      "label": "track marshal, #d3a039 jacket; supporting subject, not the principal actor face",
+      "localAnchor": [
+        0,
+        1.63,
+        0.12
+      ],
+      "localBounds": {
+        "type": "sphere",
+        "center": [
+          0,
+          1.63,
+          0.12
+        ],
+        "radius": 0.16
+      }
+    },
+    {
+      "id": "set-support-17-face",
+      "entityId": "set-support-17",
+      "label": "service mechanic, #405f8c jacket; supporting subject, not the principal actor face",
+      "localAnchor": [
+        0,
+        1.63,
+        0.12
+      ],
+      "localBounds": {
+        "type": "sphere",
+        "center": [
+          0,
+          1.63,
+          0.12
+        ],
+        "radius": 0.16
+      }
     }
   ]
 }
