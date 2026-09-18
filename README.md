@@ -2,31 +2,43 @@
 
 A TypeScript camera-direction DSL and timeline solver, with a browser visualizer for evaluating generated camera trajectories inside prompt-specific 4D environments (3D space over playback time).
 
-## Cinematic environment and reference upgrade
+## Authored environments and connected architecture
 
-The bundled suite now contains **32 dressed environments, 557 entities (410 added,
-including 113 supporting characters), 15 original procedural GLB assets, and 32
-independently authored camera references**. Examples 01–23 have revised cinematic
-prompts and grounded shot beats; the nine omission/“don't-care” prompts remain
-unchanged. Bundled references are synthetic storyboards, not optimized output or
-measured camera ground truth.
+The bundled suite contains **32 authored environments, 25 enclosed volumes,
+11 connected stair flights, 2,400 entities (primarily structural components),
+22 original procedural GLB assets, and 32 scene-matched camera references**.
+Rooms now have continuous walls and full ceilings, real door/window openings,
+and supported furniture and luminaires. Warehouses have accessible mezzanines;
+the rooftop has a finite building and a stair to the occupied floor below.
+Profile-wide random dressing has been replaced with deterministic scene-specific
+layouts. Examples 24–32 retain their original omission/“don't-care” prompts and CSL.
 
-See [the upgrade guide](docs/CINEMATIC_UPGRADE.md) for changes and validation,
-and [the reference protocol](docs/REFERENCE_PROTOCOL.md) for benchmark targets,
-provenance, and optional soft-keyframe supervision.
+See [the environment rebuild guide](docs/ENVIRONMENT_REBUILD.md) for authoring,
+scene-by-scene changes, validation, and limitations. Bundled camera references
+are synthetic storyboards, not optimized output or measured ground truth.
 
 ```bash
 npm ci
-npm run generate:examples        # Assets, scenes, references, and strict sampled audit
-npm run typecheck:references
-npm run test:references
-npm run visualizer
+npm run visualizer               # Bundled scenes/references need no regeneration
+npm run generate:examples        # Rebuild assets, scenes, references, then audit
+npm run typecheck:references     # Reference + architectural contracts
+npm run test:node                # 109 checked-in Node tests
 ```
 
-The delivered tree is based on the archive's full `origin/integration` branch at
-`00a36939706e3f2eae9efa7c7540172b0ecc4fd0`, not its timeline-only `master` checkout.
-Legacy optimizer snapshots remain available for historical inspection, but are
-marked stale and are not used as automatic replay fallbacks.
+**Building cutaway · God view** is an inspection option, enabled by default.
+Turn it off to inspect the closed building. Cutaway hides the roof and only the
+camera-facing outer walls in God view; Director POV always restores complete
+architecture. Cutaway never changes collision or reference-audit geometry.
+
+The delivered tree is based on the uploaded archive's full `origin/integration`
+branch at `cf55327acdc72743402ac1a78f4f422e1a80f0e5`, not its timeline-only
+`master` checkout. Legacy optimizer snapshots are marked stale and are not
+used as automatic replay fallbacks.
+
+Validation in the editing environment: 109 Node tests passed; all 32 sampled
+reference audits passed; 6,745 layout checks passed; the dependency-light
+reference/layout typecheck passed. A full browser build and browser/WebGL
+review were **not** completed because package installation was unavailable.
 
 ## Camera Lab visualizer
 

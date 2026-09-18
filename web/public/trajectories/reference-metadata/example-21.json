@@ -11,7 +11,7 @@
   },
   "prompt": "A 10-second rooftop pursuit among vents and maintenance workers. Track the principal runner until the pursuer first closes to 2.5 metres. Over the next 1.5 seconds arc around the runner and zoom optically to reveal the pursuer. For the remainder track both principals with a stable, level two-shot. Do not confuse maintenance staff with the pursuer, and do not freeze scene time.",
   "promptSha256": "09c3d1ae368d612438eb88bdf8e5e58cd38235c9a5aa4845e6c4f70a7ab0c477",
-  "environmentSha256": "cc1c1e1b4efb427ba5ce50a5ea7cb0b394030f34e75b540f00d21fd094adb639",
+  "environmentSha256": "0c5c3e1b1e7bcea8997a1a569d882a44ee70c4e503af99417af0c26cd4857b43",
   "cslSha256": "4c36e340a44359540d9ec03a5e9e3557209e58a3c0eb58d7ac41a9c8644cca19",
   "recipeSha256": "745c9702bb5a26f416f04eda09f97a1247269243c012877bc9ed7f05631d7531",
   "trajectorySha256": "cd795669372eeeb1dd12a8a1261ec2150409d5fdd3ff8e372deefd28054e6d63",

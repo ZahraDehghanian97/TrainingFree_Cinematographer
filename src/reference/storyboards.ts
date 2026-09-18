@@ -82,16 +82,16 @@ export function referenceStoryboard(number:number, environment?:EnvironmentV1):R
  }
  case 22: {
   const pair=['worker','coworker'],group=[...pair,'set-forklift','set-mezzanine'];
-  knots=[o(0,'worker',30,.5,5,50),o(6,'worker',30,.5,5,50),o(10,'worker',105,.5,3.7,50),o(14,pair,105,3.5,7.5,55,[...pair,'set-mezzanine']),o(18,pair,105,3.5,12,55),p(20,stopped(group,20),[14,12,22],62,group),p(22,stopped(group,20),[14,12,22],62,group)];break;
+  knots=[o(0,'worker',30,.5,5,50),o(6,'worker',30,.5,5,50),o(10,'worker',105,.5,3.7,50),o(14,pair,105,3.5,7.5,55,[...pair,'set-mezzanine']),o(18,pair,105,3.5,12,55),o(20,stopped(group,20),105,4.8,14,72,group),o(22,stopped(group,20),105,4.8,14,72,group)];break;
  }
  case 23: {
   if(!environment)throw new Error('Factory handoff requires the actual environment');
   const pair=['worker_a','worker_b'],group=[...pair,'set-forklift','set-mezzanine','loading_bay_frame'];
   const a=sampleEnvironmentSubject(environment,'worker_a',6).center,b=sampleEnvironmentSubject(environment,'worker_b',6).center;
-  const midpoint=mul(add(a,b),.5),startOffset:Vec3=[0,4,14];
+  const midpoint=mul(add(a,b),.5),startOffset:Vec3=[0,4,12];
   const followOffset=sub(add(midpoint,startOffset),a);
-  knots=[p(0,'worker_a',followOffset,55),p(6,'worker_a',followOffset,55,pair),o(6,pair,0,4,14,55,undefined,{transitionBefore:true}),
-   o(10,pair,90,4,14,55),o(15,pair,90,4,14,55),o(18,stopped(pair,18),90,17,45,55,stopped(group,18)),o(20,stopped(pair,18),90,17,45,55,stopped(group,18))];break;
+  knots=[p(0,'worker_a',followOffset,62),p(6,'worker_a',followOffset,62,pair),o(6,pair,0,4,12,62,undefined,{transitionBefore:true}),
+   o(10,pair,90,4,12,62),o(15,pair,90,4,12,62),o(18,stopped(pair,18),90,6.0,18,78,stopped(group,18)),o(20,stopped(pair,18),90,6.0,18,78,stopped(group,18))];break;
  }
  case 24: knots=[o(0,'dancer',0,.4,4.5,50),o(10,'dancer',110,.4,4.5,50)];break;
  case 25: knots=[o(0,'dancer',0,.4,4,50),o(10,'dancer',110,.4,4,50)];break;

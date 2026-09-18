@@ -24,28 +24,27 @@
     "background": "#36383e",
     "overviewCamera": {
       "position": [
-        5,
-        3.5,
-        5.5
+        11,
+        8,
+        13
       ],
       "target": [
         0,
-        0.9,
-        0
+        1,
+        1
       ]
     },
     "ground": {
       "y": 0,
       "size": [
-        16,
-        16
+        11.4,
+        16.4
       ],
       "color": "#83766c",
-      "surface": "wood"
-    },
-    "grid": {
-      "size": 16,
-      "divisions": 16
+      "surface": "wood",
+      "continuation": "none",
+      "details": "authored",
+      "render": false
     }
   },
   "entities": [
@@ -56,7 +55,7 @@
         "space": "world",
         "position": [
           0,
-          0.55,
+          0.565,
           0
         ]
       },
@@ -76,7 +75,7 @@
         "type": "box",
         "min": [
           -2.3,
-          -0.55,
+          -0.565,
           -0.9
         ],
         "max": [
@@ -84,6 +83,11 @@
           0.075,
           0.9
         ]
+      },
+      "layout": {
+        "role": "furniture",
+        "purpose": "Long worktable supporting the vase and computer",
+        "support": "ground"
       }
     },
     {
@@ -122,6 +126,11 @@
           0.95,
           0.28
         ]
+      },
+      "layout": {
+        "role": "prop",
+        "purpose": "Worktable vase",
+        "support": "desk-entity"
       }
     },
     {
@@ -156,416 +165,1395 @@
           1.15,
           0.15
         ]
+      },
+      "layout": {
+        "role": "prop",
+        "purpose": "Worktable monitor",
+        "support": "desk-entity"
       }
     },
     {
-      "id": "set-lighting-truss-00",
-      "label": "lighting truss",
+      "id": "arch-workspace-north-end",
+      "label": "Continuous enclosure wall",
       "transform": {
         "space": "world",
         "position": [
-          -6,
           0,
-          -5
+          1.7,
+          -4
         ]
       },
       "visual": {
-        "type": "model",
-        "url": "/models/generated/lighting-truss.glb",
-        "fallback": {
-          "type": "primitive",
-          "shape": "box",
-          "params": {
-            "width": 1.1,
-            "height": 0.2,
-            "depth": 0.3
-          },
-          "color": "#717c87"
-        }
-      },
-      "bounds": {
-        "type": "box",
-        "min": [
-          -0.55,
-          0,
-          -0.55
-        ],
-        "max": [
-          0.55,
-          3.6,
-          0.55
-        ]
-      }
-    },
-    {
-      "id": "set-lighting-truss-01",
-      "label": "lighting truss",
-      "transform": {
-        "space": "world",
-        "position": [
-          6,
-          0,
-          -5
-        ]
-      },
-      "visual": {
-        "type": "model",
-        "url": "/models/generated/lighting-truss.glb",
-        "fallback": {
-          "type": "primitive",
-          "shape": "box",
-          "params": {
-            "width": 1.1,
-            "height": 0.2,
-            "depth": 0.3
-          },
-          "color": "#717c87"
-        }
-      },
-      "bounds": {
-        "type": "box",
-        "min": [
-          -0.55,
-          0,
-          -0.55
-        ],
-        "max": [
-          0.55,
-          3.6,
-          0.55
-        ]
-      }
-    },
-    {
-      "id": "set-lighting-truss-02",
-      "label": "lighting truss",
-      "transform": {
-        "space": "world",
-        "position": [
-          -6,
-          0,
-          5
-        ]
-      },
-      "visual": {
-        "type": "model",
-        "url": "/models/generated/lighting-truss.glb",
-        "fallback": {
-          "type": "primitive",
-          "shape": "box",
-          "params": {
-            "width": 1.1,
-            "height": 0.2,
-            "depth": 0.3
-          },
-          "color": "#717c87"
-        }
-      },
-      "bounds": {
-        "type": "box",
-        "min": [
-          -0.55,
-          0,
-          -0.55
-        ],
-        "max": [
-          0.55,
-          3.6,
-          0.55
-        ]
-      }
-    },
-    {
-      "id": "set-lighting-truss-03",
-      "label": "lighting truss",
-      "transform": {
-        "space": "world",
-        "position": [
-          6,
-          0,
-          5
-        ]
-      },
-      "visual": {
-        "type": "model",
-        "url": "/models/generated/lighting-truss.glb",
-        "fallback": {
-          "type": "primitive",
-          "shape": "box",
-          "params": {
-            "width": 1.1,
-            "height": 0.2,
-            "depth": 0.3
-          },
-          "color": "#717c87"
-        }
-      },
-      "bounds": {
-        "type": "box",
-        "min": [
-          -0.55,
-          0,
-          -0.55
-        ],
-        "max": [
-          0.55,
-          3.6,
-          0.55
-        ]
-      }
-    },
-    {
-      "id": "set-workbench-04",
-      "label": "workbench",
-      "transform": {
-        "space": "world",
-        "position": [
-          -5,
-          0,
-          -7
-        ]
-      },
-      "visual": {
-        "type": "model",
-        "url": "/models/generated/workbench.glb",
-        "fallback": {
-          "type": "primitive",
-          "shape": "box",
-          "params": {
-            "width": 1.8,
-            "height": 0.2,
-            "depth": 0.3
-          },
-          "color": "#717c87"
-        }
-      },
-      "bounds": {
-        "type": "box",
-        "min": [
-          -0.9,
-          0,
-          -0.36
-        ],
-        "max": [
-          0.9,
-          0.93,
-          0.36
-        ]
-      }
-    },
-    {
-      "id": "set-crate-stack-05",
-      "label": "crate stack",
-      "transform": {
-        "space": "world",
-        "position": [
-          -4,
-          0,
-          -7
-        ]
-      },
-      "visual": {
-        "type": "model",
-        "url": "/models/generated/crate-stack.glb",
-        "fallback": {
-          "type": "primitive",
-          "shape": "box",
-          "params": {
-            "width": 1.9,
-            "height": 0.2,
-            "depth": 0.3
-          },
-          "color": "#717c87"
-        }
-      },
-      "bounds": {
-        "type": "box",
-        "min": [
-          -0.95,
-          0,
-          -0.6
-        ],
-        "max": [
-          0.95,
-          1.725,
-          0.6
-        ]
-      }
-    },
-    {
-      "id": "set-workbench-06",
-      "label": "workbench",
-      "transform": {
-        "space": "world",
-        "position": [
-          5,
-          0,
-          -7
-        ]
-      },
-      "visual": {
-        "type": "model",
-        "url": "/models/generated/workbench.glb",
-        "fallback": {
-          "type": "primitive",
-          "shape": "box",
-          "params": {
-            "width": 1.8,
-            "height": 0.2,
-            "depth": 0.3
-          },
-          "color": "#717c87"
-        }
-      },
-      "bounds": {
-        "type": "box",
-        "min": [
-          -0.9,
-          0,
-          -0.36
-        ],
-        "max": [
-          0.9,
-          0.93,
-          0.36
-        ]
-      }
-    },
-    {
-      "id": "set-crate-stack-07",
-      "label": "crate stack",
-      "transform": {
-        "space": "world",
-        "position": [
-          6,
-          0,
-          -7
-        ]
-      },
-      "visual": {
-        "type": "model",
-        "url": "/models/generated/crate-stack.glb",
-        "fallback": {
-          "type": "primitive",
-          "shape": "box",
-          "params": {
-            "width": 1.9,
-            "height": 0.2,
-            "depth": 0.3
-          },
-          "color": "#717c87"
-        }
-      },
-      "bounds": {
-        "type": "box",
-        "min": [
-          -0.95,
-          0,
-          -0.6
-        ],
-        "max": [
-          0.95,
-          1.725,
-          0.6
-        ]
-      }
-    },
-    {
-      "id": "set-support-08",
-      "label": "stagehand, #4e586b jacket; supporting subject, not the principal actor",
-      "transform": {
-        "space": "world",
-        "position": [
-          -5,
-          0,
-          -5
-        ]
-      },
-      "visual": {
-        "type": "preset",
-        "name": "humanoid",
+        "type": "primitive",
+        "shape": "box",
         "params": {
-          "height": 1.8,
-          "shirtColor": "#4e586b",
-          "trouserColor": "#283341",
-          "color": "#ad805f",
-          "motion": "idle"
-        }
+          "size": [
+            11.22,
+            3.4,
+            0.22
+          ]
+        },
+        "color": "#c6beb0"
       },
       "bounds": {
         "type": "box",
         "min": [
-          -0.325,
-          0,
-          -0.25
+          -5.61,
+          -1.7,
+          -0.11
         ],
         "max": [
-          0.325,
-          1.8,
-          0.25
+          5.61,
+          1.7,
+          0.11
+        ]
+      },
+      "layout": {
+        "role": "wall",
+        "purpose": "Continuous enclosure wall",
+        "surface": "plaster",
+        "support": "ground",
+        "cutaway": "wall",
+        "outwardNormal": [
+          0,
+          0,
+          -1
         ]
       }
     },
     {
-      "id": "set-support-09",
-      "label": "lighting technician, #745c49 jacket; supporting subject, not the principal actor",
+      "id": "arch-workspace-north-skirting-0",
+      "label": "Wall base/skirting",
       "transform": {
         "space": "world",
         "position": [
-          5,
           0,
-          -6
+          0.065,
+          -4
         ]
       },
       "visual": {
-        "type": "preset",
-        "name": "humanoid",
+        "type": "primitive",
+        "shape": "box",
         "params": {
-          "height": 1.8,
-          "shirtColor": "#745c49",
-          "trouserColor": "#283341",
-          "color": "#ad805f",
-          "motion": "idle"
-        }
+          "size": [
+            11.22,
+            0.13,
+            0.255
+          ]
+        },
+        "color": "#8e6b4f"
       },
       "bounds": {
         "type": "box",
         "min": [
-          -0.325,
-          0,
-          -0.25
+          -5.61,
+          -0.065,
+          -0.1275
         ],
         "max": [
-          0.325,
-          1.8,
-          0.25
+          5.61,
+          0.065,
+          0.1275
+        ]
+      },
+      "layout": {
+        "role": "trim",
+        "purpose": "Wall base/skirting",
+        "surface": "wood",
+        "support": "arch-workspace-north-end",
+        "cutaway": "wall",
+        "outwardNormal": [
+          0,
+          0,
+          -1
         ]
       }
     },
     {
-      "id": "set-planter-tree-10",
-      "label": "planter tree",
+      "id": "arch-workspace-south-panel-0",
+      "label": "Continuous enclosure wall",
       "transform": {
         "space": "world",
         "position": [
-          -4,
+          -1.2050000000000003,
+          1.7,
+          8
+        ]
+      },
+      "visual": {
+        "type": "primitive",
+        "shape": "box",
+        "params": {
+          "size": [
+            8.81,
+            3.4,
+            0.22
+          ]
+        },
+        "color": "#c6beb0"
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -4.405,
+          -1.7,
+          -0.11
+        ],
+        "max": [
+          4.405,
+          1.7,
+          0.11
+        ]
+      },
+      "layout": {
+        "role": "wall",
+        "purpose": "Continuous enclosure wall",
+        "surface": "plaster",
+        "support": "ground",
+        "cutaway": "wall",
+        "outwardNormal": [
           0,
-          -3
+          0,
+          1
+        ]
+      }
+    },
+    {
+      "id": "arch-workspace-south-workspace-entry-lintel",
+      "label": "Continuous enclosure wall",
+      "transform": {
+        "space": "world",
+        "position": [
+          3.8,
+          2.8499999999999996,
+          8
+        ]
+      },
+      "visual": {
+        "type": "primitive",
+        "shape": "box",
+        "params": {
+          "size": [
+            1.1999999999999997,
+            1.1,
+            0.22
+          ]
+        },
+        "color": "#c6beb0"
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.5999999999999999,
+          -0.55,
+          -0.11
+        ],
+        "max": [
+          0.5999999999999999,
+          0.55,
+          0.11
+        ]
+      },
+      "layout": {
+        "role": "wall",
+        "purpose": "Continuous enclosure wall",
+        "surface": "plaster",
+        "support": "ground",
+        "cutaway": "wall",
+        "outwardNormal": [
+          0,
+          0,
+          1
+        ]
+      }
+    },
+    {
+      "id": "workspace-entry-jamb-left",
+      "label": "Door jamb seated on wall opening",
+      "transform": {
+        "space": "world",
+        "position": [
+          3.1649999999999996,
+          1.15,
+          8
+        ]
+      },
+      "visual": {
+        "type": "primitive",
+        "shape": "box",
+        "params": {
+          "size": [
+            0.07,
+            2.42,
+            0.3
+          ]
+        },
+        "color": "#8e6b4f"
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.035,
+          -1.21,
+          -0.15
+        ],
+        "max": [
+          0.035,
+          1.21,
+          0.15
+        ]
+      },
+      "layout": {
+        "role": "trim",
+        "purpose": "Door jamb seated on wall opening",
+        "surface": "wood",
+        "support": "arch-workspace-south-panel-0",
+        "cutaway": "wall",
+        "outwardNormal": [
+          0,
+          0,
+          1
+        ]
+      }
+    },
+    {
+      "id": "workspace-entry-jamb-right",
+      "label": "Door jamb seated on wall opening",
+      "transform": {
+        "space": "world",
+        "position": [
+          4.435,
+          1.15,
+          8
+        ]
+      },
+      "visual": {
+        "type": "primitive",
+        "shape": "box",
+        "params": {
+          "size": [
+            0.07,
+            2.42,
+            0.3
+          ]
+        },
+        "color": "#8e6b4f"
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.035,
+          -1.21,
+          -0.15
+        ],
+        "max": [
+          0.035,
+          1.21,
+          0.15
+        ]
+      },
+      "layout": {
+        "role": "trim",
+        "purpose": "Door jamb seated on wall opening",
+        "surface": "wood",
+        "support": "arch-workspace-south-panel-0",
+        "cutaway": "wall",
+        "outwardNormal": [
+          0,
+          0,
+          1
+        ]
+      }
+    },
+    {
+      "id": "workspace-entry-head",
+      "label": "Door lintel trim",
+      "transform": {
+        "space": "world",
+        "position": [
+          3.8,
+          2.335,
+          8
+        ]
+      },
+      "visual": {
+        "type": "primitive",
+        "shape": "box",
+        "params": {
+          "size": [
+            1.3399999999999999,
+            0.07,
+            0.3
+          ]
+        },
+        "color": "#8e6b4f"
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.6699999999999999,
+          -0.035,
+          -0.15
+        ],
+        "max": [
+          0.6699999999999999,
+          0.035,
+          0.15
+        ]
+      },
+      "layout": {
+        "role": "trim",
+        "purpose": "Door lintel trim",
+        "surface": "wood",
+        "support": "arch-workspace-south-panel-0",
+        "cutaway": "wall",
+        "outwardNormal": [
+          0,
+          0,
+          1
+        ]
+      }
+    },
+    {
+      "id": "arch-workspace-south-end",
+      "label": "Continuous enclosure wall",
+      "transform": {
+        "space": "world",
+        "position": [
+          5.005,
+          1.7,
+          8
+        ]
+      },
+      "visual": {
+        "type": "primitive",
+        "shape": "box",
+        "params": {
+          "size": [
+            1.2100000000000009,
+            3.4,
+            0.22
+          ]
+        },
+        "color": "#c6beb0"
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.6050000000000004,
+          -1.7,
+          -0.11
+        ],
+        "max": [
+          0.6050000000000004,
+          1.7,
+          0.11
+        ]
+      },
+      "layout": {
+        "role": "wall",
+        "purpose": "Continuous enclosure wall",
+        "surface": "plaster",
+        "support": "ground",
+        "cutaway": "wall",
+        "outwardNormal": [
+          0,
+          0,
+          1
+        ]
+      }
+    },
+    {
+      "id": "arch-workspace-south-skirting-0",
+      "label": "Wall base/skirting",
+      "transform": {
+        "space": "world",
+        "position": [
+          -1.2050000000000003,
+          0.065,
+          8
+        ]
+      },
+      "visual": {
+        "type": "primitive",
+        "shape": "box",
+        "params": {
+          "size": [
+            8.81,
+            0.13,
+            0.255
+          ]
+        },
+        "color": "#8e6b4f"
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -4.405,
+          -0.065,
+          -0.1275
+        ],
+        "max": [
+          4.405,
+          0.065,
+          0.1275
+        ]
+      },
+      "layout": {
+        "role": "trim",
+        "purpose": "Wall base/skirting",
+        "surface": "wood",
+        "support": "arch-workspace-south-panel-0",
+        "cutaway": "wall",
+        "outwardNormal": [
+          0,
+          0,
+          1
+        ]
+      }
+    },
+    {
+      "id": "arch-workspace-south-skirting-1",
+      "label": "Wall base/skirting",
+      "transform": {
+        "space": "world",
+        "position": [
+          5.005,
+          0.065,
+          8
+        ]
+      },
+      "visual": {
+        "type": "primitive",
+        "shape": "box",
+        "params": {
+          "size": [
+            1.2100000000000009,
+            0.13,
+            0.255
+          ]
+        },
+        "color": "#8e6b4f"
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.6050000000000004,
+          -0.065,
+          -0.1275
+        ],
+        "max": [
+          0.6050000000000004,
+          0.065,
+          0.1275
+        ]
+      },
+      "layout": {
+        "role": "trim",
+        "purpose": "Wall base/skirting",
+        "surface": "wood",
+        "support": "arch-workspace-south-panel-0",
+        "cutaway": "wall",
+        "outwardNormal": [
+          0,
+          0,
+          1
+        ]
+      }
+    },
+    {
+      "id": "arch-workspace-west-panel-0",
+      "label": "Continuous enclosure wall",
+      "transform": {
+        "space": "world",
+        "position": [
+          -5.5,
+          1.7,
+          -3.305
+        ]
+      },
+      "visual": {
+        "type": "primitive",
+        "shape": "box",
+        "params": {
+          "size": [
+            0.22,
+            3.4,
+            1.6100000000000003
+          ]
+        },
+        "color": "#c6beb0"
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.11,
+          -1.7,
+          -0.8050000000000002
+        ],
+        "max": [
+          0.11,
+          1.7,
+          0.8050000000000002
+        ]
+      },
+      "layout": {
+        "role": "wall",
+        "purpose": "Continuous enclosure wall",
+        "surface": "plaster",
+        "support": "ground",
+        "cutaway": "wall",
+        "outwardNormal": [
+          -1,
+          0,
+          0
+        ]
+      }
+    },
+    {
+      "id": "arch-workspace-west-workspace-window-sill-wall",
+      "label": "Continuous enclosure wall",
+      "transform": {
+        "space": "world",
+        "position": [
+          -5.5,
+          0.45,
+          -1.2
+        ]
+      },
+      "visual": {
+        "type": "primitive",
+        "shape": "box",
+        "params": {
+          "size": [
+            0.22,
+            0.9,
+            2.6
+          ]
+        },
+        "color": "#c6beb0"
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.11,
+          -0.45,
+          -1.3
+        ],
+        "max": [
+          0.11,
+          0.45,
+          1.3
+        ]
+      },
+      "layout": {
+        "role": "wall",
+        "purpose": "Continuous enclosure wall",
+        "surface": "plaster",
+        "support": "ground",
+        "cutaway": "wall",
+        "outwardNormal": [
+          -1,
+          0,
+          0
+        ]
+      }
+    },
+    {
+      "id": "arch-workspace-west-workspace-window-lintel",
+      "label": "Continuous enclosure wall",
+      "transform": {
+        "space": "world",
+        "position": [
+          -5.5,
+          3.075,
+          -1.2
+        ]
+      },
+      "visual": {
+        "type": "primitive",
+        "shape": "box",
+        "params": {
+          "size": [
+            0.22,
+            0.6499999999999999,
+            2.6
+          ]
+        },
+        "color": "#c6beb0"
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.11,
+          -0.32499999999999996,
+          -1.3
+        ],
+        "max": [
+          0.11,
+          0.32499999999999996,
+          1.3
+        ]
+      },
+      "layout": {
+        "role": "wall",
+        "purpose": "Continuous enclosure wall",
+        "surface": "plaster",
+        "support": "ground",
+        "cutaway": "wall",
+        "outwardNormal": [
+          -1,
+          0,
+          0
+        ]
+      }
+    },
+    {
+      "id": "workspace-window-jamb-left",
+      "label": "Window jamb seated on wall opening",
+      "transform": {
+        "space": "world",
+        "position": [
+          -5.5,
+          1.8250000000000002,
+          -2.535
+        ]
+      },
+      "visual": {
+        "type": "primitive",
+        "shape": "box",
+        "params": {
+          "size": [
+            0.3,
+            1.9700000000000002,
+            0.07
+          ]
+        },
+        "color": "#8e6b4f"
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.15,
+          -0.9850000000000001,
+          -0.035
+        ],
+        "max": [
+          0.15,
+          0.9850000000000001,
+          0.035
+        ]
+      },
+      "layout": {
+        "role": "trim",
+        "purpose": "Window jamb seated on wall opening",
+        "surface": "wood",
+        "support": "arch-workspace-west-panel-0",
+        "cutaway": "wall",
+        "outwardNormal": [
+          -1,
+          0,
+          0
+        ]
+      }
+    },
+    {
+      "id": "workspace-window-jamb-right",
+      "label": "Window jamb seated on wall opening",
+      "transform": {
+        "space": "world",
+        "position": [
+          -5.5,
+          1.8250000000000002,
+          0.1350000000000001
+        ]
+      },
+      "visual": {
+        "type": "primitive",
+        "shape": "box",
+        "params": {
+          "size": [
+            0.3,
+            1.9700000000000002,
+            0.07
+          ]
+        },
+        "color": "#8e6b4f"
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.15,
+          -0.9850000000000001,
+          -0.035
+        ],
+        "max": [
+          0.15,
+          0.9850000000000001,
+          0.035
+        ]
+      },
+      "layout": {
+        "role": "trim",
+        "purpose": "Window jamb seated on wall opening",
+        "surface": "wood",
+        "support": "arch-workspace-west-panel-0",
+        "cutaway": "wall",
+        "outwardNormal": [
+          -1,
+          0,
+          0
+        ]
+      }
+    },
+    {
+      "id": "workspace-window-head",
+      "label": "Window lintel trim",
+      "transform": {
+        "space": "world",
+        "position": [
+          -5.5,
+          2.785,
+          -1.2
+        ]
+      },
+      "visual": {
+        "type": "primitive",
+        "shape": "box",
+        "params": {
+          "size": [
+            0.3,
+            0.07,
+            2.74
+          ]
+        },
+        "color": "#8e6b4f"
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.15,
+          -0.035,
+          -1.37
+        ],
+        "max": [
+          0.15,
+          0.035,
+          1.37
+        ]
+      },
+      "layout": {
+        "role": "trim",
+        "purpose": "Window lintel trim",
+        "surface": "wood",
+        "support": "arch-workspace-west-panel-0",
+        "cutaway": "wall",
+        "outwardNormal": [
+          -1,
+          0,
+          0
+        ]
+      }
+    },
+    {
+      "id": "workspace-window-sill",
+      "label": "Window sill",
+      "transform": {
+        "space": "world",
+        "position": [
+          -5.5,
+          0.925,
+          -1.2
+        ]
+      },
+      "visual": {
+        "type": "primitive",
+        "shape": "box",
+        "params": {
+          "size": [
+            0.4,
+            0.05,
+            2.7800000000000002
+          ]
+        },
+        "color": "#8e6b4f"
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.2,
+          -0.025,
+          -1.3900000000000001
+        ],
+        "max": [
+          0.2,
+          0.025,
+          1.3900000000000001
+        ]
+      },
+      "layout": {
+        "role": "trim",
+        "purpose": "Window sill",
+        "surface": "wood",
+        "support": "arch-workspace-west-panel-0",
+        "cutaway": "wall",
+        "outwardNormal": [
+          -1,
+          0,
+          0
+        ]
+      }
+    },
+    {
+      "id": "workspace-window-glass",
+      "label": "Glazed window in a real wall opening",
+      "transform": {
+        "space": "world",
+        "position": [
+          -5.5,
+          1.8250000000000002,
+          -1.2
+        ]
+      },
+      "visual": {
+        "type": "primitive",
+        "shape": "box",
+        "params": {
+          "size": [
+            0.015,
+            1.79,
+            2.54
+          ]
+        },
+        "color": "#bad3d1"
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.0075,
+          -0.895,
+          -1.27
+        ],
+        "max": [
+          0.0075,
+          0.895,
+          1.27
+        ]
+      },
+      "layout": {
+        "role": "window",
+        "purpose": "Glazed window in a real wall opening",
+        "surface": "glass",
+        "support": "arch-workspace-west-panel-0",
+        "cutaway": "wall",
+        "outwardNormal": [
+          -1,
+          0,
+          0
+        ]
+      },
+      "occlusion": {
+        "transparent": true
+      }
+    },
+    {
+      "id": "workspace-window-mullion-1",
+      "label": "Window mullion",
+      "transform": {
+        "space": "world",
+        "position": [
+          -5.5,
+          1.8250000000000002,
+          -1.6333333333333333
+        ]
+      },
+      "visual": {
+        "type": "primitive",
+        "shape": "box",
+        "params": {
+          "size": [
+            0.08,
+            1.85,
+            0.045
+          ]
+        },
+        "color": "#465256"
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.04,
+          -0.925,
+          -0.0225
+        ],
+        "max": [
+          0.04,
+          0.925,
+          0.0225
+        ]
+      },
+      "layout": {
+        "role": "trim",
+        "purpose": "Window mullion",
+        "surface": "metal",
+        "support": "arch-workspace-west-panel-0",
+        "cutaway": "wall",
+        "outwardNormal": [
+          -1,
+          0,
+          0
+        ]
+      }
+    },
+    {
+      "id": "workspace-window-mullion-2",
+      "label": "Window mullion",
+      "transform": {
+        "space": "world",
+        "position": [
+          -5.5,
+          1.8250000000000002,
+          -0.7666666666666666
+        ]
+      },
+      "visual": {
+        "type": "primitive",
+        "shape": "box",
+        "params": {
+          "size": [
+            0.08,
+            1.85,
+            0.045
+          ]
+        },
+        "color": "#465256"
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.04,
+          -0.925,
+          -0.0225
+        ],
+        "max": [
+          0.04,
+          0.925,
+          0.0225
+        ]
+      },
+      "layout": {
+        "role": "trim",
+        "purpose": "Window mullion",
+        "surface": "metal",
+        "support": "arch-workspace-west-panel-0",
+        "cutaway": "wall",
+        "outwardNormal": [
+          -1,
+          0,
+          0
+        ]
+      }
+    },
+    {
+      "id": "arch-workspace-west-end",
+      "label": "Continuous enclosure wall",
+      "transform": {
+        "space": "world",
+        "position": [
+          -5.5,
+          1.7,
+          4.1049999999999995
+        ]
+      },
+      "visual": {
+        "type": "primitive",
+        "shape": "box",
+        "params": {
+          "size": [
+            0.22,
+            3.4,
+            8.01
+          ]
+        },
+        "color": "#c6beb0"
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.11,
+          -1.7,
+          -4.005
+        ],
+        "max": [
+          0.11,
+          1.7,
+          4.005
+        ]
+      },
+      "layout": {
+        "role": "wall",
+        "purpose": "Continuous enclosure wall",
+        "surface": "plaster",
+        "support": "ground",
+        "cutaway": "wall",
+        "outwardNormal": [
+          -1,
+          0,
+          0
+        ]
+      }
+    },
+    {
+      "id": "arch-workspace-west-skirting-0",
+      "label": "Wall base/skirting",
+      "transform": {
+        "space": "world",
+        "position": [
+          -5.5,
+          0.065,
+          1.9999999999999996
+        ]
+      },
+      "visual": {
+        "type": "primitive",
+        "shape": "box",
+        "params": {
+          "size": [
+            0.255,
+            0.13,
+            12.219999999999999
+          ]
+        },
+        "color": "#8e6b4f"
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.1275,
+          -0.065,
+          -6.109999999999999
+        ],
+        "max": [
+          0.1275,
+          0.065,
+          6.109999999999999
+        ]
+      },
+      "layout": {
+        "role": "trim",
+        "purpose": "Wall base/skirting",
+        "surface": "wood",
+        "support": "arch-workspace-west-panel-0",
+        "cutaway": "wall",
+        "outwardNormal": [
+          -1,
+          0,
+          0
+        ]
+      }
+    },
+    {
+      "id": "arch-workspace-east-end",
+      "label": "Continuous enclosure wall",
+      "transform": {
+        "space": "world",
+        "position": [
+          5.5,
+          1.7,
+          1.9999999999999996
+        ]
+      },
+      "visual": {
+        "type": "primitive",
+        "shape": "box",
+        "params": {
+          "size": [
+            0.22,
+            3.4,
+            12.219999999999999
+          ]
+        },
+        "color": "#c6beb0"
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.11,
+          -1.7,
+          -6.109999999999999
+        ],
+        "max": [
+          0.11,
+          1.7,
+          6.109999999999999
+        ]
+      },
+      "layout": {
+        "role": "wall",
+        "purpose": "Continuous enclosure wall",
+        "surface": "plaster",
+        "support": "ground",
+        "cutaway": "wall",
+        "outwardNormal": [
+          1,
+          0,
+          0
+        ]
+      }
+    },
+    {
+      "id": "arch-workspace-east-skirting-0",
+      "label": "Wall base/skirting",
+      "transform": {
+        "space": "world",
+        "position": [
+          5.5,
+          0.065,
+          1.9999999999999996
+        ]
+      },
+      "visual": {
+        "type": "primitive",
+        "shape": "box",
+        "params": {
+          "size": [
+            0.255,
+            0.13,
+            12.219999999999999
+          ]
+        },
+        "color": "#8e6b4f"
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.1275,
+          -0.065,
+          -6.109999999999999
+        ],
+        "max": [
+          0.1275,
+          0.065,
+          6.109999999999999
+        ]
+      },
+      "layout": {
+        "role": "trim",
+        "purpose": "Wall base/skirting",
+        "surface": "wood",
+        "support": "arch-workspace-east-end",
+        "cutaway": "wall",
+        "outwardNormal": [
+          1,
+          0,
+          0
+        ]
+      }
+    },
+    {
+      "id": "arch-workspace-slab",
+      "label": "Continuous structural floor slab",
+      "transform": {
+        "space": "world",
+        "position": [
+          0,
+          -0.12,
+          2
+        ]
+      },
+      "visual": {
+        "type": "primitive",
+        "shape": "box",
+        "params": {
+          "size": [
+            11.22,
+            0.24,
+            12.22
+          ]
+        },
+        "color": "#83766c"
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -5.61,
+          -0.12,
+          -6.11
+        ],
+        "max": [
+          5.61,
+          0.12,
+          6.11
+        ]
+      },
+      "layout": {
+        "role": "floor",
+        "purpose": "Continuous structural floor slab",
+        "surface": "wood",
+        "support": "ground"
+      }
+    },
+    {
+      "id": "arch-workspace-ceiling",
+      "label": "Full ceiling and weather roof; visible in Director POV",
+      "transform": {
+        "space": "world",
+        "position": [
+          0,
+          3.53,
+          2
+        ]
+      },
+      "visual": {
+        "type": "primitive",
+        "shape": "box",
+        "params": {
+          "size": [
+            11.22,
+            0.26,
+            12.22
+          ]
+        },
+        "color": "#c6beb0"
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -5.61,
+          -0.13,
+          -6.11
+        ],
+        "max": [
+          5.61,
+          0.13,
+          6.11
+        ]
+      },
+      "layout": {
+        "role": "ceiling",
+        "purpose": "Full ceiling and weather roof; visible in Director POV",
+        "surface": "plaster",
+        "support": "arch-workspace-west-panel-0",
+        "cutaway": "roof"
+      }
+    },
+    {
+      "id": "set-desk-chair",
+      "label": "Working chair behind monitor",
+      "transform": {
+        "space": "world",
+        "position": [
+          1.1,
+          0,
+          -1.35
         ]
       },
       "visual": {
         "type": "model",
-        "url": "/models/generated/planter-tree.glb",
-        "fallback": {
-          "type": "primitive",
-          "shape": "box",
-          "params": {
-            "width": 2.186677,
-            "height": 0.2,
-            "depth": 0.3
-          },
-          "color": "#717c87"
-        }
+        "url": "/models/generated/chair.glb"
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.35,
+          0,
+          -0.34
+        ],
+        "max": [
+          0.35,
+          1.14,
+          0.34
+        ]
+      },
+      "layout": {
+        "role": "furniture",
+        "purpose": "Working chair behind monitor",
+        "support": "ground"
+      }
+    },
+    {
+      "id": "set-keyboard",
+      "label": "Keyboard on the desk",
+      "transform": {
+        "space": "world",
+        "position": [
+          1.1,
+          0.64,
+          0.47
+        ]
+      },
+      "visual": {
+        "type": "model",
+        "url": "/models/generated/keyboard.glb"
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.23,
+          0,
+          -0.08
+        ],
+        "max": [
+          0.23,
+          0.064,
+          0.08
+        ]
+      },
+      "layout": {
+        "role": "furniture",
+        "purpose": "Keyboard on the desk",
+        "support": "desk-entity"
+      }
+    },
+    {
+      "id": "set-reference-library",
+      "label": "Reference books stored against rear wall",
+      "transform": {
+        "space": "world",
+        "position": [
+          3.7,
+          0,
+          -3.65
+        ]
+      },
+      "visual": {
+        "type": "model",
+        "url": "/models/generated/bookcase.glb"
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.76,
+          0,
+          -0.19
+        ],
+        "max": [
+          0.76,
+          2.1,
+          0.19
+        ]
+      },
+      "layout": {
+        "role": "furniture",
+        "purpose": "Reference books stored against rear wall",
+        "support": "ground"
+      }
+    },
+    {
+      "id": "set-window-planter",
+      "label": "Plant positioned beside workspace window",
+      "transform": {
+        "space": "world",
+        "position": [
+          -4.15,
+          0,
+          -2.2
+        ]
+      },
+      "visual": {
+        "type": "model",
+        "url": "/models/generated/planter-tree.glb"
       },
       "bounds": {
         "type": "box",
@@ -579,45 +1567,236 @@
           3.48,
           1.034048
         ]
+      },
+      "layout": {
+        "role": "furniture",
+        "purpose": "Plant positioned beside workspace window",
+        "support": "ground"
       }
     },
     {
-      "id": "set-slatted-bench-11",
-      "label": "slatted bench",
+      "id": "arch-workspace-light-0-mount",
+      "label": "Ceiling-mounted luminaire housing",
       "transform": {
         "space": "world",
         "position": [
-          3.5,
           0,
-          -3
+          3.355,
+          -1
         ]
       },
       "visual": {
-        "type": "model",
-        "url": "/models/generated/slatted-bench.glb",
-        "fallback": {
-          "type": "primitive",
-          "shape": "box",
-          "params": {
-            "width": 2,
-            "height": 0.2,
-            "depth": 0.3
-          },
-          "color": "#717c87"
-        }
+        "type": "primitive",
+        "shape": "box",
+        "params": {
+          "size": [
+            1.1300000000000001,
+            0.09,
+            0.24
+          ]
+        },
+        "color": "#465256"
       },
       "bounds": {
         "type": "box",
         "min": [
-          -1,
-          0,
-          -0.325
+          -0.5650000000000001,
+          -0.045,
+          -0.12
         ],
         "max": [
-          1,
-          1.215,
-          0.325
+          0.5650000000000001,
+          0.045,
+          0.12
         ]
+      },
+      "layout": {
+        "role": "fixture",
+        "purpose": "Ceiling-mounted luminaire housing",
+        "surface": "metal",
+        "support": "arch-workspace-ceiling"
+      }
+    },
+    {
+      "id": "arch-workspace-light-0",
+      "label": "Downward practical ceiling light",
+      "transform": {
+        "space": "world",
+        "position": [
+          0,
+          3.298,
+          -1
+        ]
+      },
+      "visual": {
+        "type": "primitive",
+        "shape": "box",
+        "params": {
+          "size": [
+            1.05,
+            0.025,
+            0.16
+          ]
+        },
+        "color": "#f6deb6"
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.525,
+          -0.0125,
+          -0.08
+        ],
+        "max": [
+          0.525,
+          0.0125,
+          0.08
+        ]
+      },
+      "layout": {
+        "role": "fixture",
+        "purpose": "Downward practical ceiling light",
+        "surface": "emissive",
+        "support": "arch-workspace-light-0-mount",
+        "light": {
+          "color": "#ffe8c9",
+          "intensity": 40,
+          "distance": 9
+        }
+      }
+    },
+    {
+      "id": "arch-workspace-light-1-mount",
+      "label": "Ceiling-mounted luminaire housing",
+      "transform": {
+        "space": "world",
+        "position": [
+          0,
+          3.355,
+          3.6
+        ]
+      },
+      "visual": {
+        "type": "primitive",
+        "shape": "box",
+        "params": {
+          "size": [
+            1.1300000000000001,
+            0.09,
+            0.24
+          ]
+        },
+        "color": "#465256"
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.5650000000000001,
+          -0.045,
+          -0.12
+        ],
+        "max": [
+          0.5650000000000001,
+          0.045,
+          0.12
+        ]
+      },
+      "layout": {
+        "role": "fixture",
+        "purpose": "Ceiling-mounted luminaire housing",
+        "surface": "metal",
+        "support": "arch-workspace-ceiling"
+      }
+    },
+    {
+      "id": "arch-workspace-light-1",
+      "label": "Downward practical ceiling light",
+      "transform": {
+        "space": "world",
+        "position": [
+          0,
+          3.298,
+          3.6
+        ]
+      },
+      "visual": {
+        "type": "primitive",
+        "shape": "box",
+        "params": {
+          "size": [
+            1.05,
+            0.025,
+            0.16
+          ]
+        },
+        "color": "#f6deb6"
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.525,
+          -0.0125,
+          -0.08
+        ],
+        "max": [
+          0.525,
+          0.0125,
+          0.08
+        ]
+      },
+      "layout": {
+        "role": "fixture",
+        "purpose": "Downward practical ceiling light",
+        "surface": "emissive",
+        "support": "arch-workspace-light-1-mount",
+        "light": {
+          "color": "#ffe8c9",
+          "intensity": 40,
+          "distance": 9
+        }
+      }
+    },
+    {
+      "id": "set-desk-notebook",
+      "label": "Notebook resting on the worktable",
+      "transform": {
+        "space": "world",
+        "position": [
+          -0.05,
+          0.655,
+          0.22
+        ]
+      },
+      "visual": {
+        "type": "primitive",
+        "shape": "box",
+        "params": {
+          "size": [
+            0.3,
+            0.03,
+            0.42
+          ]
+        },
+        "color": "#8c775a"
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.15,
+          -0.015,
+          -0.21
+        ],
+        "max": [
+          0.15,
+          0.015,
+          0.21
+        ]
+      },
+      "layout": {
+        "role": "prop",
+        "purpose": "Notebook resting on the worktable",
+        "surface": "fabric",
+        "support": "desk-entity"
       }
     }
   ],
@@ -666,44 +1845,6 @@
           1.15,
           0.15
         ]
-      }
-    },
-    {
-      "id": "set-support-08-face",
-      "entityId": "set-support-08",
-      "label": "stagehand, #4e586b jacket; supporting subject, not the principal actor face",
-      "localAnchor": [
-        0,
-        1.63,
-        0.12
-      ],
-      "localBounds": {
-        "type": "sphere",
-        "center": [
-          0,
-          1.63,
-          0.12
-        ],
-        "radius": 0.16
-      }
-    },
-    {
-      "id": "set-support-09-face",
-      "entityId": "set-support-09",
-      "label": "lighting technician, #745c49 jacket; supporting subject, not the principal actor face",
-      "localAnchor": [
-        0,
-        1.63,
-        0.12
-      ],
-      "localBounds": {
-        "type": "sphere",
-        "center": [
-          0,
-          1.63,
-          0.12
-        ],
-        "radius": 0.16
       }
     }
   ]

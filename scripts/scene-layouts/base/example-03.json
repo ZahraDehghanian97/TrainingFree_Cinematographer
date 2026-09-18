@@ -1,0 +1,210 @@
+{
+  "schemaVersion": "1.0",
+  "kind": "environment",
+  "id": "example-03-vase-reveal",
+  "promptExampleId": "example-03",
+  "prompt": "A 20-second product reveal in the furnished workspace. Start close on the ceramic vase. Dolly straight backward in one continuous move, gently accelerating out of rest and easing to a stop, until both the vase and the monitor are fully inside the final frame. Reveal their relationship across the desk; do not zoom or cut.",
+  "clock": {
+    "durationSeconds": 20,
+    "timeDomain": "playback",
+    "fpsHint": 24
+  },
+  "coordinates": {
+    "handedness": "right",
+    "upAxis": "+Y",
+    "cameraForwardAxis": "-Z",
+    "lengthUnit": "meter",
+    "rotationOrder": "quaternion-xyzw"
+  },
+  "evaluation": {
+    "distanceMetric": "anchorCenter"
+  },
+  "world": {
+    "profile": "studio",
+    "background": "#36383e",
+    "overviewCamera": {
+      "position": [
+        5,
+        3.5,
+        5.5
+      ],
+      "target": [
+        0,
+        0.9,
+        0
+      ]
+    },
+    "ground": {
+      "y": 0,
+      "size": [
+        16,
+        16
+      ],
+      "color": "#83766c",
+      "surface": "wood"
+    },
+    "grid": {
+      "size": 16,
+      "divisions": 16
+    }
+  },
+  "entities": [
+    {
+      "id": "desk-entity",
+      "label": "میز",
+      "transform": {
+        "space": "world",
+        "position": [
+          0,
+          0.55,
+          0
+        ]
+      },
+      "visual": {
+        "type": "primitive",
+        "shape": "box",
+        "params": {
+          "size": [
+            4.6,
+            0.15,
+            1.8
+          ]
+        },
+        "color": "#5a3d2d"
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -2.3,
+          -0.55,
+          -0.9
+        ],
+        "max": [
+          2.3,
+          0.075,
+          0.9
+        ]
+      }
+    },
+    {
+      "id": "vase-entity",
+      "label": "گلدان سرامیکی",
+      "transform": {
+        "space": "world",
+        "position": [
+          -1.15,
+          0.64,
+          0.05
+        ]
+      },
+      "visual": {
+        "type": "model",
+        "url": "/models/ceramic-vase/ceramic_vase_01_1k.gltf",
+        "fitToBounds": true,
+        "fallback": {
+          "type": "preset",
+          "name": "vase",
+          "params": {
+            "color": "#b3b6ae",
+            "height": 0.95
+          }
+        }
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.28,
+          0,
+          -0.28
+        ],
+        "max": [
+          0.28,
+          0.95,
+          0.28
+        ]
+      }
+    },
+    {
+      "id": "monitor-entity",
+      "label": "مانیتور رومیزی",
+      "transform": {
+        "space": "world",
+        "position": [
+          1.1,
+          0.64,
+          -0.18
+        ]
+      },
+      "visual": {
+        "type": "preset",
+        "name": "monitor",
+        "params": {
+          "width": 1.35,
+          "height": 0.82,
+          "screenColor": "#4aa8ff"
+        }
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.68,
+          0,
+          -0.15
+        ],
+        "max": [
+          0.68,
+          1.15,
+          0.15
+        ]
+      }
+    }
+  ],
+  "semanticAnchors": [
+    {
+      "id": "vase",
+      "entityId": "vase-entity",
+      "label": "گلدان",
+      "localAnchor": [
+        0,
+        0.48,
+        0
+      ],
+      "localBounds": {
+        "type": "box",
+        "min": [
+          -0.28,
+          0,
+          -0.28
+        ],
+        "max": [
+          0.28,
+          0.95,
+          0.28
+        ]
+      }
+    },
+    {
+      "id": "monitor",
+      "entityId": "monitor-entity",
+      "label": "مانیتور",
+      "localAnchor": [
+        0,
+        0.62,
+        0
+      ],
+      "localBounds": {
+        "type": "box",
+        "min": [
+          -0.68,
+          0,
+          -0.15
+        ],
+        "max": [
+          0.68,
+          1.15,
+          0.15
+        ]
+      }
+    }
+  ]
+}

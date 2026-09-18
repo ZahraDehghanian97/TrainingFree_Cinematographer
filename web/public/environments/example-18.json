@@ -25,28 +25,27 @@
     "background": "#36383e",
     "overviewCamera": {
       "position": [
+        12,
         9,
-        5,
-        10
+        13
       ],
       "target": [
         0,
-        1.25,
-        0
+        1,
+        0.5
       ]
     },
     "ground": {
       "y": 0,
       "size": [
-        22,
-        22
+        11.4,
+        14.4
       ],
       "color": "#83766c",
-      "surface": "wood"
-    },
-    "grid": {
-      "size": 18,
-      "divisions": 18
+      "surface": "wood",
+      "continuation": "none",
+      "details": "authored",
+      "render": false
     }
   },
   "entities": [
@@ -131,482 +130,1556 @@
           1.8,
           0.25
         ]
+      },
+      "layout": {
+        "role": "subject",
+        "purpose": "سوژهٔ پرتره"
       }
     },
     {
-      "id": "pupil-reflection",
-      "label": "بازتاب مردمک",
+      "id": "arch-living-north-panel-0",
+      "label": "Continuous enclosure wall",
       "transform": {
         "space": "world",
         "position": [
-          0.15,
-          1.69,
-          0.29
+          -4.78,
+          1.75,
+          -4.2
         ]
       },
       "visual": {
         "type": "primitive",
-        "shape": "sphere",
+        "shape": "box",
         "params": {
-          "radius": 0.035,
-          "widthSegments": 24,
-          "heightSegments": 16
+          "size": [
+            1.6600000000000001,
+            3.5,
+            0.22
+          ]
         },
-        "color": "#8eeaff"
+        "color": "#979589"
       },
       "bounds": {
-        "type": "sphere",
-        "center": [
-          0,
-          0,
-          0
+        "type": "box",
+        "min": [
+          -0.8300000000000001,
+          -1.75,
+          -0.11
         ],
-        "radius": 0.035
+        "max": [
+          0.8300000000000001,
+          1.75,
+          0.11
+        ]
+      },
+      "layout": {
+        "role": "wall",
+        "purpose": "Continuous enclosure wall",
+        "surface": "plaster",
+        "support": "ground",
+        "cutaway": "wall",
+        "outwardNormal": [
+          0,
+          0,
+          -1
+        ]
+      }
+    },
+    {
+      "id": "arch-living-north-living-window-sill-wall",
+      "label": "Continuous enclosure wall",
+      "transform": {
+        "space": "world",
+        "position": [
+          -2.7,
+          0.45,
+          -4.2
+        ]
+      },
+      "visual": {
+        "type": "primitive",
+        "shape": "box",
+        "params": {
+          "size": [
+            2.5,
+            0.9,
+            0.22
+          ]
+        },
+        "color": "#979589"
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -1.25,
+          -0.45,
+          -0.11
+        ],
+        "max": [
+          1.25,
+          0.45,
+          0.11
+        ]
+      },
+      "layout": {
+        "role": "wall",
+        "purpose": "Continuous enclosure wall",
+        "surface": "plaster",
+        "support": "ground",
+        "cutaway": "wall",
+        "outwardNormal": [
+          0,
+          0,
+          -1
+        ]
+      }
+    },
+    {
+      "id": "arch-living-north-living-window-lintel",
+      "label": "Continuous enclosure wall",
+      "transform": {
+        "space": "world",
+        "position": [
+          -2.7,
+          3.15,
+          -4.2
+        ]
+      },
+      "visual": {
+        "type": "primitive",
+        "shape": "box",
+        "params": {
+          "size": [
+            2.5,
+            0.7000000000000002,
+            0.22
+          ]
+        },
+        "color": "#979589"
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -1.25,
+          -0.3500000000000001,
+          -0.11
+        ],
+        "max": [
+          1.25,
+          0.3500000000000001,
+          0.11
+        ]
+      },
+      "layout": {
+        "role": "wall",
+        "purpose": "Continuous enclosure wall",
+        "surface": "plaster",
+        "support": "ground",
+        "cutaway": "wall",
+        "outwardNormal": [
+          0,
+          0,
+          -1
+        ]
+      }
+    },
+    {
+      "id": "living-window-jamb-left",
+      "label": "Window jamb seated on wall opening",
+      "transform": {
+        "space": "world",
+        "position": [
+          -3.9850000000000003,
+          1.85,
+          -4.2
+        ]
+      },
+      "visual": {
+        "type": "primitive",
+        "shape": "box",
+        "params": {
+          "size": [
+            0.07,
+            2.02,
+            0.3
+          ]
+        },
+        "color": "#8e6b4f"
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.035,
+          -1.01,
+          -0.15
+        ],
+        "max": [
+          0.035,
+          1.01,
+          0.15
+        ]
+      },
+      "layout": {
+        "role": "trim",
+        "purpose": "Window jamb seated on wall opening",
+        "surface": "wood",
+        "support": "arch-living-north-panel-0",
+        "cutaway": "wall",
+        "outwardNormal": [
+          0,
+          0,
+          -1
+        ]
+      }
+    },
+    {
+      "id": "living-window-jamb-right",
+      "label": "Window jamb seated on wall opening",
+      "transform": {
+        "space": "world",
+        "position": [
+          -1.4150000000000003,
+          1.85,
+          -4.2
+        ]
+      },
+      "visual": {
+        "type": "primitive",
+        "shape": "box",
+        "params": {
+          "size": [
+            0.07,
+            2.02,
+            0.3
+          ]
+        },
+        "color": "#8e6b4f"
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.035,
+          -1.01,
+          -0.15
+        ],
+        "max": [
+          0.035,
+          1.01,
+          0.15
+        ]
+      },
+      "layout": {
+        "role": "trim",
+        "purpose": "Window jamb seated on wall opening",
+        "surface": "wood",
+        "support": "arch-living-north-panel-0",
+        "cutaway": "wall",
+        "outwardNormal": [
+          0,
+          0,
+          -1
+        ]
+      }
+    },
+    {
+      "id": "living-window-head",
+      "label": "Window lintel trim",
+      "transform": {
+        "space": "world",
+        "position": [
+          -2.7,
+          2.835,
+          -4.2
+        ]
+      },
+      "visual": {
+        "type": "primitive",
+        "shape": "box",
+        "params": {
+          "size": [
+            2.64,
+            0.07,
+            0.3
+          ]
+        },
+        "color": "#8e6b4f"
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -1.32,
+          -0.035,
+          -0.15
+        ],
+        "max": [
+          1.32,
+          0.035,
+          0.15
+        ]
+      },
+      "layout": {
+        "role": "trim",
+        "purpose": "Window lintel trim",
+        "surface": "wood",
+        "support": "arch-living-north-panel-0",
+        "cutaway": "wall",
+        "outwardNormal": [
+          0,
+          0,
+          -1
+        ]
+      }
+    },
+    {
+      "id": "living-window-sill",
+      "label": "Window sill",
+      "transform": {
+        "space": "world",
+        "position": [
+          -2.7,
+          0.925,
+          -4.2
+        ]
+      },
+      "visual": {
+        "type": "primitive",
+        "shape": "box",
+        "params": {
+          "size": [
+            2.68,
+            0.05,
+            0.4
+          ]
+        },
+        "color": "#8e6b4f"
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -1.34,
+          -0.025,
+          -0.2
+        ],
+        "max": [
+          1.34,
+          0.025,
+          0.2
+        ]
+      },
+      "layout": {
+        "role": "trim",
+        "purpose": "Window sill",
+        "surface": "wood",
+        "support": "arch-living-north-panel-0",
+        "cutaway": "wall",
+        "outwardNormal": [
+          0,
+          0,
+          -1
+        ]
+      }
+    },
+    {
+      "id": "living-window-glass",
+      "label": "Glazed window in a real wall opening",
+      "transform": {
+        "space": "world",
+        "position": [
+          -2.7,
+          1.85,
+          -4.2
+        ]
+      },
+      "visual": {
+        "type": "primitive",
+        "shape": "box",
+        "params": {
+          "size": [
+            2.44,
+            1.8399999999999999,
+            0.015
+          ]
+        },
+        "color": "#bad3d1"
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -1.22,
+          -0.9199999999999999,
+          -0.0075
+        ],
+        "max": [
+          1.22,
+          0.9199999999999999,
+          0.0075
+        ]
+      },
+      "layout": {
+        "role": "window",
+        "purpose": "Glazed window in a real wall opening",
+        "surface": "glass",
+        "support": "arch-living-north-panel-0",
+        "cutaway": "wall",
+        "outwardNormal": [
+          0,
+          0,
+          -1
+        ]
       },
       "occlusion": {
         "transparent": true
       }
     },
     {
-      "id": "red-practical",
-      "label": "چراغ قرمز صحنه",
+      "id": "living-window-mullion-1",
+      "label": "Window mullion",
       "transform": {
         "space": "world",
         "position": [
-          -2.2,
+          -3.1166666666666667,
+          1.85,
+          -4.2
+        ]
+      },
+      "visual": {
+        "type": "primitive",
+        "shape": "box",
+        "params": {
+          "size": [
+            0.045,
+            1.9,
+            0.08
+          ]
+        },
+        "color": "#465256"
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.0225,
+          -0.95,
+          -0.04
+        ],
+        "max": [
+          0.0225,
+          0.95,
+          0.04
+        ]
+      },
+      "layout": {
+        "role": "trim",
+        "purpose": "Window mullion",
+        "surface": "metal",
+        "support": "arch-living-north-panel-0",
+        "cutaway": "wall",
+        "outwardNormal": [
+          0,
+          0,
+          -1
+        ]
+      }
+    },
+    {
+      "id": "living-window-mullion-2",
+      "label": "Window mullion",
+      "transform": {
+        "space": "world",
+        "position": [
+          -2.283333333333333,
+          1.85,
+          -4.2
+        ]
+      },
+      "visual": {
+        "type": "primitive",
+        "shape": "box",
+        "params": {
+          "size": [
+            0.045,
+            1.9,
+            0.08
+          ]
+        },
+        "color": "#465256"
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.0225,
+          -0.95,
+          -0.04
+        ],
+        "max": [
+          0.0225,
+          0.95,
+          0.04
+        ]
+      },
+      "layout": {
+        "role": "trim",
+        "purpose": "Window mullion",
+        "surface": "metal",
+        "support": "arch-living-north-panel-0",
+        "cutaway": "wall",
+        "outwardNormal": [
+          0,
+          0,
+          -1
+        ]
+      }
+    },
+    {
+      "id": "arch-living-north-end",
+      "label": "Continuous enclosure wall",
+      "transform": {
+        "space": "world",
+        "position": [
+          2.08,
+          1.75,
+          -4.2
+        ]
+      },
+      "visual": {
+        "type": "primitive",
+        "shape": "box",
+        "params": {
+          "size": [
+            7.0600000000000005,
+            3.5,
+            0.22
+          ]
+        },
+        "color": "#979589"
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -3.5300000000000002,
+          -1.75,
+          -0.11
+        ],
+        "max": [
+          3.5300000000000002,
+          1.75,
+          0.11
+        ]
+      },
+      "layout": {
+        "role": "wall",
+        "purpose": "Continuous enclosure wall",
+        "surface": "plaster",
+        "support": "ground",
+        "cutaway": "wall",
+        "outwardNormal": [
+          0,
+          0,
+          -1
+        ]
+      }
+    },
+    {
+      "id": "arch-living-north-skirting-0",
+      "label": "Wall base/skirting",
+      "transform": {
+        "space": "world",
+        "position": [
+          0,
+          0.065,
+          -4.2
+        ]
+      },
+      "visual": {
+        "type": "primitive",
+        "shape": "box",
+        "params": {
+          "size": [
+            11.22,
+            0.13,
+            0.255
+          ]
+        },
+        "color": "#8e6b4f"
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -5.61,
+          -0.065,
+          -0.1275
+        ],
+        "max": [
+          5.61,
+          0.065,
+          0.1275
+        ]
+      },
+      "layout": {
+        "role": "trim",
+        "purpose": "Wall base/skirting",
+        "surface": "wood",
+        "support": "arch-living-north-panel-0",
+        "cutaway": "wall",
+        "outwardNormal": [
+          0,
+          0,
+          -1
+        ]
+      }
+    },
+    {
+      "id": "arch-living-south-end",
+      "label": "Continuous enclosure wall",
+      "transform": {
+        "space": "world",
+        "position": [
+          0,
+          1.75,
+          7
+        ]
+      },
+      "visual": {
+        "type": "primitive",
+        "shape": "box",
+        "params": {
+          "size": [
+            11.22,
+            3.5,
+            0.22
+          ]
+        },
+        "color": "#979589"
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -5.61,
+          -1.75,
+          -0.11
+        ],
+        "max": [
+          5.61,
+          1.75,
+          0.11
+        ]
+      },
+      "layout": {
+        "role": "wall",
+        "purpose": "Continuous enclosure wall",
+        "surface": "plaster",
+        "support": "ground",
+        "cutaway": "wall",
+        "outwardNormal": [
+          0,
+          0,
+          1
+        ]
+      }
+    },
+    {
+      "id": "arch-living-south-skirting-0",
+      "label": "Wall base/skirting",
+      "transform": {
+        "space": "world",
+        "position": [
+          0,
+          0.065,
+          7
+        ]
+      },
+      "visual": {
+        "type": "primitive",
+        "shape": "box",
+        "params": {
+          "size": [
+            11.22,
+            0.13,
+            0.255
+          ]
+        },
+        "color": "#8e6b4f"
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -5.61,
+          -0.065,
+          -0.1275
+        ],
+        "max": [
+          5.61,
+          0.065,
+          0.1275
+        ]
+      },
+      "layout": {
+        "role": "trim",
+        "purpose": "Wall base/skirting",
+        "surface": "wood",
+        "support": "arch-living-south-end",
+        "cutaway": "wall",
+        "outwardNormal": [
+          0,
+          0,
+          1
+        ]
+      }
+    },
+    {
+      "id": "arch-living-west-end",
+      "label": "Continuous enclosure wall",
+      "transform": {
+        "space": "world",
+        "position": [
+          -5.5,
+          1.75,
+          1.4
+        ]
+      },
+      "visual": {
+        "type": "primitive",
+        "shape": "box",
+        "params": {
+          "size": [
+            0.22,
+            3.5,
+            11.420000000000002
+          ]
+        },
+        "color": "#979589"
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.11,
+          -1.75,
+          -5.710000000000001
+        ],
+        "max": [
+          0.11,
+          1.75,
+          5.710000000000001
+        ]
+      },
+      "layout": {
+        "role": "wall",
+        "purpose": "Continuous enclosure wall",
+        "surface": "plaster",
+        "support": "ground",
+        "cutaway": "wall",
+        "outwardNormal": [
+          -1,
+          0,
+          0
+        ]
+      }
+    },
+    {
+      "id": "arch-living-west-skirting-0",
+      "label": "Wall base/skirting",
+      "transform": {
+        "space": "world",
+        "position": [
+          -5.5,
+          0.065,
+          1.4
+        ]
+      },
+      "visual": {
+        "type": "primitive",
+        "shape": "box",
+        "params": {
+          "size": [
+            0.255,
+            0.13,
+            11.420000000000002
+          ]
+        },
+        "color": "#8e6b4f"
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.1275,
+          -0.065,
+          -5.710000000000001
+        ],
+        "max": [
+          0.1275,
+          0.065,
+          5.710000000000001
+        ]
+      },
+      "layout": {
+        "role": "trim",
+        "purpose": "Wall base/skirting",
+        "surface": "wood",
+        "support": "arch-living-west-end",
+        "cutaway": "wall",
+        "outwardNormal": [
+          -1,
+          0,
+          0
+        ]
+      }
+    },
+    {
+      "id": "arch-living-east-panel-0",
+      "label": "Continuous enclosure wall",
+      "transform": {
+        "space": "world",
+        "position": [
+          5.5,
+          1.75,
+          -0.06750000000000034
+        ]
+      },
+      "visual": {
+        "type": "primitive",
+        "shape": "box",
+        "params": {
+          "size": [
+            0.22,
+            3.5,
+            8.485
+          ]
+        },
+        "color": "#979589"
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.11,
+          -1.75,
+          -4.2425
+        ],
+        "max": [
+          0.11,
+          1.75,
+          4.2425
+        ]
+      },
+      "layout": {
+        "role": "wall",
+        "purpose": "Continuous enclosure wall",
+        "surface": "plaster",
+        "support": "ground",
+        "cutaway": "wall",
+        "outwardNormal": [
+          1,
+          0,
+          0
+        ]
+      }
+    },
+    {
+      "id": "arch-living-east-living-entry-lintel",
+      "label": "Continuous enclosure wall",
+      "transform": {
+        "space": "world",
+        "position": [
+          5.5,
+          2.9,
+          4.8
+        ]
+      },
+      "visual": {
+        "type": "primitive",
+        "shape": "box",
+        "params": {
+          "size": [
+            0.22,
+            1.2000000000000002,
+            1.25
+          ]
+        },
+        "color": "#979589"
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.11,
+          -0.6000000000000001,
+          -0.625
+        ],
+        "max": [
+          0.11,
+          0.6000000000000001,
+          0.625
+        ]
+      },
+      "layout": {
+        "role": "wall",
+        "purpose": "Continuous enclosure wall",
+        "surface": "plaster",
+        "support": "ground",
+        "cutaway": "wall",
+        "outwardNormal": [
+          1,
+          0,
+          0
+        ]
+      }
+    },
+    {
+      "id": "living-entry-jamb-left",
+      "label": "Door jamb seated on wall opening",
+      "transform": {
+        "space": "world",
+        "position": [
+          5.5,
+          1.15,
+          4.14
+        ]
+      },
+      "visual": {
+        "type": "primitive",
+        "shape": "box",
+        "params": {
+          "size": [
+            0.3,
+            2.42,
+            0.07
+          ]
+        },
+        "color": "#8e6b4f"
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.15,
+          -1.21,
+          -0.035
+        ],
+        "max": [
+          0.15,
+          1.21,
+          0.035
+        ]
+      },
+      "layout": {
+        "role": "trim",
+        "purpose": "Door jamb seated on wall opening",
+        "surface": "wood",
+        "support": "arch-living-east-panel-0",
+        "cutaway": "wall",
+        "outwardNormal": [
+          1,
+          0,
+          0
+        ]
+      }
+    },
+    {
+      "id": "living-entry-jamb-right",
+      "label": "Door jamb seated on wall opening",
+      "transform": {
+        "space": "world",
+        "position": [
+          5.5,
+          1.15,
+          5.46
+        ]
+      },
+      "visual": {
+        "type": "primitive",
+        "shape": "box",
+        "params": {
+          "size": [
+            0.3,
+            2.42,
+            0.07
+          ]
+        },
+        "color": "#8e6b4f"
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.15,
+          -1.21,
+          -0.035
+        ],
+        "max": [
+          0.15,
+          1.21,
+          0.035
+        ]
+      },
+      "layout": {
+        "role": "trim",
+        "purpose": "Door jamb seated on wall opening",
+        "surface": "wood",
+        "support": "arch-living-east-panel-0",
+        "cutaway": "wall",
+        "outwardNormal": [
+          1,
+          0,
+          0
+        ]
+      }
+    },
+    {
+      "id": "living-entry-head",
+      "label": "Door lintel trim",
+      "transform": {
+        "space": "world",
+        "position": [
+          5.5,
+          2.335,
+          4.8
+        ]
+      },
+      "visual": {
+        "type": "primitive",
+        "shape": "box",
+        "params": {
+          "size": [
+            0.3,
+            0.07,
+            1.3900000000000001
+          ]
+        },
+        "color": "#8e6b4f"
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.15,
+          -0.035,
+          -0.6950000000000001
+        ],
+        "max": [
+          0.15,
+          0.035,
+          0.6950000000000001
+        ]
+      },
+      "layout": {
+        "role": "trim",
+        "purpose": "Door lintel trim",
+        "surface": "wood",
+        "support": "arch-living-east-panel-0",
+        "cutaway": "wall",
+        "outwardNormal": [
+          1,
+          0,
+          0
+        ]
+      }
+    },
+    {
+      "id": "arch-living-east-end",
+      "label": "Continuous enclosure wall",
+      "transform": {
+        "space": "world",
+        "position": [
+          5.5,
+          1.75,
+          6.2675
+        ]
+      },
+      "visual": {
+        "type": "primitive",
+        "shape": "box",
+        "params": {
+          "size": [
+            0.22,
+            3.5,
+            1.6850000000000005
+          ]
+        },
+        "color": "#979589"
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.11,
+          -1.75,
+          -0.8425000000000002
+        ],
+        "max": [
+          0.11,
+          1.75,
+          0.8425000000000002
+        ]
+      },
+      "layout": {
+        "role": "wall",
+        "purpose": "Continuous enclosure wall",
+        "surface": "plaster",
+        "support": "ground",
+        "cutaway": "wall",
+        "outwardNormal": [
+          1,
+          0,
+          0
+        ]
+      }
+    },
+    {
+      "id": "arch-living-east-skirting-0",
+      "label": "Wall base/skirting",
+      "transform": {
+        "space": "world",
+        "position": [
+          5.5,
+          0.065,
+          -0.06750000000000034
+        ]
+      },
+      "visual": {
+        "type": "primitive",
+        "shape": "box",
+        "params": {
+          "size": [
+            0.255,
+            0.13,
+            8.485
+          ]
+        },
+        "color": "#8e6b4f"
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.1275,
+          -0.065,
+          -4.2425
+        ],
+        "max": [
+          0.1275,
+          0.065,
+          4.2425
+        ]
+      },
+      "layout": {
+        "role": "trim",
+        "purpose": "Wall base/skirting",
+        "surface": "wood",
+        "support": "arch-living-east-panel-0",
+        "cutaway": "wall",
+        "outwardNormal": [
+          1,
+          0,
+          0
+        ]
+      }
+    },
+    {
+      "id": "arch-living-east-skirting-1",
+      "label": "Wall base/skirting",
+      "transform": {
+        "space": "world",
+        "position": [
+          5.5,
+          0.065,
+          6.2675
+        ]
+      },
+      "visual": {
+        "type": "primitive",
+        "shape": "box",
+        "params": {
+          "size": [
+            0.255,
+            0.13,
+            1.6850000000000005
+          ]
+        },
+        "color": "#8e6b4f"
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.1275,
+          -0.065,
+          -0.8425000000000002
+        ],
+        "max": [
+          0.1275,
+          0.065,
+          0.8425000000000002
+        ]
+      },
+      "layout": {
+        "role": "trim",
+        "purpose": "Wall base/skirting",
+        "surface": "wood",
+        "support": "arch-living-east-panel-0",
+        "cutaway": "wall",
+        "outwardNormal": [
+          1,
+          0,
+          0
+        ]
+      }
+    },
+    {
+      "id": "arch-living-slab",
+      "label": "Continuous structural floor slab",
+      "transform": {
+        "space": "world",
+        "position": [
+          0,
+          -0.12,
+          1.4
+        ]
+      },
+      "visual": {
+        "type": "primitive",
+        "shape": "box",
+        "params": {
+          "size": [
+            11.22,
+            0.24,
+            11.42
+          ]
+        },
+        "color": "#83766c"
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -5.61,
+          -0.12,
+          -5.71
+        ],
+        "max": [
+          5.61,
+          0.12,
+          5.71
+        ]
+      },
+      "layout": {
+        "role": "floor",
+        "purpose": "Continuous structural floor slab",
+        "surface": "wood",
+        "support": "ground"
+      }
+    },
+    {
+      "id": "arch-living-ceiling",
+      "label": "Full ceiling and weather roof; visible in Director POV",
+      "transform": {
+        "space": "world",
+        "position": [
+          0,
+          3.63,
+          1.4
+        ]
+      },
+      "visual": {
+        "type": "primitive",
+        "shape": "box",
+        "params": {
+          "size": [
+            11.22,
+            0.26,
+            11.42
+          ]
+        },
+        "color": "#c6beb0"
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -5.61,
+          -0.13,
+          -5.71
+        ],
+        "max": [
+          5.61,
+          0.13,
+          5.71
+        ]
+      },
+      "layout": {
+        "role": "ceiling",
+        "purpose": "Full ceiling and weather roof; visible in Director POV",
+        "surface": "plaster",
+        "support": "arch-living-west-end",
+        "cutaway": "roof"
+      }
+    },
+    {
+      "id": "set-sofa",
+      "label": "Sofa against rear living-room wall",
+      "transform": {
+        "space": "world",
+        "position": [
+          -0.5,
+          0,
+          -3.25
+        ]
+      },
+      "visual": {
+        "type": "model",
+        "url": "/models/generated/lounge-sofa.glb"
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -1.22,
+          0,
+          -0.475
+        ],
+        "max": [
+          1.22,
+          1.02,
+          0.475
+        ]
+      },
+      "layout": {
+        "role": "furniture",
+        "purpose": "Sofa against rear living-room wall",
+        "support": "ground"
+      }
+    },
+    {
+      "id": "set-reading-table",
+      "label": "Side table beside sofa",
+      "transform": {
+        "space": "world",
+        "position": [
+          -2.45,
+          0,
+          -2.8
+        ]
+      },
+      "visual": {
+        "type": "model",
+        "url": "/models/generated/side-table.glb"
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.4,
+          0,
+          -0.3
+        ],
+        "max": [
+          0.4,
+          0.57,
+          0.3
+        ]
+      },
+      "layout": {
+        "role": "furniture",
+        "purpose": "Side table beside sofa",
+        "support": "ground"
+      }
+    },
+    {
+      "id": "set-reading-lamp",
+      "label": "Floor-supported reading lamp beside sofa",
+      "transform": {
+        "space": "world",
+        "position": [
+          2.15,
+          0,
+          -2.8
+        ]
+      },
+      "visual": {
+        "type": "model",
+        "url": "/models/generated/floor-lamp.glb"
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.32,
+          0,
+          -0.32
+        ],
+        "max": [
+          0.32,
+          1.95,
+          0.32
+        ]
+      },
+      "layout": {
+        "role": "furniture",
+        "purpose": "Floor-supported reading lamp beside sofa",
+        "support": "ground",
+        "light": {
+          "color": "#ffd7a1",
+          "intensity": 16,
+          "distance": 6,
+          "offset": [
+            0,
+            1.49,
+            0
+          ]
+        }
+      }
+    },
+    {
+      "id": "set-bookcase",
+      "label": "Bookcase with reachable shelves against wall",
+      "transform": {
+        "space": "world",
+        "position": [
+          4.3,
+          0,
+          -3.7
+        ]
+      },
+      "visual": {
+        "type": "model",
+        "url": "/models/generated/bookcase.glb"
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.76,
+          0,
+          -0.19
+        ],
+        "max": [
+          0.76,
           2.1,
-          -1.4
+          0.19
+        ]
+      },
+      "layout": {
+        "role": "furniture",
+        "purpose": "Bookcase with reachable shelves against wall",
+        "support": "ground"
+      }
+    },
+    {
+      "id": "set-reading-book",
+      "label": "Book placed on side table",
+      "transform": {
+        "space": "world",
+        "position": [
+          -2.45,
+          0.585,
+          -2.8
         ]
       },
       "visual": {
         "type": "primitive",
-        "shape": "sphere",
+        "shape": "box",
         "params": {
-          "radius": 0.22
+          "size": [
+            0.26,
+            0.03,
+            0.35
+          ]
         },
-        "color": "#ff365a"
+        "color": "#7b443d"
       },
       "bounds": {
-        "type": "sphere",
-        "center": [
-          0,
-          0,
-          0
+        "type": "box",
+        "min": [
+          -0.13,
+          -0.015,
+          -0.175
         ],
-        "radius": 0.22
+        "max": [
+          0.13,
+          0.015,
+          0.175
+        ]
+      },
+      "layout": {
+        "role": "prop",
+        "purpose": "Book placed on side table",
+        "surface": "fabric",
+        "support": "set-reading-table"
       }
     },
     {
-      "id": "blue-practical",
-      "label": "چراغ آبی صحنه",
+      "id": "arch-living-light-mount",
+      "label": "Ceiling-mounted luminaire housing",
       "transform": {
         "space": "world",
         "position": [
-          2.4,
-          2.5,
-          -1.8
+          0,
+          3.455,
+          2.4
         ]
       },
       "visual": {
         "type": "primitive",
-        "shape": "sphere",
+        "shape": "box",
         "params": {
-          "radius": 0.2
+          "size": [
+            0.88,
+            0.09,
+            0.24
+          ]
         },
-        "color": "#4d8dff"
-      },
-      "bounds": {
-        "type": "sphere",
-        "center": [
-          0,
-          0,
-          0
-        ],
-        "radius": 0.2
-      }
-    },
-    {
-      "id": "set-lighting-truss-00",
-      "label": "lighting truss",
-      "transform": {
-        "space": "world",
-        "position": [
-          -6,
-          0,
-          -5
-        ]
-      },
-      "visual": {
-        "type": "model",
-        "url": "/models/generated/lighting-truss.glb",
-        "fallback": {
-          "type": "primitive",
-          "shape": "box",
-          "params": {
-            "width": 1.1,
-            "height": 0.2,
-            "depth": 0.3
-          },
-          "color": "#717c87"
-        }
+        "color": "#465256"
       },
       "bounds": {
         "type": "box",
         "min": [
-          -0.55,
-          0,
-          -0.55
+          -0.44,
+          -0.045,
+          -0.12
         ],
         "max": [
-          0.55,
-          3.6,
-          0.55
+          0.44,
+          0.045,
+          0.12
         ]
+      },
+      "layout": {
+        "role": "fixture",
+        "purpose": "Ceiling-mounted luminaire housing",
+        "surface": "metal",
+        "support": "arch-living-ceiling"
       }
     },
     {
-      "id": "set-lighting-truss-01",
-      "label": "lighting truss",
+      "id": "arch-living-light",
+      "label": "Downward practical ceiling light",
       "transform": {
         "space": "world",
         "position": [
-          6,
           0,
-          -5
+          3.398,
+          2.4
         ]
       },
       "visual": {
-        "type": "model",
-        "url": "/models/generated/lighting-truss.glb",
-        "fallback": {
-          "type": "primitive",
-          "shape": "box",
-          "params": {
-            "width": 1.1,
-            "height": 0.2,
-            "depth": 0.3
-          },
-          "color": "#717c87"
-        }
-      },
-      "bounds": {
-        "type": "box",
-        "min": [
-          -0.55,
-          0,
-          -0.55
-        ],
-        "max": [
-          0.55,
-          3.6,
-          0.55
-        ]
-      }
-    },
-    {
-      "id": "set-lighting-truss-02",
-      "label": "lighting truss",
-      "transform": {
-        "space": "world",
-        "position": [
-          -6,
-          0,
-          5
-        ]
-      },
-      "visual": {
-        "type": "model",
-        "url": "/models/generated/lighting-truss.glb",
-        "fallback": {
-          "type": "primitive",
-          "shape": "box",
-          "params": {
-            "width": 1.1,
-            "height": 0.2,
-            "depth": 0.3
-          },
-          "color": "#717c87"
-        }
-      },
-      "bounds": {
-        "type": "box",
-        "min": [
-          -0.55,
-          0,
-          -0.55
-        ],
-        "max": [
-          0.55,
-          3.6,
-          0.55
-        ]
-      }
-    },
-    {
-      "id": "set-lighting-truss-03",
-      "label": "lighting truss",
-      "transform": {
-        "space": "world",
-        "position": [
-          6,
-          0,
-          5
-        ]
-      },
-      "visual": {
-        "type": "model",
-        "url": "/models/generated/lighting-truss.glb",
-        "fallback": {
-          "type": "primitive",
-          "shape": "box",
-          "params": {
-            "width": 1.1,
-            "height": 0.2,
-            "depth": 0.3
-          },
-          "color": "#717c87"
-        }
-      },
-      "bounds": {
-        "type": "box",
-        "min": [
-          -0.55,
-          0,
-          -0.55
-        ],
-        "max": [
-          0.55,
-          3.6,
-          0.55
-        ]
-      }
-    },
-    {
-      "id": "set-workbench-04",
-      "label": "workbench",
-      "transform": {
-        "space": "world",
-        "position": [
-          -5,
-          0,
-          -7
-        ]
-      },
-      "visual": {
-        "type": "model",
-        "url": "/models/generated/workbench.glb",
-        "fallback": {
-          "type": "primitive",
-          "shape": "box",
-          "params": {
-            "width": 1.8,
-            "height": 0.2,
-            "depth": 0.3
-          },
-          "color": "#717c87"
-        }
-      },
-      "bounds": {
-        "type": "box",
-        "min": [
-          -0.9,
-          0,
-          -0.36
-        ],
-        "max": [
-          0.9,
-          0.93,
-          0.36
-        ]
-      }
-    },
-    {
-      "id": "set-crate-stack-05",
-      "label": "crate stack",
-      "transform": {
-        "space": "world",
-        "position": [
-          -4,
-          0,
-          -7
-        ]
-      },
-      "visual": {
-        "type": "model",
-        "url": "/models/generated/crate-stack.glb",
-        "fallback": {
-          "type": "primitive",
-          "shape": "box",
-          "params": {
-            "width": 1.9,
-            "height": 0.2,
-            "depth": 0.3
-          },
-          "color": "#717c87"
-        }
-      },
-      "bounds": {
-        "type": "box",
-        "min": [
-          -0.95,
-          0,
-          -0.6
-        ],
-        "max": [
-          0.95,
-          1.725,
-          0.6
-        ]
-      }
-    },
-    {
-      "id": "set-workbench-06",
-      "label": "workbench",
-      "transform": {
-        "space": "world",
-        "position": [
-          5,
-          0,
-          -7
-        ]
-      },
-      "visual": {
-        "type": "model",
-        "url": "/models/generated/workbench.glb",
-        "fallback": {
-          "type": "primitive",
-          "shape": "box",
-          "params": {
-            "width": 1.8,
-            "height": 0.2,
-            "depth": 0.3
-          },
-          "color": "#717c87"
-        }
-      },
-      "bounds": {
-        "type": "box",
-        "min": [
-          -0.9,
-          0,
-          -0.36
-        ],
-        "max": [
-          0.9,
-          0.93,
-          0.36
-        ]
-      }
-    },
-    {
-      "id": "set-crate-stack-07",
-      "label": "crate stack",
-      "transform": {
-        "space": "world",
-        "position": [
-          6,
-          0,
-          -7
-        ]
-      },
-      "visual": {
-        "type": "model",
-        "url": "/models/generated/crate-stack.glb",
-        "fallback": {
-          "type": "primitive",
-          "shape": "box",
-          "params": {
-            "width": 1.9,
-            "height": 0.2,
-            "depth": 0.3
-          },
-          "color": "#717c87"
-        }
-      },
-      "bounds": {
-        "type": "box",
-        "min": [
-          -0.95,
-          0,
-          -0.6
-        ],
-        "max": [
-          0.95,
-          1.725,
-          0.6
-        ]
-      }
-    },
-    {
-      "id": "set-support-08",
-      "label": "stagehand, #4e586b jacket; supporting subject, not the principal actor",
-      "transform": {
-        "space": "world",
-        "position": [
-          -5,
-          0,
-          -5
-        ]
-      },
-      "visual": {
-        "type": "preset",
-        "name": "humanoid",
+        "type": "primitive",
+        "shape": "box",
         "params": {
-          "height": 1.8,
-          "shirtColor": "#4e586b",
-          "trouserColor": "#283341",
-          "color": "#ad805f",
-          "motion": "idle"
-        }
+          "size": [
+            0.8,
+            0.025,
+            0.16
+          ]
+        },
+        "color": "#f6deb6"
       },
       "bounds": {
         "type": "box",
         "min": [
-          -0.325,
-          0,
-          -0.25
+          -0.4,
+          -0.0125,
+          -0.08
         ],
         "max": [
-          0.325,
-          1.8,
-          0.25
-        ]
-      }
-    },
-    {
-      "id": "set-support-09",
-      "label": "lighting technician, #745c49 jacket; supporting subject, not the principal actor",
-      "transform": {
-        "space": "world",
-        "position": [
-          5,
-          0,
-          -6
+          0.4,
+          0.0125,
+          0.08
         ]
       },
-      "visual": {
-        "type": "preset",
-        "name": "humanoid",
-        "params": {
-          "height": 1.8,
-          "shirtColor": "#745c49",
-          "trouserColor": "#283341",
-          "color": "#ad805f",
-          "motion": "idle"
+      "layout": {
+        "role": "fixture",
+        "purpose": "Downward practical ceiling light",
+        "surface": "emissive",
+        "support": "arch-living-light-mount",
+        "light": {
+          "color": "#ffe8c9",
+          "intensity": 38,
+          "distance": 9
         }
-      },
-      "bounds": {
-        "type": "box",
-        "min": [
-          -0.325,
-          0,
-          -0.25
-        ],
-        "max": [
-          0.325,
-          1.8,
-          0.25
-        ]
       }
     }
   ],
@@ -689,44 +1762,6 @@
           0.285
         ],
         "radius": 0.04
-      }
-    },
-    {
-      "id": "set-support-08-face",
-      "entityId": "set-support-08",
-      "label": "stagehand, #4e586b jacket; supporting subject, not the principal actor face",
-      "localAnchor": [
-        0,
-        1.63,
-        0.12
-      ],
-      "localBounds": {
-        "type": "sphere",
-        "center": [
-          0,
-          1.63,
-          0.12
-        ],
-        "radius": 0.16
-      }
-    },
-    {
-      "id": "set-support-09-face",
-      "entityId": "set-support-09",
-      "label": "lighting technician, #745c49 jacket; supporting subject, not the principal actor face",
-      "localAnchor": [
-        0,
-        1.63,
-        0.12
-      ],
-      "localBounds": {
-        "type": "sphere",
-        "center": [
-          0,
-          1.63,
-          0.12
-        ],
-        "radius": 0.16
       }
     }
   ]

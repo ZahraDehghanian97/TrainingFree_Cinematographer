@@ -11,10 +11,10 @@
   },
   "prompt": "با حرکت جانبی دوربین به راست از رقصنده فیلم بگیر.",
   "promptSha256": "8cced41307b00e44603072210badcca7a9b45775c842c1bf45055f75d79bbb49",
-  "environmentSha256": "6c97a094e476a6f9aa9c017a6f255fb20e11f3072c46aee69aa87e5e6ec519a6",
+  "environmentSha256": "3cd4134b7aace8849009f9345c4e0454c9f8b68376b08c902db13723c06668cc",
   "cslSha256": "ce2532699975755b86c1ec8107f7913c54bc91e64761429d9159a2fa3340e8fe",
   "recipeSha256": "f02c8454c3360eb330ea825868e8af466476e1aaa66969c01d0f9a190e75b1af",
-  "trajectorySha256": "b3b6ed34e2994e90d9f3846a4f3c00acc58b9bd81691be6ac921efe796804080",
+  "trajectorySha256": "482ccabdfc7531af700ae05cba949d8aac5379c98047429058e3c333aa1826cb",
   "fullPoseIsGroundTruth": false,
   "artisticChoices": [
     "Unrequested rig offsets, radii, lens choices and smoothstep pacing are authored illustration choices, not inferred user constraints.",

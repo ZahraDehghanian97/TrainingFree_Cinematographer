@@ -25,28 +25,26 @@
     "background": "#b6cfde",
     "overviewCamera": {
       "position": [
-        28,
-        18,
-        32
+        42,
+        33,
+        52
       ],
       "target": [
-        24,
-        1,
+        25,
+        0,
         3
       ]
     },
     "ground": {
       "y": 0,
       "size": [
-        110,
-        34
+        180,
+        46
       ],
       "color": "#598044",
-      "surface": "grass"
-    },
-    "grid": {
-      "size": 90,
-      "divisions": 45
+      "surface": "grass",
+      "continuation": "terrain",
+      "details": "authored"
     }
   },
   "entities": [
@@ -171,6 +169,10 @@
           1.8,
           0.25
         ]
+      },
+      "layout": {
+        "role": "subject",
+        "purpose": "دونده"
       }
     },
     {
@@ -206,6 +208,11 @@
           0.275,
           0.18
         ]
+      },
+      "layout": {
+        "role": "prop",
+        "purpose": "Training cone marking inside track boundary",
+        "support": "ground"
       }
     },
     {
@@ -241,6 +248,11 @@
           0.275,
           0.18
         ]
+      },
+      "layout": {
+        "role": "prop",
+        "purpose": "Training cone marking inside track boundary",
+        "support": "ground"
       }
     },
     {
@@ -276,6 +288,11 @@
           0.275,
           0.18
         ]
+      },
+      "layout": {
+        "role": "prop",
+        "purpose": "Training cone marking inside track boundary",
+        "support": "ground"
       }
     },
     {
@@ -313,6 +330,10 @@
           2.1,
           0.14
         ]
+      },
+      "layout": {
+        "role": "prop",
+        "purpose": "پایهٔ چپ دروازهٔ پایان"
       }
     },
     {
@@ -350,6 +371,10 @@
           2.1,
           0.14
         ]
+      },
+      "layout": {
+        "role": "prop",
+        "purpose": "پایهٔ راست دروازهٔ پایان"
       }
     },
     {
@@ -387,523 +412,537 @@
           0.175,
           1.9
         ]
+      },
+      "layout": {
+        "role": "prop",
+        "purpose": "بنر خط پایان"
       }
     },
     {
-      "id": "set-planter-tree-00",
-      "label": "planter tree",
+      "id": "arch-running-track-0",
+      "label": "Continuous athletics straight aligned with full runner route",
       "transform": {
         "space": "world",
         "position": [
-          -8,
-          0,
-          -8
-        ]
-      },
-      "visual": {
-        "type": "model",
-        "url": "/models/generated/planter-tree.glb",
-        "fallback": {
-          "type": "primitive",
-          "shape": "box",
-          "params": {
-            "width": 2.186677,
-            "height": 0.2,
-            "depth": 0.3
-          },
-          "color": "#717c87"
-        }
-      },
-      "bounds": {
-        "type": "box",
-        "min": [
-          -0.986677,
-          0,
-          -1.034048
+          30,
+          -0.02,
+          3.125
         ],
-        "max": [
-          1.2,
-          3.48,
-          1.034048
-        ]
-      }
-    },
-    {
-      "id": "set-planter-tree-01",
-      "label": "planter tree",
-      "transform": {
-        "space": "world",
-        "position": [
-          8,
+        "rotation": [
           0,
-          -8
+          0.665154781,
+          0,
+          0.746705509
         ]
       },
       "visual": {
-        "type": "model",
-        "url": "/models/generated/planter-tree.glb",
-        "fallback": {
-          "type": "primitive",
-          "shape": "box",
-          "params": {
-            "width": 2.186677,
-            "height": 0.2,
-            "depth": 0.3
-          },
-          "color": "#717c87"
-        }
-      },
-      "bounds": {
-        "type": "box",
-        "min": [
-          -0.986677,
-          0,
-          -1.034048
-        ],
-        "max": [
-          1.2,
-          3.48,
-          1.034048
-        ]
-      }
-    },
-    {
-      "id": "set-planter-tree-02",
-      "label": "planter tree",
-      "transform": {
-        "space": "world",
-        "position": [
-          -8,
-          0,
-          5
-        ]
-      },
-      "visual": {
-        "type": "model",
-        "url": "/models/generated/planter-tree.glb",
-        "fallback": {
-          "type": "primitive",
-          "shape": "box",
-          "params": {
-            "width": 2.186677,
-            "height": 0.2,
-            "depth": 0.3
-          },
-          "color": "#717c87"
-        }
-      },
-      "bounds": {
-        "type": "box",
-        "min": [
-          -0.986677,
-          0,
-          -1.034048
-        ],
-        "max": [
-          1.2,
-          3.48,
-          1.034048
-        ]
-      }
-    },
-    {
-      "id": "set-planter-tree-03",
-      "label": "planter tree",
-      "transform": {
-        "space": "world",
-        "position": [
-          8,
-          0,
-          5
-        ]
-      },
-      "visual": {
-        "type": "model",
-        "url": "/models/generated/planter-tree.glb",
-        "fallback": {
-          "type": "primitive",
-          "shape": "box",
-          "params": {
-            "width": 2.186677,
-            "height": 0.2,
-            "depth": 0.3
-          },
-          "color": "#717c87"
-        }
-      },
-      "bounds": {
-        "type": "box",
-        "min": [
-          -0.986677,
-          0,
-          -1.034048
-        ],
-        "max": [
-          1.2,
-          3.48,
-          1.034048
-        ]
-      }
-    },
-    {
-      "id": "set-planter-tree-04",
-      "label": "planter tree",
-      "transform": {
-        "space": "world",
-        "position": [
-          -6,
-          0,
-          11
-        ]
-      },
-      "visual": {
-        "type": "model",
-        "url": "/models/generated/planter-tree.glb",
-        "fallback": {
-          "type": "primitive",
-          "shape": "box",
-          "params": {
-            "width": 2.186677,
-            "height": 0.2,
-            "depth": 0.3
-          },
-          "color": "#717c87"
-        }
-      },
-      "bounds": {
-        "type": "box",
-        "min": [
-          -0.986677,
-          0,
-          -1.034048
-        ],
-        "max": [
-          1.2,
-          3.48,
-          1.034048
-        ]
-      }
-    },
-    {
-      "id": "set-planter-tree-05",
-      "label": "planter tree",
-      "transform": {
-        "space": "world",
-        "position": [
-          6,
-          0,
-          11
-        ]
-      },
-      "visual": {
-        "type": "model",
-        "url": "/models/generated/planter-tree.glb",
-        "fallback": {
-          "type": "primitive",
-          "shape": "box",
-          "params": {
-            "width": 2.186677,
-            "height": 0.2,
-            "depth": 0.3
-          },
-          "color": "#717c87"
-        }
-      },
-      "bounds": {
-        "type": "box",
-        "min": [
-          -0.986677,
-          0,
-          -1.034048
-        ],
-        "max": [
-          1.2,
-          3.48,
-          1.034048
-        ]
-      }
-    },
-    {
-      "id": "set-slatted-bench-06",
-      "label": "slatted bench",
-      "transform": {
-        "space": "world",
-        "position": [
-          -6,
-          0,
-          -4
-        ]
-      },
-      "visual": {
-        "type": "model",
-        "url": "/models/generated/slatted-bench.glb",
-        "fallback": {
-          "type": "primitive",
-          "shape": "box",
-          "params": {
-            "width": 2,
-            "height": 0.2,
-            "depth": 0.3
-          },
-          "color": "#717c87"
-        }
-      },
-      "bounds": {
-        "type": "box",
-        "min": [
-          -1,
-          0,
-          -0.325
-        ],
-        "max": [
-          1,
-          1.215,
-          0.325
-        ]
-      }
-    },
-    {
-      "id": "set-streetlamp-07",
-      "label": "streetlamp",
-      "transform": {
-        "space": "world",
-        "position": [
-          -6,
-          0,
-          -6
-        ]
-      },
-      "visual": {
-        "type": "model",
-        "url": "/models/generated/streetlamp.glb",
-        "fallback": {
-          "type": "primitive",
-          "shape": "box",
-          "params": {
-            "width": 1.2149999999999999,
-            "height": 0.2,
-            "depth": 0.3
-          },
-          "color": "#717c87"
-        }
-      },
-      "bounds": {
-        "type": "box",
-        "min": [
-          -0.24,
-          0,
-          -0.24
-        ],
-        "max": [
-          0.975,
-          3.65,
-          0.24
-        ]
-      }
-    },
-    {
-      "id": "set-slatted-bench-08",
-      "label": "slatted bench",
-      "transform": {
-        "space": "world",
-        "position": [
-          6,
-          0,
-          -4
-        ]
-      },
-      "visual": {
-        "type": "model",
-        "url": "/models/generated/slatted-bench.glb",
-        "fallback": {
-          "type": "primitive",
-          "shape": "box",
-          "params": {
-            "width": 2,
-            "height": 0.2,
-            "depth": 0.3
-          },
-          "color": "#717c87"
-        }
-      },
-      "bounds": {
-        "type": "box",
-        "min": [
-          -1,
-          0,
-          -0.325
-        ],
-        "max": [
-          1,
-          1.215,
-          0.325
-        ]
-      }
-    },
-    {
-      "id": "set-streetlamp-09",
-      "label": "streetlamp",
-      "transform": {
-        "space": "world",
-        "position": [
-          6,
-          0,
-          -6
-        ]
-      },
-      "visual": {
-        "type": "model",
-        "url": "/models/generated/streetlamp.glb",
-        "fallback": {
-          "type": "primitive",
-          "shape": "box",
-          "params": {
-            "width": 1.2149999999999999,
-            "height": 0.2,
-            "depth": 0.3
-          },
-          "color": "#717c87"
-        }
-      },
-      "bounds": {
-        "type": "box",
-        "min": [
-          -0.24,
-          0,
-          -0.24
-        ],
-        "max": [
-          0.975,
-          3.65,
-          0.24
-        ]
-      }
-    },
-    {
-      "id": "set-support-10",
-      "label": "park walker, #96623f jacket; supporting subject, not the principal actor",
-      "transform": {
-        "space": "world",
-        "position": {
-          "interpolation": "linear",
-          "extrapolation": "hold",
-          "keyframes": [
-            {
-              "t": 0,
-              "value": [
-                -6.5,
-                0,
-                8
-              ]
-            },
-            {
-              "t": 11,
-              "value": [
-                -6.5,
-                0,
-                -6
-              ]
-            }
-          ]
-        }
-      },
-      "visual": {
-        "type": "preset",
-        "name": "humanoid",
+        "type": "primitive",
+        "shape": "box",
         "params": {
-          "height": 1.8,
-          "shirtColor": "#96623f",
-          "trouserColor": "#283341",
-          "color": "#ad805f",
-          "motion": "auto"
-        }
-      },
-      "bounds": {
-        "type": "box",
-        "min": [
-          -0.325,
-          0,
-          -0.25
-        ],
-        "max": [
-          0.325,
-          1.8,
-          0.25
-        ]
-      }
-    },
-    {
-      "id": "set-support-11",
-      "label": "park walker, #62638c jacket; supporting subject, not the principal actor",
-      "transform": {
-        "space": "world",
-        "position": {
-          "interpolation": "linear",
-          "extrapolation": "hold",
-          "keyframes": [
-            {
-              "t": 0,
-              "value": [
-                7,
-                0,
-                -5
-              ]
-            },
-            {
-              "t": 11,
-              "value": [
-                7,
-                0,
-                7
-              ]
-            }
+          "size": [
+            8.2,
+            0.05,
+            110.76145515366655
           ]
-        }
-      },
-      "visual": {
-        "type": "preset",
-        "name": "humanoid",
-        "params": {
-          "height": 1.8,
-          "shirtColor": "#62638c",
-          "trouserColor": "#283341",
-          "color": "#ad805f",
-          "motion": "auto"
-        }
+        },
+        "color": "#986b57"
       },
       "bounds": {
         "type": "box",
         "min": [
-          -0.325,
-          0,
-          -0.25
+          -4.1,
+          -0.025,
+          -55.38072757683327
         ],
         "max": [
-          0.325,
-          1.8,
-          0.25
+          4.1,
+          0.025,
+          55.38072757683327
         ]
+      },
+      "layout": {
+        "role": "paving",
+        "purpose": "Continuous athletics straight aligned with full runner route",
+        "surface": "concrete",
+        "support": "ground"
       }
     },
     {
-      "id": "set-support-12",
-      "label": "gardener, #506748 jacket; supporting subject, not the principal actor",
+      "id": "arch-lane-mark--3-0",
+      "label": "Athletics lane marking",
       "transform": {
         "space": "world",
         "position": [
-          5,
+          30,
+          -0.012,
+          -0.3249999999999993
+        ],
+        "rotation": [
+          0,
+          0.665154781,
+          0,
+          0.746705509
+        ]
+      },
+      "visual": {
+        "type": "primitive",
+        "shape": "box",
+        "params": {
+          "size": [
+            0.045,
+            0.05,
+            110.76145515366655
+          ]
+        },
+        "color": "#e9e1ce"
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.0225,
+          -0.025,
+          -55.38072757683327
+        ],
+        "max": [
+          0.0225,
+          0.025,
+          55.38072757683327
+        ]
+      },
+      "layout": {
+        "role": "paving",
+        "purpose": "Athletics lane marking",
+        "surface": "concrete",
+        "support": "ground"
+      }
+    },
+    {
+      "id": "arch-lane-mark--2-0",
+      "label": "Athletics lane marking",
+      "transform": {
+        "space": "world",
+        "position": [
+          30,
+          -0.012,
+          0.8250000000000002
+        ],
+        "rotation": [
+          0,
+          0.665154781,
+          0,
+          0.746705509
+        ]
+      },
+      "visual": {
+        "type": "primitive",
+        "shape": "box",
+        "params": {
+          "size": [
+            0.045,
+            0.05,
+            110.76145515366655
+          ]
+        },
+        "color": "#e9e1ce"
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.0225,
+          -0.025,
+          -55.38072757683327
+        ],
+        "max": [
+          0.0225,
+          0.025,
+          55.38072757683327
+        ]
+      },
+      "layout": {
+        "role": "paving",
+        "purpose": "Athletics lane marking",
+        "surface": "concrete",
+        "support": "ground"
+      }
+    },
+    {
+      "id": "arch-lane-mark--1-0",
+      "label": "Athletics lane marking",
+      "transform": {
+        "space": "world",
+        "position": [
+          30,
+          -0.012,
+          1.9749999999999996
+        ],
+        "rotation": [
+          0,
+          0.665154781,
+          0,
+          0.746705509
+        ]
+      },
+      "visual": {
+        "type": "primitive",
+        "shape": "box",
+        "params": {
+          "size": [
+            0.045,
+            0.05,
+            110.76145515366655
+          ]
+        },
+        "color": "#e9e1ce"
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.0225,
+          -0.025,
+          -55.38072757683327
+        ],
+        "max": [
+          0.0225,
+          0.025,
+          55.38072757683327
+        ]
+      },
+      "layout": {
+        "role": "paving",
+        "purpose": "Athletics lane marking",
+        "surface": "concrete",
+        "support": "ground"
+      }
+    },
+    {
+      "id": "arch-lane-mark-0-0",
+      "label": "Athletics lane marking",
+      "transform": {
+        "space": "world",
+        "position": [
+          30,
+          -0.012,
+          3.125
+        ],
+        "rotation": [
+          0,
+          0.665154781,
+          0,
+          0.746705509
+        ]
+      },
+      "visual": {
+        "type": "primitive",
+        "shape": "box",
+        "params": {
+          "size": [
+            0.045,
+            0.05,
+            110.76145515366655
+          ]
+        },
+        "color": "#e9e1ce"
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.0225,
+          -0.025,
+          -55.38072757683327
+        ],
+        "max": [
+          0.0225,
+          0.025,
+          55.38072757683327
+        ]
+      },
+      "layout": {
+        "role": "paving",
+        "purpose": "Athletics lane marking",
+        "surface": "concrete",
+        "support": "ground"
+      }
+    },
+    {
+      "id": "arch-lane-mark-1-0",
+      "label": "Athletics lane marking",
+      "transform": {
+        "space": "world",
+        "position": [
+          30,
+          -0.012,
+          4.275
+        ],
+        "rotation": [
+          0,
+          0.665154781,
+          0,
+          0.746705509
+        ]
+      },
+      "visual": {
+        "type": "primitive",
+        "shape": "box",
+        "params": {
+          "size": [
+            0.045,
+            0.05,
+            110.76145515366655
+          ]
+        },
+        "color": "#e9e1ce"
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.0225,
+          -0.025,
+          -55.38072757683327
+        ],
+        "max": [
+          0.0225,
+          0.025,
+          55.38072757683327
+        ]
+      },
+      "layout": {
+        "role": "paving",
+        "purpose": "Athletics lane marking",
+        "surface": "concrete",
+        "support": "ground"
+      }
+    },
+    {
+      "id": "arch-lane-mark-2-0",
+      "label": "Athletics lane marking",
+      "transform": {
+        "space": "world",
+        "position": [
+          30,
+          -0.012,
+          5.425000000000001
+        ],
+        "rotation": [
+          0,
+          0.665154781,
+          0,
+          0.746705509
+        ]
+      },
+      "visual": {
+        "type": "primitive",
+        "shape": "box",
+        "params": {
+          "size": [
+            0.045,
+            0.05,
+            110.76145515366655
+          ]
+        },
+        "color": "#e9e1ce"
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.0225,
+          -0.025,
+          -55.38072757683327
+        ],
+        "max": [
+          0.0225,
+          0.025,
+          55.38072757683327
+        ]
+      },
+      "layout": {
+        "role": "paving",
+        "purpose": "Athletics lane marking",
+        "surface": "concrete",
+        "support": "ground"
+      }
+    },
+    {
+      "id": "arch-lane-mark-3-0",
+      "label": "Athletics lane marking",
+      "transform": {
+        "space": "world",
+        "position": [
+          30,
+          -0.012,
+          6.574999999999999
+        ],
+        "rotation": [
+          0,
+          0.665154781,
+          0,
+          0.746705509
+        ]
+      },
+      "visual": {
+        "type": "primitive",
+        "shape": "box",
+        "params": {
+          "size": [
+            0.045,
+            0.05,
+            110.76145515366655
+          ]
+        },
+        "color": "#e9e1ce"
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.0225,
+          -0.025,
+          -55.38072757683327
+        ],
+        "max": [
+          0.0225,
+          0.025,
+          55.38072757683327
+        ]
+      },
+      "layout": {
+        "role": "paving",
+        "purpose": "Athletics lane marking",
+        "surface": "concrete",
+        "support": "ground"
+      }
+    },
+    {
+      "id": "set-athletics-bench-0",
+      "label": "Rest bench outside running track",
+      "transform": {
+        "space": "world",
+        "position": [
+          -10,
           0,
           -9
         ]
       },
       "visual": {
+        "type": "model",
+        "url": "/models/generated/slatted-bench.glb"
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -1,
+          0,
+          -0.325
+        ],
+        "max": [
+          1,
+          1.215,
+          0.325
+        ]
+      },
+      "layout": {
+        "role": "furniture",
+        "purpose": "Rest bench outside running track",
+        "support": "ground"
+      }
+    },
+    {
+      "id": "set-athletics-bench-1",
+      "label": "Rest bench outside running track",
+      "transform": {
+        "space": "world",
+        "position": [
+          38,
+          0,
+          -9
+        ]
+      },
+      "visual": {
+        "type": "model",
+        "url": "/models/generated/slatted-bench.glb"
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -1,
+          0,
+          -0.325
+        ],
+        "max": [
+          1,
+          1.215,
+          0.325
+        ]
+      },
+      "layout": {
+        "role": "furniture",
+        "purpose": "Rest bench outside running track",
+        "support": "ground"
+      }
+    },
+    {
+      "id": "set-athletics-bench-2",
+      "label": "Rest bench outside running track",
+      "transform": {
+        "space": "world",
+        "position": [
+          65,
+          0,
+          17
+        ],
+        "rotation": [
+          0,
+          1,
+          0,
+          0
+        ]
+      },
+      "visual": {
+        "type": "model",
+        "url": "/models/generated/slatted-bench.glb"
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -1,
+          0,
+          -0.325
+        ],
+        "max": [
+          1,
+          1.215,
+          0.325
+        ]
+      },
+      "layout": {
+        "role": "furniture",
+        "purpose": "Rest bench outside running track",
+        "support": "ground"
+      }
+    },
+    {
+      "id": "set-track-official",
+      "label": "Finish-line official standing clear of running lane",
+      "transform": {
+        "space": "world",
+        "position": [
+          59.5,
+          0,
+          11.7
+        ],
+        "rotation": [
+          0,
+          1,
+          0,
+          0
+        ]
+      },
+      "visual": {
         "type": "preset",
         "name": "humanoid",
         "params": {
           "height": 1.8,
-          "shirtColor": "#506748",
-          "trouserColor": "#283341",
-          "color": "#ad805f",
+          "shirtColor": "#826c47",
+          "trouserColor": "#303438",
+          "color": "#b78e72",
           "motion": "idle"
         }
       },
@@ -919,6 +958,11 @@
           1.8,
           0.25
         ]
+      },
+      "layout": {
+        "role": "subject",
+        "purpose": "Finish-line official standing clear of running lane",
+        "support": "ground"
       }
     }
   ],
@@ -967,63 +1011,6 @@
           1.82,
           0.28
         ]
-      }
-    },
-    {
-      "id": "set-support-10-face",
-      "entityId": "set-support-10",
-      "label": "park walker, #96623f jacket; supporting subject, not the principal actor face",
-      "localAnchor": [
-        0,
-        1.63,
-        0.12
-      ],
-      "localBounds": {
-        "type": "sphere",
-        "center": [
-          0,
-          1.63,
-          0.12
-        ],
-        "radius": 0.16
-      }
-    },
-    {
-      "id": "set-support-11-face",
-      "entityId": "set-support-11",
-      "label": "park walker, #62638c jacket; supporting subject, not the principal actor face",
-      "localAnchor": [
-        0,
-        1.63,
-        0.12
-      ],
-      "localBounds": {
-        "type": "sphere",
-        "center": [
-          0,
-          1.63,
-          0.12
-        ],
-        "radius": 0.16
-      }
-    },
-    {
-      "id": "set-support-12-face",
-      "entityId": "set-support-12",
-      "label": "gardener, #506748 jacket; supporting subject, not the principal actor face",
-      "localAnchor": [
-        0,
-        1.63,
-        0.12
-      ],
-      "localBounds": {
-        "type": "sphere",
-        "center": [
-          0,
-          1.63,
-          0.12
-        ],
-        "radius": 0.16
       }
     }
   ]

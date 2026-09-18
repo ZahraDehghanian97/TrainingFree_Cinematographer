@@ -25,28 +25,26 @@
     "background": "#bbcfc4",
     "overviewCamera": {
       "position": [
-        6,
-        6,
-        10
+        22,
+        18,
+        25
       ],
       "target": [
         0,
         1,
-        3
+        0
       ]
     },
     "ground": {
       "y": 0,
       "size": [
-        20,
-        20
+        26,
+        30
       ],
       "color": "#627f45",
-      "surface": "grass"
-    },
-    "grid": {
-      "size": 20,
-      "divisions": 20
+      "surface": "grass",
+      "continuation": "terrain",
+      "details": "authored"
     }
   },
   "entities": [
@@ -139,6 +137,10 @@
           1.75,
           0.25
         ]
+      },
+      "layout": {
+        "role": "subject",
+        "purpose": "دونده"
       }
     },
     {
@@ -147,7 +149,7 @@
       "transform": {
         "space": "world",
         "position": [
-          -1.8,
+          -3.4,
           0,
           4
         ]
@@ -168,6 +170,10 @@
           3.48,
           1.034048
         ]
+      },
+      "layout": {
+        "role": "prop",
+        "purpose": "درخت کنار جاده"
       }
     },
     {
@@ -178,7 +184,7 @@
         "position": [
           0.5,
           0,
-          -3.5
+          -4.6
         ]
       },
       "visual": {
@@ -197,6 +203,10 @@
           1.225,
           1.65
         ]
+      },
+      "layout": {
+        "role": "prop",
+        "purpose": "آب‌نمای میدان"
       }
     },
     {
@@ -205,7 +215,7 @@
       "transform": {
         "space": "world",
         "position": [
-          1.9,
+          3.1,
           0,
           0.5
         ]
@@ -226,513 +236,168 @@
           3.65,
           0.24
         ]
+      },
+      "layout": {
+        "role": "prop",
+        "purpose": "تیر چراغ پارک"
       }
     },
     {
-      "id": "set-planter-tree-00",
-      "label": "planter tree",
+      "id": "arch-jogger-path-0",
+      "label": "Jogger promenade ending before fountain basin",
       "transform": {
         "space": "world",
         "position": [
-          -8,
           0,
-          -8
-        ]
-      },
-      "visual": {
-        "type": "model",
-        "url": "/models/generated/planter-tree.glb",
-        "fallback": {
-          "type": "primitive",
-          "shape": "box",
-          "params": {
-            "width": 2.186677,
-            "height": 0.2,
-            "depth": 0.3
-          },
-          "color": "#717c87"
-        }
-      },
-      "bounds": {
-        "type": "box",
-        "min": [
-          -0.986677,
-          0,
-          -1.034048
+          -0.02,
+          5.25
         ],
-        "max": [
-          1.2,
-          3.48,
-          1.034048
-        ]
-      }
-    },
-    {
-      "id": "set-planter-tree-01",
-      "label": "planter tree",
-      "transform": {
-        "space": "world",
-        "position": [
-          8,
+        "rotation": [
           0,
-          -8
-        ]
-      },
-      "visual": {
-        "type": "model",
-        "url": "/models/generated/planter-tree.glb",
-        "fallback": {
-          "type": "primitive",
-          "shape": "box",
-          "params": {
-            "width": 2.186677,
-            "height": 0.2,
-            "depth": 0.3
-          },
-          "color": "#717c87"
-        }
-      },
-      "bounds": {
-        "type": "box",
-        "min": [
-          -0.986677,
-          0,
-          -1.034048
-        ],
-        "max": [
-          1.2,
-          3.48,
-          1.034048
-        ]
-      }
-    },
-    {
-      "id": "set-planter-tree-02",
-      "label": "planter tree",
-      "transform": {
-        "space": "world",
-        "position": [
-          -8,
-          0,
-          5
-        ]
-      },
-      "visual": {
-        "type": "model",
-        "url": "/models/generated/planter-tree.glb",
-        "fallback": {
-          "type": "primitive",
-          "shape": "box",
-          "params": {
-            "width": 2.186677,
-            "height": 0.2,
-            "depth": 0.3
-          },
-          "color": "#717c87"
-        }
-      },
-      "bounds": {
-        "type": "box",
-        "min": [
-          -0.986677,
-          0,
-          -1.034048
-        ],
-        "max": [
-          1.2,
-          3.48,
-          1.034048
-        ]
-      }
-    },
-    {
-      "id": "set-planter-tree-03",
-      "label": "planter tree",
-      "transform": {
-        "space": "world",
-        "position": [
-          8,
-          0,
-          5
-        ]
-      },
-      "visual": {
-        "type": "model",
-        "url": "/models/generated/planter-tree.glb",
-        "fallback": {
-          "type": "primitive",
-          "shape": "box",
-          "params": {
-            "width": 2.186677,
-            "height": 0.2,
-            "depth": 0.3
-          },
-          "color": "#717c87"
-        }
-      },
-      "bounds": {
-        "type": "box",
-        "min": [
-          -0.986677,
-          0,
-          -1.034048
-        ],
-        "max": [
-          1.2,
-          3.48,
-          1.034048
-        ]
-      }
-    },
-    {
-      "id": "set-planter-tree-04",
-      "label": "planter tree",
-      "transform": {
-        "space": "world",
-        "position": [
-          -6,
-          0,
-          11
-        ]
-      },
-      "visual": {
-        "type": "model",
-        "url": "/models/generated/planter-tree.glb",
-        "fallback": {
-          "type": "primitive",
-          "shape": "box",
-          "params": {
-            "width": 2.186677,
-            "height": 0.2,
-            "depth": 0.3
-          },
-          "color": "#717c87"
-        }
-      },
-      "bounds": {
-        "type": "box",
-        "min": [
-          -0.986677,
-          0,
-          -1.034048
-        ],
-        "max": [
-          1.2,
-          3.48,
-          1.034048
-        ]
-      }
-    },
-    {
-      "id": "set-planter-tree-05",
-      "label": "planter tree",
-      "transform": {
-        "space": "world",
-        "position": [
-          6,
-          0,
-          11
-        ]
-      },
-      "visual": {
-        "type": "model",
-        "url": "/models/generated/planter-tree.glb",
-        "fallback": {
-          "type": "primitive",
-          "shape": "box",
-          "params": {
-            "width": 2.186677,
-            "height": 0.2,
-            "depth": 0.3
-          },
-          "color": "#717c87"
-        }
-      },
-      "bounds": {
-        "type": "box",
-        "min": [
-          -0.986677,
-          0,
-          -1.034048
-        ],
-        "max": [
-          1.2,
-          3.48,
-          1.034048
-        ]
-      }
-    },
-    {
-      "id": "set-slatted-bench-06",
-      "label": "slatted bench",
-      "transform": {
-        "space": "world",
-        "position": [
-          -6,
-          0,
-          -4
-        ]
-      },
-      "visual": {
-        "type": "model",
-        "url": "/models/generated/slatted-bench.glb",
-        "fallback": {
-          "type": "primitive",
-          "shape": "box",
-          "params": {
-            "width": 2,
-            "height": 0.2,
-            "depth": 0.3
-          },
-          "color": "#717c87"
-        }
-      },
-      "bounds": {
-        "type": "box",
-        "min": [
-          -1,
-          0,
-          -0.325
-        ],
-        "max": [
           1,
-          1.215,
-          0.325
-        ]
-      }
-    },
-    {
-      "id": "set-streetlamp-07",
-      "label": "streetlamp",
-      "transform": {
-        "space": "world",
-        "position": [
-          -6,
           0,
-          -6
+          0
         ]
       },
       "visual": {
-        "type": "model",
-        "url": "/models/generated/streetlamp.glb",
-        "fallback": {
-          "type": "primitive",
-          "shape": "box",
-          "params": {
-            "width": 1.2149999999999999,
-            "height": 0.2,
-            "depth": 0.3
-          },
-          "color": "#717c87"
-        }
-      },
-      "bounds": {
-        "type": "box",
-        "min": [
-          -0.24,
-          0,
-          -0.24
-        ],
-        "max": [
-          0.975,
-          3.65,
-          0.24
-        ]
-      }
-    },
-    {
-      "id": "set-slatted-bench-08",
-      "label": "slatted bench",
-      "transform": {
-        "space": "world",
-        "position": [
-          6,
-          0,
-          -4
-        ]
-      },
-      "visual": {
-        "type": "model",
-        "url": "/models/generated/slatted-bench.glb",
-        "fallback": {
-          "type": "primitive",
-          "shape": "box",
-          "params": {
-            "width": 2,
-            "height": 0.2,
-            "depth": 0.3
-          },
-          "color": "#717c87"
-        }
-      },
-      "bounds": {
-        "type": "box",
-        "min": [
-          -1,
-          0,
-          -0.325
-        ],
-        "max": [
-          1,
-          1.215,
-          0.325
-        ]
-      }
-    },
-    {
-      "id": "set-streetlamp-09",
-      "label": "streetlamp",
-      "transform": {
-        "space": "world",
-        "position": [
-          6,
-          0,
-          -6
-        ]
-      },
-      "visual": {
-        "type": "model",
-        "url": "/models/generated/streetlamp.glb",
-        "fallback": {
-          "type": "primitive",
-          "shape": "box",
-          "params": {
-            "width": 1.2149999999999999,
-            "height": 0.2,
-            "depth": 0.3
-          },
-          "color": "#717c87"
-        }
-      },
-      "bounds": {
-        "type": "box",
-        "min": [
-          -0.24,
-          0,
-          -0.24
-        ],
-        "max": [
-          0.975,
-          3.65,
-          0.24
-        ]
-      }
-    },
-    {
-      "id": "set-support-10",
-      "label": "park walker, #96623f jacket; supporting subject, not the principal actor",
-      "transform": {
-        "space": "world",
-        "position": {
-          "interpolation": "linear",
-          "extrapolation": "hold",
-          "keyframes": [
-            {
-              "t": 0,
-              "value": [
-                -6.5,
-                0,
-                8
-              ]
-            },
-            {
-              "t": 10,
-              "value": [
-                -6.5,
-                0,
-                -6
-              ]
-            }
+        "type": "primitive",
+        "shape": "box",
+        "params": {
+          "size": [
+            2.6,
+            0.05,
+            15.525
           ]
-        }
-      },
-      "visual": {
-        "type": "preset",
-        "name": "humanoid",
-        "params": {
-          "height": 1.8,
-          "shirtColor": "#96623f",
-          "trouserColor": "#283341",
-          "color": "#ad805f",
-          "motion": "auto"
-        }
+        },
+        "color": "#b5ac98"
       },
       "bounds": {
         "type": "box",
         "min": [
-          -0.325,
-          0,
-          -0.25
+          -1.3,
+          -0.025,
+          -7.7625
         ],
         "max": [
-          0.325,
-          1.8,
-          0.25
+          1.3,
+          0.025,
+          7.7625
         ]
+      },
+      "layout": {
+        "role": "paving",
+        "purpose": "Jogger promenade ending before fountain basin",
+        "surface": "concrete",
+        "support": "ground"
       }
     },
     {
-      "id": "set-support-11",
-      "label": "park walker, #62638c jacket; supporting subject, not the principal actor",
-      "transform": {
-        "space": "world",
-        "position": {
-          "interpolation": "linear",
-          "extrapolation": "hold",
-          "keyframes": [
-            {
-              "t": 0,
-              "value": [
-                7,
-                0,
-                -5
-              ]
-            },
-            {
-              "t": 10,
-              "value": [
-                7,
-                0,
-                7
-              ]
-            }
-          ]
-        }
-      },
-      "visual": {
-        "type": "preset",
-        "name": "humanoid",
-        "params": {
-          "height": 1.8,
-          "shirtColor": "#62638c",
-          "trouserColor": "#283341",
-          "color": "#ad805f",
-          "motion": "auto"
-        }
-      },
-      "bounds": {
-        "type": "box",
-        "min": [
-          -0.325,
-          0,
-          -0.25
-        ],
-        "max": [
-          0.325,
-          1.8,
-          0.25
-        ]
-      }
-    },
-    {
-      "id": "set-support-12",
-      "label": "gardener, #506748 jacket; supporting subject, not the principal actor",
+      "id": "arch-fountain-court",
+      "label": "Paved fountain forecourt connected to promenade",
       "transform": {
         "space": "world",
         "position": [
-          5,
+          0.5,
+          -0.018,
+          -4.6
+        ]
+      },
+      "visual": {
+        "type": "primitive",
+        "shape": "box",
+        "params": {
+          "size": [
+            7,
+            0.04,
+            7
+          ]
+        },
+        "color": "#b3ad9f"
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -3.5,
+          -0.02,
+          -3.5
+        ],
+        "max": [
+          3.5,
+          0.02,
+          3.5
+        ]
+      },
+      "layout": {
+        "role": "paving",
+        "purpose": "Paved fountain forecourt connected to promenade",
+        "surface": "stone",
+        "support": "ground"
+      }
+    },
+    {
+      "id": "arch-garden-branch-0",
+      "label": "Cross path serving fountain seating",
+      "transform": {
+        "space": "world",
+        "position": [
+          0.5,
+          -0.02,
+          -4.6
+        ],
+        "rotation": [
           0,
-          -9
+          0.707106781,
+          0,
+          0.707106781
+        ]
+      },
+      "visual": {
+        "type": "primitive",
+        "shape": "box",
+        "params": {
+          "size": [
+            1.8,
+            0.05,
+            17.025
+          ]
+        },
+        "color": "#b5ac98"
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.9,
+          -0.025,
+          -8.5125
+        ],
+        "max": [
+          0.9,
+          0.025,
+          8.5125
+        ]
+      },
+      "layout": {
+        "role": "paving",
+        "purpose": "Cross path serving fountain seating",
+        "surface": "concrete",
+        "support": "ground"
+      }
+    },
+    {
+      "id": "set-gardener",
+      "label": "Gardener beside planted edge",
+      "transform": {
+        "space": "world",
+        "position": [
+          -9.5,
+          0,
+          -8.5
+        ],
+        "rotation": [
+          0,
+          0,
+          0,
+          1
         ]
       },
       "visual": {
@@ -740,9 +405,9 @@
         "name": "humanoid",
         "params": {
           "height": 1.8,
-          "shirtColor": "#506748",
-          "trouserColor": "#283341",
-          "color": "#ad805f",
+          "shirtColor": "#61724e",
+          "trouserColor": "#303438",
+          "color": "#b78e72",
           "motion": "idle"
         }
       },
@@ -758,6 +423,353 @@
           1.8,
           0.25
         ]
+      },
+      "layout": {
+        "role": "subject",
+        "purpose": "Gardener beside planted edge",
+        "support": "ground"
+      }
+    },
+    {
+      "id": "set-garden-tree-0",
+      "label": "Tree in planted edge, outside circulation",
+      "transform": {
+        "space": "world",
+        "position": [
+          -8,
+          0,
+          -9
+        ]
+      },
+      "visual": {
+        "type": "model",
+        "url": "/models/generated/planter-tree.glb"
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.986677,
+          0,
+          -1.034048
+        ],
+        "max": [
+          1.2,
+          3.48,
+          1.034048
+        ]
+      },
+      "layout": {
+        "role": "furniture",
+        "purpose": "Tree in planted edge, outside circulation",
+        "support": "ground"
+      }
+    },
+    {
+      "id": "set-garden-tree-1",
+      "label": "Tree in planted edge, outside circulation",
+      "transform": {
+        "space": "world",
+        "position": [
+          8,
+          0,
+          -9
+        ]
+      },
+      "visual": {
+        "type": "model",
+        "url": "/models/generated/planter-tree.glb"
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.986677,
+          0,
+          -1.034048
+        ],
+        "max": [
+          1.2,
+          3.48,
+          1.034048
+        ]
+      },
+      "layout": {
+        "role": "furniture",
+        "purpose": "Tree in planted edge, outside circulation",
+        "support": "ground"
+      }
+    },
+    {
+      "id": "set-garden-tree-2",
+      "label": "Tree in planted edge, outside circulation",
+      "transform": {
+        "space": "world",
+        "position": [
+          7,
+          0,
+          8
+        ]
+      },
+      "visual": {
+        "type": "model",
+        "url": "/models/generated/planter-tree.glb"
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.986677,
+          0,
+          -1.034048
+        ],
+        "max": [
+          1.2,
+          3.48,
+          1.034048
+        ]
+      },
+      "layout": {
+        "role": "furniture",
+        "purpose": "Tree in planted edge, outside circulation",
+        "support": "ground"
+      }
+    },
+    {
+      "id": "arch-bench-pad-0",
+      "label": "Level seating pad connected to park paving",
+      "transform": {
+        "space": "world",
+        "position": [
+          -4.3,
+          -0.025,
+          -4.6
+        ]
+      },
+      "visual": {
+        "type": "primitive",
+        "shape": "box",
+        "params": {
+          "size": [
+            2.8,
+            0.05,
+            2.8
+          ]
+        },
+        "color": "#b3ad9f"
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -1.4,
+          -0.025,
+          -1.4
+        ],
+        "max": [
+          1.4,
+          0.025,
+          1.4
+        ]
+      },
+      "layout": {
+        "role": "paving",
+        "purpose": "Level seating pad connected to park paving",
+        "surface": "stone",
+        "support": "ground"
+      }
+    },
+    {
+      "id": "set-park-bench-0",
+      "label": "Park bench facing promenade/fountain",
+      "transform": {
+        "space": "world",
+        "position": [
+          -4.3,
+          0,
+          -4.6
+        ],
+        "rotation": [
+          0,
+          0.707106781,
+          0,
+          0.707106781
+        ]
+      },
+      "visual": {
+        "type": "model",
+        "url": "/models/generated/slatted-bench.glb"
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -1,
+          0,
+          -0.325
+        ],
+        "max": [
+          1,
+          1.215,
+          0.325
+        ]
+      },
+      "layout": {
+        "role": "furniture",
+        "purpose": "Park bench facing promenade/fountain",
+        "support": "ground"
+      }
+    },
+    {
+      "id": "set-park-lamp-0",
+      "label": "Walkway light outside seating and walking clearance",
+      "transform": {
+        "space": "world",
+        "position": [
+          -5.5,
+          0,
+          -6.5
+        ]
+      },
+      "visual": {
+        "type": "model",
+        "url": "/models/generated/streetlamp.glb"
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.24,
+          0,
+          -0.24
+        ],
+        "max": [
+          0.975,
+          3.65,
+          0.24
+        ]
+      },
+      "layout": {
+        "role": "furniture",
+        "purpose": "Walkway light outside seating and walking clearance",
+        "support": "ground"
+      }
+    },
+    {
+      "id": "arch-bench-pad-1",
+      "label": "Level seating pad connected to park paving",
+      "transform": {
+        "space": "world",
+        "position": [
+          5.3,
+          -0.025,
+          -4.6
+        ]
+      },
+      "visual": {
+        "type": "primitive",
+        "shape": "box",
+        "params": {
+          "size": [
+            2.8,
+            0.05,
+            2.8
+          ]
+        },
+        "color": "#b3ad9f"
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -1.4,
+          -0.025,
+          -1.4
+        ],
+        "max": [
+          1.4,
+          0.025,
+          1.4
+        ]
+      },
+      "layout": {
+        "role": "paving",
+        "purpose": "Level seating pad connected to park paving",
+        "surface": "stone",
+        "support": "ground"
+      }
+    },
+    {
+      "id": "set-park-bench-1",
+      "label": "Park bench facing promenade/fountain",
+      "transform": {
+        "space": "world",
+        "position": [
+          5.3,
+          0,
+          -4.6
+        ],
+        "rotation": [
+          0,
+          -0.707106781,
+          0,
+          0.707106781
+        ]
+      },
+      "visual": {
+        "type": "model",
+        "url": "/models/generated/slatted-bench.glb"
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -1,
+          0,
+          -0.325
+        ],
+        "max": [
+          1,
+          1.215,
+          0.325
+        ]
+      },
+      "layout": {
+        "role": "furniture",
+        "purpose": "Park bench facing promenade/fountain",
+        "support": "ground"
+      }
+    },
+    {
+      "id": "set-park-lamp-1",
+      "label": "Walkway light outside seating and walking clearance",
+      "transform": {
+        "space": "world",
+        "position": [
+          6.5,
+          0,
+          -6.5
+        ],
+        "rotation": [
+          0,
+          1,
+          0,
+          0
+        ]
+      },
+      "visual": {
+        "type": "model",
+        "url": "/models/generated/streetlamp.glb"
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.24,
+          0,
+          -0.24
+        ],
+        "max": [
+          0.975,
+          3.65,
+          0.24
+        ]
+      },
+      "layout": {
+        "role": "furniture",
+        "purpose": "Walkway light outside seating and walking clearance",
+        "support": "ground"
       }
     }
   ],
@@ -806,63 +818,6 @@
           0.5,
           1.2
         ]
-      }
-    },
-    {
-      "id": "set-support-10-face",
-      "entityId": "set-support-10",
-      "label": "park walker, #96623f jacket; supporting subject, not the principal actor face",
-      "localAnchor": [
-        0,
-        1.63,
-        0.12
-      ],
-      "localBounds": {
-        "type": "sphere",
-        "center": [
-          0,
-          1.63,
-          0.12
-        ],
-        "radius": 0.16
-      }
-    },
-    {
-      "id": "set-support-11-face",
-      "entityId": "set-support-11",
-      "label": "park walker, #62638c jacket; supporting subject, not the principal actor face",
-      "localAnchor": [
-        0,
-        1.63,
-        0.12
-      ],
-      "localBounds": {
-        "type": "sphere",
-        "center": [
-          0,
-          1.63,
-          0.12
-        ],
-        "radius": 0.16
-      }
-    },
-    {
-      "id": "set-support-12-face",
-      "entityId": "set-support-12",
-      "label": "gardener, #506748 jacket; supporting subject, not the principal actor face",
-      "localAnchor": [
-        0,
-        1.63,
-        0.12
-      ],
-      "localBounds": {
-        "type": "sphere",
-        "center": [
-          0,
-          1.63,
-          0.12
-        ],
-        "radius": 0.16
       }
     }
   ]

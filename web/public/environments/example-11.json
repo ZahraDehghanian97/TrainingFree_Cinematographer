@@ -24,28 +24,27 @@
     "background": "#10191b",
     "overviewCamera": {
       "position": [
-        0,
-        4.5,
-        6
+        9,
+        9,
+        13
       ],
       "target": [
         0,
         1,
-        -6
+        -2
       ]
     },
     "ground": {
       "y": 0,
       "size": [
-        5,
-        20
+        4.800000000000001,
+        23.4
       ],
       "color": "#66625c",
-      "surface": "concrete"
-    },
-    "grid": {
-      "size": 5,
-      "divisions": 10
+      "surface": "concrete",
+      "continuation": "none",
+      "details": "authored",
+      "render": false
     }
   },
   "entities": [
@@ -55,8 +54,8 @@
       "transform": {
         "space": "world",
         "position": [
-          0,
-          0,
+          -0.525,
+          0.02,
           -8
         ],
         "rotation": [
@@ -72,31 +71,973 @@
         "params": {
           "color": "#342820",
           "width": 1.05,
-          "height": 2.2
+          "height": 2.2,
+          "hingeOrigin": true,
+          "depth": 0.075
         }
       },
       "bounds": {
         "type": "box",
         "min": [
-          -0.53,
           0,
-          -0.08
+          0,
+          -0.1
         ],
         "max": [
-          0.53,
+          1.05,
           2.2,
-          0.08
+          0.1
+        ]
+      },
+      "layout": {
+        "role": "door",
+        "purpose": "Hinged half-open destination door, attached to jamb",
+        "support": "ground"
+      }
+    },
+    {
+      "id": "arch-corridor-north-panel-0",
+      "label": "Continuous enclosure wall",
+      "transform": {
+        "space": "world",
+        "position": [
+          -1.4300000000000002,
+          1.6,
+          -11.5
+        ]
+      },
+      "visual": {
+        "type": "primitive",
+        "shape": "box",
+        "params": {
+          "size": [
+            1.76,
+            3.2,
+            0.22
+          ]
+        },
+        "color": "#6d756d"
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.88,
+          -1.6,
+          -0.11
+        ],
+        "max": [
+          0.88,
+          1.6,
+          0.11
+        ]
+      },
+      "layout": {
+        "role": "wall",
+        "purpose": "Continuous enclosure wall",
+        "surface": "plaster",
+        "support": "ground",
+        "cutaway": "wall",
+        "outwardNormal": [
+          0,
+          0,
+          -1
         ]
       }
     },
     {
-      "id": "corridor-left-wall",
+      "id": "arch-corridor-north-utility-window-sill-wall",
+      "label": "Continuous enclosure wall",
+      "transform": {
+        "space": "world",
+        "position": [
+          0,
+          0.625,
+          -11.5
+        ]
+      },
+      "visual": {
+        "type": "primitive",
+        "shape": "box",
+        "params": {
+          "size": [
+            1.1,
+            1.25,
+            0.22
+          ]
+        },
+        "color": "#6d756d"
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.55,
+          -0.625,
+          -0.11
+        ],
+        "max": [
+          0.55,
+          0.625,
+          0.11
+        ]
+      },
+      "layout": {
+        "role": "wall",
+        "purpose": "Continuous enclosure wall",
+        "surface": "plaster",
+        "support": "ground",
+        "cutaway": "wall",
+        "outwardNormal": [
+          0,
+          0,
+          -1
+        ]
+      }
+    },
+    {
+      "id": "arch-corridor-north-utility-window-lintel",
+      "label": "Continuous enclosure wall",
+      "transform": {
+        "space": "world",
+        "position": [
+          0,
+          2.75,
+          -11.5
+        ]
+      },
+      "visual": {
+        "type": "primitive",
+        "shape": "box",
+        "params": {
+          "size": [
+            1.1,
+            0.9000000000000004,
+            0.22
+          ]
+        },
+        "color": "#6d756d"
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.55,
+          -0.4500000000000002,
+          -0.11
+        ],
+        "max": [
+          0.55,
+          0.4500000000000002,
+          0.11
+        ]
+      },
+      "layout": {
+        "role": "wall",
+        "purpose": "Continuous enclosure wall",
+        "surface": "plaster",
+        "support": "ground",
+        "cutaway": "wall",
+        "outwardNormal": [
+          0,
+          0,
+          -1
+        ]
+      }
+    },
+    {
+      "id": "utility-window-jamb-left",
+      "label": "Window jamb seated on wall opening",
+      "transform": {
+        "space": "world",
+        "position": [
+          -0.5850000000000001,
+          1.775,
+          -11.5
+        ]
+      },
+      "visual": {
+        "type": "primitive",
+        "shape": "box",
+        "params": {
+          "size": [
+            0.07,
+            1.17,
+            0.3
+          ]
+        },
+        "color": "#8e6b4f"
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.035,
+          -0.585,
+          -0.15
+        ],
+        "max": [
+          0.035,
+          0.585,
+          0.15
+        ]
+      },
+      "layout": {
+        "role": "trim",
+        "purpose": "Window jamb seated on wall opening",
+        "surface": "wood",
+        "support": "arch-corridor-north-panel-0",
+        "cutaway": "wall",
+        "outwardNormal": [
+          0,
+          0,
+          -1
+        ]
+      }
+    },
+    {
+      "id": "utility-window-jamb-right",
+      "label": "Window jamb seated on wall opening",
+      "transform": {
+        "space": "world",
+        "position": [
+          0.5850000000000001,
+          1.775,
+          -11.5
+        ]
+      },
+      "visual": {
+        "type": "primitive",
+        "shape": "box",
+        "params": {
+          "size": [
+            0.07,
+            1.17,
+            0.3
+          ]
+        },
+        "color": "#8e6b4f"
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.035,
+          -0.585,
+          -0.15
+        ],
+        "max": [
+          0.035,
+          0.585,
+          0.15
+        ]
+      },
+      "layout": {
+        "role": "trim",
+        "purpose": "Window jamb seated on wall opening",
+        "surface": "wood",
+        "support": "arch-corridor-north-panel-0",
+        "cutaway": "wall",
+        "outwardNormal": [
+          0,
+          0,
+          -1
+        ]
+      }
+    },
+    {
+      "id": "utility-window-head",
+      "label": "Window lintel trim",
+      "transform": {
+        "space": "world",
+        "position": [
+          0,
+          2.335,
+          -11.5
+        ]
+      },
+      "visual": {
+        "type": "primitive",
+        "shape": "box",
+        "params": {
+          "size": [
+            1.2400000000000002,
+            0.07,
+            0.3
+          ]
+        },
+        "color": "#8e6b4f"
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.6200000000000001,
+          -0.035,
+          -0.15
+        ],
+        "max": [
+          0.6200000000000001,
+          0.035,
+          0.15
+        ]
+      },
+      "layout": {
+        "role": "trim",
+        "purpose": "Window lintel trim",
+        "surface": "wood",
+        "support": "arch-corridor-north-panel-0",
+        "cutaway": "wall",
+        "outwardNormal": [
+          0,
+          0,
+          -1
+        ]
+      }
+    },
+    {
+      "id": "utility-window-sill",
+      "label": "Window sill",
+      "transform": {
+        "space": "world",
+        "position": [
+          0,
+          1.275,
+          -11.5
+        ]
+      },
+      "visual": {
+        "type": "primitive",
+        "shape": "box",
+        "params": {
+          "size": [
+            1.28,
+            0.05,
+            0.4
+          ]
+        },
+        "color": "#8e6b4f"
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.64,
+          -0.025,
+          -0.2
+        ],
+        "max": [
+          0.64,
+          0.025,
+          0.2
+        ]
+      },
+      "layout": {
+        "role": "trim",
+        "purpose": "Window sill",
+        "surface": "wood",
+        "support": "arch-corridor-north-panel-0",
+        "cutaway": "wall",
+        "outwardNormal": [
+          0,
+          0,
+          -1
+        ]
+      }
+    },
+    {
+      "id": "utility-window-glass",
+      "label": "Glazed window in a real wall opening",
+      "transform": {
+        "space": "world",
+        "position": [
+          0,
+          1.775,
+          -11.5
+        ]
+      },
+      "visual": {
+        "type": "primitive",
+        "shape": "box",
+        "params": {
+          "size": [
+            1.04,
+            0.99,
+            0.015
+          ]
+        },
+        "color": "#bad3d1"
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.52,
+          -0.495,
+          -0.0075
+        ],
+        "max": [
+          0.52,
+          0.495,
+          0.0075
+        ]
+      },
+      "layout": {
+        "role": "window",
+        "purpose": "Glazed window in a real wall opening",
+        "surface": "glass",
+        "support": "arch-corridor-north-panel-0",
+        "cutaway": "wall",
+        "outwardNormal": [
+          0,
+          0,
+          -1
+        ]
+      },
+      "occlusion": {
+        "transparent": true
+      }
+    },
+    {
+      "id": "utility-window-mullion-1",
+      "label": "Window mullion",
+      "transform": {
+        "space": "world",
+        "position": [
+          0,
+          1.775,
+          -11.5
+        ]
+      },
+      "visual": {
+        "type": "primitive",
+        "shape": "box",
+        "params": {
+          "size": [
+            0.045,
+            1.05,
+            0.08
+          ]
+        },
+        "color": "#465256"
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.0225,
+          -0.525,
+          -0.04
+        ],
+        "max": [
+          0.0225,
+          0.525,
+          0.04
+        ]
+      },
+      "layout": {
+        "role": "trim",
+        "purpose": "Window mullion",
+        "surface": "metal",
+        "support": "arch-corridor-north-panel-0",
+        "cutaway": "wall",
+        "outwardNormal": [
+          0,
+          0,
+          -1
+        ]
+      }
+    },
+    {
+      "id": "arch-corridor-north-end",
+      "label": "Continuous enclosure wall",
+      "transform": {
+        "space": "world",
+        "position": [
+          1.4300000000000002,
+          1.6,
+          -11.5
+        ]
+      },
+      "visual": {
+        "type": "primitive",
+        "shape": "box",
+        "params": {
+          "size": [
+            1.76,
+            3.2,
+            0.22
+          ]
+        },
+        "color": "#6d756d"
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.88,
+          -1.6,
+          -0.11
+        ],
+        "max": [
+          0.88,
+          1.6,
+          0.11
+        ]
+      },
+      "layout": {
+        "role": "wall",
+        "purpose": "Continuous enclosure wall",
+        "surface": "plaster",
+        "support": "ground",
+        "cutaway": "wall",
+        "outwardNormal": [
+          0,
+          0,
+          -1
+        ]
+      }
+    },
+    {
+      "id": "arch-corridor-north-skirting-0",
+      "label": "Wall base/skirting",
+      "transform": {
+        "space": "world",
+        "position": [
+          0,
+          0.065,
+          -11.5
+        ]
+      },
+      "visual": {
+        "type": "primitive",
+        "shape": "box",
+        "params": {
+          "size": [
+            4.62,
+            0.13,
+            0.255
+          ]
+        },
+        "color": "#8e6b4f"
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -2.31,
+          -0.065,
+          -0.1275
+        ],
+        "max": [
+          2.31,
+          0.065,
+          0.1275
+        ]
+      },
+      "layout": {
+        "role": "trim",
+        "purpose": "Wall base/skirting",
+        "surface": "wood",
+        "support": "arch-corridor-north-panel-0",
+        "cutaway": "wall",
+        "outwardNormal": [
+          0,
+          0,
+          -1
+        ]
+      }
+    },
+    {
+      "id": "arch-corridor-south-panel-0",
+      "label": "Continuous enclosure wall",
+      "transform": {
+        "space": "world",
+        "position": [
+          -1.4925000000000002,
+          1.6,
+          8
+        ]
+      },
+      "visual": {
+        "type": "primitive",
+        "shape": "box",
+        "params": {
+          "size": [
+            1.635,
+            3.2,
+            0.22
+          ]
+        },
+        "color": "#6d756d"
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.8175,
+          -1.6,
+          -0.11
+        ],
+        "max": [
+          0.8175,
+          1.6,
+          0.11
+        ]
+      },
+      "layout": {
+        "role": "wall",
+        "purpose": "Continuous enclosure wall",
+        "surface": "plaster",
+        "support": "ground",
+        "cutaway": "wall",
+        "outwardNormal": [
+          0,
+          0,
+          1
+        ]
+      }
+    },
+    {
+      "id": "arch-corridor-south-hall-entry-lintel",
+      "label": "Continuous enclosure wall",
+      "transform": {
+        "space": "world",
+        "position": [
+          0,
+          2.75,
+          8
+        ]
+      },
+      "visual": {
+        "type": "primitive",
+        "shape": "box",
+        "params": {
+          "size": [
+            1.35,
+            0.9000000000000004,
+            0.22
+          ]
+        },
+        "color": "#6d756d"
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.675,
+          -0.4500000000000002,
+          -0.11
+        ],
+        "max": [
+          0.675,
+          0.4500000000000002,
+          0.11
+        ]
+      },
+      "layout": {
+        "role": "wall",
+        "purpose": "Continuous enclosure wall",
+        "surface": "plaster",
+        "support": "ground",
+        "cutaway": "wall",
+        "outwardNormal": [
+          0,
+          0,
+          1
+        ]
+      }
+    },
+    {
+      "id": "hall-entry-jamb-left",
+      "label": "Door jamb seated on wall opening",
+      "transform": {
+        "space": "world",
+        "position": [
+          -0.7100000000000001,
+          1.15,
+          8
+        ]
+      },
+      "visual": {
+        "type": "primitive",
+        "shape": "box",
+        "params": {
+          "size": [
+            0.07,
+            2.42,
+            0.3
+          ]
+        },
+        "color": "#8e6b4f"
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.035,
+          -1.21,
+          -0.15
+        ],
+        "max": [
+          0.035,
+          1.21,
+          0.15
+        ]
+      },
+      "layout": {
+        "role": "trim",
+        "purpose": "Door jamb seated on wall opening",
+        "surface": "wood",
+        "support": "arch-corridor-south-panel-0",
+        "cutaway": "wall",
+        "outwardNormal": [
+          0,
+          0,
+          1
+        ]
+      }
+    },
+    {
+      "id": "hall-entry-jamb-right",
+      "label": "Door jamb seated on wall opening",
+      "transform": {
+        "space": "world",
+        "position": [
+          0.7100000000000001,
+          1.15,
+          8
+        ]
+      },
+      "visual": {
+        "type": "primitive",
+        "shape": "box",
+        "params": {
+          "size": [
+            0.07,
+            2.42,
+            0.3
+          ]
+        },
+        "color": "#8e6b4f"
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.035,
+          -1.21,
+          -0.15
+        ],
+        "max": [
+          0.035,
+          1.21,
+          0.15
+        ]
+      },
+      "layout": {
+        "role": "trim",
+        "purpose": "Door jamb seated on wall opening",
+        "surface": "wood",
+        "support": "arch-corridor-south-panel-0",
+        "cutaway": "wall",
+        "outwardNormal": [
+          0,
+          0,
+          1
+        ]
+      }
+    },
+    {
+      "id": "hall-entry-head",
+      "label": "Door lintel trim",
+      "transform": {
+        "space": "world",
+        "position": [
+          0,
+          2.335,
+          8
+        ]
+      },
+      "visual": {
+        "type": "primitive",
+        "shape": "box",
+        "params": {
+          "size": [
+            1.4900000000000002,
+            0.07,
+            0.3
+          ]
+        },
+        "color": "#8e6b4f"
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.7450000000000001,
+          -0.035,
+          -0.15
+        ],
+        "max": [
+          0.7450000000000001,
+          0.035,
+          0.15
+        ]
+      },
+      "layout": {
+        "role": "trim",
+        "purpose": "Door lintel trim",
+        "surface": "wood",
+        "support": "arch-corridor-south-panel-0",
+        "cutaway": "wall",
+        "outwardNormal": [
+          0,
+          0,
+          1
+        ]
+      }
+    },
+    {
+      "id": "arch-corridor-south-end",
+      "label": "Continuous enclosure wall",
+      "transform": {
+        "space": "world",
+        "position": [
+          1.4925000000000002,
+          1.6,
+          8
+        ]
+      },
+      "visual": {
+        "type": "primitive",
+        "shape": "box",
+        "params": {
+          "size": [
+            1.635,
+            3.2,
+            0.22
+          ]
+        },
+        "color": "#6d756d"
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.8175,
+          -1.6,
+          -0.11
+        ],
+        "max": [
+          0.8175,
+          1.6,
+          0.11
+        ]
+      },
+      "layout": {
+        "role": "wall",
+        "purpose": "Continuous enclosure wall",
+        "surface": "plaster",
+        "support": "ground",
+        "cutaway": "wall",
+        "outwardNormal": [
+          0,
+          0,
+          1
+        ]
+      }
+    },
+    {
+      "id": "arch-corridor-south-skirting-0",
+      "label": "Wall base/skirting",
+      "transform": {
+        "space": "world",
+        "position": [
+          -1.4925000000000002,
+          0.065,
+          8
+        ]
+      },
+      "visual": {
+        "type": "primitive",
+        "shape": "box",
+        "params": {
+          "size": [
+            1.635,
+            0.13,
+            0.255
+          ]
+        },
+        "color": "#8e6b4f"
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.8175,
+          -0.065,
+          -0.1275
+        ],
+        "max": [
+          0.8175,
+          0.065,
+          0.1275
+        ]
+      },
+      "layout": {
+        "role": "trim",
+        "purpose": "Wall base/skirting",
+        "surface": "wood",
+        "support": "arch-corridor-south-panel-0",
+        "cutaway": "wall",
+        "outwardNormal": [
+          0,
+          0,
+          1
+        ]
+      }
+    },
+    {
+      "id": "arch-corridor-south-skirting-1",
+      "label": "Wall base/skirting",
+      "transform": {
+        "space": "world",
+        "position": [
+          1.4925000000000002,
+          0.065,
+          8
+        ]
+      },
+      "visual": {
+        "type": "primitive",
+        "shape": "box",
+        "params": {
+          "size": [
+            1.635,
+            0.13,
+            0.255
+          ]
+        },
+        "color": "#8e6b4f"
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.8175,
+          -0.065,
+          -0.1275
+        ],
+        "max": [
+          0.8175,
+          0.065,
+          0.1275
+        ]
+      },
+      "layout": {
+        "role": "trim",
+        "purpose": "Wall base/skirting",
+        "surface": "wood",
+        "support": "arch-corridor-south-panel-0",
+        "cutaway": "wall",
+        "outwardNormal": [
+          0,
+          0,
+          1
+        ]
+      }
+    },
+    {
+      "id": "arch-corridor-west-end",
+      "label": "Continuous enclosure wall",
       "transform": {
         "space": "world",
         "position": [
           -2.2,
           1.6,
-          -1
+          -1.75
         ]
       },
       "visual": {
@@ -104,35 +1045,97 @@
         "shape": "box",
         "params": {
           "size": [
-            0.2,
+            0.22,
             3.2,
-            16
+            19.72
           ]
         },
-        "color": "#25262c"
+        "color": "#6d756d"
       },
       "bounds": {
         "type": "box",
         "min": [
-          -0.1,
+          -0.11,
           -1.6,
-          -8
+          -9.86
         ],
         "max": [
-          0.1,
+          0.11,
           1.6,
-          8
+          9.86
+        ]
+      },
+      "layout": {
+        "role": "wall",
+        "purpose": "Continuous enclosure wall",
+        "surface": "plaster",
+        "support": "ground",
+        "cutaway": "wall",
+        "outwardNormal": [
+          -1,
+          0,
+          0
         ]
       }
     },
     {
-      "id": "corridor-right-wall",
+      "id": "arch-corridor-west-skirting-0",
+      "label": "Wall base/skirting",
+      "transform": {
+        "space": "world",
+        "position": [
+          -2.2,
+          0.065,
+          -1.75
+        ]
+      },
+      "visual": {
+        "type": "primitive",
+        "shape": "box",
+        "params": {
+          "size": [
+            0.255,
+            0.13,
+            19.72
+          ]
+        },
+        "color": "#8e6b4f"
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.1275,
+          -0.065,
+          -9.86
+        ],
+        "max": [
+          0.1275,
+          0.065,
+          9.86
+        ]
+      },
+      "layout": {
+        "role": "trim",
+        "purpose": "Wall base/skirting",
+        "surface": "wood",
+        "support": "arch-corridor-west-end",
+        "cutaway": "wall",
+        "outwardNormal": [
+          -1,
+          0,
+          0
+        ]
+      }
+    },
+    {
+      "id": "arch-corridor-east-end",
+      "label": "Continuous enclosure wall",
       "transform": {
         "space": "world",
         "position": [
           2.2,
           1.6,
-          -1
+          -1.75
         ]
       },
       "visual": {
@@ -140,35 +1143,356 @@
         "shape": "box",
         "params": {
           "size": [
-            0.2,
+            0.22,
             3.2,
-            16
+            19.72
           ]
         },
-        "color": "#25262c"
+        "color": "#6d756d"
       },
       "bounds": {
         "type": "box",
         "min": [
-          -0.1,
+          -0.11,
           -1.6,
-          -8
+          -9.86
         ],
         "max": [
-          0.1,
+          0.11,
           1.6,
-          8
+          9.86
+        ]
+      },
+      "layout": {
+        "role": "wall",
+        "purpose": "Continuous enclosure wall",
+        "surface": "plaster",
+        "support": "ground",
+        "cutaway": "wall",
+        "outwardNormal": [
+          1,
+          0,
+          0
         ]
       }
     },
     {
-      "id": "doorway-darkness",
+      "id": "arch-corridor-east-skirting-0",
+      "label": "Wall base/skirting",
+      "transform": {
+        "space": "world",
+        "position": [
+          2.2,
+          0.065,
+          -1.75
+        ]
+      },
+      "visual": {
+        "type": "primitive",
+        "shape": "box",
+        "params": {
+          "size": [
+            0.255,
+            0.13,
+            19.72
+          ]
+        },
+        "color": "#8e6b4f"
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.1275,
+          -0.065,
+          -9.86
+        ],
+        "max": [
+          0.1275,
+          0.065,
+          9.86
+        ]
+      },
+      "layout": {
+        "role": "trim",
+        "purpose": "Wall base/skirting",
+        "surface": "wood",
+        "support": "arch-corridor-east-end",
+        "cutaway": "wall",
+        "outwardNormal": [
+          1,
+          0,
+          0
+        ]
+      }
+    },
+    {
+      "id": "arch-corridor-slab",
+      "label": "Continuous structural floor slab",
       "transform": {
         "space": "world",
         "position": [
           0,
-          1.1,
-          -8.18
+          -0.12,
+          -1.75
+        ]
+      },
+      "visual": {
+        "type": "primitive",
+        "shape": "box",
+        "params": {
+          "size": [
+            4.62,
+            0.24,
+            19.72
+          ]
+        },
+        "color": "#66625c"
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -2.31,
+          -0.12,
+          -9.86
+        ],
+        "max": [
+          2.31,
+          0.12,
+          9.86
+        ]
+      },
+      "layout": {
+        "role": "floor",
+        "purpose": "Continuous structural floor slab",
+        "surface": "concrete",
+        "support": "ground"
+      }
+    },
+    {
+      "id": "arch-corridor-ceiling",
+      "label": "Full ceiling and weather roof; visible in Director POV",
+      "transform": {
+        "space": "world",
+        "position": [
+          0,
+          3.33,
+          -1.75
+        ]
+      },
+      "visual": {
+        "type": "primitive",
+        "shape": "box",
+        "params": {
+          "size": [
+            4.62,
+            0.26,
+            19.72
+          ]
+        },
+        "color": "#c6beb0"
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -2.31,
+          -0.13,
+          -9.86
+        ],
+        "max": [
+          2.31,
+          0.13,
+          9.86
+        ]
+      },
+      "layout": {
+        "role": "ceiling",
+        "purpose": "Full ceiling and weather roof; visible in Director POV",
+        "surface": "plaster",
+        "support": "arch-corridor-west-end",
+        "cutaway": "roof"
+      }
+    },
+    {
+      "id": "arch-door-partition-panel-0",
+      "label": "Continuous enclosure wall",
+      "transform": {
+        "space": "world",
+        "position": [
+          -1.3775000000000002,
+          1.6,
+          -8
+        ]
+      },
+      "visual": {
+        "type": "primitive",
+        "shape": "box",
+        "params": {
+          "size": [
+            1.645,
+            3.2,
+            0.22
+          ]
+        },
+        "color": "#858577"
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.8225,
+          -1.6,
+          -0.11
+        ],
+        "max": [
+          0.8225,
+          1.6,
+          0.11
+        ]
+      },
+      "layout": {
+        "role": "wall",
+        "purpose": "Continuous enclosure wall",
+        "surface": "plaster",
+        "support": "ground"
+      }
+    },
+    {
+      "id": "arch-door-partition-destination-opening-lintel",
+      "label": "Continuous enclosure wall",
+      "transform": {
+        "space": "world",
+        "position": [
+          0,
+          2.7300000000000004,
+          -8
+        ]
+      },
+      "visual": {
+        "type": "primitive",
+        "shape": "box",
+        "params": {
+          "size": [
+            1.11,
+            0.94,
+            0.22
+          ]
+        },
+        "color": "#858577"
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.555,
+          -0.47,
+          -0.11
+        ],
+        "max": [
+          0.555,
+          0.47,
+          0.11
+        ]
+      },
+      "layout": {
+        "role": "wall",
+        "purpose": "Continuous enclosure wall",
+        "surface": "plaster",
+        "support": "ground"
+      }
+    },
+    {
+      "id": "destination-opening-jamb-left",
+      "label": "Door jamb seated on wall opening",
+      "transform": {
+        "space": "world",
+        "position": [
+          -0.5900000000000001,
+          1.1300000000000001,
+          -8
+        ]
+      },
+      "visual": {
+        "type": "primitive",
+        "shape": "box",
+        "params": {
+          "size": [
+            0.07,
+            2.3800000000000003,
+            0.3
+          ]
+        },
+        "color": "#8e6b4f"
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.035,
+          -1.1900000000000002,
+          -0.15
+        ],
+        "max": [
+          0.035,
+          1.1900000000000002,
+          0.15
+        ]
+      },
+      "layout": {
+        "role": "trim",
+        "purpose": "Door jamb seated on wall opening",
+        "surface": "wood",
+        "support": "arch-door-partition-panel-0"
+      }
+    },
+    {
+      "id": "destination-opening-jamb-right",
+      "label": "Door jamb seated on wall opening",
+      "transform": {
+        "space": "world",
+        "position": [
+          0.5900000000000001,
+          1.1300000000000001,
+          -8
+        ]
+      },
+      "visual": {
+        "type": "primitive",
+        "shape": "box",
+        "params": {
+          "size": [
+            0.07,
+            2.3800000000000003,
+            0.3
+          ]
+        },
+        "color": "#8e6b4f"
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.035,
+          -1.1900000000000002,
+          -0.15
+        ],
+        "max": [
+          0.035,
+          1.1900000000000002,
+          0.15
+        ]
+      },
+      "layout": {
+        "role": "trim",
+        "purpose": "Door jamb seated on wall opening",
+        "surface": "wood",
+        "support": "arch-door-partition-panel-0"
+      }
+    },
+    {
+      "id": "destination-opening-head",
+      "label": "Door lintel trim",
+      "transform": {
+        "space": "world",
+        "position": [
+          0,
+          2.2950000000000004,
+          -8
         ]
       },
       "visual": {
@@ -177,34 +1501,41 @@
         "params": {
           "size": [
             1.25,
-            2.3,
-            0.05
+            0.07,
+            0.3
           ]
         },
-        "color": "#010203"
+        "color": "#8e6b4f"
       },
       "bounds": {
         "type": "box",
         "min": [
           -0.625,
-          -1.15,
-          -0.025
+          -0.035,
+          -0.15
         ],
         "max": [
           0.625,
-          1.15,
-          0.025
+          0.035,
+          0.15
         ]
+      },
+      "layout": {
+        "role": "trim",
+        "purpose": "Door lintel trim",
+        "surface": "wood",
+        "support": "arch-door-partition-panel-0"
       }
     },
     {
-      "id": "doorframe-left",
+      "id": "arch-door-partition-end",
+      "label": "Continuous enclosure wall",
       "transform": {
         "space": "world",
         "position": [
-          -0.64,
-          1.15,
-          -8.08
+          1.3775000000000002,
+          1.6,
+          -8
         ]
       },
       "visual": {
@@ -212,35 +1543,42 @@
         "shape": "box",
         "params": {
           "size": [
-            0.12,
-            2.3,
-            0.16
+            1.645,
+            3.2,
+            0.22
           ]
         },
-        "color": "#57463c"
+        "color": "#858577"
       },
       "bounds": {
         "type": "box",
         "min": [
-          -0.06,
-          -1.15,
-          -0.08
+          -0.8225,
+          -1.6,
+          -0.11
         ],
         "max": [
-          0.06,
-          1.15,
-          0.08
+          0.8225,
+          1.6,
+          0.11
         ]
+      },
+      "layout": {
+        "role": "wall",
+        "purpose": "Continuous enclosure wall",
+        "surface": "plaster",
+        "support": "ground"
       }
     },
     {
-      "id": "doorframe-right",
+      "id": "arch-door-partition-skirting-0",
+      "label": "Wall base/skirting",
       "transform": {
         "space": "world",
         "position": [
-          0.64,
-          1.15,
-          -8.08
+          -1.3775000000000002,
+          0.065,
+          -8
         ]
       },
       "visual": {
@@ -248,35 +1586,85 @@
         "shape": "box",
         "params": {
           "size": [
-            0.12,
-            2.3,
-            0.16
+            1.645,
+            0.13,
+            0.255
           ]
         },
-        "color": "#57463c"
+        "color": "#8e6b4f"
       },
       "bounds": {
         "type": "box",
         "min": [
-          -0.06,
-          -1.15,
-          -0.08
+          -0.8225,
+          -0.065,
+          -0.1275
         ],
         "max": [
-          0.06,
-          1.15,
-          0.08
+          0.8225,
+          0.065,
+          0.1275
         ]
+      },
+      "layout": {
+        "role": "trim",
+        "purpose": "Wall base/skirting",
+        "surface": "wood",
+        "support": "arch-door-partition-panel-0"
       }
     },
     {
-      "id": "doorframe-header",
+      "id": "arch-door-partition-skirting-1",
+      "label": "Wall base/skirting",
+      "transform": {
+        "space": "world",
+        "position": [
+          1.3775000000000002,
+          0.065,
+          -8
+        ]
+      },
+      "visual": {
+        "type": "primitive",
+        "shape": "box",
+        "params": {
+          "size": [
+            1.645,
+            0.13,
+            0.255
+          ]
+        },
+        "color": "#8e6b4f"
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.8225,
+          -0.065,
+          -0.1275
+        ],
+        "max": [
+          0.8225,
+          0.065,
+          0.1275
+        ]
+      },
+      "layout": {
+        "role": "trim",
+        "purpose": "Wall base/skirting",
+        "surface": "wood",
+        "support": "arch-door-partition-panel-0"
+      }
+    },
+    {
+      "id": "arch-hall-light-0-mount",
+      "label": "Ceiling-mounted luminaire housing",
       "transform": {
         "space": "world",
         "position": [
           0,
-          2.3,
-          -8.08
+          3.1550000000000002,
+          5
         ]
       },
       "visual": {
@@ -284,217 +1672,784 @@
         "shape": "box",
         "params": {
           "size": [
-            1.4,
-            0.12,
-            0.16
+            0.7,
+            0.09,
+            0.24
           ]
         },
-        "color": "#57463c"
+        "color": "#465256"
       },
       "bounds": {
         "type": "box",
         "min": [
-          -0.7,
-          -0.06,
-          -0.08
+          -0.35,
+          -0.045,
+          -0.12
         ],
         "max": [
-          0.7,
-          0.06,
-          0.08
+          0.35,
+          0.045,
+          0.12
         ]
+      },
+      "layout": {
+        "role": "fixture",
+        "purpose": "Ceiling-mounted luminaire housing",
+        "surface": "metal",
+        "support": "arch-corridor-ceiling"
       }
     },
     {
-      "id": "set-vending-machine-00",
-      "label": "vending machine",
+      "id": "arch-hall-light-0",
+      "label": "Downward practical ceiling light",
       "transform": {
         "space": "world",
         "position": [
-          -3,
           0,
-          -4
+          3.0980000000000003,
+          5
         ]
       },
       "visual": {
-        "type": "model",
-        "url": "/models/generated/vending-machine.glb",
-        "fallback": {
-          "type": "primitive",
-          "shape": "box",
-          "params": {
-            "width": 1.15,
-            "height": 0.2,
-            "depth": 0.3
-          },
-          "color": "#717c87"
+        "type": "primitive",
+        "shape": "box",
+        "params": {
+          "size": [
+            0.62,
+            0.025,
+            0.16
+          ]
+        },
+        "color": "#f6deb6"
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.31,
+          -0.0125,
+          -0.08
+        ],
+        "max": [
+          0.31,
+          0.0125,
+          0.08
+        ]
+      },
+      "layout": {
+        "role": "fixture",
+        "purpose": "Downward practical ceiling light",
+        "surface": "emissive",
+        "support": "arch-hall-light-0-mount",
+        "light": {
+          "color": "#ffe8c9",
+          "intensity": 24,
+          "distance": 9
         }
+      }
+    },
+    {
+      "id": "arch-hall-light-1-mount",
+      "label": "Ceiling-mounted luminaire housing",
+      "transform": {
+        "space": "world",
+        "position": [
+          0,
+          3.1550000000000002,
+          -1
+        ]
+      },
+      "visual": {
+        "type": "primitive",
+        "shape": "box",
+        "params": {
+          "size": [
+            0.7,
+            0.09,
+            0.24
+          ]
+        },
+        "color": "#465256"
       },
       "bounds": {
         "type": "box",
         "min": [
-          -0.575,
-          0,
-          -0.2
+          -0.35,
+          -0.045,
+          -0.12
         ],
         "max": [
-          0.575,
-          1.7,
-          0.2525
+          0.35,
+          0.045,
+          0.12
         ]
+      },
+      "layout": {
+        "role": "fixture",
+        "purpose": "Ceiling-mounted luminaire housing",
+        "surface": "metal",
+        "support": "arch-corridor-ceiling"
       }
     },
     {
-      "id": "set-vending-machine-01",
-      "label": "vending machine",
+      "id": "arch-hall-light-1",
+      "label": "Downward practical ceiling light",
       "transform": {
         "space": "world",
         "position": [
-          3,
           0,
+          3.0980000000000003,
+          -1
+        ]
+      },
+      "visual": {
+        "type": "primitive",
+        "shape": "box",
+        "params": {
+          "size": [
+            0.62,
+            0.025,
+            0.16
+          ]
+        },
+        "color": "#f6deb6"
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.31,
+          -0.0125,
+          -0.08
+        ],
+        "max": [
+          0.31,
+          0.0125,
+          0.08
+        ]
+      },
+      "layout": {
+        "role": "fixture",
+        "purpose": "Downward practical ceiling light",
+        "surface": "emissive",
+        "support": "arch-hall-light-1-mount",
+        "light": {
+          "color": "#ffe8c9",
+          "intensity": 24,
+          "distance": 9
+        }
+      }
+    },
+    {
+      "id": "arch-hall-light-2-mount",
+      "label": "Ceiling-mounted luminaire housing",
+      "transform": {
+        "space": "world",
+        "position": [
+          0,
+          3.1550000000000002,
+          -5.4
+        ]
+      },
+      "visual": {
+        "type": "primitive",
+        "shape": "box",
+        "params": {
+          "size": [
+            0.7,
+            0.09,
+            0.24
+          ]
+        },
+        "color": "#465256"
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.35,
+          -0.045,
+          -0.12
+        ],
+        "max": [
+          0.35,
+          0.045,
+          0.12
+        ]
+      },
+      "layout": {
+        "role": "fixture",
+        "purpose": "Ceiling-mounted luminaire housing",
+        "surface": "metal",
+        "support": "arch-corridor-ceiling"
+      }
+    },
+    {
+      "id": "arch-hall-light-2",
+      "label": "Downward practical ceiling light",
+      "transform": {
+        "space": "world",
+        "position": [
+          0,
+          3.0980000000000003,
+          -5.4
+        ]
+      },
+      "visual": {
+        "type": "primitive",
+        "shape": "box",
+        "params": {
+          "size": [
+            0.62,
+            0.025,
+            0.16
+          ]
+        },
+        "color": "#f6deb6"
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.31,
+          -0.0125,
+          -0.08
+        ],
+        "max": [
+          0.31,
+          0.0125,
+          0.08
+        ]
+      },
+      "layout": {
+        "role": "fixture",
+        "purpose": "Downward practical ceiling light",
+        "surface": "emissive",
+        "support": "arch-hall-light-2-mount",
+        "light": {
+          "color": "#ffe8c9",
+          "intensity": 24,
+          "distance": 9
+        }
+      }
+    },
+    {
+      "id": "arch-service-room-shelf",
+      "label": "Utility cupboard against service-room wall",
+      "transform": {
+        "space": "world",
+        "position": [
+          1.86,
+          1.1,
+          -10.4
+        ]
+      },
+      "visual": {
+        "type": "primitive",
+        "shape": "box",
+        "params": {
+          "size": [
+            0.36,
+            2.2,
+            0.95
+          ]
+        },
+        "color": "#8e6b4f"
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.18,
+          -1.1,
+          -0.475
+        ],
+        "max": [
+          0.18,
+          1.1,
+          0.475
+        ]
+      },
+      "layout": {
+        "role": "furniture",
+        "purpose": "Utility cupboard against service-room wall",
+        "surface": "wood",
+        "support": "ground"
+      }
+    },
+    {
+      "id": "arch-hall-exit-sign",
+      "label": "Exit sign mounted over hall entrance",
+      "transform": {
+        "space": "world",
+        "position": [
+          0,
+          2.62,
+          7.85
+        ]
+      },
+      "visual": {
+        "type": "primitive",
+        "shape": "box",
+        "params": {
+          "size": [
+            0.66,
+            0.24,
+            0.08
+          ]
+        },
+        "color": "#52725d"
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.33,
+          -0.12,
+          -0.04
+        ],
+        "max": [
+          0.33,
+          0.12,
+          0.04
+        ]
+      },
+      "layout": {
+        "role": "fixture",
+        "purpose": "Exit sign mounted over hall entrance",
+        "surface": "emissive",
+        "support": "hall-entry-head",
+        "sign": "EXIT"
+      }
+    },
+    {
+      "id": "arch-radiator-fin-0",
+      "label": "Wall-mounted radiator",
+      "transform": {
+        "space": "world",
+        "position": [
+          -2.0100000000000002,
+          0.6,
           2
         ]
       },
       "visual": {
-        "type": "model",
-        "url": "/models/generated/vending-machine.glb",
-        "fallback": {
-          "type": "primitive",
-          "shape": "box",
-          "params": {
-            "width": 1.15,
-            "height": 0.2,
-            "depth": 0.3
-          },
-          "color": "#717c87"
-        }
-      },
-      "bounds": {
-        "type": "box",
-        "min": [
-          -0.575,
-          0,
-          -0.2
-        ],
-        "max": [
-          0.575,
-          1.7,
-          0.2525
-        ]
-      }
-    },
-    {
-      "id": "set-vending-machine-02",
-      "label": "vending machine",
-      "transform": {
-        "space": "world",
-        "position": [
-          -3,
-          0,
-          6
-        ]
-      },
-      "visual": {
-        "type": "model",
-        "url": "/models/generated/vending-machine.glb",
-        "fallback": {
-          "type": "primitive",
-          "shape": "box",
-          "params": {
-            "width": 1.15,
-            "height": 0.2,
-            "depth": 0.3
-          },
-          "color": "#717c87"
-        }
-      },
-      "bounds": {
-        "type": "box",
-        "min": [
-          -0.575,
-          0,
-          -0.2
-        ],
-        "max": [
-          0.575,
-          1.7,
-          0.2525
-        ]
-      }
-    },
-    {
-      "id": "set-support-03",
-      "label": "distant caretaker, #3b4350 jacket; supporting subject, not the principal actor",
-      "transform": {
-        "space": "world",
-        "position": [
-          3.2,
-          0,
-          -10
-        ]
-      },
-      "visual": {
-        "type": "preset",
-        "name": "humanoid",
+        "type": "primitive",
+        "shape": "box",
         "params": {
-          "height": 1.8,
-          "shirtColor": "#3b4350",
-          "trouserColor": "#283341",
-          "color": "#ad805f",
-          "motion": "idle"
-        }
+          "size": [
+            0.12,
+            0.58,
+            0.052
+          ]
+        },
+        "color": "#abb0aa"
       },
       "bounds": {
         "type": "box",
         "min": [
-          -0.325,
-          0,
-          -0.25
+          -0.06,
+          -0.29,
+          -0.026
         ],
         "max": [
-          0.325,
-          1.8,
-          0.25
+          0.06,
+          0.29,
+          0.026
         ]
+      },
+      "layout": {
+        "role": "fixture",
+        "purpose": "Wall-mounted radiator",
+        "surface": "metal",
+        "support": "arch-corridor-west-end"
       }
     },
     {
-      "id": "set-workbench-04",
-      "label": "workbench",
+      "id": "arch-radiator-fin-1",
+      "label": "Wall-mounted radiator",
       "transform": {
         "space": "world",
         "position": [
-          -3.4,
-          0,
-          -9
+          -2.0100000000000002,
+          0.6,
+          2.075
         ]
       },
       "visual": {
-        "type": "model",
-        "url": "/models/generated/workbench.glb",
-        "fallback": {
-          "type": "primitive",
-          "shape": "box",
-          "params": {
-            "width": 1.8,
-            "height": 0.2,
-            "depth": 0.3
-          },
-          "color": "#717c87"
-        }
+        "type": "primitive",
+        "shape": "box",
+        "params": {
+          "size": [
+            0.12,
+            0.58,
+            0.052
+          ]
+        },
+        "color": "#abb0aa"
       },
       "bounds": {
         "type": "box",
         "min": [
-          -0.9,
-          0,
-          -0.36
+          -0.06,
+          -0.29,
+          -0.026
         ],
         "max": [
-          0.9,
-          0.93,
-          0.36
+          0.06,
+          0.29,
+          0.026
         ]
+      },
+      "layout": {
+        "role": "fixture",
+        "purpose": "Wall-mounted radiator",
+        "surface": "metal",
+        "support": "arch-corridor-west-end"
+      }
+    },
+    {
+      "id": "arch-radiator-fin-2",
+      "label": "Wall-mounted radiator",
+      "transform": {
+        "space": "world",
+        "position": [
+          -2.0100000000000002,
+          0.6,
+          2.15
+        ]
+      },
+      "visual": {
+        "type": "primitive",
+        "shape": "box",
+        "params": {
+          "size": [
+            0.12,
+            0.58,
+            0.052
+          ]
+        },
+        "color": "#abb0aa"
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.06,
+          -0.29,
+          -0.026
+        ],
+        "max": [
+          0.06,
+          0.29,
+          0.026
+        ]
+      },
+      "layout": {
+        "role": "fixture",
+        "purpose": "Wall-mounted radiator",
+        "surface": "metal",
+        "support": "arch-corridor-west-end"
+      }
+    },
+    {
+      "id": "arch-radiator-fin-3",
+      "label": "Wall-mounted radiator",
+      "transform": {
+        "space": "world",
+        "position": [
+          -2.0100000000000002,
+          0.6,
+          2.225
+        ]
+      },
+      "visual": {
+        "type": "primitive",
+        "shape": "box",
+        "params": {
+          "size": [
+            0.12,
+            0.58,
+            0.052
+          ]
+        },
+        "color": "#abb0aa"
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.06,
+          -0.29,
+          -0.026
+        ],
+        "max": [
+          0.06,
+          0.29,
+          0.026
+        ]
+      },
+      "layout": {
+        "role": "fixture",
+        "purpose": "Wall-mounted radiator",
+        "surface": "metal",
+        "support": "arch-corridor-west-end"
+      }
+    },
+    {
+      "id": "arch-radiator-fin-4",
+      "label": "Wall-mounted radiator",
+      "transform": {
+        "space": "world",
+        "position": [
+          -2.0100000000000002,
+          0.6,
+          2.3
+        ]
+      },
+      "visual": {
+        "type": "primitive",
+        "shape": "box",
+        "params": {
+          "size": [
+            0.12,
+            0.58,
+            0.052
+          ]
+        },
+        "color": "#abb0aa"
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.06,
+          -0.29,
+          -0.026
+        ],
+        "max": [
+          0.06,
+          0.29,
+          0.026
+        ]
+      },
+      "layout": {
+        "role": "fixture",
+        "purpose": "Wall-mounted radiator",
+        "surface": "metal",
+        "support": "arch-corridor-west-end"
+      }
+    },
+    {
+      "id": "arch-radiator-fin-5",
+      "label": "Wall-mounted radiator",
+      "transform": {
+        "space": "world",
+        "position": [
+          -2.0100000000000002,
+          0.6,
+          2.375
+        ]
+      },
+      "visual": {
+        "type": "primitive",
+        "shape": "box",
+        "params": {
+          "size": [
+            0.12,
+            0.58,
+            0.052
+          ]
+        },
+        "color": "#abb0aa"
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.06,
+          -0.29,
+          -0.026
+        ],
+        "max": [
+          0.06,
+          0.29,
+          0.026
+        ]
+      },
+      "layout": {
+        "role": "fixture",
+        "purpose": "Wall-mounted radiator",
+        "surface": "metal",
+        "support": "arch-corridor-west-end"
+      }
+    },
+    {
+      "id": "arch-radiator-fin-6",
+      "label": "Wall-mounted radiator",
+      "transform": {
+        "space": "world",
+        "position": [
+          -2.0100000000000002,
+          0.6,
+          2.45
+        ]
+      },
+      "visual": {
+        "type": "primitive",
+        "shape": "box",
+        "params": {
+          "size": [
+            0.12,
+            0.58,
+            0.052
+          ]
+        },
+        "color": "#abb0aa"
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.06,
+          -0.29,
+          -0.026
+        ],
+        "max": [
+          0.06,
+          0.29,
+          0.026
+        ]
+      },
+      "layout": {
+        "role": "fixture",
+        "purpose": "Wall-mounted radiator",
+        "surface": "metal",
+        "support": "arch-corridor-west-end"
+      }
+    },
+    {
+      "id": "arch-radiator-fin-7",
+      "label": "Wall-mounted radiator",
+      "transform": {
+        "space": "world",
+        "position": [
+          -2.0100000000000002,
+          0.6,
+          2.525
+        ]
+      },
+      "visual": {
+        "type": "primitive",
+        "shape": "box",
+        "params": {
+          "size": [
+            0.12,
+            0.58,
+            0.052
+          ]
+        },
+        "color": "#abb0aa"
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.06,
+          -0.29,
+          -0.026
+        ],
+        "max": [
+          0.06,
+          0.29,
+          0.026
+        ]
+      },
+      "layout": {
+        "role": "fixture",
+        "purpose": "Wall-mounted radiator",
+        "surface": "metal",
+        "support": "arch-corridor-west-end"
+      }
+    },
+    {
+      "id": "arch-radiator-fin-8",
+      "label": "Wall-mounted radiator",
+      "transform": {
+        "space": "world",
+        "position": [
+          -2.0100000000000002,
+          0.6,
+          2.6
+        ]
+      },
+      "visual": {
+        "type": "primitive",
+        "shape": "box",
+        "params": {
+          "size": [
+            0.12,
+            0.58,
+            0.052
+          ]
+        },
+        "color": "#abb0aa"
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.06,
+          -0.29,
+          -0.026
+        ],
+        "max": [
+          0.06,
+          0.29,
+          0.026
+        ]
+      },
+      "layout": {
+        "role": "fixture",
+        "purpose": "Wall-mounted radiator",
+        "surface": "metal",
+        "support": "arch-corridor-west-end"
+      }
+    },
+    {
+      "id": "arch-hall-runner-0",
+      "label": "Continuous unobstructed corridor circulation",
+      "transform": {
+        "space": "world",
+        "position": [
+          0,
+          -0.02,
+          0.125
+        ],
+        "rotation": [
+          0,
+          1,
+          0,
+          0
+        ]
+      },
+      "visual": {
+        "type": "primitive",
+        "shape": "box",
+        "params": {
+          "size": [
+            1.35,
+            0.05,
+            15.375
+          ]
+        },
+        "color": "#756c60"
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.675,
+          -0.025,
+          -7.6875
+        ],
+        "max": [
+          0.675,
+          0.025,
+          7.6875
+        ]
+      },
+      "layout": {
+        "role": "paving",
+        "purpose": "Continuous unobstructed corridor circulation",
+        "surface": "concrete",
+        "support": "ground"
       }
     }
   ],
@@ -504,41 +2459,22 @@
       "entityId": "half-open-door-entity",
       "label": "در نیمه‌باز",
       "localAnchor": [
-        0,
+        0.525,
         1.1,
         0
       ],
       "localBounds": {
         "type": "box",
         "min": [
-          -0.53,
+          -0.0050000000000000044,
           0,
           -0.08
         ],
         "max": [
-          0.53,
+          1.0550000000000002,
           2.2,
           0.08
         ]
-      }
-    },
-    {
-      "id": "set-support-03-face",
-      "entityId": "set-support-03",
-      "label": "distant caretaker, #3b4350 jacket; supporting subject, not the principal actor face",
-      "localAnchor": [
-        0,
-        1.63,
-        0.12
-      ],
-      "localBounds": {
-        "type": "sphere",
-        "center": [
-          0,
-          1.63,
-          0.12
-        ],
-        "radius": 0.16
       }
     }
   ]

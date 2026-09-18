@@ -11,7 +11,7 @@
   },
   "prompt": "A 5-second suspended-time shot. Hold the camera for the first 2 seconds while the floating subject moves normally. At exactly 2 seconds freeze the scene, but orbit the camera one complete revolution (360 degrees) around the subject over the next 2 seconds. At 4 seconds hold the camera again and restore normal scene speed for the final second. No cut.",
   "promptSha256": "7d064c879dc3163d64de8c7dfe9f561ed654a83b1e72072da82557bd84c9bfcf",
-  "environmentSha256": "5cb06dda37722ed194f9a1ac765468d58777390409953825f3b3920915d1b8ee",
+  "environmentSha256": "5164a8c39eb755c4bf918e2f8442f42a083ebfee23c5d26322de7f618a457456",
   "cslSha256": "0926643c80c5959dfebe332f7d7b002a280fea3093d512b421bd0d2f5a739355",
   "recipeSha256": "672d30288ffa3e8018fd0407e8b30aa6e48db8999270289fce391e8f77b6bbdd",
   "trajectorySha256": "f07a2f016fff5fb3a5844c8db64197a03c94b1c06d6fc8ebe7971da2b3aafd8c",

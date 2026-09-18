@@ -21,11 +21,13 @@
     "audit:motion": "ts-node ./scripts/audit-example-motion.ts",
     "generate:assets": "python3 scripts/generate-scene-assets.py",
     "generate:references": "ts-node scripts/generate-reference-trajectories.ts",
-    "generate:examples": "npm run generate:assets && npm run generate:references && npm run audit:references",
+    "generate:examples": "npm run generate:assets && npm run generate:references && npm run audit:environments && npm run audit:references",
     "audit:references": "ts-node scripts/audit-references.ts --strict",
     "benchmark:references": "ts-node scripts/benchmark-references.ts",
     "typecheck:references": "tsc -p tsconfig.references.json",
-    "test:references": "node --test -r ts-node/register tests/reference*.test.ts"
+    "test:references": "node --test -r ts-node/register tests/reference*.test.ts",
+    "audit:environments": "ts-node scripts/audit-environments.ts",
+    "test:environments": "node --test -r ts-node/register tests/environment-layout.test.ts"
   },
   "keywords": [],
   "author": "",

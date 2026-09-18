@@ -1,0 +1,478 @@
+{
+  "schemaVersion": "1.0",
+  "kind": "environment",
+  "id": "example-23-factory-convergence",
+  "promptExampleId": "example-23",
+  "prompt": "A 20-second ensemble reveal in the populated factory. Follow worker A for the first 6 seconds. From 6 to 10 seconds arc 90 degrees right around workers A and B, bringing both fully into frame by 10 seconds. Track both from 10 to 15 seconds. From 15 to 18 seconds dolly backward while craning upward, revealing the workers, yellow forklift, steel mezzanine, and loading bay together. Freeze the scene and lock off for the final 2 seconds, holding that wide ensemble frame. Keep a level horizon, smooth motion and clear sightlines; no cut. Supporting technicians remain secondary.",
+  "clock": {
+    "durationSeconds": 20,
+    "timeDomain": "playback",
+    "fpsHint": 60
+  },
+  "coordinates": {
+    "handedness": "right",
+    "upAxis": "+Y",
+    "cameraForwardAxis": "-Z",
+    "lengthUnit": "meter",
+    "rotationOrder": "quaternion-xyzw"
+  },
+  "evaluation": {
+    "distanceMetric": "boundsSurface",
+    "epsilon": 0.05
+  },
+  "world": {
+    "profile": "industrial",
+    "background": "#343b40",
+    "overviewCamera": {
+      "position": [
+        16,
+        12,
+        20
+      ],
+      "target": [
+        0,
+        2,
+        0
+      ]
+    },
+    "ground": {
+      "y": 0,
+      "size": [
+        32,
+        26
+      ],
+      "color": "#85847e",
+      "surface": "concrete"
+    },
+    "grid": {
+      "size": 32,
+      "divisions": 32
+    }
+  },
+  "entities": [
+    {
+      "id": "worker_a",
+      "label": "کارگر الف",
+      "transform": {
+        "space": "world",
+        "position": {
+          "interpolation": "catmullRom",
+          "extrapolation": "hold",
+          "keyframes": [
+            {
+              "t": 0,
+              "value": [
+                6,
+                0,
+                6
+              ]
+            },
+            {
+              "t": 3,
+              "value": [
+                3.5,
+                0,
+                3.5
+              ]
+            },
+            {
+              "t": 6,
+              "value": [
+                1,
+                0,
+                1.5
+              ]
+            },
+            {
+              "t": 9,
+              "value": [
+                0,
+                0,
+                0
+              ]
+            },
+            {
+              "t": 12,
+              "value": [
+                -1,
+                0,
+                -0.5
+              ]
+            },
+            {
+              "t": 15,
+              "value": [
+                -3.5,
+                0,
+                -2.5
+              ]
+            },
+            {
+              "t": 20,
+              "value": [
+                -5,
+                0,
+                -4
+              ]
+            }
+          ]
+        }
+      },
+      "visual": {
+        "type": "preset",
+        "name": "humanoid",
+        "params": {
+          "height": 1.9,
+          "radius": 0.35
+        }
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.35,
+          0,
+          -0.35
+        ],
+        "max": [
+          0.35,
+          1.9,
+          0.35
+        ]
+      }
+    },
+    {
+      "id": "worker_b",
+      "label": "کارگر ب",
+      "transform": {
+        "space": "world",
+        "position": {
+          "interpolation": "catmullRom",
+          "extrapolation": "hold",
+          "keyframes": [
+            {
+              "t": 0,
+              "value": [
+                -6,
+                0,
+                -3
+              ]
+            },
+            {
+              "t": 3,
+              "value": [
+                -4,
+                0,
+                -1.5
+              ]
+            },
+            {
+              "t": 6,
+              "value": [
+                -2,
+                0,
+                0.5
+              ]
+            },
+            {
+              "t": 8,
+              "value": [
+                -0.5,
+                0,
+                2
+              ]
+            },
+            {
+              "t": 10,
+              "value": [
+                2.5,
+                0,
+                5
+              ]
+            },
+            {
+              "t": 12,
+              "value": [
+                5.5,
+                0,
+                6.8
+              ]
+            },
+            {
+              "t": 15,
+              "value": [
+                6,
+                0,
+                7
+              ]
+            },
+            {
+              "t": 20,
+              "value": [
+                9,
+                0,
+                9
+              ]
+            }
+          ]
+        }
+      },
+      "visual": {
+        "type": "preset",
+        "name": "humanoid",
+        "params": {
+          "height": 1.85,
+          "radius": 0.34
+        }
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.34,
+          0,
+          -0.34
+        ],
+        "max": [
+          0.34,
+          1.85,
+          0.34
+        ]
+      }
+    },
+    {
+      "id": "central_machine",
+      "label": "دستگاه مرکزی",
+      "transform": {
+        "space": "world",
+        "position": [
+          0,
+          2,
+          -11
+        ]
+      },
+      "visual": {
+        "type": "primitive",
+        "shape": "box",
+        "params": {
+          "size": [
+            4,
+            4,
+            3
+          ]
+        },
+        "color": "#777777"
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -2,
+          -2,
+          -1.5
+        ],
+        "max": [
+          2,
+          2,
+          1.5
+        ]
+      }
+    },
+    {
+      "id": "shelf_left",
+      "label": "قفسه‌های سمت چپ",
+      "transform": {
+        "space": "world",
+        "position": [
+          -7,
+          0,
+          2.5
+        ]
+      },
+      "visual": {
+        "type": "model",
+        "url": "/models/generated/warehouse-shelf.glb"
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -1.5,
+          0,
+          -0.54
+        ],
+        "max": [
+          1.5,
+          3,
+          0.54
+        ]
+      }
+    },
+    {
+      "id": "shelf_right",
+      "label": "قفسه‌های سمت راست",
+      "transform": {
+        "space": "world",
+        "position": [
+          7,
+          0,
+          -2.5
+        ]
+      },
+      "visual": {
+        "type": "model",
+        "url": "/models/generated/warehouse-shelf.glb"
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -1.5,
+          0,
+          -0.54
+        ],
+        "max": [
+          1.5,
+          3,
+          0.54
+        ]
+      }
+    },
+    {
+      "id": "pillar_a",
+      "label": "ستون نگهدارندهٔ الف",
+      "transform": {
+        "space": "world",
+        "position": [
+          -9,
+          3.5,
+          7
+        ]
+      },
+      "visual": {
+        "type": "primitive",
+        "shape": "cylinder",
+        "params": {
+          "radius": 0.45,
+          "height": 7
+        },
+        "color": "#666666"
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.5,
+          -3.5,
+          -0.5
+        ],
+        "max": [
+          0.5,
+          3.5,
+          0.5
+        ]
+      }
+    },
+    {
+      "id": "pillar_b",
+      "label": "ستون نگهدارندهٔ ب",
+      "transform": {
+        "space": "world",
+        "position": [
+          4.5,
+          3.5,
+          -5
+        ]
+      },
+      "visual": {
+        "type": "primitive",
+        "shape": "cylinder",
+        "params": {
+          "radius": 0.45,
+          "height": 7
+        },
+        "color": "#666666"
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.5,
+          -3.5,
+          -0.5
+        ],
+        "max": [
+          0.5,
+          3.5,
+          0.5
+        ]
+      }
+    },
+    {
+      "id": "loading_bay_frame",
+      "label": "چارچوب سکوی بارگیری",
+      "transform": {
+        "space": "world",
+        "position": [
+          20,
+          0,
+          14
+        ]
+      },
+      "visual": {
+        "type": "model",
+        "url": "/models/generated/loading-bay-portal.glb"
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.25,
+          0,
+          -4
+        ],
+        "max": [
+          0.25,
+          6,
+          4
+        ]
+      },
+      "occlusion": {
+        "bounds": [
+          {
+            "type": "box",
+            "min": [
+              -0.25,
+              0,
+              -4
+            ],
+            "max": [
+              0.25,
+              6,
+              -3.5999999999999996
+            ]
+          },
+          {
+            "type": "box",
+            "min": [
+              -0.25,
+              0,
+              3.5999999999999996
+            ],
+            "max": [
+              0.25,
+              6,
+              4
+            ]
+          },
+          {
+            "type": "box",
+            "min": [
+              -0.25,
+              5.6,
+              -4
+            ],
+            "max": [
+              0.25,
+              6,
+              4
+            ]
+          }
+        ]
+      }
+    }
+  ],
+  "semanticAnchors": []
+}

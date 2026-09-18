@@ -19,6 +19,8 @@ import { sampleCameraTrajectory } from "./trajectory-loader";
 import { createDetailedPreset } from "./detailed-presets";
 import { getHumanoidRig } from "./humanoid";
 import { createHumanoidMotion } from "./humanoid-motion";
+import { createArchitectureVisual } from "./architecture-materials";
+import { visibleInArchitectureOverview } from "./architecture-visibility";
 import { createEnvironmentProp } from "./environment-props";
 import { ModelAssetManager, disposeObject3D, prepareVisualShadows } from "./model-assets";
 import { createSurfaceMaterial, createWorldGround, getWorldLook } from "./world-appearance";
@@ -33,6 +35,7 @@ export interface SceneRendererOptions {
   showPath?: boolean;
   showBounds?: boolean;
   showLabels?: boolean;
+  cutaway?: boolean;
   /** Upper bound for the renderer's pixel ratio. Defaults to 2. */
   maxPixelRatio?: number;
 }
@@ -41,6 +44,7 @@ export interface SceneRendererToggles {
   path?: boolean;
   bounds?: boolean;
   labels?: boolean;
+  cutaway?: boolean;
 }
 
 interface LabelRecord {
@@ -239,6 +243,8 @@ function createEntityVisual(entity: SceneEntityV1): THREE.Object3D {
       ? createEntityVisual({ ...entity, visual: fallback })
       : createBoundsVisual(entity.bounds ?? { type: "sphere", center: [0, 0.5, 0], radius: 0.5 }, 0x7c8a96);
   }
+  const architecture = createArchitectureVisual(entity);
+  if (architecture) return architecture;
   const detailed = createEnvironmentProp(entity);
   if (detailed) return detailed;
   if (entity.visual.type === "primitive" && entity.visual.shape === "box"
@@ -382,6 +388,8 @@ export class SceneRenderer {
   private showPath: boolean;
   private showBounds: boolean;
   private showLabels: boolean;
+  private cutaway: boolean;
+  private readonly architectureEntities = new Map<string, SceneEntityV1>();
   private disposed = false;
 
   constructor(canvas: HTMLCanvasElement, options: SceneRendererOptions = {}) {
@@ -390,6 +398,7 @@ export class SceneRenderer {
     this.showPath = options.showPath ?? true;
     this.showBounds = options.showBounds ?? false;
     this.showLabels = options.showLabels ?? true;
+    this.cutaway = options.cutaway ?? true;
     this.maxPixelRatio = Math.max(1, options.maxPixelRatio ?? 2);
 
     this.renderer = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: false });
@@ -540,6 +549,14 @@ export class SceneRenderer {
       root.add(visual);
       this.environmentRoot.add(root);
       this.entityObjects.set(entity.id, root);
+      if (entity.layout) this.architectureEntities.set(entity.id, entity);
+      if (entity.layout?.light) {
+        const { color, intensity, distance, offset } = entity.layout.light;
+        const light = new THREE.PointLight(color, intensity, distance, 2);
+        light.position.fromArray(offset ?? [0, -0.18, 0]);
+        // Practical fill is unshadowed; primary shadow map remains shared.
+        root.add(light);
+      }
       this.entitySubjectCenters.set(entity.id, boundsCenter(entity.bounds));
       const rig = getHumanoidRig(visual);
       if (rig) {
@@ -649,7 +666,13 @@ export class SceneRenderer {
     this.applyVisibility();
   }
 
+  setCutaway(show: boolean): void {
+    this.cutaway = show;
+    this.applyArchitectureVisibility();
+  }
+
   setToggles(toggles: SceneRendererToggles): void {
+    if (toggles.cutaway !== undefined) this.cutaway = toggles.cutaway;
     if (toggles.path !== undefined) this.showPath = toggles.path;
     if (toggles.bounds !== undefined) this.showBounds = toggles.bounds;
     if (toggles.labels !== undefined) this.showLabels = toggles.labels;
@@ -715,6 +738,7 @@ export class SceneRenderer {
     this.assertUsable();
     if (this.viewMode === "god") this.controls.update();
     this.cameraHelper.update();
+    this.applyArchitectureVisibility();
     const size = this.renderer.getSize(new THREE.Vector2());
     this.renderer.setViewport(0, 0, size.x, size.y);
     const aspect = this.viewMode === "director" ? this.trajectory?.intrinsics.aspectRatio : undefined;
@@ -952,7 +976,32 @@ export class SceneRenderer {
     }
   }
 
+  private applyArchitectureVisibility(): void {
+    const camera = this.godCamera.position.toArray() as Vec3;
+    const visible = new Map<string, boolean>();
+    const visiting = new Set<string>();
+    const visit = (id: string): boolean => {
+      if (visible.has(id)) return visible.get(id)!;
+      const entity = this.architectureEntities.get(id);
+      const object = this.entityObjects.get(id);
+      if (!entity || !object || visiting.has(id)) return true;
+      visiting.add(id);
+      let show = visibleInArchitectureOverview(entity, camera, object.position.toArray() as Vec3,
+        this.cutaway, this.viewMode === "director");
+      // Wall trim and ceiling-mounted luminaires disappear with their support,
+      // not as apparently floating pieces left behind by a cutaway.
+      const support = entity.layout?.support;
+      if (show && support && support !== "ground") show = visit(support);
+      visiting.delete(id);
+      visible.set(id, show);
+      object.visible = show;
+      return show;
+    };
+    this.architectureEntities.forEach((_entity, id) => visit(id));
+  }
+
   private applyVisibility(): void {
+    this.applyArchitectureVisibility();
     const overview = this.viewMode === "god";
     this.groundGrid.visible = overview && this.showBounds;
     this.trajectoryRoot.visible = overview && this.showPath && this.trajectory !== null;
@@ -973,6 +1022,7 @@ export class SceneRenderer {
   }
 
   private clearEnvironment(): void {
+    this.architectureEntities.clear();
     this.humanoidMotions.clear();
     this.models.clear();
     for (const child of [...this.groundGrid.children]) disposeObject(child);

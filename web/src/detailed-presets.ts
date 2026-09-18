@@ -298,7 +298,10 @@ function door(visual: PresetVisualV1): THREE.Group {
     model.add(new THREE.CylinderGeometry(d * 0.13, d * 0.13, h * 0.037, 16), brass,
       [-w * 0.487, h * hinge, d * 0.37]);
   }
-  return model.finish("detailed-door");
+  const leaf = model.finish("detailed-door");
+  // Authored architectural doors rotate around a jamb-fixed hinge, not their centre.
+  if (visual.params?.hingeOrigin === true) leaf.position.x = w / 2;
+  return leaf;
 }
 
 function vase(visual: PresetVisualV1): THREE.Group {

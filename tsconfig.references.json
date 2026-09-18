@@ -1,10 +1,19 @@
 {
   "extends": "./tsconfig.json",
-  "compilerOptions": { "noEmit": true, "declaration": false },
+  "compilerOptions": {
+    "noEmit": true,
+    "declaration": false
+  },
   "include": [
-    "src/reference/**/*.ts", "src/data/cinematic-improvements.ts",
-    "scripts/generate-reference-trajectories.ts", "scripts/audit-references.ts",
-    "scripts/benchmark-references.ts", "tests/reference*.test.ts",
-    "web/src/trajectory-source.ts"
+    "src/reference/**/*.ts",
+    "src/data/cinematic-improvements.ts",
+    "scripts/generate-reference-trajectories.ts",
+    "scripts/audit-references.ts",
+    "scripts/benchmark-references.ts",
+    "tests/reference*.test.ts",
+    "web/src/trajectory-source.ts",
+    "scripts/audit-environments.ts",
+    "tests/environment-layout.test.ts",
+    "web/src/architecture-visibility.ts"
   ]
 }

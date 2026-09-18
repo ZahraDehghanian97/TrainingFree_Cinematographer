@@ -1,0 +1,166 @@
+{
+  "schemaVersion": "1.0",
+  "kind": "environment",
+  "id": "example-06-frozen-orbit",
+  "promptExampleId": "example-06",
+  "prompt": "A 5-second suspended-time shot. Hold the camera for the first 2 seconds while the floating subject moves normally. At exactly 2 seconds freeze the scene, but orbit the camera one complete revolution (360 degrees) around the subject over the next 2 seconds. At 4 seconds hold the camera again and restore normal scene speed for the final second. No cut.",
+  "clock": {
+    "durationSeconds": 5,
+    "timeDomain": "playback",
+    "fpsHint": 24
+  },
+  "coordinates": {
+    "handedness": "right",
+    "upAxis": "+Y",
+    "cameraForwardAxis": "-Z",
+    "lengthUnit": "meter",
+    "rotationOrder": "quaternion-xyzw"
+  },
+  "evaluation": {
+    "distanceMetric": "anchorCenter"
+  },
+  "world": {
+    "profile": "studio",
+    "background": "#36383e",
+    "overviewCamera": {
+      "position": [
+        7,
+        5,
+        8
+      ],
+      "target": [
+        0.4,
+        1.5,
+        -0.4
+      ]
+    },
+    "ground": {
+      "y": 0,
+      "size": [
+        20,
+        20
+      ],
+      "color": "#83766c",
+      "surface": "wood"
+    },
+    "grid": {
+      "size": 20,
+      "divisions": 20
+    }
+  },
+  "entities": [
+    {
+      "id": "floating-subject-entity",
+      "label": "سوژهٔ معلق",
+      "transform": {
+        "space": "world",
+        "position": {
+          "interpolation": "linear",
+          "extrapolation": "hold",
+          "keyframes": [
+            {
+              "t": 0,
+              "value": [
+                0,
+                1.25,
+                0
+              ]
+            },
+            {
+              "t": 1.5,
+              "value": [
+                0.8,
+                1.42,
+                -0.9
+              ]
+            },
+            {
+              "t": 3,
+              "value": [
+                1.9,
+                1.55,
+                -2.1
+              ]
+            }
+          ]
+        }
+      },
+      "visual": {
+        "type": "preset",
+        "name": "humanoid",
+        "params": {
+          "color": "#c99a7b",
+          "shirtColor": "#653f89",
+          "motion": "float"
+        }
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.45,
+          0,
+          -0.3
+        ],
+        "max": [
+          0.45,
+          1.85,
+          0.3
+        ]
+      }
+    },
+    {
+      "id": "orbit-reference-ring",
+      "label": "نشانگر مرجع چرخش",
+      "transform": {
+        "space": "world",
+        "position": [
+          0,
+          0.035,
+          0
+        ],
+        "rotation": [
+          0.7071068,
+          0,
+          0,
+          0.7071068
+        ]
+      },
+      "visual": {
+        "type": "primitive",
+        "shape": "torus",
+        "params": {
+          "radius": 3.2,
+          "tube": 0.035,
+          "radialSegments": 12,
+          "tubularSegments": 96
+        },
+        "color": "#3487b8"
+      }
+    }
+  ],
+  "semanticAnchors": [
+    {
+      "id": "subject",
+      "entityId": "floating-subject-entity",
+      "label": "سوژه",
+      "localAnchor": [
+        0,
+        0.95,
+        0
+      ],
+      "localBounds": {
+        "type": "box",
+        "min": [
+          -0.45,
+          0,
+          -0.3
+        ],
+        "max": [
+          0.45,
+          1.85,
+          0.3
+        ]
+      }
+    }
+  ]
+}

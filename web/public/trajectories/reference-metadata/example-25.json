@@ -11,10 +11,10 @@
   },
   "prompt": "در مسیری قوسی با شعاع ۴ متر دور رقصنده بچرخ.",
   "promptSha256": "3249e5c642b12fc065ec32ef0430ba92dad6f96338be4c5569e1d590ff834547",
-  "environmentSha256": "15036a52c908133c36fc39e4cf016a5ac1fa8851374d116d798d6c259507e19d",
+  "environmentSha256": "1668e95a7cb987240b73795926656c5d5d13e3ebc12f9fa6fa0d4a1f49af33c4",
   "cslSha256": "db7bdefba92672e5b5720e1307cc66ed23361930cdd7a9e5f6d28aa27b67376f",
   "recipeSha256": "2874759532987c4329d62b38d2fe220d3921414835a5321c39e45bd907d1725c",
-  "trajectorySha256": "76e6aa2c0775e244cd42a5e0666234348193cb3e7375732adab07955d63b4ea5",
+  "trajectorySha256": "584467ccc4e3c1430546d653a2f0b32e1ce3c7a414b51a0c9bd9d1cc1f0ad8e3",
   "fullPoseIsGroundTruth": false,
   "artisticChoices": [
     "Unrequested rig offsets, radii, lens choices and smoothstep pacing are authored illustration choices, not inferred user constraints.",

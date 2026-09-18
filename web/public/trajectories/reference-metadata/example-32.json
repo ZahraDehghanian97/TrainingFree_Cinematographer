@@ -11,10 +11,10 @@
   },
   "prompt": "با میدان دید ۷۰ درجه شروع کن و روی صورت رقصنده دو برابر زوم کن.",
   "promptSha256": "45a0052e9d4e7077cd622279a64bb23f06a4186d1b3acc93c3324bfaac1a78a6",
-  "environmentSha256": "6e9aa1abc85cde0d948009ad9fe879ef411c5631d4ad1456e3a4fde778d133d3",
+  "environmentSha256": "8c7c157cc294338275bf00650bd5f886e9771b17ec7de286c1b2274015690eb5",
   "cslSha256": "89e3b45fd6ba4d0741ee62a08ac9be9e6ff8e14a0b6278972d1f9877508d2b4f",
   "recipeSha256": "2d48dbba8d66e20932cf096dc968f84fe0262e18038c51662aeafb9477acf7d0",
-  "trajectorySha256": "cb6e0f86bf0538844862f4759f11bd6df6e22060514005d70678e335516833b3",
+  "trajectorySha256": "1ae49d020916cf6220b3ea6a8bd4080eb3e65023488d562d82fb32d731ee07a0",
   "fullPoseIsGroundTruth": false,
   "artisticChoices": [
     "Unrequested rig offsets, radii, lens choices and smoothstep pacing are authored illustration choices, not inferred user constraints.",

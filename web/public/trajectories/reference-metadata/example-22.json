@@ -11,10 +11,10 @@
   },
   "prompt": "A 22-second warehouse one-take. Follow the principal worker through the open aisle for 6 seconds. From 6 to 10 seconds arc right while dollying closer to the worker. From 10 to 14 seconds crane upward to reveal the coworker and mezzanine. From 14 to 18 seconds follow both workers while dollying back into a shared frame. From 18 to 20 seconds crane up and zoom out to include both workers, the yellow forklift, and the mezzanine. Freeze scene time and hold the camera for the last 2 seconds. Keep motion smooth and subjects unobstructed; no cut. Use these authored beats, not a speed-below-threshold event that is already true at the start.",
   "promptSha256": "0bf3c1f21c797c1d2a518d876ecc0c53bd3c4b9f7ac6abdd17759145bfc59798",
-  "environmentSha256": "925cb24fde81e56113e38c9f0f3873580596a31f566212ffe2f1af18ce5143fc",
+  "environmentSha256": "336edb4cd840a91afa70887c4b0cfee1958b271521a8a52c9f73b0bcf4355598",
   "cslSha256": "007b5b1570aeca56666a14d9a7884d3577cf16c42178fb6edce09c90208dc9e0",
-  "recipeSha256": "4a21e0da6e4c8a3cb4a6d1ae73925aa0e71f94cff88c6e559b83c3f21ef70ccb",
-  "trajectorySha256": "90bd3faa0320bc99945a049cc68f57f5b6e11e400aba945a5e7a0b38afd8d6a4",
+  "recipeSha256": "88ee68323b8b15c6af17641f233f6ecb4a4e87867048c75c9c1463caf64ac43f",
+  "trajectorySha256": "34b1058188014d17bda4fa0fd317dd6c862c45cc3b06c3ab872998baae3dfdfc",
   "fullPoseIsGroundTruth": false,
   "artisticChoices": [
     "Unrequested rig offsets, radii, lens choices and smoothstep pacing are authored illustration choices, not inferred user constraints.",
@@ -136,10 +136,10 @@
           ],
           "holdAfter": 20
         },
-        "offset": [
-          14,
-          12,
-          22
+        "polar": [
+          105,
+          4.8,
+          14
         ],
         "aim": {
           "ids": [
@@ -149,7 +149,7 @@
             "set-mezzanine"
           ]
         },
-        "fov": 62
+        "fov": 72
       },
       {
         "at": 22,
@@ -162,10 +162,10 @@
           ],
           "holdAfter": 20
         },
-        "offset": [
-          14,
-          12,
-          22
+        "polar": [
+          105,
+          4.8,
+          14
         ],
         "aim": {
           "ids": [
@@ -175,7 +175,7 @@
             "set-mezzanine"
           ]
         },
-        "fov": 62
+        "fov": 72
       }
     ],
     "artisticChoices": [

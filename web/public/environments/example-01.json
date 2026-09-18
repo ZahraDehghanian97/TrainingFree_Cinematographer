@@ -25,28 +25,26 @@
     "background": "#b6cfde",
     "overviewCamera": {
       "position": [
-        12,
-        8,
-        14
+        21,
+        17,
+        25
       ],
       "target": [
         0,
-        0.8,
-        -1
+        1,
+        2
       ]
     },
     "ground": {
       "y": 0,
       "size": [
-        22,
-        32
+        30,
+        38
       ],
       "color": "#598044",
-      "surface": "grass"
-    },
-    "grid": {
-      "size": 22,
-      "divisions": 22
+      "surface": "grass",
+      "continuation": "terrain",
+      "details": "authored"
     }
   },
   "entities": [
@@ -158,6 +156,10 @@
           0
         ],
         "radius": 0.35
+      },
+      "layout": {
+        "role": "subject",
+        "purpose": "توپ فوتبال"
       }
     },
     {
@@ -300,395 +302,116 @@
             ]
           }
         ]
+      },
+      "layout": {
+        "role": "prop",
+        "purpose": "دروازه"
       }
     },
     {
-      "id": "set-road-barrier-00",
-      "label": "road barrier",
+      "id": "arch-touchline--1-0",
+      "label": "Practice-field touchline",
       "transform": {
         "space": "world",
         "position": [
-          -9,
-          0,
-          -10
-        ]
-      },
-      "visual": {
-        "type": "model",
-        "url": "/models/generated/road-barrier.glb",
-        "fallback": {
-          "type": "primitive",
-          "shape": "box",
-          "params": {
-            "width": 2,
-            "height": 0.2,
-            "depth": 0.3
-          },
-          "color": "#717c87"
-        }
-      },
-      "bounds": {
-        "type": "box",
-        "min": [
-          -1,
-          0,
-          -0.275
-        ],
-        "max": [
-          1,
-          0.8,
-          0.292
-        ]
-      }
-    },
-    {
-      "id": "set-road-barrier-01",
-      "label": "road barrier",
-      "transform": {
-        "space": "world",
-        "position": [
-          -9,
-          0,
-          0
-        ]
-      },
-      "visual": {
-        "type": "model",
-        "url": "/models/generated/road-barrier.glb",
-        "fallback": {
-          "type": "primitive",
-          "shape": "box",
-          "params": {
-            "width": 2,
-            "height": 0.2,
-            "depth": 0.3
-          },
-          "color": "#717c87"
-        }
-      },
-      "bounds": {
-        "type": "box",
-        "min": [
-          -1,
-          0,
-          -0.275
-        ],
-        "max": [
-          1,
-          0.8,
-          0.292
-        ]
-      }
-    },
-    {
-      "id": "set-road-barrier-02",
-      "label": "road barrier",
-      "transform": {
-        "space": "world",
-        "position": [
-          -9,
-          0,
-          10
-        ]
-      },
-      "visual": {
-        "type": "model",
-        "url": "/models/generated/road-barrier.glb",
-        "fallback": {
-          "type": "primitive",
-          "shape": "box",
-          "params": {
-            "width": 2,
-            "height": 0.2,
-            "depth": 0.3
-          },
-          "color": "#717c87"
-        }
-      },
-      "bounds": {
-        "type": "box",
-        "min": [
-          -1,
-          0,
-          -0.275
-        ],
-        "max": [
-          1,
-          0.8,
-          0.292
-        ]
-      }
-    },
-    {
-      "id": "set-support-03",
-      "label": "sideline spectator, #526b96 jacket; supporting subject, not the principal actor",
-      "transform": {
-        "space": "world",
-        "position": [
-          -10,
-          0,
-          -8
-        ]
-      },
-      "visual": {
-        "type": "preset",
-        "name": "humanoid",
-        "params": {
-          "height": 1.8,
-          "shirtColor": "#526b96",
-          "trouserColor": "#283341",
-          "color": "#ad805f",
-          "motion": "idle"
-        }
-      },
-      "bounds": {
-        "type": "box",
-        "min": [
-          -0.325,
-          0,
-          -0.25
-        ],
-        "max": [
-          0.325,
-          1.8,
-          0.25
-        ]
-      }
-    },
-    {
-      "id": "set-support-04",
-      "label": "sideline spectator, #526b96 jacket; supporting subject, not the principal actor",
-      "transform": {
-        "space": "world",
-        "position": [
-          -10,
-          0,
-          -3
-        ]
-      },
-      "visual": {
-        "type": "preset",
-        "name": "humanoid",
-        "params": {
-          "height": 1.8,
-          "shirtColor": "#526b96",
-          "trouserColor": "#283341",
-          "color": "#ad805f",
-          "motion": "idle"
-        }
-      },
-      "bounds": {
-        "type": "box",
-        "min": [
-          -0.325,
-          0,
-          -0.25
-        ],
-        "max": [
-          0.325,
-          1.8,
-          0.25
-        ]
-      }
-    },
-    {
-      "id": "set-support-05",
-      "label": "sideline spectator, #526b96 jacket; supporting subject, not the principal actor",
-      "transform": {
-        "space": "world",
-        "position": [
-          -10,
-          0,
+          -8,
+          -0.02,
           3
+        ],
+        "rotation": [
+          0,
+          0,
+          0,
+          1
         ]
       },
       "visual": {
-        "type": "preset",
-        "name": "humanoid",
+        "type": "primitive",
+        "shape": "box",
         "params": {
-          "height": 1.8,
-          "shirtColor": "#526b96",
-          "trouserColor": "#283341",
-          "color": "#ad805f",
-          "motion": "idle"
-        }
+          "size": [
+            0.075,
+            0.05,
+            22.025
+          ]
+        },
+        "color": "#eeeee0"
       },
       "bounds": {
         "type": "box",
         "min": [
-          -0.325,
-          0,
-          -0.25
+          -0.0375,
+          -0.025,
+          -11.0125
         ],
         "max": [
-          0.325,
-          1.8,
-          0.25
+          0.0375,
+          0.025,
+          11.0125
         ]
+      },
+      "layout": {
+        "role": "paving",
+        "purpose": "Practice-field touchline",
+        "surface": "concrete",
+        "support": "ground"
       }
     },
     {
-      "id": "set-support-06",
-      "label": "sideline spectator, #526b96 jacket; supporting subject, not the principal actor",
+      "id": "set-team-bench--1",
+      "label": "Team bench outside touchline",
       "transform": {
         "space": "world",
         "position": [
-          -10,
+          -11.5,
           0,
-          8
-        ]
-      },
-      "visual": {
-        "type": "preset",
-        "name": "humanoid",
-        "params": {
-          "height": 1.8,
-          "shirtColor": "#526b96",
-          "trouserColor": "#283341",
-          "color": "#ad805f",
-          "motion": "idle"
-        }
-      },
-      "bounds": {
-        "type": "box",
-        "min": [
-          -0.325,
-          0,
-          -0.25
+          2
         ],
-        "max": [
-          0.325,
-          1.8,
-          0.25
-        ]
-      }
-    },
-    {
-      "id": "set-road-barrier-07",
-      "label": "road barrier",
-      "transform": {
-        "space": "world",
-        "position": [
-          9,
+        "rotation": [
           0,
-          -10
+          0.707106781,
+          0,
+          0.707106781
         ]
       },
       "visual": {
         "type": "model",
-        "url": "/models/generated/road-barrier.glb",
-        "fallback": {
-          "type": "primitive",
-          "shape": "box",
-          "params": {
-            "width": 2,
-            "height": 0.2,
-            "depth": 0.3
-          },
-          "color": "#717c87"
-        }
+        "url": "/models/generated/slatted-bench.glb"
       },
       "bounds": {
         "type": "box",
         "min": [
           -1,
           0,
-          -0.275
+          -0.325
         ],
         "max": [
           1,
-          0.8,
-          0.292
+          1.215,
+          0.325
         ]
+      },
+      "layout": {
+        "role": "furniture",
+        "purpose": "Team bench outside touchline",
+        "support": "ground"
       }
     },
     {
-      "id": "set-road-barrier-08",
-      "label": "road barrier",
+      "id": "set-spectator--1--1",
+      "label": "Spectator at team bench outside playing area",
       "transform": {
         "space": "world",
         "position": [
-          9,
+          -12.5,
           0,
-          0
-        ]
-      },
-      "visual": {
-        "type": "model",
-        "url": "/models/generated/road-barrier.glb",
-        "fallback": {
-          "type": "primitive",
-          "shape": "box",
-          "params": {
-            "width": 2,
-            "height": 0.2,
-            "depth": 0.3
-          },
-          "color": "#717c87"
-        }
-      },
-      "bounds": {
-        "type": "box",
-        "min": [
-          -1,
-          0,
-          -0.275
+          -1
         ],
-        "max": [
-          1,
-          0.8,
-          0.292
-        ]
-      }
-    },
-    {
-      "id": "set-road-barrier-09",
-      "label": "road barrier",
-      "transform": {
-        "space": "world",
-        "position": [
-          9,
+        "rotation": [
           0,
-          10
-        ]
-      },
-      "visual": {
-        "type": "model",
-        "url": "/models/generated/road-barrier.glb",
-        "fallback": {
-          "type": "primitive",
-          "shape": "box",
-          "params": {
-            "width": 2,
-            "height": 0.2,
-            "depth": 0.3
-          },
-          "color": "#717c87"
-        }
-      },
-      "bounds": {
-        "type": "box",
-        "min": [
-          -1,
+          0.707106781,
           0,
-          -0.275
-        ],
-        "max": [
-          1,
-          0.8,
-          0.292
-        ]
-      }
-    },
-    {
-      "id": "set-support-10",
-      "label": "sideline spectator, #526b96 jacket; supporting subject, not the principal actor",
-      "transform": {
-        "space": "world",
-        "position": [
-          10,
-          0,
-          -8
+          0.707106781
         ]
       },
       "visual": {
@@ -696,9 +419,9 @@
         "name": "humanoid",
         "params": {
           "height": 1.8,
-          "shirtColor": "#526b96",
-          "trouserColor": "#283341",
-          "color": "#ad805f",
+          "shirtColor": "#596e80",
+          "trouserColor": "#303438",
+          "color": "#b78e72",
           "motion": "idle"
         }
       },
@@ -714,17 +437,28 @@
           1.8,
           0.25
         ]
+      },
+      "layout": {
+        "role": "subject",
+        "purpose": "Spectator at team bench outside playing area",
+        "support": "ground"
       }
     },
     {
-      "id": "set-support-11",
-      "label": "sideline spectator, #526b96 jacket; supporting subject, not the principal actor",
+      "id": "set-spectator--1-2",
+      "label": "Spectator at team bench outside playing area",
       "transform": {
         "space": "world",
         "position": [
-          10,
+          -12.5,
           0,
-          -3
+          2
+        ],
+        "rotation": [
+          0,
+          0.707106781,
+          0,
+          0.707106781
         ]
       },
       "visual": {
@@ -732,9 +466,9 @@
         "name": "humanoid",
         "params": {
           "height": 1.8,
-          "shirtColor": "#526b96",
-          "trouserColor": "#283341",
-          "color": "#ad805f",
+          "shirtColor": "#596e80",
+          "trouserColor": "#303438",
+          "color": "#b78e72",
           "motion": "idle"
         }
       },
@@ -750,89 +484,164 @@
           1.8,
           0.25
         ]
+      },
+      "layout": {
+        "role": "subject",
+        "purpose": "Spectator at team bench outside playing area",
+        "support": "ground"
       }
     },
     {
-      "id": "set-support-12",
-      "label": "sideline spectator, #526b96 jacket; supporting subject, not the principal actor",
+      "id": "set-spectator--1-5",
+      "label": "Spectator at team bench outside playing area",
       "transform": {
         "space": "world",
         "position": [
-          10,
+          -12.5,
           0,
+          5
+        ],
+        "rotation": [
+          0,
+          0.707106781,
+          0,
+          0.707106781
+        ]
+      },
+      "visual": {
+        "type": "preset",
+        "name": "humanoid",
+        "params": {
+          "height": 1.8,
+          "shirtColor": "#596e80",
+          "trouserColor": "#303438",
+          "color": "#b78e72",
+          "motion": "idle"
+        }
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.325,
+          0,
+          -0.25
+        ],
+        "max": [
+          0.325,
+          1.8,
+          0.25
+        ]
+      },
+      "layout": {
+        "role": "subject",
+        "purpose": "Spectator at team bench outside playing area",
+        "support": "ground"
+      }
+    },
+    {
+      "id": "arch-touchline-1-0",
+      "label": "Practice-field touchline",
+      "transform": {
+        "space": "world",
+        "position": [
+          8,
+          -0.02,
           3
+        ],
+        "rotation": [
+          0,
+          0,
+          0,
+          1
         ]
       },
       "visual": {
-        "type": "preset",
-        "name": "humanoid",
+        "type": "primitive",
+        "shape": "box",
         "params": {
-          "height": 1.8,
-          "shirtColor": "#526b96",
-          "trouserColor": "#283341",
-          "color": "#ad805f",
-          "motion": "idle"
-        }
+          "size": [
+            0.075,
+            0.05,
+            22.025
+          ]
+        },
+        "color": "#eeeee0"
       },
       "bounds": {
         "type": "box",
         "min": [
-          -0.325,
-          0,
-          -0.25
+          -0.0375,
+          -0.025,
+          -11.0125
         ],
         "max": [
-          0.325,
-          1.8,
-          0.25
+          0.0375,
+          0.025,
+          11.0125
         ]
+      },
+      "layout": {
+        "role": "paving",
+        "purpose": "Practice-field touchline",
+        "surface": "concrete",
+        "support": "ground"
       }
     },
     {
-      "id": "set-support-13",
-      "label": "sideline spectator, #526b96 jacket; supporting subject, not the principal actor",
+      "id": "set-team-bench-1",
+      "label": "Team bench outside touchline",
       "transform": {
         "space": "world",
         "position": [
-          10,
+          11.5,
           0,
-          8
+          2
+        ],
+        "rotation": [
+          0,
+          -0.707106781,
+          0,
+          0.707106781
         ]
       },
       "visual": {
-        "type": "preset",
-        "name": "humanoid",
-        "params": {
-          "height": 1.8,
-          "shirtColor": "#526b96",
-          "trouserColor": "#283341",
-          "color": "#ad805f",
-          "motion": "idle"
-        }
+        "type": "model",
+        "url": "/models/generated/slatted-bench.glb"
       },
       "bounds": {
         "type": "box",
         "min": [
-          -0.325,
+          -1,
           0,
-          -0.25
+          -0.325
         ],
         "max": [
-          0.325,
-          1.8,
-          0.25
+          1,
+          1.215,
+          0.325
         ]
+      },
+      "layout": {
+        "role": "furniture",
+        "purpose": "Team bench outside touchline",
+        "support": "ground"
       }
     },
     {
-      "id": "set-support-14",
-      "label": "goalkeeper, #daa344 jacket; supporting subject, not the principal actor",
+      "id": "set-spectator-1--1",
+      "label": "Spectator at team bench outside playing area",
       "transform": {
         "space": "world",
         "position": [
-          -3.6,
+          12.5,
           0,
-          -7.1
+          -1
+        ],
+        "rotation": [
+          0,
+          -0.707106781,
+          0,
+          0.707106781
         ]
       },
       "visual": {
@@ -840,9 +649,9 @@
         "name": "humanoid",
         "params": {
           "height": 1.8,
-          "shirtColor": "#daa344",
-          "trouserColor": "#283341",
-          "color": "#ad805f",
+          "shirtColor": "#596e80",
+          "trouserColor": "#303438",
+          "color": "#b78e72",
           "motion": "idle"
         }
       },
@@ -858,11 +667,500 @@
           1.8,
           0.25
         ]
+      },
+      "layout": {
+        "role": "subject",
+        "purpose": "Spectator at team bench outside playing area",
+        "support": "ground"
       }
     },
     {
-      "id": "set-support-15",
-      "label": "defender, #80563f jacket; supporting subject, not the principal actor",
+      "id": "set-spectator-1-2",
+      "label": "Spectator at team bench outside playing area",
+      "transform": {
+        "space": "world",
+        "position": [
+          12.5,
+          0,
+          2
+        ],
+        "rotation": [
+          0,
+          -0.707106781,
+          0,
+          0.707106781
+        ]
+      },
+      "visual": {
+        "type": "preset",
+        "name": "humanoid",
+        "params": {
+          "height": 1.8,
+          "shirtColor": "#596e80",
+          "trouserColor": "#303438",
+          "color": "#b78e72",
+          "motion": "idle"
+        }
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.325,
+          0,
+          -0.25
+        ],
+        "max": [
+          0.325,
+          1.8,
+          0.25
+        ]
+      },
+      "layout": {
+        "role": "subject",
+        "purpose": "Spectator at team bench outside playing area",
+        "support": "ground"
+      }
+    },
+    {
+      "id": "set-spectator-1-5",
+      "label": "Spectator at team bench outside playing area",
+      "transform": {
+        "space": "world",
+        "position": [
+          12.5,
+          0,
+          5
+        ],
+        "rotation": [
+          0,
+          -0.707106781,
+          0,
+          0.707106781
+        ]
+      },
+      "visual": {
+        "type": "preset",
+        "name": "humanoid",
+        "params": {
+          "height": 1.8,
+          "shirtColor": "#596e80",
+          "trouserColor": "#303438",
+          "color": "#b78e72",
+          "motion": "idle"
+        }
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.325,
+          0,
+          -0.25
+        ],
+        "max": [
+          0.325,
+          1.8,
+          0.25
+        ]
+      },
+      "layout": {
+        "role": "subject",
+        "purpose": "Spectator at team bench outside playing area",
+        "support": "ground"
+      }
+    },
+    {
+      "id": "arch-line-goal-0",
+      "label": "Practice-field transverse marking",
+      "transform": {
+        "space": "world",
+        "position": [
+          0,
+          -0.02,
+          -8
+        ],
+        "rotation": [
+          0,
+          0.707106781,
+          0,
+          0.707106781
+        ]
+      },
+      "visual": {
+        "type": "primitive",
+        "shape": "box",
+        "params": {
+          "size": [
+            0.075,
+            0.05,
+            16.025
+          ]
+        },
+        "color": "#eeeee0"
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.0375,
+          -0.025,
+          -8.0125
+        ],
+        "max": [
+          0.0375,
+          0.025,
+          8.0125
+        ]
+      },
+      "layout": {
+        "role": "paving",
+        "purpose": "Practice-field transverse marking",
+        "surface": "concrete",
+        "support": "ground"
+      }
+    },
+    {
+      "id": "arch-line-opposite-0",
+      "label": "Practice-field transverse marking",
+      "transform": {
+        "space": "world",
+        "position": [
+          0,
+          -0.02,
+          14
+        ],
+        "rotation": [
+          0,
+          0.707106781,
+          0,
+          0.707106781
+        ]
+      },
+      "visual": {
+        "type": "primitive",
+        "shape": "box",
+        "params": {
+          "size": [
+            0.075,
+            0.05,
+            16.025
+          ]
+        },
+        "color": "#eeeee0"
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.0375,
+          -0.025,
+          -8.0125
+        ],
+        "max": [
+          0.0375,
+          0.025,
+          8.0125
+        ]
+      },
+      "layout": {
+        "role": "paving",
+        "purpose": "Practice-field transverse marking",
+        "surface": "concrete",
+        "support": "ground"
+      }
+    },
+    {
+      "id": "arch-line-halfway-0",
+      "label": "Practice-field transverse marking",
+      "transform": {
+        "space": "world",
+        "position": [
+          0,
+          -0.02,
+          3
+        ],
+        "rotation": [
+          0,
+          0.707106781,
+          0,
+          0.707106781
+        ]
+      },
+      "visual": {
+        "type": "primitive",
+        "shape": "box",
+        "params": {
+          "size": [
+            0.075,
+            0.05,
+            16.025
+          ]
+        },
+        "color": "#eeeee0"
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.0375,
+          -0.025,
+          -8.0125
+        ],
+        "max": [
+          0.0375,
+          0.025,
+          8.0125
+        ]
+      },
+      "layout": {
+        "role": "paving",
+        "purpose": "Practice-field transverse marking",
+        "surface": "concrete",
+        "support": "ground"
+      }
+    },
+    {
+      "id": "arch-goal-area--1-0",
+      "label": "Goal-area line aligned with goal",
+      "transform": {
+        "space": "world",
+        "position": [
+          -5,
+          -0.02,
+          -5.5
+        ],
+        "rotation": [
+          0,
+          0,
+          0,
+          1
+        ]
+      },
+      "visual": {
+        "type": "primitive",
+        "shape": "box",
+        "params": {
+          "size": [
+            0.075,
+            0.05,
+            5.025
+          ]
+        },
+        "color": "#eeeee0"
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.0375,
+          -0.025,
+          -2.5125
+        ],
+        "max": [
+          0.0375,
+          0.025,
+          2.5125
+        ]
+      },
+      "layout": {
+        "role": "paving",
+        "purpose": "Goal-area line aligned with goal",
+        "surface": "concrete",
+        "support": "ground"
+      }
+    },
+    {
+      "id": "arch-goal-area--1-1",
+      "label": "Goal-area line aligned with goal",
+      "transform": {
+        "space": "world",
+        "position": [
+          -2.5,
+          -0.02,
+          -3
+        ],
+        "rotation": [
+          0,
+          0.707106781,
+          0,
+          0.707106781
+        ]
+      },
+      "visual": {
+        "type": "primitive",
+        "shape": "box",
+        "params": {
+          "size": [
+            0.075,
+            0.05,
+            5.025
+          ]
+        },
+        "color": "#eeeee0"
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.0375,
+          -0.025,
+          -2.5125
+        ],
+        "max": [
+          0.0375,
+          0.025,
+          2.5125
+        ]
+      },
+      "layout": {
+        "role": "paving",
+        "purpose": "Goal-area line aligned with goal",
+        "surface": "concrete",
+        "support": "ground"
+      }
+    },
+    {
+      "id": "arch-goal-area-1-0",
+      "label": "Goal-area line aligned with goal",
+      "transform": {
+        "space": "world",
+        "position": [
+          5,
+          -0.02,
+          -5.5
+        ],
+        "rotation": [
+          0,
+          0,
+          0,
+          1
+        ]
+      },
+      "visual": {
+        "type": "primitive",
+        "shape": "box",
+        "params": {
+          "size": [
+            0.075,
+            0.05,
+            5.025
+          ]
+        },
+        "color": "#eeeee0"
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.0375,
+          -0.025,
+          -2.5125
+        ],
+        "max": [
+          0.0375,
+          0.025,
+          2.5125
+        ]
+      },
+      "layout": {
+        "role": "paving",
+        "purpose": "Goal-area line aligned with goal",
+        "surface": "concrete",
+        "support": "ground"
+      }
+    },
+    {
+      "id": "arch-goal-area-1-1",
+      "label": "Goal-area line aligned with goal",
+      "transform": {
+        "space": "world",
+        "position": [
+          2.5,
+          -0.02,
+          -3
+        ],
+        "rotation": [
+          0,
+          -0.707106781,
+          0,
+          0.707106781
+        ]
+      },
+      "visual": {
+        "type": "primitive",
+        "shape": "box",
+        "params": {
+          "size": [
+            0.075,
+            0.05,
+            5.025
+          ]
+        },
+        "color": "#eeeee0"
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.0375,
+          -0.025,
+          -2.5125
+        ],
+        "max": [
+          0.0375,
+          0.025,
+          2.5125
+        ]
+      },
+      "layout": {
+        "role": "paving",
+        "purpose": "Goal-area line aligned with goal",
+        "surface": "concrete",
+        "support": "ground"
+      }
+    },
+    {
+      "id": "set-goalkeeper",
+      "label": "Goalkeeper protecting practice goal",
+      "transform": {
+        "space": "world",
+        "position": [
+          -2.2,
+          0,
+          -7.3
+        ],
+        "rotation": [
+          0,
+          0,
+          0,
+          1
+        ]
+      },
+      "visual": {
+        "type": "preset",
+        "name": "humanoid",
+        "params": {
+          "height": 1.8,
+          "shirtColor": "#bb9856",
+          "trouserColor": "#303438",
+          "color": "#b78e72",
+          "motion": "idle"
+        }
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.325,
+          0,
+          -0.25
+        ],
+        "max": [
+          0.325,
+          1.8,
+          0.25
+        ]
+      },
+      "layout": {
+        "role": "subject",
+        "purpose": "Goalkeeper protecting practice goal",
+        "support": "ground"
+      }
+    },
+    {
+      "id": "set-defender",
+      "label": "Defender tracking back outside ball path",
       "transform": {
         "space": "world",
         "position": {
@@ -872,9 +1170,9 @@
             {
               "t": 0,
               "value": [
-                -4,
+                -3.8,
                 0,
-                7
+                6
               ]
             },
             {
@@ -886,16 +1184,22 @@
               ]
             }
           ]
-        }
+        },
+        "rotation": [
+          0,
+          0,
+          0,
+          1
+        ]
       },
       "visual": {
         "type": "preset",
         "name": "humanoid",
         "params": {
           "height": 1.8,
-          "shirtColor": "#80563f",
-          "trouserColor": "#283341",
-          "color": "#ad805f",
+          "shirtColor": "#80624d",
+          "trouserColor": "#303438",
+          "color": "#b78e72",
           "motion": "auto"
         }
       },
@@ -911,11 +1215,16 @@
           1.8,
           0.25
         ]
+      },
+      "layout": {
+        "role": "subject",
+        "purpose": "Defender tracking back outside ball path",
+        "support": "ground"
       }
     },
     {
-      "id": "set-support-16",
-      "label": "supporting striker, #344975 jacket; supporting subject, not the principal actor",
+      "id": "set-striker",
+      "label": "Supporting striker in right channel",
       "transform": {
         "space": "world",
         "position": {
@@ -933,22 +1242,28 @@
             {
               "t": 10,
               "value": [
-                3,
+                3.2,
                 0,
-                -6
+                -5
               ]
             }
           ]
-        }
+        },
+        "rotation": [
+          0,
+          0,
+          0,
+          1
+        ]
       },
       "visual": {
         "type": "preset",
         "name": "humanoid",
         "params": {
           "height": 1.8,
-          "shirtColor": "#344975",
-          "trouserColor": "#283341",
-          "color": "#ad805f",
+          "shirtColor": "#455f77",
+          "trouserColor": "#303438",
+          "color": "#b78e72",
           "motion": "auto"
         }
       },
@@ -964,6 +1279,785 @@
           1.8,
           0.25
         ]
+      },
+      "layout": {
+        "role": "subject",
+        "purpose": "Supporting striker in right channel",
+        "support": "ground"
+      }
+    },
+    {
+      "id": "arch-pitch-fence--1-0",
+      "label": "Open perimeter boundary rail outside spectator area",
+      "transform": {
+        "space": "world",
+        "position": [
+          -14,
+          0.48,
+          3
+        ]
+      },
+      "visual": {
+        "type": "primitive",
+        "shape": "box",
+        "params": {
+          "size": [
+            0.065,
+            0.045,
+            30
+          ]
+        },
+        "color": "#465256"
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.0325,
+          -0.0225,
+          -15
+        ],
+        "max": [
+          0.0325,
+          0.0225,
+          15
+        ]
+      },
+      "layout": {
+        "role": "railing",
+        "purpose": "Open perimeter boundary rail outside spectator area",
+        "surface": "metal",
+        "support": "ground"
+      }
+    },
+    {
+      "id": "arch-pitch-fence--1-1",
+      "label": "Open perimeter boundary rail outside spectator area",
+      "transform": {
+        "space": "world",
+        "position": [
+          -14,
+          1.05,
+          3
+        ]
+      },
+      "visual": {
+        "type": "primitive",
+        "shape": "box",
+        "params": {
+          "size": [
+            0.065,
+            0.045,
+            30
+          ]
+        },
+        "color": "#465256"
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.0325,
+          -0.0225,
+          -15
+        ],
+        "max": [
+          0.0325,
+          0.0225,
+          15
+        ]
+      },
+      "layout": {
+        "role": "railing",
+        "purpose": "Open perimeter boundary rail outside spectator area",
+        "surface": "metal",
+        "support": "ground"
+      }
+    },
+    {
+      "id": "arch-pitch-fence--1-2",
+      "label": "Open perimeter boundary rail outside spectator area",
+      "transform": {
+        "space": "world",
+        "position": [
+          -14,
+          1.4,
+          3
+        ]
+      },
+      "visual": {
+        "type": "primitive",
+        "shape": "box",
+        "params": {
+          "size": [
+            0.065,
+            0.045,
+            30
+          ]
+        },
+        "color": "#465256"
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.0325,
+          -0.0225,
+          -15
+        ],
+        "max": [
+          0.0325,
+          0.0225,
+          15
+        ]
+      },
+      "layout": {
+        "role": "railing",
+        "purpose": "Open perimeter boundary rail outside spectator area",
+        "surface": "metal",
+        "support": "ground"
+      }
+    },
+    {
+      "id": "arch-fence-post--1-0",
+      "label": "Perimeter fence support",
+      "transform": {
+        "space": "world",
+        "position": [
+          -14,
+          0.7,
+          -12
+        ]
+      },
+      "visual": {
+        "type": "primitive",
+        "shape": "box",
+        "params": {
+          "size": [
+            0.085,
+            1.4,
+            0.085
+          ]
+        },
+        "color": "#465256"
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.0425,
+          -0.7,
+          -0.0425
+        ],
+        "max": [
+          0.0425,
+          0.7,
+          0.0425
+        ]
+      },
+      "layout": {
+        "role": "column",
+        "purpose": "Perimeter fence support",
+        "surface": "metal",
+        "support": "ground"
+      }
+    },
+    {
+      "id": "arch-fence-post--1-1",
+      "label": "Perimeter fence support",
+      "transform": {
+        "space": "world",
+        "position": [
+          -14,
+          0.7,
+          -6
+        ]
+      },
+      "visual": {
+        "type": "primitive",
+        "shape": "box",
+        "params": {
+          "size": [
+            0.085,
+            1.4,
+            0.085
+          ]
+        },
+        "color": "#465256"
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.0425,
+          -0.7,
+          -0.0425
+        ],
+        "max": [
+          0.0425,
+          0.7,
+          0.0425
+        ]
+      },
+      "layout": {
+        "role": "column",
+        "purpose": "Perimeter fence support",
+        "surface": "metal",
+        "support": "ground"
+      }
+    },
+    {
+      "id": "arch-fence-post--1-2",
+      "label": "Perimeter fence support",
+      "transform": {
+        "space": "world",
+        "position": [
+          -14,
+          0.7,
+          0
+        ]
+      },
+      "visual": {
+        "type": "primitive",
+        "shape": "box",
+        "params": {
+          "size": [
+            0.085,
+            1.4,
+            0.085
+          ]
+        },
+        "color": "#465256"
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.0425,
+          -0.7,
+          -0.0425
+        ],
+        "max": [
+          0.0425,
+          0.7,
+          0.0425
+        ]
+      },
+      "layout": {
+        "role": "column",
+        "purpose": "Perimeter fence support",
+        "surface": "metal",
+        "support": "ground"
+      }
+    },
+    {
+      "id": "arch-fence-post--1-3",
+      "label": "Perimeter fence support",
+      "transform": {
+        "space": "world",
+        "position": [
+          -14,
+          0.7,
+          6
+        ]
+      },
+      "visual": {
+        "type": "primitive",
+        "shape": "box",
+        "params": {
+          "size": [
+            0.085,
+            1.4,
+            0.085
+          ]
+        },
+        "color": "#465256"
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.0425,
+          -0.7,
+          -0.0425
+        ],
+        "max": [
+          0.0425,
+          0.7,
+          0.0425
+        ]
+      },
+      "layout": {
+        "role": "column",
+        "purpose": "Perimeter fence support",
+        "surface": "metal",
+        "support": "ground"
+      }
+    },
+    {
+      "id": "arch-fence-post--1-4",
+      "label": "Perimeter fence support",
+      "transform": {
+        "space": "world",
+        "position": [
+          -14,
+          0.7,
+          12
+        ]
+      },
+      "visual": {
+        "type": "primitive",
+        "shape": "box",
+        "params": {
+          "size": [
+            0.085,
+            1.4,
+            0.085
+          ]
+        },
+        "color": "#465256"
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.0425,
+          -0.7,
+          -0.0425
+        ],
+        "max": [
+          0.0425,
+          0.7,
+          0.0425
+        ]
+      },
+      "layout": {
+        "role": "column",
+        "purpose": "Perimeter fence support",
+        "surface": "metal",
+        "support": "ground"
+      }
+    },
+    {
+      "id": "arch-fence-post--1-5",
+      "label": "Perimeter fence support",
+      "transform": {
+        "space": "world",
+        "position": [
+          -14,
+          0.7,
+          18
+        ]
+      },
+      "visual": {
+        "type": "primitive",
+        "shape": "box",
+        "params": {
+          "size": [
+            0.085,
+            1.4,
+            0.085
+          ]
+        },
+        "color": "#465256"
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.0425,
+          -0.7,
+          -0.0425
+        ],
+        "max": [
+          0.0425,
+          0.7,
+          0.0425
+        ]
+      },
+      "layout": {
+        "role": "column",
+        "purpose": "Perimeter fence support",
+        "surface": "metal",
+        "support": "ground"
+      }
+    },
+    {
+      "id": "arch-pitch-fence-1-0",
+      "label": "Open perimeter boundary rail outside spectator area",
+      "transform": {
+        "space": "world",
+        "position": [
+          14,
+          0.48,
+          3
+        ]
+      },
+      "visual": {
+        "type": "primitive",
+        "shape": "box",
+        "params": {
+          "size": [
+            0.065,
+            0.045,
+            30
+          ]
+        },
+        "color": "#465256"
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.0325,
+          -0.0225,
+          -15
+        ],
+        "max": [
+          0.0325,
+          0.0225,
+          15
+        ]
+      },
+      "layout": {
+        "role": "railing",
+        "purpose": "Open perimeter boundary rail outside spectator area",
+        "surface": "metal",
+        "support": "ground"
+      }
+    },
+    {
+      "id": "arch-pitch-fence-1-1",
+      "label": "Open perimeter boundary rail outside spectator area",
+      "transform": {
+        "space": "world",
+        "position": [
+          14,
+          1.05,
+          3
+        ]
+      },
+      "visual": {
+        "type": "primitive",
+        "shape": "box",
+        "params": {
+          "size": [
+            0.065,
+            0.045,
+            30
+          ]
+        },
+        "color": "#465256"
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.0325,
+          -0.0225,
+          -15
+        ],
+        "max": [
+          0.0325,
+          0.0225,
+          15
+        ]
+      },
+      "layout": {
+        "role": "railing",
+        "purpose": "Open perimeter boundary rail outside spectator area",
+        "surface": "metal",
+        "support": "ground"
+      }
+    },
+    {
+      "id": "arch-pitch-fence-1-2",
+      "label": "Open perimeter boundary rail outside spectator area",
+      "transform": {
+        "space": "world",
+        "position": [
+          14,
+          1.4,
+          3
+        ]
+      },
+      "visual": {
+        "type": "primitive",
+        "shape": "box",
+        "params": {
+          "size": [
+            0.065,
+            0.045,
+            30
+          ]
+        },
+        "color": "#465256"
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.0325,
+          -0.0225,
+          -15
+        ],
+        "max": [
+          0.0325,
+          0.0225,
+          15
+        ]
+      },
+      "layout": {
+        "role": "railing",
+        "purpose": "Open perimeter boundary rail outside spectator area",
+        "surface": "metal",
+        "support": "ground"
+      }
+    },
+    {
+      "id": "arch-fence-post-1-0",
+      "label": "Perimeter fence support",
+      "transform": {
+        "space": "world",
+        "position": [
+          14,
+          0.7,
+          -12
+        ]
+      },
+      "visual": {
+        "type": "primitive",
+        "shape": "box",
+        "params": {
+          "size": [
+            0.085,
+            1.4,
+            0.085
+          ]
+        },
+        "color": "#465256"
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.0425,
+          -0.7,
+          -0.0425
+        ],
+        "max": [
+          0.0425,
+          0.7,
+          0.0425
+        ]
+      },
+      "layout": {
+        "role": "column",
+        "purpose": "Perimeter fence support",
+        "surface": "metal",
+        "support": "ground"
+      }
+    },
+    {
+      "id": "arch-fence-post-1-1",
+      "label": "Perimeter fence support",
+      "transform": {
+        "space": "world",
+        "position": [
+          14,
+          0.7,
+          -6
+        ]
+      },
+      "visual": {
+        "type": "primitive",
+        "shape": "box",
+        "params": {
+          "size": [
+            0.085,
+            1.4,
+            0.085
+          ]
+        },
+        "color": "#465256"
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.0425,
+          -0.7,
+          -0.0425
+        ],
+        "max": [
+          0.0425,
+          0.7,
+          0.0425
+        ]
+      },
+      "layout": {
+        "role": "column",
+        "purpose": "Perimeter fence support",
+        "surface": "metal",
+        "support": "ground"
+      }
+    },
+    {
+      "id": "arch-fence-post-1-2",
+      "label": "Perimeter fence support",
+      "transform": {
+        "space": "world",
+        "position": [
+          14,
+          0.7,
+          0
+        ]
+      },
+      "visual": {
+        "type": "primitive",
+        "shape": "box",
+        "params": {
+          "size": [
+            0.085,
+            1.4,
+            0.085
+          ]
+        },
+        "color": "#465256"
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.0425,
+          -0.7,
+          -0.0425
+        ],
+        "max": [
+          0.0425,
+          0.7,
+          0.0425
+        ]
+      },
+      "layout": {
+        "role": "column",
+        "purpose": "Perimeter fence support",
+        "surface": "metal",
+        "support": "ground"
+      }
+    },
+    {
+      "id": "arch-fence-post-1-3",
+      "label": "Perimeter fence support",
+      "transform": {
+        "space": "world",
+        "position": [
+          14,
+          0.7,
+          6
+        ]
+      },
+      "visual": {
+        "type": "primitive",
+        "shape": "box",
+        "params": {
+          "size": [
+            0.085,
+            1.4,
+            0.085
+          ]
+        },
+        "color": "#465256"
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.0425,
+          -0.7,
+          -0.0425
+        ],
+        "max": [
+          0.0425,
+          0.7,
+          0.0425
+        ]
+      },
+      "layout": {
+        "role": "column",
+        "purpose": "Perimeter fence support",
+        "surface": "metal",
+        "support": "ground"
+      }
+    },
+    {
+      "id": "arch-fence-post-1-4",
+      "label": "Perimeter fence support",
+      "transform": {
+        "space": "world",
+        "position": [
+          14,
+          0.7,
+          12
+        ]
+      },
+      "visual": {
+        "type": "primitive",
+        "shape": "box",
+        "params": {
+          "size": [
+            0.085,
+            1.4,
+            0.085
+          ]
+        },
+        "color": "#465256"
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.0425,
+          -0.7,
+          -0.0425
+        ],
+        "max": [
+          0.0425,
+          0.7,
+          0.0425
+        ]
+      },
+      "layout": {
+        "role": "column",
+        "purpose": "Perimeter fence support",
+        "surface": "metal",
+        "support": "ground"
+      }
+    },
+    {
+      "id": "arch-fence-post-1-5",
+      "label": "Perimeter fence support",
+      "transform": {
+        "space": "world",
+        "position": [
+          14,
+          0.7,
+          18
+        ]
+      },
+      "visual": {
+        "type": "primitive",
+        "shape": "box",
+        "params": {
+          "size": [
+            0.085,
+            1.4,
+            0.085
+          ]
+        },
+        "color": "#465256"
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.0425,
+          -0.7,
+          -0.0425
+        ],
+        "max": [
+          0.0425,
+          0.7,
+          0.0425
+        ]
+      },
+      "layout": {
+        "role": "column",
+        "purpose": "Perimeter fence support",
+        "surface": "metal",
+        "support": "ground"
       }
     }
   ],
@@ -1008,215 +2102,6 @@
           2.5,
           0.05
         ]
-      }
-    },
-    {
-      "id": "set-support-03-face",
-      "entityId": "set-support-03",
-      "label": "sideline spectator, #526b96 jacket; supporting subject, not the principal actor face",
-      "localAnchor": [
-        0,
-        1.63,
-        0.12
-      ],
-      "localBounds": {
-        "type": "sphere",
-        "center": [
-          0,
-          1.63,
-          0.12
-        ],
-        "radius": 0.16
-      }
-    },
-    {
-      "id": "set-support-04-face",
-      "entityId": "set-support-04",
-      "label": "sideline spectator, #526b96 jacket; supporting subject, not the principal actor face",
-      "localAnchor": [
-        0,
-        1.63,
-        0.12
-      ],
-      "localBounds": {
-        "type": "sphere",
-        "center": [
-          0,
-          1.63,
-          0.12
-        ],
-        "radius": 0.16
-      }
-    },
-    {
-      "id": "set-support-05-face",
-      "entityId": "set-support-05",
-      "label": "sideline spectator, #526b96 jacket; supporting subject, not the principal actor face",
-      "localAnchor": [
-        0,
-        1.63,
-        0.12
-      ],
-      "localBounds": {
-        "type": "sphere",
-        "center": [
-          0,
-          1.63,
-          0.12
-        ],
-        "radius": 0.16
-      }
-    },
-    {
-      "id": "set-support-06-face",
-      "entityId": "set-support-06",
-      "label": "sideline spectator, #526b96 jacket; supporting subject, not the principal actor face",
-      "localAnchor": [
-        0,
-        1.63,
-        0.12
-      ],
-      "localBounds": {
-        "type": "sphere",
-        "center": [
-          0,
-          1.63,
-          0.12
-        ],
-        "radius": 0.16
-      }
-    },
-    {
-      "id": "set-support-10-face",
-      "entityId": "set-support-10",
-      "label": "sideline spectator, #526b96 jacket; supporting subject, not the principal actor face",
-      "localAnchor": [
-        0,
-        1.63,
-        0.12
-      ],
-      "localBounds": {
-        "type": "sphere",
-        "center": [
-          0,
-          1.63,
-          0.12
-        ],
-        "radius": 0.16
-      }
-    },
-    {
-      "id": "set-support-11-face",
-      "entityId": "set-support-11",
-      "label": "sideline spectator, #526b96 jacket; supporting subject, not the principal actor face",
-      "localAnchor": [
-        0,
-        1.63,
-        0.12
-      ],
-      "localBounds": {
-        "type": "sphere",
-        "center": [
-          0,
-          1.63,
-          0.12
-        ],
-        "radius": 0.16
-      }
-    },
-    {
-      "id": "set-support-12-face",
-      "entityId": "set-support-12",
-      "label": "sideline spectator, #526b96 jacket; supporting subject, not the principal actor face",
-      "localAnchor": [
-        0,
-        1.63,
-        0.12
-      ],
-      "localBounds": {
-        "type": "sphere",
-        "center": [
-          0,
-          1.63,
-          0.12
-        ],
-        "radius": 0.16
-      }
-    },
-    {
-      "id": "set-support-13-face",
-      "entityId": "set-support-13",
-      "label": "sideline spectator, #526b96 jacket; supporting subject, not the principal actor face",
-      "localAnchor": [
-        0,
-        1.63,
-        0.12
-      ],
-      "localBounds": {
-        "type": "sphere",
-        "center": [
-          0,
-          1.63,
-          0.12
-        ],
-        "radius": 0.16
-      }
-    },
-    {
-      "id": "set-support-14-face",
-      "entityId": "set-support-14",
-      "label": "goalkeeper, #daa344 jacket; supporting subject, not the principal actor face",
-      "localAnchor": [
-        0,
-        1.63,
-        0.12
-      ],
-      "localBounds": {
-        "type": "sphere",
-        "center": [
-          0,
-          1.63,
-          0.12
-        ],
-        "radius": 0.16
-      }
-    },
-    {
-      "id": "set-support-15-face",
-      "entityId": "set-support-15",
-      "label": "defender, #80563f jacket; supporting subject, not the principal actor face",
-      "localAnchor": [
-        0,
-        1.63,
-        0.12
-      ],
-      "localBounds": {
-        "type": "sphere",
-        "center": [
-          0,
-          1.63,
-          0.12
-        ],
-        "radius": 0.16
-      }
-    },
-    {
-      "id": "set-support-16-face",
-      "entityId": "set-support-16",
-      "label": "supporting striker, #344975 jacket; supporting subject, not the principal actor face",
-      "localAnchor": [
-        0,
-        1.63,
-        0.12
-      ],
-      "localBounds": {
-        "type": "sphere",
-        "center": [
-          0,
-          1.63,
-          0.12
-        ],
-        "radius": 0.16
       }
     }
   ]

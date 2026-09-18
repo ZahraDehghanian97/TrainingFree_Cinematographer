@@ -11,10 +11,10 @@
   },
   "prompt": "A 10-second stage portrait of the principal dancer, not the stagehands. Start medium-long and low. During seconds 0–4 arc gently left at 50% scene speed. During seconds 4–8 make a faster leftward arc while pedestalling upward. During seconds 8–10 settle with a gentle downward pedestal, finishing with the dancer on the right third. Keep one continuous shot.",
   "promptSha256": "13bb7dac9f9159542dd83f59e1c01618f1b8e188bd342542310bedfb3a6426bf",
-  "environmentSha256": "4622eff6af9299d7344bca2831f89135af98d7d6fce5b8e869a50d9b70c9afe9",
+  "environmentSha256": "a293b2ca5cd19821eb59eb1f897841870ad12f677d8fd30409cd8cf5c05877d6",
   "cslSha256": "1e72c76b008bc307a722cebc789f6a3f32c4c651aa63beec81c711817fd062a2",
   "recipeSha256": "02c11b6cdccede28db432f44a31c7f1cfe6543d76cad18cf7d751310dfd01ddb",
-  "trajectorySha256": "07122f67ab834a4c1517d28b0fd66ce4a52080a87c8216bd9d07aeb8ed1af7e9",
+  "trajectorySha256": "74ab6c4db25246caf9309bd2df64c05cc6fc6aeff7e2e5ef58dbc4d07c706ac5",
   "fullPoseIsGroundTruth": false,
   "artisticChoices": [
     "Unrequested rig offsets, radii, lens choices and smoothstep pacing are authored illustration choices, not inferred user constraints.",

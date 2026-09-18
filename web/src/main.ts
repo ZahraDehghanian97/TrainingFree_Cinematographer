@@ -86,6 +86,7 @@ const endTime = byId<HTMLElement>("endTime");
 const clockValue = byId<HTMLOutputElement>("clockValue");
 const speedButton = byId<HTMLButtonElement>("speedButton");
 const viewMode = byId<HTMLDivElement>("viewMode");
+const cutawayToggle = byId<HTMLInputElement>("cutawayToggle");
 const pathToggle = byId<HTMLInputElement>("pathToggle");
 const boundsToggle = byId<HTMLInputElement>("boundsToggle");
 const labelsToggle = byId<HTMLInputElement>("labelsToggle");
@@ -1222,6 +1223,7 @@ function bindEvents(): void {
     speedButton.textContent = `${playbackSpeed}×`;
   });
 
+  cutawayToggle.addEventListener("change", () => renderer.setCutaway(cutawayToggle.checked));
   pathToggle.addEventListener("change", () => renderer.setShowPath(pathToggle.checked));
   boundsToggle.addEventListener("change", () => renderer.setShowBounds(boundsToggle.checked));
   labelsToggle.addEventListener("change", () => renderer.setShowLabels(labelsToggle.checked));

@@ -25,28 +25,27 @@
     "background": "#343b40",
     "overviewCamera": {
       "position": [
-        10,
-        8,
-        12
+        25,
+        24,
+        32
       ],
       "target": [
         0,
-        1.5,
+        2,
         -1
       ]
     },
     "ground": {
       "y": 0,
       "size": [
-        24,
-        24
+        26.4,
+        38.4
       ],
       "color": "#85847e",
-      "surface": "concrete"
-    },
-    "grid": {
-      "size": 24,
-      "divisions": 24
+      "surface": "concrete",
+      "continuation": "none",
+      "details": "authored",
+      "render": false
     }
   },
   "entities": [
@@ -211,6 +210,10 @@
           1.75,
           0.25
         ]
+      },
+      "layout": {
+        "role": "subject",
+        "purpose": "کارگر"
       }
     },
     {
@@ -310,6 +313,10 @@
           1.75,
           0.25
         ]
+      },
+      "layout": {
+        "role": "subject",
+        "purpose": "همکار"
       }
     },
     {
@@ -318,9 +325,15 @@
       "transform": {
         "space": "world",
         "position": [
-          -0.6,
+          -11.8,
           0,
-          4.2
+          7.5
+        ],
+        "rotation": [
+          0,
+          0.707106781,
+          0,
+          0.707106781
         ]
       },
       "visual": {
@@ -339,6 +352,10 @@
           3,
           0.54
         ]
+      },
+      "layout": {
+        "role": "prop",
+        "purpose": "قفسه"
       }
     },
     {
@@ -347,9 +364,9 @@
       "transform": {
         "space": "world",
         "position": [
-          4.2,
+          10.2,
           0,
-          3.8
+          4.8
         ]
       },
       "visual": {
@@ -368,562 +385,8676 @@
           1.725,
           0.6
         ]
+      },
+      "layout": {
+        "role": "prop",
+        "purpose": "جعبه‌های روی هم"
       }
     },
     {
-      "id": "set-warehouse-shelf-00",
-      "label": "warehouse shelf",
+      "id": "arch-warehouse-north-panel-0",
+      "label": "Continuous enclosure wall",
       "transform": {
         "space": "world",
         "position": [
-          -10,
-          0,
-          -8
+          -7.055,
+          4.25,
+          -14
         ]
       },
       "visual": {
-        "type": "model",
-        "url": "/models/generated/warehouse-shelf.glb",
-        "fallback": {
-          "type": "primitive",
-          "shape": "box",
-          "params": {
-            "width": 3,
-            "height": 0.2,
-            "depth": 0.3
-          },
-          "color": "#717c87"
-        }
+        "type": "primitive",
+        "shape": "box",
+        "params": {
+          "size": [
+            12.11,
+            8.5,
+            0.22
+          ]
+        },
+        "color": "#acb0a5"
       },
       "bounds": {
         "type": "box",
         "min": [
-          -1.5,
-          0,
-          -0.54
+          -6.055,
+          -4.25,
+          -0.11
         ],
         "max": [
-          1.5,
+          6.055,
+          4.25,
+          0.11
+        ]
+      },
+      "layout": {
+        "role": "wall",
+        "purpose": "Continuous enclosure wall",
+        "surface": "plaster",
+        "support": "ground",
+        "cutaway": "wall",
+        "outwardNormal": [
+          0,
+          0,
+          -1
+        ]
+      }
+    },
+    {
+      "id": "arch-warehouse-north-warehouse-clerestory-sill-wall",
+      "label": "Continuous enclosure wall",
+      "transform": {
+        "space": "world",
+        "position": [
           3,
-          0.54
-        ]
-      }
-    },
-    {
-      "id": "set-crate-stack-01",
-      "label": "crate stack",
-      "transform": {
-        "space": "world",
-        "position": [
-          -10,
-          0,
-          -6
+          2.75,
+          -14
         ]
       },
       "visual": {
-        "type": "model",
-        "url": "/models/generated/crate-stack.glb",
-        "fallback": {
-          "type": "primitive",
-          "shape": "box",
-          "params": {
-            "width": 1.9,
-            "height": 0.2,
-            "depth": 0.3
-          },
-          "color": "#717c87"
-        }
+        "type": "primitive",
+        "shape": "box",
+        "params": {
+          "size": [
+            8,
+            5.5,
+            0.22
+          ]
+        },
+        "color": "#acb0a5"
       },
       "bounds": {
         "type": "box",
         "min": [
-          -0.95,
-          0,
-          -0.6
+          -4,
+          -2.75,
+          -0.11
         ],
         "max": [
-          0.95,
-          1.725,
-          0.6
+          4,
+          2.75,
+          0.11
+        ]
+      },
+      "layout": {
+        "role": "wall",
+        "purpose": "Continuous enclosure wall",
+        "surface": "plaster",
+        "support": "ground",
+        "cutaway": "wall",
+        "outwardNormal": [
+          0,
+          0,
+          -1
         ]
       }
     },
     {
-      "id": "set-warehouse-shelf-02",
-      "label": "warehouse shelf",
+      "id": "arch-warehouse-north-warehouse-clerestory-lintel",
+      "label": "Continuous enclosure wall",
       "transform": {
         "space": "world",
         "position": [
-          10,
-          0,
-          -8
-        ]
-      },
-      "visual": {
-        "type": "model",
-        "url": "/models/generated/warehouse-shelf.glb",
-        "fallback": {
-          "type": "primitive",
-          "shape": "box",
-          "params": {
-            "width": 3,
-            "height": 0.2,
-            "depth": 0.3
-          },
-          "color": "#717c87"
-        }
-      },
-      "bounds": {
-        "type": "box",
-        "min": [
-          -1.5,
-          0,
-          -0.54
-        ],
-        "max": [
-          1.5,
           3,
-          0.54
-        ]
-      }
-    },
-    {
-      "id": "set-crate-stack-03",
-      "label": "crate stack",
-      "transform": {
-        "space": "world",
-        "position": [
-          10,
-          0,
-          -6
+          7.75,
+          -14
         ]
       },
       "visual": {
-        "type": "model",
-        "url": "/models/generated/crate-stack.glb",
-        "fallback": {
-          "type": "primitive",
-          "shape": "box",
-          "params": {
-            "width": 1.9,
-            "height": 0.2,
-            "depth": 0.3
-          },
-          "color": "#717c87"
-        }
+        "type": "primitive",
+        "shape": "box",
+        "params": {
+          "size": [
+            8,
+            1.5,
+            0.22
+          ]
+        },
+        "color": "#acb0a5"
       },
       "bounds": {
         "type": "box",
         "min": [
-          -0.95,
-          0,
-          -0.6
+          -4,
+          -0.75,
+          -0.11
         ],
         "max": [
-          0.95,
-          1.725,
-          0.6
+          4,
+          0.75,
+          0.11
+        ]
+      },
+      "layout": {
+        "role": "wall",
+        "purpose": "Continuous enclosure wall",
+        "surface": "plaster",
+        "support": "ground",
+        "cutaway": "wall",
+        "outwardNormal": [
+          0,
+          0,
+          -1
         ]
       }
     },
     {
-      "id": "set-warehouse-shelf-04",
-      "label": "warehouse shelf",
+      "id": "warehouse-clerestory-jamb-left",
+      "label": "Window jamb seated on wall opening",
       "transform": {
         "space": "world",
         "position": [
-          -10,
-          0,
-          6
+          -1.035,
+          6.25,
+          -14
         ]
       },
       "visual": {
-        "type": "model",
-        "url": "/models/generated/warehouse-shelf.glb",
-        "fallback": {
-          "type": "primitive",
-          "shape": "box",
-          "params": {
-            "width": 3,
-            "height": 0.2,
-            "depth": 0.3
-          },
-          "color": "#717c87"
-        }
+        "type": "primitive",
+        "shape": "box",
+        "params": {
+          "size": [
+            0.07,
+            1.62,
+            0.3
+          ]
+        },
+        "color": "#8e6b4f"
       },
       "bounds": {
         "type": "box",
         "min": [
-          -1.5,
-          0,
-          -0.54
+          -0.035,
+          -0.81,
+          -0.15
         ],
         "max": [
-          1.5,
+          0.035,
+          0.81,
+          0.15
+        ]
+      },
+      "layout": {
+        "role": "trim",
+        "purpose": "Window jamb seated on wall opening",
+        "surface": "wood",
+        "support": "arch-warehouse-north-panel-0",
+        "cutaway": "wall",
+        "outwardNormal": [
+          0,
+          0,
+          -1
+        ]
+      }
+    },
+    {
+      "id": "warehouse-clerestory-jamb-right",
+      "label": "Window jamb seated on wall opening",
+      "transform": {
+        "space": "world",
+        "position": [
+          7.035,
+          6.25,
+          -14
+        ]
+      },
+      "visual": {
+        "type": "primitive",
+        "shape": "box",
+        "params": {
+          "size": [
+            0.07,
+            1.62,
+            0.3
+          ]
+        },
+        "color": "#8e6b4f"
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.035,
+          -0.81,
+          -0.15
+        ],
+        "max": [
+          0.035,
+          0.81,
+          0.15
+        ]
+      },
+      "layout": {
+        "role": "trim",
+        "purpose": "Window jamb seated on wall opening",
+        "surface": "wood",
+        "support": "arch-warehouse-north-panel-0",
+        "cutaway": "wall",
+        "outwardNormal": [
+          0,
+          0,
+          -1
+        ]
+      }
+    },
+    {
+      "id": "warehouse-clerestory-head",
+      "label": "Window lintel trim",
+      "transform": {
+        "space": "world",
+        "position": [
           3,
-          0.54
-        ]
-      }
-    },
-    {
-      "id": "set-crate-stack-05",
-      "label": "crate stack",
-      "transform": {
-        "space": "world",
-        "position": [
-          -10,
-          0,
-          8
+          7.035,
+          -14
         ]
       },
       "visual": {
-        "type": "model",
-        "url": "/models/generated/crate-stack.glb",
-        "fallback": {
-          "type": "primitive",
-          "shape": "box",
-          "params": {
-            "width": 1.9,
-            "height": 0.2,
-            "depth": 0.3
-          },
-          "color": "#717c87"
-        }
+        "type": "primitive",
+        "shape": "box",
+        "params": {
+          "size": [
+            8.14,
+            0.07,
+            0.3
+          ]
+        },
+        "color": "#8e6b4f"
       },
       "bounds": {
         "type": "box",
         "min": [
-          -0.95,
-          0,
-          -0.6
+          -4.07,
+          -0.035,
+          -0.15
         ],
         "max": [
-          0.95,
-          1.725,
-          0.6
+          4.07,
+          0.035,
+          0.15
+        ]
+      },
+      "layout": {
+        "role": "trim",
+        "purpose": "Window lintel trim",
+        "surface": "wood",
+        "support": "arch-warehouse-north-panel-0",
+        "cutaway": "wall",
+        "outwardNormal": [
+          0,
+          0,
+          -1
         ]
       }
     },
     {
-      "id": "set-warehouse-shelf-06",
-      "label": "warehouse shelf",
+      "id": "warehouse-clerestory-sill",
+      "label": "Window sill",
       "transform": {
         "space": "world",
         "position": [
-          10,
-          0,
-          6
-        ]
-      },
-      "visual": {
-        "type": "model",
-        "url": "/models/generated/warehouse-shelf.glb",
-        "fallback": {
-          "type": "primitive",
-          "shape": "box",
-          "params": {
-            "width": 3,
-            "height": 0.2,
-            "depth": 0.3
-          },
-          "color": "#717c87"
-        }
-      },
-      "bounds": {
-        "type": "box",
-        "min": [
-          -1.5,
-          0,
-          -0.54
-        ],
-        "max": [
-          1.5,
           3,
-          0.54
-        ]
-      }
-    },
-    {
-      "id": "set-crate-stack-07",
-      "label": "crate stack",
-      "transform": {
-        "space": "world",
-        "position": [
-          10,
-          0,
-          8
+          5.525,
+          -14
         ]
       },
       "visual": {
-        "type": "model",
-        "url": "/models/generated/crate-stack.glb",
-        "fallback": {
-          "type": "primitive",
-          "shape": "box",
-          "params": {
-            "width": 1.9,
-            "height": 0.2,
-            "depth": 0.3
-          },
-          "color": "#717c87"
-        }
+        "type": "primitive",
+        "shape": "box",
+        "params": {
+          "size": [
+            8.18,
+            0.05,
+            0.4
+          ]
+        },
+        "color": "#8e6b4f"
       },
       "bounds": {
         "type": "box",
         "min": [
-          -0.95,
-          0,
-          -0.6
+          -4.09,
+          -0.025,
+          -0.2
         ],
         "max": [
-          0.95,
-          1.725,
-          0.6
+          4.09,
+          0.025,
+          0.2
+        ]
+      },
+      "layout": {
+        "role": "trim",
+        "purpose": "Window sill",
+        "surface": "wood",
+        "support": "arch-warehouse-north-panel-0",
+        "cutaway": "wall",
+        "outwardNormal": [
+          0,
+          0,
+          -1
         ]
       }
     },
     {
-      "id": "set-workbench-08",
-      "label": "workbench",
+      "id": "warehouse-clerestory-glass",
+      "label": "Glazed window in a real wall opening",
+      "transform": {
+        "space": "world",
+        "position": [
+          3,
+          6.25,
+          -14
+        ]
+      },
+      "visual": {
+        "type": "primitive",
+        "shape": "box",
+        "params": {
+          "size": [
+            7.94,
+            1.44,
+            0.015
+          ]
+        },
+        "color": "#bad3d1"
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -3.97,
+          -0.72,
+          -0.0075
+        ],
+        "max": [
+          3.97,
+          0.72,
+          0.0075
+        ]
+      },
+      "layout": {
+        "role": "window",
+        "purpose": "Glazed window in a real wall opening",
+        "surface": "glass",
+        "support": "arch-warehouse-north-panel-0",
+        "cutaway": "wall",
+        "outwardNormal": [
+          0,
+          0,
+          -1
+        ]
+      },
+      "occlusion": {
+        "transparent": true
+      }
+    },
+    {
+      "id": "warehouse-clerestory-mullion-1",
+      "label": "Window mullion",
+      "transform": {
+        "space": "world",
+        "position": [
+          0,
+          6.25,
+          -14
+        ]
+      },
+      "visual": {
+        "type": "primitive",
+        "shape": "box",
+        "params": {
+          "size": [
+            0.045,
+            1.5,
+            0.08
+          ]
+        },
+        "color": "#465256"
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.0225,
+          -0.75,
+          -0.04
+        ],
+        "max": [
+          0.0225,
+          0.75,
+          0.04
+        ]
+      },
+      "layout": {
+        "role": "trim",
+        "purpose": "Window mullion",
+        "surface": "metal",
+        "support": "arch-warehouse-north-panel-0",
+        "cutaway": "wall",
+        "outwardNormal": [
+          0,
+          0,
+          -1
+        ]
+      }
+    },
+    {
+      "id": "warehouse-clerestory-mullion-2",
+      "label": "Window mullion",
+      "transform": {
+        "space": "world",
+        "position": [
+          1,
+          6.25,
+          -14
+        ]
+      },
+      "visual": {
+        "type": "primitive",
+        "shape": "box",
+        "params": {
+          "size": [
+            0.045,
+            1.5,
+            0.08
+          ]
+        },
+        "color": "#465256"
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.0225,
+          -0.75,
+          -0.04
+        ],
+        "max": [
+          0.0225,
+          0.75,
+          0.04
+        ]
+      },
+      "layout": {
+        "role": "trim",
+        "purpose": "Window mullion",
+        "surface": "metal",
+        "support": "arch-warehouse-north-panel-0",
+        "cutaway": "wall",
+        "outwardNormal": [
+          0,
+          0,
+          -1
+        ]
+      }
+    },
+    {
+      "id": "warehouse-clerestory-mullion-3",
+      "label": "Window mullion",
+      "transform": {
+        "space": "world",
+        "position": [
+          2,
+          6.25,
+          -14
+        ]
+      },
+      "visual": {
+        "type": "primitive",
+        "shape": "box",
+        "params": {
+          "size": [
+            0.045,
+            1.5,
+            0.08
+          ]
+        },
+        "color": "#465256"
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.0225,
+          -0.75,
+          -0.04
+        ],
+        "max": [
+          0.0225,
+          0.75,
+          0.04
+        ]
+      },
+      "layout": {
+        "role": "trim",
+        "purpose": "Window mullion",
+        "surface": "metal",
+        "support": "arch-warehouse-north-panel-0",
+        "cutaway": "wall",
+        "outwardNormal": [
+          0,
+          0,
+          -1
+        ]
+      }
+    },
+    {
+      "id": "warehouse-clerestory-mullion-4",
+      "label": "Window mullion",
+      "transform": {
+        "space": "world",
+        "position": [
+          3,
+          6.25,
+          -14
+        ]
+      },
+      "visual": {
+        "type": "primitive",
+        "shape": "box",
+        "params": {
+          "size": [
+            0.045,
+            1.5,
+            0.08
+          ]
+        },
+        "color": "#465256"
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.0225,
+          -0.75,
+          -0.04
+        ],
+        "max": [
+          0.0225,
+          0.75,
+          0.04
+        ]
+      },
+      "layout": {
+        "role": "trim",
+        "purpose": "Window mullion",
+        "surface": "metal",
+        "support": "arch-warehouse-north-panel-0",
+        "cutaway": "wall",
+        "outwardNormal": [
+          0,
+          0,
+          -1
+        ]
+      }
+    },
+    {
+      "id": "warehouse-clerestory-mullion-5",
+      "label": "Window mullion",
+      "transform": {
+        "space": "world",
+        "position": [
+          4,
+          6.25,
+          -14
+        ]
+      },
+      "visual": {
+        "type": "primitive",
+        "shape": "box",
+        "params": {
+          "size": [
+            0.045,
+            1.5,
+            0.08
+          ]
+        },
+        "color": "#465256"
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.0225,
+          -0.75,
+          -0.04
+        ],
+        "max": [
+          0.0225,
+          0.75,
+          0.04
+        ]
+      },
+      "layout": {
+        "role": "trim",
+        "purpose": "Window mullion",
+        "surface": "metal",
+        "support": "arch-warehouse-north-panel-0",
+        "cutaway": "wall",
+        "outwardNormal": [
+          0,
+          0,
+          -1
+        ]
+      }
+    },
+    {
+      "id": "warehouse-clerestory-mullion-6",
+      "label": "Window mullion",
+      "transform": {
+        "space": "world",
+        "position": [
+          5,
+          6.25,
+          -14
+        ]
+      },
+      "visual": {
+        "type": "primitive",
+        "shape": "box",
+        "params": {
+          "size": [
+            0.045,
+            1.5,
+            0.08
+          ]
+        },
+        "color": "#465256"
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.0225,
+          -0.75,
+          -0.04
+        ],
+        "max": [
+          0.0225,
+          0.75,
+          0.04
+        ]
+      },
+      "layout": {
+        "role": "trim",
+        "purpose": "Window mullion",
+        "surface": "metal",
+        "support": "arch-warehouse-north-panel-0",
+        "cutaway": "wall",
+        "outwardNormal": [
+          0,
+          0,
+          -1
+        ]
+      }
+    },
+    {
+      "id": "warehouse-clerestory-mullion-7",
+      "label": "Window mullion",
+      "transform": {
+        "space": "world",
+        "position": [
+          6,
+          6.25,
+          -14
+        ]
+      },
+      "visual": {
+        "type": "primitive",
+        "shape": "box",
+        "params": {
+          "size": [
+            0.045,
+            1.5,
+            0.08
+          ]
+        },
+        "color": "#465256"
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.0225,
+          -0.75,
+          -0.04
+        ],
+        "max": [
+          0.0225,
+          0.75,
+          0.04
+        ]
+      },
+      "layout": {
+        "role": "trim",
+        "purpose": "Window mullion",
+        "surface": "metal",
+        "support": "arch-warehouse-north-panel-0",
+        "cutaway": "wall",
+        "outwardNormal": [
+          0,
+          0,
+          -1
+        ]
+      }
+    },
+    {
+      "id": "arch-warehouse-north-end",
+      "label": "Continuous enclosure wall",
+      "transform": {
+        "space": "world",
+        "position": [
+          10.055,
+          4.25,
+          -14
+        ]
+      },
+      "visual": {
+        "type": "primitive",
+        "shape": "box",
+        "params": {
+          "size": [
+            6.109999999999999,
+            8.5,
+            0.22
+          ]
+        },
+        "color": "#acb0a5"
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -3.0549999999999997,
+          -4.25,
+          -0.11
+        ],
+        "max": [
+          3.0549999999999997,
+          4.25,
+          0.11
+        ]
+      },
+      "layout": {
+        "role": "wall",
+        "purpose": "Continuous enclosure wall",
+        "surface": "plaster",
+        "support": "ground",
+        "cutaway": "wall",
+        "outwardNormal": [
+          0,
+          0,
+          -1
+        ]
+      }
+    },
+    {
+      "id": "arch-warehouse-north-skirting-0",
+      "label": "Wall base/skirting",
+      "transform": {
+        "space": "world",
+        "position": [
+          0,
+          0.065,
+          -14
+        ]
+      },
+      "visual": {
+        "type": "primitive",
+        "shape": "box",
+        "params": {
+          "size": [
+            26.22,
+            0.13,
+            0.255
+          ]
+        },
+        "color": "#8e6b4f"
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -13.11,
+          -0.065,
+          -0.1275
+        ],
+        "max": [
+          13.11,
+          0.065,
+          0.1275
+        ]
+      },
+      "layout": {
+        "role": "trim",
+        "purpose": "Wall base/skirting",
+        "surface": "wood",
+        "support": "arch-warehouse-north-panel-0",
+        "cutaway": "wall",
+        "outwardNormal": [
+          0,
+          0,
+          -1
+        ]
+      }
+    },
+    {
+      "id": "arch-warehouse-south-panel-0",
+      "label": "Continuous enclosure wall",
+      "transform": {
+        "space": "world",
+        "position": [
+          -10.93,
+          4.25,
+          19
+        ]
+      },
+      "visual": {
+        "type": "primitive",
+        "shape": "box",
+        "params": {
+          "size": [
+            4.359999999999999,
+            8.5,
+            0.22
+          ]
+        },
+        "color": "#acb0a5"
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -2.1799999999999997,
+          -4.25,
+          -0.11
+        ],
+        "max": [
+          2.1799999999999997,
+          4.25,
+          0.11
+        ]
+      },
+      "layout": {
+        "role": "wall",
+        "purpose": "Continuous enclosure wall",
+        "surface": "plaster",
+        "support": "ground",
+        "cutaway": "wall",
+        "outwardNormal": [
+          0,
+          0,
+          1
+        ]
+      }
+    },
+    {
+      "id": "arch-warehouse-south-warehouse-personnel-entry-lintel",
+      "label": "Continuous enclosure wall",
       "transform": {
         "space": "world",
         "position": [
           -8,
-          0,
-          -4
+          5.5,
+          19
         ]
       },
       "visual": {
-        "type": "model",
-        "url": "/models/generated/workbench.glb",
-        "fallback": {
-          "type": "primitive",
-          "shape": "box",
-          "params": {
-            "width": 1.8,
-            "height": 0.2,
-            "depth": 0.3
-          },
-          "color": "#717c87"
-        }
+        "type": "primitive",
+        "shape": "box",
+        "params": {
+          "size": [
+            1.5,
+            6,
+            0.22
+          ]
+        },
+        "color": "#acb0a5"
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.75,
+          -3,
+          -0.11
+        ],
+        "max": [
+          0.75,
+          3,
+          0.11
+        ]
+      },
+      "layout": {
+        "role": "wall",
+        "purpose": "Continuous enclosure wall",
+        "surface": "plaster",
+        "support": "ground",
+        "cutaway": "wall",
+        "outwardNormal": [
+          0,
+          0,
+          1
+        ]
+      }
+    },
+    {
+      "id": "warehouse-personnel-entry-jamb-left",
+      "label": "Door jamb seated on wall opening",
+      "transform": {
+        "space": "world",
+        "position": [
+          -8.785,
+          1.25,
+          19
+        ]
+      },
+      "visual": {
+        "type": "primitive",
+        "shape": "box",
+        "params": {
+          "size": [
+            0.07,
+            2.62,
+            0.3
+          ]
+        },
+        "color": "#8e6b4f"
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.035,
+          -1.31,
+          -0.15
+        ],
+        "max": [
+          0.035,
+          1.31,
+          0.15
+        ]
+      },
+      "layout": {
+        "role": "trim",
+        "purpose": "Door jamb seated on wall opening",
+        "surface": "wood",
+        "support": "arch-warehouse-south-panel-0",
+        "cutaway": "wall",
+        "outwardNormal": [
+          0,
+          0,
+          1
+        ]
+      }
+    },
+    {
+      "id": "warehouse-personnel-entry-jamb-right",
+      "label": "Door jamb seated on wall opening",
+      "transform": {
+        "space": "world",
+        "position": [
+          -7.215,
+          1.25,
+          19
+        ]
+      },
+      "visual": {
+        "type": "primitive",
+        "shape": "box",
+        "params": {
+          "size": [
+            0.07,
+            2.62,
+            0.3
+          ]
+        },
+        "color": "#8e6b4f"
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.035,
+          -1.31,
+          -0.15
+        ],
+        "max": [
+          0.035,
+          1.31,
+          0.15
+        ]
+      },
+      "layout": {
+        "role": "trim",
+        "purpose": "Door jamb seated on wall opening",
+        "surface": "wood",
+        "support": "arch-warehouse-south-panel-0",
+        "cutaway": "wall",
+        "outwardNormal": [
+          0,
+          0,
+          1
+        ]
+      }
+    },
+    {
+      "id": "warehouse-personnel-entry-head",
+      "label": "Door lintel trim",
+      "transform": {
+        "space": "world",
+        "position": [
+          -8,
+          2.535,
+          19
+        ]
+      },
+      "visual": {
+        "type": "primitive",
+        "shape": "box",
+        "params": {
+          "size": [
+            1.6400000000000001,
+            0.07,
+            0.3
+          ]
+        },
+        "color": "#8e6b4f"
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.8200000000000001,
+          -0.035,
+          -0.15
+        ],
+        "max": [
+          0.8200000000000001,
+          0.035,
+          0.15
+        ]
+      },
+      "layout": {
+        "role": "trim",
+        "purpose": "Door lintel trim",
+        "surface": "wood",
+        "support": "arch-warehouse-south-panel-0",
+        "cutaway": "wall",
+        "outwardNormal": [
+          0,
+          0,
+          1
+        ]
+      }
+    },
+    {
+      "id": "arch-warehouse-south-end",
+      "label": "Continuous enclosure wall",
+      "transform": {
+        "space": "world",
+        "position": [
+          2.9299999999999997,
+          4.25,
+          19
+        ]
+      },
+      "visual": {
+        "type": "primitive",
+        "shape": "box",
+        "params": {
+          "size": [
+            20.36,
+            8.5,
+            0.22
+          ]
+        },
+        "color": "#acb0a5"
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -10.18,
+          -4.25,
+          -0.11
+        ],
+        "max": [
+          10.18,
+          4.25,
+          0.11
+        ]
+      },
+      "layout": {
+        "role": "wall",
+        "purpose": "Continuous enclosure wall",
+        "surface": "plaster",
+        "support": "ground",
+        "cutaway": "wall",
+        "outwardNormal": [
+          0,
+          0,
+          1
+        ]
+      }
+    },
+    {
+      "id": "arch-warehouse-south-skirting-0",
+      "label": "Wall base/skirting",
+      "transform": {
+        "space": "world",
+        "position": [
+          -10.93,
+          0.065,
+          19
+        ]
+      },
+      "visual": {
+        "type": "primitive",
+        "shape": "box",
+        "params": {
+          "size": [
+            4.359999999999999,
+            0.13,
+            0.255
+          ]
+        },
+        "color": "#8e6b4f"
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -2.1799999999999997,
+          -0.065,
+          -0.1275
+        ],
+        "max": [
+          2.1799999999999997,
+          0.065,
+          0.1275
+        ]
+      },
+      "layout": {
+        "role": "trim",
+        "purpose": "Wall base/skirting",
+        "surface": "wood",
+        "support": "arch-warehouse-south-panel-0",
+        "cutaway": "wall",
+        "outwardNormal": [
+          0,
+          0,
+          1
+        ]
+      }
+    },
+    {
+      "id": "arch-warehouse-south-skirting-1",
+      "label": "Wall base/skirting",
+      "transform": {
+        "space": "world",
+        "position": [
+          2.9299999999999997,
+          0.065,
+          19
+        ]
+      },
+      "visual": {
+        "type": "primitive",
+        "shape": "box",
+        "params": {
+          "size": [
+            20.36,
+            0.13,
+            0.255
+          ]
+        },
+        "color": "#8e6b4f"
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -10.18,
+          -0.065,
+          -0.1275
+        ],
+        "max": [
+          10.18,
+          0.065,
+          0.1275
+        ]
+      },
+      "layout": {
+        "role": "trim",
+        "purpose": "Wall base/skirting",
+        "surface": "wood",
+        "support": "arch-warehouse-south-panel-0",
+        "cutaway": "wall",
+        "outwardNormal": [
+          0,
+          0,
+          1
+        ]
+      }
+    },
+    {
+      "id": "arch-warehouse-west-end",
+      "label": "Continuous enclosure wall",
+      "transform": {
+        "space": "world",
+        "position": [
+          -13,
+          4.25,
+          2.5
+        ]
+      },
+      "visual": {
+        "type": "primitive",
+        "shape": "box",
+        "params": {
+          "size": [
+            0.22,
+            8.5,
+            33.22
+          ]
+        },
+        "color": "#acb0a5"
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.11,
+          -4.25,
+          -16.61
+        ],
+        "max": [
+          0.11,
+          4.25,
+          16.61
+        ]
+      },
+      "layout": {
+        "role": "wall",
+        "purpose": "Continuous enclosure wall",
+        "surface": "plaster",
+        "support": "ground",
+        "cutaway": "wall",
+        "outwardNormal": [
+          -1,
+          0,
+          0
+        ]
+      }
+    },
+    {
+      "id": "arch-warehouse-west-skirting-0",
+      "label": "Wall base/skirting",
+      "transform": {
+        "space": "world",
+        "position": [
+          -13,
+          0.065,
+          2.5
+        ]
+      },
+      "visual": {
+        "type": "primitive",
+        "shape": "box",
+        "params": {
+          "size": [
+            0.255,
+            0.13,
+            33.22
+          ]
+        },
+        "color": "#8e6b4f"
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.1275,
+          -0.065,
+          -16.61
+        ],
+        "max": [
+          0.1275,
+          0.065,
+          16.61
+        ]
+      },
+      "layout": {
+        "role": "trim",
+        "purpose": "Wall base/skirting",
+        "surface": "wood",
+        "support": "arch-warehouse-west-end",
+        "cutaway": "wall",
+        "outwardNormal": [
+          -1,
+          0,
+          0
+        ]
+      }
+    },
+    {
+      "id": "arch-warehouse-east-panel-0",
+      "label": "Continuous enclosure wall",
+      "transform": {
+        "space": "world",
+        "position": [
+          13,
+          4.25,
+          -2.1549999999999994
+        ]
+      },
+      "visual": {
+        "type": "primitive",
+        "shape": "box",
+        "params": {
+          "size": [
+            0.22,
+            8.5,
+            23.91
+          ]
+        },
+        "color": "#acb0a5"
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.11,
+          -4.25,
+          -11.955
+        ],
+        "max": [
+          0.11,
+          4.25,
+          11.955
+        ]
+      },
+      "layout": {
+        "role": "wall",
+        "purpose": "Continuous enclosure wall",
+        "surface": "plaster",
+        "support": "ground",
+        "cutaway": "wall",
+        "outwardNormal": [
+          1,
+          0,
+          0
+        ]
+      }
+    },
+    {
+      "id": "arch-warehouse-east-warehouse-goods-entry-lintel",
+      "label": "Continuous enclosure wall",
+      "transform": {
+        "space": "world",
+        "position": [
+          13,
+          6.5,
+          12
+        ]
+      },
+      "visual": {
+        "type": "primitive",
+        "shape": "box",
+        "params": {
+          "size": [
+            0.22,
+            4,
+            4.399999999999999
+          ]
+        },
+        "color": "#acb0a5"
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.11,
+          -2,
+          -2.1999999999999993
+        ],
+        "max": [
+          0.11,
+          2,
+          2.1999999999999993
+        ]
+      },
+      "layout": {
+        "role": "wall",
+        "purpose": "Continuous enclosure wall",
+        "surface": "plaster",
+        "support": "ground",
+        "cutaway": "wall",
+        "outwardNormal": [
+          1,
+          0,
+          0
+        ]
+      }
+    },
+    {
+      "id": "warehouse-goods-entry-jamb-left",
+      "label": "Door jamb seated on wall opening",
+      "transform": {
+        "space": "world",
+        "position": [
+          13,
+          2.25,
+          9.765
+        ]
+      },
+      "visual": {
+        "type": "primitive",
+        "shape": "box",
+        "params": {
+          "size": [
+            0.3,
+            4.62,
+            0.07
+          ]
+        },
+        "color": "#8e6b4f"
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.15,
+          -2.31,
+          -0.035
+        ],
+        "max": [
+          0.15,
+          2.31,
+          0.035
+        ]
+      },
+      "layout": {
+        "role": "trim",
+        "purpose": "Door jamb seated on wall opening",
+        "surface": "wood",
+        "support": "arch-warehouse-east-panel-0",
+        "cutaway": "wall",
+        "outwardNormal": [
+          1,
+          0,
+          0
+        ]
+      }
+    },
+    {
+      "id": "warehouse-goods-entry-jamb-right",
+      "label": "Door jamb seated on wall opening",
+      "transform": {
+        "space": "world",
+        "position": [
+          13,
+          2.25,
+          14.235
+        ]
+      },
+      "visual": {
+        "type": "primitive",
+        "shape": "box",
+        "params": {
+          "size": [
+            0.3,
+            4.62,
+            0.07
+          ]
+        },
+        "color": "#8e6b4f"
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.15,
+          -2.31,
+          -0.035
+        ],
+        "max": [
+          0.15,
+          2.31,
+          0.035
+        ]
+      },
+      "layout": {
+        "role": "trim",
+        "purpose": "Door jamb seated on wall opening",
+        "surface": "wood",
+        "support": "arch-warehouse-east-panel-0",
+        "cutaway": "wall",
+        "outwardNormal": [
+          1,
+          0,
+          0
+        ]
+      }
+    },
+    {
+      "id": "warehouse-goods-entry-head",
+      "label": "Door lintel trim",
+      "transform": {
+        "space": "world",
+        "position": [
+          13,
+          4.535,
+          12
+        ]
+      },
+      "visual": {
+        "type": "primitive",
+        "shape": "box",
+        "params": {
+          "size": [
+            0.3,
+            0.07,
+            4.54
+          ]
+        },
+        "color": "#8e6b4f"
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.15,
+          -0.035,
+          -2.27
+        ],
+        "max": [
+          0.15,
+          0.035,
+          2.27
+        ]
+      },
+      "layout": {
+        "role": "trim",
+        "purpose": "Door lintel trim",
+        "surface": "wood",
+        "support": "arch-warehouse-east-panel-0",
+        "cutaway": "wall",
+        "outwardNormal": [
+          1,
+          0,
+          0
+        ]
+      }
+    },
+    {
+      "id": "arch-warehouse-east-end",
+      "label": "Continuous enclosure wall",
+      "transform": {
+        "space": "world",
+        "position": [
+          13,
+          4.25,
+          16.655
+        ]
+      },
+      "visual": {
+        "type": "primitive",
+        "shape": "box",
+        "params": {
+          "size": [
+            0.22,
+            8.5,
+            4.91
+          ]
+        },
+        "color": "#acb0a5"
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.11,
+          -4.25,
+          -2.455
+        ],
+        "max": [
+          0.11,
+          4.25,
+          2.455
+        ]
+      },
+      "layout": {
+        "role": "wall",
+        "purpose": "Continuous enclosure wall",
+        "surface": "plaster",
+        "support": "ground",
+        "cutaway": "wall",
+        "outwardNormal": [
+          1,
+          0,
+          0
+        ]
+      }
+    },
+    {
+      "id": "arch-warehouse-east-skirting-0",
+      "label": "Wall base/skirting",
+      "transform": {
+        "space": "world",
+        "position": [
+          13,
+          0.065,
+          -2.1549999999999994
+        ]
+      },
+      "visual": {
+        "type": "primitive",
+        "shape": "box",
+        "params": {
+          "size": [
+            0.255,
+            0.13,
+            23.91
+          ]
+        },
+        "color": "#8e6b4f"
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.1275,
+          -0.065,
+          -11.955
+        ],
+        "max": [
+          0.1275,
+          0.065,
+          11.955
+        ]
+      },
+      "layout": {
+        "role": "trim",
+        "purpose": "Wall base/skirting",
+        "surface": "wood",
+        "support": "arch-warehouse-east-panel-0",
+        "cutaway": "wall",
+        "outwardNormal": [
+          1,
+          0,
+          0
+        ]
+      }
+    },
+    {
+      "id": "arch-warehouse-east-skirting-1",
+      "label": "Wall base/skirting",
+      "transform": {
+        "space": "world",
+        "position": [
+          13,
+          0.065,
+          16.655
+        ]
+      },
+      "visual": {
+        "type": "primitive",
+        "shape": "box",
+        "params": {
+          "size": [
+            0.255,
+            0.13,
+            4.91
+          ]
+        },
+        "color": "#8e6b4f"
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.1275,
+          -0.065,
+          -2.455
+        ],
+        "max": [
+          0.1275,
+          0.065,
+          2.455
+        ]
+      },
+      "layout": {
+        "role": "trim",
+        "purpose": "Wall base/skirting",
+        "surface": "wood",
+        "support": "arch-warehouse-east-panel-0",
+        "cutaway": "wall",
+        "outwardNormal": [
+          1,
+          0,
+          0
+        ]
+      }
+    },
+    {
+      "id": "arch-warehouse-slab",
+      "label": "Continuous structural floor slab",
+      "transform": {
+        "space": "world",
+        "position": [
+          0,
+          -0.12,
+          2.5
+        ]
+      },
+      "visual": {
+        "type": "primitive",
+        "shape": "box",
+        "params": {
+          "size": [
+            26.22,
+            0.24,
+            33.22
+          ]
+        },
+        "color": "#85847e"
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -13.11,
+          -0.12,
+          -16.61
+        ],
+        "max": [
+          13.11,
+          0.12,
+          16.61
+        ]
+      },
+      "layout": {
+        "role": "floor",
+        "purpose": "Continuous structural floor slab",
+        "surface": "concrete",
+        "support": "ground"
+      }
+    },
+    {
+      "id": "arch-warehouse-ceiling",
+      "label": "Full ceiling and weather roof; visible in Director POV",
+      "transform": {
+        "space": "world",
+        "position": [
+          0,
+          8.63,
+          2.5
+        ]
+      },
+      "visual": {
+        "type": "primitive",
+        "shape": "box",
+        "params": {
+          "size": [
+            26.22,
+            0.26,
+            33.22
+          ]
+        },
+        "color": "#c6beb0"
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -13.11,
+          -0.13,
+          -16.61
+        ],
+        "max": [
+          13.11,
+          0.13,
+          16.61
+        ]
+      },
+      "layout": {
+        "role": "ceiling",
+        "purpose": "Full ceiling and weather roof; visible in Director POV",
+        "surface": "plaster",
+        "support": "arch-warehouse-west-end",
+        "cutaway": "roof"
+      }
+    },
+    {
+      "id": "arch-warehouse-column-0--1",
+      "label": "Perimeter steel roof column",
+      "transform": {
+        "space": "world",
+        "position": [
+          -12.6,
+          4.05,
+          -11
+        ]
+      },
+      "visual": {
+        "type": "primitive",
+        "shape": "box",
+        "params": {
+          "size": [
+            0.3,
+            8.1,
+            0.3
+          ]
+        },
+        "color": "#465256"
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.15,
+          -4.05,
+          -0.15
+        ],
+        "max": [
+          0.15,
+          4.05,
+          0.15
+        ]
+      },
+      "layout": {
+        "role": "column",
+        "purpose": "Perimeter steel roof column",
+        "surface": "metal",
+        "support": "ground"
+      }
+    },
+    {
+      "id": "arch-warehouse-column-0-1",
+      "label": "Perimeter steel roof column",
+      "transform": {
+        "space": "world",
+        "position": [
+          12.6,
+          4.05,
+          -11
+        ]
+      },
+      "visual": {
+        "type": "primitive",
+        "shape": "box",
+        "params": {
+          "size": [
+            0.3,
+            8.1,
+            0.3
+          ]
+        },
+        "color": "#465256"
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.15,
+          -4.05,
+          -0.15
+        ],
+        "max": [
+          0.15,
+          4.05,
+          0.15
+        ]
+      },
+      "layout": {
+        "role": "column",
+        "purpose": "Perimeter steel roof column",
+        "surface": "metal",
+        "support": "ground"
+      }
+    },
+    {
+      "id": "arch-warehouse-roof-beam-0",
+      "label": "Roof girder carried by perimeter column pair",
+      "transform": {
+        "space": "world",
+        "position": [
+          0,
+          8.25,
+          -11
+        ]
+      },
+      "visual": {
+        "type": "primitive",
+        "shape": "box",
+        "params": {
+          "size": [
+            26,
+            0.5,
+            0.28
+          ]
+        },
+        "color": "#465256"
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -13,
+          -0.25,
+          -0.14
+        ],
+        "max": [
+          13,
+          0.25,
+          0.14
+        ]
+      },
+      "layout": {
+        "role": "beam",
+        "purpose": "Roof girder carried by perimeter column pair",
+        "surface": "metal",
+        "support": "arch-warehouse-column-0--1",
+        "cutaway": "roof"
+      }
+    },
+    {
+      "id": "arch-warehouse-light-0-0-mount",
+      "label": "Ceiling-mounted luminaire housing",
+      "transform": {
+        "space": "world",
+        "position": [
+          -8,
+          7.905,
+          -11
+        ]
+      },
+      "visual": {
+        "type": "primitive",
+        "shape": "box",
+        "params": {
+          "size": [
+            1.8800000000000001,
+            0.09,
+            0.24
+          ]
+        },
+        "color": "#465256"
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.9400000000000001,
+          -0.045,
+          -0.12
+        ],
+        "max": [
+          0.9400000000000001,
+          0.045,
+          0.12
+        ]
+      },
+      "layout": {
+        "role": "fixture",
+        "purpose": "Ceiling-mounted luminaire housing",
+        "surface": "metal",
+        "support": "arch-warehouse-ceiling"
+      }
+    },
+    {
+      "id": "arch-warehouse-light-0-0",
+      "label": "Downward practical ceiling light",
+      "transform": {
+        "space": "world",
+        "position": [
+          -8,
+          7.848,
+          -11
+        ]
+      },
+      "visual": {
+        "type": "primitive",
+        "shape": "box",
+        "params": {
+          "size": [
+            1.8,
+            0.025,
+            0.16
+          ]
+        },
+        "color": "#f6deb6"
       },
       "bounds": {
         "type": "box",
         "min": [
           -0.9,
-          0,
-          -0.36
+          -0.0125,
+          -0.08
         ],
         "max": [
           0.9,
-          0.93,
-          0.36
-        ]
-      }
-    },
-    {
-      "id": "set-lighting-truss-09",
-      "label": "lighting truss",
-      "transform": {
-        "space": "world",
-        "position": [
-          9,
-          0,
-          -4
+          0.0125,
+          0.08
         ]
       },
-      "visual": {
-        "type": "model",
-        "url": "/models/generated/lighting-truss.glb",
-        "fallback": {
-          "type": "primitive",
-          "shape": "box",
-          "params": {
-            "width": 1.1,
-            "height": 0.2,
-            "depth": 0.3
-          },
-          "color": "#717c87"
+      "layout": {
+        "role": "fixture",
+        "purpose": "Downward practical ceiling light",
+        "surface": "emissive",
+        "support": "arch-warehouse-light-0-0-mount",
+        "light": {
+          "color": "#ffe8c9",
+          "intensity": 100,
+          "distance": 15.9
         }
-      },
-      "bounds": {
-        "type": "box",
-        "min": [
-          -0.55,
-          0,
-          -0.55
-        ],
-        "max": [
-          0.55,
-          3.6,
-          0.55
-        ]
       }
     },
     {
-      "id": "set-support-10",
-      "label": "supporting warehouse technician, #bd893d jacket; supporting subject, not the principal actor",
+      "id": "arch-warehouse-light-0-1-mount",
+      "label": "Ceiling-mounted luminaire housing",
       "transform": {
         "space": "world",
         "position": [
-          -8,
           0,
-          3
+          7.905,
+          -11
         ]
       },
       "visual": {
-        "type": "preset",
-        "name": "humanoid",
+        "type": "primitive",
+        "shape": "box",
         "params": {
-          "height": 1.8,
-          "shirtColor": "#bd893d",
-          "trouserColor": "#283341",
-          "color": "#ad805f",
-          "motion": "idle"
-        }
+          "size": [
+            1.8800000000000001,
+            0.09,
+            0.24
+          ]
+        },
+        "color": "#465256"
       },
       "bounds": {
         "type": "box",
         "min": [
-          -0.325,
-          0,
-          -0.25
+          -0.9400000000000001,
+          -0.045,
+          -0.12
         ],
         "max": [
-          0.325,
-          1.8,
-          0.25
+          0.9400000000000001,
+          0.045,
+          0.12
         ]
+      },
+      "layout": {
+        "role": "fixture",
+        "purpose": "Ceiling-mounted luminaire housing",
+        "surface": "metal",
+        "support": "arch-warehouse-ceiling"
       }
     },
     {
-      "id": "set-support-11",
-      "label": "supporting warehouse technician, #bd893d jacket; supporting subject, not the principal actor",
+      "id": "arch-warehouse-light-0-1",
+      "label": "Downward practical ceiling light",
+      "transform": {
+        "space": "world",
+        "position": [
+          0,
+          7.848,
+          -11
+        ]
+      },
+      "visual": {
+        "type": "primitive",
+        "shape": "box",
+        "params": {
+          "size": [
+            1.8,
+            0.025,
+            0.16
+          ]
+        },
+        "color": "#f6deb6"
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.9,
+          -0.0125,
+          -0.08
+        ],
+        "max": [
+          0.9,
+          0.0125,
+          0.08
+        ]
+      },
+      "layout": {
+        "role": "fixture",
+        "purpose": "Downward practical ceiling light",
+        "surface": "emissive",
+        "support": "arch-warehouse-light-0-1-mount",
+        "light": {
+          "color": "#ffe8c9",
+          "intensity": 100,
+          "distance": 15.9
+        }
+      }
+    },
+    {
+      "id": "arch-warehouse-light-0-2-mount",
+      "label": "Ceiling-mounted luminaire housing",
       "transform": {
         "space": "world",
         "position": [
           8,
-          0,
-          3
+          7.905,
+          -11
         ]
       },
       "visual": {
-        "type": "preset",
-        "name": "humanoid",
+        "type": "primitive",
+        "shape": "box",
         "params": {
-          "height": 1.8,
-          "shirtColor": "#bd893d",
-          "trouserColor": "#283341",
-          "color": "#ad805f",
-          "motion": "idle"
-        }
+          "size": [
+            1.8800000000000001,
+            0.09,
+            0.24
+          ]
+        },
+        "color": "#465256"
       },
       "bounds": {
         "type": "box",
         "min": [
-          -0.325,
-          0,
-          -0.25
+          -0.9400000000000001,
+          -0.045,
+          -0.12
         ],
         "max": [
-          0.325,
-          1.8,
-          0.25
+          0.9400000000000001,
+          0.045,
+          0.12
         ]
+      },
+      "layout": {
+        "role": "fixture",
+        "purpose": "Ceiling-mounted luminaire housing",
+        "surface": "metal",
+        "support": "arch-warehouse-ceiling"
       }
     },
     {
-      "id": "set-support-12",
-      "label": "supporting warehouse technician, #bd893d jacket; supporting subject, not the principal actor",
+      "id": "arch-warehouse-light-0-2",
+      "label": "Downward practical ceiling light",
       "transform": {
         "space": "world",
         "position": [
-          -7,
-          0,
-          -8
+          8,
+          7.848,
+          -11
         ]
       },
       "visual": {
-        "type": "preset",
-        "name": "humanoid",
+        "type": "primitive",
+        "shape": "box",
         "params": {
-          "height": 1.8,
-          "shirtColor": "#bd893d",
-          "trouserColor": "#283341",
-          "color": "#ad805f",
-          "motion": "idle"
-        }
+          "size": [
+            1.8,
+            0.025,
+            0.16
+          ]
+        },
+        "color": "#f6deb6"
       },
       "bounds": {
         "type": "box",
         "min": [
-          -0.325,
-          0,
-          -0.25
+          -0.9,
+          -0.0125,
+          -0.08
         ],
         "max": [
-          0.325,
-          1.8,
-          0.25
+          0.9,
+          0.0125,
+          0.08
         ]
+      },
+      "layout": {
+        "role": "fixture",
+        "purpose": "Downward practical ceiling light",
+        "surface": "emissive",
+        "support": "arch-warehouse-light-0-2-mount",
+        "light": {
+          "color": "#ffe8c9",
+          "intensity": 100,
+          "distance": 15.9
+        }
+      }
+    },
+    {
+      "id": "arch-warehouse-column-1--1",
+      "label": "Perimeter steel roof column",
+      "transform": {
+        "space": "world",
+        "position": [
+          -12.6,
+          4.05,
+          -3
+        ]
+      },
+      "visual": {
+        "type": "primitive",
+        "shape": "box",
+        "params": {
+          "size": [
+            0.3,
+            8.1,
+            0.3
+          ]
+        },
+        "color": "#465256"
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.15,
+          -4.05,
+          -0.15
+        ],
+        "max": [
+          0.15,
+          4.05,
+          0.15
+        ]
+      },
+      "layout": {
+        "role": "column",
+        "purpose": "Perimeter steel roof column",
+        "surface": "metal",
+        "support": "ground"
+      }
+    },
+    {
+      "id": "arch-warehouse-column-1-1",
+      "label": "Perimeter steel roof column",
+      "transform": {
+        "space": "world",
+        "position": [
+          12.6,
+          4.05,
+          -3
+        ]
+      },
+      "visual": {
+        "type": "primitive",
+        "shape": "box",
+        "params": {
+          "size": [
+            0.3,
+            8.1,
+            0.3
+          ]
+        },
+        "color": "#465256"
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.15,
+          -4.05,
+          -0.15
+        ],
+        "max": [
+          0.15,
+          4.05,
+          0.15
+        ]
+      },
+      "layout": {
+        "role": "column",
+        "purpose": "Perimeter steel roof column",
+        "surface": "metal",
+        "support": "ground"
+      }
+    },
+    {
+      "id": "arch-warehouse-roof-beam-1",
+      "label": "Roof girder carried by perimeter column pair",
+      "transform": {
+        "space": "world",
+        "position": [
+          0,
+          8.25,
+          -3
+        ]
+      },
+      "visual": {
+        "type": "primitive",
+        "shape": "box",
+        "params": {
+          "size": [
+            26,
+            0.5,
+            0.28
+          ]
+        },
+        "color": "#465256"
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -13,
+          -0.25,
+          -0.14
+        ],
+        "max": [
+          13,
+          0.25,
+          0.14
+        ]
+      },
+      "layout": {
+        "role": "beam",
+        "purpose": "Roof girder carried by perimeter column pair",
+        "surface": "metal",
+        "support": "arch-warehouse-column-1--1",
+        "cutaway": "roof"
+      }
+    },
+    {
+      "id": "arch-warehouse-light-1-0-mount",
+      "label": "Ceiling-mounted luminaire housing",
+      "transform": {
+        "space": "world",
+        "position": [
+          -8,
+          7.905,
+          -3
+        ]
+      },
+      "visual": {
+        "type": "primitive",
+        "shape": "box",
+        "params": {
+          "size": [
+            1.8800000000000001,
+            0.09,
+            0.24
+          ]
+        },
+        "color": "#465256"
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.9400000000000001,
+          -0.045,
+          -0.12
+        ],
+        "max": [
+          0.9400000000000001,
+          0.045,
+          0.12
+        ]
+      },
+      "layout": {
+        "role": "fixture",
+        "purpose": "Ceiling-mounted luminaire housing",
+        "surface": "metal",
+        "support": "arch-warehouse-ceiling"
+      }
+    },
+    {
+      "id": "arch-warehouse-light-1-0",
+      "label": "Downward practical ceiling light",
+      "transform": {
+        "space": "world",
+        "position": [
+          -8,
+          7.848,
+          -3
+        ]
+      },
+      "visual": {
+        "type": "primitive",
+        "shape": "box",
+        "params": {
+          "size": [
+            1.8,
+            0.025,
+            0.16
+          ]
+        },
+        "color": "#f6deb6"
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.9,
+          -0.0125,
+          -0.08
+        ],
+        "max": [
+          0.9,
+          0.0125,
+          0.08
+        ]
+      },
+      "layout": {
+        "role": "fixture",
+        "purpose": "Downward practical ceiling light",
+        "surface": "emissive",
+        "support": "arch-warehouse-light-1-0-mount",
+        "light": {
+          "color": "#ffe8c9",
+          "intensity": 100,
+          "distance": 15.9
+        }
+      }
+    },
+    {
+      "id": "arch-warehouse-light-1-1-mount",
+      "label": "Ceiling-mounted luminaire housing",
+      "transform": {
+        "space": "world",
+        "position": [
+          0,
+          7.905,
+          -3
+        ]
+      },
+      "visual": {
+        "type": "primitive",
+        "shape": "box",
+        "params": {
+          "size": [
+            1.8800000000000001,
+            0.09,
+            0.24
+          ]
+        },
+        "color": "#465256"
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.9400000000000001,
+          -0.045,
+          -0.12
+        ],
+        "max": [
+          0.9400000000000001,
+          0.045,
+          0.12
+        ]
+      },
+      "layout": {
+        "role": "fixture",
+        "purpose": "Ceiling-mounted luminaire housing",
+        "surface": "metal",
+        "support": "arch-warehouse-ceiling"
+      }
+    },
+    {
+      "id": "arch-warehouse-light-1-1",
+      "label": "Downward practical ceiling light",
+      "transform": {
+        "space": "world",
+        "position": [
+          0,
+          7.848,
+          -3
+        ]
+      },
+      "visual": {
+        "type": "primitive",
+        "shape": "box",
+        "params": {
+          "size": [
+            1.8,
+            0.025,
+            0.16
+          ]
+        },
+        "color": "#f6deb6"
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.9,
+          -0.0125,
+          -0.08
+        ],
+        "max": [
+          0.9,
+          0.0125,
+          0.08
+        ]
+      },
+      "layout": {
+        "role": "fixture",
+        "purpose": "Downward practical ceiling light",
+        "surface": "emissive",
+        "support": "arch-warehouse-light-1-1-mount",
+        "light": {
+          "color": "#ffe8c9",
+          "intensity": 100,
+          "distance": 15.9
+        }
+      }
+    },
+    {
+      "id": "arch-warehouse-light-1-2-mount",
+      "label": "Ceiling-mounted luminaire housing",
+      "transform": {
+        "space": "world",
+        "position": [
+          8,
+          7.905,
+          -3
+        ]
+      },
+      "visual": {
+        "type": "primitive",
+        "shape": "box",
+        "params": {
+          "size": [
+            1.8800000000000001,
+            0.09,
+            0.24
+          ]
+        },
+        "color": "#465256"
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.9400000000000001,
+          -0.045,
+          -0.12
+        ],
+        "max": [
+          0.9400000000000001,
+          0.045,
+          0.12
+        ]
+      },
+      "layout": {
+        "role": "fixture",
+        "purpose": "Ceiling-mounted luminaire housing",
+        "surface": "metal",
+        "support": "arch-warehouse-ceiling"
+      }
+    },
+    {
+      "id": "arch-warehouse-light-1-2",
+      "label": "Downward practical ceiling light",
+      "transform": {
+        "space": "world",
+        "position": [
+          8,
+          7.848,
+          -3
+        ]
+      },
+      "visual": {
+        "type": "primitive",
+        "shape": "box",
+        "params": {
+          "size": [
+            1.8,
+            0.025,
+            0.16
+          ]
+        },
+        "color": "#f6deb6"
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.9,
+          -0.0125,
+          -0.08
+        ],
+        "max": [
+          0.9,
+          0.0125,
+          0.08
+        ]
+      },
+      "layout": {
+        "role": "fixture",
+        "purpose": "Downward practical ceiling light",
+        "surface": "emissive",
+        "support": "arch-warehouse-light-1-2-mount",
+        "light": {
+          "color": "#ffe8c9",
+          "intensity": 100,
+          "distance": 15.9
+        }
+      }
+    },
+    {
+      "id": "arch-warehouse-column-2--1",
+      "label": "Perimeter steel roof column",
+      "transform": {
+        "space": "world",
+        "position": [
+          -12.6,
+          4.05,
+          5
+        ]
+      },
+      "visual": {
+        "type": "primitive",
+        "shape": "box",
+        "params": {
+          "size": [
+            0.3,
+            8.1,
+            0.3
+          ]
+        },
+        "color": "#465256"
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.15,
+          -4.05,
+          -0.15
+        ],
+        "max": [
+          0.15,
+          4.05,
+          0.15
+        ]
+      },
+      "layout": {
+        "role": "column",
+        "purpose": "Perimeter steel roof column",
+        "surface": "metal",
+        "support": "ground"
+      }
+    },
+    {
+      "id": "arch-warehouse-column-2-1",
+      "label": "Perimeter steel roof column",
+      "transform": {
+        "space": "world",
+        "position": [
+          12.6,
+          4.05,
+          5
+        ]
+      },
+      "visual": {
+        "type": "primitive",
+        "shape": "box",
+        "params": {
+          "size": [
+            0.3,
+            8.1,
+            0.3
+          ]
+        },
+        "color": "#465256"
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.15,
+          -4.05,
+          -0.15
+        ],
+        "max": [
+          0.15,
+          4.05,
+          0.15
+        ]
+      },
+      "layout": {
+        "role": "column",
+        "purpose": "Perimeter steel roof column",
+        "surface": "metal",
+        "support": "ground"
+      }
+    },
+    {
+      "id": "arch-warehouse-roof-beam-2",
+      "label": "Roof girder carried by perimeter column pair",
+      "transform": {
+        "space": "world",
+        "position": [
+          0,
+          8.25,
+          5
+        ]
+      },
+      "visual": {
+        "type": "primitive",
+        "shape": "box",
+        "params": {
+          "size": [
+            26,
+            0.5,
+            0.28
+          ]
+        },
+        "color": "#465256"
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -13,
+          -0.25,
+          -0.14
+        ],
+        "max": [
+          13,
+          0.25,
+          0.14
+        ]
+      },
+      "layout": {
+        "role": "beam",
+        "purpose": "Roof girder carried by perimeter column pair",
+        "surface": "metal",
+        "support": "arch-warehouse-column-2--1",
+        "cutaway": "roof"
+      }
+    },
+    {
+      "id": "arch-warehouse-light-2-0-mount",
+      "label": "Ceiling-mounted luminaire housing",
+      "transform": {
+        "space": "world",
+        "position": [
+          -8,
+          7.905,
+          5
+        ]
+      },
+      "visual": {
+        "type": "primitive",
+        "shape": "box",
+        "params": {
+          "size": [
+            1.8800000000000001,
+            0.09,
+            0.24
+          ]
+        },
+        "color": "#465256"
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.9400000000000001,
+          -0.045,
+          -0.12
+        ],
+        "max": [
+          0.9400000000000001,
+          0.045,
+          0.12
+        ]
+      },
+      "layout": {
+        "role": "fixture",
+        "purpose": "Ceiling-mounted luminaire housing",
+        "surface": "metal",
+        "support": "arch-warehouse-ceiling"
+      }
+    },
+    {
+      "id": "arch-warehouse-light-2-0",
+      "label": "Downward practical ceiling light",
+      "transform": {
+        "space": "world",
+        "position": [
+          -8,
+          7.848,
+          5
+        ]
+      },
+      "visual": {
+        "type": "primitive",
+        "shape": "box",
+        "params": {
+          "size": [
+            1.8,
+            0.025,
+            0.16
+          ]
+        },
+        "color": "#f6deb6"
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.9,
+          -0.0125,
+          -0.08
+        ],
+        "max": [
+          0.9,
+          0.0125,
+          0.08
+        ]
+      },
+      "layout": {
+        "role": "fixture",
+        "purpose": "Downward practical ceiling light",
+        "surface": "emissive",
+        "support": "arch-warehouse-light-2-0-mount",
+        "light": {
+          "color": "#ffe8c9",
+          "intensity": 100,
+          "distance": 15.9
+        }
+      }
+    },
+    {
+      "id": "arch-warehouse-light-2-1-mount",
+      "label": "Ceiling-mounted luminaire housing",
+      "transform": {
+        "space": "world",
+        "position": [
+          0,
+          7.905,
+          5
+        ]
+      },
+      "visual": {
+        "type": "primitive",
+        "shape": "box",
+        "params": {
+          "size": [
+            1.8800000000000001,
+            0.09,
+            0.24
+          ]
+        },
+        "color": "#465256"
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.9400000000000001,
+          -0.045,
+          -0.12
+        ],
+        "max": [
+          0.9400000000000001,
+          0.045,
+          0.12
+        ]
+      },
+      "layout": {
+        "role": "fixture",
+        "purpose": "Ceiling-mounted luminaire housing",
+        "surface": "metal",
+        "support": "arch-warehouse-ceiling"
+      }
+    },
+    {
+      "id": "arch-warehouse-light-2-1",
+      "label": "Downward practical ceiling light",
+      "transform": {
+        "space": "world",
+        "position": [
+          0,
+          7.848,
+          5
+        ]
+      },
+      "visual": {
+        "type": "primitive",
+        "shape": "box",
+        "params": {
+          "size": [
+            1.8,
+            0.025,
+            0.16
+          ]
+        },
+        "color": "#f6deb6"
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.9,
+          -0.0125,
+          -0.08
+        ],
+        "max": [
+          0.9,
+          0.0125,
+          0.08
+        ]
+      },
+      "layout": {
+        "role": "fixture",
+        "purpose": "Downward practical ceiling light",
+        "surface": "emissive",
+        "support": "arch-warehouse-light-2-1-mount",
+        "light": {
+          "color": "#ffe8c9",
+          "intensity": 100,
+          "distance": 15.9
+        }
+      }
+    },
+    {
+      "id": "arch-warehouse-light-2-2-mount",
+      "label": "Ceiling-mounted luminaire housing",
+      "transform": {
+        "space": "world",
+        "position": [
+          8,
+          7.905,
+          5
+        ]
+      },
+      "visual": {
+        "type": "primitive",
+        "shape": "box",
+        "params": {
+          "size": [
+            1.8800000000000001,
+            0.09,
+            0.24
+          ]
+        },
+        "color": "#465256"
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.9400000000000001,
+          -0.045,
+          -0.12
+        ],
+        "max": [
+          0.9400000000000001,
+          0.045,
+          0.12
+        ]
+      },
+      "layout": {
+        "role": "fixture",
+        "purpose": "Ceiling-mounted luminaire housing",
+        "surface": "metal",
+        "support": "arch-warehouse-ceiling"
+      }
+    },
+    {
+      "id": "arch-warehouse-light-2-2",
+      "label": "Downward practical ceiling light",
+      "transform": {
+        "space": "world",
+        "position": [
+          8,
+          7.848,
+          5
+        ]
+      },
+      "visual": {
+        "type": "primitive",
+        "shape": "box",
+        "params": {
+          "size": [
+            1.8,
+            0.025,
+            0.16
+          ]
+        },
+        "color": "#f6deb6"
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.9,
+          -0.0125,
+          -0.08
+        ],
+        "max": [
+          0.9,
+          0.0125,
+          0.08
+        ]
+      },
+      "layout": {
+        "role": "fixture",
+        "purpose": "Downward practical ceiling light",
+        "surface": "emissive",
+        "support": "arch-warehouse-light-2-2-mount",
+        "light": {
+          "color": "#ffe8c9",
+          "intensity": 100,
+          "distance": 15.9
+        }
+      }
+    },
+    {
+      "id": "arch-warehouse-column-3--1",
+      "label": "Perimeter steel roof column",
+      "transform": {
+        "space": "world",
+        "position": [
+          -12.6,
+          4.05,
+          13
+        ]
+      },
+      "visual": {
+        "type": "primitive",
+        "shape": "box",
+        "params": {
+          "size": [
+            0.3,
+            8.1,
+            0.3
+          ]
+        },
+        "color": "#465256"
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.15,
+          -4.05,
+          -0.15
+        ],
+        "max": [
+          0.15,
+          4.05,
+          0.15
+        ]
+      },
+      "layout": {
+        "role": "column",
+        "purpose": "Perimeter steel roof column",
+        "surface": "metal",
+        "support": "ground"
+      }
+    },
+    {
+      "id": "arch-warehouse-column-3-1",
+      "label": "Perimeter steel roof column",
+      "transform": {
+        "space": "world",
+        "position": [
+          12.6,
+          4.05,
+          13
+        ]
+      },
+      "visual": {
+        "type": "primitive",
+        "shape": "box",
+        "params": {
+          "size": [
+            0.3,
+            8.1,
+            0.3
+          ]
+        },
+        "color": "#465256"
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.15,
+          -4.05,
+          -0.15
+        ],
+        "max": [
+          0.15,
+          4.05,
+          0.15
+        ]
+      },
+      "layout": {
+        "role": "column",
+        "purpose": "Perimeter steel roof column",
+        "surface": "metal",
+        "support": "ground"
+      }
+    },
+    {
+      "id": "arch-warehouse-roof-beam-3",
+      "label": "Roof girder carried by perimeter column pair",
+      "transform": {
+        "space": "world",
+        "position": [
+          0,
+          8.25,
+          13
+        ]
+      },
+      "visual": {
+        "type": "primitive",
+        "shape": "box",
+        "params": {
+          "size": [
+            26,
+            0.5,
+            0.28
+          ]
+        },
+        "color": "#465256"
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -13,
+          -0.25,
+          -0.14
+        ],
+        "max": [
+          13,
+          0.25,
+          0.14
+        ]
+      },
+      "layout": {
+        "role": "beam",
+        "purpose": "Roof girder carried by perimeter column pair",
+        "surface": "metal",
+        "support": "arch-warehouse-column-3--1",
+        "cutaway": "roof"
+      }
+    },
+    {
+      "id": "arch-warehouse-light-3-0-mount",
+      "label": "Ceiling-mounted luminaire housing",
+      "transform": {
+        "space": "world",
+        "position": [
+          -8,
+          7.905,
+          13
+        ]
+      },
+      "visual": {
+        "type": "primitive",
+        "shape": "box",
+        "params": {
+          "size": [
+            1.8800000000000001,
+            0.09,
+            0.24
+          ]
+        },
+        "color": "#465256"
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.9400000000000001,
+          -0.045,
+          -0.12
+        ],
+        "max": [
+          0.9400000000000001,
+          0.045,
+          0.12
+        ]
+      },
+      "layout": {
+        "role": "fixture",
+        "purpose": "Ceiling-mounted luminaire housing",
+        "surface": "metal",
+        "support": "arch-warehouse-ceiling"
+      }
+    },
+    {
+      "id": "arch-warehouse-light-3-0",
+      "label": "Downward practical ceiling light",
+      "transform": {
+        "space": "world",
+        "position": [
+          -8,
+          7.848,
+          13
+        ]
+      },
+      "visual": {
+        "type": "primitive",
+        "shape": "box",
+        "params": {
+          "size": [
+            1.8,
+            0.025,
+            0.16
+          ]
+        },
+        "color": "#f6deb6"
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.9,
+          -0.0125,
+          -0.08
+        ],
+        "max": [
+          0.9,
+          0.0125,
+          0.08
+        ]
+      },
+      "layout": {
+        "role": "fixture",
+        "purpose": "Downward practical ceiling light",
+        "surface": "emissive",
+        "support": "arch-warehouse-light-3-0-mount",
+        "light": {
+          "color": "#ffe8c9",
+          "intensity": 100,
+          "distance": 15.9
+        }
+      }
+    },
+    {
+      "id": "arch-warehouse-light-3-1-mount",
+      "label": "Ceiling-mounted luminaire housing",
+      "transform": {
+        "space": "world",
+        "position": [
+          0,
+          7.905,
+          13
+        ]
+      },
+      "visual": {
+        "type": "primitive",
+        "shape": "box",
+        "params": {
+          "size": [
+            1.8800000000000001,
+            0.09,
+            0.24
+          ]
+        },
+        "color": "#465256"
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.9400000000000001,
+          -0.045,
+          -0.12
+        ],
+        "max": [
+          0.9400000000000001,
+          0.045,
+          0.12
+        ]
+      },
+      "layout": {
+        "role": "fixture",
+        "purpose": "Ceiling-mounted luminaire housing",
+        "surface": "metal",
+        "support": "arch-warehouse-ceiling"
+      }
+    },
+    {
+      "id": "arch-warehouse-light-3-1",
+      "label": "Downward practical ceiling light",
+      "transform": {
+        "space": "world",
+        "position": [
+          0,
+          7.848,
+          13
+        ]
+      },
+      "visual": {
+        "type": "primitive",
+        "shape": "box",
+        "params": {
+          "size": [
+            1.8,
+            0.025,
+            0.16
+          ]
+        },
+        "color": "#f6deb6"
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.9,
+          -0.0125,
+          -0.08
+        ],
+        "max": [
+          0.9,
+          0.0125,
+          0.08
+        ]
+      },
+      "layout": {
+        "role": "fixture",
+        "purpose": "Downward practical ceiling light",
+        "surface": "emissive",
+        "support": "arch-warehouse-light-3-1-mount",
+        "light": {
+          "color": "#ffe8c9",
+          "intensity": 100,
+          "distance": 15.9
+        }
+      }
+    },
+    {
+      "id": "arch-warehouse-light-3-2-mount",
+      "label": "Ceiling-mounted luminaire housing",
+      "transform": {
+        "space": "world",
+        "position": [
+          8,
+          7.905,
+          13
+        ]
+      },
+      "visual": {
+        "type": "primitive",
+        "shape": "box",
+        "params": {
+          "size": [
+            1.8800000000000001,
+            0.09,
+            0.24
+          ]
+        },
+        "color": "#465256"
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.9400000000000001,
+          -0.045,
+          -0.12
+        ],
+        "max": [
+          0.9400000000000001,
+          0.045,
+          0.12
+        ]
+      },
+      "layout": {
+        "role": "fixture",
+        "purpose": "Ceiling-mounted luminaire housing",
+        "surface": "metal",
+        "support": "arch-warehouse-ceiling"
+      }
+    },
+    {
+      "id": "arch-warehouse-light-3-2",
+      "label": "Downward practical ceiling light",
+      "transform": {
+        "space": "world",
+        "position": [
+          8,
+          7.848,
+          13
+        ]
+      },
+      "visual": {
+        "type": "primitive",
+        "shape": "box",
+        "params": {
+          "size": [
+            1.8,
+            0.025,
+            0.16
+          ]
+        },
+        "color": "#f6deb6"
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.9,
+          -0.0125,
+          -0.08
+        ],
+        "max": [
+          0.9,
+          0.0125,
+          0.08
+        ]
+      },
+      "layout": {
+        "role": "fixture",
+        "purpose": "Downward practical ceiling light",
+        "surface": "emissive",
+        "support": "arch-warehouse-light-3-2-mount",
+        "light": {
+          "color": "#ffe8c9",
+          "intensity": 100,
+          "distance": 15.9
+        }
+      }
+    },
+    {
+      "id": "set-mezzanine",
+      "label": "Occupied mezzanine deck supported by columns",
+      "transform": {
+        "space": "world",
+        "position": [
+          -8,
+          2.95,
+          -11
+        ]
+      },
+      "visual": {
+        "type": "primitive",
+        "shape": "box",
+        "params": {
+          "size": [
+            6,
+            0.22,
+            4
+          ]
+        },
+        "color": "#465256"
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -3,
+          -0.11,
+          -2
+        ],
+        "max": [
+          3,
+          0.11,
+          2
+        ]
+      },
+      "layout": {
+        "role": "landing",
+        "purpose": "Occupied mezzanine deck supported by columns",
+        "surface": "metal",
+        "support": "ground"
+      }
+    },
+    {
+      "id": "set-mezzanine-column-0",
+      "label": "Load-bearing mezzanine column",
+      "transform": {
+        "space": "world",
+        "position": [
+          -10.85,
+          1.42,
+          -12.85
+        ]
+      },
+      "visual": {
+        "type": "primitive",
+        "shape": "box",
+        "params": {
+          "size": [
+            0.18,
+            2.84,
+            0.18
+          ]
+        },
+        "color": "#465256"
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.09,
+          -1.42,
+          -0.09
+        ],
+        "max": [
+          0.09,
+          1.42,
+          0.09
+        ]
+      },
+      "layout": {
+        "role": "column",
+        "purpose": "Load-bearing mezzanine column",
+        "surface": "metal",
+        "support": "ground"
+      }
+    },
+    {
+      "id": "set-mezzanine-base-0",
+      "label": "Column base plate",
+      "transform": {
+        "space": "world",
+        "position": [
+          -10.85,
+          0.035,
+          -12.85
+        ]
+      },
+      "visual": {
+        "type": "primitive",
+        "shape": "box",
+        "params": {
+          "size": [
+            0.38,
+            0.07,
+            0.38
+          ]
+        },
+        "color": "#465256"
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.19,
+          -0.035,
+          -0.19
+        ],
+        "max": [
+          0.19,
+          0.035,
+          0.19
+        ]
+      },
+      "layout": {
+        "role": "trim",
+        "purpose": "Column base plate",
+        "surface": "metal",
+        "support": "ground"
+      }
+    },
+    {
+      "id": "set-mezzanine-column-1",
+      "label": "Load-bearing mezzanine column",
+      "transform": {
+        "space": "world",
+        "position": [
+          -5.15,
+          1.42,
+          -12.85
+        ]
+      },
+      "visual": {
+        "type": "primitive",
+        "shape": "box",
+        "params": {
+          "size": [
+            0.18,
+            2.84,
+            0.18
+          ]
+        },
+        "color": "#465256"
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.09,
+          -1.42,
+          -0.09
+        ],
+        "max": [
+          0.09,
+          1.42,
+          0.09
+        ]
+      },
+      "layout": {
+        "role": "column",
+        "purpose": "Load-bearing mezzanine column",
+        "surface": "metal",
+        "support": "ground"
+      }
+    },
+    {
+      "id": "set-mezzanine-base-1",
+      "label": "Column base plate",
+      "transform": {
+        "space": "world",
+        "position": [
+          -5.15,
+          0.035,
+          -12.85
+        ]
+      },
+      "visual": {
+        "type": "primitive",
+        "shape": "box",
+        "params": {
+          "size": [
+            0.38,
+            0.07,
+            0.38
+          ]
+        },
+        "color": "#465256"
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.19,
+          -0.035,
+          -0.19
+        ],
+        "max": [
+          0.19,
+          0.035,
+          0.19
+        ]
+      },
+      "layout": {
+        "role": "trim",
+        "purpose": "Column base plate",
+        "surface": "metal",
+        "support": "ground"
+      }
+    },
+    {
+      "id": "set-mezzanine-column-2",
+      "label": "Load-bearing mezzanine column",
+      "transform": {
+        "space": "world",
+        "position": [
+          -10.85,
+          1.42,
+          -9.15
+        ]
+      },
+      "visual": {
+        "type": "primitive",
+        "shape": "box",
+        "params": {
+          "size": [
+            0.18,
+            2.84,
+            0.18
+          ]
+        },
+        "color": "#465256"
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.09,
+          -1.42,
+          -0.09
+        ],
+        "max": [
+          0.09,
+          1.42,
+          0.09
+        ]
+      },
+      "layout": {
+        "role": "column",
+        "purpose": "Load-bearing mezzanine column",
+        "surface": "metal",
+        "support": "ground"
+      }
+    },
+    {
+      "id": "set-mezzanine-base-2",
+      "label": "Column base plate",
+      "transform": {
+        "space": "world",
+        "position": [
+          -10.85,
+          0.035,
+          -9.15
+        ]
+      },
+      "visual": {
+        "type": "primitive",
+        "shape": "box",
+        "params": {
+          "size": [
+            0.38,
+            0.07,
+            0.38
+          ]
+        },
+        "color": "#465256"
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.19,
+          -0.035,
+          -0.19
+        ],
+        "max": [
+          0.19,
+          0.035,
+          0.19
+        ]
+      },
+      "layout": {
+        "role": "trim",
+        "purpose": "Column base plate",
+        "surface": "metal",
+        "support": "ground"
+      }
+    },
+    {
+      "id": "set-mezzanine-column-3",
+      "label": "Load-bearing mezzanine column",
+      "transform": {
+        "space": "world",
+        "position": [
+          -5.15,
+          1.42,
+          -9.15
+        ]
+      },
+      "visual": {
+        "type": "primitive",
+        "shape": "box",
+        "params": {
+          "size": [
+            0.18,
+            2.84,
+            0.18
+          ]
+        },
+        "color": "#465256"
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.09,
+          -1.42,
+          -0.09
+        ],
+        "max": [
+          0.09,
+          1.42,
+          0.09
+        ]
+      },
+      "layout": {
+        "role": "column",
+        "purpose": "Load-bearing mezzanine column",
+        "surface": "metal",
+        "support": "ground"
+      }
+    },
+    {
+      "id": "set-mezzanine-base-3",
+      "label": "Column base plate",
+      "transform": {
+        "space": "world",
+        "position": [
+          -5.15,
+          0.035,
+          -9.15
+        ]
+      },
+      "visual": {
+        "type": "primitive",
+        "shape": "box",
+        "params": {
+          "size": [
+            0.38,
+            0.07,
+            0.38
+          ]
+        },
+        "color": "#465256"
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.19,
+          -0.035,
+          -0.19
+        ],
+        "max": [
+          0.19,
+          0.035,
+          0.19
+        ]
+      },
+      "layout": {
+        "role": "trim",
+        "purpose": "Column base plate",
+        "surface": "metal",
+        "support": "ground"
+      }
+    },
+    {
+      "id": "set-mezzanine-beam--12.88",
+      "label": "Mezzanine edge beam carried on columns",
+      "transform": {
+        "space": "world",
+        "position": [
+          -8,
+          2.74,
+          -12.88
+        ]
+      },
+      "visual": {
+        "type": "primitive",
+        "shape": "box",
+        "params": {
+          "size": [
+            6,
+            0.2,
+            0.18
+          ]
+        },
+        "color": "#465256"
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -3,
+          -0.1,
+          -0.09
+        ],
+        "max": [
+          3,
+          0.1,
+          0.09
+        ]
+      },
+      "layout": {
+        "role": "beam",
+        "purpose": "Mezzanine edge beam carried on columns",
+        "surface": "metal",
+        "support": "set-mezzanine-column-0"
+      }
+    },
+    {
+      "id": "set-mezzanine-beam--9.12",
+      "label": "Mezzanine edge beam carried on columns",
+      "transform": {
+        "space": "world",
+        "position": [
+          -8,
+          2.74,
+          -9.12
+        ]
+      },
+      "visual": {
+        "type": "primitive",
+        "shape": "box",
+        "params": {
+          "size": [
+            6,
+            0.2,
+            0.18
+          ]
+        },
+        "color": "#465256"
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -3,
+          -0.1,
+          -0.09
+        ],
+        "max": [
+          3,
+          0.1,
+          0.09
+        ]
+      },
+      "layout": {
+        "role": "beam",
+        "purpose": "Mezzanine edge beam carried on columns",
+        "surface": "metal",
+        "support": "set-mezzanine-column-0"
+      }
+    },
+    {
+      "id": "set-mezzanine-rear-post-0",
+      "label": "Balustrade post anchored into slab",
+      "transform": {
+        "space": "world",
+        "position": [
+          -11,
+          3.585,
+          -13
+        ],
+        "rotation": [
+          0,
+          0,
+          0,
+          1
+        ]
+      },
+      "visual": {
+        "type": "primitive",
+        "shape": "cylinder",
+        "params": {
+          "radius": 0.023,
+          "height": 1.0500000000000003,
+          "radialSegments": 12
+        },
+        "color": "#465256"
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.023,
+          -0.5250000000000001,
+          -0.023
+        ],
+        "max": [
+          0.023,
+          0.5250000000000001,
+          0.023
+        ]
+      },
+      "layout": {
+        "role": "railing",
+        "purpose": "Balustrade post anchored into slab",
+        "surface": "metal"
+      }
+    },
+    {
+      "id": "set-mezzanine-rear-post-1",
+      "label": "Balustrade post anchored into slab",
+      "transform": {
+        "space": "world",
+        "position": [
+          -10.25,
+          3.585,
+          -13
+        ],
+        "rotation": [
+          0,
+          0,
+          0,
+          1
+        ]
+      },
+      "visual": {
+        "type": "primitive",
+        "shape": "cylinder",
+        "params": {
+          "radius": 0.023,
+          "height": 1.0500000000000003,
+          "radialSegments": 12
+        },
+        "color": "#465256"
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.023,
+          -0.5250000000000001,
+          -0.023
+        ],
+        "max": [
+          0.023,
+          0.5250000000000001,
+          0.023
+        ]
+      },
+      "layout": {
+        "role": "railing",
+        "purpose": "Balustrade post anchored into slab",
+        "surface": "metal"
+      }
+    },
+    {
+      "id": "set-mezzanine-rear-post-2",
+      "label": "Balustrade post anchored into slab",
+      "transform": {
+        "space": "world",
+        "position": [
+          -9.5,
+          3.585,
+          -13
+        ],
+        "rotation": [
+          0,
+          0,
+          0,
+          1
+        ]
+      },
+      "visual": {
+        "type": "primitive",
+        "shape": "cylinder",
+        "params": {
+          "radius": 0.023,
+          "height": 1.0500000000000003,
+          "radialSegments": 12
+        },
+        "color": "#465256"
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.023,
+          -0.5250000000000001,
+          -0.023
+        ],
+        "max": [
+          0.023,
+          0.5250000000000001,
+          0.023
+        ]
+      },
+      "layout": {
+        "role": "railing",
+        "purpose": "Balustrade post anchored into slab",
+        "surface": "metal"
+      }
+    },
+    {
+      "id": "set-mezzanine-rear-post-3",
+      "label": "Balustrade post anchored into slab",
+      "transform": {
+        "space": "world",
+        "position": [
+          -8.75,
+          3.585,
+          -13
+        ],
+        "rotation": [
+          0,
+          0,
+          0,
+          1
+        ]
+      },
+      "visual": {
+        "type": "primitive",
+        "shape": "cylinder",
+        "params": {
+          "radius": 0.023,
+          "height": 1.0500000000000003,
+          "radialSegments": 12
+        },
+        "color": "#465256"
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.023,
+          -0.5250000000000001,
+          -0.023
+        ],
+        "max": [
+          0.023,
+          0.5250000000000001,
+          0.023
+        ]
+      },
+      "layout": {
+        "role": "railing",
+        "purpose": "Balustrade post anchored into slab",
+        "surface": "metal"
+      }
+    },
+    {
+      "id": "set-mezzanine-rear-post-4",
+      "label": "Balustrade post anchored into slab",
+      "transform": {
+        "space": "world",
+        "position": [
+          -8,
+          3.585,
+          -13
+        ],
+        "rotation": [
+          0,
+          0,
+          0,
+          1
+        ]
+      },
+      "visual": {
+        "type": "primitive",
+        "shape": "cylinder",
+        "params": {
+          "radius": 0.023,
+          "height": 1.0500000000000003,
+          "radialSegments": 12
+        },
+        "color": "#465256"
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.023,
+          -0.5250000000000001,
+          -0.023
+        ],
+        "max": [
+          0.023,
+          0.5250000000000001,
+          0.023
+        ]
+      },
+      "layout": {
+        "role": "railing",
+        "purpose": "Balustrade post anchored into slab",
+        "surface": "metal"
+      }
+    },
+    {
+      "id": "set-mezzanine-rear-post-5",
+      "label": "Balustrade post anchored into slab",
+      "transform": {
+        "space": "world",
+        "position": [
+          -7.25,
+          3.585,
+          -13
+        ],
+        "rotation": [
+          0,
+          0,
+          0,
+          1
+        ]
+      },
+      "visual": {
+        "type": "primitive",
+        "shape": "cylinder",
+        "params": {
+          "radius": 0.023,
+          "height": 1.0500000000000003,
+          "radialSegments": 12
+        },
+        "color": "#465256"
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.023,
+          -0.5250000000000001,
+          -0.023
+        ],
+        "max": [
+          0.023,
+          0.5250000000000001,
+          0.023
+        ]
+      },
+      "layout": {
+        "role": "railing",
+        "purpose": "Balustrade post anchored into slab",
+        "surface": "metal"
+      }
+    },
+    {
+      "id": "set-mezzanine-rear-post-6",
+      "label": "Balustrade post anchored into slab",
+      "transform": {
+        "space": "world",
+        "position": [
+          -6.5,
+          3.585,
+          -13
+        ],
+        "rotation": [
+          0,
+          0,
+          0,
+          1
+        ]
+      },
+      "visual": {
+        "type": "primitive",
+        "shape": "cylinder",
+        "params": {
+          "radius": 0.023,
+          "height": 1.0500000000000003,
+          "radialSegments": 12
+        },
+        "color": "#465256"
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.023,
+          -0.5250000000000001,
+          -0.023
+        ],
+        "max": [
+          0.023,
+          0.5250000000000001,
+          0.023
+        ]
+      },
+      "layout": {
+        "role": "railing",
+        "purpose": "Balustrade post anchored into slab",
+        "surface": "metal"
+      }
+    },
+    {
+      "id": "set-mezzanine-rear-post-7",
+      "label": "Balustrade post anchored into slab",
+      "transform": {
+        "space": "world",
+        "position": [
+          -5.75,
+          3.585,
+          -13
+        ],
+        "rotation": [
+          0,
+          0,
+          0,
+          1
+        ]
+      },
+      "visual": {
+        "type": "primitive",
+        "shape": "cylinder",
+        "params": {
+          "radius": 0.023,
+          "height": 1.0500000000000003,
+          "radialSegments": 12
+        },
+        "color": "#465256"
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.023,
+          -0.5250000000000001,
+          -0.023
+        ],
+        "max": [
+          0.023,
+          0.5250000000000001,
+          0.023
+        ]
+      },
+      "layout": {
+        "role": "railing",
+        "purpose": "Balustrade post anchored into slab",
+        "surface": "metal"
+      }
+    },
+    {
+      "id": "set-mezzanine-rear-post-8",
+      "label": "Balustrade post anchored into slab",
+      "transform": {
+        "space": "world",
+        "position": [
+          -5,
+          3.585,
+          -13
+        ],
+        "rotation": [
+          0,
+          0,
+          0,
+          1
+        ]
+      },
+      "visual": {
+        "type": "primitive",
+        "shape": "cylinder",
+        "params": {
+          "radius": 0.023,
+          "height": 1.0500000000000003,
+          "radialSegments": 12
+        },
+        "color": "#465256"
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.023,
+          -0.5250000000000001,
+          -0.023
+        ],
+        "max": [
+          0.023,
+          0.5250000000000001,
+          0.023
+        ]
+      },
+      "layout": {
+        "role": "railing",
+        "purpose": "Balustrade post anchored into slab",
+        "surface": "metal"
+      }
+    },
+    {
+      "id": "set-mezzanine-rear-rail-0",
+      "label": "Continuous guardrail",
+      "transform": {
+        "space": "world",
+        "position": [
+          -8,
+          3.564,
+          -13
+        ],
+        "rotation": [
+          0,
+          0,
+          -0.707106781,
+          0.707106781
+        ]
+      },
+      "visual": {
+        "type": "primitive",
+        "shape": "cylinder",
+        "params": {
+          "radius": 0.027,
+          "height": 6,
+          "radialSegments": 12
+        },
+        "color": "#b89b54"
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.027,
+          -3,
+          -0.027
+        ],
+        "max": [
+          0.027,
+          3,
+          0.027
+        ]
+      },
+      "layout": {
+        "role": "railing",
+        "purpose": "Continuous guardrail",
+        "surface": "metal"
+      }
+    },
+    {
+      "id": "set-mezzanine-rear-rail-1",
+      "label": "Continuous guardrail",
+      "transform": {
+        "space": "world",
+        "position": [
+          -8,
+          4.11,
+          -13
+        ],
+        "rotation": [
+          0,
+          0,
+          -0.707106781,
+          0.707106781
+        ]
+      },
+      "visual": {
+        "type": "primitive",
+        "shape": "cylinder",
+        "params": {
+          "radius": 0.027,
+          "height": 6,
+          "radialSegments": 12
+        },
+        "color": "#b89b54"
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.027,
+          -3,
+          -0.027
+        ],
+        "max": [
+          0.027,
+          3,
+          0.027
+        ]
+      },
+      "layout": {
+        "role": "railing",
+        "purpose": "Continuous guardrail",
+        "surface": "metal"
+      }
+    },
+    {
+      "id": "set-mezzanine-left-post-0",
+      "label": "Balustrade post anchored into slab",
+      "transform": {
+        "space": "world",
+        "position": [
+          -11,
+          3.585,
+          -13
+        ],
+        "rotation": [
+          0,
+          0,
+          0,
+          1
+        ]
+      },
+      "visual": {
+        "type": "primitive",
+        "shape": "cylinder",
+        "params": {
+          "radius": 0.023,
+          "height": 1.0500000000000003,
+          "radialSegments": 12
+        },
+        "color": "#465256"
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.023,
+          -0.5250000000000001,
+          -0.023
+        ],
+        "max": [
+          0.023,
+          0.5250000000000001,
+          0.023
+        ]
+      },
+      "layout": {
+        "role": "railing",
+        "purpose": "Balustrade post anchored into slab",
+        "surface": "metal"
+      }
+    },
+    {
+      "id": "set-mezzanine-left-post-1",
+      "label": "Balustrade post anchored into slab",
+      "transform": {
+        "space": "world",
+        "position": [
+          -11,
+          3.585,
+          -12.2
+        ],
+        "rotation": [
+          0,
+          0,
+          0,
+          1
+        ]
+      },
+      "visual": {
+        "type": "primitive",
+        "shape": "cylinder",
+        "params": {
+          "radius": 0.023,
+          "height": 1.0500000000000003,
+          "radialSegments": 12
+        },
+        "color": "#465256"
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.023,
+          -0.5250000000000001,
+          -0.023
+        ],
+        "max": [
+          0.023,
+          0.5250000000000001,
+          0.023
+        ]
+      },
+      "layout": {
+        "role": "railing",
+        "purpose": "Balustrade post anchored into slab",
+        "surface": "metal"
+      }
+    },
+    {
+      "id": "set-mezzanine-left-post-2",
+      "label": "Balustrade post anchored into slab",
+      "transform": {
+        "space": "world",
+        "position": [
+          -11,
+          3.585,
+          -11.4
+        ],
+        "rotation": [
+          0,
+          0,
+          0,
+          1
+        ]
+      },
+      "visual": {
+        "type": "primitive",
+        "shape": "cylinder",
+        "params": {
+          "radius": 0.023,
+          "height": 1.0500000000000003,
+          "radialSegments": 12
+        },
+        "color": "#465256"
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.023,
+          -0.5250000000000001,
+          -0.023
+        ],
+        "max": [
+          0.023,
+          0.5250000000000001,
+          0.023
+        ]
+      },
+      "layout": {
+        "role": "railing",
+        "purpose": "Balustrade post anchored into slab",
+        "surface": "metal"
+      }
+    },
+    {
+      "id": "set-mezzanine-left-post-3",
+      "label": "Balustrade post anchored into slab",
+      "transform": {
+        "space": "world",
+        "position": [
+          -11,
+          3.585,
+          -10.6
+        ],
+        "rotation": [
+          0,
+          0,
+          0,
+          1
+        ]
+      },
+      "visual": {
+        "type": "primitive",
+        "shape": "cylinder",
+        "params": {
+          "radius": 0.023,
+          "height": 1.0500000000000003,
+          "radialSegments": 12
+        },
+        "color": "#465256"
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.023,
+          -0.5250000000000001,
+          -0.023
+        ],
+        "max": [
+          0.023,
+          0.5250000000000001,
+          0.023
+        ]
+      },
+      "layout": {
+        "role": "railing",
+        "purpose": "Balustrade post anchored into slab",
+        "surface": "metal"
+      }
+    },
+    {
+      "id": "set-mezzanine-left-post-4",
+      "label": "Balustrade post anchored into slab",
+      "transform": {
+        "space": "world",
+        "position": [
+          -11,
+          3.585,
+          -9.8
+        ],
+        "rotation": [
+          0,
+          0,
+          0,
+          1
+        ]
+      },
+      "visual": {
+        "type": "primitive",
+        "shape": "cylinder",
+        "params": {
+          "radius": 0.023,
+          "height": 1.0500000000000003,
+          "radialSegments": 12
+        },
+        "color": "#465256"
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.023,
+          -0.5250000000000001,
+          -0.023
+        ],
+        "max": [
+          0.023,
+          0.5250000000000001,
+          0.023
+        ]
+      },
+      "layout": {
+        "role": "railing",
+        "purpose": "Balustrade post anchored into slab",
+        "surface": "metal"
+      }
+    },
+    {
+      "id": "set-mezzanine-left-post-5",
+      "label": "Balustrade post anchored into slab",
+      "transform": {
+        "space": "world",
+        "position": [
+          -11,
+          3.585,
+          -9
+        ],
+        "rotation": [
+          0,
+          0,
+          0,
+          1
+        ]
+      },
+      "visual": {
+        "type": "primitive",
+        "shape": "cylinder",
+        "params": {
+          "radius": 0.023,
+          "height": 1.0500000000000003,
+          "radialSegments": 12
+        },
+        "color": "#465256"
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.023,
+          -0.5250000000000001,
+          -0.023
+        ],
+        "max": [
+          0.023,
+          0.5250000000000001,
+          0.023
+        ]
+      },
+      "layout": {
+        "role": "railing",
+        "purpose": "Balustrade post anchored into slab",
+        "surface": "metal"
+      }
+    },
+    {
+      "id": "set-mezzanine-left-rail-0",
+      "label": "Continuous guardrail",
+      "transform": {
+        "space": "world",
+        "position": [
+          -11,
+          3.564,
+          -11
+        ],
+        "rotation": [
+          0.707106781,
+          0,
+          0,
+          0.707106781
+        ]
+      },
+      "visual": {
+        "type": "primitive",
+        "shape": "cylinder",
+        "params": {
+          "radius": 0.027,
+          "height": 4,
+          "radialSegments": 12
+        },
+        "color": "#b89b54"
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.027,
+          -2,
+          -0.027
+        ],
+        "max": [
+          0.027,
+          2,
+          0.027
+        ]
+      },
+      "layout": {
+        "role": "railing",
+        "purpose": "Continuous guardrail",
+        "surface": "metal"
+      }
+    },
+    {
+      "id": "set-mezzanine-left-rail-1",
+      "label": "Continuous guardrail",
+      "transform": {
+        "space": "world",
+        "position": [
+          -11,
+          4.11,
+          -11
+        ],
+        "rotation": [
+          0.707106781,
+          0,
+          0,
+          0.707106781
+        ]
+      },
+      "visual": {
+        "type": "primitive",
+        "shape": "cylinder",
+        "params": {
+          "radius": 0.027,
+          "height": 4,
+          "radialSegments": 12
+        },
+        "color": "#b89b54"
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.027,
+          -2,
+          -0.027
+        ],
+        "max": [
+          0.027,
+          2,
+          0.027
+        ]
+      },
+      "layout": {
+        "role": "railing",
+        "purpose": "Continuous guardrail",
+        "surface": "metal"
+      }
+    },
+    {
+      "id": "set-mezzanine-right-post-0",
+      "label": "Balustrade post anchored into slab",
+      "transform": {
+        "space": "world",
+        "position": [
+          -5,
+          3.585,
+          -13
+        ],
+        "rotation": [
+          0,
+          0,
+          0,
+          1
+        ]
+      },
+      "visual": {
+        "type": "primitive",
+        "shape": "cylinder",
+        "params": {
+          "radius": 0.023,
+          "height": 1.0500000000000003,
+          "radialSegments": 12
+        },
+        "color": "#465256"
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.023,
+          -0.5250000000000001,
+          -0.023
+        ],
+        "max": [
+          0.023,
+          0.5250000000000001,
+          0.023
+        ]
+      },
+      "layout": {
+        "role": "railing",
+        "purpose": "Balustrade post anchored into slab",
+        "surface": "metal"
+      }
+    },
+    {
+      "id": "set-mezzanine-right-post-1",
+      "label": "Balustrade post anchored into slab",
+      "transform": {
+        "space": "world",
+        "position": [
+          -5,
+          3.585,
+          -12.2
+        ],
+        "rotation": [
+          0,
+          0,
+          0,
+          1
+        ]
+      },
+      "visual": {
+        "type": "primitive",
+        "shape": "cylinder",
+        "params": {
+          "radius": 0.023,
+          "height": 1.0500000000000003,
+          "radialSegments": 12
+        },
+        "color": "#465256"
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.023,
+          -0.5250000000000001,
+          -0.023
+        ],
+        "max": [
+          0.023,
+          0.5250000000000001,
+          0.023
+        ]
+      },
+      "layout": {
+        "role": "railing",
+        "purpose": "Balustrade post anchored into slab",
+        "surface": "metal"
+      }
+    },
+    {
+      "id": "set-mezzanine-right-post-2",
+      "label": "Balustrade post anchored into slab",
+      "transform": {
+        "space": "world",
+        "position": [
+          -5,
+          3.585,
+          -11.4
+        ],
+        "rotation": [
+          0,
+          0,
+          0,
+          1
+        ]
+      },
+      "visual": {
+        "type": "primitive",
+        "shape": "cylinder",
+        "params": {
+          "radius": 0.023,
+          "height": 1.0500000000000003,
+          "radialSegments": 12
+        },
+        "color": "#465256"
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.023,
+          -0.5250000000000001,
+          -0.023
+        ],
+        "max": [
+          0.023,
+          0.5250000000000001,
+          0.023
+        ]
+      },
+      "layout": {
+        "role": "railing",
+        "purpose": "Balustrade post anchored into slab",
+        "surface": "metal"
+      }
+    },
+    {
+      "id": "set-mezzanine-right-post-3",
+      "label": "Balustrade post anchored into slab",
+      "transform": {
+        "space": "world",
+        "position": [
+          -5,
+          3.585,
+          -10.6
+        ],
+        "rotation": [
+          0,
+          0,
+          0,
+          1
+        ]
+      },
+      "visual": {
+        "type": "primitive",
+        "shape": "cylinder",
+        "params": {
+          "radius": 0.023,
+          "height": 1.0500000000000003,
+          "radialSegments": 12
+        },
+        "color": "#465256"
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.023,
+          -0.5250000000000001,
+          -0.023
+        ],
+        "max": [
+          0.023,
+          0.5250000000000001,
+          0.023
+        ]
+      },
+      "layout": {
+        "role": "railing",
+        "purpose": "Balustrade post anchored into slab",
+        "surface": "metal"
+      }
+    },
+    {
+      "id": "set-mezzanine-right-post-4",
+      "label": "Balustrade post anchored into slab",
+      "transform": {
+        "space": "world",
+        "position": [
+          -5,
+          3.585,
+          -9.8
+        ],
+        "rotation": [
+          0,
+          0,
+          0,
+          1
+        ]
+      },
+      "visual": {
+        "type": "primitive",
+        "shape": "cylinder",
+        "params": {
+          "radius": 0.023,
+          "height": 1.0500000000000003,
+          "radialSegments": 12
+        },
+        "color": "#465256"
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.023,
+          -0.5250000000000001,
+          -0.023
+        ],
+        "max": [
+          0.023,
+          0.5250000000000001,
+          0.023
+        ]
+      },
+      "layout": {
+        "role": "railing",
+        "purpose": "Balustrade post anchored into slab",
+        "surface": "metal"
+      }
+    },
+    {
+      "id": "set-mezzanine-right-post-5",
+      "label": "Balustrade post anchored into slab",
+      "transform": {
+        "space": "world",
+        "position": [
+          -5,
+          3.585,
+          -9
+        ],
+        "rotation": [
+          0,
+          0,
+          0,
+          1
+        ]
+      },
+      "visual": {
+        "type": "primitive",
+        "shape": "cylinder",
+        "params": {
+          "radius": 0.023,
+          "height": 1.0500000000000003,
+          "radialSegments": 12
+        },
+        "color": "#465256"
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.023,
+          -0.5250000000000001,
+          -0.023
+        ],
+        "max": [
+          0.023,
+          0.5250000000000001,
+          0.023
+        ]
+      },
+      "layout": {
+        "role": "railing",
+        "purpose": "Balustrade post anchored into slab",
+        "surface": "metal"
+      }
+    },
+    {
+      "id": "set-mezzanine-right-rail-0",
+      "label": "Continuous guardrail",
+      "transform": {
+        "space": "world",
+        "position": [
+          -5,
+          3.564,
+          -11
+        ],
+        "rotation": [
+          0.707106781,
+          0,
+          0,
+          0.707106781
+        ]
+      },
+      "visual": {
+        "type": "primitive",
+        "shape": "cylinder",
+        "params": {
+          "radius": 0.027,
+          "height": 4,
+          "radialSegments": 12
+        },
+        "color": "#b89b54"
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.027,
+          -2,
+          -0.027
+        ],
+        "max": [
+          0.027,
+          2,
+          0.027
+        ]
+      },
+      "layout": {
+        "role": "railing",
+        "purpose": "Continuous guardrail",
+        "surface": "metal"
+      }
+    },
+    {
+      "id": "set-mezzanine-right-rail-1",
+      "label": "Continuous guardrail",
+      "transform": {
+        "space": "world",
+        "position": [
+          -5,
+          4.11,
+          -11
+        ],
+        "rotation": [
+          0.707106781,
+          0,
+          0,
+          0.707106781
+        ]
+      },
+      "visual": {
+        "type": "primitive",
+        "shape": "cylinder",
+        "params": {
+          "radius": 0.027,
+          "height": 4,
+          "radialSegments": 12
+        },
+        "color": "#b89b54"
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.027,
+          -2,
+          -0.027
+        ],
+        "max": [
+          0.027,
+          2,
+          0.027
+        ]
+      },
+      "layout": {
+        "role": "railing",
+        "purpose": "Continuous guardrail",
+        "surface": "metal"
+      }
+    },
+    {
+      "id": "set-mezzanine-front-a-post-0",
+      "label": "Balustrade post anchored into slab",
+      "transform": {
+        "space": "world",
+        "position": [
+          -11,
+          3.585,
+          -9
+        ],
+        "rotation": [
+          0,
+          0,
+          0,
+          1
+        ]
+      },
+      "visual": {
+        "type": "primitive",
+        "shape": "cylinder",
+        "params": {
+          "radius": 0.023,
+          "height": 1.0500000000000003,
+          "radialSegments": 12
+        },
+        "color": "#465256"
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.023,
+          -0.5250000000000001,
+          -0.023
+        ],
+        "max": [
+          0.023,
+          0.5250000000000001,
+          0.023
+        ]
+      },
+      "layout": {
+        "role": "railing",
+        "purpose": "Balustrade post anchored into slab",
+        "surface": "metal"
+      }
+    },
+    {
+      "id": "set-mezzanine-front-a-post-1",
+      "label": "Balustrade post anchored into slab",
+      "transform": {
+        "space": "world",
+        "position": [
+          -10.85,
+          3.585,
+          -9
+        ],
+        "rotation": [
+          0,
+          0,
+          0,
+          1
+        ]
+      },
+      "visual": {
+        "type": "primitive",
+        "shape": "cylinder",
+        "params": {
+          "radius": 0.023,
+          "height": 1.0500000000000003,
+          "radialSegments": 12
+        },
+        "color": "#465256"
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.023,
+          -0.5250000000000001,
+          -0.023
+        ],
+        "max": [
+          0.023,
+          0.5250000000000001,
+          0.023
+        ]
+      },
+      "layout": {
+        "role": "railing",
+        "purpose": "Balustrade post anchored into slab",
+        "surface": "metal"
+      }
+    },
+    {
+      "id": "set-mezzanine-front-a-rail-0",
+      "label": "Continuous guardrail",
+      "transform": {
+        "space": "world",
+        "position": [
+          -10.925,
+          3.564,
+          -9
+        ],
+        "rotation": [
+          0,
+          0,
+          -0.707106781,
+          0.707106781
+        ]
+      },
+      "visual": {
+        "type": "primitive",
+        "shape": "cylinder",
+        "params": {
+          "radius": 0.027,
+          "height": 0.15000000000000036,
+          "radialSegments": 12
+        },
+        "color": "#b89b54"
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.027,
+          -0.07500000000000018,
+          -0.027
+        ],
+        "max": [
+          0.027,
+          0.07500000000000018,
+          0.027
+        ]
+      },
+      "layout": {
+        "role": "railing",
+        "purpose": "Continuous guardrail",
+        "surface": "metal"
+      }
+    },
+    {
+      "id": "set-mezzanine-front-a-rail-1",
+      "label": "Continuous guardrail",
+      "transform": {
+        "space": "world",
+        "position": [
+          -10.925,
+          4.11,
+          -9
+        ],
+        "rotation": [
+          0,
+          0,
+          -0.707106781,
+          0.707106781
+        ]
+      },
+      "visual": {
+        "type": "primitive",
+        "shape": "cylinder",
+        "params": {
+          "radius": 0.027,
+          "height": 0.15000000000000036,
+          "radialSegments": 12
+        },
+        "color": "#b89b54"
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.027,
+          -0.07500000000000018,
+          -0.027
+        ],
+        "max": [
+          0.027,
+          0.07500000000000018,
+          0.027
+        ]
+      },
+      "layout": {
+        "role": "railing",
+        "purpose": "Continuous guardrail",
+        "surface": "metal"
+      }
+    },
+    {
+      "id": "set-mezzanine-front-b-post-0",
+      "label": "Balustrade post anchored into slab",
+      "transform": {
+        "space": "world",
+        "position": [
+          -9.450000000000001,
+          3.585,
+          -9
+        ],
+        "rotation": [
+          0,
+          0,
+          0,
+          1
+        ]
+      },
+      "visual": {
+        "type": "primitive",
+        "shape": "cylinder",
+        "params": {
+          "radius": 0.023,
+          "height": 1.0500000000000003,
+          "radialSegments": 12
+        },
+        "color": "#465256"
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.023,
+          -0.5250000000000001,
+          -0.023
+        ],
+        "max": [
+          0.023,
+          0.5250000000000001,
+          0.023
+        ]
+      },
+      "layout": {
+        "role": "railing",
+        "purpose": "Balustrade post anchored into slab",
+        "surface": "metal"
+      }
+    },
+    {
+      "id": "set-mezzanine-front-b-post-1",
+      "label": "Balustrade post anchored into slab",
+      "transform": {
+        "space": "world",
+        "position": [
+          -8.708333333333334,
+          3.585,
+          -9
+        ],
+        "rotation": [
+          0,
+          0,
+          0,
+          1
+        ]
+      },
+      "visual": {
+        "type": "primitive",
+        "shape": "cylinder",
+        "params": {
+          "radius": 0.023,
+          "height": 1.0500000000000003,
+          "radialSegments": 12
+        },
+        "color": "#465256"
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.023,
+          -0.5250000000000001,
+          -0.023
+        ],
+        "max": [
+          0.023,
+          0.5250000000000001,
+          0.023
+        ]
+      },
+      "layout": {
+        "role": "railing",
+        "purpose": "Balustrade post anchored into slab",
+        "surface": "metal"
+      }
+    },
+    {
+      "id": "set-mezzanine-front-b-post-2",
+      "label": "Balustrade post anchored into slab",
+      "transform": {
+        "space": "world",
+        "position": [
+          -7.966666666666668,
+          3.585,
+          -9
+        ],
+        "rotation": [
+          0,
+          0,
+          0,
+          1
+        ]
+      },
+      "visual": {
+        "type": "primitive",
+        "shape": "cylinder",
+        "params": {
+          "radius": 0.023,
+          "height": 1.0500000000000003,
+          "radialSegments": 12
+        },
+        "color": "#465256"
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.023,
+          -0.5250000000000001,
+          -0.023
+        ],
+        "max": [
+          0.023,
+          0.5250000000000001,
+          0.023
+        ]
+      },
+      "layout": {
+        "role": "railing",
+        "purpose": "Balustrade post anchored into slab",
+        "surface": "metal"
+      }
+    },
+    {
+      "id": "set-mezzanine-front-b-post-3",
+      "label": "Balustrade post anchored into slab",
+      "transform": {
+        "space": "world",
+        "position": [
+          -7.2250000000000005,
+          3.585,
+          -9
+        ],
+        "rotation": [
+          0,
+          0,
+          0,
+          1
+        ]
+      },
+      "visual": {
+        "type": "primitive",
+        "shape": "cylinder",
+        "params": {
+          "radius": 0.023,
+          "height": 1.0500000000000003,
+          "radialSegments": 12
+        },
+        "color": "#465256"
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.023,
+          -0.5250000000000001,
+          -0.023
+        ],
+        "max": [
+          0.023,
+          0.5250000000000001,
+          0.023
+        ]
+      },
+      "layout": {
+        "role": "railing",
+        "purpose": "Balustrade post anchored into slab",
+        "surface": "metal"
+      }
+    },
+    {
+      "id": "set-mezzanine-front-b-post-4",
+      "label": "Balustrade post anchored into slab",
+      "transform": {
+        "space": "world",
+        "position": [
+          -6.483333333333334,
+          3.585,
+          -9
+        ],
+        "rotation": [
+          0,
+          0,
+          0,
+          1
+        ]
+      },
+      "visual": {
+        "type": "primitive",
+        "shape": "cylinder",
+        "params": {
+          "radius": 0.023,
+          "height": 1.0500000000000003,
+          "radialSegments": 12
+        },
+        "color": "#465256"
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.023,
+          -0.5250000000000001,
+          -0.023
+        ],
+        "max": [
+          0.023,
+          0.5250000000000001,
+          0.023
+        ]
+      },
+      "layout": {
+        "role": "railing",
+        "purpose": "Balustrade post anchored into slab",
+        "surface": "metal"
+      }
+    },
+    {
+      "id": "set-mezzanine-front-b-post-5",
+      "label": "Balustrade post anchored into slab",
+      "transform": {
+        "space": "world",
+        "position": [
+          -5.741666666666667,
+          3.585,
+          -9
+        ],
+        "rotation": [
+          0,
+          0,
+          0,
+          1
+        ]
+      },
+      "visual": {
+        "type": "primitive",
+        "shape": "cylinder",
+        "params": {
+          "radius": 0.023,
+          "height": 1.0500000000000003,
+          "radialSegments": 12
+        },
+        "color": "#465256"
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.023,
+          -0.5250000000000001,
+          -0.023
+        ],
+        "max": [
+          0.023,
+          0.5250000000000001,
+          0.023
+        ]
+      },
+      "layout": {
+        "role": "railing",
+        "purpose": "Balustrade post anchored into slab",
+        "surface": "metal"
+      }
+    },
+    {
+      "id": "set-mezzanine-front-b-post-6",
+      "label": "Balustrade post anchored into slab",
+      "transform": {
+        "space": "world",
+        "position": [
+          -5,
+          3.585,
+          -9
+        ],
+        "rotation": [
+          0,
+          0,
+          0,
+          1
+        ]
+      },
+      "visual": {
+        "type": "primitive",
+        "shape": "cylinder",
+        "params": {
+          "radius": 0.023,
+          "height": 1.0500000000000003,
+          "radialSegments": 12
+        },
+        "color": "#465256"
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.023,
+          -0.5250000000000001,
+          -0.023
+        ],
+        "max": [
+          0.023,
+          0.5250000000000001,
+          0.023
+        ]
+      },
+      "layout": {
+        "role": "railing",
+        "purpose": "Balustrade post anchored into slab",
+        "surface": "metal"
+      }
+    },
+    {
+      "id": "set-mezzanine-front-b-rail-0",
+      "label": "Continuous guardrail",
+      "transform": {
+        "space": "world",
+        "position": [
+          -7.2250000000000005,
+          3.564,
+          -9
+        ],
+        "rotation": [
+          0,
+          0,
+          -0.707106781,
+          0.707106781
+        ]
+      },
+      "visual": {
+        "type": "primitive",
+        "shape": "cylinder",
+        "params": {
+          "radius": 0.027,
+          "height": 4.450000000000001,
+          "radialSegments": 12
+        },
+        "color": "#b89b54"
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.027,
+          -2.2250000000000005,
+          -0.027
+        ],
+        "max": [
+          0.027,
+          2.2250000000000005,
+          0.027
+        ]
+      },
+      "layout": {
+        "role": "railing",
+        "purpose": "Continuous guardrail",
+        "surface": "metal"
+      }
+    },
+    {
+      "id": "set-mezzanine-front-b-rail-1",
+      "label": "Continuous guardrail",
+      "transform": {
+        "space": "world",
+        "position": [
+          -7.2250000000000005,
+          4.11,
+          -9
+        ],
+        "rotation": [
+          0,
+          0,
+          -0.707106781,
+          0.707106781
+        ]
+      },
+      "visual": {
+        "type": "primitive",
+        "shape": "cylinder",
+        "params": {
+          "radius": 0.027,
+          "height": 4.450000000000001,
+          "radialSegments": 12
+        },
+        "color": "#b89b54"
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.027,
+          -2.2250000000000005,
+          -0.027
+        ],
+        "max": [
+          0.027,
+          2.2250000000000005,
+          0.027
+        ]
+      },
+      "layout": {
+        "role": "railing",
+        "purpose": "Continuous guardrail",
+        "surface": "metal"
+      }
+    },
+    {
+      "id": "set-mezzanine-access-tread-01",
+      "label": "Usable stair flight, equal riser 1/18",
+      "transform": {
+        "space": "world",
+        "position": [
+          -10.15,
+          0.085,
+          -2.899999999999999
+        ]
+      },
+      "visual": {
+        "type": "primitive",
+        "shape": "box",
+        "params": {
+          "size": [
+            1.4,
+            0.17,
+            0.28
+          ]
+        },
+        "color": "#858782"
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.7,
+          -0.085,
+          -0.14
+        ],
+        "max": [
+          0.7,
+          0.085,
+          0.14
+        ]
+      },
+      "layout": {
+        "role": "stair",
+        "purpose": "Usable stair flight, equal riser 1/18",
+        "surface": "concrete",
+        "support": "ground"
+      }
+    },
+    {
+      "id": "set-mezzanine-access-tread-01-nosing",
+      "label": "Non-slip stair nosing",
+      "transform": {
+        "space": "world",
+        "position": [
+          -10.15,
+          0.17600000000000002,
+          -2.784999999999999
+        ]
+      },
+      "visual": {
+        "type": "primitive",
+        "shape": "box",
+        "params": {
+          "size": [
+            1.4,
+            0.012,
+            0.035
+          ]
+        },
+        "color": "#b89b54"
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.7,
+          -0.006,
+          -0.0175
+        ],
+        "max": [
+          0.7,
+          0.006,
+          0.0175
+        ]
+      },
+      "layout": {
+        "role": "trim",
+        "purpose": "Non-slip stair nosing",
+        "surface": "metal",
+        "support": "set-mezzanine-access-tread-01"
+      }
+    },
+    {
+      "id": "set-mezzanine-access-tread-02",
+      "label": "Usable stair flight, equal riser 2/18",
+      "transform": {
+        "space": "world",
+        "position": [
+          -10.15,
+          0.17,
+          -3.179999999999999
+        ]
+      },
+      "visual": {
+        "type": "primitive",
+        "shape": "box",
+        "params": {
+          "size": [
+            1.4,
+            0.34,
+            0.28
+          ]
+        },
+        "color": "#858782"
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.7,
+          -0.17,
+          -0.14
+        ],
+        "max": [
+          0.7,
+          0.17,
+          0.14
+        ]
+      },
+      "layout": {
+        "role": "stair",
+        "purpose": "Usable stair flight, equal riser 2/18",
+        "surface": "concrete",
+        "support": "ground"
+      }
+    },
+    {
+      "id": "set-mezzanine-access-tread-02-nosing",
+      "label": "Non-slip stair nosing",
+      "transform": {
+        "space": "world",
+        "position": [
+          -10.15,
+          0.34600000000000003,
+          -3.064999999999999
+        ]
+      },
+      "visual": {
+        "type": "primitive",
+        "shape": "box",
+        "params": {
+          "size": [
+            1.4,
+            0.012,
+            0.035
+          ]
+        },
+        "color": "#b89b54"
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.7,
+          -0.006,
+          -0.0175
+        ],
+        "max": [
+          0.7,
+          0.006,
+          0.0175
+        ]
+      },
+      "layout": {
+        "role": "trim",
+        "purpose": "Non-slip stair nosing",
+        "surface": "metal",
+        "support": "set-mezzanine-access-tread-02"
+      }
+    },
+    {
+      "id": "set-mezzanine-access-tread-03",
+      "label": "Usable stair flight, equal riser 3/18",
+      "transform": {
+        "space": "world",
+        "position": [
+          -10.15,
+          0.255,
+          -3.459999999999999
+        ]
+      },
+      "visual": {
+        "type": "primitive",
+        "shape": "box",
+        "params": {
+          "size": [
+            1.4,
+            0.51,
+            0.28
+          ]
+        },
+        "color": "#858782"
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.7,
+          -0.255,
+          -0.14
+        ],
+        "max": [
+          0.7,
+          0.255,
+          0.14
+        ]
+      },
+      "layout": {
+        "role": "stair",
+        "purpose": "Usable stair flight, equal riser 3/18",
+        "surface": "concrete",
+        "support": "ground"
+      }
+    },
+    {
+      "id": "set-mezzanine-access-tread-03-nosing",
+      "label": "Non-slip stair nosing",
+      "transform": {
+        "space": "world",
+        "position": [
+          -10.15,
+          0.516,
+          -3.344999999999999
+        ]
+      },
+      "visual": {
+        "type": "primitive",
+        "shape": "box",
+        "params": {
+          "size": [
+            1.4,
+            0.012,
+            0.035
+          ]
+        },
+        "color": "#b89b54"
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.7,
+          -0.006,
+          -0.0175
+        ],
+        "max": [
+          0.7,
+          0.006,
+          0.0175
+        ]
+      },
+      "layout": {
+        "role": "trim",
+        "purpose": "Non-slip stair nosing",
+        "surface": "metal",
+        "support": "set-mezzanine-access-tread-03"
+      }
+    },
+    {
+      "id": "set-mezzanine-access-tread-04",
+      "label": "Usable stair flight, equal riser 4/18",
+      "transform": {
+        "space": "world",
+        "position": [
+          -10.15,
+          0.34,
+          -3.739999999999999
+        ]
+      },
+      "visual": {
+        "type": "primitive",
+        "shape": "box",
+        "params": {
+          "size": [
+            1.4,
+            0.68,
+            0.28
+          ]
+        },
+        "color": "#858782"
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.7,
+          -0.34,
+          -0.14
+        ],
+        "max": [
+          0.7,
+          0.34,
+          0.14
+        ]
+      },
+      "layout": {
+        "role": "stair",
+        "purpose": "Usable stair flight, equal riser 4/18",
+        "surface": "concrete",
+        "support": "ground"
+      }
+    },
+    {
+      "id": "set-mezzanine-access-tread-04-nosing",
+      "label": "Non-slip stair nosing",
+      "transform": {
+        "space": "world",
+        "position": [
+          -10.15,
+          0.686,
+          -3.624999999999999
+        ]
+      },
+      "visual": {
+        "type": "primitive",
+        "shape": "box",
+        "params": {
+          "size": [
+            1.4,
+            0.012,
+            0.035
+          ]
+        },
+        "color": "#b89b54"
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.7,
+          -0.006,
+          -0.0175
+        ],
+        "max": [
+          0.7,
+          0.006,
+          0.0175
+        ]
+      },
+      "layout": {
+        "role": "trim",
+        "purpose": "Non-slip stair nosing",
+        "surface": "metal",
+        "support": "set-mezzanine-access-tread-04"
+      }
+    },
+    {
+      "id": "set-mezzanine-access-tread-05",
+      "label": "Usable stair flight, equal riser 5/18",
+      "transform": {
+        "space": "world",
+        "position": [
+          -10.15,
+          0.42500000000000004,
+          -4.02
+        ]
+      },
+      "visual": {
+        "type": "primitive",
+        "shape": "box",
+        "params": {
+          "size": [
+            1.4,
+            0.8500000000000001,
+            0.28
+          ]
+        },
+        "color": "#858782"
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.7,
+          -0.42500000000000004,
+          -0.14
+        ],
+        "max": [
+          0.7,
+          0.42500000000000004,
+          0.14
+        ]
+      },
+      "layout": {
+        "role": "stair",
+        "purpose": "Usable stair flight, equal riser 5/18",
+        "surface": "concrete",
+        "support": "ground"
+      }
+    },
+    {
+      "id": "set-mezzanine-access-tread-05-nosing",
+      "label": "Non-slip stair nosing",
+      "transform": {
+        "space": "world",
+        "position": [
+          -10.15,
+          0.8560000000000001,
+          -3.904999999999999
+        ]
+      },
+      "visual": {
+        "type": "primitive",
+        "shape": "box",
+        "params": {
+          "size": [
+            1.4,
+            0.012,
+            0.035
+          ]
+        },
+        "color": "#b89b54"
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.7,
+          -0.006,
+          -0.0175
+        ],
+        "max": [
+          0.7,
+          0.006,
+          0.0175
+        ]
+      },
+      "layout": {
+        "role": "trim",
+        "purpose": "Non-slip stair nosing",
+        "surface": "metal",
+        "support": "set-mezzanine-access-tread-05"
+      }
+    },
+    {
+      "id": "set-mezzanine-access-tread-06",
+      "label": "Usable stair flight, equal riser 6/18",
+      "transform": {
+        "space": "world",
+        "position": [
+          -10.15,
+          0.51,
+          -4.299999999999999
+        ]
+      },
+      "visual": {
+        "type": "primitive",
+        "shape": "box",
+        "params": {
+          "size": [
+            1.4,
+            1.02,
+            0.28
+          ]
+        },
+        "color": "#858782"
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.7,
+          -0.51,
+          -0.14
+        ],
+        "max": [
+          0.7,
+          0.51,
+          0.14
+        ]
+      },
+      "layout": {
+        "role": "stair",
+        "purpose": "Usable stair flight, equal riser 6/18",
+        "surface": "concrete",
+        "support": "ground"
+      }
+    },
+    {
+      "id": "set-mezzanine-access-tread-06-nosing",
+      "label": "Non-slip stair nosing",
+      "transform": {
+        "space": "world",
+        "position": [
+          -10.15,
+          1.026,
+          -4.184999999999999
+        ]
+      },
+      "visual": {
+        "type": "primitive",
+        "shape": "box",
+        "params": {
+          "size": [
+            1.4,
+            0.012,
+            0.035
+          ]
+        },
+        "color": "#b89b54"
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.7,
+          -0.006,
+          -0.0175
+        ],
+        "max": [
+          0.7,
+          0.006,
+          0.0175
+        ]
+      },
+      "layout": {
+        "role": "trim",
+        "purpose": "Non-slip stair nosing",
+        "surface": "metal",
+        "support": "set-mezzanine-access-tread-06"
+      }
+    },
+    {
+      "id": "set-mezzanine-access-tread-07",
+      "label": "Usable stair flight, equal riser 7/18",
+      "transform": {
+        "space": "world",
+        "position": [
+          -10.15,
+          0.5950000000000001,
+          -4.579999999999999
+        ]
+      },
+      "visual": {
+        "type": "primitive",
+        "shape": "box",
+        "params": {
+          "size": [
+            1.4,
+            1.1900000000000002,
+            0.28
+          ]
+        },
+        "color": "#858782"
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.7,
+          -0.5950000000000001,
+          -0.14
+        ],
+        "max": [
+          0.7,
+          0.5950000000000001,
+          0.14
+        ]
+      },
+      "layout": {
+        "role": "stair",
+        "purpose": "Usable stair flight, equal riser 7/18",
+        "surface": "concrete",
+        "support": "ground"
+      }
+    },
+    {
+      "id": "set-mezzanine-access-tread-07-nosing",
+      "label": "Non-slip stair nosing",
+      "transform": {
+        "space": "world",
+        "position": [
+          -10.15,
+          1.1960000000000002,
+          -4.464999999999999
+        ]
+      },
+      "visual": {
+        "type": "primitive",
+        "shape": "box",
+        "params": {
+          "size": [
+            1.4,
+            0.012,
+            0.035
+          ]
+        },
+        "color": "#b89b54"
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.7,
+          -0.006,
+          -0.0175
+        ],
+        "max": [
+          0.7,
+          0.006,
+          0.0175
+        ]
+      },
+      "layout": {
+        "role": "trim",
+        "purpose": "Non-slip stair nosing",
+        "surface": "metal",
+        "support": "set-mezzanine-access-tread-07"
+      }
+    },
+    {
+      "id": "set-mezzanine-access-tread-08",
+      "label": "Usable stair flight, equal riser 8/18",
+      "transform": {
+        "space": "world",
+        "position": [
+          -10.15,
+          0.68,
+          -4.859999999999999
+        ]
+      },
+      "visual": {
+        "type": "primitive",
+        "shape": "box",
+        "params": {
+          "size": [
+            1.4,
+            1.36,
+            0.28
+          ]
+        },
+        "color": "#858782"
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.7,
+          -0.68,
+          -0.14
+        ],
+        "max": [
+          0.7,
+          0.68,
+          0.14
+        ]
+      },
+      "layout": {
+        "role": "stair",
+        "purpose": "Usable stair flight, equal riser 8/18",
+        "surface": "concrete",
+        "support": "ground"
+      }
+    },
+    {
+      "id": "set-mezzanine-access-tread-08-nosing",
+      "label": "Non-slip stair nosing",
+      "transform": {
+        "space": "world",
+        "position": [
+          -10.15,
+          1.366,
+          -4.744999999999999
+        ]
+      },
+      "visual": {
+        "type": "primitive",
+        "shape": "box",
+        "params": {
+          "size": [
+            1.4,
+            0.012,
+            0.035
+          ]
+        },
+        "color": "#b89b54"
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.7,
+          -0.006,
+          -0.0175
+        ],
+        "max": [
+          0.7,
+          0.006,
+          0.0175
+        ]
+      },
+      "layout": {
+        "role": "trim",
+        "purpose": "Non-slip stair nosing",
+        "surface": "metal",
+        "support": "set-mezzanine-access-tread-08"
+      }
+    },
+    {
+      "id": "set-mezzanine-access-tread-09",
+      "label": "Usable stair flight, equal riser 9/18",
+      "transform": {
+        "space": "world",
+        "position": [
+          -10.15,
+          0.765,
+          -5.139999999999999
+        ]
+      },
+      "visual": {
+        "type": "primitive",
+        "shape": "box",
+        "params": {
+          "size": [
+            1.4,
+            1.53,
+            0.28
+          ]
+        },
+        "color": "#858782"
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.7,
+          -0.765,
+          -0.14
+        ],
+        "max": [
+          0.7,
+          0.765,
+          0.14
+        ]
+      },
+      "layout": {
+        "role": "stair",
+        "purpose": "Usable stair flight, equal riser 9/18",
+        "surface": "concrete",
+        "support": "ground"
+      }
+    },
+    {
+      "id": "set-mezzanine-access-tread-09-nosing",
+      "label": "Non-slip stair nosing",
+      "transform": {
+        "space": "world",
+        "position": [
+          -10.15,
+          1.536,
+          -5.024999999999999
+        ]
+      },
+      "visual": {
+        "type": "primitive",
+        "shape": "box",
+        "params": {
+          "size": [
+            1.4,
+            0.012,
+            0.035
+          ]
+        },
+        "color": "#b89b54"
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.7,
+          -0.006,
+          -0.0175
+        ],
+        "max": [
+          0.7,
+          0.006,
+          0.0175
+        ]
+      },
+      "layout": {
+        "role": "trim",
+        "purpose": "Non-slip stair nosing",
+        "surface": "metal",
+        "support": "set-mezzanine-access-tread-09"
+      }
+    },
+    {
+      "id": "set-mezzanine-access-tread-10",
+      "label": "Usable stair flight, equal riser 10/18",
+      "transform": {
+        "space": "world",
+        "position": [
+          -10.15,
+          0.8500000000000001,
+          -5.419999999999999
+        ]
+      },
+      "visual": {
+        "type": "primitive",
+        "shape": "box",
+        "params": {
+          "size": [
+            1.4,
+            1.7000000000000002,
+            0.28
+          ]
+        },
+        "color": "#858782"
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.7,
+          -0.8500000000000001,
+          -0.14
+        ],
+        "max": [
+          0.7,
+          0.8500000000000001,
+          0.14
+        ]
+      },
+      "layout": {
+        "role": "stair",
+        "purpose": "Usable stair flight, equal riser 10/18",
+        "surface": "concrete",
+        "support": "ground"
+      }
+    },
+    {
+      "id": "set-mezzanine-access-tread-10-nosing",
+      "label": "Non-slip stair nosing",
+      "transform": {
+        "space": "world",
+        "position": [
+          -10.15,
+          1.7060000000000002,
+          -5.305
+        ]
+      },
+      "visual": {
+        "type": "primitive",
+        "shape": "box",
+        "params": {
+          "size": [
+            1.4,
+            0.012,
+            0.035
+          ]
+        },
+        "color": "#b89b54"
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.7,
+          -0.006,
+          -0.0175
+        ],
+        "max": [
+          0.7,
+          0.006,
+          0.0175
+        ]
+      },
+      "layout": {
+        "role": "trim",
+        "purpose": "Non-slip stair nosing",
+        "surface": "metal",
+        "support": "set-mezzanine-access-tread-10"
+      }
+    },
+    {
+      "id": "set-mezzanine-access-tread-11",
+      "label": "Usable stair flight, equal riser 11/18",
+      "transform": {
+        "space": "world",
+        "position": [
+          -10.15,
+          0.935,
+          -5.699999999999999
+        ]
+      },
+      "visual": {
+        "type": "primitive",
+        "shape": "box",
+        "params": {
+          "size": [
+            1.4,
+            1.87,
+            0.28
+          ]
+        },
+        "color": "#858782"
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.7,
+          -0.935,
+          -0.14
+        ],
+        "max": [
+          0.7,
+          0.935,
+          0.14
+        ]
+      },
+      "layout": {
+        "role": "stair",
+        "purpose": "Usable stair flight, equal riser 11/18",
+        "surface": "concrete",
+        "support": "ground"
+      }
+    },
+    {
+      "id": "set-mezzanine-access-tread-11-nosing",
+      "label": "Non-slip stair nosing",
+      "transform": {
+        "space": "world",
+        "position": [
+          -10.15,
+          1.8760000000000001,
+          -5.584999999999999
+        ]
+      },
+      "visual": {
+        "type": "primitive",
+        "shape": "box",
+        "params": {
+          "size": [
+            1.4,
+            0.012,
+            0.035
+          ]
+        },
+        "color": "#b89b54"
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.7,
+          -0.006,
+          -0.0175
+        ],
+        "max": [
+          0.7,
+          0.006,
+          0.0175
+        ]
+      },
+      "layout": {
+        "role": "trim",
+        "purpose": "Non-slip stair nosing",
+        "surface": "metal",
+        "support": "set-mezzanine-access-tread-11"
+      }
+    },
+    {
+      "id": "set-mezzanine-access-tread-12",
+      "label": "Usable stair flight, equal riser 12/18",
+      "transform": {
+        "space": "world",
+        "position": [
+          -10.15,
+          1.02,
+          -5.979999999999999
+        ]
+      },
+      "visual": {
+        "type": "primitive",
+        "shape": "box",
+        "params": {
+          "size": [
+            1.4,
+            2.04,
+            0.28
+          ]
+        },
+        "color": "#858782"
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.7,
+          -1.02,
+          -0.14
+        ],
+        "max": [
+          0.7,
+          1.02,
+          0.14
+        ]
+      },
+      "layout": {
+        "role": "stair",
+        "purpose": "Usable stair flight, equal riser 12/18",
+        "surface": "concrete",
+        "support": "ground"
+      }
+    },
+    {
+      "id": "set-mezzanine-access-tread-12-nosing",
+      "label": "Non-slip stair nosing",
+      "transform": {
+        "space": "world",
+        "position": [
+          -10.15,
+          2.046,
+          -5.864999999999998
+        ]
+      },
+      "visual": {
+        "type": "primitive",
+        "shape": "box",
+        "params": {
+          "size": [
+            1.4,
+            0.012,
+            0.035
+          ]
+        },
+        "color": "#b89b54"
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.7,
+          -0.006,
+          -0.0175
+        ],
+        "max": [
+          0.7,
+          0.006,
+          0.0175
+        ]
+      },
+      "layout": {
+        "role": "trim",
+        "purpose": "Non-slip stair nosing",
+        "surface": "metal",
+        "support": "set-mezzanine-access-tread-12"
+      }
+    },
+    {
+      "id": "set-mezzanine-access-tread-13",
+      "label": "Usable stair flight, equal riser 13/18",
+      "transform": {
+        "space": "world",
+        "position": [
+          -10.15,
+          1.105,
+          -6.26
+        ]
+      },
+      "visual": {
+        "type": "primitive",
+        "shape": "box",
+        "params": {
+          "size": [
+            1.4,
+            2.21,
+            0.28
+          ]
+        },
+        "color": "#858782"
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.7,
+          -1.105,
+          -0.14
+        ],
+        "max": [
+          0.7,
+          1.105,
+          0.14
+        ]
+      },
+      "layout": {
+        "role": "stair",
+        "purpose": "Usable stair flight, equal riser 13/18",
+        "surface": "concrete",
+        "support": "ground"
+      }
+    },
+    {
+      "id": "set-mezzanine-access-tread-13-nosing",
+      "label": "Non-slip stair nosing",
+      "transform": {
+        "space": "world",
+        "position": [
+          -10.15,
+          2.2159999999999997,
+          -6.145
+        ]
+      },
+      "visual": {
+        "type": "primitive",
+        "shape": "box",
+        "params": {
+          "size": [
+            1.4,
+            0.012,
+            0.035
+          ]
+        },
+        "color": "#b89b54"
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.7,
+          -0.006,
+          -0.0175
+        ],
+        "max": [
+          0.7,
+          0.006,
+          0.0175
+        ]
+      },
+      "layout": {
+        "role": "trim",
+        "purpose": "Non-slip stair nosing",
+        "surface": "metal",
+        "support": "set-mezzanine-access-tread-13"
+      }
+    },
+    {
+      "id": "set-mezzanine-access-tread-14",
+      "label": "Usable stair flight, equal riser 14/18",
+      "transform": {
+        "space": "world",
+        "position": [
+          -10.15,
+          1.1900000000000002,
+          -6.539999999999999
+        ]
+      },
+      "visual": {
+        "type": "primitive",
+        "shape": "box",
+        "params": {
+          "size": [
+            1.4,
+            2.3800000000000003,
+            0.28
+          ]
+        },
+        "color": "#858782"
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.7,
+          -1.1900000000000002,
+          -0.14
+        ],
+        "max": [
+          0.7,
+          1.1900000000000002,
+          0.14
+        ]
+      },
+      "layout": {
+        "role": "stair",
+        "purpose": "Usable stair flight, equal riser 14/18",
+        "surface": "concrete",
+        "support": "ground"
+      }
+    },
+    {
+      "id": "set-mezzanine-access-tread-14-nosing",
+      "label": "Non-slip stair nosing",
+      "transform": {
+        "space": "world",
+        "position": [
+          -10.15,
+          2.386,
+          -6.424999999999999
+        ]
+      },
+      "visual": {
+        "type": "primitive",
+        "shape": "box",
+        "params": {
+          "size": [
+            1.4,
+            0.012,
+            0.035
+          ]
+        },
+        "color": "#b89b54"
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.7,
+          -0.006,
+          -0.0175
+        ],
+        "max": [
+          0.7,
+          0.006,
+          0.0175
+        ]
+      },
+      "layout": {
+        "role": "trim",
+        "purpose": "Non-slip stair nosing",
+        "surface": "metal",
+        "support": "set-mezzanine-access-tread-14"
+      }
+    },
+    {
+      "id": "set-mezzanine-access-tread-15",
+      "label": "Usable stair flight, equal riser 15/18",
+      "transform": {
+        "space": "world",
+        "position": [
+          -10.15,
+          1.2750000000000001,
+          -6.819999999999999
+        ]
+      },
+      "visual": {
+        "type": "primitive",
+        "shape": "box",
+        "params": {
+          "size": [
+            1.4,
+            2.5500000000000003,
+            0.28
+          ]
+        },
+        "color": "#858782"
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.7,
+          -1.2750000000000001,
+          -0.14
+        ],
+        "max": [
+          0.7,
+          1.2750000000000001,
+          0.14
+        ]
+      },
+      "layout": {
+        "role": "stair",
+        "purpose": "Usable stair flight, equal riser 15/18",
+        "surface": "concrete",
+        "support": "ground"
+      }
+    },
+    {
+      "id": "set-mezzanine-access-tread-15-nosing",
+      "label": "Non-slip stair nosing",
+      "transform": {
+        "space": "world",
+        "position": [
+          -10.15,
+          2.556,
+          -6.704999999999999
+        ]
+      },
+      "visual": {
+        "type": "primitive",
+        "shape": "box",
+        "params": {
+          "size": [
+            1.4,
+            0.012,
+            0.035
+          ]
+        },
+        "color": "#b89b54"
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.7,
+          -0.006,
+          -0.0175
+        ],
+        "max": [
+          0.7,
+          0.006,
+          0.0175
+        ]
+      },
+      "layout": {
+        "role": "trim",
+        "purpose": "Non-slip stair nosing",
+        "surface": "metal",
+        "support": "set-mezzanine-access-tread-15"
+      }
+    },
+    {
+      "id": "set-mezzanine-access-tread-16",
+      "label": "Usable stair flight, equal riser 16/18",
+      "transform": {
+        "space": "world",
+        "position": [
+          -10.15,
+          1.36,
+          -7.1
+        ]
+      },
+      "visual": {
+        "type": "primitive",
+        "shape": "box",
+        "params": {
+          "size": [
+            1.4,
+            2.72,
+            0.28
+          ]
+        },
+        "color": "#858782"
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.7,
+          -1.36,
+          -0.14
+        ],
+        "max": [
+          0.7,
+          1.36,
+          0.14
+        ]
+      },
+      "layout": {
+        "role": "stair",
+        "purpose": "Usable stair flight, equal riser 16/18",
+        "surface": "concrete",
+        "support": "ground"
+      }
+    },
+    {
+      "id": "set-mezzanine-access-tread-16-nosing",
+      "label": "Non-slip stair nosing",
+      "transform": {
+        "space": "world",
+        "position": [
+          -10.15,
+          2.726,
+          -6.984999999999999
+        ]
+      },
+      "visual": {
+        "type": "primitive",
+        "shape": "box",
+        "params": {
+          "size": [
+            1.4,
+            0.012,
+            0.035
+          ]
+        },
+        "color": "#b89b54"
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.7,
+          -0.006,
+          -0.0175
+        ],
+        "max": [
+          0.7,
+          0.006,
+          0.0175
+        ]
+      },
+      "layout": {
+        "role": "trim",
+        "purpose": "Non-slip stair nosing",
+        "surface": "metal",
+        "support": "set-mezzanine-access-tread-16"
+      }
+    },
+    {
+      "id": "set-mezzanine-access-tread-17",
+      "label": "Usable stair flight, equal riser 17/18",
+      "transform": {
+        "space": "world",
+        "position": [
+          -10.15,
+          1.445,
+          -7.379999999999999
+        ]
+      },
+      "visual": {
+        "type": "primitive",
+        "shape": "box",
+        "params": {
+          "size": [
+            1.4,
+            2.89,
+            0.28
+          ]
+        },
+        "color": "#858782"
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.7,
+          -1.445,
+          -0.14
+        ],
+        "max": [
+          0.7,
+          1.445,
+          0.14
+        ]
+      },
+      "layout": {
+        "role": "stair",
+        "purpose": "Usable stair flight, equal riser 17/18",
+        "surface": "concrete",
+        "support": "ground"
+      }
+    },
+    {
+      "id": "set-mezzanine-access-tread-17-nosing",
+      "label": "Non-slip stair nosing",
+      "transform": {
+        "space": "world",
+        "position": [
+          -10.15,
+          2.896,
+          -7.265
+        ]
+      },
+      "visual": {
+        "type": "primitive",
+        "shape": "box",
+        "params": {
+          "size": [
+            1.4,
+            0.012,
+            0.035
+          ]
+        },
+        "color": "#b89b54"
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.7,
+          -0.006,
+          -0.0175
+        ],
+        "max": [
+          0.7,
+          0.006,
+          0.0175
+        ]
+      },
+      "layout": {
+        "role": "trim",
+        "purpose": "Non-slip stair nosing",
+        "surface": "metal",
+        "support": "set-mezzanine-access-tread-17"
+      }
+    },
+    {
+      "id": "set-mezzanine-access-tread-18",
+      "label": "Usable stair flight, equal riser 18/18",
+      "transform": {
+        "space": "world",
+        "position": [
+          -10.15,
+          1.53,
+          -7.659999999999999
+        ]
+      },
+      "visual": {
+        "type": "primitive",
+        "shape": "box",
+        "params": {
+          "size": [
+            1.4,
+            3.06,
+            0.28
+          ]
+        },
+        "color": "#858782"
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.7,
+          -1.53,
+          -0.14
+        ],
+        "max": [
+          0.7,
+          1.53,
+          0.14
+        ]
+      },
+      "layout": {
+        "role": "stair",
+        "purpose": "Usable stair flight, equal riser 18/18",
+        "surface": "concrete",
+        "support": "ground"
+      }
+    },
+    {
+      "id": "set-mezzanine-access-tread-18-nosing",
+      "label": "Non-slip stair nosing",
+      "transform": {
+        "space": "world",
+        "position": [
+          -10.15,
+          3.066,
+          -7.545
+        ]
+      },
+      "visual": {
+        "type": "primitive",
+        "shape": "box",
+        "params": {
+          "size": [
+            1.4,
+            0.012,
+            0.035
+          ]
+        },
+        "color": "#b89b54"
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.7,
+          -0.006,
+          -0.0175
+        ],
+        "max": [
+          0.7,
+          0.006,
+          0.0175
+        ]
+      },
+      "layout": {
+        "role": "trim",
+        "purpose": "Non-slip stair nosing",
+        "surface": "metal",
+        "support": "set-mezzanine-access-tread-18"
+      }
+    },
+    {
+      "id": "set-mezzanine-access-landing",
+      "label": "Level top landing connecting stair to occupied floor",
+      "transform": {
+        "space": "world",
+        "position": [
+          -10.15,
+          1.53,
+          -8.4
+        ]
+      },
+      "visual": {
+        "type": "primitive",
+        "shape": "box",
+        "params": {
+          "size": [
+            1.4,
+            3.06,
+            1.2
+          ]
+        },
+        "color": "#858782"
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.7,
+          -1.53,
+          -0.6
+        ],
+        "max": [
+          0.7,
+          1.53,
+          0.6
+        ]
+      },
+      "layout": {
+        "role": "landing",
+        "purpose": "Level top landing connecting stair to occupied floor",
+        "surface": "concrete",
+        "support": "ground"
+      }
+    },
+    {
+      "id": "set-mezzanine-access-post--1-0",
+      "label": "Stair handrail upright anchored into tread",
+      "transform": {
+        "space": "world",
+        "position": [
+          -10.815,
+          0.659414979757085,
+          -2.8579999999999988
+        ],
+        "rotation": [
+          0,
+          0,
+          0,
+          1
+        ]
+      },
+      "visual": {
+        "type": "primitive",
+        "shape": "cylinder",
+        "params": {
+          "radius": 0.022,
+          "height": 0.97882995951417,
+          "radialSegments": 12
+        },
+        "color": "#465256"
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.022,
+          -0.489414979757085,
+          -0.022
+        ],
+        "max": [
+          0.022,
+          0.489414979757085,
+          0.022
+        ]
+      },
+      "layout": {
+        "role": "railing",
+        "purpose": "Stair handrail upright anchored into tread",
+        "surface": "metal",
+        "support": "set-mezzanine-access-tread-01"
+      }
+    },
+    {
+      "id": "set-mezzanine-access-post--1-3",
+      "label": "Stair handrail upright anchored into tread",
+      "transform": {
+        "space": "world",
+        "position": [
+          -10.815,
+          1.1601234817813766,
+          -3.697999999999999
+        ],
+        "rotation": [
+          0,
+          0,
+          0,
+          1
+        ]
+      },
+      "visual": {
+        "type": "primitive",
+        "shape": "cylinder",
+        "params": {
+          "radius": 0.022,
+          "height": 0.960246963562753,
+          "radialSegments": 12
+        },
+        "color": "#465256"
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.022,
+          -0.4801234817813765,
+          -0.022
+        ],
+        "max": [
+          0.022,
+          0.4801234817813765,
+          0.022
+        ]
+      },
+      "layout": {
+        "role": "railing",
+        "purpose": "Stair handrail upright anchored into tread",
+        "surface": "metal",
+        "support": "set-mezzanine-access-tread-04"
+      }
+    },
+    {
+      "id": "set-mezzanine-access-post--1-6",
+      "label": "Stair handrail upright anchored into tread",
+      "transform": {
+        "space": "world",
+        "position": [
+          -10.815,
+          1.660831983805668,
+          -4.5379999999999985
+        ],
+        "rotation": [
+          0,
+          0,
+          0,
+          1
+        ]
+      },
+      "visual": {
+        "type": "primitive",
+        "shape": "cylinder",
+        "params": {
+          "radius": 0.022,
+          "height": 0.9416639676113354,
+          "radialSegments": 12
+        },
+        "color": "#465256"
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.022,
+          -0.4708319838056677,
+          -0.022
+        ],
+        "max": [
+          0.022,
+          0.4708319838056677,
+          0.022
+        ]
+      },
+      "layout": {
+        "role": "railing",
+        "purpose": "Stair handrail upright anchored into tread",
+        "surface": "metal",
+        "support": "set-mezzanine-access-tread-07"
+      }
+    },
+    {
+      "id": "set-mezzanine-access-post--1-9",
+      "label": "Stair handrail upright anchored into tread",
+      "transform": {
+        "space": "world",
+        "position": [
+          -10.815,
+          2.1615404858299594,
+          -5.377999999999999
+        ],
+        "rotation": [
+          0,
+          0,
+          0,
+          1
+        ]
+      },
+      "visual": {
+        "type": "primitive",
+        "shape": "cylinder",
+        "params": {
+          "radius": 0.022,
+          "height": 0.9230809716599184,
+          "radialSegments": 12
+        },
+        "color": "#465256"
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.022,
+          -0.4615404858299592,
+          -0.022
+        ],
+        "max": [
+          0.022,
+          0.4615404858299592,
+          0.022
+        ]
+      },
+      "layout": {
+        "role": "railing",
+        "purpose": "Stair handrail upright anchored into tread",
+        "surface": "metal",
+        "support": "set-mezzanine-access-tread-10"
+      }
+    },
+    {
+      "id": "set-mezzanine-access-post--1-12",
+      "label": "Stair handrail upright anchored into tread",
+      "transform": {
+        "space": "world",
+        "position": [
+          -10.815,
+          2.662248987854251,
+          -6.217999999999999
+        ],
+        "rotation": [
+          0,
+          0,
+          0,
+          1
+        ]
+      },
+      "visual": {
+        "type": "primitive",
+        "shape": "cylinder",
+        "params": {
+          "radius": 0.022,
+          "height": 0.9044979757085017,
+          "radialSegments": 12
+        },
+        "color": "#465256"
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.022,
+          -0.45224898785425083,
+          -0.022
+        ],
+        "max": [
+          0.022,
+          0.45224898785425083,
+          0.022
+        ]
+      },
+      "layout": {
+        "role": "railing",
+        "purpose": "Stair handrail upright anchored into tread",
+        "surface": "metal",
+        "support": "set-mezzanine-access-tread-13"
+      }
+    },
+    {
+      "id": "set-mezzanine-access-post--1-15",
+      "label": "Stair handrail upright anchored into tread",
+      "transform": {
+        "space": "world",
+        "position": [
+          -10.815,
+          3.1629574898785426,
+          -7.057999999999999
+        ],
+        "rotation": [
+          0,
+          0,
+          0,
+          1
+        ]
+      },
+      "visual": {
+        "type": "primitive",
+        "shape": "cylinder",
+        "params": {
+          "radius": 0.022,
+          "height": 0.8859149797570844,
+          "radialSegments": 12
+        },
+        "color": "#465256"
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.022,
+          -0.4429574898785422,
+          -0.022
+        ],
+        "max": [
+          0.022,
+          0.4429574898785422,
+          0.022
+        ]
+      },
+      "layout": {
+        "role": "railing",
+        "purpose": "Stair handrail upright anchored into tread",
+        "surface": "metal",
+        "support": "set-mezzanine-access-tread-16"
+      }
+    },
+    {
+      "id": "set-mezzanine-access-post--1-18",
+      "label": "Stair handrail upright anchored into tread",
+      "transform": {
+        "space": "world",
+        "position": [
+          -10.815,
+          3.55,
+          -7.8
+        ],
+        "rotation": [
+          0,
+          0,
+          0,
+          1
+        ]
+      },
+      "visual": {
+        "type": "primitive",
+        "shape": "cylinder",
+        "params": {
+          "radius": 0.022,
+          "height": 0.98,
+          "radialSegments": 12
+        },
+        "color": "#465256"
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.022,
+          -0.49,
+          -0.022
+        ],
+        "max": [
+          0.022,
+          0.49,
+          0.022
+        ]
+      },
+      "layout": {
+        "role": "railing",
+        "purpose": "Stair handrail upright anchored into tread",
+        "surface": "metal",
+        "support": "set-mezzanine-access-tread-18"
+      }
+    },
+    {
+      "id": "set-mezzanine-access-handrail--1",
+      "label": "Continuous sloped stair handrail",
+      "transform": {
+        "space": "world",
+        "position": [
+          -10.815,
+          2.5949999999999998,
+          -5.329999999999999
+        ],
+        "rotation": [
+          -0.497515324,
+          0,
+          0,
+          0.867455187
+        ]
+      },
+      "visual": {
+        "type": "primitive",
+        "shape": "cylinder",
+        "params": {
+          "radius": 0.03,
+          "height": 5.723259560774787,
+          "radialSegments": 12
+        },
+        "color": "#b89b54"
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.03,
+          -2.8616297803873936,
+          -0.03
+        ],
+        "max": [
+          0.03,
+          2.8616297803873936,
+          0.03
+        ]
+      },
+      "layout": {
+        "role": "railing",
+        "purpose": "Continuous sloped stair handrail",
+        "surface": "metal"
+      }
+    },
+    {
+      "id": "set-mezzanine-access-landing-guard--1-post-0",
+      "label": "Balustrade post anchored into slab",
+      "transform": {
+        "space": "world",
+        "position": [
+          -10.815,
+          3.55,
+          -7.8
+        ],
+        "rotation": [
+          0,
+          0,
+          0,
+          1
+        ]
+      },
+      "visual": {
+        "type": "primitive",
+        "shape": "cylinder",
+        "params": {
+          "radius": 0.023,
+          "height": 0.98,
+          "radialSegments": 12
+        },
+        "color": "#465256"
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.023,
+          -0.49,
+          -0.023
+        ],
+        "max": [
+          0.023,
+          0.49,
+          0.023
+        ]
+      },
+      "layout": {
+        "role": "railing",
+        "purpose": "Balustrade post anchored into slab",
+        "surface": "metal"
+      }
+    },
+    {
+      "id": "set-mezzanine-access-landing-guard--1-post-1",
+      "label": "Balustrade post anchored into slab",
+      "transform": {
+        "space": "world",
+        "position": [
+          -10.815,
+          3.55,
+          -8.4
+        ],
+        "rotation": [
+          0,
+          0,
+          0,
+          1
+        ]
+      },
+      "visual": {
+        "type": "primitive",
+        "shape": "cylinder",
+        "params": {
+          "radius": 0.023,
+          "height": 0.98,
+          "radialSegments": 12
+        },
+        "color": "#465256"
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.023,
+          -0.49,
+          -0.023
+        ],
+        "max": [
+          0.023,
+          0.49,
+          0.023
+        ]
+      },
+      "layout": {
+        "role": "railing",
+        "purpose": "Balustrade post anchored into slab",
+        "surface": "metal"
+      }
+    },
+    {
+      "id": "set-mezzanine-access-landing-guard--1-post-2",
+      "label": "Balustrade post anchored into slab",
+      "transform": {
+        "space": "world",
+        "position": [
+          -10.815,
+          3.55,
+          -9
+        ],
+        "rotation": [
+          0,
+          0,
+          0,
+          1
+        ]
+      },
+      "visual": {
+        "type": "primitive",
+        "shape": "cylinder",
+        "params": {
+          "radius": 0.023,
+          "height": 0.98,
+          "radialSegments": 12
+        },
+        "color": "#465256"
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.023,
+          -0.49,
+          -0.023
+        ],
+        "max": [
+          0.023,
+          0.49,
+          0.023
+        ]
+      },
+      "layout": {
+        "role": "railing",
+        "purpose": "Balustrade post anchored into slab",
+        "surface": "metal"
+      }
+    },
+    {
+      "id": "set-mezzanine-access-landing-guard--1-rail-0",
+      "label": "Continuous guardrail",
+      "transform": {
+        "space": "world",
+        "position": [
+          -10.815,
+          3.5304,
+          -8.4
+        ],
+        "rotation": [
+          -0.707106781,
+          0,
+          0,
+          0.707106781
+        ]
+      },
+      "visual": {
+        "type": "primitive",
+        "shape": "cylinder",
+        "params": {
+          "radius": 0.027,
+          "height": 1.2000000000000002,
+          "radialSegments": 12
+        },
+        "color": "#b89b54"
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.027,
+          -0.6000000000000001,
+          -0.027
+        ],
+        "max": [
+          0.027,
+          0.6000000000000001,
+          0.027
+        ]
+      },
+      "layout": {
+        "role": "railing",
+        "purpose": "Continuous guardrail",
+        "surface": "metal"
+      }
+    },
+    {
+      "id": "set-mezzanine-access-landing-guard--1-rail-1",
+      "label": "Continuous guardrail",
+      "transform": {
+        "space": "world",
+        "position": [
+          -10.815,
+          4.04,
+          -8.4
+        ],
+        "rotation": [
+          -0.707106781,
+          0,
+          0,
+          0.707106781
+        ]
+      },
+      "visual": {
+        "type": "primitive",
+        "shape": "cylinder",
+        "params": {
+          "radius": 0.027,
+          "height": 1.2000000000000002,
+          "radialSegments": 12
+        },
+        "color": "#b89b54"
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.027,
+          -0.6000000000000001,
+          -0.027
+        ],
+        "max": [
+          0.027,
+          0.6000000000000001,
+          0.027
+        ]
+      },
+      "layout": {
+        "role": "railing",
+        "purpose": "Continuous guardrail",
+        "surface": "metal"
+      }
+    },
+    {
+      "id": "set-mezzanine-access-post-1-0",
+      "label": "Stair handrail upright anchored into tread",
+      "transform": {
+        "space": "world",
+        "position": [
+          -9.485000000000001,
+          0.659414979757085,
+          -2.8579999999999988
+        ],
+        "rotation": [
+          0,
+          0,
+          0,
+          1
+        ]
+      },
+      "visual": {
+        "type": "primitive",
+        "shape": "cylinder",
+        "params": {
+          "radius": 0.022,
+          "height": 0.97882995951417,
+          "radialSegments": 12
+        },
+        "color": "#465256"
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.022,
+          -0.489414979757085,
+          -0.022
+        ],
+        "max": [
+          0.022,
+          0.489414979757085,
+          0.022
+        ]
+      },
+      "layout": {
+        "role": "railing",
+        "purpose": "Stair handrail upright anchored into tread",
+        "surface": "metal",
+        "support": "set-mezzanine-access-tread-01"
+      }
+    },
+    {
+      "id": "set-mezzanine-access-post-1-3",
+      "label": "Stair handrail upright anchored into tread",
+      "transform": {
+        "space": "world",
+        "position": [
+          -9.485000000000001,
+          1.1601234817813766,
+          -3.697999999999999
+        ],
+        "rotation": [
+          0,
+          0,
+          0,
+          1
+        ]
+      },
+      "visual": {
+        "type": "primitive",
+        "shape": "cylinder",
+        "params": {
+          "radius": 0.022,
+          "height": 0.960246963562753,
+          "radialSegments": 12
+        },
+        "color": "#465256"
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.022,
+          -0.4801234817813765,
+          -0.022
+        ],
+        "max": [
+          0.022,
+          0.4801234817813765,
+          0.022
+        ]
+      },
+      "layout": {
+        "role": "railing",
+        "purpose": "Stair handrail upright anchored into tread",
+        "surface": "metal",
+        "support": "set-mezzanine-access-tread-04"
+      }
+    },
+    {
+      "id": "set-mezzanine-access-post-1-6",
+      "label": "Stair handrail upright anchored into tread",
+      "transform": {
+        "space": "world",
+        "position": [
+          -9.485000000000001,
+          1.660831983805668,
+          -4.5379999999999985
+        ],
+        "rotation": [
+          0,
+          0,
+          0,
+          1
+        ]
+      },
+      "visual": {
+        "type": "primitive",
+        "shape": "cylinder",
+        "params": {
+          "radius": 0.022,
+          "height": 0.9416639676113354,
+          "radialSegments": 12
+        },
+        "color": "#465256"
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.022,
+          -0.4708319838056677,
+          -0.022
+        ],
+        "max": [
+          0.022,
+          0.4708319838056677,
+          0.022
+        ]
+      },
+      "layout": {
+        "role": "railing",
+        "purpose": "Stair handrail upright anchored into tread",
+        "surface": "metal",
+        "support": "set-mezzanine-access-tread-07"
+      }
+    },
+    {
+      "id": "set-mezzanine-access-post-1-9",
+      "label": "Stair handrail upright anchored into tread",
+      "transform": {
+        "space": "world",
+        "position": [
+          -9.485000000000001,
+          2.1615404858299594,
+          -5.377999999999999
+        ],
+        "rotation": [
+          0,
+          0,
+          0,
+          1
+        ]
+      },
+      "visual": {
+        "type": "primitive",
+        "shape": "cylinder",
+        "params": {
+          "radius": 0.022,
+          "height": 0.9230809716599184,
+          "radialSegments": 12
+        },
+        "color": "#465256"
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.022,
+          -0.4615404858299592,
+          -0.022
+        ],
+        "max": [
+          0.022,
+          0.4615404858299592,
+          0.022
+        ]
+      },
+      "layout": {
+        "role": "railing",
+        "purpose": "Stair handrail upright anchored into tread",
+        "surface": "metal",
+        "support": "set-mezzanine-access-tread-10"
+      }
+    },
+    {
+      "id": "set-mezzanine-access-post-1-12",
+      "label": "Stair handrail upright anchored into tread",
+      "transform": {
+        "space": "world",
+        "position": [
+          -9.485000000000001,
+          2.662248987854251,
+          -6.217999999999999
+        ],
+        "rotation": [
+          0,
+          0,
+          0,
+          1
+        ]
+      },
+      "visual": {
+        "type": "primitive",
+        "shape": "cylinder",
+        "params": {
+          "radius": 0.022,
+          "height": 0.9044979757085017,
+          "radialSegments": 12
+        },
+        "color": "#465256"
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.022,
+          -0.45224898785425083,
+          -0.022
+        ],
+        "max": [
+          0.022,
+          0.45224898785425083,
+          0.022
+        ]
+      },
+      "layout": {
+        "role": "railing",
+        "purpose": "Stair handrail upright anchored into tread",
+        "surface": "metal",
+        "support": "set-mezzanine-access-tread-13"
+      }
+    },
+    {
+      "id": "set-mezzanine-access-post-1-15",
+      "label": "Stair handrail upright anchored into tread",
+      "transform": {
+        "space": "world",
+        "position": [
+          -9.485000000000001,
+          3.1629574898785426,
+          -7.057999999999999
+        ],
+        "rotation": [
+          0,
+          0,
+          0,
+          1
+        ]
+      },
+      "visual": {
+        "type": "primitive",
+        "shape": "cylinder",
+        "params": {
+          "radius": 0.022,
+          "height": 0.8859149797570844,
+          "radialSegments": 12
+        },
+        "color": "#465256"
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.022,
+          -0.4429574898785422,
+          -0.022
+        ],
+        "max": [
+          0.022,
+          0.4429574898785422,
+          0.022
+        ]
+      },
+      "layout": {
+        "role": "railing",
+        "purpose": "Stair handrail upright anchored into tread",
+        "surface": "metal",
+        "support": "set-mezzanine-access-tread-16"
+      }
+    },
+    {
+      "id": "set-mezzanine-access-post-1-18",
+      "label": "Stair handrail upright anchored into tread",
+      "transform": {
+        "space": "world",
+        "position": [
+          -9.485000000000001,
+          3.55,
+          -7.8
+        ],
+        "rotation": [
+          0,
+          0,
+          0,
+          1
+        ]
+      },
+      "visual": {
+        "type": "primitive",
+        "shape": "cylinder",
+        "params": {
+          "radius": 0.022,
+          "height": 0.98,
+          "radialSegments": 12
+        },
+        "color": "#465256"
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.022,
+          -0.49,
+          -0.022
+        ],
+        "max": [
+          0.022,
+          0.49,
+          0.022
+        ]
+      },
+      "layout": {
+        "role": "railing",
+        "purpose": "Stair handrail upright anchored into tread",
+        "surface": "metal",
+        "support": "set-mezzanine-access-tread-18"
+      }
+    },
+    {
+      "id": "set-mezzanine-access-handrail-1",
+      "label": "Continuous sloped stair handrail",
+      "transform": {
+        "space": "world",
+        "position": [
+          -9.485000000000001,
+          2.5949999999999998,
+          -5.329999999999999
+        ],
+        "rotation": [
+          -0.497515324,
+          0,
+          0,
+          0.867455187
+        ]
+      },
+      "visual": {
+        "type": "primitive",
+        "shape": "cylinder",
+        "params": {
+          "radius": 0.03,
+          "height": 5.723259560774787,
+          "radialSegments": 12
+        },
+        "color": "#b89b54"
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.03,
+          -2.8616297803873936,
+          -0.03
+        ],
+        "max": [
+          0.03,
+          2.8616297803873936,
+          0.03
+        ]
+      },
+      "layout": {
+        "role": "railing",
+        "purpose": "Continuous sloped stair handrail",
+        "surface": "metal"
+      }
+    },
+    {
+      "id": "set-mezzanine-access-landing-guard-1-post-0",
+      "label": "Balustrade post anchored into slab",
+      "transform": {
+        "space": "world",
+        "position": [
+          -9.485000000000001,
+          3.55,
+          -7.8
+        ],
+        "rotation": [
+          0,
+          0,
+          0,
+          1
+        ]
+      },
+      "visual": {
+        "type": "primitive",
+        "shape": "cylinder",
+        "params": {
+          "radius": 0.023,
+          "height": 0.98,
+          "radialSegments": 12
+        },
+        "color": "#465256"
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.023,
+          -0.49,
+          -0.023
+        ],
+        "max": [
+          0.023,
+          0.49,
+          0.023
+        ]
+      },
+      "layout": {
+        "role": "railing",
+        "purpose": "Balustrade post anchored into slab",
+        "surface": "metal"
+      }
+    },
+    {
+      "id": "set-mezzanine-access-landing-guard-1-post-1",
+      "label": "Balustrade post anchored into slab",
+      "transform": {
+        "space": "world",
+        "position": [
+          -9.485000000000001,
+          3.55,
+          -8.4
+        ],
+        "rotation": [
+          0,
+          0,
+          0,
+          1
+        ]
+      },
+      "visual": {
+        "type": "primitive",
+        "shape": "cylinder",
+        "params": {
+          "radius": 0.023,
+          "height": 0.98,
+          "radialSegments": 12
+        },
+        "color": "#465256"
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.023,
+          -0.49,
+          -0.023
+        ],
+        "max": [
+          0.023,
+          0.49,
+          0.023
+        ]
+      },
+      "layout": {
+        "role": "railing",
+        "purpose": "Balustrade post anchored into slab",
+        "surface": "metal"
+      }
+    },
+    {
+      "id": "set-mezzanine-access-landing-guard-1-post-2",
+      "label": "Balustrade post anchored into slab",
+      "transform": {
+        "space": "world",
+        "position": [
+          -9.485000000000001,
+          3.55,
+          -9
+        ],
+        "rotation": [
+          0,
+          0,
+          0,
+          1
+        ]
+      },
+      "visual": {
+        "type": "primitive",
+        "shape": "cylinder",
+        "params": {
+          "radius": 0.023,
+          "height": 0.98,
+          "radialSegments": 12
+        },
+        "color": "#465256"
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.023,
+          -0.49,
+          -0.023
+        ],
+        "max": [
+          0.023,
+          0.49,
+          0.023
+        ]
+      },
+      "layout": {
+        "role": "railing",
+        "purpose": "Balustrade post anchored into slab",
+        "surface": "metal"
+      }
+    },
+    {
+      "id": "set-mezzanine-access-landing-guard-1-rail-0",
+      "label": "Continuous guardrail",
+      "transform": {
+        "space": "world",
+        "position": [
+          -9.485000000000001,
+          3.5304,
+          -8.4
+        ],
+        "rotation": [
+          -0.707106781,
+          0,
+          0,
+          0.707106781
+        ]
+      },
+      "visual": {
+        "type": "primitive",
+        "shape": "cylinder",
+        "params": {
+          "radius": 0.027,
+          "height": 1.2000000000000002,
+          "radialSegments": 12
+        },
+        "color": "#b89b54"
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.027,
+          -0.6000000000000001,
+          -0.027
+        ],
+        "max": [
+          0.027,
+          0.6000000000000001,
+          0.027
+        ]
+      },
+      "layout": {
+        "role": "railing",
+        "purpose": "Continuous guardrail",
+        "surface": "metal"
+      }
+    },
+    {
+      "id": "set-mezzanine-access-landing-guard-1-rail-1",
+      "label": "Continuous guardrail",
+      "transform": {
+        "space": "world",
+        "position": [
+          -9.485000000000001,
+          4.04,
+          -8.4
+        ],
+        "rotation": [
+          -0.707106781,
+          0,
+          0,
+          0.707106781
+        ]
+      },
+      "visual": {
+        "type": "primitive",
+        "shape": "cylinder",
+        "params": {
+          "radius": 0.027,
+          "height": 1.2000000000000002,
+          "radialSegments": 12
+        },
+        "color": "#b89b54"
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.027,
+          -0.6000000000000001,
+          -0.027
+        ],
+        "max": [
+          0.027,
+          0.6000000000000001,
+          0.027
+        ]
+      },
+      "layout": {
+        "role": "railing",
+        "purpose": "Continuous guardrail",
+        "surface": "metal"
+      }
+    },
+    {
+      "id": "set-stock-rack-0",
+      "label": "Stock rack at perimeter, facing picking aisle",
+      "transform": {
+        "space": "world",
+        "position": [
+          11.8,
+          0,
+          -0.5
+        ],
+        "rotation": [
+          0,
+          0.707106781,
+          0,
+          0.707106781
+        ]
+      },
+      "visual": {
+        "type": "model",
+        "url": "/models/generated/warehouse-shelf.glb"
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -1.5,
+          0,
+          -0.54
+        ],
+        "max": [
+          1.5,
+          3,
+          0.54
+        ]
+      },
+      "layout": {
+        "role": "furniture",
+        "purpose": "Stock rack at perimeter, facing picking aisle",
+        "support": "ground"
+      }
+    },
+    {
+      "id": "set-stock-rack-1",
+      "label": "Stock rack at perimeter, facing picking aisle",
+      "transform": {
+        "space": "world",
+        "position": [
+          11.8,
+          0,
+          10
+        ],
+        "rotation": [
+          0,
+          0.707106781,
+          0,
+          0.707106781
+        ]
+      },
+      "visual": {
+        "type": "model",
+        "url": "/models/generated/warehouse-shelf.glb"
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -1.5,
+          0,
+          -0.54
+        ],
+        "max": [
+          1.5,
+          3,
+          0.54
+        ]
+      },
+      "layout": {
+        "role": "furniture",
+        "purpose": "Stock rack at perimeter, facing picking aisle",
+        "support": "ground"
       }
     },
     {
       "id": "set-forklift",
-      "label": "Yellow forklift crossing the marked rear service lane",
+      "label": "Forklift in marked rear goods lane",
       "transform": {
         "space": "world",
         "position": {
           "interpolation": "linear",
+          "extrapolation": "hold",
           "keyframes": [
             {
               "t": 0,
               "value": [
-                8,
+                7.5,
                 0,
-                -7
+                -6.6
               ]
             },
             {
               "t": 7.699999999999999,
               "value": [
-                8,
+                7.5,
                 0,
-                -7
+                -6.6
               ]
             },
             {
               "t": 16.5,
               "value": [
-                -6,
+                -3.8,
                 0,
-                -7
+                -6.6
               ]
             },
             {
               "t": 22,
               "value": [
-                -6,
+                -3.8,
                 0,
-                -7
+                -6.6
               ]
             }
           ]
-        }
+        },
+        "rotation": [
+          0,
+          -0.707106781,
+          0,
+          0.707106781
+        ]
       },
       "visual": {
         "type": "model",
-        "url": "/models/generated/forklift.glb",
-        "fallback": {
-          "type": "primitive",
-          "shape": "box",
-          "params": {
-            "width": 1.47,
-            "height": 0.2,
-            "depth": 0.3
-          },
-          "color": "#717c87"
-        }
+        "url": "/models/generated/forklift.glb"
       },
       "bounds": {
         "type": "box",
@@ -937,45 +9068,196 @@
           2.775,
           0.994227
         ]
+      },
+      "layout": {
+        "role": "furniture",
+        "purpose": "Forklift in marked rear goods lane",
+        "support": "ground"
       }
     },
     {
-      "id": "set-mezzanine",
-      "label": "Steel mezzanine with orange safety railings",
+      "id": "arch-goods-lane--1-0",
+      "label": "Paint marking forklift operating lane",
       "transform": {
         "space": "world",
         "position": [
-          -7,
+          1.85,
+          -0.02,
+          -8.45
+        ],
+        "rotation": [
           0,
-          -10
+          0.707106781,
+          0,
+          0.707106781
+        ]
+      },
+      "visual": {
+        "type": "primitive",
+        "shape": "box",
+        "params": {
+          "size": [
+            0.055,
+            0.05,
+            15.325000000000001
+          ]
+        },
+        "color": "#c5a454"
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.0275,
+          -0.025,
+          -7.6625000000000005
+        ],
+        "max": [
+          0.0275,
+          0.025,
+          7.6625000000000005
+        ]
+      },
+      "layout": {
+        "role": "paving",
+        "purpose": "Paint marking forklift operating lane",
+        "surface": "concrete",
+        "support": "ground"
+      }
+    },
+    {
+      "id": "arch-goods-lane-1-0",
+      "label": "Paint marking forklift operating lane",
+      "transform": {
+        "space": "world",
+        "position": [
+          1.85,
+          -0.02,
+          -4.75
+        ],
+        "rotation": [
+          0,
+          0.707106781,
+          0,
+          0.707106781
+        ]
+      },
+      "visual": {
+        "type": "primitive",
+        "shape": "box",
+        "params": {
+          "size": [
+            0.055,
+            0.05,
+            15.325000000000001
+          ]
+        },
+        "color": "#c5a454"
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.0275,
+          -0.025,
+          -7.6625000000000005
+        ],
+        "max": [
+          0.0275,
+          0.025,
+          7.6625000000000005
+        ]
+      },
+      "layout": {
+        "role": "paving",
+        "purpose": "Paint marking forklift operating lane",
+        "surface": "concrete",
+        "support": "ground"
+      }
+    },
+    {
+      "id": "set-maintenance-bench",
+      "label": "Machine-maintenance bench in service zone",
+      "transform": {
+        "space": "world",
+        "position": [
+          11,
+          0,
+          -12
+        ],
+        "rotation": [
+          0,
+          -0.707106781,
+          0,
+          0.707106781
         ]
       },
       "visual": {
         "type": "model",
-        "url": "/models/generated/mezzanine.glb",
-        "fallback": {
-          "type": "primitive",
-          "shape": "box",
-          "params": {
-            "width": 4,
-            "height": 0.2,
-            "depth": 0.3
-          },
-          "color": "#717c87"
+        "url": "/models/generated/workbench.glb"
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.9,
+          0,
+          -0.36
+        ],
+        "max": [
+          0.9,
+          0.93,
+          0.36
+        ]
+      },
+      "layout": {
+        "role": "furniture",
+        "purpose": "Machine-maintenance bench in service zone",
+        "support": "ground"
+      }
+    },
+    {
+      "id": "set-maintenance-technician",
+      "label": "Technician working at service bench",
+      "transform": {
+        "space": "world",
+        "position": [
+          9.8,
+          0,
+          -12
+        ],
+        "rotation": [
+          0,
+          0.707106781,
+          0,
+          0.707106781
+        ]
+      },
+      "visual": {
+        "type": "preset",
+        "name": "humanoid",
+        "params": {
+          "height": 1.8,
+          "shirtColor": "#b48a46",
+          "trouserColor": "#303438",
+          "color": "#b78e72",
+          "motion": "idle"
         }
       },
       "bounds": {
         "type": "box",
         "min": [
-          -2,
+          -0.325,
           0,
-          -1.4
+          -0.25
         ],
         "max": [
-          2,
-          3.38,
-          1.4
+          0.325,
+          1.8,
+          0.25
         ]
+      },
+      "layout": {
+        "role": "subject",
+        "purpose": "Technician working at service bench",
+        "support": "ground"
       }
     }
   ],
@@ -1024,63 +9306,6 @@
           1.75,
           0.25
         ]
-      }
-    },
-    {
-      "id": "set-support-10-face",
-      "entityId": "set-support-10",
-      "label": "supporting warehouse technician, #bd893d jacket; supporting subject, not the principal actor face",
-      "localAnchor": [
-        0,
-        1.63,
-        0.12
-      ],
-      "localBounds": {
-        "type": "sphere",
-        "center": [
-          0,
-          1.63,
-          0.12
-        ],
-        "radius": 0.16
-      }
-    },
-    {
-      "id": "set-support-11-face",
-      "entityId": "set-support-11",
-      "label": "supporting warehouse technician, #bd893d jacket; supporting subject, not the principal actor face",
-      "localAnchor": [
-        0,
-        1.63,
-        0.12
-      ],
-      "localBounds": {
-        "type": "sphere",
-        "center": [
-          0,
-          1.63,
-          0.12
-        ],
-        "radius": 0.16
-      }
-    },
-    {
-      "id": "set-support-12-face",
-      "entityId": "set-support-12",
-      "label": "supporting warehouse technician, #bd893d jacket; supporting subject, not the principal actor face",
-      "localAnchor": [
-        0,
-        1.63,
-        0.12
-      ],
-      "localBounds": {
-        "type": "sphere",
-        "center": [
-          0,
-          1.63,
-          0.12
-        ],
-        "radius": 0.16
       }
     }
   ]

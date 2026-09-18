@@ -11,10 +11,10 @@
   },
   "prompt": "در مسیری قوسی دور رقصنده بچرخ.",
   "promptSha256": "bbb421058453709b660de72933ecce66b8516f92ea6cc718fe7e7ec2b5b417c4",
-  "environmentSha256": "d7b2654083e2f8a6fed849fa45b6c3e23f68a902bcec3a6bcf939f69bc362551",
+  "environmentSha256": "c68fe412929b81472f7e1e00524f1e2c1566eb663ae16cbe73a412d2b4e6afba",
   "cslSha256": "b3d8856d0d84133782e992d86cd0a22f3ed0450e281367d4c5ea20f84d2d549c",
   "recipeSha256": "34ab3be8512491a60083ba182c35802a7859bea75192afda3792f9c0bee93dcd",
-  "trajectorySha256": "b6ede3a9debe0ac559c61a6147e472a934208c0ca948c1b7b0749bf9c26216c7",
+  "trajectorySha256": "910b6ac9554e4cccdfe93d9525059d39860142ce36328cd448dee44e2405cf9d",
   "fullPoseIsGroundTruth": false,
   "artisticChoices": [
     "Unrequested rig offsets, radii, lens choices and smoothstep pacing are authored illustration choices, not inferred user constraints.",

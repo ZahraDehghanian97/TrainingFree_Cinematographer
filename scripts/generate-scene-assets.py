@@ -159,115 +159,18 @@ def props():
  kit['loading-bay-portal']=m
  return kit
 
-KIT={name:mesh.export(name) for name,mesh in props().items()}
-(OUT/'manifest.json').write_text(json.dumps({'schemaVersion':'1.0','generator':'scripts/generate-scene-assets.py','assets':list(KIT.values())},indent=2)+'\n')
+# Geometry and dressing have separate sources of truth. Regeneration never
+# reads last run's generated scene, so removed clutter cannot grow back.
+from scene_layouts import extra_props, build_scenes
 
-def box_bounds(w,h,d): return {'type':'box','min':[-w/2,0,-d/2],'max':[w/2,h,d/2]}
-def prop(id,name,pos,label=None):
- a=KIT[name]
- return {'id':id,'label':label or name.replace('-',' '),'transform':{'space':'world','position':pos},'visual':{'type':'model','url':a['url'],'fallback':{'type':'primitive','shape':'box','params':{'width':a['bounds']['max'][0]-a['bounds']['min'][0],'height':.2,'depth':.3},'color':'#717c87'}},'bounds':a['bounds']}
-def person(id,pos,color,role='background visitor',end=None,duration=10):
- position=pos if end is None else {'interpolation':'linear','extrapolation':'hold','keyframes':[{'t':0,'value':pos},{'t':duration,'value':end}]}
- return {'id':id,'label':f'{role}, {color} jacket; supporting subject, not the principal actor','transform':{'space':'world','position':position},'visual':{'type':'preset','name':'humanoid','params':{'height':1.8,'shirtColor':color,'trouserColor':'#283341','color':'#ad805f','motion':'auto' if end else 'idle'}},'bounds':box_bounds(.65,1.8,.5)}
+def main():
+ kit = props()
+ kit.update(extra_props(Mesh))
+ manifest = {name:mesh.export(name) for name,mesh in kit.items()}
+ (OUT/'manifest.json').write_text(json.dumps({'schemaVersion':'1.0',
+     'generator':'scripts/generate-scene-assets.py','assets':list(manifest.values())},indent=2)+'\n')
+ build_scenes(manifest)
+ print(f'Generated {len(manifest)} original procedural GLB assets.')
 
-counts=[]
-for p in sorted((PUBLIC/'environments').glob('example-*.json')):
- e=json.loads(p.read_text()); e['entities']=[x for x in e['entities'] if not x['id'].startswith('set-')]; e['semanticAnchors']=[x for x in e.get('semanticAnchors',[]) if not x['id'].startswith('set-')]
- n=int(p.stem[-2:]); profile=e.get('world',{}).get('profile','studio'); duration=e['clock']['durationSeconds']; added=[]
- def add(name,pos,suffix=None,label=None): added.append(prop('set-'+(suffix or f'{name}-{len(added):02d}'),name,pos,label))
- def human(pos,c,role,end=None): added.append(person(f'set-support-{len(added):02d}',pos,c,role,end,duration))
- # Keep traffic, cameras, and primary blocking unobstructed. Supporting objects
- # are real semantic/collision entities, never invisible renderer-only dressing.
- if n==1:
-  for side in [-1,1]:
-   for z in [-10,0,10]: add('road-barrier',[side*9,0,z])
-   for z in [-8,-3,3,8]: human([side*10,0,z],'#526b96','sideline spectator')
-  human([-3.6,0,-7.1],'#daa344','goalkeeper'); human([-4,0,7],'#80563f','defender',[-3,0,-5]); human([3.8,0,6],'#344975','supporting striker',[3,0,-6])
- elif profile in ['road']:
-  length=e['world']['ground']['size'][1]; zs=[-length*.38,-length*.2,0,length*.18]
-  for z in zs:
-   for side in [-1,1]: add('road-barrier',[side*6.5,0,z]); add('streetlamp',[side*8,0,z+4])
-  human([7.5,0,12],'#d3a039','track marshal'); human([-8,0,-12],'#405f8c','service mechanic')
-  if n!=12: add('workbench',[9,0,-8])
- elif profile=='park' or n in [17,29]:
-  for x,z in [(-8,-8),(8,-8),(-8,5),(8,5),(-6,11),(6,11)]: add('planter-tree',[x,0,z]);
-  for x,z in [(-6,-4),(6,-4)]: add('slatted-bench',[x,0,z]); add('streetlamp',[x,0,z-2])
-  human([-6.5,0,8],'#96623f','park walker',[-6.5,0,-6]); human([7,0,-5],'#62638c','park walker',[7,0,7]); human([5,0,-9],'#506748','gardener')
- elif profile=='industrial':
-  for x,z in [(-10,-8),(10,-8),(-10,6),(10,6)]: add('warehouse-shelf',[x,0,z]); add('crate-stack',[x,0,z+2])
-  add('workbench',[-8,0,-4]); add('lighting-truss',[9,0,-4]);
-  for x,z in [(-8,3),(8,3),(-7,-8)]: human([x,0,z],'#bd893d','supporting warehouse technician')
-  if n in [22,23]:
-   add('forklift',[8,0,-7],'forklift','Yellow forklift crossing the marked rear service lane')
-   added[-1]['transform']['position']={'interpolation':'linear','keyframes':[{'t':0,'value':[8,0,-7]},{'t':duration*.35,'value':[8,0,-7]},{'t':duration*.75,'value':[-6,0,-7]},{'t':duration,'value':[-6,0,-7]}]}
-   add('mezzanine',[-7,0,-10],'mezzanine','Steel mezzanine with orange safety railings')
- elif profile=='rooftop':
-  for x,z in [(-6,-9),(6,-9),(-6,8),(6,8)]: add('rooftop-hvac',[x,0,z])
-  add('crate-stack',[-6,0,2]); human([6,0,-4],'#8e774c','roof maintenance technician'); human([-6,0,-4],'#546a89','second maintenance technician')
- elif profile=='corridor':
-  narrow=e['world']['ground']['size'][0]<8
-  if narrow:
-   # Wall-mounted set dressing remains beyond the camera corridor, not in it.
-   for x,z in [(-3,-4),(3,2),(-3,6)]: add('vending-machine',[x,0,z]);
-   human([3.2,0,-10],'#3b4350','distant caretaker'); add('workbench',[-3.4,0,-9])
-  else:
-   for x,z in [(-13,-8),(13,-8),(-13,8),(13,8)]: add('planter-tree',[x,0,z]); add('slatted-bench',[x,0,z-2])
-   add('vending-machine',[-7,0,-5]); add('streetlamp',[7,0,-5]); human([-8,0,2],'#77664f','commuter',[ -8,0,-3]); human([8,0,-3],'#566981','commuter',[8,0,4])
- else:
-  # Studio/stage: silhouettes, trusses, workstations create multiple depth planes.
-  for x,z in [(-6,-5),(6,-5),(-6,5),(6,5)]: add('lighting-truss',[x,0,z])
-  for x,z in [(-5,-7),(5,-7)]: add('workbench',[x,0,z]); add('crate-stack',[x+1,0,z])
-  human([-5,0,-5],'#4e586b','stagehand'); human([5,0,-6],'#745c49','lighting technician')
-  if n in [15,24,25,26,27,28,32]:
-   for x in [-4,-2,0,2,4]: human([x,0,-10],'#4e657e','audience member')
-  if n in [3,14]: add('planter-tree',[-4,0,-3]); add('slatted-bench',[3.5,0,-3])
- # These curated prompts use a floor-level aisle; remove legacy unsupported
- # levitation that previously suggested walking on a nonexistent central platform.
- if n in [22,23]:
-  for entity in e['entities']:
-   if entity['id'] in ['worker-entity','worker_a']:
-    for key in entity['transform']['position']['keyframes']: key['value'][1]=0
- if n==15:
-  next(x for x in e['entities'] if x['id']=='light-a')['transform']['position']=[-8.2,2.3,-3.8]
- if n==17:
-  for entity in added:
-   if entity['visual']['type']=='model' and entity['transform']['position'][0]!=0:
-    entity['transform']['position'][0]=14 if entity['transform']['position'][0]>0 else -14
-    entity['transform']['position'][2]=20 if entity['transform']['position'][2]>0 else -20
- if n==22:
-  next(x for x in e['entities'] if x['id']=='crate-stack-entity')['transform']['position']=[4.2,0,3.8]
- if n==23:
-  for entity in added:
-   if entity['id'].startswith(('set-warehouse-shelf-','set-crate-stack-')):
-    entity['transform']['position'][0]=16 if entity['transform']['position'][0]>0 else -16
-    entity['transform']['position'][2]=14 if entity['transform']['position'][2]>0 else -15
-  for entity in e['entities']:
-   if entity['id'] in ['shelf_left','shelf_right']: entity['transform']['position'][1]=0
-   if entity['id']=='central_machine': entity['transform']['position']=[0,2,-11]
-   if entity['id']=='pillar_a': entity['transform']['position']=[-9,3.5,7]
-   if entity['id']=='loading_bay_frame':
-    entity['transform']['position']=[20,0,14]
-    entity['visual']={'type':'model','url':KIT['loading-bay-portal']['url']}
-    entity['bounds']=KIT['loading-bay-portal']['bounds']
-    entity['occlusion']={'bounds':[{'type':'box','min':[-.25,0,z-.2],'max':[.25,6,z+.2]} for z in [-3.8,3.8]]+[{'type':'box','min':[-.25,5.6,-4],'max':[.25,6,4]}]}
- if n==19:
-  detective=next(x for x in e['entities'] if x['id']=='detective-entity')
-  detective['transform']['position']['keyframes'][0]['value']=[4.2,0,2]
-  detective['transform']['position']['keyframes'][1]['value']=[4.2,0,0]
- # Replace box placeholders without changing existing tracked roots or semantic IDs.
- replacements={'tree-entity':'planter-tree','fountain-entity':'courtyard-fountain','lamppost-entity':'streetlamp','ac-unit-entity':'rooftop-hvac','shelving-entity':'warehouse-shelf','crate-stack-entity':'crate-stack','shelf_left':'warehouse-shelf','shelf_right':'warehouse-shelf'}
- for entity in e['entities']:
-  name=replacements.get(entity['id'])
-  if name:
-   entity['visual']={'type':'model','url':KIT[name]['url']}; entity['bounds']=KIT[name]['bounds']
-  if entity['id']=='briefcase-entity':
-   # Existing briefcase origin is its centre, unlike the bottom-rooted kit.
-   entity['visual']={'type':'model','url':KIT['briefcase']['url'],'position':[0,-.28,0]}
- e['entities']+=added
- for entity in added:
-  if entity['visual']['type']=='preset':
-   e['semanticAnchors'].append({'id':entity['id']+'-face','entityId':entity['id'],'label':entity['label']+' face','localAnchor':[0,1.63,.12],'localBounds':{'type':'sphere','center':[0,1.63,.12],'radius':.16}})
- e['world']['overviewCamera']=e['world'].get('overviewCamera',{'position':[18,13,22],'target':[0,1,0]})
- p.write_text(json.dumps(e,ensure_ascii=False,indent=2)+'\n'); counts.append({'exampleId':e['promptExampleId'],'entities':len(e['entities']),'addedEntities':len(added),'semanticAnchors':len(e['semanticAnchors'])})
-(ROOT/'docs/scene-inventory.json').write_text(json.dumps({'generatedAssetCount':len(KIT),'scenes':counts},indent=2)+'\n')
-print(f'Generated {len(KIT)} GLB assets; dressed {len(counts)} environments with {sum(x["addedEntities"] for x in counts)} supporting entities.')
+if __name__ == '__main__':
+ main()

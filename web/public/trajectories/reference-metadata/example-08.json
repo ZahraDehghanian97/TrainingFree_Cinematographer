@@ -11,7 +11,7 @@
   },
   "prompt": "A 12-second impact study on the boxing set. Begin in an eye-level, three-quarter-right long shot of the approaching fist and follow it at 10% scene speed. At the first surface contact between fist and target, stop translating the camera, switch scene speed to 4 times normal, and zoom optically into the impact point, centring it by the end. Keep the event tied to contact, not an invented playback timestamp.",
   "promptSha256": "982e33f0ef8e50aefb3690101735ac67585574b52bf1fddbf224ec7e69249666",
-  "environmentSha256": "0945012725452639ac38d48b16614d729b92f2c10d03ee77351acf90328c047c",
+  "environmentSha256": "8fc3967f94df227f452c240ffc87022fa2ac042f8cba2d934167acde46dd3803",
   "cslSha256": "3a4e88b882a221ad444496fdb216ff342b955032dcbafd7a93d6912ac02880d6",
   "recipeSha256": "08f37087d02c4ba658c1f26a95c957c22758f1e1f7f302347ca0a8f1b703b10d",
   "trajectorySha256": "0553db2aa897795089131721a5d3b86f2b56d62a3dfa93680c180bb52fae9c8c",

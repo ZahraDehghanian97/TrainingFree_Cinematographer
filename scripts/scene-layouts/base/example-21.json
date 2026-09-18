@@ -1,0 +1,382 @@
+{
+  "schemaVersion": "1.0",
+  "kind": "environment",
+  "id": "example-21-rooftop-chase",
+  "promptExampleId": "example-21",
+  "prompt": "A 10-second rooftop pursuit among vents and maintenance workers. Track the principal runner until the pursuer first closes to 2.5 metres. Over the next 1.5 seconds arc around the runner and zoom optically to reveal the pursuer. For the remainder track both principals with a stable, level two-shot. Do not confuse maintenance staff with the pursuer, and do not freeze scene time.",
+  "clock": {
+    "durationSeconds": 10,
+    "timeDomain": "playback",
+    "fpsHint": 24
+  },
+  "coordinates": {
+    "handedness": "right",
+    "upAxis": "+Y",
+    "cameraForwardAxis": "-Z",
+    "lengthUnit": "meter",
+    "rotationOrder": "quaternion-xyzw"
+  },
+  "evaluation": {
+    "distanceMetric": "boundsSurface",
+    "epsilon": 0.001
+  },
+  "world": {
+    "profile": "rooftop",
+    "background": "#bdc2c8",
+    "overviewCamera": {
+      "position": [
+        5,
+        6,
+        9
+      ],
+      "target": [
+        0,
+        1,
+        -1
+      ]
+    },
+    "ground": {
+      "y": 0,
+      "size": [
+        16,
+        26
+      ],
+      "color": "#858383",
+      "surface": "concrete"
+    },
+    "grid": {
+      "size": 16,
+      "divisions": 16
+    }
+  },
+  "entities": [
+    {
+      "id": "runner-entity",
+      "label": "دونده",
+      "transform": {
+        "space": "world",
+        "position": {
+          "interpolation": "catmullRom",
+          "extrapolation": "hold",
+          "keyframes": [
+            {
+              "t": 0,
+              "value": [
+                1.2,
+                0,
+                6
+              ]
+            },
+            {
+              "t": 2,
+              "value": [
+                1,
+                0,
+                4
+              ]
+            },
+            {
+              "t": 4,
+              "value": [
+                0.7,
+                0,
+                2
+              ]
+            },
+            {
+              "t": 6,
+              "value": [
+                0.5,
+                0,
+                0
+              ]
+            },
+            {
+              "t": 8,
+              "value": [
+                0.5,
+                0,
+                0
+              ]
+            },
+            {
+              "t": 10,
+              "value": [
+                0.5,
+                0,
+                0
+              ]
+            }
+          ]
+        },
+        "rotation": {
+          "interpolation": "slerp",
+          "extrapolation": "hold",
+          "keyframes": [
+            {
+              "t": 0,
+              "value": [
+                0,
+                0.9998,
+                0,
+                -0.0175
+              ]
+            },
+            {
+              "t": 10,
+              "value": [
+                0,
+                0.9998,
+                0,
+                -0.0175
+              ]
+            }
+          ]
+        }
+      },
+      "visual": {
+        "type": "preset",
+        "name": "humanoid",
+        "params": {
+          "color": "#c59778",
+          "shirtColor": "#3f6fa0",
+          "trouserColor": "#20242b"
+        }
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.35,
+          0,
+          -0.25
+        ],
+        "max": [
+          0.35,
+          1.75,
+          0.25
+        ]
+      }
+    },
+    {
+      "id": "pursuer-entity",
+      "label": "تعقیب‌کننده",
+      "transform": {
+        "space": "world",
+        "position": {
+          "interpolation": "catmullRom",
+          "extrapolation": "hold",
+          "keyframes": [
+            {
+              "t": 0,
+              "value": [
+                1.6,
+                0,
+                11
+              ]
+            },
+            {
+              "t": 2,
+              "value": [
+                1.35,
+                0,
+                8
+              ]
+            },
+            {
+              "t": 4,
+              "value": [
+                1,
+                0,
+                5
+              ]
+            },
+            {
+              "t": 6,
+              "value": [
+                0.8,
+                0,
+                1.8
+              ]
+            },
+            {
+              "t": 8,
+              "value": [
+                0.8,
+                0,
+                1.8
+              ]
+            },
+            {
+              "t": 10,
+              "value": [
+                0.8,
+                0,
+                1.8
+              ]
+            }
+          ]
+        },
+        "rotation": {
+          "interpolation": "slerp",
+          "extrapolation": "hold",
+          "keyframes": [
+            {
+              "t": 0,
+              "value": [
+                0,
+                0.9998,
+                0,
+                -0.0175
+              ]
+            },
+            {
+              "t": 10,
+              "value": [
+                0,
+                0.9998,
+                0,
+                -0.0175
+              ]
+            }
+          ]
+        }
+      },
+      "visual": {
+        "type": "preset",
+        "name": "humanoid",
+        "params": {
+          "color": "#93674f",
+          "shirtColor": "#8a3a3a",
+          "trouserColor": "#202020"
+        }
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.35,
+          0,
+          -0.25
+        ],
+        "max": [
+          0.35,
+          1.75,
+          0.25
+        ]
+      }
+    },
+    {
+      "id": "ac-unit-entity",
+      "label": "دستگاه تهویهٔ پشت‌بام",
+      "transform": {
+        "space": "world",
+        "position": [
+          -1.4,
+          0,
+          2
+        ]
+      },
+      "visual": {
+        "type": "model",
+        "url": "/models/generated/rooftop-hvac.glb"
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.975,
+          0,
+          -0.71
+        ],
+        "max": [
+          0.975,
+          1.465,
+          0.71
+        ]
+      }
+    },
+    {
+      "id": "vent-pipe-entity",
+      "label": "لولهٔ تهویه",
+      "transform": {
+        "space": "world",
+        "position": [
+          1.8,
+          0,
+          -2.5
+        ]
+      },
+      "visual": {
+        "type": "primitive",
+        "shape": "box",
+        "params": {
+          "size": [
+            0.3,
+            2,
+            0.3
+          ]
+        },
+        "color": "#6b7075"
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.15,
+          -1,
+          -0.15
+        ],
+        "max": [
+          0.15,
+          1,
+          0.15
+        ]
+      }
+    }
+  ],
+  "semanticAnchors": [
+    {
+      "id": "runner",
+      "entityId": "runner-entity",
+      "label": "دونده",
+      "localAnchor": [
+        0,
+        1.4,
+        0
+      ],
+      "localBounds": {
+        "type": "box",
+        "min": [
+          -0.35,
+          0,
+          -0.25
+        ],
+        "max": [
+          0.35,
+          1.75,
+          0.25
+        ]
+      }
+    },
+    {
+      "id": "pursuer",
+      "entityId": "pursuer-entity",
+      "label": "تعقیب‌کننده",
+      "localAnchor": [
+        0,
+        1.4,
+        0
+      ],
+      "localBounds": {
+        "type": "box",
+        "min": [
+          -0.35,
+          0,
+          -0.25
+        ],
+        "max": [
+          0.35,
+          1.75,
+          0.25
+        ]
+      }
+    }
+  ]
+}

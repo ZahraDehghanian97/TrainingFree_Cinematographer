@@ -25,28 +25,27 @@
     "background": "#343b40",
     "overviewCamera": {
       "position": [
-        12,
-        9,
-        15
+        19,
+        16,
+        19
       ],
       "target": [
         0,
-        1,
-        -0.5
+        2,
+        -1
       ]
     },
     "ground": {
       "y": 0,
       "size": [
-        34,
-        24
+        20.4,
+        16.4
       ],
       "color": "#85847e",
-      "surface": "concrete"
-    },
-    "grid": {
-      "size": 28,
-      "divisions": 28
+      "surface": "concrete",
+      "continuation": "none",
+      "details": "authored",
+      "render": false
     }
   },
   "entities": [
@@ -156,6 +155,10 @@
           1.8,
           0.25
         ]
+      },
+      "layout": {
+        "role": "subject",
+        "purpose": "کارآگاه"
       }
     },
     {
@@ -247,6 +250,10 @@
           1.8,
           0.25
         ]
+      },
+      "layout": {
+        "role": "subject",
+        "purpose": "تعقیب‌کنندهٔ پنهان"
       }
     },
     {
@@ -256,7 +263,7 @@
         "space": "world",
         "position": [
           -4.35,
-          1.7,
+          4.2,
           -0.45
         ]
       },
@@ -266,7 +273,7 @@
         "params": {
           "size": [
             0.72,
-            3.4,
+            8.4,
             0.72
           ]
         },
@@ -276,660 +283,6642 @@
         "type": "box",
         "min": [
           -0.36,
-          -1.7,
+          -4.2,
           -0.36
         ],
         "max": [
           0.36,
-          1.7,
+          4.2,
           0.36
         ]
+      },
+      "layout": {
+        "role": "column",
+        "purpose": "Ambush column supporting transverse roof beam",
+        "support": "ground"
       }
     },
     {
-      "id": "back-wall",
-      "label": "دیوار انتهای راهرو",
+      "id": "arch-stairwell-north-panel-0",
+      "label": "Continuous enclosure wall",
       "transform": {
         "space": "world",
         "position": [
-          0,
-          1.8,
-          -3.7
-        ]
-      },
-      "visual": {
-        "type": "primitive",
-        "shape": "box",
-        "params": {
-          "size": [
-            17,
-            3.6,
-            0.24
-          ]
-        },
-        "color": "#202834"
-      },
-      "bounds": {
-        "type": "box",
-        "min": [
-          -8.5,
-          -1.8,
-          -0.12
-        ],
-        "max": [
-          8.5,
-          1.8,
-          0.12
-        ]
-      }
-    },
-    {
-      "id": "red-exit-sign",
-      "label": "تابلوی قرمز خروج",
-      "transform": {
-        "space": "world",
-        "position": [
-          -1.8,
-          2.9,
-          -3.45
-        ]
-      },
-      "visual": {
-        "type": "primitive",
-        "shape": "box",
-        "params": {
-          "size": [
-            1.2,
-            0.42,
-            0.16
-          ]
-        },
-        "color": "#ff354d"
-      },
-      "bounds": {
-        "type": "box",
-        "min": [
-          -0.6,
-          -0.21,
-          -0.08
-        ],
-        "max": [
-          0.6,
-          0.21,
-          0.08
-        ]
-      }
-    },
-    {
-      "id": "stair-step-1",
-      "label": "پلهٔ اول",
-      "transform": {
-        "space": "world",
-        "position": [
-          5.4,
-          0.18,
-          -0.2
-        ]
-      },
-      "visual": {
-        "type": "primitive",
-        "shape": "box",
-        "params": {
-          "size": [
-            1.5,
-            0.36,
-            3.2
-          ]
-        },
-        "color": "#242b35"
-      },
-      "bounds": {
-        "type": "box",
-        "min": [
-          -0.75,
-          -0.18,
-          -1.6
-        ],
-        "max": [
-          0.75,
-          0.18,
-          1.6
-        ]
-      }
-    },
-    {
-      "id": "stair-step-2",
-      "label": "پلهٔ دوم",
-      "transform": {
-        "space": "world",
-        "position": [
-          6.35,
-          0.42,
-          -0.2
-        ]
-      },
-      "visual": {
-        "type": "primitive",
-        "shape": "box",
-        "params": {
-          "size": [
-            1.3,
-            0.48,
-            3.2
-          ]
-        },
-        "color": "#2b323d"
-      },
-      "bounds": {
-        "type": "box",
-        "min": [
-          -0.65,
-          -0.24,
-          -1.6
-        ],
-        "max": [
-          0.65,
-          0.24,
-          1.6
-        ]
-      }
-    },
-    {
-      "id": "set-warehouse-shelf-00",
-      "label": "warehouse shelf",
-      "transform": {
-        "space": "world",
-        "position": [
-          -10,
-          0,
+          -7.904999999999999,
+          4.4,
           -8
         ]
       },
       "visual": {
-        "type": "model",
-        "url": "/models/generated/warehouse-shelf.glb",
-        "fallback": {
-          "type": "primitive",
-          "shape": "box",
-          "params": {
-            "width": 3,
-            "height": 0.2,
-            "depth": 0.3
-          },
-          "color": "#717c87"
-        }
+        "type": "primitive",
+        "shape": "box",
+        "params": {
+          "size": [
+            2.4099999999999993,
+            8.8,
+            0.22
+          ]
+        },
+        "color": "#949e98"
       },
       "bounds": {
         "type": "box",
         "min": [
-          -1.5,
-          0,
-          -0.54
+          -1.2049999999999996,
+          -4.4,
+          -0.11
         ],
         "max": [
-          1.5,
-          3,
-          0.54
+          1.2049999999999996,
+          4.4,
+          0.11
+        ]
+      },
+      "layout": {
+        "role": "wall",
+        "purpose": "Continuous enclosure wall",
+        "surface": "plaster",
+        "support": "ground",
+        "cutaway": "wall",
+        "outwardNormal": [
+          0,
+          0,
+          -1
         ]
       }
     },
     {
-      "id": "set-crate-stack-01",
-      "label": "crate stack",
+      "id": "arch-stairwell-north-stairwell-window-sill-wall",
+      "label": "Continuous enclosure wall",
       "transform": {
         "space": "world",
         "position": [
-          -10,
-          0,
-          -6
-        ]
-      },
-      "visual": {
-        "type": "model",
-        "url": "/models/generated/crate-stack.glb",
-        "fallback": {
-          "type": "primitive",
-          "shape": "box",
-          "params": {
-            "width": 1.9,
-            "height": 0.2,
-            "depth": 0.3
-          },
-          "color": "#717c87"
-        }
-      },
-      "bounds": {
-        "type": "box",
-        "min": [
-          -0.95,
-          0,
-          -0.6
-        ],
-        "max": [
-          0.95,
-          1.725,
-          0.6
-        ]
-      }
-    },
-    {
-      "id": "set-warehouse-shelf-02",
-      "label": "warehouse shelf",
-      "transform": {
-        "space": "world",
-        "position": [
-          10,
-          0,
+          -5.7,
+          2.3,
           -8
         ]
       },
       "visual": {
-        "type": "model",
-        "url": "/models/generated/warehouse-shelf.glb",
-        "fallback": {
-          "type": "primitive",
-          "shape": "box",
-          "params": {
-            "width": 3,
-            "height": 0.2,
-            "depth": 0.3
-          },
-          "color": "#717c87"
-        }
+        "type": "primitive",
+        "shape": "box",
+        "params": {
+          "size": [
+            2,
+            4.6,
+            0.22
+          ]
+        },
+        "color": "#949e98"
       },
       "bounds": {
         "type": "box",
         "min": [
-          -1.5,
-          0,
-          -0.54
+          -1,
+          -2.3,
+          -0.11
         ],
         "max": [
-          1.5,
-          3,
-          0.54
+          1,
+          2.3,
+          0.11
+        ]
+      },
+      "layout": {
+        "role": "wall",
+        "purpose": "Continuous enclosure wall",
+        "surface": "plaster",
+        "support": "ground",
+        "cutaway": "wall",
+        "outwardNormal": [
+          0,
+          0,
+          -1
         ]
       }
     },
     {
-      "id": "set-crate-stack-03",
-      "label": "crate stack",
+      "id": "arch-stairwell-north-stairwell-window-lintel",
+      "label": "Continuous enclosure wall",
+      "transform": {
+        "space": "world",
+        "position": [
+          -5.7,
+          7.75,
+          -8
+        ]
+      },
+      "visual": {
+        "type": "primitive",
+        "shape": "box",
+        "params": {
+          "size": [
+            2,
+            2.1000000000000014,
+            0.22
+          ]
+        },
+        "color": "#949e98"
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -1,
+          -1.0500000000000007,
+          -0.11
+        ],
+        "max": [
+          1,
+          1.0500000000000007,
+          0.11
+        ]
+      },
+      "layout": {
+        "role": "wall",
+        "purpose": "Continuous enclosure wall",
+        "surface": "plaster",
+        "support": "ground",
+        "cutaway": "wall",
+        "outwardNormal": [
+          0,
+          0,
+          -1
+        ]
+      }
+    },
+    {
+      "id": "stairwell-window-jamb-left",
+      "label": "Window jamb seated on wall opening",
+      "transform": {
+        "space": "world",
+        "position": [
+          -6.735,
+          5.6499999999999995,
+          -8
+        ]
+      },
+      "visual": {
+        "type": "primitive",
+        "shape": "box",
+        "params": {
+          "size": [
+            0.07,
+            2.22,
+            0.3
+          ]
+        },
+        "color": "#8e6b4f"
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.035,
+          -1.11,
+          -0.15
+        ],
+        "max": [
+          0.035,
+          1.11,
+          0.15
+        ]
+      },
+      "layout": {
+        "role": "trim",
+        "purpose": "Window jamb seated on wall opening",
+        "surface": "wood",
+        "support": "arch-stairwell-north-panel-0",
+        "cutaway": "wall",
+        "outwardNormal": [
+          0,
+          0,
+          -1
+        ]
+      }
+    },
+    {
+      "id": "stairwell-window-jamb-right",
+      "label": "Window jamb seated on wall opening",
+      "transform": {
+        "space": "world",
+        "position": [
+          -4.665,
+          5.6499999999999995,
+          -8
+        ]
+      },
+      "visual": {
+        "type": "primitive",
+        "shape": "box",
+        "params": {
+          "size": [
+            0.07,
+            2.22,
+            0.3
+          ]
+        },
+        "color": "#8e6b4f"
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.035,
+          -1.11,
+          -0.15
+        ],
+        "max": [
+          0.035,
+          1.11,
+          0.15
+        ]
+      },
+      "layout": {
+        "role": "trim",
+        "purpose": "Window jamb seated on wall opening",
+        "surface": "wood",
+        "support": "arch-stairwell-north-panel-0",
+        "cutaway": "wall",
+        "outwardNormal": [
+          0,
+          0,
+          -1
+        ]
+      }
+    },
+    {
+      "id": "stairwell-window-head",
+      "label": "Window lintel trim",
+      "transform": {
+        "space": "world",
+        "position": [
+          -5.7,
+          6.734999999999999,
+          -8
+        ]
+      },
+      "visual": {
+        "type": "primitive",
+        "shape": "box",
+        "params": {
+          "size": [
+            2.14,
+            0.07,
+            0.3
+          ]
+        },
+        "color": "#8e6b4f"
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -1.07,
+          -0.035,
+          -0.15
+        ],
+        "max": [
+          1.07,
+          0.035,
+          0.15
+        ]
+      },
+      "layout": {
+        "role": "trim",
+        "purpose": "Window lintel trim",
+        "surface": "wood",
+        "support": "arch-stairwell-north-panel-0",
+        "cutaway": "wall",
+        "outwardNormal": [
+          0,
+          0,
+          -1
+        ]
+      }
+    },
+    {
+      "id": "stairwell-window-sill",
+      "label": "Window sill",
+      "transform": {
+        "space": "world",
+        "position": [
+          -5.7,
+          4.625,
+          -8
+        ]
+      },
+      "visual": {
+        "type": "primitive",
+        "shape": "box",
+        "params": {
+          "size": [
+            2.18,
+            0.05,
+            0.4
+          ]
+        },
+        "color": "#8e6b4f"
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -1.09,
+          -0.025,
+          -0.2
+        ],
+        "max": [
+          1.09,
+          0.025,
+          0.2
+        ]
+      },
+      "layout": {
+        "role": "trim",
+        "purpose": "Window sill",
+        "surface": "wood",
+        "support": "arch-stairwell-north-panel-0",
+        "cutaway": "wall",
+        "outwardNormal": [
+          0,
+          0,
+          -1
+        ]
+      }
+    },
+    {
+      "id": "stairwell-window-glass",
+      "label": "Glazed window in a real wall opening",
+      "transform": {
+        "space": "world",
+        "position": [
+          -5.7,
+          5.6499999999999995,
+          -8
+        ]
+      },
+      "visual": {
+        "type": "primitive",
+        "shape": "box",
+        "params": {
+          "size": [
+            1.94,
+            2.04,
+            0.015
+          ]
+        },
+        "color": "#bad3d1"
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.97,
+          -1.02,
+          -0.0075
+        ],
+        "max": [
+          0.97,
+          1.02,
+          0.0075
+        ]
+      },
+      "layout": {
+        "role": "window",
+        "purpose": "Glazed window in a real wall opening",
+        "surface": "glass",
+        "support": "arch-stairwell-north-panel-0",
+        "cutaway": "wall",
+        "outwardNormal": [
+          0,
+          0,
+          -1
+        ]
+      },
+      "occlusion": {
+        "transparent": true
+      }
+    },
+    {
+      "id": "stairwell-window-mullion-1",
+      "label": "Window mullion",
+      "transform": {
+        "space": "world",
+        "position": [
+          -5.7,
+          5.6499999999999995,
+          -8
+        ]
+      },
+      "visual": {
+        "type": "primitive",
+        "shape": "box",
+        "params": {
+          "size": [
+            0.045,
+            2.1,
+            0.08
+          ]
+        },
+        "color": "#465256"
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.0225,
+          -1.05,
+          -0.04
+        ],
+        "max": [
+          0.0225,
+          1.05,
+          0.04
+        ]
+      },
+      "layout": {
+        "role": "trim",
+        "purpose": "Window mullion",
+        "surface": "metal",
+        "support": "arch-stairwell-north-panel-0",
+        "cutaway": "wall",
+        "outwardNormal": [
+          0,
+          0,
+          -1
+        ]
+      }
+    },
+    {
+      "id": "arch-stairwell-north-panel-1",
+      "label": "Continuous enclosure wall",
+      "transform": {
+        "space": "world",
+        "position": [
+          -3.55,
+          4.4,
+          -8
+        ]
+      },
+      "visual": {
+        "type": "primitive",
+        "shape": "box",
+        "params": {
+          "size": [
+            2.3000000000000003,
+            8.8,
+            0.22
+          ]
+        },
+        "color": "#949e98"
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -1.1500000000000001,
+          -4.4,
+          -0.11
+        ],
+        "max": [
+          1.1500000000000001,
+          4.4,
+          0.11
+        ]
+      },
+      "layout": {
+        "role": "wall",
+        "purpose": "Continuous enclosure wall",
+        "surface": "plaster",
+        "support": "ground",
+        "cutaway": "wall",
+        "outwardNormal": [
+          0,
+          0,
+          -1
+        ]
+      }
+    },
+    {
+      "id": "arch-stairwell-north-lower-exit-lintel",
+      "label": "Continuous enclosure wall",
+      "transform": {
+        "space": "world",
+        "position": [
+          -1.8,
+          5.550000000000001,
+          -8
+        ]
+      },
+      "visual": {
+        "type": "primitive",
+        "shape": "box",
+        "params": {
+          "size": [
+            1.1999999999999997,
+            6.500000000000001,
+            0.22
+          ]
+        },
+        "color": "#949e98"
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.5999999999999999,
+          -3.2500000000000004,
+          -0.11
+        ],
+        "max": [
+          0.5999999999999999,
+          3.2500000000000004,
+          0.11
+        ]
+      },
+      "layout": {
+        "role": "wall",
+        "purpose": "Continuous enclosure wall",
+        "surface": "plaster",
+        "support": "ground",
+        "cutaway": "wall",
+        "outwardNormal": [
+          0,
+          0,
+          -1
+        ]
+      }
+    },
+    {
+      "id": "lower-exit-jamb-left",
+      "label": "Door jamb seated on wall opening",
+      "transform": {
+        "space": "world",
+        "position": [
+          -2.435,
+          1.15,
+          -8
+        ]
+      },
+      "visual": {
+        "type": "primitive",
+        "shape": "box",
+        "params": {
+          "size": [
+            0.07,
+            2.42,
+            0.3
+          ]
+        },
+        "color": "#8e6b4f"
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.035,
+          -1.21,
+          -0.15
+        ],
+        "max": [
+          0.035,
+          1.21,
+          0.15
+        ]
+      },
+      "layout": {
+        "role": "trim",
+        "purpose": "Door jamb seated on wall opening",
+        "surface": "wood",
+        "support": "arch-stairwell-north-panel-0",
+        "cutaway": "wall",
+        "outwardNormal": [
+          0,
+          0,
+          -1
+        ]
+      }
+    },
+    {
+      "id": "lower-exit-jamb-right",
+      "label": "Door jamb seated on wall opening",
+      "transform": {
+        "space": "world",
+        "position": [
+          -1.1650000000000003,
+          1.15,
+          -8
+        ]
+      },
+      "visual": {
+        "type": "primitive",
+        "shape": "box",
+        "params": {
+          "size": [
+            0.07,
+            2.42,
+            0.3
+          ]
+        },
+        "color": "#8e6b4f"
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.035,
+          -1.21,
+          -0.15
+        ],
+        "max": [
+          0.035,
+          1.21,
+          0.15
+        ]
+      },
+      "layout": {
+        "role": "trim",
+        "purpose": "Door jamb seated on wall opening",
+        "surface": "wood",
+        "support": "arch-stairwell-north-panel-0",
+        "cutaway": "wall",
+        "outwardNormal": [
+          0,
+          0,
+          -1
+        ]
+      }
+    },
+    {
+      "id": "lower-exit-head",
+      "label": "Door lintel trim",
+      "transform": {
+        "space": "world",
+        "position": [
+          -1.8,
+          2.335,
+          -8
+        ]
+      },
+      "visual": {
+        "type": "primitive",
+        "shape": "box",
+        "params": {
+          "size": [
+            1.3399999999999999,
+            0.07,
+            0.3
+          ]
+        },
+        "color": "#8e6b4f"
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.6699999999999999,
+          -0.035,
+          -0.15
+        ],
+        "max": [
+          0.6699999999999999,
+          0.035,
+          0.15
+        ]
+      },
+      "layout": {
+        "role": "trim",
+        "purpose": "Door lintel trim",
+        "surface": "wood",
+        "support": "arch-stairwell-north-panel-0",
+        "cutaway": "wall",
+        "outwardNormal": [
+          0,
+          0,
+          -1
+        ]
+      }
+    },
+    {
+      "id": "arch-stairwell-north-panel-2",
+      "label": "Continuous enclosure wall",
+      "transform": {
+        "space": "world",
+        "position": [
+          2.75,
+          4.4,
+          -8
+        ]
+      },
+      "visual": {
+        "type": "primitive",
+        "shape": "box",
+        "params": {
+          "size": [
+            7.9,
+            8.8,
+            0.22
+          ]
+        },
+        "color": "#949e98"
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -3.95,
+          -4.4,
+          -0.11
+        ],
+        "max": [
+          3.95,
+          4.4,
+          0.11
+        ]
+      },
+      "layout": {
+        "role": "wall",
+        "purpose": "Continuous enclosure wall",
+        "surface": "plaster",
+        "support": "ground",
+        "cutaway": "wall",
+        "outwardNormal": [
+          0,
+          0,
+          -1
+        ]
+      }
+    },
+    {
+      "id": "arch-stairwell-north-upper-exit-sill-wall",
+      "label": "Continuous enclosure wall",
+      "transform": {
+        "space": "world",
+        "position": [
+          7.3,
+          1.53,
+          -8
+        ]
+      },
+      "visual": {
+        "type": "primitive",
+        "shape": "box",
+        "params": {
+          "size": [
+            1.1999999999999993,
+            3.06,
+            0.22
+          ]
+        },
+        "color": "#949e98"
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.5999999999999996,
+          -1.53,
+          -0.11
+        ],
+        "max": [
+          0.5999999999999996,
+          1.53,
+          0.11
+        ]
+      },
+      "layout": {
+        "role": "wall",
+        "purpose": "Continuous enclosure wall",
+        "surface": "plaster",
+        "support": "ground",
+        "cutaway": "wall",
+        "outwardNormal": [
+          0,
+          0,
+          -1
+        ]
+      }
+    },
+    {
+      "id": "arch-stairwell-north-upper-exit-lintel",
+      "label": "Continuous enclosure wall",
+      "transform": {
+        "space": "world",
+        "position": [
+          7.3,
+          7.08,
+          -8
+        ]
+      },
+      "visual": {
+        "type": "primitive",
+        "shape": "box",
+        "params": {
+          "size": [
+            1.1999999999999993,
+            3.4400000000000013,
+            0.22
+          ]
+        },
+        "color": "#949e98"
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.5999999999999996,
+          -1.7200000000000006,
+          -0.11
+        ],
+        "max": [
+          0.5999999999999996,
+          1.7200000000000006,
+          0.11
+        ]
+      },
+      "layout": {
+        "role": "wall",
+        "purpose": "Continuous enclosure wall",
+        "surface": "plaster",
+        "support": "ground",
+        "cutaway": "wall",
+        "outwardNormal": [
+          0,
+          0,
+          -1
+        ]
+      }
+    },
+    {
+      "id": "upper-exit-jamb-left",
+      "label": "Door jamb seated on wall opening",
+      "transform": {
+        "space": "world",
+        "position": [
+          6.665,
+          4.21,
+          -8
+        ]
+      },
+      "visual": {
+        "type": "primitive",
+        "shape": "box",
+        "params": {
+          "size": [
+            0.07,
+            2.42,
+            0.3
+          ]
+        },
+        "color": "#8e6b4f"
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.035,
+          -1.21,
+          -0.15
+        ],
+        "max": [
+          0.035,
+          1.21,
+          0.15
+        ]
+      },
+      "layout": {
+        "role": "trim",
+        "purpose": "Door jamb seated on wall opening",
+        "surface": "wood",
+        "support": "arch-stairwell-north-panel-0",
+        "cutaway": "wall",
+        "outwardNormal": [
+          0,
+          0,
+          -1
+        ]
+      }
+    },
+    {
+      "id": "upper-exit-jamb-right",
+      "label": "Door jamb seated on wall opening",
+      "transform": {
+        "space": "world",
+        "position": [
+          7.935,
+          4.21,
+          -8
+        ]
+      },
+      "visual": {
+        "type": "primitive",
+        "shape": "box",
+        "params": {
+          "size": [
+            0.07,
+            2.42,
+            0.3
+          ]
+        },
+        "color": "#8e6b4f"
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.035,
+          -1.21,
+          -0.15
+        ],
+        "max": [
+          0.035,
+          1.21,
+          0.15
+        ]
+      },
+      "layout": {
+        "role": "trim",
+        "purpose": "Door jamb seated on wall opening",
+        "surface": "wood",
+        "support": "arch-stairwell-north-panel-0",
+        "cutaway": "wall",
+        "outwardNormal": [
+          0,
+          0,
+          -1
+        ]
+      }
+    },
+    {
+      "id": "upper-exit-head",
+      "label": "Door lintel trim",
+      "transform": {
+        "space": "world",
+        "position": [
+          7.3,
+          5.395,
+          -8
+        ]
+      },
+      "visual": {
+        "type": "primitive",
+        "shape": "box",
+        "params": {
+          "size": [
+            1.3399999999999999,
+            0.07,
+            0.3
+          ]
+        },
+        "color": "#8e6b4f"
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.6699999999999999,
+          -0.035,
+          -0.15
+        ],
+        "max": [
+          0.6699999999999999,
+          0.035,
+          0.15
+        ]
+      },
+      "layout": {
+        "role": "trim",
+        "purpose": "Door lintel trim",
+        "surface": "wood",
+        "support": "arch-stairwell-north-panel-0",
+        "cutaway": "wall",
+        "outwardNormal": [
+          0,
+          0,
+          -1
+        ]
+      }
+    },
+    {
+      "id": "arch-stairwell-north-end",
+      "label": "Continuous enclosure wall",
+      "transform": {
+        "space": "world",
+        "position": [
+          9.004999999999999,
+          4.4,
+          -8
+        ]
+      },
+      "visual": {
+        "type": "primitive",
+        "shape": "box",
+        "params": {
+          "size": [
+            2.21,
+            8.8,
+            0.22
+          ]
+        },
+        "color": "#949e98"
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -1.105,
+          -4.4,
+          -0.11
+        ],
+        "max": [
+          1.105,
+          4.4,
+          0.11
+        ]
+      },
+      "layout": {
+        "role": "wall",
+        "purpose": "Continuous enclosure wall",
+        "surface": "plaster",
+        "support": "ground",
+        "cutaway": "wall",
+        "outwardNormal": [
+          0,
+          0,
+          -1
+        ]
+      }
+    },
+    {
+      "id": "arch-stairwell-north-skirting-0",
+      "label": "Wall base/skirting",
+      "transform": {
+        "space": "world",
+        "position": [
+          -5.755,
+          0.065,
+          -8
+        ]
+      },
+      "visual": {
+        "type": "primitive",
+        "shape": "box",
+        "params": {
+          "size": [
+            6.709999999999999,
+            0.13,
+            0.255
+          ]
+        },
+        "color": "#8e6b4f"
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -3.3549999999999995,
+          -0.065,
+          -0.1275
+        ],
+        "max": [
+          3.3549999999999995,
+          0.065,
+          0.1275
+        ]
+      },
+      "layout": {
+        "role": "trim",
+        "purpose": "Wall base/skirting",
+        "surface": "wood",
+        "support": "arch-stairwell-north-panel-0",
+        "cutaway": "wall",
+        "outwardNormal": [
+          0,
+          0,
+          -1
+        ]
+      }
+    },
+    {
+      "id": "arch-stairwell-north-skirting-1",
+      "label": "Wall base/skirting",
+      "transform": {
+        "space": "world",
+        "position": [
+          4.455,
+          0.065,
+          -8
+        ]
+      },
+      "visual": {
+        "type": "primitive",
+        "shape": "box",
+        "params": {
+          "size": [
+            11.309999999999999,
+            0.13,
+            0.255
+          ]
+        },
+        "color": "#8e6b4f"
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -5.654999999999999,
+          -0.065,
+          -0.1275
+        ],
+        "max": [
+          5.654999999999999,
+          0.065,
+          0.1275
+        ]
+      },
+      "layout": {
+        "role": "trim",
+        "purpose": "Wall base/skirting",
+        "surface": "wood",
+        "support": "arch-stairwell-north-panel-0",
+        "cutaway": "wall",
+        "outwardNormal": [
+          0,
+          0,
+          -1
+        ]
+      }
+    },
+    {
+      "id": "arch-stairwell-south-panel-0",
+      "label": "Continuous enclosure wall",
+      "transform": {
+        "space": "world",
+        "position": [
+          -7.904999999999999,
+          4.4,
+          7
+        ]
+      },
+      "visual": {
+        "type": "primitive",
+        "shape": "box",
+        "params": {
+          "size": [
+            2.4099999999999993,
+            8.8,
+            0.22
+          ]
+        },
+        "color": "#949e98"
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -1.2049999999999996,
+          -4.4,
+          -0.11
+        ],
+        "max": [
+          1.2049999999999996,
+          4.4,
+          0.11
+        ]
+      },
+      "layout": {
+        "role": "wall",
+        "purpose": "Continuous enclosure wall",
+        "surface": "plaster",
+        "support": "ground",
+        "cutaway": "wall",
+        "outwardNormal": [
+          0,
+          0,
+          1
+        ]
+      }
+    },
+    {
+      "id": "arch-stairwell-south-stairwell-entry-lintel",
+      "label": "Continuous enclosure wall",
+      "transform": {
+        "space": "world",
+        "position": [
+          -6,
+          5.6000000000000005,
+          7
+        ]
+      },
+      "visual": {
+        "type": "primitive",
+        "shape": "box",
+        "params": {
+          "size": [
+            1.4000000000000004,
+            6.4,
+            0.22
+          ]
+        },
+        "color": "#949e98"
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.7000000000000002,
+          -3.2,
+          -0.11
+        ],
+        "max": [
+          0.7000000000000002,
+          3.2,
+          0.11
+        ]
+      },
+      "layout": {
+        "role": "wall",
+        "purpose": "Continuous enclosure wall",
+        "surface": "plaster",
+        "support": "ground",
+        "cutaway": "wall",
+        "outwardNormal": [
+          0,
+          0,
+          1
+        ]
+      }
+    },
+    {
+      "id": "stairwell-entry-jamb-left",
+      "label": "Door jamb seated on wall opening",
+      "transform": {
+        "space": "world",
+        "position": [
+          -6.735,
+          1.2,
+          7
+        ]
+      },
+      "visual": {
+        "type": "primitive",
+        "shape": "box",
+        "params": {
+          "size": [
+            0.07,
+            2.52,
+            0.3
+          ]
+        },
+        "color": "#8e6b4f"
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.035,
+          -1.26,
+          -0.15
+        ],
+        "max": [
+          0.035,
+          1.26,
+          0.15
+        ]
+      },
+      "layout": {
+        "role": "trim",
+        "purpose": "Door jamb seated on wall opening",
+        "surface": "wood",
+        "support": "arch-stairwell-south-panel-0",
+        "cutaway": "wall",
+        "outwardNormal": [
+          0,
+          0,
+          1
+        ]
+      }
+    },
+    {
+      "id": "stairwell-entry-jamb-right",
+      "label": "Door jamb seated on wall opening",
+      "transform": {
+        "space": "world",
+        "position": [
+          -5.265,
+          1.2,
+          7
+        ]
+      },
+      "visual": {
+        "type": "primitive",
+        "shape": "box",
+        "params": {
+          "size": [
+            0.07,
+            2.52,
+            0.3
+          ]
+        },
+        "color": "#8e6b4f"
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.035,
+          -1.26,
+          -0.15
+        ],
+        "max": [
+          0.035,
+          1.26,
+          0.15
+        ]
+      },
+      "layout": {
+        "role": "trim",
+        "purpose": "Door jamb seated on wall opening",
+        "surface": "wood",
+        "support": "arch-stairwell-south-panel-0",
+        "cutaway": "wall",
+        "outwardNormal": [
+          0,
+          0,
+          1
+        ]
+      }
+    },
+    {
+      "id": "stairwell-entry-head",
+      "label": "Door lintel trim",
+      "transform": {
+        "space": "world",
+        "position": [
+          -6,
+          2.435,
+          7
+        ]
+      },
+      "visual": {
+        "type": "primitive",
+        "shape": "box",
+        "params": {
+          "size": [
+            1.54,
+            0.07,
+            0.3
+          ]
+        },
+        "color": "#8e6b4f"
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.77,
+          -0.035,
+          -0.15
+        ],
+        "max": [
+          0.77,
+          0.035,
+          0.15
+        ]
+      },
+      "layout": {
+        "role": "trim",
+        "purpose": "Door lintel trim",
+        "surface": "wood",
+        "support": "arch-stairwell-south-panel-0",
+        "cutaway": "wall",
+        "outwardNormal": [
+          0,
+          0,
+          1
+        ]
+      }
+    },
+    {
+      "id": "arch-stairwell-south-end",
+      "label": "Continuous enclosure wall",
+      "transform": {
+        "space": "world",
+        "position": [
+          2.405,
+          4.4,
+          7
+        ]
+      },
+      "visual": {
+        "type": "primitive",
+        "shape": "box",
+        "params": {
+          "size": [
+            15.41,
+            8.8,
+            0.22
+          ]
+        },
+        "color": "#949e98"
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -7.705,
+          -4.4,
+          -0.11
+        ],
+        "max": [
+          7.705,
+          4.4,
+          0.11
+        ]
+      },
+      "layout": {
+        "role": "wall",
+        "purpose": "Continuous enclosure wall",
+        "surface": "plaster",
+        "support": "ground",
+        "cutaway": "wall",
+        "outwardNormal": [
+          0,
+          0,
+          1
+        ]
+      }
+    },
+    {
+      "id": "arch-stairwell-south-skirting-0",
+      "label": "Wall base/skirting",
+      "transform": {
+        "space": "world",
+        "position": [
+          -7.904999999999999,
+          0.065,
+          7
+        ]
+      },
+      "visual": {
+        "type": "primitive",
+        "shape": "box",
+        "params": {
+          "size": [
+            2.4099999999999993,
+            0.13,
+            0.255
+          ]
+        },
+        "color": "#8e6b4f"
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -1.2049999999999996,
+          -0.065,
+          -0.1275
+        ],
+        "max": [
+          1.2049999999999996,
+          0.065,
+          0.1275
+        ]
+      },
+      "layout": {
+        "role": "trim",
+        "purpose": "Wall base/skirting",
+        "surface": "wood",
+        "support": "arch-stairwell-south-panel-0",
+        "cutaway": "wall",
+        "outwardNormal": [
+          0,
+          0,
+          1
+        ]
+      }
+    },
+    {
+      "id": "arch-stairwell-south-skirting-1",
+      "label": "Wall base/skirting",
+      "transform": {
+        "space": "world",
+        "position": [
+          2.405,
+          0.065,
+          7
+        ]
+      },
+      "visual": {
+        "type": "primitive",
+        "shape": "box",
+        "params": {
+          "size": [
+            15.41,
+            0.13,
+            0.255
+          ]
+        },
+        "color": "#8e6b4f"
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -7.705,
+          -0.065,
+          -0.1275
+        ],
+        "max": [
+          7.705,
+          0.065,
+          0.1275
+        ]
+      },
+      "layout": {
+        "role": "trim",
+        "purpose": "Wall base/skirting",
+        "surface": "wood",
+        "support": "arch-stairwell-south-panel-0",
+        "cutaway": "wall",
+        "outwardNormal": [
+          0,
+          0,
+          1
+        ]
+      }
+    },
+    {
+      "id": "arch-stairwell-west-end",
+      "label": "Continuous enclosure wall",
+      "transform": {
+        "space": "world",
+        "position": [
+          -9,
+          4.4,
+          -0.49999999999999956
+        ]
+      },
+      "visual": {
+        "type": "primitive",
+        "shape": "box",
+        "params": {
+          "size": [
+            0.22,
+            8.8,
+            15.219999999999999
+          ]
+        },
+        "color": "#949e98"
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.11,
+          -4.4,
+          -7.609999999999999
+        ],
+        "max": [
+          0.11,
+          4.4,
+          7.609999999999999
+        ]
+      },
+      "layout": {
+        "role": "wall",
+        "purpose": "Continuous enclosure wall",
+        "surface": "plaster",
+        "support": "ground",
+        "cutaway": "wall",
+        "outwardNormal": [
+          -1,
+          0,
+          0
+        ]
+      }
+    },
+    {
+      "id": "arch-stairwell-west-skirting-0",
+      "label": "Wall base/skirting",
+      "transform": {
+        "space": "world",
+        "position": [
+          -9,
+          0.065,
+          -0.49999999999999956
+        ]
+      },
+      "visual": {
+        "type": "primitive",
+        "shape": "box",
+        "params": {
+          "size": [
+            0.255,
+            0.13,
+            15.219999999999999
+          ]
+        },
+        "color": "#8e6b4f"
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.1275,
+          -0.065,
+          -7.609999999999999
+        ],
+        "max": [
+          0.1275,
+          0.065,
+          7.609999999999999
+        ]
+      },
+      "layout": {
+        "role": "trim",
+        "purpose": "Wall base/skirting",
+        "surface": "wood",
+        "support": "arch-stairwell-west-end",
+        "cutaway": "wall",
+        "outwardNormal": [
+          -1,
+          0,
+          0
+        ]
+      }
+    },
+    {
+      "id": "arch-stairwell-east-end",
+      "label": "Continuous enclosure wall",
       "transform": {
         "space": "world",
         "position": [
           10,
-          0,
-          -6
+          4.4,
+          -0.49999999999999956
         ]
       },
       "visual": {
-        "type": "model",
-        "url": "/models/generated/crate-stack.glb",
-        "fallback": {
-          "type": "primitive",
-          "shape": "box",
-          "params": {
-            "width": 1.9,
-            "height": 0.2,
-            "depth": 0.3
-          },
-          "color": "#717c87"
-        }
+        "type": "primitive",
+        "shape": "box",
+        "params": {
+          "size": [
+            0.22,
+            8.8,
+            15.219999999999999
+          ]
+        },
+        "color": "#949e98"
       },
       "bounds": {
         "type": "box",
         "min": [
-          -0.95,
-          0,
-          -0.6
+          -0.11,
+          -4.4,
+          -7.609999999999999
         ],
         "max": [
-          0.95,
-          1.725,
-          0.6
+          0.11,
+          4.4,
+          7.609999999999999
+        ]
+      },
+      "layout": {
+        "role": "wall",
+        "purpose": "Continuous enclosure wall",
+        "surface": "plaster",
+        "support": "ground",
+        "cutaway": "wall",
+        "outwardNormal": [
+          1,
+          0,
+          0
         ]
       }
     },
     {
-      "id": "set-warehouse-shelf-04",
-      "label": "warehouse shelf",
-      "transform": {
-        "space": "world",
-        "position": [
-          -10,
-          0,
-          6
-        ]
-      },
-      "visual": {
-        "type": "model",
-        "url": "/models/generated/warehouse-shelf.glb",
-        "fallback": {
-          "type": "primitive",
-          "shape": "box",
-          "params": {
-            "width": 3,
-            "height": 0.2,
-            "depth": 0.3
-          },
-          "color": "#717c87"
-        }
-      },
-      "bounds": {
-        "type": "box",
-        "min": [
-          -1.5,
-          0,
-          -0.54
-        ],
-        "max": [
-          1.5,
-          3,
-          0.54
-        ]
-      }
-    },
-    {
-      "id": "set-crate-stack-05",
-      "label": "crate stack",
-      "transform": {
-        "space": "world",
-        "position": [
-          -10,
-          0,
-          8
-        ]
-      },
-      "visual": {
-        "type": "model",
-        "url": "/models/generated/crate-stack.glb",
-        "fallback": {
-          "type": "primitive",
-          "shape": "box",
-          "params": {
-            "width": 1.9,
-            "height": 0.2,
-            "depth": 0.3
-          },
-          "color": "#717c87"
-        }
-      },
-      "bounds": {
-        "type": "box",
-        "min": [
-          -0.95,
-          0,
-          -0.6
-        ],
-        "max": [
-          0.95,
-          1.725,
-          0.6
-        ]
-      }
-    },
-    {
-      "id": "set-warehouse-shelf-06",
-      "label": "warehouse shelf",
+      "id": "arch-stairwell-east-skirting-0",
+      "label": "Wall base/skirting",
       "transform": {
         "space": "world",
         "position": [
           10,
-          0,
-          6
+          0.065,
+          -0.49999999999999956
         ]
       },
       "visual": {
-        "type": "model",
-        "url": "/models/generated/warehouse-shelf.glb",
-        "fallback": {
-          "type": "primitive",
-          "shape": "box",
-          "params": {
-            "width": 3,
-            "height": 0.2,
-            "depth": 0.3
-          },
-          "color": "#717c87"
-        }
+        "type": "primitive",
+        "shape": "box",
+        "params": {
+          "size": [
+            0.255,
+            0.13,
+            15.219999999999999
+          ]
+        },
+        "color": "#8e6b4f"
       },
       "bounds": {
         "type": "box",
         "min": [
-          -1.5,
-          0,
-          -0.54
+          -0.1275,
+          -0.065,
+          -7.609999999999999
         ],
         "max": [
-          1.5,
-          3,
-          0.54
+          0.1275,
+          0.065,
+          7.609999999999999
+        ]
+      },
+      "layout": {
+        "role": "trim",
+        "purpose": "Wall base/skirting",
+        "surface": "wood",
+        "support": "arch-stairwell-east-end",
+        "cutaway": "wall",
+        "outwardNormal": [
+          1,
+          0,
+          0
         ]
       }
     },
     {
-      "id": "set-crate-stack-07",
-      "label": "crate stack",
+      "id": "arch-stairwell-slab",
+      "label": "Continuous structural floor slab",
       "transform": {
         "space": "world",
         "position": [
-          10,
-          0,
-          8
+          0.5,
+          -0.12,
+          -0.5
         ]
       },
       "visual": {
-        "type": "model",
-        "url": "/models/generated/crate-stack.glb",
-        "fallback": {
-          "type": "primitive",
-          "shape": "box",
-          "params": {
-            "width": 1.9,
-            "height": 0.2,
-            "depth": 0.3
-          },
-          "color": "#717c87"
-        }
+        "type": "primitive",
+        "shape": "box",
+        "params": {
+          "size": [
+            19.22,
+            0.24,
+            15.22
+          ]
+        },
+        "color": "#85847e"
       },
       "bounds": {
         "type": "box",
         "min": [
-          -0.95,
-          0,
-          -0.6
+          -9.61,
+          -0.12,
+          -7.61
         ],
         "max": [
-          0.95,
-          1.725,
-          0.6
+          9.61,
+          0.12,
+          7.61
         ]
+      },
+      "layout": {
+        "role": "floor",
+        "purpose": "Continuous structural floor slab",
+        "surface": "concrete",
+        "support": "ground"
       }
     },
     {
-      "id": "set-workbench-08",
-      "label": "workbench",
+      "id": "arch-stairwell-ceiling",
+      "label": "Full ceiling and weather roof; visible in Director POV",
       "transform": {
         "space": "world",
         "position": [
-          -8,
-          0,
-          -4
+          0.5,
+          8.930000000000001,
+          -0.5
         ]
       },
       "visual": {
-        "type": "model",
-        "url": "/models/generated/workbench.glb",
-        "fallback": {
-          "type": "primitive",
-          "shape": "box",
-          "params": {
-            "width": 1.8,
-            "height": 0.2,
-            "depth": 0.3
-          },
-          "color": "#717c87"
-        }
+        "type": "primitive",
+        "shape": "box",
+        "params": {
+          "size": [
+            19.22,
+            0.26,
+            15.22
+          ]
+        },
+        "color": "#c6beb0"
       },
       "bounds": {
         "type": "box",
         "min": [
-          -0.9,
-          0,
+          -9.61,
+          -0.13,
+          -7.61
+        ],
+        "max": [
+          9.61,
+          0.13,
+          7.61
+        ]
+      },
+      "layout": {
+        "role": "ceiling",
+        "purpose": "Full ceiling and weather roof; visible in Director POV",
+        "surface": "plaster",
+        "support": "arch-stairwell-west-end",
+        "cutaway": "roof"
+      }
+    },
+    {
+      "id": "arch-stairwell-crossbeam",
+      "label": "Roof beam borne by ambush column and perimeter walls",
+      "transform": {
+        "space": "world",
+        "position": [
+          0.5,
+          8.6,
+          -0.45
+        ]
+      },
+      "visual": {
+        "type": "primitive",
+        "shape": "box",
+        "params": {
+          "size": [
+            19,
+            0.4,
+            0.72
+          ]
+        },
+        "color": "#858782"
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -9.5,
+          -0.2,
           -0.36
         ],
         "max": [
-          0.9,
-          0.93,
+          9.5,
+          0.2,
           0.36
         ]
+      },
+      "layout": {
+        "role": "beam",
+        "purpose": "Roof beam borne by ambush column and perimeter walls",
+        "surface": "concrete",
+        "support": "ambush-column",
+        "cutaway": "roof"
       }
     },
     {
-      "id": "set-lighting-truss-09",
-      "label": "lighting truss",
+      "id": "arch-upper-gallery",
+      "label": "First-floor circulation gallery connected to stair landing",
       "transform": {
         "space": "world",
         "position": [
-          9,
-          0,
-          -4
+          0.5,
+          2.94,
+          -6.1
         ]
       },
       "visual": {
-        "type": "model",
-        "url": "/models/generated/lighting-truss.glb",
-        "fallback": {
-          "type": "primitive",
-          "shape": "box",
-          "params": {
-            "width": 1.1,
-            "height": 0.2,
-            "depth": 0.3
-          },
-          "color": "#717c87"
-        }
-      },
-      "bounds": {
-        "type": "box",
-        "min": [
-          -0.55,
-          0,
-          -0.55
-        ],
-        "max": [
-          0.55,
-          3.6,
-          0.55
-        ]
-      }
-    },
-    {
-      "id": "set-support-10",
-      "label": "supporting warehouse technician, #bd893d jacket; supporting subject, not the principal actor",
-      "transform": {
-        "space": "world",
-        "position": [
-          -8,
-          0,
-          3
-        ]
-      },
-      "visual": {
-        "type": "preset",
-        "name": "humanoid",
+        "type": "primitive",
+        "shape": "box",
         "params": {
-          "height": 1.8,
-          "shirtColor": "#bd893d",
-          "trouserColor": "#283341",
-          "color": "#ad805f",
-          "motion": "idle"
-        }
+          "size": [
+            18.8,
+            0.24,
+            3.58
+          ]
+        },
+        "color": "#858782"
       },
       "bounds": {
         "type": "box",
         "min": [
-          -0.325,
-          0,
-          -0.25
+          -9.4,
+          -0.12,
+          -1.79
         ],
         "max": [
-          0.325,
-          1.8,
-          0.25
+          9.4,
+          0.12,
+          1.79
         ]
+      },
+      "layout": {
+        "role": "landing",
+        "purpose": "First-floor circulation gallery connected to stair landing",
+        "surface": "concrete",
+        "support": "ground"
       }
     },
     {
-      "id": "set-support-11",
-      "label": "supporting warehouse technician, #bd893d jacket; supporting subject, not the principal actor",
+      "id": "arch-gallery-column--8.3",
+      "label": "Upper gallery support column",
+      "transform": {
+        "space": "world",
+        "position": [
+          -8.3,
+          1.41,
+          -4.65
+        ]
+      },
+      "visual": {
+        "type": "primitive",
+        "shape": "box",
+        "params": {
+          "size": [
+            0.22,
+            2.82,
+            0.22
+          ]
+        },
+        "color": "#858782"
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.11,
+          -1.41,
+          -0.11
+        ],
+        "max": [
+          0.11,
+          1.41,
+          0.11
+        ]
+      },
+      "layout": {
+        "role": "column",
+        "purpose": "Upper gallery support column",
+        "surface": "concrete",
+        "support": "ground"
+      }
+    },
+    {
+      "id": "arch-gallery-column-0.5",
+      "label": "Upper gallery support column",
+      "transform": {
+        "space": "world",
+        "position": [
+          0.5,
+          1.41,
+          -4.65
+        ]
+      },
+      "visual": {
+        "type": "primitive",
+        "shape": "box",
+        "params": {
+          "size": [
+            0.22,
+            2.82,
+            0.22
+          ]
+        },
+        "color": "#858782"
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.11,
+          -1.41,
+          -0.11
+        ],
+        "max": [
+          0.11,
+          1.41,
+          0.11
+        ]
+      },
+      "layout": {
+        "role": "column",
+        "purpose": "Upper gallery support column",
+        "surface": "concrete",
+        "support": "ground"
+      }
+    },
+    {
+      "id": "arch-gallery-column-9.3",
+      "label": "Upper gallery support column",
+      "transform": {
+        "space": "world",
+        "position": [
+          9.3,
+          1.41,
+          -4.65
+        ]
+      },
+      "visual": {
+        "type": "primitive",
+        "shape": "box",
+        "params": {
+          "size": [
+            0.22,
+            2.82,
+            0.22
+          ]
+        },
+        "color": "#858782"
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.11,
+          -1.41,
+          -0.11
+        ],
+        "max": [
+          0.11,
+          1.41,
+          0.11
+        ]
+      },
+      "layout": {
+        "role": "column",
+        "purpose": "Upper gallery support column",
+        "surface": "concrete",
+        "support": "ground"
+      }
+    },
+    {
+      "id": "arch-main-stair-tread-01",
+      "label": "Usable stair flight, equal riser 1/18",
+      "transform": {
+        "space": "world",
+        "position": [
+          7.3,
+          0.085,
+          1.7900000000000014
+        ]
+      },
+      "visual": {
+        "type": "primitive",
+        "shape": "box",
+        "params": {
+          "size": [
+            1.4,
+            0.17,
+            0.28
+          ]
+        },
+        "color": "#858782"
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.7,
+          -0.085,
+          -0.14
+        ],
+        "max": [
+          0.7,
+          0.085,
+          0.14
+        ]
+      },
+      "layout": {
+        "role": "stair",
+        "purpose": "Usable stair flight, equal riser 1/18",
+        "surface": "concrete",
+        "support": "ground"
+      }
+    },
+    {
+      "id": "arch-main-stair-tread-01-nosing",
+      "label": "Non-slip stair nosing",
+      "transform": {
+        "space": "world",
+        "position": [
+          7.3,
+          0.17600000000000002,
+          1.9050000000000016
+        ]
+      },
+      "visual": {
+        "type": "primitive",
+        "shape": "box",
+        "params": {
+          "size": [
+            1.4,
+            0.012,
+            0.035
+          ]
+        },
+        "color": "#b89b54"
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.7,
+          -0.006,
+          -0.0175
+        ],
+        "max": [
+          0.7,
+          0.006,
+          0.0175
+        ]
+      },
+      "layout": {
+        "role": "trim",
+        "purpose": "Non-slip stair nosing",
+        "surface": "metal",
+        "support": "arch-main-stair-tread-01"
+      }
+    },
+    {
+      "id": "arch-main-stair-tread-02",
+      "label": "Usable stair flight, equal riser 2/18",
+      "transform": {
+        "space": "world",
+        "position": [
+          7.3,
+          0.17,
+          1.5100000000000016
+        ]
+      },
+      "visual": {
+        "type": "primitive",
+        "shape": "box",
+        "params": {
+          "size": [
+            1.4,
+            0.34,
+            0.28
+          ]
+        },
+        "color": "#858782"
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.7,
+          -0.17,
+          -0.14
+        ],
+        "max": [
+          0.7,
+          0.17,
+          0.14
+        ]
+      },
+      "layout": {
+        "role": "stair",
+        "purpose": "Usable stair flight, equal riser 2/18",
+        "surface": "concrete",
+        "support": "ground"
+      }
+    },
+    {
+      "id": "arch-main-stair-tread-02-nosing",
+      "label": "Non-slip stair nosing",
+      "transform": {
+        "space": "world",
+        "position": [
+          7.3,
+          0.34600000000000003,
+          1.6250000000000013
+        ]
+      },
+      "visual": {
+        "type": "primitive",
+        "shape": "box",
+        "params": {
+          "size": [
+            1.4,
+            0.012,
+            0.035
+          ]
+        },
+        "color": "#b89b54"
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.7,
+          -0.006,
+          -0.0175
+        ],
+        "max": [
+          0.7,
+          0.006,
+          0.0175
+        ]
+      },
+      "layout": {
+        "role": "trim",
+        "purpose": "Non-slip stair nosing",
+        "surface": "metal",
+        "support": "arch-main-stair-tread-02"
+      }
+    },
+    {
+      "id": "arch-main-stair-tread-03",
+      "label": "Usable stair flight, equal riser 3/18",
+      "transform": {
+        "space": "world",
+        "position": [
+          7.3,
+          0.255,
+          1.2300000000000013
+        ]
+      },
+      "visual": {
+        "type": "primitive",
+        "shape": "box",
+        "params": {
+          "size": [
+            1.4,
+            0.51,
+            0.28
+          ]
+        },
+        "color": "#858782"
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.7,
+          -0.255,
+          -0.14
+        ],
+        "max": [
+          0.7,
+          0.255,
+          0.14
+        ]
+      },
+      "layout": {
+        "role": "stair",
+        "purpose": "Usable stair flight, equal riser 3/18",
+        "surface": "concrete",
+        "support": "ground"
+      }
+    },
+    {
+      "id": "arch-main-stair-tread-03-nosing",
+      "label": "Non-slip stair nosing",
+      "transform": {
+        "space": "world",
+        "position": [
+          7.3,
+          0.516,
+          1.3450000000000015
+        ]
+      },
+      "visual": {
+        "type": "primitive",
+        "shape": "box",
+        "params": {
+          "size": [
+            1.4,
+            0.012,
+            0.035
+          ]
+        },
+        "color": "#b89b54"
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.7,
+          -0.006,
+          -0.0175
+        ],
+        "max": [
+          0.7,
+          0.006,
+          0.0175
+        ]
+      },
+      "layout": {
+        "role": "trim",
+        "purpose": "Non-slip stair nosing",
+        "surface": "metal",
+        "support": "arch-main-stair-tread-03"
+      }
+    },
+    {
+      "id": "arch-main-stair-tread-04",
+      "label": "Usable stair flight, equal riser 4/18",
+      "transform": {
+        "space": "world",
+        "position": [
+          7.3,
+          0.34,
+          0.9500000000000014
+        ]
+      },
+      "visual": {
+        "type": "primitive",
+        "shape": "box",
+        "params": {
+          "size": [
+            1.4,
+            0.68,
+            0.28
+          ]
+        },
+        "color": "#858782"
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.7,
+          -0.34,
+          -0.14
+        ],
+        "max": [
+          0.7,
+          0.34,
+          0.14
+        ]
+      },
+      "layout": {
+        "role": "stair",
+        "purpose": "Usable stair flight, equal riser 4/18",
+        "surface": "concrete",
+        "support": "ground"
+      }
+    },
+    {
+      "id": "arch-main-stair-tread-04-nosing",
+      "label": "Non-slip stair nosing",
+      "transform": {
+        "space": "world",
+        "position": [
+          7.3,
+          0.686,
+          1.0650000000000013
+        ]
+      },
+      "visual": {
+        "type": "primitive",
+        "shape": "box",
+        "params": {
+          "size": [
+            1.4,
+            0.012,
+            0.035
+          ]
+        },
+        "color": "#b89b54"
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.7,
+          -0.006,
+          -0.0175
+        ],
+        "max": [
+          0.7,
+          0.006,
+          0.0175
+        ]
+      },
+      "layout": {
+        "role": "trim",
+        "purpose": "Non-slip stair nosing",
+        "surface": "metal",
+        "support": "arch-main-stair-tread-04"
+      }
+    },
+    {
+      "id": "arch-main-stair-tread-05",
+      "label": "Usable stair flight, equal riser 5/18",
+      "transform": {
+        "space": "world",
+        "position": [
+          7.3,
+          0.42500000000000004,
+          0.6700000000000013
+        ]
+      },
+      "visual": {
+        "type": "primitive",
+        "shape": "box",
+        "params": {
+          "size": [
+            1.4,
+            0.8500000000000001,
+            0.28
+          ]
+        },
+        "color": "#858782"
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.7,
+          -0.42500000000000004,
+          -0.14
+        ],
+        "max": [
+          0.7,
+          0.42500000000000004,
+          0.14
+        ]
+      },
+      "layout": {
+        "role": "stair",
+        "purpose": "Usable stair flight, equal riser 5/18",
+        "surface": "concrete",
+        "support": "ground"
+      }
+    },
+    {
+      "id": "arch-main-stair-tread-05-nosing",
+      "label": "Non-slip stair nosing",
+      "transform": {
+        "space": "world",
+        "position": [
+          7.3,
+          0.8560000000000001,
+          0.7850000000000015
+        ]
+      },
+      "visual": {
+        "type": "primitive",
+        "shape": "box",
+        "params": {
+          "size": [
+            1.4,
+            0.012,
+            0.035
+          ]
+        },
+        "color": "#b89b54"
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.7,
+          -0.006,
+          -0.0175
+        ],
+        "max": [
+          0.7,
+          0.006,
+          0.0175
+        ]
+      },
+      "layout": {
+        "role": "trim",
+        "purpose": "Non-slip stair nosing",
+        "surface": "metal",
+        "support": "arch-main-stair-tread-05"
+      }
+    },
+    {
+      "id": "arch-main-stair-tread-06",
+      "label": "Usable stair flight, equal riser 6/18",
+      "transform": {
+        "space": "world",
+        "position": [
+          7.3,
+          0.51,
+          0.39000000000000146
+        ]
+      },
+      "visual": {
+        "type": "primitive",
+        "shape": "box",
+        "params": {
+          "size": [
+            1.4,
+            1.02,
+            0.28
+          ]
+        },
+        "color": "#858782"
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.7,
+          -0.51,
+          -0.14
+        ],
+        "max": [
+          0.7,
+          0.51,
+          0.14
+        ]
+      },
+      "layout": {
+        "role": "stair",
+        "purpose": "Usable stair flight, equal riser 6/18",
+        "surface": "concrete",
+        "support": "ground"
+      }
+    },
+    {
+      "id": "arch-main-stair-tread-06-nosing",
+      "label": "Non-slip stair nosing",
+      "transform": {
+        "space": "world",
+        "position": [
+          7.3,
+          1.026,
+          0.5050000000000014
+        ]
+      },
+      "visual": {
+        "type": "primitive",
+        "shape": "box",
+        "params": {
+          "size": [
+            1.4,
+            0.012,
+            0.035
+          ]
+        },
+        "color": "#b89b54"
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.7,
+          -0.006,
+          -0.0175
+        ],
+        "max": [
+          0.7,
+          0.006,
+          0.0175
+        ]
+      },
+      "layout": {
+        "role": "trim",
+        "purpose": "Non-slip stair nosing",
+        "surface": "metal",
+        "support": "arch-main-stair-tread-06"
+      }
+    },
+    {
+      "id": "arch-main-stair-tread-07",
+      "label": "Usable stair flight, equal riser 7/18",
+      "transform": {
+        "space": "world",
+        "position": [
+          7.3,
+          0.5950000000000001,
+          0.11000000000000121
+        ]
+      },
+      "visual": {
+        "type": "primitive",
+        "shape": "box",
+        "params": {
+          "size": [
+            1.4,
+            1.1900000000000002,
+            0.28
+          ]
+        },
+        "color": "#858782"
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.7,
+          -0.5950000000000001,
+          -0.14
+        ],
+        "max": [
+          0.7,
+          0.5950000000000001,
+          0.14
+        ]
+      },
+      "layout": {
+        "role": "stair",
+        "purpose": "Usable stair flight, equal riser 7/18",
+        "surface": "concrete",
+        "support": "ground"
+      }
+    },
+    {
+      "id": "arch-main-stair-tread-07-nosing",
+      "label": "Non-slip stair nosing",
+      "transform": {
+        "space": "world",
+        "position": [
+          7.3,
+          1.1960000000000002,
+          0.22500000000000142
+        ]
+      },
+      "visual": {
+        "type": "primitive",
+        "shape": "box",
+        "params": {
+          "size": [
+            1.4,
+            0.012,
+            0.035
+          ]
+        },
+        "color": "#b89b54"
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.7,
+          -0.006,
+          -0.0175
+        ],
+        "max": [
+          0.7,
+          0.006,
+          0.0175
+        ]
+      },
+      "layout": {
+        "role": "trim",
+        "purpose": "Non-slip stair nosing",
+        "surface": "metal",
+        "support": "arch-main-stair-tread-07"
+      }
+    },
+    {
+      "id": "arch-main-stair-tread-08",
+      "label": "Usable stair flight, equal riser 8/18",
+      "transform": {
+        "space": "world",
+        "position": [
+          7.3,
+          0.68,
+          -0.1699999999999986
+        ]
+      },
+      "visual": {
+        "type": "primitive",
+        "shape": "box",
+        "params": {
+          "size": [
+            1.4,
+            1.36,
+            0.28
+          ]
+        },
+        "color": "#858782"
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.7,
+          -0.68,
+          -0.14
+        ],
+        "max": [
+          0.7,
+          0.68,
+          0.14
+        ]
+      },
+      "layout": {
+        "role": "stair",
+        "purpose": "Usable stair flight, equal riser 8/18",
+        "surface": "concrete",
+        "support": "ground"
+      }
+    },
+    {
+      "id": "arch-main-stair-tread-08-nosing",
+      "label": "Non-slip stair nosing",
+      "transform": {
+        "space": "world",
+        "position": [
+          7.3,
+          1.366,
+          -0.054999999999998606
+        ]
+      },
+      "visual": {
+        "type": "primitive",
+        "shape": "box",
+        "params": {
+          "size": [
+            1.4,
+            0.012,
+            0.035
+          ]
+        },
+        "color": "#b89b54"
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.7,
+          -0.006,
+          -0.0175
+        ],
+        "max": [
+          0.7,
+          0.006,
+          0.0175
+        ]
+      },
+      "layout": {
+        "role": "trim",
+        "purpose": "Non-slip stair nosing",
+        "surface": "metal",
+        "support": "arch-main-stair-tread-08"
+      }
+    },
+    {
+      "id": "arch-main-stair-tread-09",
+      "label": "Usable stair flight, equal riser 9/18",
+      "transform": {
+        "space": "world",
+        "position": [
+          7.3,
+          0.765,
+          -0.44999999999999885
+        ]
+      },
+      "visual": {
+        "type": "primitive",
+        "shape": "box",
+        "params": {
+          "size": [
+            1.4,
+            1.53,
+            0.28
+          ]
+        },
+        "color": "#858782"
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.7,
+          -0.765,
+          -0.14
+        ],
+        "max": [
+          0.7,
+          0.765,
+          0.14
+        ]
+      },
+      "layout": {
+        "role": "stair",
+        "purpose": "Usable stair flight, equal riser 9/18",
+        "surface": "concrete",
+        "support": "ground"
+      }
+    },
+    {
+      "id": "arch-main-stair-tread-09-nosing",
+      "label": "Non-slip stair nosing",
+      "transform": {
+        "space": "world",
+        "position": [
+          7.3,
+          1.536,
+          -0.33499999999999863
+        ]
+      },
+      "visual": {
+        "type": "primitive",
+        "shape": "box",
+        "params": {
+          "size": [
+            1.4,
+            0.012,
+            0.035
+          ]
+        },
+        "color": "#b89b54"
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.7,
+          -0.006,
+          -0.0175
+        ],
+        "max": [
+          0.7,
+          0.006,
+          0.0175
+        ]
+      },
+      "layout": {
+        "role": "trim",
+        "purpose": "Non-slip stair nosing",
+        "surface": "metal",
+        "support": "arch-main-stair-tread-09"
+      }
+    },
+    {
+      "id": "arch-main-stair-tread-10",
+      "label": "Usable stair flight, equal riser 10/18",
+      "transform": {
+        "space": "world",
+        "position": [
+          7.3,
+          0.8500000000000001,
+          -0.7299999999999986
+        ]
+      },
+      "visual": {
+        "type": "primitive",
+        "shape": "box",
+        "params": {
+          "size": [
+            1.4,
+            1.7000000000000002,
+            0.28
+          ]
+        },
+        "color": "#858782"
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.7,
+          -0.8500000000000001,
+          -0.14
+        ],
+        "max": [
+          0.7,
+          0.8500000000000001,
+          0.14
+        ]
+      },
+      "layout": {
+        "role": "stair",
+        "purpose": "Usable stair flight, equal riser 10/18",
+        "surface": "concrete",
+        "support": "ground"
+      }
+    },
+    {
+      "id": "arch-main-stair-tread-10-nosing",
+      "label": "Non-slip stair nosing",
+      "transform": {
+        "space": "world",
+        "position": [
+          7.3,
+          1.7060000000000002,
+          -0.6149999999999989
+        ]
+      },
+      "visual": {
+        "type": "primitive",
+        "shape": "box",
+        "params": {
+          "size": [
+            1.4,
+            0.012,
+            0.035
+          ]
+        },
+        "color": "#b89b54"
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.7,
+          -0.006,
+          -0.0175
+        ],
+        "max": [
+          0.7,
+          0.006,
+          0.0175
+        ]
+      },
+      "layout": {
+        "role": "trim",
+        "purpose": "Non-slip stair nosing",
+        "surface": "metal",
+        "support": "arch-main-stair-tread-10"
+      }
+    },
+    {
+      "id": "arch-main-stair-tread-11",
+      "label": "Usable stair flight, equal riser 11/18",
+      "transform": {
+        "space": "world",
+        "position": [
+          7.3,
+          0.935,
+          -1.009999999999999
+        ]
+      },
+      "visual": {
+        "type": "primitive",
+        "shape": "box",
+        "params": {
+          "size": [
+            1.4,
+            1.87,
+            0.28
+          ]
+        },
+        "color": "#858782"
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.7,
+          -0.935,
+          -0.14
+        ],
+        "max": [
+          0.7,
+          0.935,
+          0.14
+        ]
+      },
+      "layout": {
+        "role": "stair",
+        "purpose": "Usable stair flight, equal riser 11/18",
+        "surface": "concrete",
+        "support": "ground"
+      }
+    },
+    {
+      "id": "arch-main-stair-tread-11-nosing",
+      "label": "Non-slip stair nosing",
+      "transform": {
+        "space": "world",
+        "position": [
+          7.3,
+          1.8760000000000001,
+          -0.8949999999999987
+        ]
+      },
+      "visual": {
+        "type": "primitive",
+        "shape": "box",
+        "params": {
+          "size": [
+            1.4,
+            0.012,
+            0.035
+          ]
+        },
+        "color": "#b89b54"
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.7,
+          -0.006,
+          -0.0175
+        ],
+        "max": [
+          0.7,
+          0.006,
+          0.0175
+        ]
+      },
+      "layout": {
+        "role": "trim",
+        "purpose": "Non-slip stair nosing",
+        "surface": "metal",
+        "support": "arch-main-stair-tread-11"
+      }
+    },
+    {
+      "id": "arch-main-stair-tread-12",
+      "label": "Usable stair flight, equal riser 12/18",
+      "transform": {
+        "space": "world",
+        "position": [
+          7.3,
+          1.02,
+          -1.2899999999999987
+        ]
+      },
+      "visual": {
+        "type": "primitive",
+        "shape": "box",
+        "params": {
+          "size": [
+            1.4,
+            2.04,
+            0.28
+          ]
+        },
+        "color": "#858782"
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.7,
+          -1.02,
+          -0.14
+        ],
+        "max": [
+          0.7,
+          1.02,
+          0.14
+        ]
+      },
+      "layout": {
+        "role": "stair",
+        "purpose": "Usable stair flight, equal riser 12/18",
+        "surface": "concrete",
+        "support": "ground"
+      }
+    },
+    {
+      "id": "arch-main-stair-tread-12-nosing",
+      "label": "Non-slip stair nosing",
+      "transform": {
+        "space": "world",
+        "position": [
+          7.3,
+          2.046,
+          -1.1749999999999985
+        ]
+      },
+      "visual": {
+        "type": "primitive",
+        "shape": "box",
+        "params": {
+          "size": [
+            1.4,
+            0.012,
+            0.035
+          ]
+        },
+        "color": "#b89b54"
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.7,
+          -0.006,
+          -0.0175
+        ],
+        "max": [
+          0.7,
+          0.006,
+          0.0175
+        ]
+      },
+      "layout": {
+        "role": "trim",
+        "purpose": "Non-slip stair nosing",
+        "surface": "metal",
+        "support": "arch-main-stair-tread-12"
+      }
+    },
+    {
+      "id": "arch-main-stair-tread-13",
+      "label": "Usable stair flight, equal riser 13/18",
+      "transform": {
+        "space": "world",
+        "position": [
+          7.3,
+          1.105,
+          -1.569999999999999
+        ]
+      },
+      "visual": {
+        "type": "primitive",
+        "shape": "box",
+        "params": {
+          "size": [
+            1.4,
+            2.21,
+            0.28
+          ]
+        },
+        "color": "#858782"
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.7,
+          -1.105,
+          -0.14
+        ],
+        "max": [
+          0.7,
+          1.105,
+          0.14
+        ]
+      },
+      "layout": {
+        "role": "stair",
+        "purpose": "Usable stair flight, equal riser 13/18",
+        "surface": "concrete",
+        "support": "ground"
+      }
+    },
+    {
+      "id": "arch-main-stair-tread-13-nosing",
+      "label": "Non-slip stair nosing",
+      "transform": {
+        "space": "world",
+        "position": [
+          7.3,
+          2.2159999999999997,
+          -1.4549999999999987
+        ]
+      },
+      "visual": {
+        "type": "primitive",
+        "shape": "box",
+        "params": {
+          "size": [
+            1.4,
+            0.012,
+            0.035
+          ]
+        },
+        "color": "#b89b54"
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.7,
+          -0.006,
+          -0.0175
+        ],
+        "max": [
+          0.7,
+          0.006,
+          0.0175
+        ]
+      },
+      "layout": {
+        "role": "trim",
+        "purpose": "Non-slip stair nosing",
+        "surface": "metal",
+        "support": "arch-main-stair-tread-13"
+      }
+    },
+    {
+      "id": "arch-main-stair-tread-14",
+      "label": "Usable stair flight, equal riser 14/18",
+      "transform": {
+        "space": "world",
+        "position": [
+          7.3,
+          1.1900000000000002,
+          -1.8499999999999988
+        ]
+      },
+      "visual": {
+        "type": "primitive",
+        "shape": "box",
+        "params": {
+          "size": [
+            1.4,
+            2.3800000000000003,
+            0.28
+          ]
+        },
+        "color": "#858782"
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.7,
+          -1.1900000000000002,
+          -0.14
+        ],
+        "max": [
+          0.7,
+          1.1900000000000002,
+          0.14
+        ]
+      },
+      "layout": {
+        "role": "stair",
+        "purpose": "Usable stair flight, equal riser 14/18",
+        "surface": "concrete",
+        "support": "ground"
+      }
+    },
+    {
+      "id": "arch-main-stair-tread-14-nosing",
+      "label": "Non-slip stair nosing",
+      "transform": {
+        "space": "world",
+        "position": [
+          7.3,
+          2.386,
+          -1.734999999999999
+        ]
+      },
+      "visual": {
+        "type": "primitive",
+        "shape": "box",
+        "params": {
+          "size": [
+            1.4,
+            0.012,
+            0.035
+          ]
+        },
+        "color": "#b89b54"
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.7,
+          -0.006,
+          -0.0175
+        ],
+        "max": [
+          0.7,
+          0.006,
+          0.0175
+        ]
+      },
+      "layout": {
+        "role": "trim",
+        "purpose": "Non-slip stair nosing",
+        "surface": "metal",
+        "support": "arch-main-stair-tread-14"
+      }
+    },
+    {
+      "id": "arch-main-stair-tread-15",
+      "label": "Usable stair flight, equal riser 15/18",
+      "transform": {
+        "space": "world",
+        "position": [
+          7.3,
+          1.2750000000000001,
+          -2.129999999999999
+        ]
+      },
+      "visual": {
+        "type": "primitive",
+        "shape": "box",
+        "params": {
+          "size": [
+            1.4,
+            2.5500000000000003,
+            0.28
+          ]
+        },
+        "color": "#858782"
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.7,
+          -1.2750000000000001,
+          -0.14
+        ],
+        "max": [
+          0.7,
+          1.2750000000000001,
+          0.14
+        ]
+      },
+      "layout": {
+        "role": "stair",
+        "purpose": "Usable stair flight, equal riser 15/18",
+        "surface": "concrete",
+        "support": "ground"
+      }
+    },
+    {
+      "id": "arch-main-stair-tread-15-nosing",
+      "label": "Non-slip stair nosing",
+      "transform": {
+        "space": "world",
+        "position": [
+          7.3,
+          2.556,
+          -2.014999999999999
+        ]
+      },
+      "visual": {
+        "type": "primitive",
+        "shape": "box",
+        "params": {
+          "size": [
+            1.4,
+            0.012,
+            0.035
+          ]
+        },
+        "color": "#b89b54"
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.7,
+          -0.006,
+          -0.0175
+        ],
+        "max": [
+          0.7,
+          0.006,
+          0.0175
+        ]
+      },
+      "layout": {
+        "role": "trim",
+        "purpose": "Non-slip stair nosing",
+        "surface": "metal",
+        "support": "arch-main-stair-tread-15"
+      }
+    },
+    {
+      "id": "arch-main-stair-tread-16",
+      "label": "Usable stair flight, equal riser 16/18",
+      "transform": {
+        "space": "world",
+        "position": [
+          7.3,
+          1.36,
+          -2.4099999999999993
+        ]
+      },
+      "visual": {
+        "type": "primitive",
+        "shape": "box",
+        "params": {
+          "size": [
+            1.4,
+            2.72,
+            0.28
+          ]
+        },
+        "color": "#858782"
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.7,
+          -1.36,
+          -0.14
+        ],
+        "max": [
+          0.7,
+          1.36,
+          0.14
+        ]
+      },
+      "layout": {
+        "role": "stair",
+        "purpose": "Usable stair flight, equal riser 16/18",
+        "surface": "concrete",
+        "support": "ground"
+      }
+    },
+    {
+      "id": "arch-main-stair-tread-16-nosing",
+      "label": "Non-slip stair nosing",
+      "transform": {
+        "space": "world",
+        "position": [
+          7.3,
+          2.726,
+          -2.294999999999999
+        ]
+      },
+      "visual": {
+        "type": "primitive",
+        "shape": "box",
+        "params": {
+          "size": [
+            1.4,
+            0.012,
+            0.035
+          ]
+        },
+        "color": "#b89b54"
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.7,
+          -0.006,
+          -0.0175
+        ],
+        "max": [
+          0.7,
+          0.006,
+          0.0175
+        ]
+      },
+      "layout": {
+        "role": "trim",
+        "purpose": "Non-slip stair nosing",
+        "surface": "metal",
+        "support": "arch-main-stair-tread-16"
+      }
+    },
+    {
+      "id": "arch-main-stair-tread-17",
+      "label": "Usable stair flight, equal riser 17/18",
+      "transform": {
+        "space": "world",
+        "position": [
+          7.3,
+          1.445,
+          -2.6899999999999986
+        ]
+      },
+      "visual": {
+        "type": "primitive",
+        "shape": "box",
+        "params": {
+          "size": [
+            1.4,
+            2.89,
+            0.28
+          ]
+        },
+        "color": "#858782"
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.7,
+          -1.445,
+          -0.14
+        ],
+        "max": [
+          0.7,
+          1.445,
+          0.14
+        ]
+      },
+      "layout": {
+        "role": "stair",
+        "purpose": "Usable stair flight, equal riser 17/18",
+        "surface": "concrete",
+        "support": "ground"
+      }
+    },
+    {
+      "id": "arch-main-stair-tread-17-nosing",
+      "label": "Non-slip stair nosing",
+      "transform": {
+        "space": "world",
+        "position": [
+          7.3,
+          2.896,
+          -2.5749999999999993
+        ]
+      },
+      "visual": {
+        "type": "primitive",
+        "shape": "box",
+        "params": {
+          "size": [
+            1.4,
+            0.012,
+            0.035
+          ]
+        },
+        "color": "#b89b54"
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.7,
+          -0.006,
+          -0.0175
+        ],
+        "max": [
+          0.7,
+          0.006,
+          0.0175
+        ]
+      },
+      "layout": {
+        "role": "trim",
+        "purpose": "Non-slip stair nosing",
+        "surface": "metal",
+        "support": "arch-main-stair-tread-17"
+      }
+    },
+    {
+      "id": "arch-main-stair-tread-18",
+      "label": "Usable stair flight, equal riser 18/18",
+      "transform": {
+        "space": "world",
+        "position": [
+          7.3,
+          1.53,
+          -2.969999999999999
+        ]
+      },
+      "visual": {
+        "type": "primitive",
+        "shape": "box",
+        "params": {
+          "size": [
+            1.4,
+            3.06,
+            0.28
+          ]
+        },
+        "color": "#858782"
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.7,
+          -1.53,
+          -0.14
+        ],
+        "max": [
+          0.7,
+          1.53,
+          0.14
+        ]
+      },
+      "layout": {
+        "role": "stair",
+        "purpose": "Usable stair flight, equal riser 18/18",
+        "surface": "concrete",
+        "support": "ground"
+      }
+    },
+    {
+      "id": "arch-main-stair-tread-18-nosing",
+      "label": "Non-slip stair nosing",
+      "transform": {
+        "space": "world",
+        "position": [
+          7.3,
+          3.066,
+          -2.8549999999999995
+        ]
+      },
+      "visual": {
+        "type": "primitive",
+        "shape": "box",
+        "params": {
+          "size": [
+            1.4,
+            0.012,
+            0.035
+          ]
+        },
+        "color": "#b89b54"
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.7,
+          -0.006,
+          -0.0175
+        ],
+        "max": [
+          0.7,
+          0.006,
+          0.0175
+        ]
+      },
+      "layout": {
+        "role": "trim",
+        "purpose": "Non-slip stair nosing",
+        "surface": "metal",
+        "support": "arch-main-stair-tread-18"
+      }
+    },
+    {
+      "id": "arch-main-stair-landing",
+      "label": "Level top landing connecting stair to occupied floor",
+      "transform": {
+        "space": "world",
+        "position": [
+          7.3,
+          1.53,
+          -3.7099999999999995
+        ]
+      },
+      "visual": {
+        "type": "primitive",
+        "shape": "box",
+        "params": {
+          "size": [
+            1.4,
+            3.06,
+            1.2
+          ]
+        },
+        "color": "#858782"
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.7,
+          -1.53,
+          -0.6
+        ],
+        "max": [
+          0.7,
+          1.53,
+          0.6
+        ]
+      },
+      "layout": {
+        "role": "landing",
+        "purpose": "Level top landing connecting stair to occupied floor",
+        "surface": "concrete",
+        "support": "ground"
+      }
+    },
+    {
+      "id": "arch-main-stair-post--1-0",
+      "label": "Stair handrail upright anchored into tread",
+      "transform": {
+        "space": "world",
+        "position": [
+          6.635,
+          0.659414979757085,
+          1.8320000000000014
+        ],
+        "rotation": [
+          0,
+          0,
+          0,
+          1
+        ]
+      },
+      "visual": {
+        "type": "primitive",
+        "shape": "cylinder",
+        "params": {
+          "radius": 0.022,
+          "height": 0.97882995951417,
+          "radialSegments": 12
+        },
+        "color": "#465256"
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.022,
+          -0.489414979757085,
+          -0.022
+        ],
+        "max": [
+          0.022,
+          0.489414979757085,
+          0.022
+        ]
+      },
+      "layout": {
+        "role": "railing",
+        "purpose": "Stair handrail upright anchored into tread",
+        "surface": "metal",
+        "support": "arch-main-stair-tread-01"
+      }
+    },
+    {
+      "id": "arch-main-stair-post--1-3",
+      "label": "Stair handrail upright anchored into tread",
+      "transform": {
+        "space": "world",
+        "position": [
+          6.635,
+          1.1601234817813766,
+          0.9920000000000013
+        ],
+        "rotation": [
+          0,
+          0,
+          0,
+          1
+        ]
+      },
+      "visual": {
+        "type": "primitive",
+        "shape": "cylinder",
+        "params": {
+          "radius": 0.022,
+          "height": 0.960246963562753,
+          "radialSegments": 12
+        },
+        "color": "#465256"
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.022,
+          -0.4801234817813765,
+          -0.022
+        ],
+        "max": [
+          0.022,
+          0.4801234817813765,
+          0.022
+        ]
+      },
+      "layout": {
+        "role": "railing",
+        "purpose": "Stair handrail upright anchored into tread",
+        "surface": "metal",
+        "support": "arch-main-stair-tread-04"
+      }
+    },
+    {
+      "id": "arch-main-stair-post--1-6",
+      "label": "Stair handrail upright anchored into tread",
+      "transform": {
+        "space": "world",
+        "position": [
+          6.635,
+          1.660831983805668,
+          0.15200000000000147
+        ],
+        "rotation": [
+          0,
+          0,
+          0,
+          1
+        ]
+      },
+      "visual": {
+        "type": "primitive",
+        "shape": "cylinder",
+        "params": {
+          "radius": 0.022,
+          "height": 0.9416639676113354,
+          "radialSegments": 12
+        },
+        "color": "#465256"
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.022,
+          -0.4708319838056677,
+          -0.022
+        ],
+        "max": [
+          0.022,
+          0.4708319838056677,
+          0.022
+        ]
+      },
+      "layout": {
+        "role": "railing",
+        "purpose": "Stair handrail upright anchored into tread",
+        "surface": "metal",
+        "support": "arch-main-stair-tread-07"
+      }
+    },
+    {
+      "id": "arch-main-stair-post--1-9",
+      "label": "Stair handrail upright anchored into tread",
+      "transform": {
+        "space": "world",
+        "position": [
+          6.635,
+          2.1615404858299594,
+          -0.6879999999999988
+        ],
+        "rotation": [
+          0,
+          0,
+          0,
+          1
+        ]
+      },
+      "visual": {
+        "type": "primitive",
+        "shape": "cylinder",
+        "params": {
+          "radius": 0.022,
+          "height": 0.9230809716599184,
+          "radialSegments": 12
+        },
+        "color": "#465256"
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.022,
+          -0.4615404858299592,
+          -0.022
+        ],
+        "max": [
+          0.022,
+          0.4615404858299592,
+          0.022
+        ]
+      },
+      "layout": {
+        "role": "railing",
+        "purpose": "Stair handrail upright anchored into tread",
+        "surface": "metal",
+        "support": "arch-main-stair-tread-10"
+      }
+    },
+    {
+      "id": "arch-main-stair-post--1-12",
+      "label": "Stair handrail upright anchored into tread",
+      "transform": {
+        "space": "world",
+        "position": [
+          6.635,
+          2.662248987854251,
+          -1.5279999999999987
+        ],
+        "rotation": [
+          0,
+          0,
+          0,
+          1
+        ]
+      },
+      "visual": {
+        "type": "primitive",
+        "shape": "cylinder",
+        "params": {
+          "radius": 0.022,
+          "height": 0.9044979757085017,
+          "radialSegments": 12
+        },
+        "color": "#465256"
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.022,
+          -0.45224898785425083,
+          -0.022
+        ],
+        "max": [
+          0.022,
+          0.45224898785425083,
+          0.022
+        ]
+      },
+      "layout": {
+        "role": "railing",
+        "purpose": "Stair handrail upright anchored into tread",
+        "surface": "metal",
+        "support": "arch-main-stair-tread-13"
+      }
+    },
+    {
+      "id": "arch-main-stair-post--1-15",
+      "label": "Stair handrail upright anchored into tread",
+      "transform": {
+        "space": "world",
+        "position": [
+          6.635,
+          3.1629574898785426,
+          -2.3679999999999986
+        ],
+        "rotation": [
+          0,
+          0,
+          0,
+          1
+        ]
+      },
+      "visual": {
+        "type": "primitive",
+        "shape": "cylinder",
+        "params": {
+          "radius": 0.022,
+          "height": 0.8859149797570844,
+          "radialSegments": 12
+        },
+        "color": "#465256"
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.022,
+          -0.4429574898785422,
+          -0.022
+        ],
+        "max": [
+          0.022,
+          0.4429574898785422,
+          0.022
+        ]
+      },
+      "layout": {
+        "role": "railing",
+        "purpose": "Stair handrail upright anchored into tread",
+        "surface": "metal",
+        "support": "arch-main-stair-tread-16"
+      }
+    },
+    {
+      "id": "arch-main-stair-post--1-18",
+      "label": "Stair handrail upright anchored into tread",
+      "transform": {
+        "space": "world",
+        "position": [
+          6.635,
+          3.55,
+          -3.1099999999999994
+        ],
+        "rotation": [
+          0,
+          0,
+          0,
+          1
+        ]
+      },
+      "visual": {
+        "type": "primitive",
+        "shape": "cylinder",
+        "params": {
+          "radius": 0.022,
+          "height": 0.98,
+          "radialSegments": 12
+        },
+        "color": "#465256"
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.022,
+          -0.49,
+          -0.022
+        ],
+        "max": [
+          0.022,
+          0.49,
+          0.022
+        ]
+      },
+      "layout": {
+        "role": "railing",
+        "purpose": "Stair handrail upright anchored into tread",
+        "surface": "metal",
+        "support": "arch-main-stair-tread-18"
+      }
+    },
+    {
+      "id": "arch-main-stair-handrail--1",
+      "label": "Continuous sloped stair handrail",
+      "transform": {
+        "space": "world",
+        "position": [
+          6.635,
+          2.5949999999999998,
+          -0.639999999999999
+        ],
+        "rotation": [
+          -0.497515324,
+          0,
+          0,
+          0.867455187
+        ]
+      },
+      "visual": {
+        "type": "primitive",
+        "shape": "cylinder",
+        "params": {
+          "radius": 0.03,
+          "height": 5.723259560774787,
+          "radialSegments": 12
+        },
+        "color": "#b89b54"
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.03,
+          -2.8616297803873936,
+          -0.03
+        ],
+        "max": [
+          0.03,
+          2.8616297803873936,
+          0.03
+        ]
+      },
+      "layout": {
+        "role": "railing",
+        "purpose": "Continuous sloped stair handrail",
+        "surface": "metal"
+      }
+    },
+    {
+      "id": "arch-main-stair-landing-guard--1-post-0",
+      "label": "Balustrade post anchored into slab",
+      "transform": {
+        "space": "world",
+        "position": [
+          6.635,
+          3.55,
+          -3.1099999999999994
+        ],
+        "rotation": [
+          0,
+          0,
+          0,
+          1
+        ]
+      },
+      "visual": {
+        "type": "primitive",
+        "shape": "cylinder",
+        "params": {
+          "radius": 0.023,
+          "height": 0.98,
+          "radialSegments": 12
+        },
+        "color": "#465256"
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.023,
+          -0.49,
+          -0.023
+        ],
+        "max": [
+          0.023,
+          0.49,
+          0.023
+        ]
+      },
+      "layout": {
+        "role": "railing",
+        "purpose": "Balustrade post anchored into slab",
+        "surface": "metal"
+      }
+    },
+    {
+      "id": "arch-main-stair-landing-guard--1-post-1",
+      "label": "Balustrade post anchored into slab",
+      "transform": {
+        "space": "world",
+        "position": [
+          6.635,
+          3.55,
+          -3.7099999999999995
+        ],
+        "rotation": [
+          0,
+          0,
+          0,
+          1
+        ]
+      },
+      "visual": {
+        "type": "primitive",
+        "shape": "cylinder",
+        "params": {
+          "radius": 0.023,
+          "height": 0.98,
+          "radialSegments": 12
+        },
+        "color": "#465256"
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.023,
+          -0.49,
+          -0.023
+        ],
+        "max": [
+          0.023,
+          0.49,
+          0.023
+        ]
+      },
+      "layout": {
+        "role": "railing",
+        "purpose": "Balustrade post anchored into slab",
+        "surface": "metal"
+      }
+    },
+    {
+      "id": "arch-main-stair-landing-guard--1-post-2",
+      "label": "Balustrade post anchored into slab",
+      "transform": {
+        "space": "world",
+        "position": [
+          6.635,
+          3.55,
+          -4.31
+        ],
+        "rotation": [
+          0,
+          0,
+          0,
+          1
+        ]
+      },
+      "visual": {
+        "type": "primitive",
+        "shape": "cylinder",
+        "params": {
+          "radius": 0.023,
+          "height": 0.98,
+          "radialSegments": 12
+        },
+        "color": "#465256"
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.023,
+          -0.49,
+          -0.023
+        ],
+        "max": [
+          0.023,
+          0.49,
+          0.023
+        ]
+      },
+      "layout": {
+        "role": "railing",
+        "purpose": "Balustrade post anchored into slab",
+        "surface": "metal"
+      }
+    },
+    {
+      "id": "arch-main-stair-landing-guard--1-rail-0",
+      "label": "Continuous guardrail",
+      "transform": {
+        "space": "world",
+        "position": [
+          6.635,
+          3.5304,
+          -3.7099999999999995
+        ],
+        "rotation": [
+          -0.707106781,
+          0,
+          0,
+          0.707106781
+        ]
+      },
+      "visual": {
+        "type": "primitive",
+        "shape": "cylinder",
+        "params": {
+          "radius": 0.027,
+          "height": 1.2000000000000002,
+          "radialSegments": 12
+        },
+        "color": "#b89b54"
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.027,
+          -0.6000000000000001,
+          -0.027
+        ],
+        "max": [
+          0.027,
+          0.6000000000000001,
+          0.027
+        ]
+      },
+      "layout": {
+        "role": "railing",
+        "purpose": "Continuous guardrail",
+        "surface": "metal"
+      }
+    },
+    {
+      "id": "arch-main-stair-landing-guard--1-rail-1",
+      "label": "Continuous guardrail",
+      "transform": {
+        "space": "world",
+        "position": [
+          6.635,
+          4.04,
+          -3.7099999999999995
+        ],
+        "rotation": [
+          -0.707106781,
+          0,
+          0,
+          0.707106781
+        ]
+      },
+      "visual": {
+        "type": "primitive",
+        "shape": "cylinder",
+        "params": {
+          "radius": 0.027,
+          "height": 1.2000000000000002,
+          "radialSegments": 12
+        },
+        "color": "#b89b54"
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.027,
+          -0.6000000000000001,
+          -0.027
+        ],
+        "max": [
+          0.027,
+          0.6000000000000001,
+          0.027
+        ]
+      },
+      "layout": {
+        "role": "railing",
+        "purpose": "Continuous guardrail",
+        "surface": "metal"
+      }
+    },
+    {
+      "id": "arch-main-stair-post-1-0",
+      "label": "Stair handrail upright anchored into tread",
+      "transform": {
+        "space": "world",
+        "position": [
+          7.965,
+          0.659414979757085,
+          1.8320000000000014
+        ],
+        "rotation": [
+          0,
+          0,
+          0,
+          1
+        ]
+      },
+      "visual": {
+        "type": "primitive",
+        "shape": "cylinder",
+        "params": {
+          "radius": 0.022,
+          "height": 0.97882995951417,
+          "radialSegments": 12
+        },
+        "color": "#465256"
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.022,
+          -0.489414979757085,
+          -0.022
+        ],
+        "max": [
+          0.022,
+          0.489414979757085,
+          0.022
+        ]
+      },
+      "layout": {
+        "role": "railing",
+        "purpose": "Stair handrail upright anchored into tread",
+        "surface": "metal",
+        "support": "arch-main-stair-tread-01"
+      }
+    },
+    {
+      "id": "arch-main-stair-post-1-3",
+      "label": "Stair handrail upright anchored into tread",
+      "transform": {
+        "space": "world",
+        "position": [
+          7.965,
+          1.1601234817813766,
+          0.9920000000000013
+        ],
+        "rotation": [
+          0,
+          0,
+          0,
+          1
+        ]
+      },
+      "visual": {
+        "type": "primitive",
+        "shape": "cylinder",
+        "params": {
+          "radius": 0.022,
+          "height": 0.960246963562753,
+          "radialSegments": 12
+        },
+        "color": "#465256"
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.022,
+          -0.4801234817813765,
+          -0.022
+        ],
+        "max": [
+          0.022,
+          0.4801234817813765,
+          0.022
+        ]
+      },
+      "layout": {
+        "role": "railing",
+        "purpose": "Stair handrail upright anchored into tread",
+        "surface": "metal",
+        "support": "arch-main-stair-tread-04"
+      }
+    },
+    {
+      "id": "arch-main-stair-post-1-6",
+      "label": "Stair handrail upright anchored into tread",
+      "transform": {
+        "space": "world",
+        "position": [
+          7.965,
+          1.660831983805668,
+          0.15200000000000147
+        ],
+        "rotation": [
+          0,
+          0,
+          0,
+          1
+        ]
+      },
+      "visual": {
+        "type": "primitive",
+        "shape": "cylinder",
+        "params": {
+          "radius": 0.022,
+          "height": 0.9416639676113354,
+          "radialSegments": 12
+        },
+        "color": "#465256"
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.022,
+          -0.4708319838056677,
+          -0.022
+        ],
+        "max": [
+          0.022,
+          0.4708319838056677,
+          0.022
+        ]
+      },
+      "layout": {
+        "role": "railing",
+        "purpose": "Stair handrail upright anchored into tread",
+        "surface": "metal",
+        "support": "arch-main-stair-tread-07"
+      }
+    },
+    {
+      "id": "arch-main-stair-post-1-9",
+      "label": "Stair handrail upright anchored into tread",
+      "transform": {
+        "space": "world",
+        "position": [
+          7.965,
+          2.1615404858299594,
+          -0.6879999999999988
+        ],
+        "rotation": [
+          0,
+          0,
+          0,
+          1
+        ]
+      },
+      "visual": {
+        "type": "primitive",
+        "shape": "cylinder",
+        "params": {
+          "radius": 0.022,
+          "height": 0.9230809716599184,
+          "radialSegments": 12
+        },
+        "color": "#465256"
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.022,
+          -0.4615404858299592,
+          -0.022
+        ],
+        "max": [
+          0.022,
+          0.4615404858299592,
+          0.022
+        ]
+      },
+      "layout": {
+        "role": "railing",
+        "purpose": "Stair handrail upright anchored into tread",
+        "surface": "metal",
+        "support": "arch-main-stair-tread-10"
+      }
+    },
+    {
+      "id": "arch-main-stair-post-1-12",
+      "label": "Stair handrail upright anchored into tread",
+      "transform": {
+        "space": "world",
+        "position": [
+          7.965,
+          2.662248987854251,
+          -1.5279999999999987
+        ],
+        "rotation": [
+          0,
+          0,
+          0,
+          1
+        ]
+      },
+      "visual": {
+        "type": "primitive",
+        "shape": "cylinder",
+        "params": {
+          "radius": 0.022,
+          "height": 0.9044979757085017,
+          "radialSegments": 12
+        },
+        "color": "#465256"
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.022,
+          -0.45224898785425083,
+          -0.022
+        ],
+        "max": [
+          0.022,
+          0.45224898785425083,
+          0.022
+        ]
+      },
+      "layout": {
+        "role": "railing",
+        "purpose": "Stair handrail upright anchored into tread",
+        "surface": "metal",
+        "support": "arch-main-stair-tread-13"
+      }
+    },
+    {
+      "id": "arch-main-stair-post-1-15",
+      "label": "Stair handrail upright anchored into tread",
+      "transform": {
+        "space": "world",
+        "position": [
+          7.965,
+          3.1629574898785426,
+          -2.3679999999999986
+        ],
+        "rotation": [
+          0,
+          0,
+          0,
+          1
+        ]
+      },
+      "visual": {
+        "type": "primitive",
+        "shape": "cylinder",
+        "params": {
+          "radius": 0.022,
+          "height": 0.8859149797570844,
+          "radialSegments": 12
+        },
+        "color": "#465256"
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.022,
+          -0.4429574898785422,
+          -0.022
+        ],
+        "max": [
+          0.022,
+          0.4429574898785422,
+          0.022
+        ]
+      },
+      "layout": {
+        "role": "railing",
+        "purpose": "Stair handrail upright anchored into tread",
+        "surface": "metal",
+        "support": "arch-main-stair-tread-16"
+      }
+    },
+    {
+      "id": "arch-main-stair-post-1-18",
+      "label": "Stair handrail upright anchored into tread",
+      "transform": {
+        "space": "world",
+        "position": [
+          7.965,
+          3.55,
+          -3.1099999999999994
+        ],
+        "rotation": [
+          0,
+          0,
+          0,
+          1
+        ]
+      },
+      "visual": {
+        "type": "primitive",
+        "shape": "cylinder",
+        "params": {
+          "radius": 0.022,
+          "height": 0.98,
+          "radialSegments": 12
+        },
+        "color": "#465256"
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.022,
+          -0.49,
+          -0.022
+        ],
+        "max": [
+          0.022,
+          0.49,
+          0.022
+        ]
+      },
+      "layout": {
+        "role": "railing",
+        "purpose": "Stair handrail upright anchored into tread",
+        "surface": "metal",
+        "support": "arch-main-stair-tread-18"
+      }
+    },
+    {
+      "id": "arch-main-stair-handrail-1",
+      "label": "Continuous sloped stair handrail",
+      "transform": {
+        "space": "world",
+        "position": [
+          7.965,
+          2.5949999999999998,
+          -0.639999999999999
+        ],
+        "rotation": [
+          -0.497515324,
+          0,
+          0,
+          0.867455187
+        ]
+      },
+      "visual": {
+        "type": "primitive",
+        "shape": "cylinder",
+        "params": {
+          "radius": 0.03,
+          "height": 5.723259560774787,
+          "radialSegments": 12
+        },
+        "color": "#b89b54"
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.03,
+          -2.8616297803873936,
+          -0.03
+        ],
+        "max": [
+          0.03,
+          2.8616297803873936,
+          0.03
+        ]
+      },
+      "layout": {
+        "role": "railing",
+        "purpose": "Continuous sloped stair handrail",
+        "surface": "metal"
+      }
+    },
+    {
+      "id": "arch-main-stair-landing-guard-1-post-0",
+      "label": "Balustrade post anchored into slab",
+      "transform": {
+        "space": "world",
+        "position": [
+          7.965,
+          3.55,
+          -3.1099999999999994
+        ],
+        "rotation": [
+          0,
+          0,
+          0,
+          1
+        ]
+      },
+      "visual": {
+        "type": "primitive",
+        "shape": "cylinder",
+        "params": {
+          "radius": 0.023,
+          "height": 0.98,
+          "radialSegments": 12
+        },
+        "color": "#465256"
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.023,
+          -0.49,
+          -0.023
+        ],
+        "max": [
+          0.023,
+          0.49,
+          0.023
+        ]
+      },
+      "layout": {
+        "role": "railing",
+        "purpose": "Balustrade post anchored into slab",
+        "surface": "metal"
+      }
+    },
+    {
+      "id": "arch-main-stair-landing-guard-1-post-1",
+      "label": "Balustrade post anchored into slab",
+      "transform": {
+        "space": "world",
+        "position": [
+          7.965,
+          3.55,
+          -3.7099999999999995
+        ],
+        "rotation": [
+          0,
+          0,
+          0,
+          1
+        ]
+      },
+      "visual": {
+        "type": "primitive",
+        "shape": "cylinder",
+        "params": {
+          "radius": 0.023,
+          "height": 0.98,
+          "radialSegments": 12
+        },
+        "color": "#465256"
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.023,
+          -0.49,
+          -0.023
+        ],
+        "max": [
+          0.023,
+          0.49,
+          0.023
+        ]
+      },
+      "layout": {
+        "role": "railing",
+        "purpose": "Balustrade post anchored into slab",
+        "surface": "metal"
+      }
+    },
+    {
+      "id": "arch-main-stair-landing-guard-1-post-2",
+      "label": "Balustrade post anchored into slab",
+      "transform": {
+        "space": "world",
+        "position": [
+          7.965,
+          3.55,
+          -4.31
+        ],
+        "rotation": [
+          0,
+          0,
+          0,
+          1
+        ]
+      },
+      "visual": {
+        "type": "primitive",
+        "shape": "cylinder",
+        "params": {
+          "radius": 0.023,
+          "height": 0.98,
+          "radialSegments": 12
+        },
+        "color": "#465256"
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.023,
+          -0.49,
+          -0.023
+        ],
+        "max": [
+          0.023,
+          0.49,
+          0.023
+        ]
+      },
+      "layout": {
+        "role": "railing",
+        "purpose": "Balustrade post anchored into slab",
+        "surface": "metal"
+      }
+    },
+    {
+      "id": "arch-main-stair-landing-guard-1-rail-0",
+      "label": "Continuous guardrail",
+      "transform": {
+        "space": "world",
+        "position": [
+          7.965,
+          3.5304,
+          -3.7099999999999995
+        ],
+        "rotation": [
+          -0.707106781,
+          0,
+          0,
+          0.707106781
+        ]
+      },
+      "visual": {
+        "type": "primitive",
+        "shape": "cylinder",
+        "params": {
+          "radius": 0.027,
+          "height": 1.2000000000000002,
+          "radialSegments": 12
+        },
+        "color": "#b89b54"
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.027,
+          -0.6000000000000001,
+          -0.027
+        ],
+        "max": [
+          0.027,
+          0.6000000000000001,
+          0.027
+        ]
+      },
+      "layout": {
+        "role": "railing",
+        "purpose": "Continuous guardrail",
+        "surface": "metal"
+      }
+    },
+    {
+      "id": "arch-main-stair-landing-guard-1-rail-1",
+      "label": "Continuous guardrail",
+      "transform": {
+        "space": "world",
+        "position": [
+          7.965,
+          4.04,
+          -3.7099999999999995
+        ],
+        "rotation": [
+          -0.707106781,
+          0,
+          0,
+          0.707106781
+        ]
+      },
+      "visual": {
+        "type": "primitive",
+        "shape": "cylinder",
+        "params": {
+          "radius": 0.027,
+          "height": 1.2000000000000002,
+          "radialSegments": 12
+        },
+        "color": "#b89b54"
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.027,
+          -0.6000000000000001,
+          -0.027
+        ],
+        "max": [
+          0.027,
+          0.6000000000000001,
+          0.027
+        ]
+      },
+      "layout": {
+        "role": "railing",
+        "purpose": "Continuous guardrail",
+        "surface": "metal"
+      }
+    },
+    {
+      "id": "arch-gallery-front-post-0",
+      "label": "Balustrade post anchored into slab",
+      "transform": {
+        "space": "world",
+        "position": [
+          -8.9,
+          3.585,
+          -4.31
+        ],
+        "rotation": [
+          0,
+          0,
+          0,
+          1
+        ]
+      },
+      "visual": {
+        "type": "primitive",
+        "shape": "cylinder",
+        "params": {
+          "radius": 0.023,
+          "height": 1.0500000000000003,
+          "radialSegments": 12
+        },
+        "color": "#465256"
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.023,
+          -0.5250000000000001,
+          -0.023
+        ],
+        "max": [
+          0.023,
+          0.5250000000000001,
+          0.023
+        ]
+      },
+      "layout": {
+        "role": "railing",
+        "purpose": "Balustrade post anchored into slab",
+        "surface": "metal"
+      }
+    },
+    {
+      "id": "arch-gallery-front-post-1",
+      "label": "Balustrade post anchored into slab",
+      "transform": {
+        "space": "world",
+        "position": [
+          -8.08421052631579,
+          3.585,
+          -4.31
+        ],
+        "rotation": [
+          0,
+          0,
+          0,
+          1
+        ]
+      },
+      "visual": {
+        "type": "primitive",
+        "shape": "cylinder",
+        "params": {
+          "radius": 0.023,
+          "height": 1.0500000000000003,
+          "radialSegments": 12
+        },
+        "color": "#465256"
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.023,
+          -0.5250000000000001,
+          -0.023
+        ],
+        "max": [
+          0.023,
+          0.5250000000000001,
+          0.023
+        ]
+      },
+      "layout": {
+        "role": "railing",
+        "purpose": "Balustrade post anchored into slab",
+        "surface": "metal"
+      }
+    },
+    {
+      "id": "arch-gallery-front-post-2",
+      "label": "Balustrade post anchored into slab",
+      "transform": {
+        "space": "world",
+        "position": [
+          -7.268421052631579,
+          3.585,
+          -4.31
+        ],
+        "rotation": [
+          0,
+          0,
+          0,
+          1
+        ]
+      },
+      "visual": {
+        "type": "primitive",
+        "shape": "cylinder",
+        "params": {
+          "radius": 0.023,
+          "height": 1.0500000000000003,
+          "radialSegments": 12
+        },
+        "color": "#465256"
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.023,
+          -0.5250000000000001,
+          -0.023
+        ],
+        "max": [
+          0.023,
+          0.5250000000000001,
+          0.023
+        ]
+      },
+      "layout": {
+        "role": "railing",
+        "purpose": "Balustrade post anchored into slab",
+        "surface": "metal"
+      }
+    },
+    {
+      "id": "arch-gallery-front-post-3",
+      "label": "Balustrade post anchored into slab",
+      "transform": {
+        "space": "world",
+        "position": [
+          -6.4526315789473685,
+          3.585,
+          -4.31
+        ],
+        "rotation": [
+          0,
+          0,
+          0,
+          1
+        ]
+      },
+      "visual": {
+        "type": "primitive",
+        "shape": "cylinder",
+        "params": {
+          "radius": 0.023,
+          "height": 1.0500000000000003,
+          "radialSegments": 12
+        },
+        "color": "#465256"
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.023,
+          -0.5250000000000001,
+          -0.023
+        ],
+        "max": [
+          0.023,
+          0.5250000000000001,
+          0.023
+        ]
+      },
+      "layout": {
+        "role": "railing",
+        "purpose": "Balustrade post anchored into slab",
+        "surface": "metal"
+      }
+    },
+    {
+      "id": "arch-gallery-front-post-4",
+      "label": "Balustrade post anchored into slab",
+      "transform": {
+        "space": "world",
+        "position": [
+          -5.636842105263158,
+          3.585,
+          -4.31
+        ],
+        "rotation": [
+          0,
+          0,
+          0,
+          1
+        ]
+      },
+      "visual": {
+        "type": "primitive",
+        "shape": "cylinder",
+        "params": {
+          "radius": 0.023,
+          "height": 1.0500000000000003,
+          "radialSegments": 12
+        },
+        "color": "#465256"
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.023,
+          -0.5250000000000001,
+          -0.023
+        ],
+        "max": [
+          0.023,
+          0.5250000000000001,
+          0.023
+        ]
+      },
+      "layout": {
+        "role": "railing",
+        "purpose": "Balustrade post anchored into slab",
+        "surface": "metal"
+      }
+    },
+    {
+      "id": "arch-gallery-front-post-5",
+      "label": "Balustrade post anchored into slab",
+      "transform": {
+        "space": "world",
+        "position": [
+          -4.821052631578948,
+          3.585,
+          -4.31
+        ],
+        "rotation": [
+          0,
+          0,
+          0,
+          1
+        ]
+      },
+      "visual": {
+        "type": "primitive",
+        "shape": "cylinder",
+        "params": {
+          "radius": 0.023,
+          "height": 1.0500000000000003,
+          "radialSegments": 12
+        },
+        "color": "#465256"
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.023,
+          -0.5250000000000001,
+          -0.023
+        ],
+        "max": [
+          0.023,
+          0.5250000000000001,
+          0.023
+        ]
+      },
+      "layout": {
+        "role": "railing",
+        "purpose": "Balustrade post anchored into slab",
+        "surface": "metal"
+      }
+    },
+    {
+      "id": "arch-gallery-front-post-6",
+      "label": "Balustrade post anchored into slab",
+      "transform": {
+        "space": "world",
+        "position": [
+          -4.0052631578947375,
+          3.585,
+          -4.31
+        ],
+        "rotation": [
+          0,
+          0,
+          0,
+          1
+        ]
+      },
+      "visual": {
+        "type": "primitive",
+        "shape": "cylinder",
+        "params": {
+          "radius": 0.023,
+          "height": 1.0500000000000003,
+          "radialSegments": 12
+        },
+        "color": "#465256"
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.023,
+          -0.5250000000000001,
+          -0.023
+        ],
+        "max": [
+          0.023,
+          0.5250000000000001,
+          0.023
+        ]
+      },
+      "layout": {
+        "role": "railing",
+        "purpose": "Balustrade post anchored into slab",
+        "surface": "metal"
+      }
+    },
+    {
+      "id": "arch-gallery-front-post-7",
+      "label": "Balustrade post anchored into slab",
+      "transform": {
+        "space": "world",
+        "position": [
+          -3.189473684210527,
+          3.585,
+          -4.31
+        ],
+        "rotation": [
+          0,
+          0,
+          0,
+          1
+        ]
+      },
+      "visual": {
+        "type": "primitive",
+        "shape": "cylinder",
+        "params": {
+          "radius": 0.023,
+          "height": 1.0500000000000003,
+          "radialSegments": 12
+        },
+        "color": "#465256"
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.023,
+          -0.5250000000000001,
+          -0.023
+        ],
+        "max": [
+          0.023,
+          0.5250000000000001,
+          0.023
+        ]
+      },
+      "layout": {
+        "role": "railing",
+        "purpose": "Balustrade post anchored into slab",
+        "surface": "metal"
+      }
+    },
+    {
+      "id": "arch-gallery-front-post-8",
+      "label": "Balustrade post anchored into slab",
+      "transform": {
+        "space": "world",
+        "position": [
+          -2.3736842105263163,
+          3.585,
+          -4.31
+        ],
+        "rotation": [
+          0,
+          0,
+          0,
+          1
+        ]
+      },
+      "visual": {
+        "type": "primitive",
+        "shape": "cylinder",
+        "params": {
+          "radius": 0.023,
+          "height": 1.0500000000000003,
+          "radialSegments": 12
+        },
+        "color": "#465256"
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.023,
+          -0.5250000000000001,
+          -0.023
+        ],
+        "max": [
+          0.023,
+          0.5250000000000001,
+          0.023
+        ]
+      },
+      "layout": {
+        "role": "railing",
+        "purpose": "Balustrade post anchored into slab",
+        "surface": "metal"
+      }
+    },
+    {
+      "id": "arch-gallery-front-post-9",
+      "label": "Balustrade post anchored into slab",
+      "transform": {
+        "space": "world",
+        "position": [
+          -1.5578947368421057,
+          3.585,
+          -4.31
+        ],
+        "rotation": [
+          0,
+          0,
+          0,
+          1
+        ]
+      },
+      "visual": {
+        "type": "primitive",
+        "shape": "cylinder",
+        "params": {
+          "radius": 0.023,
+          "height": 1.0500000000000003,
+          "radialSegments": 12
+        },
+        "color": "#465256"
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.023,
+          -0.5250000000000001,
+          -0.023
+        ],
+        "max": [
+          0.023,
+          0.5250000000000001,
+          0.023
+        ]
+      },
+      "layout": {
+        "role": "railing",
+        "purpose": "Balustrade post anchored into slab",
+        "surface": "metal"
+      }
+    },
+    {
+      "id": "arch-gallery-front-post-10",
+      "label": "Balustrade post anchored into slab",
+      "transform": {
+        "space": "world",
+        "position": [
+          -0.7421052631578959,
+          3.585,
+          -4.31
+        ],
+        "rotation": [
+          0,
+          0,
+          0,
+          1
+        ]
+      },
+      "visual": {
+        "type": "primitive",
+        "shape": "cylinder",
+        "params": {
+          "radius": 0.023,
+          "height": 1.0500000000000003,
+          "radialSegments": 12
+        },
+        "color": "#465256"
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.023,
+          -0.5250000000000001,
+          -0.023
+        ],
+        "max": [
+          0.023,
+          0.5250000000000001,
+          0.023
+        ]
+      },
+      "layout": {
+        "role": "railing",
+        "purpose": "Balustrade post anchored into slab",
+        "surface": "metal"
+      }
+    },
+    {
+      "id": "arch-gallery-front-post-11",
+      "label": "Balustrade post anchored into slab",
+      "transform": {
+        "space": "world",
+        "position": [
+          0.07368421052631469,
+          3.585,
+          -4.31
+        ],
+        "rotation": [
+          0,
+          0,
+          0,
+          1
+        ]
+      },
+      "visual": {
+        "type": "primitive",
+        "shape": "cylinder",
+        "params": {
+          "radius": 0.023,
+          "height": 1.0500000000000003,
+          "radialSegments": 12
+        },
+        "color": "#465256"
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.023,
+          -0.5250000000000001,
+          -0.023
+        ],
+        "max": [
+          0.023,
+          0.5250000000000001,
+          0.023
+        ]
+      },
+      "layout": {
+        "role": "railing",
+        "purpose": "Balustrade post anchored into slab",
+        "surface": "metal"
+      }
+    },
+    {
+      "id": "arch-gallery-front-post-12",
+      "label": "Balustrade post anchored into slab",
+      "transform": {
+        "space": "world",
+        "position": [
+          0.8894736842105253,
+          3.585,
+          -4.31
+        ],
+        "rotation": [
+          0,
+          0,
+          0,
+          1
+        ]
+      },
+      "visual": {
+        "type": "primitive",
+        "shape": "cylinder",
+        "params": {
+          "radius": 0.023,
+          "height": 1.0500000000000003,
+          "radialSegments": 12
+        },
+        "color": "#465256"
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.023,
+          -0.5250000000000001,
+          -0.023
+        ],
+        "max": [
+          0.023,
+          0.5250000000000001,
+          0.023
+        ]
+      },
+      "layout": {
+        "role": "railing",
+        "purpose": "Balustrade post anchored into slab",
+        "surface": "metal"
+      }
+    },
+    {
+      "id": "arch-gallery-front-post-13",
+      "label": "Balustrade post anchored into slab",
+      "transform": {
+        "space": "world",
+        "position": [
+          1.705263157894736,
+          3.585,
+          -4.31
+        ],
+        "rotation": [
+          0,
+          0,
+          0,
+          1
+        ]
+      },
+      "visual": {
+        "type": "primitive",
+        "shape": "cylinder",
+        "params": {
+          "radius": 0.023,
+          "height": 1.0500000000000003,
+          "radialSegments": 12
+        },
+        "color": "#465256"
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.023,
+          -0.5250000000000001,
+          -0.023
+        ],
+        "max": [
+          0.023,
+          0.5250000000000001,
+          0.023
+        ]
+      },
+      "layout": {
+        "role": "railing",
+        "purpose": "Balustrade post anchored into slab",
+        "surface": "metal"
+      }
+    },
+    {
+      "id": "arch-gallery-front-post-14",
+      "label": "Balustrade post anchored into slab",
+      "transform": {
+        "space": "world",
+        "position": [
+          2.5210526315789465,
+          3.585,
+          -4.31
+        ],
+        "rotation": [
+          0,
+          0,
+          0,
+          1
+        ]
+      },
+      "visual": {
+        "type": "primitive",
+        "shape": "cylinder",
+        "params": {
+          "radius": 0.023,
+          "height": 1.0500000000000003,
+          "radialSegments": 12
+        },
+        "color": "#465256"
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.023,
+          -0.5250000000000001,
+          -0.023
+        ],
+        "max": [
+          0.023,
+          0.5250000000000001,
+          0.023
+        ]
+      },
+      "layout": {
+        "role": "railing",
+        "purpose": "Balustrade post anchored into slab",
+        "surface": "metal"
+      }
+    },
+    {
+      "id": "arch-gallery-front-post-15",
+      "label": "Balustrade post anchored into slab",
+      "transform": {
+        "space": "world",
+        "position": [
+          3.336842105263157,
+          3.585,
+          -4.31
+        ],
+        "rotation": [
+          0,
+          0,
+          0,
+          1
+        ]
+      },
+      "visual": {
+        "type": "primitive",
+        "shape": "cylinder",
+        "params": {
+          "radius": 0.023,
+          "height": 1.0500000000000003,
+          "radialSegments": 12
+        },
+        "color": "#465256"
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.023,
+          -0.5250000000000001,
+          -0.023
+        ],
+        "max": [
+          0.023,
+          0.5250000000000001,
+          0.023
+        ]
+      },
+      "layout": {
+        "role": "railing",
+        "purpose": "Balustrade post anchored into slab",
+        "surface": "metal"
+      }
+    },
+    {
+      "id": "arch-gallery-front-post-16",
+      "label": "Balustrade post anchored into slab",
+      "transform": {
+        "space": "world",
+        "position": [
+          4.152631578947368,
+          3.585,
+          -4.31
+        ],
+        "rotation": [
+          0,
+          0,
+          0,
+          1
+        ]
+      },
+      "visual": {
+        "type": "primitive",
+        "shape": "cylinder",
+        "params": {
+          "radius": 0.023,
+          "height": 1.0500000000000003,
+          "radialSegments": 12
+        },
+        "color": "#465256"
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.023,
+          -0.5250000000000001,
+          -0.023
+        ],
+        "max": [
+          0.023,
+          0.5250000000000001,
+          0.023
+        ]
+      },
+      "layout": {
+        "role": "railing",
+        "purpose": "Balustrade post anchored into slab",
+        "surface": "metal"
+      }
+    },
+    {
+      "id": "arch-gallery-front-post-17",
+      "label": "Balustrade post anchored into slab",
+      "transform": {
+        "space": "world",
+        "position": [
+          4.968421052631578,
+          3.585,
+          -4.31
+        ],
+        "rotation": [
+          0,
+          0,
+          0,
+          1
+        ]
+      },
+      "visual": {
+        "type": "primitive",
+        "shape": "cylinder",
+        "params": {
+          "radius": 0.023,
+          "height": 1.0500000000000003,
+          "radialSegments": 12
+        },
+        "color": "#465256"
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.023,
+          -0.5250000000000001,
+          -0.023
+        ],
+        "max": [
+          0.023,
+          0.5250000000000001,
+          0.023
+        ]
+      },
+      "layout": {
+        "role": "railing",
+        "purpose": "Balustrade post anchored into slab",
+        "surface": "metal"
+      }
+    },
+    {
+      "id": "arch-gallery-front-post-18",
+      "label": "Balustrade post anchored into slab",
+      "transform": {
+        "space": "world",
+        "position": [
+          5.784210526315789,
+          3.585,
+          -4.31
+        ],
+        "rotation": [
+          0,
+          0,
+          0,
+          1
+        ]
+      },
+      "visual": {
+        "type": "primitive",
+        "shape": "cylinder",
+        "params": {
+          "radius": 0.023,
+          "height": 1.0500000000000003,
+          "radialSegments": 12
+        },
+        "color": "#465256"
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.023,
+          -0.5250000000000001,
+          -0.023
+        ],
+        "max": [
+          0.023,
+          0.5250000000000001,
+          0.023
+        ]
+      },
+      "layout": {
+        "role": "railing",
+        "purpose": "Balustrade post anchored into slab",
+        "surface": "metal"
+      }
+    },
+    {
+      "id": "arch-gallery-front-post-19",
+      "label": "Balustrade post anchored into slab",
+      "transform": {
+        "space": "world",
+        "position": [
+          6.6,
+          3.585,
+          -4.31
+        ],
+        "rotation": [
+          0,
+          0,
+          0,
+          1
+        ]
+      },
+      "visual": {
+        "type": "primitive",
+        "shape": "cylinder",
+        "params": {
+          "radius": 0.023,
+          "height": 1.0500000000000003,
+          "radialSegments": 12
+        },
+        "color": "#465256"
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.023,
+          -0.5250000000000001,
+          -0.023
+        ],
+        "max": [
+          0.023,
+          0.5250000000000001,
+          0.023
+        ]
+      },
+      "layout": {
+        "role": "railing",
+        "purpose": "Balustrade post anchored into slab",
+        "surface": "metal"
+      }
+    },
+    {
+      "id": "arch-gallery-front-rail-0",
+      "label": "Continuous guardrail",
+      "transform": {
+        "space": "world",
+        "position": [
+          -1.1500000000000004,
+          3.564,
+          -4.31
+        ],
+        "rotation": [
+          0,
+          0,
+          -0.707106781,
+          0.707106781
+        ]
+      },
+      "visual": {
+        "type": "primitive",
+        "shape": "cylinder",
+        "params": {
+          "radius": 0.027,
+          "height": 15.5,
+          "radialSegments": 12
+        },
+        "color": "#b89b54"
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.027,
+          -7.75,
+          -0.027
+        ],
+        "max": [
+          0.027,
+          7.75,
+          0.027
+        ]
+      },
+      "layout": {
+        "role": "railing",
+        "purpose": "Continuous guardrail",
+        "surface": "metal"
+      }
+    },
+    {
+      "id": "arch-gallery-front-rail-1",
+      "label": "Continuous guardrail",
+      "transform": {
+        "space": "world",
+        "position": [
+          -1.1500000000000004,
+          4.11,
+          -4.31
+        ],
+        "rotation": [
+          0,
+          0,
+          -0.707106781,
+          0.707106781
+        ]
+      },
+      "visual": {
+        "type": "primitive",
+        "shape": "cylinder",
+        "params": {
+          "radius": 0.027,
+          "height": 15.5,
+          "radialSegments": 12
+        },
+        "color": "#b89b54"
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.027,
+          -7.75,
+          -0.027
+        ],
+        "max": [
+          0.027,
+          7.75,
+          0.027
+        ]
+      },
+      "layout": {
+        "role": "railing",
+        "purpose": "Continuous guardrail",
+        "surface": "metal"
+      }
+    },
+    {
+      "id": "arch-gallery-front-right-post-0",
+      "label": "Balustrade post anchored into slab",
       "transform": {
         "space": "world",
         "position": [
           8,
+          3.585,
+          -4.31
+        ],
+        "rotation": [
           0,
-          3
+          0,
+          0,
+          1
         ]
       },
       "visual": {
-        "type": "preset",
-        "name": "humanoid",
+        "type": "primitive",
+        "shape": "cylinder",
         "params": {
-          "height": 1.8,
-          "shirtColor": "#bd893d",
-          "trouserColor": "#283341",
-          "color": "#ad805f",
-          "motion": "idle"
-        }
+          "radius": 0.023,
+          "height": 1.0500000000000003,
+          "radialSegments": 12
+        },
+        "color": "#465256"
       },
       "bounds": {
         "type": "box",
         "min": [
-          -0.325,
-          0,
-          -0.25
+          -0.023,
+          -0.5250000000000001,
+          -0.023
         ],
         "max": [
-          0.325,
-          1.8,
-          0.25
+          0.023,
+          0.5250000000000001,
+          0.023
         ]
+      },
+      "layout": {
+        "role": "railing",
+        "purpose": "Balustrade post anchored into slab",
+        "surface": "metal"
       }
     },
     {
-      "id": "set-support-12",
-      "label": "supporting warehouse technician, #bd893d jacket; supporting subject, not the principal actor",
+      "id": "arch-gallery-front-right-post-1",
+      "label": "Balustrade post anchored into slab",
       "transform": {
         "space": "world",
         "position": [
-          -7,
+          8.633333333333333,
+          3.585,
+          -4.31
+        ],
+        "rotation": [
           0,
-          -8
+          0,
+          0,
+          1
         ]
       },
       "visual": {
-        "type": "preset",
-        "name": "humanoid",
+        "type": "primitive",
+        "shape": "cylinder",
         "params": {
-          "height": 1.8,
-          "shirtColor": "#bd893d",
-          "trouserColor": "#283341",
-          "color": "#ad805f",
-          "motion": "idle"
-        }
+          "radius": 0.023,
+          "height": 1.0500000000000003,
+          "radialSegments": 12
+        },
+        "color": "#465256"
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.023,
+          -0.5250000000000001,
+          -0.023
+        ],
+        "max": [
+          0.023,
+          0.5250000000000001,
+          0.023
+        ]
+      },
+      "layout": {
+        "role": "railing",
+        "purpose": "Balustrade post anchored into slab",
+        "surface": "metal"
+      }
+    },
+    {
+      "id": "arch-gallery-front-right-post-2",
+      "label": "Balustrade post anchored into slab",
+      "transform": {
+        "space": "world",
+        "position": [
+          9.266666666666667,
+          3.585,
+          -4.31
+        ],
+        "rotation": [
+          0,
+          0,
+          0,
+          1
+        ]
+      },
+      "visual": {
+        "type": "primitive",
+        "shape": "cylinder",
+        "params": {
+          "radius": 0.023,
+          "height": 1.0500000000000003,
+          "radialSegments": 12
+        },
+        "color": "#465256"
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.023,
+          -0.5250000000000001,
+          -0.023
+        ],
+        "max": [
+          0.023,
+          0.5250000000000001,
+          0.023
+        ]
+      },
+      "layout": {
+        "role": "railing",
+        "purpose": "Balustrade post anchored into slab",
+        "surface": "metal"
+      }
+    },
+    {
+      "id": "arch-gallery-front-right-post-3",
+      "label": "Balustrade post anchored into slab",
+      "transform": {
+        "space": "world",
+        "position": [
+          9.9,
+          3.585,
+          -4.31
+        ],
+        "rotation": [
+          0,
+          0,
+          0,
+          1
+        ]
+      },
+      "visual": {
+        "type": "primitive",
+        "shape": "cylinder",
+        "params": {
+          "radius": 0.023,
+          "height": 1.0500000000000003,
+          "radialSegments": 12
+        },
+        "color": "#465256"
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.023,
+          -0.5250000000000001,
+          -0.023
+        ],
+        "max": [
+          0.023,
+          0.5250000000000001,
+          0.023
+        ]
+      },
+      "layout": {
+        "role": "railing",
+        "purpose": "Balustrade post anchored into slab",
+        "surface": "metal"
+      }
+    },
+    {
+      "id": "arch-gallery-front-right-rail-0",
+      "label": "Continuous guardrail",
+      "transform": {
+        "space": "world",
+        "position": [
+          8.95,
+          3.564,
+          -4.31
+        ],
+        "rotation": [
+          0,
+          0,
+          -0.707106781,
+          0.707106781
+        ]
+      },
+      "visual": {
+        "type": "primitive",
+        "shape": "cylinder",
+        "params": {
+          "radius": 0.027,
+          "height": 1.9000000000000004,
+          "radialSegments": 12
+        },
+        "color": "#b89b54"
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.027,
+          -0.9500000000000002,
+          -0.027
+        ],
+        "max": [
+          0.027,
+          0.9500000000000002,
+          0.027
+        ]
+      },
+      "layout": {
+        "role": "railing",
+        "purpose": "Continuous guardrail",
+        "surface": "metal"
+      }
+    },
+    {
+      "id": "arch-gallery-front-right-rail-1",
+      "label": "Continuous guardrail",
+      "transform": {
+        "space": "world",
+        "position": [
+          8.95,
+          4.11,
+          -4.31
+        ],
+        "rotation": [
+          0,
+          0,
+          -0.707106781,
+          0.707106781
+        ]
+      },
+      "visual": {
+        "type": "primitive",
+        "shape": "cylinder",
+        "params": {
+          "radius": 0.027,
+          "height": 1.9000000000000004,
+          "radialSegments": 12
+        },
+        "color": "#b89b54"
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.027,
+          -0.9500000000000002,
+          -0.027
+        ],
+        "max": [
+          0.027,
+          0.9500000000000002,
+          0.027
+        ]
+      },
+      "layout": {
+        "role": "railing",
+        "purpose": "Continuous guardrail",
+        "surface": "metal"
+      }
+    },
+    {
+      "id": "arch-upper-exit-leaf",
+      "label": "Door leaf in a framed opening",
+      "transform": {
+        "space": "world",
+        "position": [
+          7.3,
+          4.2,
+          -8
+        ],
+        "rotation": [
+          0,
+          0,
+          0,
+          1
+        ]
+      },
+      "visual": {
+        "type": "primitive",
+        "shape": "box",
+        "params": {
+          "size": [
+            1.12,
+            2.25,
+            0.065
+          ]
+        },
+        "color": "#8e6b4f"
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.56,
+          -1.125,
+          -0.0325
+        ],
+        "max": [
+          0.56,
+          1.125,
+          0.0325
+        ]
+      },
+      "layout": {
+        "role": "door",
+        "purpose": "Door leaf in a framed opening",
+        "surface": "wood",
+        "support": "ground"
+      }
+    },
+    {
+      "id": "arch-upper-exit-leaf-handle",
+      "label": "Door lever fixed to leaf",
+      "transform": {
+        "space": "world",
+        "position": [
+          7.692,
+          4.125,
+          -7.945
+        ],
+        "rotation": [
+          0,
+          0,
+          0,
+          1
+        ]
+      },
+      "visual": {
+        "type": "primitive",
+        "shape": "box",
+        "params": {
+          "size": [
+            0.16,
+            0.035,
+            0.045
+          ]
+        },
+        "color": "#465256"
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.08,
+          -0.0175,
+          -0.0225
+        ],
+        "max": [
+          0.08,
+          0.0175,
+          0.0225
+        ]
+      },
+      "layout": {
+        "role": "trim",
+        "purpose": "Door lever fixed to leaf",
+        "surface": "metal",
+        "support": "arch-upper-exit-leaf"
+      }
+    },
+    {
+      "id": "arch-lower-exit-leaf",
+      "label": "Door leaf in a framed opening",
+      "transform": {
+        "space": "world",
+        "position": [
+          -1.8,
+          1.14,
+          -8
+        ],
+        "rotation": [
+          0,
+          0,
+          0,
+          1
+        ]
+      },
+      "visual": {
+        "type": "primitive",
+        "shape": "box",
+        "params": {
+          "size": [
+            1.12,
+            2.25,
+            0.065
+          ]
+        },
+        "color": "#8e6b4f"
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.56,
+          -1.125,
+          -0.0325
+        ],
+        "max": [
+          0.56,
+          1.125,
+          0.0325
+        ]
+      },
+      "layout": {
+        "role": "door",
+        "purpose": "Door leaf in a framed opening",
+        "surface": "wood",
+        "support": "ground"
+      }
+    },
+    {
+      "id": "arch-lower-exit-leaf-handle",
+      "label": "Door lever fixed to leaf",
+      "transform": {
+        "space": "world",
+        "position": [
+          -1.408,
+          1.065,
+          -7.945
+        ],
+        "rotation": [
+          0,
+          0,
+          0,
+          1
+        ]
+      },
+      "visual": {
+        "type": "primitive",
+        "shape": "box",
+        "params": {
+          "size": [
+            0.16,
+            0.035,
+            0.045
+          ]
+        },
+        "color": "#465256"
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.08,
+          -0.0175,
+          -0.0225
+        ],
+        "max": [
+          0.08,
+          0.0175,
+          0.0225
+        ]
+      },
+      "layout": {
+        "role": "trim",
+        "purpose": "Door lever fixed to leaf",
+        "surface": "metal",
+        "support": "arch-lower-exit-leaf"
+      }
+    },
+    {
+      "id": "arch-lower-exit-sign",
+      "label": "Exit sign above functioning ground-floor doorway",
+      "transform": {
+        "space": "world",
+        "position": [
+          -1.8,
+          2.65,
+          -7.82
+        ]
+      },
+      "visual": {
+        "type": "primitive",
+        "shape": "box",
+        "params": {
+          "size": [
+            0.65,
+            0.25,
+            0.075
+          ]
+        },
+        "color": "#54745d"
       },
       "bounds": {
         "type": "box",
         "min": [
           -0.325,
-          0,
-          -0.25
+          -0.125,
+          -0.0375
         ],
         "max": [
           0.325,
-          1.8,
-          0.25
+          0.125,
+          0.0375
         ]
+      },
+      "layout": {
+        "role": "fixture",
+        "purpose": "Exit sign above functioning ground-floor doorway",
+        "surface": "emissive",
+        "support": "lower-exit-head",
+        "sign": "EXIT"
+      }
+    },
+    {
+      "id": "arch-stairwell-light-0-mount",
+      "label": "Ceiling-mounted luminaire housing",
+      "transform": {
+        "space": "world",
+        "position": [
+          -5,
+          8.755,
+          2
+        ]
+      },
+      "visual": {
+        "type": "primitive",
+        "shape": "box",
+        "params": {
+          "size": [
+            1.48,
+            0.09,
+            0.24
+          ]
+        },
+        "color": "#465256"
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.74,
+          -0.045,
+          -0.12
+        ],
+        "max": [
+          0.74,
+          0.045,
+          0.12
+        ]
+      },
+      "layout": {
+        "role": "fixture",
+        "purpose": "Ceiling-mounted luminaire housing",
+        "surface": "metal",
+        "support": "arch-stairwell-ceiling"
+      }
+    },
+    {
+      "id": "arch-stairwell-light-0",
+      "label": "Downward practical ceiling light",
+      "transform": {
+        "space": "world",
+        "position": [
+          -5,
+          8.698,
+          2
+        ]
+      },
+      "visual": {
+        "type": "primitive",
+        "shape": "box",
+        "params": {
+          "size": [
+            1.4,
+            0.025,
+            0.16
+          ]
+        },
+        "color": "#f6deb6"
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.7,
+          -0.0125,
+          -0.08
+        ],
+        "max": [
+          0.7,
+          0.0125,
+          0.08
+        ]
+      },
+      "layout": {
+        "role": "fixture",
+        "purpose": "Downward practical ceiling light",
+        "surface": "emissive",
+        "support": "arch-stairwell-light-0-mount",
+        "light": {
+          "color": "#ffe8c9",
+          "intensity": 90,
+          "distance": 17.6
+        }
+      }
+    },
+    {
+      "id": "arch-stairwell-light-1-mount",
+      "label": "Ceiling-mounted luminaire housing",
+      "transform": {
+        "space": "world",
+        "position": [
+          5,
+          8.755,
+          2
+        ]
+      },
+      "visual": {
+        "type": "primitive",
+        "shape": "box",
+        "params": {
+          "size": [
+            1.48,
+            0.09,
+            0.24
+          ]
+        },
+        "color": "#465256"
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.74,
+          -0.045,
+          -0.12
+        ],
+        "max": [
+          0.74,
+          0.045,
+          0.12
+        ]
+      },
+      "layout": {
+        "role": "fixture",
+        "purpose": "Ceiling-mounted luminaire housing",
+        "surface": "metal",
+        "support": "arch-stairwell-ceiling"
+      }
+    },
+    {
+      "id": "arch-stairwell-light-1",
+      "label": "Downward practical ceiling light",
+      "transform": {
+        "space": "world",
+        "position": [
+          5,
+          8.698,
+          2
+        ]
+      },
+      "visual": {
+        "type": "primitive",
+        "shape": "box",
+        "params": {
+          "size": [
+            1.4,
+            0.025,
+            0.16
+          ]
+        },
+        "color": "#f6deb6"
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.7,
+          -0.0125,
+          -0.08
+        ],
+        "max": [
+          0.7,
+          0.0125,
+          0.08
+        ]
+      },
+      "layout": {
+        "role": "fixture",
+        "purpose": "Downward practical ceiling light",
+        "surface": "emissive",
+        "support": "arch-stairwell-light-1-mount",
+        "light": {
+          "color": "#ffe8c9",
+          "intensity": 90,
+          "distance": 17.6
+        }
+      }
+    },
+    {
+      "id": "arch-stairwell-light-2-mount",
+      "label": "Ceiling-mounted luminaire housing",
+      "transform": {
+        "space": "world",
+        "position": [
+          0,
+          8.755,
+          -6
+        ]
+      },
+      "visual": {
+        "type": "primitive",
+        "shape": "box",
+        "params": {
+          "size": [
+            1.48,
+            0.09,
+            0.24
+          ]
+        },
+        "color": "#465256"
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.74,
+          -0.045,
+          -0.12
+        ],
+        "max": [
+          0.74,
+          0.045,
+          0.12
+        ]
+      },
+      "layout": {
+        "role": "fixture",
+        "purpose": "Ceiling-mounted luminaire housing",
+        "surface": "metal",
+        "support": "arch-stairwell-ceiling"
+      }
+    },
+    {
+      "id": "arch-stairwell-light-2",
+      "label": "Downward practical ceiling light",
+      "transform": {
+        "space": "world",
+        "position": [
+          0,
+          8.698,
+          -6
+        ]
+      },
+      "visual": {
+        "type": "primitive",
+        "shape": "box",
+        "params": {
+          "size": [
+            1.4,
+            0.025,
+            0.16
+          ]
+        },
+        "color": "#f6deb6"
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.7,
+          -0.0125,
+          -0.08
+        ],
+        "max": [
+          0.7,
+          0.0125,
+          0.08
+        ]
+      },
+      "layout": {
+        "role": "fixture",
+        "purpose": "Downward practical ceiling light",
+        "surface": "emissive",
+        "support": "arch-stairwell-light-2-mount",
+        "light": {
+          "color": "#ffe8c9",
+          "intensity": 90,
+          "distance": 17.6
+        }
       }
     }
   ],
@@ -978,63 +6967,6 @@
           1.8,
           0.25
         ]
-      }
-    },
-    {
-      "id": "set-support-10-face",
-      "entityId": "set-support-10",
-      "label": "supporting warehouse technician, #bd893d jacket; supporting subject, not the principal actor face",
-      "localAnchor": [
-        0,
-        1.63,
-        0.12
-      ],
-      "localBounds": {
-        "type": "sphere",
-        "center": [
-          0,
-          1.63,
-          0.12
-        ],
-        "radius": 0.16
-      }
-    },
-    {
-      "id": "set-support-11-face",
-      "entityId": "set-support-11",
-      "label": "supporting warehouse technician, #bd893d jacket; supporting subject, not the principal actor face",
-      "localAnchor": [
-        0,
-        1.63,
-        0.12
-      ],
-      "localBounds": {
-        "type": "sphere",
-        "center": [
-          0,
-          1.63,
-          0.12
-        ],
-        "radius": 0.16
-      }
-    },
-    {
-      "id": "set-support-12-face",
-      "entityId": "set-support-12",
-      "label": "supporting warehouse technician, #bd893d jacket; supporting subject, not the principal actor face",
-      "localAnchor": [
-        0,
-        1.63,
-        0.12
-      ],
-      "localBounds": {
-        "type": "sphere",
-        "center": [
-          0,
-          1.63,
-          0.12
-        ],
-        "radius": 0.16
       }
     }
   ]

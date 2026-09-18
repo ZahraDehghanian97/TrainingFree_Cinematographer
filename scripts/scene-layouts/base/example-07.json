@@ -1,0 +1,134 @@
+{
+  "schemaVersion": "1.0",
+  "kind": "environment",
+  "id": "example-07-spiral-closeup",
+  "promptExampleId": "example-07",
+  "prompt": "A 9-second unbroken spiral toward the principal subject. Begin from a bird’s-eye view. Orbit one full turn (360 degrees) while simultaneously dollying closer and descending toward the eyes. Finish in a close-up of the eyes, not inside the head. The initial high angle is not a constraint on the entire approach. No cut.",
+  "clock": {
+    "durationSeconds": 9,
+    "timeDomain": "playback",
+    "fpsHint": 24
+  },
+  "coordinates": {
+    "handedness": "right",
+    "upAxis": "+Y",
+    "cameraForwardAxis": "-Z",
+    "lengthUnit": "meter",
+    "rotationOrder": "quaternion-xyzw"
+  },
+  "evaluation": {
+    "distanceMetric": "anchorCenter"
+  },
+  "world": {
+    "profile": "studio",
+    "background": "#36383e",
+    "overviewCamera": {
+      "position": [
+        7,
+        7,
+        10
+      ],
+      "target": [
+        0,
+        2.8,
+        0
+      ]
+    },
+    "ground": {
+      "y": 0,
+      "size": [
+        24,
+        24
+      ],
+      "color": "#83766c",
+      "surface": "wood"
+    },
+    "grid": {
+      "size": 24,
+      "divisions": 24
+    }
+  },
+  "entities": [
+    {
+      "id": "subject-entity",
+      "label": "سوژهٔ نمای حلزونی",
+      "transform": {
+        "space": "world",
+        "position": [
+          0,
+          0,
+          0
+        ]
+      },
+      "visual": {
+        "type": "preset",
+        "name": "humanoid",
+        "params": {
+          "color": "#dab28e",
+          "shirtColor": "#2c6375"
+        }
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.45,
+          0,
+          -0.3
+        ],
+        "max": [
+          0.45,
+          1.85,
+          0.3
+        ]
+      }
+    }
+  ],
+  "semanticAnchors": [
+    {
+      "id": "subject",
+      "entityId": "subject-entity",
+      "label": "سوژه",
+      "localAnchor": [
+        0,
+        0.95,
+        0
+      ],
+      "localBounds": {
+        "type": "box",
+        "min": [
+          -0.45,
+          0,
+          -0.3
+        ],
+        "max": [
+          0.45,
+          1.85,
+          0.3
+        ]
+      }
+    },
+    {
+      "id": "subject_eyes",
+      "entityId": "subject-entity",
+      "label": "چشم‌های سوژه",
+      "localAnchor": [
+        0,
+        1.68,
+        0.185
+      ],
+      "localBounds": {
+        "type": "box",
+        "min": [
+          -0.12,
+          1.61,
+          0.13
+        ],
+        "max": [
+          0.12,
+          1.75,
+          0.23
+        ]
+      }
+    }
+  ]
+}

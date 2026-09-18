@@ -11,10 +11,10 @@
   },
   "prompt": "A 7-second alternate corridor take. Approach the half-open door in one restrained handheld dolly, gradually rolling 30 degrees to the left. Finish outside the doorway. Leave the scene clock at normal speed. The distant caretaker is background, not the framing target.",
   "promptSha256": "29dd566e54aa246e3f7231f6b54d3efe99287cda5653b35c41039833a0e6dee9",
-  "environmentSha256": "34ddacec4945ef57f476db3e111747b944664210770b2dc5adc37318a427e438",
+  "environmentSha256": "ff0d44684f93e588ebdae745393f39f806aae62c7a0a5d8b7e0308d1987d4bb2",
   "cslSha256": "f59d2662b8034f0b3706346032a07c0d3cef93119b1ba147acd81cdcad4c5276",
   "recipeSha256": "07d7c849130709ec16ff988d881244520cc6b30f58d6332b9d978ea466f8b8f5",
-  "trajectorySha256": "d1f3de9b30861afc9680090b862c4af2b26e80690e74cc0781ecec572036806e",
+  "trajectorySha256": "1e463f317395fb642818760dba7bb0031a03133f0abf92c72a2d449a5c073e4d",
   "fullPoseIsGroundTruth": false,
   "artisticChoices": [
     "Unrequested rig offsets, radii, lens choices and smoothstep pacing are authored illustration choices, not inferred user constraints.",

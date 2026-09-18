@@ -11,7 +11,7 @@
   },
   "prompt": "A 15-second tracking shot on the dressed test road. Track the principal car for exactly 2 seconds. For the remaining 13 seconds, arc 90 degrees to the right around the moving car while simultaneously zooming optically toward the driver. Finish with the driver as the visual emphasis. No cut; camera travel is not a request to change scene speed.",
   "promptSha256": "98a98fc68a95645c605e3d0412ff15a3188bb95e091c0c0beab4a2320e3d5ac8",
-  "environmentSha256": "a3041fef6d0f4f6b29a3a6387bfd5e085f3e0fa21c149f5428da9909fddcbffe",
+  "environmentSha256": "c7ad9f26c95ed7ff4fbf481c5fad6dd433e12a0aa6a4cb0bf26e05421d8f7876",
   "cslSha256": "45232c479703cf98ddc8e0da257dac8b81f4b52e01729733e417e563c8e470ee",
   "recipeSha256": "208db0179eaff447a3f36091d55f3da8476f4551905d176b299d7f3e3d8d5de6",
   "trajectorySha256": "b6e7fadfc451983c7f2d07935404326eb842c143833f3117786b03bea3ce398e",

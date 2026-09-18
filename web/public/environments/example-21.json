@@ -25,28 +25,27 @@
     "background": "#bdc2c8",
     "overviewCamera": {
       "position": [
-        5,
-        6,
-        9
+        22,
+        17,
+        26
       ],
       "target": [
         0,
-        1,
-        -1
+        -1,
+        0
       ]
     },
     "ground": {
       "y": 0,
       "size": [
-        16,
-        26
+        17,
+        29
       ],
       "color": "#858383",
-      "surface": "concrete"
-    },
-    "grid": {
-      "size": 16,
-      "divisions": 16
+      "surface": "concrete",
+      "continuation": "none",
+      "details": "authored",
+      "render": false
     }
   },
   "entities": [
@@ -155,6 +154,10 @@
           1.75,
           0.25
         ]
+      },
+      "layout": {
+        "role": "subject",
+        "purpose": "دونده"
       }
     },
     {
@@ -262,6 +265,10 @@
           1.75,
           0.25
         ]
+      },
+      "layout": {
+        "role": "subject",
+        "purpose": "تعقیب‌کننده"
       }
     },
     {
@@ -270,8 +277,8 @@
       "transform": {
         "space": "world",
         "position": [
-          -1.4,
-          0,
+          -3.2,
+          0.16,
           2
         ]
       },
@@ -291,6 +298,11 @@
           1.465,
           0.71
         ]
+      },
+      "layout": {
+        "role": "prop",
+        "purpose": "Roof HVAC unit on vibration-isolated plinth",
+        "support": "arch-ac-plinth"
       }
     },
     {
@@ -300,7 +312,7 @@
         "space": "world",
         "position": [
           1.8,
-          0,
+          1,
           -2.5
         ]
       },
@@ -328,248 +340,6515 @@
           1,
           0.15
         ]
+      },
+      "layout": {
+        "role": "prop",
+        "purpose": "Vent stack rooted at roof surface, not buried through it",
+        "support": "ground"
       }
     },
     {
-      "id": "set-rooftop-hvac-00",
-      "label": "rooftop hvac",
+      "id": "arch-building-north-end",
+      "label": "Continuous enclosure wall",
       "transform": {
         "space": "world",
         "position": [
-          -6,
           0,
-          -9
+          -4.5,
+          -14.5
         ]
       },
       "visual": {
-        "type": "model",
-        "url": "/models/generated/rooftop-hvac.glb",
-        "fallback": {
-          "type": "primitive",
-          "shape": "box",
-          "params": {
-            "width": 1.95,
-            "height": 0.2,
-            "depth": 0.3
-          },
-          "color": "#717c87"
-        }
+        "type": "primitive",
+        "shape": "box",
+        "params": {
+          "size": [
+            17.22,
+            9,
+            0.22
+          ]
+        },
+        "color": "#96988d"
       },
       "bounds": {
         "type": "box",
         "min": [
-          -0.975,
-          0,
-          -0.71
+          -8.61,
+          -4.5,
+          -0.11
         ],
         "max": [
-          0.975,
-          1.465,
-          0.71
+          8.61,
+          4.5,
+          0.11
         ]
+      },
+      "layout": {
+        "role": "wall",
+        "purpose": "Continuous enclosure wall",
+        "surface": "plaster",
+        "support": "ground"
       }
     },
     {
-      "id": "set-rooftop-hvac-01",
-      "label": "rooftop hvac",
+      "id": "arch-building-north-skirting-0",
+      "label": "Wall base/skirting",
       "transform": {
         "space": "world",
         "position": [
-          6,
           0,
-          -9
+          -8.935,
+          -14.5
         ]
       },
       "visual": {
-        "type": "model",
-        "url": "/models/generated/rooftop-hvac.glb",
-        "fallback": {
-          "type": "primitive",
-          "shape": "box",
-          "params": {
-            "width": 1.95,
-            "height": 0.2,
-            "depth": 0.3
-          },
-          "color": "#717c87"
-        }
+        "type": "primitive",
+        "shape": "box",
+        "params": {
+          "size": [
+            17.22,
+            0.13,
+            0.255
+          ]
+        },
+        "color": "#8e6b4f"
       },
       "bounds": {
         "type": "box",
         "min": [
-          -0.975,
-          0,
-          -0.71
+          -8.61,
+          -0.065,
+          -0.1275
         ],
         "max": [
-          0.975,
-          1.465,
-          0.71
+          8.61,
+          0.065,
+          0.1275
         ]
+      },
+      "layout": {
+        "role": "trim",
+        "purpose": "Wall base/skirting",
+        "surface": "wood",
+        "support": "arch-building-north-end"
       }
     },
     {
-      "id": "set-rooftop-hvac-02",
-      "label": "rooftop hvac",
+      "id": "arch-building-south-panel-0",
+      "label": "Continuous enclosure wall",
       "transform": {
         "space": "world",
         "position": [
-          -6,
-          0,
-          8
+          -6.305,
+          -4.5,
+          14.5
         ]
       },
       "visual": {
-        "type": "model",
-        "url": "/models/generated/rooftop-hvac.glb",
-        "fallback": {
-          "type": "primitive",
-          "shape": "box",
-          "params": {
-            "width": 1.95,
-            "height": 0.2,
-            "depth": 0.3
-          },
-          "color": "#717c87"
-        }
+        "type": "primitive",
+        "shape": "box",
+        "params": {
+          "size": [
+            4.609999999999999,
+            9,
+            0.22
+          ]
+        },
+        "color": "#96988d"
       },
       "bounds": {
         "type": "box",
         "min": [
-          -0.975,
-          0,
-          -0.71
+          -2.3049999999999997,
+          -4.5,
+          -0.11
         ],
         "max": [
-          0.975,
-          1.465,
-          0.71
+          2.3049999999999997,
+          4.5,
+          0.11
         ]
+      },
+      "layout": {
+        "role": "wall",
+        "purpose": "Continuous enclosure wall",
+        "surface": "plaster",
+        "support": "ground"
       }
     },
     {
-      "id": "set-rooftop-hvac-03",
-      "label": "rooftop hvac",
+      "id": "arch-building-south-facade-window-sill-wall",
+      "label": "Continuous enclosure wall",
       "transform": {
         "space": "world",
         "position": [
-          6,
           0,
-          8
+          -7.95,
+          14.5
         ]
       },
       "visual": {
-        "type": "model",
-        "url": "/models/generated/rooftop-hvac.glb",
-        "fallback": {
-          "type": "primitive",
-          "shape": "box",
-          "params": {
-            "width": 1.95,
-            "height": 0.2,
-            "depth": 0.3
-          },
-          "color": "#717c87"
-        }
+        "type": "primitive",
+        "shape": "box",
+        "params": {
+          "size": [
+            8,
+            2.0999999999999996,
+            0.22
+          ]
+        },
+        "color": "#96988d"
       },
       "bounds": {
         "type": "box",
         "min": [
-          -0.975,
-          0,
-          -0.71
+          -4,
+          -1.0499999999999998,
+          -0.11
         ],
         "max": [
-          0.975,
-          1.465,
-          0.71
+          4,
+          1.0499999999999998,
+          0.11
+        ]
+      },
+      "layout": {
+        "role": "wall",
+        "purpose": "Continuous enclosure wall",
+        "surface": "plaster",
+        "support": "ground"
+      }
+    },
+    {
+      "id": "arch-building-south-facade-window-lintel",
+      "label": "Continuous enclosure wall",
+      "transform": {
+        "space": "world",
+        "position": [
+          0,
+          -2.45,
+          14.5
+        ]
+      },
+      "visual": {
+        "type": "primitive",
+        "shape": "box",
+        "params": {
+          "size": [
+            8,
+            4.9,
+            0.22
+          ]
+        },
+        "color": "#96988d"
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -4,
+          -2.45,
+          -0.11
+        ],
+        "max": [
+          4,
+          2.45,
+          0.11
+        ]
+      },
+      "layout": {
+        "role": "wall",
+        "purpose": "Continuous enclosure wall",
+        "surface": "plaster",
+        "support": "ground"
+      }
+    },
+    {
+      "id": "facade-window-jamb-left",
+      "label": "Window jamb seated on wall opening",
+      "transform": {
+        "space": "world",
+        "position": [
+          -4.035,
+          -5.9,
+          14.5
+        ]
+      },
+      "visual": {
+        "type": "primitive",
+        "shape": "box",
+        "params": {
+          "size": [
+            0.07,
+            2.12,
+            0.3
+          ]
+        },
+        "color": "#8e6b4f"
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.035,
+          -1.06,
+          -0.15
+        ],
+        "max": [
+          0.035,
+          1.06,
+          0.15
+        ]
+      },
+      "layout": {
+        "role": "trim",
+        "purpose": "Window jamb seated on wall opening",
+        "surface": "wood",
+        "support": "arch-building-south-panel-0",
+        "cutaway": "wall",
+        "outwardNormal": [
+          0,
+          0,
+          1
         ]
       }
     },
     {
-      "id": "set-crate-stack-04",
-      "label": "crate stack",
+      "id": "facade-window-jamb-right",
+      "label": "Window jamb seated on wall opening",
       "transform": {
         "space": "world",
         "position": [
-          -6,
+          4.035,
+          -5.9,
+          14.5
+        ]
+      },
+      "visual": {
+        "type": "primitive",
+        "shape": "box",
+        "params": {
+          "size": [
+            0.07,
+            2.12,
+            0.3
+          ]
+        },
+        "color": "#8e6b4f"
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.035,
+          -1.06,
+          -0.15
+        ],
+        "max": [
+          0.035,
+          1.06,
+          0.15
+        ]
+      },
+      "layout": {
+        "role": "trim",
+        "purpose": "Window jamb seated on wall opening",
+        "surface": "wood",
+        "support": "arch-building-south-panel-0",
+        "cutaway": "wall",
+        "outwardNormal": [
           0,
+          0,
+          1
+        ]
+      }
+    },
+    {
+      "id": "facade-window-head",
+      "label": "Window lintel trim",
+      "transform": {
+        "space": "world",
+        "position": [
+          0,
+          -4.865,
+          14.5
+        ]
+      },
+      "visual": {
+        "type": "primitive",
+        "shape": "box",
+        "params": {
+          "size": [
+            8.14,
+            0.07,
+            0.3
+          ]
+        },
+        "color": "#8e6b4f"
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -4.07,
+          -0.035,
+          -0.15
+        ],
+        "max": [
+          4.07,
+          0.035,
+          0.15
+        ]
+      },
+      "layout": {
+        "role": "trim",
+        "purpose": "Window lintel trim",
+        "surface": "wood",
+        "support": "arch-building-south-panel-0",
+        "cutaway": "wall",
+        "outwardNormal": [
+          0,
+          0,
+          1
+        ]
+      }
+    },
+    {
+      "id": "facade-window-sill",
+      "label": "Window sill",
+      "transform": {
+        "space": "world",
+        "position": [
+          0,
+          -6.875,
+          14.5
+        ]
+      },
+      "visual": {
+        "type": "primitive",
+        "shape": "box",
+        "params": {
+          "size": [
+            8.18,
+            0.05,
+            0.4
+          ]
+        },
+        "color": "#8e6b4f"
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -4.09,
+          -0.025,
+          -0.2
+        ],
+        "max": [
+          4.09,
+          0.025,
+          0.2
+        ]
+      },
+      "layout": {
+        "role": "trim",
+        "purpose": "Window sill",
+        "surface": "wood",
+        "support": "arch-building-south-panel-0",
+        "cutaway": "wall",
+        "outwardNormal": [
+          0,
+          0,
+          1
+        ]
+      }
+    },
+    {
+      "id": "facade-window-glass",
+      "label": "Glazed window in a real wall opening",
+      "transform": {
+        "space": "world",
+        "position": [
+          0,
+          -5.9,
+          14.5
+        ]
+      },
+      "visual": {
+        "type": "primitive",
+        "shape": "box",
+        "params": {
+          "size": [
+            7.94,
+            1.94,
+            0.015
+          ]
+        },
+        "color": "#bad3d1"
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -3.97,
+          -0.97,
+          -0.0075
+        ],
+        "max": [
+          3.97,
+          0.97,
+          0.0075
+        ]
+      },
+      "layout": {
+        "role": "window",
+        "purpose": "Glazed window in a real wall opening",
+        "surface": "glass",
+        "support": "arch-building-south-panel-0",
+        "cutaway": "wall",
+        "outwardNormal": [
+          0,
+          0,
+          1
+        ]
+      },
+      "occlusion": {
+        "transparent": true
+      }
+    },
+    {
+      "id": "facade-window-mullion-1",
+      "label": "Window mullion",
+      "transform": {
+        "space": "world",
+        "position": [
+          -3,
+          -5.9,
+          14.5
+        ]
+      },
+      "visual": {
+        "type": "primitive",
+        "shape": "box",
+        "params": {
+          "size": [
+            0.045,
+            2,
+            0.08
+          ]
+        },
+        "color": "#465256"
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.0225,
+          -1,
+          -0.04
+        ],
+        "max": [
+          0.0225,
+          1,
+          0.04
+        ]
+      },
+      "layout": {
+        "role": "trim",
+        "purpose": "Window mullion",
+        "surface": "metal",
+        "support": "arch-building-south-panel-0",
+        "cutaway": "wall",
+        "outwardNormal": [
+          0,
+          0,
+          1
+        ]
+      }
+    },
+    {
+      "id": "facade-window-mullion-2",
+      "label": "Window mullion",
+      "transform": {
+        "space": "world",
+        "position": [
+          -2,
+          -5.9,
+          14.5
+        ]
+      },
+      "visual": {
+        "type": "primitive",
+        "shape": "box",
+        "params": {
+          "size": [
+            0.045,
+            2,
+            0.08
+          ]
+        },
+        "color": "#465256"
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.0225,
+          -1,
+          -0.04
+        ],
+        "max": [
+          0.0225,
+          1,
+          0.04
+        ]
+      },
+      "layout": {
+        "role": "trim",
+        "purpose": "Window mullion",
+        "surface": "metal",
+        "support": "arch-building-south-panel-0",
+        "cutaway": "wall",
+        "outwardNormal": [
+          0,
+          0,
+          1
+        ]
+      }
+    },
+    {
+      "id": "facade-window-mullion-3",
+      "label": "Window mullion",
+      "transform": {
+        "space": "world",
+        "position": [
+          -1,
+          -5.9,
+          14.5
+        ]
+      },
+      "visual": {
+        "type": "primitive",
+        "shape": "box",
+        "params": {
+          "size": [
+            0.045,
+            2,
+            0.08
+          ]
+        },
+        "color": "#465256"
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.0225,
+          -1,
+          -0.04
+        ],
+        "max": [
+          0.0225,
+          1,
+          0.04
+        ]
+      },
+      "layout": {
+        "role": "trim",
+        "purpose": "Window mullion",
+        "surface": "metal",
+        "support": "arch-building-south-panel-0",
+        "cutaway": "wall",
+        "outwardNormal": [
+          0,
+          0,
+          1
+        ]
+      }
+    },
+    {
+      "id": "facade-window-mullion-4",
+      "label": "Window mullion",
+      "transform": {
+        "space": "world",
+        "position": [
+          0,
+          -5.9,
+          14.5
+        ]
+      },
+      "visual": {
+        "type": "primitive",
+        "shape": "box",
+        "params": {
+          "size": [
+            0.045,
+            2,
+            0.08
+          ]
+        },
+        "color": "#465256"
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.0225,
+          -1,
+          -0.04
+        ],
+        "max": [
+          0.0225,
+          1,
+          0.04
+        ]
+      },
+      "layout": {
+        "role": "trim",
+        "purpose": "Window mullion",
+        "surface": "metal",
+        "support": "arch-building-south-panel-0",
+        "cutaway": "wall",
+        "outwardNormal": [
+          0,
+          0,
+          1
+        ]
+      }
+    },
+    {
+      "id": "facade-window-mullion-5",
+      "label": "Window mullion",
+      "transform": {
+        "space": "world",
+        "position": [
+          1,
+          -5.9,
+          14.5
+        ]
+      },
+      "visual": {
+        "type": "primitive",
+        "shape": "box",
+        "params": {
+          "size": [
+            0.045,
+            2,
+            0.08
+          ]
+        },
+        "color": "#465256"
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.0225,
+          -1,
+          -0.04
+        ],
+        "max": [
+          0.0225,
+          1,
+          0.04
+        ]
+      },
+      "layout": {
+        "role": "trim",
+        "purpose": "Window mullion",
+        "surface": "metal",
+        "support": "arch-building-south-panel-0",
+        "cutaway": "wall",
+        "outwardNormal": [
+          0,
+          0,
+          1
+        ]
+      }
+    },
+    {
+      "id": "facade-window-mullion-6",
+      "label": "Window mullion",
+      "transform": {
+        "space": "world",
+        "position": [
+          2,
+          -5.9,
+          14.5
+        ]
+      },
+      "visual": {
+        "type": "primitive",
+        "shape": "box",
+        "params": {
+          "size": [
+            0.045,
+            2,
+            0.08
+          ]
+        },
+        "color": "#465256"
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.0225,
+          -1,
+          -0.04
+        ],
+        "max": [
+          0.0225,
+          1,
+          0.04
+        ]
+      },
+      "layout": {
+        "role": "trim",
+        "purpose": "Window mullion",
+        "surface": "metal",
+        "support": "arch-building-south-panel-0",
+        "cutaway": "wall",
+        "outwardNormal": [
+          0,
+          0,
+          1
+        ]
+      }
+    },
+    {
+      "id": "facade-window-mullion-7",
+      "label": "Window mullion",
+      "transform": {
+        "space": "world",
+        "position": [
+          3,
+          -5.9,
+          14.5
+        ]
+      },
+      "visual": {
+        "type": "primitive",
+        "shape": "box",
+        "params": {
+          "size": [
+            0.045,
+            2,
+            0.08
+          ]
+        },
+        "color": "#465256"
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.0225,
+          -1,
+          -0.04
+        ],
+        "max": [
+          0.0225,
+          1,
+          0.04
+        ]
+      },
+      "layout": {
+        "role": "trim",
+        "purpose": "Window mullion",
+        "surface": "metal",
+        "support": "arch-building-south-panel-0",
+        "cutaway": "wall",
+        "outwardNormal": [
+          0,
+          0,
+          1
+        ]
+      }
+    },
+    {
+      "id": "arch-building-south-end",
+      "label": "Continuous enclosure wall",
+      "transform": {
+        "space": "world",
+        "position": [
+          6.305,
+          -4.5,
+          14.5
+        ]
+      },
+      "visual": {
+        "type": "primitive",
+        "shape": "box",
+        "params": {
+          "size": [
+            4.609999999999999,
+            9,
+            0.22
+          ]
+        },
+        "color": "#96988d"
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -2.3049999999999997,
+          -4.5,
+          -0.11
+        ],
+        "max": [
+          2.3049999999999997,
+          4.5,
+          0.11
+        ]
+      },
+      "layout": {
+        "role": "wall",
+        "purpose": "Continuous enclosure wall",
+        "surface": "plaster",
+        "support": "ground"
+      }
+    },
+    {
+      "id": "arch-building-south-skirting-0",
+      "label": "Wall base/skirting",
+      "transform": {
+        "space": "world",
+        "position": [
+          0,
+          -8.935,
+          14.5
+        ]
+      },
+      "visual": {
+        "type": "primitive",
+        "shape": "box",
+        "params": {
+          "size": [
+            17.22,
+            0.13,
+            0.255
+          ]
+        },
+        "color": "#8e6b4f"
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -8.61,
+          -0.065,
+          -0.1275
+        ],
+        "max": [
+          8.61,
+          0.065,
+          0.1275
+        ]
+      },
+      "layout": {
+        "role": "trim",
+        "purpose": "Wall base/skirting",
+        "surface": "wood",
+        "support": "arch-building-south-panel-0"
+      }
+    },
+    {
+      "id": "arch-building-west-end",
+      "label": "Continuous enclosure wall",
+      "transform": {
+        "space": "world",
+        "position": [
+          -8.5,
+          -4.5,
+          0
+        ]
+      },
+      "visual": {
+        "type": "primitive",
+        "shape": "box",
+        "params": {
+          "size": [
+            0.22,
+            9,
+            29.22
+          ]
+        },
+        "color": "#96988d"
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.11,
+          -4.5,
+          -14.61
+        ],
+        "max": [
+          0.11,
+          4.5,
+          14.61
+        ]
+      },
+      "layout": {
+        "role": "wall",
+        "purpose": "Continuous enclosure wall",
+        "surface": "plaster",
+        "support": "ground"
+      }
+    },
+    {
+      "id": "arch-building-west-skirting-0",
+      "label": "Wall base/skirting",
+      "transform": {
+        "space": "world",
+        "position": [
+          -8.5,
+          -8.935,
+          0
+        ]
+      },
+      "visual": {
+        "type": "primitive",
+        "shape": "box",
+        "params": {
+          "size": [
+            0.255,
+            0.13,
+            29.22
+          ]
+        },
+        "color": "#8e6b4f"
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.1275,
+          -0.065,
+          -14.61
+        ],
+        "max": [
+          0.1275,
+          0.065,
+          14.61
+        ]
+      },
+      "layout": {
+        "role": "trim",
+        "purpose": "Wall base/skirting",
+        "surface": "wood",
+        "support": "arch-building-west-end"
+      }
+    },
+    {
+      "id": "arch-building-east-panel-0",
+      "label": "Continuous enclosure wall",
+      "transform": {
+        "space": "world",
+        "position": [
+          8.5,
+          -4.5,
+          -9.305
+        ]
+      },
+      "visual": {
+        "type": "primitive",
+        "shape": "box",
+        "params": {
+          "size": [
+            0.22,
+            9,
+            10.61
+          ]
+        },
+        "color": "#96988d"
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.11,
+          -4.5,
+          -5.305
+        ],
+        "max": [
+          0.11,
+          4.5,
+          5.305
+        ]
+      },
+      "layout": {
+        "role": "wall",
+        "purpose": "Continuous enclosure wall",
+        "surface": "plaster",
+        "support": "ground"
+      }
+    },
+    {
+      "id": "arch-building-east-east-facade-window-sill-wall",
+      "label": "Continuous enclosure wall",
+      "transform": {
+        "space": "world",
+        "position": [
+          8.5,
+          -7.95,
+          1
+        ]
+      },
+      "visual": {
+        "type": "primitive",
+        "shape": "box",
+        "params": {
+          "size": [
+            0.22,
+            2.0999999999999996,
+            10
+          ]
+        },
+        "color": "#96988d"
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.11,
+          -1.0499999999999998,
+          -5
+        ],
+        "max": [
+          0.11,
+          1.0499999999999998,
+          5
+        ]
+      },
+      "layout": {
+        "role": "wall",
+        "purpose": "Continuous enclosure wall",
+        "surface": "plaster",
+        "support": "ground"
+      }
+    },
+    {
+      "id": "arch-building-east-east-facade-window-lintel",
+      "label": "Continuous enclosure wall",
+      "transform": {
+        "space": "world",
+        "position": [
+          8.5,
+          -2.45,
+          1
+        ]
+      },
+      "visual": {
+        "type": "primitive",
+        "shape": "box",
+        "params": {
+          "size": [
+            0.22,
+            4.9,
+            10
+          ]
+        },
+        "color": "#96988d"
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.11,
+          -2.45,
+          -5
+        ],
+        "max": [
+          0.11,
+          2.45,
+          5
+        ]
+      },
+      "layout": {
+        "role": "wall",
+        "purpose": "Continuous enclosure wall",
+        "surface": "plaster",
+        "support": "ground"
+      }
+    },
+    {
+      "id": "east-facade-window-jamb-left",
+      "label": "Window jamb seated on wall opening",
+      "transform": {
+        "space": "world",
+        "position": [
+          8.5,
+          -5.9,
+          -4.035
+        ]
+      },
+      "visual": {
+        "type": "primitive",
+        "shape": "box",
+        "params": {
+          "size": [
+            0.3,
+            2.12,
+            0.07
+          ]
+        },
+        "color": "#8e6b4f"
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.15,
+          -1.06,
+          -0.035
+        ],
+        "max": [
+          0.15,
+          1.06,
+          0.035
+        ]
+      },
+      "layout": {
+        "role": "trim",
+        "purpose": "Window jamb seated on wall opening",
+        "surface": "wood",
+        "support": "arch-building-east-panel-0",
+        "cutaway": "wall",
+        "outwardNormal": [
+          1,
+          0,
+          0
+        ]
+      }
+    },
+    {
+      "id": "east-facade-window-jamb-right",
+      "label": "Window jamb seated on wall opening",
+      "transform": {
+        "space": "world",
+        "position": [
+          8.5,
+          -5.9,
+          6.035
+        ]
+      },
+      "visual": {
+        "type": "primitive",
+        "shape": "box",
+        "params": {
+          "size": [
+            0.3,
+            2.12,
+            0.07
+          ]
+        },
+        "color": "#8e6b4f"
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.15,
+          -1.06,
+          -0.035
+        ],
+        "max": [
+          0.15,
+          1.06,
+          0.035
+        ]
+      },
+      "layout": {
+        "role": "trim",
+        "purpose": "Window jamb seated on wall opening",
+        "surface": "wood",
+        "support": "arch-building-east-panel-0",
+        "cutaway": "wall",
+        "outwardNormal": [
+          1,
+          0,
+          0
+        ]
+      }
+    },
+    {
+      "id": "east-facade-window-head",
+      "label": "Window lintel trim",
+      "transform": {
+        "space": "world",
+        "position": [
+          8.5,
+          -4.865,
+          1
+        ]
+      },
+      "visual": {
+        "type": "primitive",
+        "shape": "box",
+        "params": {
+          "size": [
+            0.3,
+            0.07,
+            10.14
+          ]
+        },
+        "color": "#8e6b4f"
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.15,
+          -0.035,
+          -5.07
+        ],
+        "max": [
+          0.15,
+          0.035,
+          5.07
+        ]
+      },
+      "layout": {
+        "role": "trim",
+        "purpose": "Window lintel trim",
+        "surface": "wood",
+        "support": "arch-building-east-panel-0",
+        "cutaway": "wall",
+        "outwardNormal": [
+          1,
+          0,
+          0
+        ]
+      }
+    },
+    {
+      "id": "east-facade-window-sill",
+      "label": "Window sill",
+      "transform": {
+        "space": "world",
+        "position": [
+          8.5,
+          -6.875,
+          1
+        ]
+      },
+      "visual": {
+        "type": "primitive",
+        "shape": "box",
+        "params": {
+          "size": [
+            0.4,
+            0.05,
+            10.18
+          ]
+        },
+        "color": "#8e6b4f"
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.2,
+          -0.025,
+          -5.09
+        ],
+        "max": [
+          0.2,
+          0.025,
+          5.09
+        ]
+      },
+      "layout": {
+        "role": "trim",
+        "purpose": "Window sill",
+        "surface": "wood",
+        "support": "arch-building-east-panel-0",
+        "cutaway": "wall",
+        "outwardNormal": [
+          1,
+          0,
+          0
+        ]
+      }
+    },
+    {
+      "id": "east-facade-window-glass",
+      "label": "Glazed window in a real wall opening",
+      "transform": {
+        "space": "world",
+        "position": [
+          8.5,
+          -5.9,
+          1
+        ]
+      },
+      "visual": {
+        "type": "primitive",
+        "shape": "box",
+        "params": {
+          "size": [
+            0.015,
+            1.94,
+            9.94
+          ]
+        },
+        "color": "#bad3d1"
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.0075,
+          -0.97,
+          -4.97
+        ],
+        "max": [
+          0.0075,
+          0.97,
+          4.97
+        ]
+      },
+      "layout": {
+        "role": "window",
+        "purpose": "Glazed window in a real wall opening",
+        "surface": "glass",
+        "support": "arch-building-east-panel-0",
+        "cutaway": "wall",
+        "outwardNormal": [
+          1,
+          0,
+          0
+        ]
+      },
+      "occlusion": {
+        "transparent": true
+      }
+    },
+    {
+      "id": "east-facade-window-mullion-1",
+      "label": "Window mullion",
+      "transform": {
+        "space": "world",
+        "position": [
+          8.5,
+          -5.9,
+          -3
+        ]
+      },
+      "visual": {
+        "type": "primitive",
+        "shape": "box",
+        "params": {
+          "size": [
+            0.08,
+            2,
+            0.045
+          ]
+        },
+        "color": "#465256"
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.04,
+          -1,
+          -0.0225
+        ],
+        "max": [
+          0.04,
+          1,
+          0.0225
+        ]
+      },
+      "layout": {
+        "role": "trim",
+        "purpose": "Window mullion",
+        "surface": "metal",
+        "support": "arch-building-east-panel-0",
+        "cutaway": "wall",
+        "outwardNormal": [
+          1,
+          0,
+          0
+        ]
+      }
+    },
+    {
+      "id": "east-facade-window-mullion-2",
+      "label": "Window mullion",
+      "transform": {
+        "space": "world",
+        "position": [
+          8.5,
+          -5.9,
+          -2
+        ]
+      },
+      "visual": {
+        "type": "primitive",
+        "shape": "box",
+        "params": {
+          "size": [
+            0.08,
+            2,
+            0.045
+          ]
+        },
+        "color": "#465256"
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.04,
+          -1,
+          -0.0225
+        ],
+        "max": [
+          0.04,
+          1,
+          0.0225
+        ]
+      },
+      "layout": {
+        "role": "trim",
+        "purpose": "Window mullion",
+        "surface": "metal",
+        "support": "arch-building-east-panel-0",
+        "cutaway": "wall",
+        "outwardNormal": [
+          1,
+          0,
+          0
+        ]
+      }
+    },
+    {
+      "id": "east-facade-window-mullion-3",
+      "label": "Window mullion",
+      "transform": {
+        "space": "world",
+        "position": [
+          8.5,
+          -5.9,
+          -1
+        ]
+      },
+      "visual": {
+        "type": "primitive",
+        "shape": "box",
+        "params": {
+          "size": [
+            0.08,
+            2,
+            0.045
+          ]
+        },
+        "color": "#465256"
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.04,
+          -1,
+          -0.0225
+        ],
+        "max": [
+          0.04,
+          1,
+          0.0225
+        ]
+      },
+      "layout": {
+        "role": "trim",
+        "purpose": "Window mullion",
+        "surface": "metal",
+        "support": "arch-building-east-panel-0",
+        "cutaway": "wall",
+        "outwardNormal": [
+          1,
+          0,
+          0
+        ]
+      }
+    },
+    {
+      "id": "east-facade-window-mullion-4",
+      "label": "Window mullion",
+      "transform": {
+        "space": "world",
+        "position": [
+          8.5,
+          -5.9,
+          0
+        ]
+      },
+      "visual": {
+        "type": "primitive",
+        "shape": "box",
+        "params": {
+          "size": [
+            0.08,
+            2,
+            0.045
+          ]
+        },
+        "color": "#465256"
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.04,
+          -1,
+          -0.0225
+        ],
+        "max": [
+          0.04,
+          1,
+          0.0225
+        ]
+      },
+      "layout": {
+        "role": "trim",
+        "purpose": "Window mullion",
+        "surface": "metal",
+        "support": "arch-building-east-panel-0",
+        "cutaway": "wall",
+        "outwardNormal": [
+          1,
+          0,
+          0
+        ]
+      }
+    },
+    {
+      "id": "east-facade-window-mullion-5",
+      "label": "Window mullion",
+      "transform": {
+        "space": "world",
+        "position": [
+          8.5,
+          -5.9,
+          1
+        ]
+      },
+      "visual": {
+        "type": "primitive",
+        "shape": "box",
+        "params": {
+          "size": [
+            0.08,
+            2,
+            0.045
+          ]
+        },
+        "color": "#465256"
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.04,
+          -1,
+          -0.0225
+        ],
+        "max": [
+          0.04,
+          1,
+          0.0225
+        ]
+      },
+      "layout": {
+        "role": "trim",
+        "purpose": "Window mullion",
+        "surface": "metal",
+        "support": "arch-building-east-panel-0",
+        "cutaway": "wall",
+        "outwardNormal": [
+          1,
+          0,
+          0
+        ]
+      }
+    },
+    {
+      "id": "east-facade-window-mullion-6",
+      "label": "Window mullion",
+      "transform": {
+        "space": "world",
+        "position": [
+          8.5,
+          -5.9,
           2
         ]
       },
       "visual": {
-        "type": "model",
-        "url": "/models/generated/crate-stack.glb",
-        "fallback": {
-          "type": "primitive",
-          "shape": "box",
-          "params": {
-            "width": 1.9,
-            "height": 0.2,
-            "depth": 0.3
-          },
-          "color": "#717c87"
-        }
+        "type": "primitive",
+        "shape": "box",
+        "params": {
+          "size": [
+            0.08,
+            2,
+            0.045
+          ]
+        },
+        "color": "#465256"
       },
       "bounds": {
         "type": "box",
         "min": [
-          -0.95,
-          0,
-          -0.6
+          -0.04,
+          -1,
+          -0.0225
         ],
         "max": [
-          0.95,
-          1.725,
-          0.6
+          0.04,
+          1,
+          0.0225
+        ]
+      },
+      "layout": {
+        "role": "trim",
+        "purpose": "Window mullion",
+        "surface": "metal",
+        "support": "arch-building-east-panel-0",
+        "cutaway": "wall",
+        "outwardNormal": [
+          1,
+          0,
+          0
         ]
       }
     },
     {
-      "id": "set-support-05",
-      "label": "roof maintenance technician, #8e774c jacket; supporting subject, not the principal actor",
+      "id": "east-facade-window-mullion-7",
+      "label": "Window mullion",
       "transform": {
         "space": "world",
         "position": [
-          6,
-          0,
-          -4
+          8.5,
+          -5.9,
+          3
         ]
       },
       "visual": {
-        "type": "preset",
-        "name": "humanoid",
+        "type": "primitive",
+        "shape": "box",
         "params": {
-          "height": 1.8,
-          "shirtColor": "#8e774c",
-          "trouserColor": "#283341",
-          "color": "#ad805f",
-          "motion": "idle"
-        }
+          "size": [
+            0.08,
+            2,
+            0.045
+          ]
+        },
+        "color": "#465256"
       },
       "bounds": {
         "type": "box",
         "min": [
-          -0.325,
-          0,
-          -0.25
+          -0.04,
+          -1,
+          -0.0225
         ],
         "max": [
-          0.325,
-          1.8,
-          0.25
+          0.04,
+          1,
+          0.0225
+        ]
+      },
+      "layout": {
+        "role": "trim",
+        "purpose": "Window mullion",
+        "surface": "metal",
+        "support": "arch-building-east-panel-0",
+        "cutaway": "wall",
+        "outwardNormal": [
+          1,
+          0,
+          0
         ]
       }
     },
     {
-      "id": "set-support-06",
-      "label": "second maintenance technician, #546a89 jacket; supporting subject, not the principal actor",
+      "id": "east-facade-window-mullion-8",
+      "label": "Window mullion",
+      "transform": {
+        "space": "world",
+        "position": [
+          8.5,
+          -5.9,
+          4
+        ]
+      },
+      "visual": {
+        "type": "primitive",
+        "shape": "box",
+        "params": {
+          "size": [
+            0.08,
+            2,
+            0.045
+          ]
+        },
+        "color": "#465256"
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.04,
+          -1,
+          -0.0225
+        ],
+        "max": [
+          0.04,
+          1,
+          0.0225
+        ]
+      },
+      "layout": {
+        "role": "trim",
+        "purpose": "Window mullion",
+        "surface": "metal",
+        "support": "arch-building-east-panel-0",
+        "cutaway": "wall",
+        "outwardNormal": [
+          1,
+          0,
+          0
+        ]
+      }
+    },
+    {
+      "id": "east-facade-window-mullion-9",
+      "label": "Window mullion",
+      "transform": {
+        "space": "world",
+        "position": [
+          8.5,
+          -5.9,
+          5
+        ]
+      },
+      "visual": {
+        "type": "primitive",
+        "shape": "box",
+        "params": {
+          "size": [
+            0.08,
+            2,
+            0.045
+          ]
+        },
+        "color": "#465256"
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.04,
+          -1,
+          -0.0225
+        ],
+        "max": [
+          0.04,
+          1,
+          0.0225
+        ]
+      },
+      "layout": {
+        "role": "trim",
+        "purpose": "Window mullion",
+        "surface": "metal",
+        "support": "arch-building-east-panel-0",
+        "cutaway": "wall",
+        "outwardNormal": [
+          1,
+          0,
+          0
+        ]
+      }
+    },
+    {
+      "id": "arch-building-east-end",
+      "label": "Continuous enclosure wall",
+      "transform": {
+        "space": "world",
+        "position": [
+          8.5,
+          -4.5,
+          10.305
+        ]
+      },
+      "visual": {
+        "type": "primitive",
+        "shape": "box",
+        "params": {
+          "size": [
+            0.22,
+            9,
+            8.61
+          ]
+        },
+        "color": "#96988d"
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.11,
+          -4.5,
+          -4.305
+        ],
+        "max": [
+          0.11,
+          4.5,
+          4.305
+        ]
+      },
+      "layout": {
+        "role": "wall",
+        "purpose": "Continuous enclosure wall",
+        "surface": "plaster",
+        "support": "ground"
+      }
+    },
+    {
+      "id": "arch-building-east-skirting-0",
+      "label": "Wall base/skirting",
+      "transform": {
+        "space": "world",
+        "position": [
+          8.5,
+          -8.935,
+          0
+        ]
+      },
+      "visual": {
+        "type": "primitive",
+        "shape": "box",
+        "params": {
+          "size": [
+            0.255,
+            0.13,
+            29.22
+          ]
+        },
+        "color": "#8e6b4f"
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.1275,
+          -0.065,
+          -14.61
+        ],
+        "max": [
+          0.1275,
+          0.065,
+          14.61
+        ]
+      },
+      "layout": {
+        "role": "trim",
+        "purpose": "Wall base/skirting",
+        "surface": "wood",
+        "support": "arch-building-east-panel-0"
+      }
+    },
+    {
+      "id": "arch-building-slab",
+      "label": "Continuous structural floor slab",
+      "transform": {
+        "space": "world",
+        "position": [
+          0,
+          -9.12,
+          0
+        ]
+      },
+      "visual": {
+        "type": "primitive",
+        "shape": "box",
+        "params": {
+          "size": [
+            17.22,
+            0.24,
+            29.22
+          ]
+        },
+        "color": "#858383"
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -8.61,
+          -0.12,
+          -14.61
+        ],
+        "max": [
+          8.61,
+          0.12,
+          14.61
+        ]
+      },
+      "layout": {
+        "role": "floor",
+        "purpose": "Continuous structural floor slab",
+        "surface": "concrete",
+        "support": "ground"
+      }
+    },
+    {
+      "id": "arch-roof-slab-west",
+      "label": "Weatherproof roof slab around real stairwell opening",
+      "transform": {
+        "space": "world",
+        "position": [
+          -7.625,
+          -0.14,
+          0
+        ]
+      },
+      "visual": {
+        "type": "primitive",
+        "shape": "box",
+        "params": {
+          "size": [
+            1.75,
+            0.28,
+            29
+          ]
+        },
+        "color": "#858782"
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.875,
+          -0.14,
+          -14.5
+        ],
+        "max": [
+          0.875,
+          0.14,
+          14.5
+        ]
+      },
+      "layout": {
+        "role": "floor",
+        "purpose": "Weatherproof roof slab around real stairwell opening",
+        "surface": "concrete",
+        "support": "ground"
+      }
+    },
+    {
+      "id": "arch-roof-slab-east",
+      "label": "Weatherproof roof slab around real stairwell opening",
+      "transform": {
+        "space": "world",
+        "position": [
+          1.625,
+          -0.14,
+          0
+        ]
+      },
+      "visual": {
+        "type": "primitive",
+        "shape": "box",
+        "params": {
+          "size": [
+            13.75,
+            0.28,
+            29
+          ]
+        },
+        "color": "#858782"
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -6.875,
+          -0.14,
+          -14.5
+        ],
+        "max": [
+          6.875,
+          0.14,
+          14.5
+        ]
+      },
+      "layout": {
+        "role": "floor",
+        "purpose": "Weatherproof roof slab around real stairwell opening",
+        "surface": "concrete",
+        "support": "ground"
+      }
+    },
+    {
+      "id": "arch-roof-slab-back",
+      "label": "Weatherproof roof slab around real stairwell opening",
       "transform": {
         "space": "world",
         "position": [
           -6,
+          -0.14,
+          -13.325
+        ]
+      },
+      "visual": {
+        "type": "primitive",
+        "shape": "box",
+        "params": {
+          "size": [
+            1.5,
+            0.28,
+            2.3499999999999996
+          ]
+        },
+        "color": "#858782"
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.75,
+          -0.14,
+          -1.1749999999999998
+        ],
+        "max": [
+          0.75,
+          0.14,
+          1.1749999999999998
+        ]
+      },
+      "layout": {
+        "role": "floor",
+        "purpose": "Weatherproof roof slab around real stairwell opening",
+        "surface": "concrete",
+        "support": "ground"
+      }
+    },
+    {
+      "id": "arch-roof-slab-front",
+      "label": "Weatherproof roof slab around real stairwell opening",
+      "transform": {
+        "space": "world",
+        "position": [
+          -6,
+          -0.14,
+          3.77
+        ]
+      },
+      "visual": {
+        "type": "primitive",
+        "shape": "box",
+        "params": {
+          "size": [
+            1.5,
+            0.28,
+            21.46
+          ]
+        },
+        "color": "#858782"
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.75,
+          -0.14,
+          -10.73
+        ],
+        "max": [
+          0.75,
+          0.14,
+          10.73
+        ]
+      },
+      "layout": {
+        "role": "floor",
+        "purpose": "Weatherproof roof slab around real stairwell opening",
+        "surface": "concrete",
+        "support": "ground"
+      }
+    },
+    {
+      "id": "arch-parapet-north",
+      "label": "Continuous roof-edge safety parapet",
+      "transform": {
+        "space": "world",
+        "position": [
           0,
-          -4
+          0.52,
+          -14.5
+        ]
+      },
+      "visual": {
+        "type": "primitive",
+        "shape": "box",
+        "params": {
+          "size": [
+            17,
+            1.04,
+            0.22
+          ]
+        },
+        "color": "#858782"
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -8.5,
+          -0.52,
+          -0.11
+        ],
+        "max": [
+          8.5,
+          0.52,
+          0.11
+        ]
+      },
+      "layout": {
+        "role": "wall",
+        "purpose": "Continuous roof-edge safety parapet",
+        "surface": "concrete",
+        "support": "ground"
+      }
+    },
+    {
+      "id": "arch-parapet-cap-north",
+      "label": "Weather coping on parapet",
+      "transform": {
+        "space": "world",
+        "position": [
+          0,
+          1.075,
+          -14.5
+        ]
+      },
+      "visual": {
+        "type": "primitive",
+        "shape": "box",
+        "params": {
+          "size": [
+            17,
+            0.07,
+            0.3
+          ]
+        },
+        "color": "#465256"
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -8.5,
+          -0.035,
+          -0.15
+        ],
+        "max": [
+          8.5,
+          0.035,
+          0.15
+        ]
+      },
+      "layout": {
+        "role": "trim",
+        "purpose": "Weather coping on parapet",
+        "surface": "metal",
+        "support": "arch-parapet-north"
+      }
+    },
+    {
+      "id": "arch-parapet-south",
+      "label": "Continuous roof-edge safety parapet",
+      "transform": {
+        "space": "world",
+        "position": [
+          0,
+          0.52,
+          14.5
+        ]
+      },
+      "visual": {
+        "type": "primitive",
+        "shape": "box",
+        "params": {
+          "size": [
+            17,
+            1.04,
+            0.22
+          ]
+        },
+        "color": "#858782"
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -8.5,
+          -0.52,
+          -0.11
+        ],
+        "max": [
+          8.5,
+          0.52,
+          0.11
+        ]
+      },
+      "layout": {
+        "role": "wall",
+        "purpose": "Continuous roof-edge safety parapet",
+        "surface": "concrete",
+        "support": "ground"
+      }
+    },
+    {
+      "id": "arch-parapet-cap-south",
+      "label": "Weather coping on parapet",
+      "transform": {
+        "space": "world",
+        "position": [
+          0,
+          1.075,
+          14.5
+        ]
+      },
+      "visual": {
+        "type": "primitive",
+        "shape": "box",
+        "params": {
+          "size": [
+            17,
+            0.07,
+            0.3
+          ]
+        },
+        "color": "#465256"
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -8.5,
+          -0.035,
+          -0.15
+        ],
+        "max": [
+          8.5,
+          0.035,
+          0.15
+        ]
+      },
+      "layout": {
+        "role": "trim",
+        "purpose": "Weather coping on parapet",
+        "surface": "metal",
+        "support": "arch-parapet-south"
+      }
+    },
+    {
+      "id": "arch-parapet-west",
+      "label": "Continuous roof-edge safety parapet",
+      "transform": {
+        "space": "world",
+        "position": [
+          -8.5,
+          0.52,
+          0
+        ]
+      },
+      "visual": {
+        "type": "primitive",
+        "shape": "box",
+        "params": {
+          "size": [
+            0.22,
+            1.04,
+            29
+          ]
+        },
+        "color": "#858782"
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.11,
+          -0.52,
+          -14.5
+        ],
+        "max": [
+          0.11,
+          0.52,
+          14.5
+        ]
+      },
+      "layout": {
+        "role": "wall",
+        "purpose": "Continuous roof-edge safety parapet",
+        "surface": "concrete",
+        "support": "ground"
+      }
+    },
+    {
+      "id": "arch-parapet-cap-west",
+      "label": "Weather coping on parapet",
+      "transform": {
+        "space": "world",
+        "position": [
+          -8.5,
+          1.075,
+          0
+        ]
+      },
+      "visual": {
+        "type": "primitive",
+        "shape": "box",
+        "params": {
+          "size": [
+            0.3,
+            0.07,
+            29
+          ]
+        },
+        "color": "#465256"
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.15,
+          -0.035,
+          -14.5
+        ],
+        "max": [
+          0.15,
+          0.035,
+          14.5
+        ]
+      },
+      "layout": {
+        "role": "trim",
+        "purpose": "Weather coping on parapet",
+        "surface": "metal",
+        "support": "arch-parapet-west"
+      }
+    },
+    {
+      "id": "arch-parapet-east",
+      "label": "Continuous roof-edge safety parapet",
+      "transform": {
+        "space": "world",
+        "position": [
+          8.5,
+          0.52,
+          0
+        ]
+      },
+      "visual": {
+        "type": "primitive",
+        "shape": "box",
+        "params": {
+          "size": [
+            0.22,
+            1.04,
+            29
+          ]
+        },
+        "color": "#858782"
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.11,
+          -0.52,
+          -14.5
+        ],
+        "max": [
+          0.11,
+          0.52,
+          14.5
+        ]
+      },
+      "layout": {
+        "role": "wall",
+        "purpose": "Continuous roof-edge safety parapet",
+        "surface": "concrete",
+        "support": "ground"
+      }
+    },
+    {
+      "id": "arch-parapet-cap-east",
+      "label": "Weather coping on parapet",
+      "transform": {
+        "space": "world",
+        "position": [
+          8.5,
+          1.075,
+          0
+        ]
+      },
+      "visual": {
+        "type": "primitive",
+        "shape": "box",
+        "params": {
+          "size": [
+            0.3,
+            0.07,
+            29
+          ]
+        },
+        "color": "#465256"
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.15,
+          -0.035,
+          -14.5
+        ],
+        "max": [
+          0.15,
+          0.035,
+          14.5
+        ]
+      },
+      "layout": {
+        "role": "trim",
+        "purpose": "Weather coping on parapet",
+        "surface": "metal",
+        "support": "arch-parapet-east"
+      }
+    },
+    {
+      "id": "arch-roof-access-north-end",
+      "label": "Continuous enclosure wall",
+      "transform": {
+        "space": "world",
+        "position": [
+          -6,
+          1.325,
+          -12.35
+        ]
+      },
+      "visual": {
+        "type": "primitive",
+        "shape": "box",
+        "params": {
+          "size": [
+            3.8200000000000003,
+            2.65,
+            0.22
+          ]
+        },
+        "color": "#b0b1a6"
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -1.9100000000000001,
+          -1.325,
+          -0.11
+        ],
+        "max": [
+          1.9100000000000001,
+          1.325,
+          0.11
+        ]
+      },
+      "layout": {
+        "role": "wall",
+        "purpose": "Continuous enclosure wall",
+        "surface": "plaster",
+        "support": "ground",
+        "cutaway": "wall",
+        "outwardNormal": [
+          0,
+          0,
+          -1
+        ]
+      }
+    },
+    {
+      "id": "arch-roof-access-north-skirting-0",
+      "label": "Wall base/skirting",
+      "transform": {
+        "space": "world",
+        "position": [
+          -6,
+          0.065,
+          -12.35
+        ]
+      },
+      "visual": {
+        "type": "primitive",
+        "shape": "box",
+        "params": {
+          "size": [
+            3.8200000000000003,
+            0.13,
+            0.255
+          ]
+        },
+        "color": "#8e6b4f"
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -1.9100000000000001,
+          -0.065,
+          -0.1275
+        ],
+        "max": [
+          1.9100000000000001,
+          0.065,
+          0.1275
+        ]
+      },
+      "layout": {
+        "role": "trim",
+        "purpose": "Wall base/skirting",
+        "surface": "wood",
+        "support": "arch-roof-access-north-end",
+        "cutaway": "wall",
+        "outwardNormal": [
+          0,
+          0,
+          -1
+        ]
+      }
+    },
+    {
+      "id": "arch-roof-access-south-panel-0",
+      "label": "Continuous enclosure wall",
+      "transform": {
+        "space": "world",
+        "position": [
+          -7.3175,
+          1.325,
+          -5.56
+        ]
+      },
+      "visual": {
+        "type": "primitive",
+        "shape": "box",
+        "params": {
+          "size": [
+            1.1850000000000005,
+            2.65,
+            0.22
+          ]
+        },
+        "color": "#b0b1a6"
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.5925000000000002,
+          -1.325,
+          -0.11
+        ],
+        "max": [
+          0.5925000000000002,
+          1.325,
+          0.11
+        ]
+      },
+      "layout": {
+        "role": "wall",
+        "purpose": "Continuous enclosure wall",
+        "surface": "plaster",
+        "support": "ground",
+        "cutaway": "wall",
+        "outwardNormal": [
+          0,
+          0,
+          1
+        ]
+      }
+    },
+    {
+      "id": "arch-roof-access-south-roof-exit-lintel",
+      "label": "Continuous enclosure wall",
+      "transform": {
+        "space": "world",
+        "position": [
+          -6,
+          2.4749999999999996,
+          -5.56
+        ]
+      },
+      "visual": {
+        "type": "primitive",
+        "shape": "box",
+        "params": {
+          "size": [
+            1.4499999999999993,
+            0.3500000000000001,
+            0.22
+          ]
+        },
+        "color": "#b0b1a6"
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.7249999999999996,
+          -0.17500000000000004,
+          -0.11
+        ],
+        "max": [
+          0.7249999999999996,
+          0.17500000000000004,
+          0.11
+        ]
+      },
+      "layout": {
+        "role": "wall",
+        "purpose": "Continuous enclosure wall",
+        "surface": "plaster",
+        "support": "ground",
+        "cutaway": "wall",
+        "outwardNormal": [
+          0,
+          0,
+          1
+        ]
+      }
+    },
+    {
+      "id": "roof-exit-jamb-left",
+      "label": "Door jamb seated on wall opening",
+      "transform": {
+        "space": "world",
+        "position": [
+          -6.76,
+          1.15,
+          -5.56
+        ]
+      },
+      "visual": {
+        "type": "primitive",
+        "shape": "box",
+        "params": {
+          "size": [
+            0.07,
+            2.42,
+            0.3
+          ]
+        },
+        "color": "#8e6b4f"
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.035,
+          -1.21,
+          -0.15
+        ],
+        "max": [
+          0.035,
+          1.21,
+          0.15
+        ]
+      },
+      "layout": {
+        "role": "trim",
+        "purpose": "Door jamb seated on wall opening",
+        "surface": "wood",
+        "support": "arch-roof-access-south-panel-0",
+        "cutaway": "wall",
+        "outwardNormal": [
+          0,
+          0,
+          1
+        ]
+      }
+    },
+    {
+      "id": "roof-exit-jamb-right",
+      "label": "Door jamb seated on wall opening",
+      "transform": {
+        "space": "world",
+        "position": [
+          -5.24,
+          1.15,
+          -5.56
+        ]
+      },
+      "visual": {
+        "type": "primitive",
+        "shape": "box",
+        "params": {
+          "size": [
+            0.07,
+            2.42,
+            0.3
+          ]
+        },
+        "color": "#8e6b4f"
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.035,
+          -1.21,
+          -0.15
+        ],
+        "max": [
+          0.035,
+          1.21,
+          0.15
+        ]
+      },
+      "layout": {
+        "role": "trim",
+        "purpose": "Door jamb seated on wall opening",
+        "surface": "wood",
+        "support": "arch-roof-access-south-panel-0",
+        "cutaway": "wall",
+        "outwardNormal": [
+          0,
+          0,
+          1
+        ]
+      }
+    },
+    {
+      "id": "roof-exit-head",
+      "label": "Door lintel trim",
+      "transform": {
+        "space": "world",
+        "position": [
+          -6,
+          2.335,
+          -5.56
+        ]
+      },
+      "visual": {
+        "type": "primitive",
+        "shape": "box",
+        "params": {
+          "size": [
+            1.5899999999999999,
+            0.07,
+            0.3
+          ]
+        },
+        "color": "#8e6b4f"
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.7949999999999999,
+          -0.035,
+          -0.15
+        ],
+        "max": [
+          0.7949999999999999,
+          0.035,
+          0.15
+        ]
+      },
+      "layout": {
+        "role": "trim",
+        "purpose": "Door lintel trim",
+        "surface": "wood",
+        "support": "arch-roof-access-south-panel-0",
+        "cutaway": "wall",
+        "outwardNormal": [
+          0,
+          0,
+          1
+        ]
+      }
+    },
+    {
+      "id": "arch-roof-access-south-end",
+      "label": "Continuous enclosure wall",
+      "transform": {
+        "space": "world",
+        "position": [
+          -4.6825,
+          1.325,
+          -5.56
+        ]
+      },
+      "visual": {
+        "type": "primitive",
+        "shape": "box",
+        "params": {
+          "size": [
+            1.1850000000000005,
+            2.65,
+            0.22
+          ]
+        },
+        "color": "#b0b1a6"
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.5925000000000002,
+          -1.325,
+          -0.11
+        ],
+        "max": [
+          0.5925000000000002,
+          1.325,
+          0.11
+        ]
+      },
+      "layout": {
+        "role": "wall",
+        "purpose": "Continuous enclosure wall",
+        "surface": "plaster",
+        "support": "ground",
+        "cutaway": "wall",
+        "outwardNormal": [
+          0,
+          0,
+          1
+        ]
+      }
+    },
+    {
+      "id": "arch-roof-access-south-skirting-0",
+      "label": "Wall base/skirting",
+      "transform": {
+        "space": "world",
+        "position": [
+          -7.3175,
+          0.065,
+          -5.56
+        ]
+      },
+      "visual": {
+        "type": "primitive",
+        "shape": "box",
+        "params": {
+          "size": [
+            1.1850000000000005,
+            0.13,
+            0.255
+          ]
+        },
+        "color": "#8e6b4f"
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.5925000000000002,
+          -0.065,
+          -0.1275
+        ],
+        "max": [
+          0.5925000000000002,
+          0.065,
+          0.1275
+        ]
+      },
+      "layout": {
+        "role": "trim",
+        "purpose": "Wall base/skirting",
+        "surface": "wood",
+        "support": "arch-roof-access-south-panel-0",
+        "cutaway": "wall",
+        "outwardNormal": [
+          0,
+          0,
+          1
+        ]
+      }
+    },
+    {
+      "id": "arch-roof-access-south-skirting-1",
+      "label": "Wall base/skirting",
+      "transform": {
+        "space": "world",
+        "position": [
+          -4.6825,
+          0.065,
+          -5.56
+        ]
+      },
+      "visual": {
+        "type": "primitive",
+        "shape": "box",
+        "params": {
+          "size": [
+            1.1850000000000005,
+            0.13,
+            0.255
+          ]
+        },
+        "color": "#8e6b4f"
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.5925000000000002,
+          -0.065,
+          -0.1275
+        ],
+        "max": [
+          0.5925000000000002,
+          0.065,
+          0.1275
+        ]
+      },
+      "layout": {
+        "role": "trim",
+        "purpose": "Wall base/skirting",
+        "surface": "wood",
+        "support": "arch-roof-access-south-panel-0",
+        "cutaway": "wall",
+        "outwardNormal": [
+          0,
+          0,
+          1
+        ]
+      }
+    },
+    {
+      "id": "arch-roof-access-west-end",
+      "label": "Continuous enclosure wall",
+      "transform": {
+        "space": "world",
+        "position": [
+          -7.8,
+          1.325,
+          -8.954999999999998
+        ]
+      },
+      "visual": {
+        "type": "primitive",
+        "shape": "box",
+        "params": {
+          "size": [
+            0.22,
+            2.65,
+            7.01
+          ]
+        },
+        "color": "#b0b1a6"
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.11,
+          -1.325,
+          -3.505
+        ],
+        "max": [
+          0.11,
+          1.325,
+          3.505
+        ]
+      },
+      "layout": {
+        "role": "wall",
+        "purpose": "Continuous enclosure wall",
+        "surface": "plaster",
+        "support": "ground",
+        "cutaway": "wall",
+        "outwardNormal": [
+          -1,
+          0,
+          0
+        ]
+      }
+    },
+    {
+      "id": "arch-roof-access-west-skirting-0",
+      "label": "Wall base/skirting",
+      "transform": {
+        "space": "world",
+        "position": [
+          -7.8,
+          0.065,
+          -8.954999999999998
+        ]
+      },
+      "visual": {
+        "type": "primitive",
+        "shape": "box",
+        "params": {
+          "size": [
+            0.255,
+            0.13,
+            7.01
+          ]
+        },
+        "color": "#8e6b4f"
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.1275,
+          -0.065,
+          -3.505
+        ],
+        "max": [
+          0.1275,
+          0.065,
+          3.505
+        ]
+      },
+      "layout": {
+        "role": "trim",
+        "purpose": "Wall base/skirting",
+        "surface": "wood",
+        "support": "arch-roof-access-west-end",
+        "cutaway": "wall",
+        "outwardNormal": [
+          -1,
+          0,
+          0
+        ]
+      }
+    },
+    {
+      "id": "arch-roof-access-east-end",
+      "label": "Continuous enclosure wall",
+      "transform": {
+        "space": "world",
+        "position": [
+          -4.2,
+          1.325,
+          -8.954999999999998
+        ]
+      },
+      "visual": {
+        "type": "primitive",
+        "shape": "box",
+        "params": {
+          "size": [
+            0.22,
+            2.65,
+            7.01
+          ]
+        },
+        "color": "#b0b1a6"
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.11,
+          -1.325,
+          -3.505
+        ],
+        "max": [
+          0.11,
+          1.325,
+          3.505
+        ]
+      },
+      "layout": {
+        "role": "wall",
+        "purpose": "Continuous enclosure wall",
+        "surface": "plaster",
+        "support": "ground",
+        "cutaway": "wall",
+        "outwardNormal": [
+          1,
+          0,
+          0
+        ]
+      }
+    },
+    {
+      "id": "arch-roof-access-east-skirting-0",
+      "label": "Wall base/skirting",
+      "transform": {
+        "space": "world",
+        "position": [
+          -4.2,
+          0.065,
+          -8.954999999999998
+        ]
+      },
+      "visual": {
+        "type": "primitive",
+        "shape": "box",
+        "params": {
+          "size": [
+            0.255,
+            0.13,
+            7.01
+          ]
+        },
+        "color": "#8e6b4f"
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.1275,
+          -0.065,
+          -3.505
+        ],
+        "max": [
+          0.1275,
+          0.065,
+          3.505
+        ]
+      },
+      "layout": {
+        "role": "trim",
+        "purpose": "Wall base/skirting",
+        "surface": "wood",
+        "support": "arch-roof-access-east-end",
+        "cutaway": "wall",
+        "outwardNormal": [
+          1,
+          0,
+          0
+        ]
+      }
+    },
+    {
+      "id": "arch-roof-access-ceiling",
+      "label": "Full ceiling and weather roof; visible in Director POV",
+      "transform": {
+        "space": "world",
+        "position": [
+          -6,
+          2.78,
+          -8.955
+        ]
+      },
+      "visual": {
+        "type": "primitive",
+        "shape": "box",
+        "params": {
+          "size": [
+            3.82,
+            0.26,
+            7.01
+          ]
+        },
+        "color": "#c6beb0"
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -1.91,
+          -0.13,
+          -3.505
+        ],
+        "max": [
+          1.91,
+          0.13,
+          3.505
+        ]
+      },
+      "layout": {
+        "role": "ceiling",
+        "purpose": "Full ceiling and weather roof; visible in Director POV",
+        "surface": "plaster",
+        "support": "arch-roof-access-west-end",
+        "cutaway": "roof"
+      }
+    },
+    {
+      "id": "arch-access-shaft-west",
+      "label": "Stairwell side wall continuing to floor below",
+      "transform": {
+        "space": "world",
+        "position": [
+          -7.8,
+          -1.53,
+          -8.95
+        ]
+      },
+      "visual": {
+        "type": "primitive",
+        "shape": "box",
+        "params": {
+          "size": [
+            0.22,
+            3.06,
+            6.8
+          ]
+        },
+        "color": "#858782"
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.11,
+          -1.53,
+          -3.4
+        ],
+        "max": [
+          0.11,
+          1.53,
+          3.4
+        ]
+      },
+      "layout": {
+        "role": "wall",
+        "purpose": "Stairwell side wall continuing to floor below",
+        "surface": "concrete",
+        "support": "ground"
+      }
+    },
+    {
+      "id": "arch-access-shaft-east",
+      "label": "Stairwell side wall continuing to floor below",
+      "transform": {
+        "space": "world",
+        "position": [
+          -4.2,
+          -1.53,
+          -8.95
+        ]
+      },
+      "visual": {
+        "type": "primitive",
+        "shape": "box",
+        "params": {
+          "size": [
+            0.22,
+            3.06,
+            6.8
+          ]
+        },
+        "color": "#858782"
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.11,
+          -1.53,
+          -3.4
+        ],
+        "max": [
+          0.11,
+          1.53,
+          3.4
+        ]
+      },
+      "layout": {
+        "role": "wall",
+        "purpose": "Stairwell side wall continuing to floor below",
+        "surface": "concrete",
+        "support": "ground"
+      }
+    },
+    {
+      "id": "arch-floor-below",
+      "label": "Continuous occupied floor below roof, with clear bottom stair approach",
+      "transform": {
+        "space": "world",
+        "position": [
+          0,
+          -3.18,
+          0
+        ]
+      },
+      "visual": {
+        "type": "primitive",
+        "shape": "box",
+        "params": {
+          "size": [
+            16.78,
+            0.24,
+            28.78
+          ]
+        },
+        "color": "#858782"
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -8.39,
+          -0.12,
+          -14.39
+        ],
+        "max": [
+          8.39,
+          0.12,
+          14.39
+        ]
+      },
+      "layout": {
+        "role": "floor",
+        "purpose": "Continuous occupied floor below roof, with clear bottom stair approach",
+        "surface": "concrete",
+        "support": "ground"
+      }
+    },
+    {
+      "id": "arch-roof-stair-tread-01",
+      "label": "Usable stair flight, equal riser 1/18",
+      "transform": {
+        "space": "world",
+        "position": [
+          -6,
+          -2.975,
+          -11.86
+        ]
+      },
+      "visual": {
+        "type": "primitive",
+        "shape": "box",
+        "params": {
+          "size": [
+            1.4,
+            0.17,
+            0.28
+          ]
+        },
+        "color": "#858782"
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.7,
+          -0.085,
+          -0.14
+        ],
+        "max": [
+          0.7,
+          0.085,
+          0.14
+        ]
+      },
+      "layout": {
+        "role": "stair",
+        "purpose": "Usable stair flight, equal riser 1/18",
+        "surface": "concrete",
+        "support": "ground"
+      }
+    },
+    {
+      "id": "arch-roof-stair-tread-01-nosing",
+      "label": "Non-slip stair nosing",
+      "transform": {
+        "space": "world",
+        "position": [
+          -6,
+          -2.8840000000000003,
+          -11.975
+        ]
+      },
+      "visual": {
+        "type": "primitive",
+        "shape": "box",
+        "params": {
+          "size": [
+            1.4,
+            0.012,
+            0.035
+          ]
+        },
+        "color": "#b89b54"
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.7,
+          -0.006,
+          -0.0175
+        ],
+        "max": [
+          0.7,
+          0.006,
+          0.0175
+        ]
+      },
+      "layout": {
+        "role": "trim",
+        "purpose": "Non-slip stair nosing",
+        "surface": "metal",
+        "support": "arch-roof-stair-tread-01"
+      }
+    },
+    {
+      "id": "arch-roof-stair-tread-02",
+      "label": "Usable stair flight, equal riser 2/18",
+      "transform": {
+        "space": "world",
+        "position": [
+          -6,
+          -2.89,
+          -11.58
+        ]
+      },
+      "visual": {
+        "type": "primitive",
+        "shape": "box",
+        "params": {
+          "size": [
+            1.4,
+            0.34,
+            0.28
+          ]
+        },
+        "color": "#858782"
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.7,
+          -0.17,
+          -0.14
+        ],
+        "max": [
+          0.7,
+          0.17,
+          0.14
+        ]
+      },
+      "layout": {
+        "role": "stair",
+        "purpose": "Usable stair flight, equal riser 2/18",
+        "surface": "concrete",
+        "support": "ground"
+      }
+    },
+    {
+      "id": "arch-roof-stair-tread-02-nosing",
+      "label": "Non-slip stair nosing",
+      "transform": {
+        "space": "world",
+        "position": [
+          -6,
+          -2.7140000000000004,
+          -11.695
+        ]
+      },
+      "visual": {
+        "type": "primitive",
+        "shape": "box",
+        "params": {
+          "size": [
+            1.4,
+            0.012,
+            0.035
+          ]
+        },
+        "color": "#b89b54"
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.7,
+          -0.006,
+          -0.0175
+        ],
+        "max": [
+          0.7,
+          0.006,
+          0.0175
+        ]
+      },
+      "layout": {
+        "role": "trim",
+        "purpose": "Non-slip stair nosing",
+        "surface": "metal",
+        "support": "arch-roof-stair-tread-02"
+      }
+    },
+    {
+      "id": "arch-roof-stair-tread-03",
+      "label": "Usable stair flight, equal riser 3/18",
+      "transform": {
+        "space": "world",
+        "position": [
+          -6,
+          -2.805,
+          -11.3
+        ]
+      },
+      "visual": {
+        "type": "primitive",
+        "shape": "box",
+        "params": {
+          "size": [
+            1.4,
+            0.51,
+            0.28
+          ]
+        },
+        "color": "#858782"
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.7,
+          -0.255,
+          -0.14
+        ],
+        "max": [
+          0.7,
+          0.255,
+          0.14
+        ]
+      },
+      "layout": {
+        "role": "stair",
+        "purpose": "Usable stair flight, equal riser 3/18",
+        "surface": "concrete",
+        "support": "ground"
+      }
+    },
+    {
+      "id": "arch-roof-stair-tread-03-nosing",
+      "label": "Non-slip stair nosing",
+      "transform": {
+        "space": "world",
+        "position": [
+          -6,
+          -2.544,
+          -11.415
+        ]
+      },
+      "visual": {
+        "type": "primitive",
+        "shape": "box",
+        "params": {
+          "size": [
+            1.4,
+            0.012,
+            0.035
+          ]
+        },
+        "color": "#b89b54"
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.7,
+          -0.006,
+          -0.0175
+        ],
+        "max": [
+          0.7,
+          0.006,
+          0.0175
+        ]
+      },
+      "layout": {
+        "role": "trim",
+        "purpose": "Non-slip stair nosing",
+        "surface": "metal",
+        "support": "arch-roof-stair-tread-03"
+      }
+    },
+    {
+      "id": "arch-roof-stair-tread-04",
+      "label": "Usable stair flight, equal riser 4/18",
+      "transform": {
+        "space": "world",
+        "position": [
+          -6,
+          -2.72,
+          -11.02
+        ]
+      },
+      "visual": {
+        "type": "primitive",
+        "shape": "box",
+        "params": {
+          "size": [
+            1.4,
+            0.68,
+            0.28
+          ]
+        },
+        "color": "#858782"
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.7,
+          -0.34,
+          -0.14
+        ],
+        "max": [
+          0.7,
+          0.34,
+          0.14
+        ]
+      },
+      "layout": {
+        "role": "stair",
+        "purpose": "Usable stair flight, equal riser 4/18",
+        "surface": "concrete",
+        "support": "ground"
+      }
+    },
+    {
+      "id": "arch-roof-stair-tread-04-nosing",
+      "label": "Non-slip stair nosing",
+      "transform": {
+        "space": "world",
+        "position": [
+          -6,
+          -2.374,
+          -11.135
+        ]
+      },
+      "visual": {
+        "type": "primitive",
+        "shape": "box",
+        "params": {
+          "size": [
+            1.4,
+            0.012,
+            0.035
+          ]
+        },
+        "color": "#b89b54"
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.7,
+          -0.006,
+          -0.0175
+        ],
+        "max": [
+          0.7,
+          0.006,
+          0.0175
+        ]
+      },
+      "layout": {
+        "role": "trim",
+        "purpose": "Non-slip stair nosing",
+        "surface": "metal",
+        "support": "arch-roof-stair-tread-04"
+      }
+    },
+    {
+      "id": "arch-roof-stair-tread-05",
+      "label": "Usable stair flight, equal riser 5/18",
+      "transform": {
+        "space": "world",
+        "position": [
+          -6,
+          -2.635,
+          -10.74
+        ]
+      },
+      "visual": {
+        "type": "primitive",
+        "shape": "box",
+        "params": {
+          "size": [
+            1.4,
+            0.8500000000000001,
+            0.28
+          ]
+        },
+        "color": "#858782"
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.7,
+          -0.42500000000000004,
+          -0.14
+        ],
+        "max": [
+          0.7,
+          0.42500000000000004,
+          0.14
+        ]
+      },
+      "layout": {
+        "role": "stair",
+        "purpose": "Usable stair flight, equal riser 5/18",
+        "surface": "concrete",
+        "support": "ground"
+      }
+    },
+    {
+      "id": "arch-roof-stair-tread-05-nosing",
+      "label": "Non-slip stair nosing",
+      "transform": {
+        "space": "world",
+        "position": [
+          -6,
+          -2.204,
+          -10.855
+        ]
+      },
+      "visual": {
+        "type": "primitive",
+        "shape": "box",
+        "params": {
+          "size": [
+            1.4,
+            0.012,
+            0.035
+          ]
+        },
+        "color": "#b89b54"
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.7,
+          -0.006,
+          -0.0175
+        ],
+        "max": [
+          0.7,
+          0.006,
+          0.0175
+        ]
+      },
+      "layout": {
+        "role": "trim",
+        "purpose": "Non-slip stair nosing",
+        "surface": "metal",
+        "support": "arch-roof-stair-tread-05"
+      }
+    },
+    {
+      "id": "arch-roof-stair-tread-06",
+      "label": "Usable stair flight, equal riser 6/18",
+      "transform": {
+        "space": "world",
+        "position": [
+          -6,
+          -2.55,
+          -10.46
+        ]
+      },
+      "visual": {
+        "type": "primitive",
+        "shape": "box",
+        "params": {
+          "size": [
+            1.4,
+            1.02,
+            0.28
+          ]
+        },
+        "color": "#858782"
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.7,
+          -0.51,
+          -0.14
+        ],
+        "max": [
+          0.7,
+          0.51,
+          0.14
+        ]
+      },
+      "layout": {
+        "role": "stair",
+        "purpose": "Usable stair flight, equal riser 6/18",
+        "surface": "concrete",
+        "support": "ground"
+      }
+    },
+    {
+      "id": "arch-roof-stair-tread-06-nosing",
+      "label": "Non-slip stair nosing",
+      "transform": {
+        "space": "world",
+        "position": [
+          -6,
+          -2.0340000000000003,
+          -10.575
+        ]
+      },
+      "visual": {
+        "type": "primitive",
+        "shape": "box",
+        "params": {
+          "size": [
+            1.4,
+            0.012,
+            0.035
+          ]
+        },
+        "color": "#b89b54"
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.7,
+          -0.006,
+          -0.0175
+        ],
+        "max": [
+          0.7,
+          0.006,
+          0.0175
+        ]
+      },
+      "layout": {
+        "role": "trim",
+        "purpose": "Non-slip stair nosing",
+        "surface": "metal",
+        "support": "arch-roof-stair-tread-06"
+      }
+    },
+    {
+      "id": "arch-roof-stair-tread-07",
+      "label": "Usable stair flight, equal riser 7/18",
+      "transform": {
+        "space": "world",
+        "position": [
+          -6,
+          -2.465,
+          -10.18
+        ]
+      },
+      "visual": {
+        "type": "primitive",
+        "shape": "box",
+        "params": {
+          "size": [
+            1.4,
+            1.1900000000000002,
+            0.28
+          ]
+        },
+        "color": "#858782"
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.7,
+          -0.5950000000000001,
+          -0.14
+        ],
+        "max": [
+          0.7,
+          0.5950000000000001,
+          0.14
+        ]
+      },
+      "layout": {
+        "role": "stair",
+        "purpose": "Usable stair flight, equal riser 7/18",
+        "surface": "concrete",
+        "support": "ground"
+      }
+    },
+    {
+      "id": "arch-roof-stair-tread-07-nosing",
+      "label": "Non-slip stair nosing",
+      "transform": {
+        "space": "world",
+        "position": [
+          -6,
+          -1.8639999999999999,
+          -10.295
+        ]
+      },
+      "visual": {
+        "type": "primitive",
+        "shape": "box",
+        "params": {
+          "size": [
+            1.4,
+            0.012,
+            0.035
+          ]
+        },
+        "color": "#b89b54"
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.7,
+          -0.006,
+          -0.0175
+        ],
+        "max": [
+          0.7,
+          0.006,
+          0.0175
+        ]
+      },
+      "layout": {
+        "role": "trim",
+        "purpose": "Non-slip stair nosing",
+        "surface": "metal",
+        "support": "arch-roof-stair-tread-07"
+      }
+    },
+    {
+      "id": "arch-roof-stair-tread-08",
+      "label": "Usable stair flight, equal riser 8/18",
+      "transform": {
+        "space": "world",
+        "position": [
+          -6,
+          -2.38,
+          -9.9
+        ]
+      },
+      "visual": {
+        "type": "primitive",
+        "shape": "box",
+        "params": {
+          "size": [
+            1.4,
+            1.36,
+            0.28
+          ]
+        },
+        "color": "#858782"
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.7,
+          -0.68,
+          -0.14
+        ],
+        "max": [
+          0.7,
+          0.68,
+          0.14
+        ]
+      },
+      "layout": {
+        "role": "stair",
+        "purpose": "Usable stair flight, equal riser 8/18",
+        "surface": "concrete",
+        "support": "ground"
+      }
+    },
+    {
+      "id": "arch-roof-stair-tread-08-nosing",
+      "label": "Non-slip stair nosing",
+      "transform": {
+        "space": "world",
+        "position": [
+          -6,
+          -1.694,
+          -10.015
+        ]
+      },
+      "visual": {
+        "type": "primitive",
+        "shape": "box",
+        "params": {
+          "size": [
+            1.4,
+            0.012,
+            0.035
+          ]
+        },
+        "color": "#b89b54"
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.7,
+          -0.006,
+          -0.0175
+        ],
+        "max": [
+          0.7,
+          0.006,
+          0.0175
+        ]
+      },
+      "layout": {
+        "role": "trim",
+        "purpose": "Non-slip stair nosing",
+        "surface": "metal",
+        "support": "arch-roof-stair-tread-08"
+      }
+    },
+    {
+      "id": "arch-roof-stair-tread-09",
+      "label": "Usable stair flight, equal riser 9/18",
+      "transform": {
+        "space": "world",
+        "position": [
+          -6,
+          -2.295,
+          -9.62
+        ]
+      },
+      "visual": {
+        "type": "primitive",
+        "shape": "box",
+        "params": {
+          "size": [
+            1.4,
+            1.53,
+            0.28
+          ]
+        },
+        "color": "#858782"
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.7,
+          -0.765,
+          -0.14
+        ],
+        "max": [
+          0.7,
+          0.765,
+          0.14
+        ]
+      },
+      "layout": {
+        "role": "stair",
+        "purpose": "Usable stair flight, equal riser 9/18",
+        "surface": "concrete",
+        "support": "ground"
+      }
+    },
+    {
+      "id": "arch-roof-stair-tread-09-nosing",
+      "label": "Non-slip stair nosing",
+      "transform": {
+        "space": "world",
+        "position": [
+          -6,
+          -1.524,
+          -9.735
+        ]
+      },
+      "visual": {
+        "type": "primitive",
+        "shape": "box",
+        "params": {
+          "size": [
+            1.4,
+            0.012,
+            0.035
+          ]
+        },
+        "color": "#b89b54"
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.7,
+          -0.006,
+          -0.0175
+        ],
+        "max": [
+          0.7,
+          0.006,
+          0.0175
+        ]
+      },
+      "layout": {
+        "role": "trim",
+        "purpose": "Non-slip stair nosing",
+        "surface": "metal",
+        "support": "arch-roof-stair-tread-09"
+      }
+    },
+    {
+      "id": "arch-roof-stair-tread-10",
+      "label": "Usable stair flight, equal riser 10/18",
+      "transform": {
+        "space": "world",
+        "position": [
+          -6,
+          -2.21,
+          -9.34
+        ]
+      },
+      "visual": {
+        "type": "primitive",
+        "shape": "box",
+        "params": {
+          "size": [
+            1.4,
+            1.7000000000000002,
+            0.28
+          ]
+        },
+        "color": "#858782"
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.7,
+          -0.8500000000000001,
+          -0.14
+        ],
+        "max": [
+          0.7,
+          0.8500000000000001,
+          0.14
+        ]
+      },
+      "layout": {
+        "role": "stair",
+        "purpose": "Usable stair flight, equal riser 10/18",
+        "surface": "concrete",
+        "support": "ground"
+      }
+    },
+    {
+      "id": "arch-roof-stair-tread-10-nosing",
+      "label": "Non-slip stair nosing",
+      "transform": {
+        "space": "world",
+        "position": [
+          -6,
+          -1.3539999999999999,
+          -9.455
+        ]
+      },
+      "visual": {
+        "type": "primitive",
+        "shape": "box",
+        "params": {
+          "size": [
+            1.4,
+            0.012,
+            0.035
+          ]
+        },
+        "color": "#b89b54"
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.7,
+          -0.006,
+          -0.0175
+        ],
+        "max": [
+          0.7,
+          0.006,
+          0.0175
+        ]
+      },
+      "layout": {
+        "role": "trim",
+        "purpose": "Non-slip stair nosing",
+        "surface": "metal",
+        "support": "arch-roof-stair-tread-10"
+      }
+    },
+    {
+      "id": "arch-roof-stair-tread-11",
+      "label": "Usable stair flight, equal riser 11/18",
+      "transform": {
+        "space": "world",
+        "position": [
+          -6,
+          -2.125,
+          -9.059999999999999
+        ]
+      },
+      "visual": {
+        "type": "primitive",
+        "shape": "box",
+        "params": {
+          "size": [
+            1.4,
+            1.87,
+            0.28
+          ]
+        },
+        "color": "#858782"
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.7,
+          -0.935,
+          -0.14
+        ],
+        "max": [
+          0.7,
+          0.935,
+          0.14
+        ]
+      },
+      "layout": {
+        "role": "stair",
+        "purpose": "Usable stair flight, equal riser 11/18",
+        "surface": "concrete",
+        "support": "ground"
+      }
+    },
+    {
+      "id": "arch-roof-stair-tread-11-nosing",
+      "label": "Non-slip stair nosing",
+      "transform": {
+        "space": "world",
+        "position": [
+          -6,
+          -1.184,
+          -9.175
+        ]
+      },
+      "visual": {
+        "type": "primitive",
+        "shape": "box",
+        "params": {
+          "size": [
+            1.4,
+            0.012,
+            0.035
+          ]
+        },
+        "color": "#b89b54"
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.7,
+          -0.006,
+          -0.0175
+        ],
+        "max": [
+          0.7,
+          0.006,
+          0.0175
+        ]
+      },
+      "layout": {
+        "role": "trim",
+        "purpose": "Non-slip stair nosing",
+        "surface": "metal",
+        "support": "arch-roof-stair-tread-11"
+      }
+    },
+    {
+      "id": "arch-roof-stair-tread-12",
+      "label": "Usable stair flight, equal riser 12/18",
+      "transform": {
+        "space": "world",
+        "position": [
+          -6,
+          -2.04,
+          -8.78
+        ]
+      },
+      "visual": {
+        "type": "primitive",
+        "shape": "box",
+        "params": {
+          "size": [
+            1.4,
+            2.04,
+            0.28
+          ]
+        },
+        "color": "#858782"
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.7,
+          -1.02,
+          -0.14
+        ],
+        "max": [
+          0.7,
+          1.02,
+          0.14
+        ]
+      },
+      "layout": {
+        "role": "stair",
+        "purpose": "Usable stair flight, equal riser 12/18",
+        "surface": "concrete",
+        "support": "ground"
+      }
+    },
+    {
+      "id": "arch-roof-stair-tread-12-nosing",
+      "label": "Non-slip stair nosing",
+      "transform": {
+        "space": "world",
+        "position": [
+          -6,
+          -1.014,
+          -8.895
+        ]
+      },
+      "visual": {
+        "type": "primitive",
+        "shape": "box",
+        "params": {
+          "size": [
+            1.4,
+            0.012,
+            0.035
+          ]
+        },
+        "color": "#b89b54"
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.7,
+          -0.006,
+          -0.0175
+        ],
+        "max": [
+          0.7,
+          0.006,
+          0.0175
+        ]
+      },
+      "layout": {
+        "role": "trim",
+        "purpose": "Non-slip stair nosing",
+        "surface": "metal",
+        "support": "arch-roof-stair-tread-12"
+      }
+    },
+    {
+      "id": "arch-roof-stair-tread-13",
+      "label": "Usable stair flight, equal riser 13/18",
+      "transform": {
+        "space": "world",
+        "position": [
+          -6,
+          -1.955,
+          -8.5
+        ]
+      },
+      "visual": {
+        "type": "primitive",
+        "shape": "box",
+        "params": {
+          "size": [
+            1.4,
+            2.21,
+            0.28
+          ]
+        },
+        "color": "#858782"
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.7,
+          -1.105,
+          -0.14
+        ],
+        "max": [
+          0.7,
+          1.105,
+          0.14
+        ]
+      },
+      "layout": {
+        "role": "stair",
+        "purpose": "Usable stair flight, equal riser 13/18",
+        "surface": "concrete",
+        "support": "ground"
+      }
+    },
+    {
+      "id": "arch-roof-stair-tread-13-nosing",
+      "label": "Non-slip stair nosing",
+      "transform": {
+        "space": "world",
+        "position": [
+          -6,
+          -0.8440000000000001,
+          -8.615
+        ]
+      },
+      "visual": {
+        "type": "primitive",
+        "shape": "box",
+        "params": {
+          "size": [
+            1.4,
+            0.012,
+            0.035
+          ]
+        },
+        "color": "#b89b54"
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.7,
+          -0.006,
+          -0.0175
+        ],
+        "max": [
+          0.7,
+          0.006,
+          0.0175
+        ]
+      },
+      "layout": {
+        "role": "trim",
+        "purpose": "Non-slip stair nosing",
+        "surface": "metal",
+        "support": "arch-roof-stair-tread-13"
+      }
+    },
+    {
+      "id": "arch-roof-stair-tread-14",
+      "label": "Usable stair flight, equal riser 14/18",
+      "transform": {
+        "space": "world",
+        "position": [
+          -6,
+          -1.8699999999999999,
+          -8.219999999999999
+        ]
+      },
+      "visual": {
+        "type": "primitive",
+        "shape": "box",
+        "params": {
+          "size": [
+            1.4,
+            2.3800000000000003,
+            0.28
+          ]
+        },
+        "color": "#858782"
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.7,
+          -1.1900000000000002,
+          -0.14
+        ],
+        "max": [
+          0.7,
+          1.1900000000000002,
+          0.14
+        ]
+      },
+      "layout": {
+        "role": "stair",
+        "purpose": "Usable stair flight, equal riser 14/18",
+        "surface": "concrete",
+        "support": "ground"
+      }
+    },
+    {
+      "id": "arch-roof-stair-tread-14-nosing",
+      "label": "Non-slip stair nosing",
+      "transform": {
+        "space": "world",
+        "position": [
+          -6,
+          -0.6739999999999997,
+          -8.334999999999999
+        ]
+      },
+      "visual": {
+        "type": "primitive",
+        "shape": "box",
+        "params": {
+          "size": [
+            1.4,
+            0.012,
+            0.035
+          ]
+        },
+        "color": "#b89b54"
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.7,
+          -0.006,
+          -0.0175
+        ],
+        "max": [
+          0.7,
+          0.006,
+          0.0175
+        ]
+      },
+      "layout": {
+        "role": "trim",
+        "purpose": "Non-slip stair nosing",
+        "surface": "metal",
+        "support": "arch-roof-stair-tread-14"
+      }
+    },
+    {
+      "id": "arch-roof-stair-tread-15",
+      "label": "Usable stair flight, equal riser 15/18",
+      "transform": {
+        "space": "world",
+        "position": [
+          -6,
+          -1.785,
+          -7.9399999999999995
+        ]
+      },
+      "visual": {
+        "type": "primitive",
+        "shape": "box",
+        "params": {
+          "size": [
+            1.4,
+            2.5500000000000003,
+            0.28
+          ]
+        },
+        "color": "#858782"
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.7,
+          -1.2750000000000001,
+          -0.14
+        ],
+        "max": [
+          0.7,
+          1.2750000000000001,
+          0.14
+        ]
+      },
+      "layout": {
+        "role": "stair",
+        "purpose": "Usable stair flight, equal riser 15/18",
+        "surface": "concrete",
+        "support": "ground"
+      }
+    },
+    {
+      "id": "arch-roof-stair-tread-15-nosing",
+      "label": "Non-slip stair nosing",
+      "transform": {
+        "space": "world",
+        "position": [
+          -6,
+          -0.5039999999999998,
+          -8.055
+        ]
+      },
+      "visual": {
+        "type": "primitive",
+        "shape": "box",
+        "params": {
+          "size": [
+            1.4,
+            0.012,
+            0.035
+          ]
+        },
+        "color": "#b89b54"
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.7,
+          -0.006,
+          -0.0175
+        ],
+        "max": [
+          0.7,
+          0.006,
+          0.0175
+        ]
+      },
+      "layout": {
+        "role": "trim",
+        "purpose": "Non-slip stair nosing",
+        "surface": "metal",
+        "support": "arch-roof-stair-tread-15"
+      }
+    },
+    {
+      "id": "arch-roof-stair-tread-16",
+      "label": "Usable stair flight, equal riser 16/18",
+      "transform": {
+        "space": "world",
+        "position": [
+          -6,
+          -1.7,
+          -7.659999999999999
+        ]
+      },
+      "visual": {
+        "type": "primitive",
+        "shape": "box",
+        "params": {
+          "size": [
+            1.4,
+            2.72,
+            0.28
+          ]
+        },
+        "color": "#858782"
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.7,
+          -1.36,
+          -0.14
+        ],
+        "max": [
+          0.7,
+          1.36,
+          0.14
+        ]
+      },
+      "layout": {
+        "role": "stair",
+        "purpose": "Usable stair flight, equal riser 16/18",
+        "surface": "concrete",
+        "support": "ground"
+      }
+    },
+    {
+      "id": "arch-roof-stair-tread-16-nosing",
+      "label": "Non-slip stair nosing",
+      "transform": {
+        "space": "world",
+        "position": [
+          -6,
+          -0.33399999999999985,
+          -7.7749999999999995
+        ]
+      },
+      "visual": {
+        "type": "primitive",
+        "shape": "box",
+        "params": {
+          "size": [
+            1.4,
+            0.012,
+            0.035
+          ]
+        },
+        "color": "#b89b54"
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.7,
+          -0.006,
+          -0.0175
+        ],
+        "max": [
+          0.7,
+          0.006,
+          0.0175
+        ]
+      },
+      "layout": {
+        "role": "trim",
+        "purpose": "Non-slip stair nosing",
+        "surface": "metal",
+        "support": "arch-roof-stair-tread-16"
+      }
+    },
+    {
+      "id": "arch-roof-stair-tread-17",
+      "label": "Usable stair flight, equal riser 17/18",
+      "transform": {
+        "space": "world",
+        "position": [
+          -6,
+          -1.615,
+          -7.38
+        ]
+      },
+      "visual": {
+        "type": "primitive",
+        "shape": "box",
+        "params": {
+          "size": [
+            1.4,
+            2.89,
+            0.28
+          ]
+        },
+        "color": "#858782"
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.7,
+          -1.445,
+          -0.14
+        ],
+        "max": [
+          0.7,
+          1.445,
+          0.14
+        ]
+      },
+      "layout": {
+        "role": "stair",
+        "purpose": "Usable stair flight, equal riser 17/18",
+        "surface": "concrete",
+        "support": "ground"
+      }
+    },
+    {
+      "id": "arch-roof-stair-tread-17-nosing",
+      "label": "Non-slip stair nosing",
+      "transform": {
+        "space": "world",
+        "position": [
+          -6,
+          -0.16399999999999992,
+          -7.494999999999999
+        ]
+      },
+      "visual": {
+        "type": "primitive",
+        "shape": "box",
+        "params": {
+          "size": [
+            1.4,
+            0.012,
+            0.035
+          ]
+        },
+        "color": "#b89b54"
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.7,
+          -0.006,
+          -0.0175
+        ],
+        "max": [
+          0.7,
+          0.006,
+          0.0175
+        ]
+      },
+      "layout": {
+        "role": "trim",
+        "purpose": "Non-slip stair nosing",
+        "surface": "metal",
+        "support": "arch-roof-stair-tread-17"
+      }
+    },
+    {
+      "id": "arch-roof-stair-tread-18",
+      "label": "Usable stair flight, equal riser 18/18",
+      "transform": {
+        "space": "world",
+        "position": [
+          -6,
+          -1.53,
+          -7.1
+        ]
+      },
+      "visual": {
+        "type": "primitive",
+        "shape": "box",
+        "params": {
+          "size": [
+            1.4,
+            3.06,
+            0.28
+          ]
+        },
+        "color": "#858782"
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.7,
+          -1.53,
+          -0.14
+        ],
+        "max": [
+          0.7,
+          1.53,
+          0.14
+        ]
+      },
+      "layout": {
+        "role": "stair",
+        "purpose": "Usable stair flight, equal riser 18/18",
+        "surface": "concrete",
+        "support": "ground"
+      }
+    },
+    {
+      "id": "arch-roof-stair-tread-18-nosing",
+      "label": "Non-slip stair nosing",
+      "transform": {
+        "space": "world",
+        "position": [
+          -6,
+          0.006,
+          -7.214999999999999
+        ]
+      },
+      "visual": {
+        "type": "primitive",
+        "shape": "box",
+        "params": {
+          "size": [
+            1.4,
+            0.012,
+            0.035
+          ]
+        },
+        "color": "#b89b54"
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.7,
+          -0.006,
+          -0.0175
+        ],
+        "max": [
+          0.7,
+          0.006,
+          0.0175
+        ]
+      },
+      "layout": {
+        "role": "trim",
+        "purpose": "Non-slip stair nosing",
+        "surface": "metal",
+        "support": "arch-roof-stair-tread-18"
+      }
+    },
+    {
+      "id": "arch-roof-stair-landing",
+      "label": "Level top landing connecting stair to occupied floor",
+      "transform": {
+        "space": "world",
+        "position": [
+          -6,
+          -1.53,
+          -6.359999999999999
+        ]
+      },
+      "visual": {
+        "type": "primitive",
+        "shape": "box",
+        "params": {
+          "size": [
+            1.4,
+            3.06,
+            1.2
+          ]
+        },
+        "color": "#858782"
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.7,
+          -1.53,
+          -0.6
+        ],
+        "max": [
+          0.7,
+          1.53,
+          0.6
+        ]
+      },
+      "layout": {
+        "role": "landing",
+        "purpose": "Level top landing connecting stair to occupied floor",
+        "surface": "concrete",
+        "support": "ground"
+      }
+    },
+    {
+      "id": "arch-roof-stair-post--1-0",
+      "label": "Stair handrail upright anchored into tread",
+      "transform": {
+        "space": "world",
+        "position": [
+          -5.335,
+          -2.4005850202429153,
+          -11.902
+        ],
+        "rotation": [
+          0,
+          0,
+          0,
+          1
+        ]
+      },
+      "visual": {
+        "type": "primitive",
+        "shape": "cylinder",
+        "params": {
+          "radius": 0.022,
+          "height": 0.9788299595141701,
+          "radialSegments": 12
+        },
+        "color": "#465256"
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.022,
+          -0.48941497975708503,
+          -0.022
+        ],
+        "max": [
+          0.022,
+          0.48941497975708503,
+          0.022
+        ]
+      },
+      "layout": {
+        "role": "railing",
+        "purpose": "Stair handrail upright anchored into tread",
+        "surface": "metal",
+        "support": "arch-roof-stair-tread-01"
+      }
+    },
+    {
+      "id": "arch-roof-stair-post--1-3",
+      "label": "Stair handrail upright anchored into tread",
+      "transform": {
+        "space": "world",
+        "position": [
+          -5.335,
+          -1.8998765182186235,
+          -11.062
+        ],
+        "rotation": [
+          0,
+          0,
+          0,
+          1
+        ]
+      },
+      "visual": {
+        "type": "primitive",
+        "shape": "cylinder",
+        "params": {
+          "radius": 0.022,
+          "height": 0.9602469635627529,
+          "radialSegments": 12
+        },
+        "color": "#465256"
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.022,
+          -0.4801234817813764,
+          -0.022
+        ],
+        "max": [
+          0.022,
+          0.4801234817813764,
+          0.022
+        ]
+      },
+      "layout": {
+        "role": "railing",
+        "purpose": "Stair handrail upright anchored into tread",
+        "surface": "metal",
+        "support": "arch-roof-stair-tread-04"
+      }
+    },
+    {
+      "id": "arch-roof-stair-post--1-6",
+      "label": "Stair handrail upright anchored into tread",
+      "transform": {
+        "space": "world",
+        "position": [
+          -5.335,
+          -1.399168016194332,
+          -10.222
+        ],
+        "rotation": [
+          0,
+          0,
+          0,
+          1
+        ]
+      },
+      "visual": {
+        "type": "primitive",
+        "shape": "cylinder",
+        "params": {
+          "radius": 0.022,
+          "height": 0.9416639676113355,
+          "radialSegments": 12
+        },
+        "color": "#465256"
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.022,
+          -0.47083198380566776,
+          -0.022
+        ],
+        "max": [
+          0.022,
+          0.47083198380566776,
+          0.022
+        ]
+      },
+      "layout": {
+        "role": "railing",
+        "purpose": "Stair handrail upright anchored into tread",
+        "surface": "metal",
+        "support": "arch-roof-stair-tread-07"
+      }
+    },
+    {
+      "id": "arch-roof-stair-post--1-9",
+      "label": "Stair handrail upright anchored into tread",
+      "transform": {
+        "space": "world",
+        "position": [
+          -5.335,
+          -0.8984595141700406,
+          -9.382
+        ],
+        "rotation": [
+          0,
+          0,
+          0,
+          1
+        ]
+      },
+      "visual": {
+        "type": "primitive",
+        "shape": "cylinder",
+        "params": {
+          "radius": 0.022,
+          "height": 0.9230809716599186,
+          "radialSegments": 12
+        },
+        "color": "#465256"
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.022,
+          -0.4615404858299593,
+          -0.022
+        ],
+        "max": [
+          0.022,
+          0.4615404858299593,
+          0.022
+        ]
+      },
+      "layout": {
+        "role": "railing",
+        "purpose": "Stair handrail upright anchored into tread",
+        "surface": "metal",
+        "support": "arch-roof-stair-tread-10"
+      }
+    },
+    {
+      "id": "arch-roof-stair-post--1-12",
+      "label": "Stair handrail upright anchored into tread",
+      "transform": {
+        "space": "world",
+        "position": [
+          -5.335,
+          -0.39775101214574937,
+          -8.542
+        ],
+        "rotation": [
+          0,
+          0,
+          0,
+          1
+        ]
+      },
+      "visual": {
+        "type": "primitive",
+        "shape": "cylinder",
+        "params": {
+          "radius": 0.022,
+          "height": 0.9044979757085014,
+          "radialSegments": 12
+        },
+        "color": "#465256"
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.022,
+          -0.4522489878542507,
+          -0.022
+        ],
+        "max": [
+          0.022,
+          0.4522489878542507,
+          0.022
+        ]
+      },
+      "layout": {
+        "role": "railing",
+        "purpose": "Stair handrail upright anchored into tread",
+        "surface": "metal",
+        "support": "arch-roof-stair-tread-13"
+      }
+    },
+    {
+      "id": "arch-roof-stair-post--1-15",
+      "label": "Stair handrail upright anchored into tread",
+      "transform": {
+        "space": "world",
+        "position": [
+          -5.335,
+          0.10295748987854236,
+          -7.702
+        ],
+        "rotation": [
+          0,
+          0,
+          0,
+          1
+        ]
+      },
+      "visual": {
+        "type": "primitive",
+        "shape": "cylinder",
+        "params": {
+          "radius": 0.022,
+          "height": 0.8859149797570844,
+          "radialSegments": 12
+        },
+        "color": "#465256"
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.022,
+          -0.4429574898785422,
+          -0.022
+        ],
+        "max": [
+          0.022,
+          0.4429574898785422,
+          0.022
+        ]
+      },
+      "layout": {
+        "role": "railing",
+        "purpose": "Stair handrail upright anchored into tread",
+        "surface": "metal",
+        "support": "arch-roof-stair-tread-16"
+      }
+    },
+    {
+      "id": "arch-roof-stair-post--1-18",
+      "label": "Stair handrail upright anchored into tread",
+      "transform": {
+        "space": "world",
+        "position": [
+          -5.335,
+          0.49,
+          -6.959999999999999
+        ],
+        "rotation": [
+          0,
+          0,
+          0,
+          1
+        ]
+      },
+      "visual": {
+        "type": "primitive",
+        "shape": "cylinder",
+        "params": {
+          "radius": 0.022,
+          "height": 0.98,
+          "radialSegments": 12
+        },
+        "color": "#465256"
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.022,
+          -0.49,
+          -0.022
+        ],
+        "max": [
+          0.022,
+          0.49,
+          0.022
+        ]
+      },
+      "layout": {
+        "role": "railing",
+        "purpose": "Stair handrail upright anchored into tread",
+        "surface": "metal",
+        "support": "arch-roof-stair-tread-18"
+      }
+    },
+    {
+      "id": "arch-roof-stair-handrail--1",
+      "label": "Continuous sloped stair handrail",
+      "transform": {
+        "space": "world",
+        "position": [
+          -5.335,
+          -0.4650000000000001,
+          -9.43
+        ],
+        "rotation": [
+          0.497515324,
+          0,
+          0,
+          0.867455187
+        ]
+      },
+      "visual": {
+        "type": "primitive",
+        "shape": "cylinder",
+        "params": {
+          "radius": 0.03,
+          "height": 5.723259560774787,
+          "radialSegments": 12
+        },
+        "color": "#b89b54"
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.03,
+          -2.8616297803873936,
+          -0.03
+        ],
+        "max": [
+          0.03,
+          2.8616297803873936,
+          0.03
+        ]
+      },
+      "layout": {
+        "role": "railing",
+        "purpose": "Continuous sloped stair handrail",
+        "surface": "metal"
+      }
+    },
+    {
+      "id": "arch-roof-stair-landing-guard--1-post-0",
+      "label": "Balustrade post anchored into slab",
+      "transform": {
+        "space": "world",
+        "position": [
+          -5.335,
+          0.49,
+          -6.959999999999999
+        ],
+        "rotation": [
+          0,
+          0,
+          0,
+          1
+        ]
+      },
+      "visual": {
+        "type": "primitive",
+        "shape": "cylinder",
+        "params": {
+          "radius": 0.023,
+          "height": 0.98,
+          "radialSegments": 12
+        },
+        "color": "#465256"
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.023,
+          -0.49,
+          -0.023
+        ],
+        "max": [
+          0.023,
+          0.49,
+          0.023
+        ]
+      },
+      "layout": {
+        "role": "railing",
+        "purpose": "Balustrade post anchored into slab",
+        "surface": "metal"
+      }
+    },
+    {
+      "id": "arch-roof-stair-landing-guard--1-post-1",
+      "label": "Balustrade post anchored into slab",
+      "transform": {
+        "space": "world",
+        "position": [
+          -5.335,
+          0.49,
+          -6.359999999999999
+        ],
+        "rotation": [
+          0,
+          0,
+          0,
+          1
+        ]
+      },
+      "visual": {
+        "type": "primitive",
+        "shape": "cylinder",
+        "params": {
+          "radius": 0.023,
+          "height": 0.98,
+          "radialSegments": 12
+        },
+        "color": "#465256"
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.023,
+          -0.49,
+          -0.023
+        ],
+        "max": [
+          0.023,
+          0.49,
+          0.023
+        ]
+      },
+      "layout": {
+        "role": "railing",
+        "purpose": "Balustrade post anchored into slab",
+        "surface": "metal"
+      }
+    },
+    {
+      "id": "arch-roof-stair-landing-guard--1-post-2",
+      "label": "Balustrade post anchored into slab",
+      "transform": {
+        "space": "world",
+        "position": [
+          -5.335,
+          0.49,
+          -5.759999999999999
+        ],
+        "rotation": [
+          0,
+          0,
+          0,
+          1
+        ]
+      },
+      "visual": {
+        "type": "primitive",
+        "shape": "cylinder",
+        "params": {
+          "radius": 0.023,
+          "height": 0.98,
+          "radialSegments": 12
+        },
+        "color": "#465256"
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.023,
+          -0.49,
+          -0.023
+        ],
+        "max": [
+          0.023,
+          0.49,
+          0.023
+        ]
+      },
+      "layout": {
+        "role": "railing",
+        "purpose": "Balustrade post anchored into slab",
+        "surface": "metal"
+      }
+    },
+    {
+      "id": "arch-roof-stair-landing-guard--1-rail-0",
+      "label": "Continuous guardrail",
+      "transform": {
+        "space": "world",
+        "position": [
+          -5.335,
+          0.4704,
+          -6.359999999999999
+        ],
+        "rotation": [
+          0.707106781,
+          0,
+          0,
+          0.707106781
+        ]
+      },
+      "visual": {
+        "type": "primitive",
+        "shape": "cylinder",
+        "params": {
+          "radius": 0.027,
+          "height": 1.2000000000000002,
+          "radialSegments": 12
+        },
+        "color": "#b89b54"
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.027,
+          -0.6000000000000001,
+          -0.027
+        ],
+        "max": [
+          0.027,
+          0.6000000000000001,
+          0.027
+        ]
+      },
+      "layout": {
+        "role": "railing",
+        "purpose": "Continuous guardrail",
+        "surface": "metal"
+      }
+    },
+    {
+      "id": "arch-roof-stair-landing-guard--1-rail-1",
+      "label": "Continuous guardrail",
+      "transform": {
+        "space": "world",
+        "position": [
+          -5.335,
+          0.98,
+          -6.359999999999999
+        ],
+        "rotation": [
+          0.707106781,
+          0,
+          0,
+          0.707106781
+        ]
+      },
+      "visual": {
+        "type": "primitive",
+        "shape": "cylinder",
+        "params": {
+          "radius": 0.027,
+          "height": 1.2000000000000002,
+          "radialSegments": 12
+        },
+        "color": "#b89b54"
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.027,
+          -0.6000000000000001,
+          -0.027
+        ],
+        "max": [
+          0.027,
+          0.6000000000000001,
+          0.027
+        ]
+      },
+      "layout": {
+        "role": "railing",
+        "purpose": "Continuous guardrail",
+        "surface": "metal"
+      }
+    },
+    {
+      "id": "arch-roof-stair-post-1-0",
+      "label": "Stair handrail upright anchored into tread",
+      "transform": {
+        "space": "world",
+        "position": [
+          -6.665,
+          -2.4005850202429153,
+          -11.902
+        ],
+        "rotation": [
+          0,
+          0,
+          0,
+          1
+        ]
+      },
+      "visual": {
+        "type": "primitive",
+        "shape": "cylinder",
+        "params": {
+          "radius": 0.022,
+          "height": 0.9788299595141701,
+          "radialSegments": 12
+        },
+        "color": "#465256"
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.022,
+          -0.48941497975708503,
+          -0.022
+        ],
+        "max": [
+          0.022,
+          0.48941497975708503,
+          0.022
+        ]
+      },
+      "layout": {
+        "role": "railing",
+        "purpose": "Stair handrail upright anchored into tread",
+        "surface": "metal",
+        "support": "arch-roof-stair-tread-01"
+      }
+    },
+    {
+      "id": "arch-roof-stair-post-1-3",
+      "label": "Stair handrail upright anchored into tread",
+      "transform": {
+        "space": "world",
+        "position": [
+          -6.665,
+          -1.8998765182186235,
+          -11.062
+        ],
+        "rotation": [
+          0,
+          0,
+          0,
+          1
+        ]
+      },
+      "visual": {
+        "type": "primitive",
+        "shape": "cylinder",
+        "params": {
+          "radius": 0.022,
+          "height": 0.9602469635627529,
+          "radialSegments": 12
+        },
+        "color": "#465256"
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.022,
+          -0.4801234817813764,
+          -0.022
+        ],
+        "max": [
+          0.022,
+          0.4801234817813764,
+          0.022
+        ]
+      },
+      "layout": {
+        "role": "railing",
+        "purpose": "Stair handrail upright anchored into tread",
+        "surface": "metal",
+        "support": "arch-roof-stair-tread-04"
+      }
+    },
+    {
+      "id": "arch-roof-stair-post-1-6",
+      "label": "Stair handrail upright anchored into tread",
+      "transform": {
+        "space": "world",
+        "position": [
+          -6.665,
+          -1.399168016194332,
+          -10.222
+        ],
+        "rotation": [
+          0,
+          0,
+          0,
+          1
+        ]
+      },
+      "visual": {
+        "type": "primitive",
+        "shape": "cylinder",
+        "params": {
+          "radius": 0.022,
+          "height": 0.9416639676113355,
+          "radialSegments": 12
+        },
+        "color": "#465256"
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.022,
+          -0.47083198380566776,
+          -0.022
+        ],
+        "max": [
+          0.022,
+          0.47083198380566776,
+          0.022
+        ]
+      },
+      "layout": {
+        "role": "railing",
+        "purpose": "Stair handrail upright anchored into tread",
+        "surface": "metal",
+        "support": "arch-roof-stair-tread-07"
+      }
+    },
+    {
+      "id": "arch-roof-stair-post-1-9",
+      "label": "Stair handrail upright anchored into tread",
+      "transform": {
+        "space": "world",
+        "position": [
+          -6.665,
+          -0.8984595141700406,
+          -9.382
+        ],
+        "rotation": [
+          0,
+          0,
+          0,
+          1
+        ]
+      },
+      "visual": {
+        "type": "primitive",
+        "shape": "cylinder",
+        "params": {
+          "radius": 0.022,
+          "height": 0.9230809716599186,
+          "radialSegments": 12
+        },
+        "color": "#465256"
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.022,
+          -0.4615404858299593,
+          -0.022
+        ],
+        "max": [
+          0.022,
+          0.4615404858299593,
+          0.022
+        ]
+      },
+      "layout": {
+        "role": "railing",
+        "purpose": "Stair handrail upright anchored into tread",
+        "surface": "metal",
+        "support": "arch-roof-stair-tread-10"
+      }
+    },
+    {
+      "id": "arch-roof-stair-post-1-12",
+      "label": "Stair handrail upright anchored into tread",
+      "transform": {
+        "space": "world",
+        "position": [
+          -6.665,
+          -0.39775101214574937,
+          -8.542
+        ],
+        "rotation": [
+          0,
+          0,
+          0,
+          1
+        ]
+      },
+      "visual": {
+        "type": "primitive",
+        "shape": "cylinder",
+        "params": {
+          "radius": 0.022,
+          "height": 0.9044979757085014,
+          "radialSegments": 12
+        },
+        "color": "#465256"
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.022,
+          -0.4522489878542507,
+          -0.022
+        ],
+        "max": [
+          0.022,
+          0.4522489878542507,
+          0.022
+        ]
+      },
+      "layout": {
+        "role": "railing",
+        "purpose": "Stair handrail upright anchored into tread",
+        "surface": "metal",
+        "support": "arch-roof-stair-tread-13"
+      }
+    },
+    {
+      "id": "arch-roof-stair-post-1-15",
+      "label": "Stair handrail upright anchored into tread",
+      "transform": {
+        "space": "world",
+        "position": [
+          -6.665,
+          0.10295748987854236,
+          -7.702
+        ],
+        "rotation": [
+          0,
+          0,
+          0,
+          1
+        ]
+      },
+      "visual": {
+        "type": "primitive",
+        "shape": "cylinder",
+        "params": {
+          "radius": 0.022,
+          "height": 0.8859149797570844,
+          "radialSegments": 12
+        },
+        "color": "#465256"
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.022,
+          -0.4429574898785422,
+          -0.022
+        ],
+        "max": [
+          0.022,
+          0.4429574898785422,
+          0.022
+        ]
+      },
+      "layout": {
+        "role": "railing",
+        "purpose": "Stair handrail upright anchored into tread",
+        "surface": "metal",
+        "support": "arch-roof-stair-tread-16"
+      }
+    },
+    {
+      "id": "arch-roof-stair-post-1-18",
+      "label": "Stair handrail upright anchored into tread",
+      "transform": {
+        "space": "world",
+        "position": [
+          -6.665,
+          0.49,
+          -6.959999999999999
+        ],
+        "rotation": [
+          0,
+          0,
+          0,
+          1
+        ]
+      },
+      "visual": {
+        "type": "primitive",
+        "shape": "cylinder",
+        "params": {
+          "radius": 0.022,
+          "height": 0.98,
+          "radialSegments": 12
+        },
+        "color": "#465256"
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.022,
+          -0.49,
+          -0.022
+        ],
+        "max": [
+          0.022,
+          0.49,
+          0.022
+        ]
+      },
+      "layout": {
+        "role": "railing",
+        "purpose": "Stair handrail upright anchored into tread",
+        "surface": "metal",
+        "support": "arch-roof-stair-tread-18"
+      }
+    },
+    {
+      "id": "arch-roof-stair-handrail-1",
+      "label": "Continuous sloped stair handrail",
+      "transform": {
+        "space": "world",
+        "position": [
+          -6.665,
+          -0.4650000000000001,
+          -9.43
+        ],
+        "rotation": [
+          0.497515324,
+          0,
+          0,
+          0.867455187
+        ]
+      },
+      "visual": {
+        "type": "primitive",
+        "shape": "cylinder",
+        "params": {
+          "radius": 0.03,
+          "height": 5.723259560774787,
+          "radialSegments": 12
+        },
+        "color": "#b89b54"
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.03,
+          -2.8616297803873936,
+          -0.03
+        ],
+        "max": [
+          0.03,
+          2.8616297803873936,
+          0.03
+        ]
+      },
+      "layout": {
+        "role": "railing",
+        "purpose": "Continuous sloped stair handrail",
+        "surface": "metal"
+      }
+    },
+    {
+      "id": "arch-roof-stair-landing-guard-1-post-0",
+      "label": "Balustrade post anchored into slab",
+      "transform": {
+        "space": "world",
+        "position": [
+          -6.665,
+          0.49,
+          -6.959999999999999
+        ],
+        "rotation": [
+          0,
+          0,
+          0,
+          1
+        ]
+      },
+      "visual": {
+        "type": "primitive",
+        "shape": "cylinder",
+        "params": {
+          "radius": 0.023,
+          "height": 0.98,
+          "radialSegments": 12
+        },
+        "color": "#465256"
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.023,
+          -0.49,
+          -0.023
+        ],
+        "max": [
+          0.023,
+          0.49,
+          0.023
+        ]
+      },
+      "layout": {
+        "role": "railing",
+        "purpose": "Balustrade post anchored into slab",
+        "surface": "metal"
+      }
+    },
+    {
+      "id": "arch-roof-stair-landing-guard-1-post-1",
+      "label": "Balustrade post anchored into slab",
+      "transform": {
+        "space": "world",
+        "position": [
+          -6.665,
+          0.49,
+          -6.359999999999999
+        ],
+        "rotation": [
+          0,
+          0,
+          0,
+          1
+        ]
+      },
+      "visual": {
+        "type": "primitive",
+        "shape": "cylinder",
+        "params": {
+          "radius": 0.023,
+          "height": 0.98,
+          "radialSegments": 12
+        },
+        "color": "#465256"
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.023,
+          -0.49,
+          -0.023
+        ],
+        "max": [
+          0.023,
+          0.49,
+          0.023
+        ]
+      },
+      "layout": {
+        "role": "railing",
+        "purpose": "Balustrade post anchored into slab",
+        "surface": "metal"
+      }
+    },
+    {
+      "id": "arch-roof-stair-landing-guard-1-post-2",
+      "label": "Balustrade post anchored into slab",
+      "transform": {
+        "space": "world",
+        "position": [
+          -6.665,
+          0.49,
+          -5.759999999999999
+        ],
+        "rotation": [
+          0,
+          0,
+          0,
+          1
+        ]
+      },
+      "visual": {
+        "type": "primitive",
+        "shape": "cylinder",
+        "params": {
+          "radius": 0.023,
+          "height": 0.98,
+          "radialSegments": 12
+        },
+        "color": "#465256"
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.023,
+          -0.49,
+          -0.023
+        ],
+        "max": [
+          0.023,
+          0.49,
+          0.023
+        ]
+      },
+      "layout": {
+        "role": "railing",
+        "purpose": "Balustrade post anchored into slab",
+        "surface": "metal"
+      }
+    },
+    {
+      "id": "arch-roof-stair-landing-guard-1-rail-0",
+      "label": "Continuous guardrail",
+      "transform": {
+        "space": "world",
+        "position": [
+          -6.665,
+          0.4704,
+          -6.359999999999999
+        ],
+        "rotation": [
+          0.707106781,
+          0,
+          0,
+          0.707106781
+        ]
+      },
+      "visual": {
+        "type": "primitive",
+        "shape": "cylinder",
+        "params": {
+          "radius": 0.027,
+          "height": 1.2000000000000002,
+          "radialSegments": 12
+        },
+        "color": "#b89b54"
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.027,
+          -0.6000000000000001,
+          -0.027
+        ],
+        "max": [
+          0.027,
+          0.6000000000000001,
+          0.027
+        ]
+      },
+      "layout": {
+        "role": "railing",
+        "purpose": "Continuous guardrail",
+        "surface": "metal"
+      }
+    },
+    {
+      "id": "arch-roof-stair-landing-guard-1-rail-1",
+      "label": "Continuous guardrail",
+      "transform": {
+        "space": "world",
+        "position": [
+          -6.665,
+          0.98,
+          -6.359999999999999
+        ],
+        "rotation": [
+          0.707106781,
+          0,
+          0,
+          0.707106781
+        ]
+      },
+      "visual": {
+        "type": "primitive",
+        "shape": "cylinder",
+        "params": {
+          "radius": 0.027,
+          "height": 1.2000000000000002,
+          "radialSegments": 12
+        },
+        "color": "#b89b54"
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.027,
+          -0.6000000000000001,
+          -0.027
+        ],
+        "max": [
+          0.027,
+          0.6000000000000001,
+          0.027
+        ]
+      },
+      "layout": {
+        "role": "railing",
+        "purpose": "Continuous guardrail",
+        "surface": "metal"
+      }
+    },
+    {
+      "id": "arch-access-light-mount",
+      "label": "Ceiling-mounted luminaire housing",
+      "transform": {
+        "space": "world",
+        "position": [
+          -6,
+          2.605,
+          -6.3
+        ]
+      },
+      "visual": {
+        "type": "primitive",
+        "shape": "box",
+        "params": {
+          "size": [
+            0.48000000000000004,
+            0.09,
+            0.24
+          ]
+        },
+        "color": "#465256"
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.24000000000000002,
+          -0.045,
+          -0.12
+        ],
+        "max": [
+          0.24000000000000002,
+          0.045,
+          0.12
+        ]
+      },
+      "layout": {
+        "role": "fixture",
+        "purpose": "Ceiling-mounted luminaire housing",
+        "surface": "metal",
+        "support": "arch-roof-access-ceiling"
+      }
+    },
+    {
+      "id": "arch-access-light",
+      "label": "Downward practical ceiling light",
+      "transform": {
+        "space": "world",
+        "position": [
+          -6,
+          2.548,
+          -6.3
+        ]
+      },
+      "visual": {
+        "type": "primitive",
+        "shape": "box",
+        "params": {
+          "size": [
+            0.4,
+            0.025,
+            0.16
+          ]
+        },
+        "color": "#f6deb6"
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.2,
+          -0.0125,
+          -0.08
+        ],
+        "max": [
+          0.2,
+          0.0125,
+          0.08
+        ]
+      },
+      "layout": {
+        "role": "fixture",
+        "purpose": "Downward practical ceiling light",
+        "surface": "emissive",
+        "support": "arch-access-light-mount",
+        "light": {
+          "color": "#ffe8c9",
+          "intensity": 18,
+          "distance": 9
+        }
+      }
+    },
+    {
+      "id": "arch-ac-plinth",
+      "label": "HVAC mounting plinth",
+      "transform": {
+        "space": "world",
+        "position": [
+          -3.2,
+          0.08,
+          2
+        ]
+      },
+      "visual": {
+        "type": "primitive",
+        "shape": "box",
+        "params": {
+          "size": [
+            2.15,
+            0.16,
+            1.6
+          ]
+        },
+        "color": "#858782"
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -1.075,
+          -0.08,
+          -0.8
+        ],
+        "max": [
+          1.075,
+          0.08,
+          0.8
+        ]
+      },
+      "layout": {
+        "role": "floor",
+        "purpose": "HVAC mounting plinth",
+        "surface": "concrete",
+        "support": "ground"
+      }
+    },
+    {
+      "id": "arch-hvac-pad-0",
+      "label": "Plant service mounting pad",
+      "transform": {
+        "space": "world",
+        "position": [
+          5.7,
+          0.08,
+          -10
+        ]
+      },
+      "visual": {
+        "type": "primitive",
+        "shape": "box",
+        "params": {
+          "size": [
+            2.15,
+            0.16,
+            1.6
+          ]
+        },
+        "color": "#858782"
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -1.075,
+          -0.08,
+          -0.8
+        ],
+        "max": [
+          1.075,
+          0.08,
+          0.8
+        ]
+      },
+      "layout": {
+        "role": "floor",
+        "purpose": "Plant service mounting pad",
+        "surface": "concrete",
+        "support": "ground"
+      }
+    },
+    {
+      "id": "set-rooftop-hvac-0",
+      "label": "HVAC aligned in roof services zone",
+      "transform": {
+        "space": "world",
+        "position": [
+          5.7,
+          0.16,
+          -10
+        ]
+      },
+      "visual": {
+        "type": "model",
+        "url": "/models/generated/rooftop-hvac.glb"
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.975,
+          0,
+          -0.71
+        ],
+        "max": [
+          0.975,
+          1.465,
+          0.71
+        ]
+      },
+      "layout": {
+        "role": "furniture",
+        "purpose": "HVAC aligned in roof services zone",
+        "support": "arch-hvac-pad-0"
+      }
+    },
+    {
+      "id": "arch-hvac-pad-1",
+      "label": "Plant service mounting pad",
+      "transform": {
+        "space": "world",
+        "position": [
+          -3,
+          0.08,
+          10.8
+        ]
+      },
+      "visual": {
+        "type": "primitive",
+        "shape": "box",
+        "params": {
+          "size": [
+            2.15,
+            0.16,
+            1.6
+          ]
+        },
+        "color": "#858782"
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -1.075,
+          -0.08,
+          -0.8
+        ],
+        "max": [
+          1.075,
+          0.08,
+          0.8
+        ]
+      },
+      "layout": {
+        "role": "floor",
+        "purpose": "Plant service mounting pad",
+        "surface": "concrete",
+        "support": "ground"
+      }
+    },
+    {
+      "id": "set-rooftop-hvac-1",
+      "label": "HVAC aligned in roof services zone",
+      "transform": {
+        "space": "world",
+        "position": [
+          -3,
+          0.16,
+          10.8
+        ]
+      },
+      "visual": {
+        "type": "model",
+        "url": "/models/generated/rooftop-hvac.glb"
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.975,
+          0,
+          -0.71
+        ],
+        "max": [
+          0.975,
+          1.465,
+          0.71
+        ]
+      },
+      "layout": {
+        "role": "furniture",
+        "purpose": "HVAC aligned in roof services zone",
+        "support": "arch-hvac-pad-1"
+      }
+    },
+    {
+      "id": "arch-roof-walkway-0",
+      "label": "Roof-maintenance route from access door",
+      "transform": {
+        "space": "world",
+        "position": [
+          -6,
+          -0.02,
+          -0.3999999999999999
+        ],
+        "rotation": [
+          0,
+          0,
+          0,
+          1
+        ]
+      },
+      "visual": {
+        "type": "primitive",
+        "shape": "box",
+        "params": {
+          "size": [
+            1,
+            0.05,
+            8.825000000000001
+          ]
+        },
+        "color": "#aba89a"
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.5,
+          -0.025,
+          -4.4125000000000005
+        ],
+        "max": [
+          0.5,
+          0.025,
+          4.4125000000000005
+        ]
+      },
+      "layout": {
+        "role": "paving",
+        "purpose": "Roof-maintenance route from access door",
+        "surface": "concrete",
+        "support": "ground"
+      }
+    },
+    {
+      "id": "arch-roof-walkway-1",
+      "label": "Roof-maintenance route from access door",
+      "transform": {
+        "space": "world",
+        "position": [
+          -5.25,
+          -0.02,
+          4
+        ],
+        "rotation": [
+          0,
+          0.707106781,
+          0,
+          0.707106781
+        ]
+      },
+      "visual": {
+        "type": "primitive",
+        "shape": "box",
+        "params": {
+          "size": [
+            1,
+            0.05,
+            1.525
+          ]
+        },
+        "color": "#aba89a"
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.5,
+          -0.025,
+          -0.7625
+        ],
+        "max": [
+          0.5,
+          0.025,
+          0.7625
+        ]
+      },
+      "layout": {
+        "role": "paving",
+        "purpose": "Roof-maintenance route from access door",
+        "surface": "concrete",
+        "support": "ground"
+      }
+    },
+    {
+      "id": "set-roof-technician",
+      "label": "Maintenance technician servicing HVAC",
+      "transform": {
+        "space": "world",
+        "position": [
+          -4.7,
+          0,
+          2
+        ],
+        "rotation": [
+          0,
+          0.707106781,
+          0,
+          0.707106781
         ]
       },
       "visual": {
@@ -577,9 +6856,9 @@
         "name": "humanoid",
         "params": {
           "height": 1.8,
-          "shirtColor": "#546a89",
-          "trouserColor": "#283341",
-          "color": "#ad805f",
+          "shirtColor": "#8c754d",
+          "trouserColor": "#303438",
+          "color": "#b78e72",
           "motion": "idle"
         }
       },
@@ -595,6 +6874,58 @@
           1.8,
           0.25
         ]
+      },
+      "layout": {
+        "role": "subject",
+        "purpose": "Maintenance technician servicing HVAC",
+        "support": "ground"
+      }
+    },
+    {
+      "id": "set-roof-technician-2",
+      "label": "Second technician inspecting rear HVAC",
+      "transform": {
+        "space": "world",
+        "position": [
+          5.7,
+          0,
+          -8.4
+        ],
+        "rotation": [
+          0,
+          1,
+          0,
+          0
+        ]
+      },
+      "visual": {
+        "type": "preset",
+        "name": "humanoid",
+        "params": {
+          "height": 1.8,
+          "shirtColor": "#526775",
+          "trouserColor": "#303438",
+          "color": "#b78e72",
+          "motion": "idle"
+        }
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.325,
+          0,
+          -0.25
+        ],
+        "max": [
+          0.325,
+          1.8,
+          0.25
+        ]
+      },
+      "layout": {
+        "role": "subject",
+        "purpose": "Second technician inspecting rear HVAC",
+        "support": "ground"
       }
     }
   ],
@@ -643,44 +6974,6 @@
           1.75,
           0.25
         ]
-      }
-    },
-    {
-      "id": "set-support-05-face",
-      "entityId": "set-support-05",
-      "label": "roof maintenance technician, #8e774c jacket; supporting subject, not the principal actor face",
-      "localAnchor": [
-        0,
-        1.63,
-        0.12
-      ],
-      "localBounds": {
-        "type": "sphere",
-        "center": [
-          0,
-          1.63,
-          0.12
-        ],
-        "radius": 0.16
-      }
-    },
-    {
-      "id": "set-support-06-face",
-      "entityId": "set-support-06",
-      "label": "second maintenance technician, #546a89 jacket; supporting subject, not the principal actor face",
-      "localAnchor": [
-        0,
-        1.63,
-        0.12
-      ],
-      "localBounds": {
-        "type": "sphere",
-        "center": [
-          0,
-          1.63,
-          0.12
-        ],
-        "radius": 0.16
       }
     }
   ]

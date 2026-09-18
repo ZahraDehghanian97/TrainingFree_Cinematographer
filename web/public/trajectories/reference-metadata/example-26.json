@@ -11,10 +11,10 @@
   },
   "prompt": "در مسیری قوسی به چپ دور رقصنده بچرخ و او را سمت راست قاب نگه دار.",
   "promptSha256": "c6688f7471e4b4e70a8650996bad67bd30eb04b2e20e33774d543a61bf61e7f8",
-  "environmentSha256": "f77bb6c3a10a32a0aa8979b4252d7daa2034734063a2c3fedfd7cd62ad729f76",
+  "environmentSha256": "1a3416578512899ac3dede87e503033a47ecf42a0397671e15900b0dc813beb7",
   "cslSha256": "41fc968d68755619c078beeeaaf82d9210212b840849e26bce0e709af17d4782",
   "recipeSha256": "e95e5272e2e84a0835fb4642ca1b2a99d464545f237d61f4b7bd4f53e29e0259",
-  "trajectorySha256": "a30d0f0e577ed200c794b04f3ec486df08be682ad9fd13dc0f151c23a4d4bd46",
+  "trajectorySha256": "b82c2d537bb8bc684de18f98a7e1ee6c3c46571d912f34fb5447388b1b67e76f",
   "fullPoseIsGroundTruth": false,
   "artisticChoices": [
     "Unrequested rig offsets, radii, lens choices and smoothstep pacing are authored illustration choices, not inferred user constraints.",

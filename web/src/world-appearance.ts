@@ -83,7 +83,7 @@ export function getWorldLook(environment: EnvironmentV1) {
 export function createWorldGround(environment: EnvironmentV1): THREE.Group {
   const root = new THREE.Group();
   const ground = environment.world?.ground;
-  if (!ground) return root;
+  if (!ground || ground.render === false) return root;
   const profile = environment.world?.profile;
   const look = getWorldLook(environment);
   const [width, depth] = ground.size;
@@ -99,18 +99,18 @@ export function createWorldGround(environment: EnvironmentV1): THREE.Group {
 
   // A lower continuation prevents the authored ground rectangle from looking
   // like a floating tile, without covering its markings or changing ground Y.
-  const horizonSize = [Math.max(200, width * 8), Math.max(200, depth * 3)] as const;
-  const horizonMaterial = floor.material.clone();
-  for (const slot of ["map", "bumpMap"] as const) {
-    const texture = floor.material[slot]!.clone();
-    texture.repeat.set(horizonSize[0] / 4, horizonSize[1] / 4);
-    horizonMaterial[slot] = texture;
+  if (ground.continuation !== "none" && profile !== "rooftop") {
+    const horizonSize = [Math.max(200, width * 8), Math.max(200, depth * 3)] as const;
+    const exterior = ground.continuation === "terrain";
+    const horizonMaterial = createSurfaceMaterial(exterior ? "grass" : ground.surface ?? look.surface,
+      exterior ? "#727e59" : ground.color ?? look.floor, horizonSize);
+    const horizon = new THREE.Mesh(new THREE.PlaneGeometry(...horizonSize), horizonMaterial);
+    horizon.rotation.x = -Math.PI / 2;
+    horizon.position.y = ground.y - 0.04;
+    horizon.receiveShadow = true;
+    root.add(horizon);
   }
-  const horizon = new THREE.Mesh(new THREE.PlaneGeometry(...horizonSize), horizonMaterial);
-  horizon.rotation.x = -Math.PI / 2;
-  horizon.position.y = ground.y - 0.035;
-  horizon.receiveShadow = true;
-  root.add(horizon);
+  if (ground.details === "authored") return root;
 
   const paint = new THREE.MeshStandardMaterial({ color: "#ece7d5", roughness: 0.85, polygonOffset: true, polygonOffsetFactor: -1 });
   const stripe = (w: number, d: number, x: number, z: number, material = paint) => {

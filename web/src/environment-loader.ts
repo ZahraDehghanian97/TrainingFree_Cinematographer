@@ -330,6 +330,31 @@ function assertEntity(
   if (entity.forwardAxis !== undefined) {
     expectOneOf(entity.forwardAxis, ["+X", "-X", "+Z", "-Z"] as const, `${path}.forwardAxis`);
   }
+  if (entity.layout !== undefined) {
+    const layout = expectObject(entity.layout, `${path}.layout`);
+    expectOneOf(layout.role, ["subject", "prop", "furniture", "wall", "window", "trim", "floor", "ceiling",
+      "fixture", "paving", "marking", "railing", "stair", "landing", "column", "beam", "door"] as const, `${path}.layout.role`);
+    expectNonEmptyString(layout.purpose, `${path}.layout.purpose`);
+    if (layout.support !== undefined) expectNonEmptyString(layout.support, `${path}.layout.support`);
+    if (layout.cutaway !== undefined) expectOneOf(layout.cutaway, ["roof", "wall"] as const, `${path}.layout.cutaway`);
+    if (layout.outwardNormal !== undefined) {
+      assertVec3(layout.outwardNormal, `${path}.layout.outwardNormal`);
+      if (Math.abs(Math.hypot(...layout.outwardNormal) - 1) > 1e-5)
+        fail(`${path}.layout.outwardNormal`, "expected a unit normal", "out-of-range");
+    }
+    if (layout.cutaway === "wall" && layout.outwardNormal === undefined)
+      fail(`${path}.layout.outwardNormal`, "wall cutaway requires its outward normal", "missing-reference");
+    if (layout.surface !== undefined) expectOneOf(layout.surface,
+      ["plaster", "concrete", "wood", "metal", "glass", "fabric", "emissive", "stone"] as const, `${path}.layout.surface`);
+    if (layout.sign !== undefined) expectNonEmptyString(layout.sign, `${path}.layout.sign`);
+    if (layout.light !== undefined) {
+      const light = expectObject(layout.light, `${path}.layout.light`);
+      expectNonEmptyString(light.color, `${path}.layout.light.color`);
+      expectNonNegativeNumber(light.intensity, `${path}.layout.light.intensity`);
+      expectPositiveNumber(light.distance, `${path}.layout.light.distance`);
+      if (light.offset !== undefined) assertVec3(light.offset, `${path}.layout.light.offset`);
+    }
+  }
   assertTransform(entity.transform, `${path}.transform`, durationSeconds);
   assertVisual(entity.visual, `${path}.visual`);
   if (entity.bounds !== undefined) {
@@ -402,6 +427,9 @@ export function assertEnvironmentV1(value: unknown): asserts value is Environmen
     if (world.ground !== undefined) {
       const ground = expectObject(world.ground, "$.world.ground");
       expectFiniteNumber(ground.y, "$.world.ground.y");
+      if (ground.render !== undefined) expectBoolean(ground.render, "$.world.ground.render");
+      if (ground.continuation !== undefined) expectOneOf(ground.continuation, ["automatic", "none", "terrain"] as const, "$.world.ground.continuation");
+      if (ground.details !== undefined) expectOneOf(ground.details, ["automatic", "authored"] as const, "$.world.ground.details");
       const size = expectArray(ground.size, "$.world.ground.size");
       if (size.length !== 2) {
         fail("$.world.ground.size", "expected exactly 2 numbers", "invalid-tuple-size");
@@ -433,6 +461,28 @@ export function assertEnvironmentV1(value: unknown): asserts value is Environmen
     }
     entityIds.add(candidate.id);
   });
+
+  // Resolve after collecting every ID: authoring order must not affect supports.
+  const supportById = new Map<string, string>();
+  entities.forEach((candidate, index) => {
+    const entity = candidate as SceneEntityV1;
+    const support = entity.layout?.support;
+    if (!support || support === "ground") return;
+    if (!entityIds.has(support))
+      fail(`$.entities[${index}].layout.support`, `references missing entity ${JSON.stringify(support)}`, "missing-reference");
+    supportById.set(entity.id, support);
+  });
+  const complete = new Set<string>();
+  for (const id of supportById.keys()) {
+    const visiting = new Set<string>();
+    let current: string | undefined = id;
+    while (current && !complete.has(current)) {
+      if (visiting.has(current)) fail("$.entities", `cyclic support chain at ${JSON.stringify(current)}`, "invalid-layout");
+      visiting.add(current);
+      current = supportById.get(current);
+    }
+    visiting.forEach(value => complete.add(value));
+  }
 
   const semanticAnchors = expectArray(environment.semanticAnchors, "$.semanticAnchors");
   const semanticAnchorIds = new Set<string>();

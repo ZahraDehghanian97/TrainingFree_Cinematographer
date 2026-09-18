@@ -116,6 +116,23 @@ export interface EntityOcclusionV1 {
   bounds?: BoundsV1[];
 }
 
+/** Optional authoring metadata. Geometry stays in normal entity bounds; a
+ * cutaway changes only the editor overview, never the optimizer or Director POV. */
+export interface SceneEntityLayoutV1 {
+  role: "subject" | "prop" | "furniture" | "wall" | "window" | "trim" | "floor"
+    | "ceiling" | "fixture" | "paving" | "marking" | "railing" | "stair"
+    | "landing" | "column" | "beam" | "door";
+  purpose: string;
+  /** Entity ID carrying the object, or the special value "ground". */
+  support?: string;
+  cutaway?: "roof" | "wall";
+  /** World-space outward normal for a wall's optional overview cutaway. */
+  outwardNormal?: Vec3;
+  surface?: "plaster" | "concrete" | "wood" | "metal" | "glass" | "fabric" | "emissive" | "stone";
+  sign?: string;
+  light?: { color: string; intensity: number; distance: number; /** Entity-local emitter position. */ offset?: Vec3 };
+}
+
 export interface SceneEntityV1 {
   id: string;
   label?: string;
@@ -125,6 +142,7 @@ export interface SceneEntityV1 {
   visual: SceneVisualV1;
   bounds?: BoundsV1;
   occlusion?: EntityOcclusionV1;
+  layout?: SceneEntityLayoutV1;
 }
 
 /**
@@ -172,6 +190,12 @@ export interface EnvironmentV1 {
       size: [number, number];
       color?: string;
       surface?: GroundSurfaceV1;
+      /** False when explicit floor slabs contain architectural openings. */
+      render?: boolean;
+      /** Exterior terrain, no continuation, or legacy profile-based behavior. */
+      continuation?: "automatic" | "none" | "terrain";
+      /** Authored paths/markings replace renderer-generated profile decoration. */
+      details?: "automatic" | "authored";
     };
     grid?: {
       size: number;

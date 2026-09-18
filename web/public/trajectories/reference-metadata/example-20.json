@@ -11,10 +11,10 @@
   },
   "prompt": "A 10-second park reveal. Follow the jogger for 4 seconds without letting the tree block the subject. From 4 to 7 seconds crane upward to reveal the courtyard fountain. During the final 3 seconds continue following at a fixed relative distance and angle, keeping the jogger framed. No cut and no frozen world.",
   "promptSha256": "217d09403c802ce9259b9fb48611840bbcb4375a256e1c64672798f2508bce0c",
-  "environmentSha256": "cead6e4713714dd0bf388c607afd67d5f3481988f60175f3df6c88e2ccab1384",
+  "environmentSha256": "ac797855f12ec8b26680c8e106f964dd17be61bd91350cab3f632be154c06273",
   "cslSha256": "41ea5d7dc25f90b56ebd7dbbb818b604332ce139b0c3409fa0deba8e420c4f3c",
   "recipeSha256": "502e397398c99b3696d1b0577e1f5d8a297a9fdc8a46aaf525eb4a88ebc4c151",
-  "trajectorySha256": "e39fd96b6a23ed6f5a87938b49c8eaae1c1227201939a7a5a0ef45db90cd0eeb",
+  "trajectorySha256": "d14c21938701b66462166d8471268fd9518ea1849fa99b24f7fdfbf63c5632c9",
   "fullPoseIsGroundTruth": false,
   "artisticChoices": [
     "Unrequested rig offsets, radii, lens choices and smoothstep pacing are authored illustration choices, not inferred user constraints.",

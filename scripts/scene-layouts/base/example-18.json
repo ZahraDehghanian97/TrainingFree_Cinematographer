@@ -1,0 +1,311 @@
+{
+  "schemaVersion": "1.0",
+  "kind": "environment",
+  "id": "example-18-eye-zoom",
+  "promptExampleId": "example-18",
+  "prompt": "A 10-second psychological detail shot. Start close on the principal subject’s trembling hand. Tilt upward over 2.5 seconds to the eye, then hold for 0.5 seconds. From 3 to 8.5 seconds dolly toward the pupil while zooming optically, ending just outside the eye in an extreme close-up: do not enter the head or fabricate an interior-eye world. Over the final 1.5 seconds roll 10 degrees right and freeze scene time. No cut.",
+  "clock": {
+    "durationSeconds": 10,
+    "timeDomain": "playback",
+    "fpsHint": 24
+  },
+  "coordinates": {
+    "handedness": "right",
+    "upAxis": "+Y",
+    "cameraForwardAxis": "-Z",
+    "lengthUnit": "meter",
+    "rotationOrder": "quaternion-xyzw"
+  },
+  "evaluation": {
+    "distanceMetric": "boundsSurface",
+    "epsilon": 0.001
+  },
+  "world": {
+    "profile": "studio",
+    "background": "#36383e",
+    "overviewCamera": {
+      "position": [
+        9,
+        5,
+        10
+      ],
+      "target": [
+        0,
+        1.25,
+        0
+      ]
+    },
+    "ground": {
+      "y": 0,
+      "size": [
+        22,
+        22
+      ],
+      "color": "#83766c",
+      "surface": "wood"
+    },
+    "grid": {
+      "size": 18,
+      "divisions": 18
+    }
+  },
+  "entities": [
+    {
+      "id": "subject-entity",
+      "label": "سوژهٔ پرتره",
+      "transform": {
+        "space": "world",
+        "position": {
+          "interpolation": "catmullRom",
+          "extrapolation": "hold",
+          "keyframes": [
+            {
+              "t": 0,
+              "value": [
+                0,
+                0,
+                0
+              ]
+            },
+            {
+              "t": 5,
+              "value": [
+                0.04,
+                0,
+                0.05
+              ]
+            },
+            {
+              "t": 10,
+              "value": [
+                0.08,
+                0,
+                0.1
+              ]
+            }
+          ]
+        },
+        "rotation": {
+          "interpolation": "slerp",
+          "extrapolation": "hold",
+          "keyframes": [
+            {
+              "t": 0,
+              "value": [
+                0,
+                -0.02617695,
+                0,
+                0.99965732
+              ]
+            },
+            {
+              "t": 10,
+              "value": [
+                0,
+                0.02617695,
+                0,
+                0.99965732
+              ]
+            }
+          ]
+        }
+      },
+      "visual": {
+        "type": "preset",
+        "name": "humanoid",
+        "params": {
+          "color": "#b67c65",
+          "shirtColor": "#1e2537",
+          "trouserColor": "#11131a"
+        }
+      },
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.45,
+          0,
+          -0.25
+        ],
+        "max": [
+          0.45,
+          1.8,
+          0.25
+        ]
+      }
+    },
+    {
+      "id": "pupil-reflection",
+      "label": "بازتاب مردمک",
+      "transform": {
+        "space": "world",
+        "position": [
+          0.15,
+          1.69,
+          0.29
+        ]
+      },
+      "visual": {
+        "type": "primitive",
+        "shape": "sphere",
+        "params": {
+          "radius": 0.035,
+          "widthSegments": 24,
+          "heightSegments": 16
+        },
+        "color": "#8eeaff"
+      },
+      "bounds": {
+        "type": "sphere",
+        "center": [
+          0,
+          0,
+          0
+        ],
+        "radius": 0.035
+      },
+      "occlusion": {
+        "transparent": true
+      }
+    },
+    {
+      "id": "red-practical",
+      "label": "چراغ قرمز صحنه",
+      "transform": {
+        "space": "world",
+        "position": [
+          -2.2,
+          2.1,
+          -1.4
+        ]
+      },
+      "visual": {
+        "type": "primitive",
+        "shape": "sphere",
+        "params": {
+          "radius": 0.22
+        },
+        "color": "#ff365a"
+      },
+      "bounds": {
+        "type": "sphere",
+        "center": [
+          0,
+          0,
+          0
+        ],
+        "radius": 0.22
+      }
+    },
+    {
+      "id": "blue-practical",
+      "label": "چراغ آبی صحنه",
+      "transform": {
+        "space": "world",
+        "position": [
+          2.4,
+          2.5,
+          -1.8
+        ]
+      },
+      "visual": {
+        "type": "primitive",
+        "shape": "sphere",
+        "params": {
+          "radius": 0.2
+        },
+        "color": "#4d8dff"
+      },
+      "bounds": {
+        "type": "sphere",
+        "center": [
+          0,
+          0,
+          0
+        ],
+        "radius": 0.2
+      }
+    }
+  ],
+  "semanticAnchors": [
+    {
+      "id": "subject",
+      "entityId": "subject-entity",
+      "label": "سوژه",
+      "localAnchor": [
+        0,
+        1.25,
+        0
+      ],
+      "localBounds": {
+        "type": "box",
+        "min": [
+          -0.45,
+          0,
+          -0.25
+        ],
+        "max": [
+          0.45,
+          1.8,
+          0.25
+        ]
+      }
+    },
+    {
+      "id": "hand",
+      "entityId": "subject-entity",
+      "label": "دست لرزان سوژه",
+      "localAnchor": [
+        0.38,
+        0.78,
+        0.26
+      ],
+      "localBounds": {
+        "type": "sphere",
+        "center": [
+          0.38,
+          0.78,
+          0.26
+        ],
+        "radius": 0.16
+      }
+    },
+    {
+      "id": "eye",
+      "entityId": "subject-entity",
+      "label": "چشم سوژه",
+      "localAnchor": [
+        0.12,
+        1.66,
+        0.24
+      ],
+      "localBounds": {
+        "type": "sphere",
+        "center": [
+          0.12,
+          1.66,
+          0.24
+        ],
+        "radius": 0.085
+      }
+    },
+    {
+      "id": "pupil",
+      "entityId": "subject-entity",
+      "label": "مردمک سوژه",
+      "localAnchor": [
+        0.12,
+        1.66,
+        0.285
+      ],
+      "localBounds": {
+        "type": "sphere",
+        "center": [
+          0.12,
+          1.66,
+          0.285
+        ],
+        "radius": 0.04
+      }
+    }
+  ]
+}

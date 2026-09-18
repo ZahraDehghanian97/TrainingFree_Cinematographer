@@ -11,10 +11,10 @@
   },
   "prompt": "A 6-second uncut approach through the narrow corridor toward the half-open door. Move forward with restrained handheld shake while gradually rolling the camera 30 degrees to the left over the take. Keep the door as the visual destination and do not pass through it. Do not request a lighting change or a cut.",
   "promptSha256": "3ed7056e079c59943fceb3f6b5639d59a5d317a0250de572ddc265b6661d318f",
-  "environmentSha256": "144c2265175d012d1ff782dea4f3d3f6e870ff8dd94be8e9aaef89b6c8dd1ba2",
+  "environmentSha256": "022188e60a8067c6f8b3af94dea1edde3a4cf31ce3ec9136db311337ed002be8",
   "cslSha256": "c12dd69affea41591d0faae8a6fbcf9036766295f749874b4cf1185258a53c13",
   "recipeSha256": "71ee3a85a67c7381e12002293aeebc3ad5491dee04c91934bfb7037337aee10e",
-  "trajectorySha256": "ac8fda75ea67c5491f5d37117fb93b1ad9720a3c1c0a00d415b8eca1fd76c576",
+  "trajectorySha256": "1124ce7e1e3111856173b6d1ad1fa47fbf7291d54afded5dcb4580dc07bb00ba",
   "fullPoseIsGroundTruth": false,
   "artisticChoices": [
     "Unrequested rig offsets, radii, lens choices and smoothstep pacing are authored illustration choices, not inferred user constraints.",

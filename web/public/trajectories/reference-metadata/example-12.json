@@ -11,7 +11,7 @@
   },
   "prompt": "An 18-second virtual-camera shot from inside the braking car. Start behind the dashboard at world position (-0.15, 1.23, 30.25), facing world -Z with a 70-degree vertical field of view. Follow the dashboard so the camera rides with the car. When the car first slows below 5 metres per second, continue riding with the car while travelling 5 metres forward relative to it through the windshield over 2.5 seconds, with a soft launch and landing; treat the mounted cabin as intentional interior occupancy, and permit body crossing only during this explicitly virtual exit. Then make one complete rightward 360-degree arc around the car, ending on its front. No cut.",
   "promptSha256": "4ff05d719a1a7dba56c744158ec2ebdbc3f254c2a78b89f2b1a785b8cc0a00ef",
-  "environmentSha256": "0a1623e95999e0fa6dceb411b1676f61eb6f19a877136c87cc41ea3ea1da8583",
+  "environmentSha256": "aeff51d2e7f307cb65f7f015789df33b7733d872b7f3ce0bbdd970e201f92c86",
   "cslSha256": "02a6a43b999bac23a2c9a256575eb9c7388dbfff021bb7e3e96461366f5513a3",
   "recipeSha256": "7f0f123ac5997500626704ec0fdb5aa4fcf4751e4a5807a950ff3742e69d9bba",
   "trajectorySha256": "f63767820e2ddcc2735cc7571aef50df0b8585c60b614282d4730333f780a412",
