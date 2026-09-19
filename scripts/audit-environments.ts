@@ -1,21 +1,28 @@
-import * as fs from 'node:fs';
-import * as path from 'node:path';
-import { assertEnvironmentV1 } from '../web/src/environment-loader';
-import { auditEnvironmentLayout, type LayoutReceipt } from '../src/environment/layout-audit';
-const root = path.resolve(__dirname, '..');
-const receipts: { scenes: LayoutReceipt[] } = JSON.parse(fs.readFileSync(path.join(root,'docs/environment-layouts.json'),'utf8'));
-const results = receipts.scenes.map(receipt => {
-  const data: unknown = JSON.parse(fs.readFileSync(path.join(root,`web/public/environments/${receipt.exampleId}.json`),'utf8'));
-  assertEnvironmentV1(data);
-  const report = auditEnvironmentLayout(data,receipt);
-  console.log(`${report.exampleId}: ${report.checks} checks, ${report.issues.length} issues`);
-  report.issues.forEach(issue=>console.log(`  ${issue.check}: ${issue.entity}: ${issue.detail}`));
-  return report;
+import * as fs from "node:fs";
+import * as path from "node:path";
+import assert from "node:assert/strict";
+import { assertEnvironmentV1, sampleEntityTransform } from "../web/src/environment-loader";
+import { sampleEnvironmentEntityTransform } from "../src/environment/sampler";
+const root=path.resolve(__dirname,"..");
+const read=(p:string):any=>JSON.parse(fs.readFileSync(path.join(root,p),"utf8"));
+const entries=read("web/public/environments/manifest.json").environments;
+assert.deepEqual(entries.map((e:any)=>e.id).sort(),["factory","stadium"]);
+assert.deepEqual(fs.readdirSync(path.join(root,"web/public/environments")).sort(),["factory.json","manifest.json","stadium.json"]);
+const results=entries.map((entry:any)=>{
+ const raw:unknown=read(`web/public/environments/${entry.id}.json`);assertEnvironmentV1(raw);const env=raw;
+ let samples=0;
+ for(let t=0;t<=env.clock.durationSeconds;t+=.25)for(const entity of env.entities){
+  const a=sampleEnvironmentEntityTransform(entity,t),b=sampleEntityTransform(entity,t);
+  for(const channel of ["position","rotation","scale"] as const)a[channel].forEach((value,i)=>{
+   assert.ok(Number.isFinite(value));assert.ok(Math.abs(value-b[channel][i]!)<1e-6);
+  });samples++;
+ }
+ const count=(role:string)=>env.entities.filter(e=>e.visual.type==="preset"&&e.visual.name==="humanoid"&&e.visual.params?.role===role).length;
+ if(env.id==="stadium"){assert.equal(count("runner"),6);assert.equal(count("football"),24);assert.equal(count("spectator"),72);assert.equal(count("cameraman"),1);}
+ else assert.equal(count("worker"),8);
+ const result={environmentId:env.id,entities:env.entities.length,semanticAnchors:env.semanticAnchors.length,events:env.events?.length??0,transformSamples:samples,issues:0};
+ console.log(JSON.stringify(result));return result;
 });
-const summary = { scenes:results.length, checks:results.reduce((n,r)=>n+r.checks,0), issues:results.reduce((n,r)=>n+r.issues.length,0),
-  rooms:results.reduce((n,r)=>n+r.rooms,0), stairFlights:results.reduce((n,r)=>n+r.stairs,0) };
-const report = { schemaVersion:'1.0', method:'Exported geometry: partitioned wall coverage, roof contact, stair connectivity/headroom, furniture contacts, support graph; walking-core clearance at 5 Hz',
-  limitations:['Not a structural-engineering or accessibility/code certification.', 'AABB contact checks and 5 Hz static-obstacle sampling do not prove detailed mesh contact or continuous collision clearance; moving obstacles and limb motion are not covered.', 'Art direction still requires browser review.'], summary, results };
-fs.writeFileSync(path.join(root,'docs/environment-audit.json'), JSON.stringify(report,null,2)+'\n');
-console.log(JSON.stringify(summary));
-if (summary.issues || summary.scenes !== 32) process.exitCode = 1;
+const report={schemaVersion:"1.0",method:"Schema, two-world allowlist, cast counts, finite transforms and browser/optimizer parity sampled at 4 Hz",results,
+ limitations:["Not a WebGL render, a frame-rate benchmark or continuous collision proof.","Pose overlays and root motion are staged animation, not rigid-body physics.","Detailed behavioral acceptance tests run separately with npm run test:scenarios."]};
+fs.mkdirSync(path.join(root,"docs"),{recursive:true});fs.writeFileSync(path.join(root,"docs/environment-audit.json"),JSON.stringify(report,null,2)+"\n");

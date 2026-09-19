@@ -1,10 +1,10 @@
 {
   "schemaVersion": "1.0",
   "kind": "timelineSolverOutput",
-  "exampleId": "example-02",
-  "environmentId": "example-02-face-orbit",
-  "prompt": "A 15-second frozen-time portrait on the studio set. Begin in an extreme close-up of the principal man’s face. Freeze the scene from the first frame while the camera makes exactly three complete revolutions (1080 degrees) around his face. Keep the orbit radius fixed; the crew and set remain frozen. No cut and no scene-time speed-up.",
-  "totalDuration": 15,
+  "exampleId": "factory",
+  "environmentId": "factory",
+  "prompt": "کارخانهٔ فعال و حرکت قطعات روی خط تولید را معرفی کن؛ مشاجرهٔ دو کارگر، هل‌دادن در ثانیهٔ ۲۰، برخورد به ریل و ریزش وسایل در ۲۱، توقف اضطراری و واکنش همکاران را ثبت کن.",
+  "totalDuration": 48,
   "subjectBinding": {
     "mode": "resolved",
     "source": "resolved-fixture"
@@ -15,43 +15,375 @@
         "kind": "interval",
         "shotStartTime": 0,
         "startTime": 0,
-        "endTime": 15,
+        "endTime": 11,
         "lossFunctions": [
           {
-            "type": "arcMovement",
+            "type": "trackMovement",
             "parameters": {
-              "sign": 1,
-              "arcAngle": 1080,
-              "subjectId": "man_face"
+              "subjectIds": [
+                "cargo_01",
+                "robot_1",
+                "worker_03"
+              ]
             },
-            "sourceActionId": "orbit_stop_motion"
+            "sourceActionId": "production"
           }
         ],
         "weight": 1
       },
       {
-        "kind": "point",
+        "kind": "interval",
         "shotStartTime": 0,
-        "time": 0,
+        "startTime": 0,
+        "endTime": 11,
+        "lossFunctions": [
+          {
+            "type": "noShake",
+            "parameters": {},
+            "sourceActionId": "production"
+          }
+        ],
+        "weight": 1
+      },
+      {
+        "kind": "interval",
+        "shotStartTime": 0,
+        "startTime": 0,
+        "endTime": 11,
+        "lossFunctions": [
+          {
+            "type": "keepInFrame",
+            "parameters": {
+              "subjectIds": [
+                "cargo_01",
+                "robot_1",
+                "worker_03"
+              ]
+            },
+            "sourceActionId": "production"
+          }
+        ],
+        "weight": 1
+      },
+      {
+        "kind": "interval",
+        "shotStartTime": 0,
+        "startTime": 0,
+        "endTime": 11,
         "lossFunctions": [
           {
             "type": "shotSize",
             "parameters": {
-              "shotSize": "extremeCloseUp",
-              "subjectId": "man_face"
-            }
+              "shotSize": "longShot",
+              "subjectIds": [
+                "cargo_01",
+                "robot_1",
+                "worker_03"
+              ]
+            },
+            "sourceActionId": "production"
+          }
+        ],
+        "weight": 1
+      },
+      {
+        "kind": "interval",
+        "shotStartTime": 0,
+        "startTime": 11,
+        "endTime": 20,
+        "lossFunctions": [
+          {
+            "type": "dollyInMovement",
+            "parameters": {
+              "subjectIds": [
+                "worker_a",
+                "worker_b"
+              ]
+            },
+            "sourceActionId": "argument"
+          }
+        ],
+        "weight": 1
+      },
+      {
+        "kind": "interval",
+        "shotStartTime": 0,
+        "startTime": 11,
+        "endTime": 20,
+        "lossFunctions": [
+          {
+            "type": "noShake",
+            "parameters": {},
+            "sourceActionId": "argument"
+          }
+        ],
+        "weight": 1
+      },
+      {
+        "kind": "interval",
+        "shotStartTime": 0,
+        "startTime": 11,
+        "endTime": 20,
+        "lossFunctions": [
+          {
+            "type": "keepInFrame",
+            "parameters": {
+              "subjectIds": [
+                "worker_a",
+                "worker_b"
+              ]
+            },
+            "sourceActionId": "argument"
+          }
+        ],
+        "weight": 1
+      },
+      {
+        "kind": "interval",
+        "shotStartTime": 0,
+        "startTime": 11,
+        "endTime": 20,
+        "lossFunctions": [
+          {
+            "type": "shotSize",
+            "parameters": {
+              "shotSize": "longShot",
+              "subjectIds": [
+                "worker_a",
+                "worker_b"
+              ]
+            },
+            "sourceActionId": "argument"
+          }
+        ],
+        "weight": 1
+      },
+      {
+        "kind": "interval",
+        "shotStartTime": 0,
+        "startTime": 20,
+        "endTime": 22.7,
+        "lossFunctions": [
+          {
+            "type": "followMovement",
+            "parameters": {
+              "subjectIds": [
+                "worker_a",
+                "worker_b",
+                "cargo_01"
+              ]
+            },
+            "sourceActionId": "shove_and_impact"
+          }
+        ],
+        "weight": 1
+      },
+      {
+        "kind": "interval",
+        "shotStartTime": 0,
+        "startTime": 20,
+        "endTime": 22.7,
+        "lossFunctions": [
+          {
+            "type": "noShake",
+            "parameters": {},
+            "sourceActionId": "shove_and_impact"
+          }
+        ],
+        "weight": 1
+      },
+      {
+        "kind": "interval",
+        "shotStartTime": 0,
+        "startTime": 20,
+        "endTime": 22.7,
+        "lossFunctions": [
+          {
+            "type": "keepInFrame",
+            "parameters": {
+              "subjectIds": [
+                "worker_a",
+                "worker_b",
+                "cargo_01"
+              ]
+            },
+            "sourceActionId": "shove_and_impact"
+          }
+        ],
+        "weight": 1
+      },
+      {
+        "kind": "interval",
+        "shotStartTime": 0,
+        "startTime": 20,
+        "endTime": 22.7,
+        "lossFunctions": [
+          {
+            "type": "shotSize",
+            "parameters": {
+              "shotSize": "longShot",
+              "subjectIds": [
+                "worker_a",
+                "worker_b",
+                "cargo_01"
+              ]
+            },
+            "sourceActionId": "shove_and_impact"
+          }
+        ],
+        "weight": 1
+      },
+      {
+        "kind": "interval",
+        "shotStartTime": 0,
+        "startTime": 22.7,
+        "endTime": 26,
+        "lossFunctions": [
+          {
+            "type": "followMovement",
+            "parameters": {
+              "subjectIds": [
+                "worker_b",
+                "cargo_01",
+                "cargo_04"
+              ]
+            },
+            "sourceActionId": "fallen_cargo"
+          }
+        ],
+        "weight": 1
+      },
+      {
+        "kind": "interval",
+        "shotStartTime": 0,
+        "startTime": 22.7,
+        "endTime": 26,
+        "lossFunctions": [
+          {
+            "type": "noShake",
+            "parameters": {},
+            "sourceActionId": "fallen_cargo"
+          }
+        ],
+        "weight": 1
+      },
+      {
+        "kind": "interval",
+        "shotStartTime": 0,
+        "startTime": 22.7,
+        "endTime": 26,
+        "lossFunctions": [
+          {
+            "type": "keepInFrame",
+            "parameters": {
+              "subjectIds": [
+                "worker_b",
+                "cargo_01",
+                "cargo_04"
+              ]
+            },
+            "sourceActionId": "fallen_cargo"
+          }
+        ],
+        "weight": 1
+      },
+      {
+        "kind": "interval",
+        "shotStartTime": 0,
+        "startTime": 22.7,
+        "endTime": 26,
+        "lossFunctions": [
+          {
+            "type": "shotSize",
+            "parameters": {
+              "shotSize": "longShot",
+              "subjectIds": [
+                "worker_b",
+                "cargo_01",
+                "cargo_04"
+              ]
+            },
+            "sourceActionId": "fallen_cargo"
+          }
+        ],
+        "weight": 1
+      },
+      {
+        "kind": "interval",
+        "shotStartTime": 0,
+        "startTime": 26,
+        "endTime": 48,
+        "lossFunctions": [
+          {
+            "type": "dollyOutMovement",
+            "parameters": {
+              "subjectIds": [
+                "worker_a",
+                "worker_b",
+                "worker_05"
+              ]
+            },
+            "sourceActionId": "response"
+          }
+        ],
+        "weight": 1
+      },
+      {
+        "kind": "interval",
+        "shotStartTime": 0,
+        "startTime": 26,
+        "endTime": 48,
+        "lossFunctions": [
+          {
+            "type": "noShake",
+            "parameters": {},
+            "sourceActionId": "response"
+          }
+        ],
+        "weight": 1
+      },
+      {
+        "kind": "interval",
+        "shotStartTime": 0,
+        "startTime": 26,
+        "endTime": 48,
+        "lossFunctions": [
+          {
+            "type": "keepInFrame",
+            "parameters": {
+              "subjectIds": [
+                "worker_a",
+                "worker_b",
+                "worker_05"
+              ]
+            },
+            "sourceActionId": "response"
+          }
+        ],
+        "weight": 1
+      },
+      {
+        "kind": "interval",
+        "shotStartTime": 0,
+        "startTime": 26,
+        "endTime": 48,
+        "lossFunctions": [
+          {
+            "type": "shotSize",
+            "parameters": {
+              "shotSize": "longShot",
+              "subjectIds": [
+                "worker_a",
+                "worker_b",
+                "worker_05"
+              ]
+            },
+            "sourceActionId": "response"
           }
         ],
         "weight": 1
       }
     ],
-    "timeWarp": [
-      {
-        "startTimePlayback": 0,
-        "endTimePlayback": 15,
-        "rate": 0,
-        "label": "frozen"
-      }
-    ]
+    "timeWarp": []
   }
 }

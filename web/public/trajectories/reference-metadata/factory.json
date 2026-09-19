@@ -1,0 +1,97 @@
+{
+  "schemaVersion": "1.0",
+  "kind": "authoredReferenceMetadata",
+  "environmentId": "factory",
+  "environmentSha256": "1bf281054a4c256098a05ca7d6e2c294773c51178cd18093d26f623512a400ee",
+  "trajectorySha256": "54044190c55719d48949853bc38b5660d55b5cbb22e6ba6d3f348a41c98ac77d",
+  "source": "Deterministic authored storyboard, not optimized output or measured ground truth",
+  "events": [
+    {
+      "id": "production_running",
+      "label": "تولید و کار کارگران",
+      "type": "production_running",
+      "time": 0,
+      "subjects": [
+        "production_line",
+        "robot_1",
+        "cargo_01"
+      ],
+      "endTime": 12
+    },
+    {
+      "id": "workers_argument",
+      "label": "مشاجرهٔ دو کارگر",
+      "type": "workers_argument",
+      "time": 12.2,
+      "subjects": [
+        "worker_a",
+        "worker_b"
+      ],
+      "endTime": 20
+    },
+    {
+      "id": "worker_shove",
+      "label": "هل‌دادن کارگر ب",
+      "type": "worker_shove",
+      "time": 20,
+      "subjects": [
+        "worker_a",
+        "worker_b"
+      ],
+      "endTime": 21
+    },
+    {
+      "id": "line_collision",
+      "label": "برخورد به ریل خط تولید",
+      "type": "line_collision",
+      "time": 21,
+      "subjects": [
+        "worker_b",
+        "production_line"
+      ]
+    },
+    {
+      "id": "cargo_spill",
+      "label": "ریزش قطعات روی زمین",
+      "type": "cargo_spill",
+      "time": 21,
+      "subjects": [
+        "cargo_01",
+        "cargo_02",
+        "cargo_03",
+        "cargo_04",
+        "cargo_05",
+        "cargo_06"
+      ],
+      "endTime": 24.1
+    },
+    {
+      "id": "emergency_stop",
+      "label": "توقف اضطراری خط",
+      "type": "emergency_stop",
+      "time": 21.7,
+      "subjects": [
+        "production_line",
+        "worker_05",
+        "control_station"
+      ],
+      "endTime": 22.7
+    },
+    {
+      "id": "workers_response",
+      "label": "واکنش و رسیدگی همکاران",
+      "type": "workers_response",
+      "time": 25,
+      "subjects": [
+        "worker_a",
+        "worker_b",
+        "worker_07"
+      ],
+      "endTime": 48
+    }
+  ],
+  "limitations": [
+    "Camera reference requires visual review; camera optimizer is available separately.",
+    "Authored root motion and pose overlays are not a real-time physics simulation."
+  ]
+}

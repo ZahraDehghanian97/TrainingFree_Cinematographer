@@ -19,6 +19,8 @@ import { sampleCameraTrajectory } from "./trajectory-loader";
 import { createDetailedPreset } from "./detailed-presets";
 import { getHumanoidRig } from "./humanoid";
 import { createHumanoidMotion } from "./humanoid-motion";
+import { withPerformance } from "./performance-motion";
+import { createScenarioPreset, updateScenarioProp } from "./scenario-props";
 import { createArchitectureVisual } from "./architecture-materials";
 import { visibleInArchitectureOverview } from "./architecture-visibility";
 import { createEnvironmentProp } from "./environment-props";
@@ -233,7 +235,7 @@ function createGenericObject(visual: PresetVisualV1): THREE.Object3D {
 
 /** Creates one of the semantic preset visuals supported by EnvironmentV1. */
 export function createPresetVisual(visual: PresetVisualV1): THREE.Object3D {
-  return createDetailedPreset(visual) ?? createGenericObject(visual);
+  return createScenarioPreset(visual) ?? createDetailedPreset(visual) ?? createGenericObject(visual);
 }
 
 function createEntityVisual(entity: SceneEntityV1): THREE.Object3D {
@@ -562,7 +564,7 @@ export class SceneRenderer {
       if (rig) {
         this.humanoidMotions.set(entity.id, {
           visual,
-          controller: createHumanoidMotion(entity, environment.clock.durationSeconds, rig),
+          controller: withPerformance(createHumanoidMotion(entity, environment.clock.durationSeconds, rig), rig, entity, environment.clock.durationSeconds),
         });
       }
       if (entity.visual.type === "model") void this.models.load(entity, root, visual);
@@ -698,6 +700,7 @@ export class SceneRenderer {
         object.position.fromArray(transform.position);
         object.quaternion.fromArray(transform.rotation);
         object.scale.fromArray(transform.scale);
+        updateScenarioProp(object.children[0], this.currentEnvironmentTime);
         const motion = this.humanoidMotions.get(entity.id);
         if (motion?.visual.parent === object) {
           motion.controller.update(this.currentEnvironmentTime);

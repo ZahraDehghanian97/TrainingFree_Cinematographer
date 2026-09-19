@@ -2,6 +2,8 @@ import * as THREE from "three";
 import { RoundedBoxGeometry } from "three/examples/jsm/geometries/RoundedBoxGeometry.js";
 import { mergeGeometries } from "three/examples/jsm/utils/BufferGeometryUtils.js";
 
+import { createBroadcastCamera } from "./scenario-props";
+
 import type { PresetVisualV1 } from "../../src/types/environment";
 
 /** Bone rotations are relative to a relaxed standing pose, with the face toward +Z. */
@@ -428,13 +430,19 @@ export function createHumanoid(visual: PresetVisualV1): THREE.Group {
   const rightFoot = bone("right-foot", rightShin, [-0.126, 0.13, 0]);
   const rig: HumanoidRig = { root, hips, spine, head, leftUpperArm, leftForearm, leftHand, rightUpperArm, rightForearm,
     rightHand, leftThigh, leftShin, leftFoot, rightThigh, rightShin, rightFoot };
+  if (visual.params?.detail === "crowd" || visual.params?.detail === "support") {
+    buildSupportingHuman(root, rig, bones, visual);
+    addWardrobe(rig, visual);
+    rigs.set(root, rig);
+    return root;
+  }
   const model = new SkinnedModel(bones);
   const skinColor = new THREE.Color(paramColor(visual, "color", "#c6987c"));
   const skin = material("skin", skinColor, 0.82);
   skin.vertexColors = true;
   const shirt = material("shirt", paramColor(visual, "shirtColor", "#365b78"), 0.94);
   const trousers = material("trousers", paramColor(visual, "trouserColor", "#252b35"), 0.96);
-  const shoes = material("shoes-and-belt", "#252321", 0.63);
+  const shoes = material("shoes-and-belt", visual.params?.outfit === "sports" ? "#e8e7df" : "#252321", 0.63);
   const hair = material("hair", paramColor(visual, "hairColor", "#30251f"), 0.9);
   const whites = material("eye-white", "#d5cdc1", 0.4);
   const iris = material("iris", "#655547", 0.42);
@@ -476,6 +484,22 @@ export function createHumanoid(visual: PresetVisualV1): THREE.Group {
       const w = smoothstep(0.485, 0.59, p.y);
       return [[shin, 1 - w], [thigh, w]];
     };
+    if (visual.params?.outfit === "sports") {
+      const sock = material("sports-socks", "#eaece4");
+      model.add(sweep([
+        [0.13, side*.126, 0, .05, .055], [0.24, side*.124, 0, .058, .06],
+        [0.34, side*.122, -.005, .068, .071],
+      ], 20), sock, legWeights);
+      model.add(sweep([
+        [0.33, side*.122, -.005, .067, .070], [0.44, side*.121, -.004, .070, .074],
+        [0.53, side*.119, .004, .061, .069], [0.63, side*.116, 0, .073, .077],
+        [0.74, side*.113, 0, .084, .092],
+      ], 24), skin, legWeights);
+      model.add(sweep([
+        [0.70, side*.114, 0, .088, .096], [0.80, side*.11, -.004, .096, .106],
+        [0.90, side*.107, -.007, .098, .112], [0.96, side*.102, -.003, .090, .102],
+      ], 24), trousers, legWeights);
+    } else {
     model.add(sweep([
       [0.127, side * 0.126, 0, 0.052, 0.058], [0.19, side * 0.125, 0, 0.054, 0.060],
       [0.31, side * 0.123, -0.006, 0.068, 0.074], [0.42, side * 0.121, -0.006, 0.072, 0.079],
@@ -484,6 +508,7 @@ export function createHumanoid(visual: PresetVisualV1): THREE.Group {
       [0.78, side * 0.111, -0.004, 0.094, 0.103], [0.89, side * 0.107, -0.007, 0.097, 0.110],
       [0.96, side * 0.102, -0.003, 0.090, 0.102],
     ], 28), trousers, legWeights);
+    }
     const shoe = new RoundedBoxGeometry(0.143, 0.115, 0.274, 3, 0.039);
     shoe.translate(side * 0.126, 0.076, 0.059);
     model.add(shoe, shoes, () => [[foot, 1]]);
@@ -506,7 +531,7 @@ export function createHumanoid(visual: PresetVisualV1): THREE.Group {
       [1.33, side * 0.251, 0, 0.078, 0.079], [1.402, side * 0.236, -0.001, 0.075, 0.077],
       [1.434, side * 0.222, -0.005, 0.061, 0.064], [1.451, side * 0.215, -0.009, 0.031, 0.039],
       [1.455, side * 0.212, -0.012, 0.004, 0.010],
-    ], 28), shirt, armWeights);
+    ], 28), visual.params?.role === "runner" ? skin : shirt, armWeights);
     model.add(sweep([
       [0.869, side * 0.319, 0.016, 0.029, 0.034], [0.923, side * 0.314, 0.012, 0.032, 0.037],
       [1.006, side * 0.306, 0.004, 0.044, 0.044], [1.056, side * 0.299, 0.001, 0.046, 0.046],
@@ -533,6 +558,7 @@ export function createHumanoid(visual: PresetVisualV1): THREE.Group {
   }
   addFace(model, head, skin, hair, whites, iris, dark, lips);
   model.finish(root);
+  addWardrobe(rig, visual);
   if (visual.params?.pose === "driving") poseSeatedDriver(rig, visual);
   rigs.set(root, rig);
   return root;
@@ -585,4 +611,72 @@ function poseSeatedDriver(rig: HumanoidRig, visual: PresetVisualV1): void {
       .multiply(new THREE.Quaternion().setFromAxisAngle(new THREE.Vector3(1, 0, 0), -Math.PI / 2));
   }
   rig.root.updateMatrixWorld(true);
+}
+
+/** Lower-detail skinned geometry for spectators and the football ensemble. */
+function buildSupportingHuman(root: THREE.Group, rig: HumanoidRig, bones: THREE.Bone[], visual: PresetVisualV1): void {
+  const model = new SkinnedModel(bones);
+  const skin = material("support-skin", paramColor(visual,"color","#bd906f"));
+  const shirt = material("support-shirt", paramColor(visual,"shirtColor","#487389"));
+  const pants = material("support-pants", paramColor(visual,"trouserColor","#263847"));
+  const shoes = material("support-shoes", "#e4e5db");
+  const hair = material("support-hair", "#302820");
+  const sports = visual.params?.outfit === "sports";
+  const shape=(size: Point,p: Point,m: THREE.Material,b: THREE.Bone)=>{
+    const g=new THREE.BoxGeometry(...size);g.translate(...p);model.add(g,m,()=>[[b,1]]);
+  };
+  shape([.35,.19,.23],[0,.93,0],pants,rig.hips);
+  shape([.42,.43,.23],[0,1.255,0],shirt,rig.spine);
+  model.ellipsoid([.074,.075,.07],[0,1.515,0],skin,rig.head,10);
+  model.ellipsoid([.113,.157,.11],[0,1.725,0],skin,rig.head,12);
+  model.ellipsoid([.114,.065,.112],[0,1.825,-.01],hair,rig.head,10);
+  for(const side of [1,-1]){
+    const thigh=side>0?rig.leftThigh:rig.rightThigh,shin=side>0?rig.leftShin:rig.rightShin,foot=side>0?rig.leftFoot:rig.rightFoot;
+    const arm=side>0?rig.leftUpperArm:rig.rightUpperArm,forearm=side>0?rig.leftForearm:rig.rightForearm,hand=side>0?rig.leftHand:rig.rightHand;
+    const segment=(a: Point,b: Point,r:number,m:THREE.Material,bone:THREE.Bone)=>{
+      const start=new THREE.Vector3(...a),end=new THREE.Vector3(...b),direction=end.clone().sub(start);
+      const g=new THREE.CylinderGeometry(r,r*.87,direction.length(),8,1);
+      g.applyQuaternion(new THREE.Quaternion().setFromUnitVectors(new THREE.Vector3(0,1,0),direction.clone().normalize()));
+      const middle=start.add(end).multiplyScalar(.5);g.translate(middle.x,middle.y,middle.z);model.add(g,m,()=>[[bone,1]]);
+    };
+    segment([side*.11,.93,0],[side*.12,.7,0],.09,pants,thigh);
+    segment([side*.12,.7,0],[side*.12,.53,0],.068,sports?skin:pants,thigh);
+    segment([side*.12,.52,0],[side*.126,.14,0],.06,sports?shoes:pants,shin);
+    shape([.14,.11,.26],[side*.126,.067,.055],shoes,foot);
+    segment([side*.237,1.41,0],[side*.276,1.21,0],.071,shirt,arm);
+    segment([side*.276,1.21,0],[side*.294,1.11,0],.049,skin,arm);
+    segment([side*.294,1.107,0],[side*.319,.873,.016],.038,skin,forearm);
+    model.ellipsoid([.029,.065,.038],[side*.32,.837,.016],skin,hand,8);
+    model.ellipsoid([.009,.01,.004],[side*.043,1.743,.103],hair,rig.head,8);
+  }
+  model.finish(root);
+}
+
+/** Clothing/equipment stays attached to bones through every pose and seek. */
+function addWardrobe(rig: HumanoidRig, visual: PresetVisualV1): void {
+  if(visual.params?.outfit === "worker"){
+    const safety=material("safety-reflector","#e8edb8",.2);
+    for(const side of [-1,1]){
+      const stripe=new THREE.Mesh(new THREE.BoxGeometry(.036,.32,.018),safety);
+      stripe.position.set(side*.12,.18,.128);rig.spine.add(stripe);
+    }
+    const belt=new THREE.Mesh(new THREE.BoxGeometry(.36,.037,.018),safety);belt.position.set(0,.07,.125);rig.spine.add(belt);
+    const hardhat=new THREE.Mesh(new THREE.SphereGeometry(.145,16,8,0,Math.PI*2,0,Math.PI/2),material("hard-hat","#f4c33f",.14));
+    hardhat.position.set(0,.345,-.007);rig.head.add(hardhat);
+    const brim=new THREE.Mesh(new THREE.CylinderGeometry(.165,.165,.025,20),material("hard-hat-brim","#f4c33f",.14));
+    brim.position.set(0,.345,.008);rig.head.add(brim);
+  }
+  if(visual.params?.outfit === "sports" && typeof document !== "undefined"){
+    const canvas=document.createElement("canvas");canvas.width=128;canvas.height=128;
+    const ctx=canvas.getContext("2d")!;ctx.fillStyle=visual.params?.role==="runner"?"#f5f0de":paramColor(visual,"shirtColor","#39758c");ctx.fillRect(0,0,128,128);
+    ctx.fillStyle=visual.params?.role==="runner"?"#253c49":"#f9f5e9";ctx.textAlign="center";ctx.font="bold 80px sans-serif";ctx.fillText(String(visual.params?.number??1).padStart(2,"0"),64,94);
+    const texture=new THREE.CanvasTexture(canvas);texture.colorSpace=THREE.SRGBColorSpace;
+    for(const side of [1,-1]){
+      const bib=new THREE.Mesh(new THREE.PlaneGeometry(.24,.23),new THREE.MeshStandardMaterial({map:texture,roughness:1}));
+      bib.position.set(0,.19,side*.137);bib.rotation.y=side<0?Math.PI:0;rig.spine.add(bib);
+    }
+  }
+  if(visual.params?.role === "cameraman"){
+    const camera=createBroadcastCamera();camera.position.set(.18,.36,.03);camera.rotation.y=Math.PI/2;rig.spine.add(camera);
+  }
 }

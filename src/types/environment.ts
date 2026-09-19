@@ -63,7 +63,14 @@ export type PresetVisualNameV1 =
   | "door"
   | "vase"
   | "monitor"
-  | "genericObject";
+  | "genericObject"
+  | "stadiumTrack"
+  | "raceFlag"
+  | "flower"
+  | "productionLine"
+  | "industrialRobot"
+  | "broadcastCamera"
+  | "scoreboard";
 
 export interface PresetVisualV1 {
   type: "preset";
@@ -133,6 +140,28 @@ export interface SceneEntityLayoutV1 {
   light?: { color: string; intensity: number; distance: number; /** Entity-local emitter position. */ offset?: Vec3 };
 }
 
+export type PerformanceActionV1 = "ready" | "fall" | "recover" | "celebrate" | "sit"
+  | "cheer" | "throw" | "film" | "work" | "argue" | "shove" | "recoil" | "kick" | "dive";
+
+/** Pose-only overlay. Root motion remains in transform channels, shared with the solver. */
+export interface PerformanceClipV1 {
+  action: PerformanceActionV1;
+  start: number;
+  end: number;
+  blend?: number;
+  intensity?: number;
+}
+
+/** Authored, deterministic scene-time beat; not a separate environment or a camera cut. */
+export interface SceneEventV1 {
+  id: string;
+  type: string;
+  label: string;
+  time: number;
+  endTime?: number;
+  subjects: string[];
+}
+
 export interface SceneEntityV1 {
   id: string;
   label?: string;
@@ -143,6 +172,7 @@ export interface SceneEntityV1 {
   bounds?: BoundsV1;
   occlusion?: EntityOcclusionV1;
   layout?: SceneEntityLayoutV1;
+  performance?: PerformanceClipV1[];
 }
 
 /**
@@ -204,4 +234,5 @@ export interface EnvironmentV1 {
   };
   entities: SceneEntityV1[];
   semanticAnchors: SceneSemanticAnchorV1[];
+  events?: SceneEventV1[];
 }

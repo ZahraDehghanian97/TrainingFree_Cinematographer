@@ -89,6 +89,8 @@ const viewMode = byId<HTMLDivElement>("viewMode");
 const cutawayToggle = byId<HTMLInputElement>("cutawayToggle");
 const pathToggle = byId<HTMLInputElement>("pathToggle");
 const boundsToggle = byId<HTMLInputElement>("boundsToggle");
+const sceneEventButtons = byId<HTMLDivElement>("sceneEventButtons");
+const sceneEventStatus = byId<HTMLOutputElement>("sceneEventStatus");
 const labelsToggle = byId<HTMLInputElement>("labelsToggle");
 const dataDrawer = byId<HTMLElement>("dataDrawer");
 const scrim = byId<HTMLElement>("scrim");
@@ -212,8 +214,7 @@ async function fetchManifest(): Promise<EnvironmentManifest> {
 }
 
 function labelFor(entry: EnvironmentManifestEntry): string {
-  const number = exampleNumber(entry.promptExampleId);
-  return `مثال ${number} · ${entry.title ?? entry.prompt}`;
+  return entry.title ?? entry.id;
 }
 
 function exampleNumber(promptExampleId: string): string {
@@ -222,9 +223,8 @@ function exampleNumber(promptExampleId: string): string {
 }
 
 function shortEnvironmentName(env: EnvironmentV1): string {
-  const number = exampleNumber(env.promptExampleId);
   const title = manifest.environments.find((entry) => entry.id === env.id)?.title;
-  return `مثال ${number} · ${title ?? env.prompt}`;
+  return title ?? env.id;
 }
 
 function populateEnvironmentPicker(): void {
@@ -837,6 +837,8 @@ async function selectEnvironment(
     clockValue.textContent = `0.00 / ${environment.clock.durationSeconds.toFixed(2)}`;
 
     renderer.setEnvironment(environment);
+    renderer.setShowLabels(labelsToggle.checked);
+    renderSceneEvents();
     resetTrajectory();
 
     sceneTitle.textContent = labelFor(entry);
@@ -926,6 +928,48 @@ async function loadFile(file: File): Promise<void> {
   resetPipelineArtifacts();
 }
 
+/** Resolve scene-clock event time through monotone playback time warps. */
+function seekSceneEvent(sceneTime: number): void {
+  if (!environment) return;
+  const duration = environment.clock.durationSeconds;
+  const clock = (t: number) => trajectory ? environmentTimeAtPlayback(trajectory, t) : t;
+  if (sceneTime < clock(0) - .001 || sceneTime > clock(duration) + .001) {
+    showToast("این مسیر دوربین به زمان این رویداد نمی‌رسد. Replay reference را بزنید.", "error");
+    return;
+  }
+  let lo = 0, hi = duration;
+  for (let i = 0; i < 48; i++) { const mid = (lo + hi) / 2; if (clock(mid) < sceneTime) lo = mid; else hi = mid; }
+  currentTime = hi;
+  setPlaying(false);
+  renderer.setTime(currentTime, clock(currentTime));
+  updateTimeUi(clock(currentTime));
+  renderer.render();
+}
+function renderSceneEvents(): void {
+  sceneEventButtons.replaceChildren();
+  sceneEventStatus.textContent = "";
+  for (const event of environment?.events ?? []) {
+    const button = document.createElement("button");
+    button.type = "button";
+    button.dataset.eventId = event.id;
+    button.textContent = `${event.time.toFixed(1)} ثانیه · ${event.label}`;
+    button.title = "رفتن به زمان صحنه؛ نه تغییر محیط یا شروع شبیه‌سازی جدید";
+    button.addEventListener("click", () => seekSceneEvent(event.time));
+    sceneEventButtons.appendChild(button);
+  }
+}
+function updateSceneEvents(time: number): void {
+  const active = (environment?.events ?? []).filter(e => time >= e.time && time <= (e.endTime ?? e.time + 1.1));
+  const ids = new Set(active.map(e => e.id));
+  sceneEventButtons.querySelectorAll<HTMLButtonElement>("button").forEach(button => {
+    const selected = ids.has(button.dataset.eventId ?? "");
+    button.classList.toggle("is-active", selected);
+    button.setAttribute("aria-pressed", String(selected));
+  });
+  const text = active.map(e => e.label).join(" · ") || "";
+  if (sceneEventStatus.textContent !== text) sceneEventStatus.textContent = text;
+}
+
 function formatTime(seconds: number): string {
   const minutes = Math.floor(seconds / 60);
   const remainder = Math.floor(seconds % 60).toString().padStart(2, "0");
@@ -958,6 +1002,7 @@ function updateTimeUi(environmentTime: number): void {
     sceneRateValue.textContent = "Normal · 1×";
   }
   sceneTimeValue.textContent = `${environmentTime.toFixed(2)} s`;
+  updateSceneEvents(environmentTime);
 }
 
 function animationFrame(now: number): void {

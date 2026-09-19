@@ -161,7 +161,7 @@ def props():
 
 # Geometry and dressing have separate sources of truth. Regeneration never
 # reads last run's generated scene, so removed clutter cannot grow back.
-from scene_layouts import extra_props, build_scenes
+from scene_layouts import extra_props
 
 def main():
  kit = props()
@@ -169,7 +169,6 @@ def main():
  manifest = {name:mesh.export(name) for name,mesh in kit.items()}
  (OUT/'manifest.json').write_text(json.dumps({'schemaVersion':'1.0',
      'generator':'scripts/generate-scene-assets.py','assets':list(manifest.values())},indent=2)+'\n')
- build_scenes(manifest)
  print(f'Generated {len(manifest)} original procedural GLB assets.')
 
 if __name__ == '__main__':

@@ -11,6 +11,6 @@ export function publishOptimizedProvenance(root:string,fixture:ResolvedPromptExa
   const manifestFile=path.join(root,'web/public/environments/manifest.json');
   const manifest=JSON.parse(fs.readFileSync(manifestFile,'utf8'));
   const entry=manifest.environments.find((e:{id:string})=>e.id===env.id);
-  if(entry){entry.optimizedTrajectoryStale=false;entry.optimizedProvenanceUrl=`/trajectories/optimized/${fixture.id}-provenance.json`;}
+  if(entry){entry.optimizedTrajectoryUrl=`/trajectories/optimized/${fixture.id}-camera.json`;entry.optimizedTrajectoryStale=false;entry.optimizedProvenanceUrl=`/trajectories/optimized/${fixture.id}-provenance.json`;}
   fs.writeFileSync(manifestFile,JSON.stringify(manifest,null,2)+'\n');
 }

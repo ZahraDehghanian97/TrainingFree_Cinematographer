@@ -128,7 +128,7 @@ function main(): void {
   }
 
   selected.forEach(({ fixture, index }) => {
-    const environment = loadEnvironment(fixture.id);
+    const environment = loadEnvironment(fixture.environmentId);
     const timeline = flattenTimeline(solveTimeline(fixture.resolvedCsl, environment));
     writeJsonAtomically(
       path.join(timelineDirectory, `output_${index + 1}.json`),

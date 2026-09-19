@@ -1,0 +1,1 @@
+Generated timelines and optimized output are written here. Only stadium and factory are active worlds. Run `npm run generate:timelines` or `npm run generate:trajectories`. Historical movies in removed worlds are intentionally not bundled.

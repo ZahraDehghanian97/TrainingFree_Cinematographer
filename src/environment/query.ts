@@ -144,6 +144,8 @@ Examples:
 
 Environment: ${env.id}
 Duration: ${env.clock.durationSeconds} seconds
+Authored scene events (scene-clock seconds; use these when the request names an event):
+${JSON.stringify(env.events ?? [])}
 Available subjects:
 ${subjectIndex(env)}
 

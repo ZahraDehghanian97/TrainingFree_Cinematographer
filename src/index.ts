@@ -64,8 +64,8 @@ function printUsage(): void {
       "Examples:",
       "  npm run pipeline",
       "  npm run pipeline -- --example 1",
-      "  npm run pipeline -- --example example-01 --binding-mode resolved",
-      "  npm run pipeline -- --example example-01 --binding-mode llm",
+      "  npm run pipeline -- --example stadium --binding-mode resolved",
+      "  npm run pipeline -- --example stadium --binding-mode llm",
       "  npm run pipeline -- --example example-07 --keyframes ./my-keyframes.json",
       "",
       "EXAMPLE_BINDING_MODE can set the default mode; --binding-mode overrides it.",
@@ -215,7 +215,7 @@ function writeJsonAtomically(filePath: string, document: unknown): void {
 }
 
 function loadExampleEnvironment(fixture: ResolvedPromptExampleFixture): EnvironmentV1 {
-  const environmentPath = path.join(ENVIRONMENTS_DIR, `${fixture.id}.json`);
+  const environmentPath = path.join(ENVIRONMENTS_DIR, `${fixture.environmentId}.json`);
   let raw: unknown;
   try {
     raw = JSON.parse(fs.readFileSync(environmentPath, "utf8"));
@@ -238,7 +238,6 @@ function loadExampleEnvironment(fixture: ResolvedPromptExampleFixture): Environm
   }
   if (
     environment.id !== fixture.environmentId
-    || environment.promptExampleId !== fixture.id
   ) {
     throw new Error(
       `Environment identity mismatch for ${fixture.id}: expected ${fixture.environmentId}, `

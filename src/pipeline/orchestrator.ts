@@ -113,6 +113,11 @@ export async function runPromptPipeline(
   const abortSignal = options.abortSignal;
   const directorOptions: DirectorGenerationOptions = {
     ...options.director,
+    sceneEvents: environment.events?.map(event => ({
+      label: event.label, time: event.time, endTime: event.endTime,
+      participants: event.subjects.map(id => environment.entities.find(entity => entity.id === id)?.label
+        ?? environment.semanticAnchors.find(anchor => anchor.id === id)?.label ?? "scene participant"),
+    })),
     abortSignal,
   };
   const groundingOptions: PipelineGroundingOptions = {

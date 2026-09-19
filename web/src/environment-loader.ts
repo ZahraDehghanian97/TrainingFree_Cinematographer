@@ -1,3 +1,4 @@
+import { assertScenarioData } from "../../src/environment/performance";
 import type {
   BoundsV1,
   Channel,
@@ -46,7 +47,7 @@ const PRESET_NAMES = [
   "door",
   "vase",
   "monitor",
-  "genericObject",
+  "genericObject", "stadiumTrack", "raceFlag", "flower", "productionLine", "industrialRobot", "broadcastCamera", "scoreboard",
 ] as const;
 const PRIMITIVE_SHAPES = ["box", "sphere", "cylinder", "cone", "plane", "torus"] as const;
 const WORLD_PROFILES = ["studio", "daylight", "road", "park", "industrial", "corridor", "stage", "rooftop"] as const;
@@ -521,6 +522,7 @@ export function assertEnvironmentV1(value: unknown): asserts value is Environmen
       assertBounds(semanticAnchor.localBounds, `${path}.localBounds`);
     }
   });
+  assertScenarioData(value as EnvironmentV1);
 }
 
 export function parseEnvironment(input: unknown): EnvironmentV1 {

@@ -40,7 +40,7 @@
 
       <aside class="scene-panel glass" aria-label="Scene information">
         <div class="panel-kicker"><span class="status-dot"></span><span id="sceneStatus">Loading scene</span></div>
-        <h1 id="sceneTitle" dir="auto">محیط مثال</h1>
+        <h1 id="sceneTitle" dir="auto">دو محیط سینمایی</h1>
         <p class="prompt" id="promptText" dir="auto"></p>
 
         <dl class="facts">
@@ -58,11 +58,17 @@
           <output id="coordinateValue">x — · y — · z — · t 0.00</output>
         </div>
 
+        <section class="scene-events" aria-labelledby="sceneEventsHeading" dir="rtl">
+          <h2 id="sceneEventsHeading">رویدادهای صحنه</h2>
+          <p class="event-hint">با انتخاب هر رویداد، پخش به زمان وقوع آن می‌رود.</p>
+          <div id="sceneEventButtons" class="event-buttons"></div>
+          <output id="sceneEventStatus" aria-live="polite"></output>
+        </section>
         <div class="visibility-controls">
           <label><input id="pathToggle" type="checkbox" checked /><span>Camera path</span></label>
           <label><input id="boundsToggle" type="checkbox" /><span>Object bounds</span></label>
           <label title="Only God view is cut away. Director POV always includes the complete building."><input id="cutawayToggle" type="checkbox" checked /><span>Building cutaway · God view</span></label>
-          <label><input id="labelsToggle" type="checkbox" checked /><span>Target labels</span></label>
+          <label><input id="labelsToggle" type="checkbox" /><span>Target labels</span></label>
         </div>
       </aside>
 

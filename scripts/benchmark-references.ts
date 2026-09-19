@@ -1,8 +1,9 @@
 import * as fs from 'node:fs';
 import * as path from 'node:path';
+import { createHash } from 'node:crypto';
 import { resolvedPromptExampleFixtures } from '../src/data/resolved-example-fixtures';
 import { auditTrajectory, sampleReferenceTrajectory } from '../src/reference/audit';
-import { assertFreshReference, sourceFingerprints, fingerprint, type ReferenceMetadata } from '../src/reference/provenance';
+import { sourceFingerprints, fingerprint } from '../src/reference/provenance';
 import { optimizeCameraTrajectory } from '../src/optimizer';
 import { flattenTimeline } from '../src/timeline/flattener';
 import { solveTimeline } from '../src/timeline/solver';
@@ -18,13 +19,15 @@ for(let i=0;i<args.length;i++){
   else if(arg==='--optimization-fps')optimizationFps=Number(value);
   else if(arg==='--output')output=value;else throw new Error(`Unknown option ${arg}`);
 }
-if(examples.some(n=>!Number.isInteger(n)||n<1||n>32)||!Number.isInteger(iterations)||iterations<0||!Number.isFinite(optimizationFps)||optimizationFps<=0)throw new Error('Invalid benchmark options');
+if(examples.some(n=>!Number.isInteger(n)||n<1||n>resolvedPromptExampleFixtures.length)||!Number.isInteger(iterations)||iterations<0||!Number.isFinite(optimizationFps)||optimizationFps<=0)throw new Error('Invalid benchmark options');
 const root=path.resolve(__dirname,'..');const read=(file:string)=>JSON.parse(fs.readFileSync(path.join(root,file),'utf8'));
 const results:any[]=[];
 for(const n of [...new Set(examples)]){
- const f=resolvedPromptExampleFixtures[n-1]!,env:unknown=read(`web/public/environments/${f.id}.json`);assertEnvironmentV1(env);
+ const f=resolvedPromptExampleFixtures[n-1]!,env:unknown=read(`web/public/environments/${f.environmentId}.json`);assertEnvironmentV1(env);
  const ref:unknown=read(`web/public/trajectories/ai-generated/${f.id}-camera.json`);assertCameraTrajectoryV1(ref);
- const metadata=read(`web/public/trajectories/reference-metadata/${f.id}.json`) as ReferenceMetadata;assertFreshReference(metadata,f,env,ref);
+ const metadata=read(`web/public/trajectories/reference-metadata/${f.environmentId}.json`);
+ const fileHash=(file:string)=>createHash('sha256').update(fs.readFileSync(path.join(root,file))).digest('hex');
+ if(metadata.environmentSha256!==fileHash(`web/public/environments/${f.environmentId}.json`)||metadata.trajectorySha256!==fileHash(`web/public/trajectories/ai-generated/${f.id}-camera.json`))throw new Error('Reference bytes are stale; run generate:references');
  let candidate:CameraTrajectoryV1,diagnostics:unknown,stale=false;
  if(optimize){
   const result=optimizeCameraTrajectory({environment:env,timeline:flattenTimeline(solveTimeline(f.resolvedCsl,env)),options:{iterations,optimizationFps,outputFps:30}});
@@ -32,6 +35,7 @@ for(const n of [...new Set(examples)]){
  }else{
   const metaPath=`web/public/trajectories/optimized/${f.id}-provenance.json`;
   const saved=fs.existsSync(path.join(root,metaPath))?read(metaPath):{};
+  if(!fs.existsSync(path.join(root,`web/public/trajectories/optimized/${f.id}-camera.json`))){results.push({exampleId:f.id,status:'not-generated',reason:'Run generate:trajectories or benchmark:references -- --optimize first.'});continue;}
   const raw:unknown=read(`web/public/trajectories/optimized/${f.id}-camera.json`);assertCameraTrajectoryV1(raw);candidate=raw;
   stale=Object.entries(sourceFingerprints(f,env)).some(([k,v])=>saved[k]!==v)||saved.trajectorySha256!==fingerprint(candidate);
   if(stale&&!allowStale){results.push({exampleId:f.id,status:'stale-rejected',reason:'Optimizer output has no matching source/trajectory fingerprint. Regenerate it, or explicitly use --allow-stale for historical diagnostics.'});console.log(`${f.id}: stale output rejected`);continue;}

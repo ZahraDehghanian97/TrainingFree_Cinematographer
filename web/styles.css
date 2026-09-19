@@ -279,3 +279,14 @@ button:disabled, input:disabled, textarea:disabled { cursor: not-allowed !import
   *, *::before, *::after { scroll-behavior: auto !important; transition-duration: .01ms !important; }
   .stage-list li[data-status="running"] .stage-marker::after { animation: none; border-color: var(--accent); }
 }
+
+/* Two-scene event navigator: scene-clock times remain valid while scrubbing. */
+.scene-events { margin-top: 14px; padding-top: 12px; border-top: 1px solid rgba(255,255,255,.12); }
+.scene-events h2 { font-size: 13px; margin: 0 0 6px; }
+.event-hint { font-size: 11px; opacity: .68; margin: 0 0 8px; line-height: 1.7; }
+.event-buttons { display: grid; gap: 5px; }
+.event-buttons button { text-align: right; font: inherit; font-size: 11px; line-height: 1.55; border: 1px solid rgba(255,255,255,.13); background: rgba(255,255,255,.04); color: inherit; padding: 6px 8px; border-radius: 6px; cursor: pointer; }
+.event-buttons button:hover, .event-buttons button:focus-visible { border-color: #87b8e8; outline: 2px solid transparent; background: rgba(130,183,230,.14); }
+.event-buttons button.is-active { border-color: #8ac9bc; background: rgba(111,205,173,.16); }
+#sceneEventStatus { display: block; min-height: 2em; font-size: 11px; line-height: 1.7; margin-top: 7px; color: #a7d6c6; }
+.scene-panel { max-height: calc(100vh - 180px); overflow-y: auto; }

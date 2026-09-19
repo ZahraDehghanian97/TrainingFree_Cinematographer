@@ -1,3 +1,4 @@
+import { assertScenarioData } from "../environment/performance";
 import { readFile } from "node:fs/promises";
 import * as path from "node:path";
 import type { EnvironmentV1 } from "../types/environment";
@@ -99,7 +100,7 @@ function assertBounds(value: unknown, pathName: string): void {
 function assertVisual(value: unknown, pathName: string, allowModel = true): void {
   if (!isRecord(value)) throw new Error(`${pathName} must be an object.`);
   if (value.type === "preset") {
-    const names = ["soccerBall", "soccerGoal", "humanoid", "car", "door", "vase", "monitor", "genericObject"];
+    const names = ["soccerBall", "soccerGoal", "humanoid", "car", "door", "vase", "monitor", "genericObject", "stadiumTrack", "raceFlag", "flower", "productionLine", "industrialRobot", "broadcastCamera", "scoreboard"];
     if (!names.includes(String(value.name))) throw new Error(`${pathName}.name is unsupported.`);
     if (value.params !== undefined && (
       !isRecord(value.params)
@@ -260,6 +261,7 @@ function assertTrustedEnvironment(
     assertFiniteTuple(candidate.localAnchor, 3, `${anchorPath}.localAnchor`);
     if (candidate.localBounds !== undefined) assertBounds(candidate.localBounds, `${anchorPath}.localBounds`);
   });
+  assertScenarioData(value as unknown as EnvironmentV1);
 }
 
 /** Loads only environment files explicitly allowlisted by the checked-in manifest. */

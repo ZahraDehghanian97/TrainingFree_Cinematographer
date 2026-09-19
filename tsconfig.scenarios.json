@@ -1,0 +1,17 @@
+{
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "noEmit": true,
+    "declaration": false,
+    "lib": [
+      "ES2022",
+      "DOM"
+    ]
+  },
+  "include": [
+    "tests/*.test.ts",
+    "tests/scenario-helpers.ts",
+    "scripts/audit-environments.ts",
+    "scripts/audit-references.ts"
+  ]
+}

@@ -31,7 +31,7 @@ import {
   type PipelineModelOptions,
 } from "./model-provider";
 
-const DIRECTOR_PROMPT_VERSION = "camera-director-csl-v9-grounded-cinematic";
+const DIRECTOR_PROMPT_VERSION = "camera-director-csl-v10-shared-scene-events";
 const MAX_REPAIR_OUTPUT_CHARS = 16_000;
 
 // Keep the AI SDK generic boundary intentionally shallow. The domain parser
@@ -62,6 +62,7 @@ Timing and intent:
 - Every action ID must be unique and stable snake_case.
 - Start at least one action with absoluteTime. Use relativeTime for sequential actions and identical triggers for concurrent actions.
 - Durations and trigger times are seconds and must fit the supplied playback window.
+- Authored scene events are immutable world-clock facts. Use the supplied event timing for requested story beats; never synthesize an environment or alter actor motion. At normal playback, scene time equals playback time.
 - "The final N seconds" refers to [totalDuration - N, totalDuration], not the end of an earlier action. Keep any requested framing throughout that interval with allFrames=true; an eased endpoint constraint does not express holding the framing throughout the interval.
 - Camera acceleration changes camera movement pacing, not scene time. Use relativeFPS only when the user asks to slow, accelerate, or freeze the scene itself. A frozen scene can still have a moving camera; do not add a concurrent static action that would oppose that movement.
 - Omit movement.duration unless the user explicitly requests a duration. The scheduler allocates omitted durations inside the playback window; environment-triggered actions resolve their start from the scene.
@@ -209,10 +210,12 @@ function fewShotExamples(): Array<{ prompt: string; csl: CameraDirectionDraft }>
   ];
 }
 
-function generationPrompt(prompt: string, durationSeconds: number): string {
+function generationPrompt(prompt: string, durationSeconds: number, sceneEvents?: DirectorGenerationOptions["sceneEvents"]): string {
   return JSON.stringify({
     task: "compile_camera_direction_to_semantic_csl",
     playbackDurationSeconds: durationSeconds,
+    authoredSceneEvents: sceneEvents ?? [],
+    sceneEventTimingRule: "These are immutable SCENE-clock beats, not invented camera actions. At normal playback their times equal playback times. A freeze or rate change requires accounting for scene/playback mapping. Cover the user-requested beats using semantic subject descriptions; do not reset the shared environment or invent objects.",
     supportedVocabulary: enumVocabulary(),
     examples: fewShotExamples(),
     userPrompt: prompt,
@@ -323,6 +326,7 @@ export class DirectorGenerationError extends Error {
 }
 
 export interface DirectorGenerationOptions extends PipelineModelOptions {
+  sceneEvents?: { label: string; time: number; endTime?: number; participants: string[] }[];
   repairModel?: string;
   repairLanguageModel?: PipelineModelOptions["languageModel"];
   abortSignal?: AbortSignal;
@@ -401,7 +405,7 @@ export async function generateCameraDirectionDraft(
   options: DirectorGenerationOptions = {},
 ): Promise<DirectorGenerationResult> {
   const director = resolvePipelineModel(getDirectorModelId, options);
-  const requestPrompt = generationPrompt(prompt, durationSeconds);
+  const requestPrompt = generationPrompt(prompt, durationSeconds, options.sceneEvents);
   let first: GeneratedCandidate | undefined;
   let firstError: unknown;
 
