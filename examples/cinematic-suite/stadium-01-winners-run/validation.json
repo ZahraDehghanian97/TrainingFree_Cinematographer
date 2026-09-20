@@ -1,0 +1,259 @@
+{
+  "exampleId": "stadium-01-winners-run",
+  "environmentId": "stadium",
+  "auditFps": 60,
+  "cameraProbes": 2881,
+  "status": "pass",
+  "errors": [],
+  "visibilityReviewNotes": [
+    "runner_01: 99.40% of 8–33s has at least one clear centre/upper probe",
+    "runner_01: 99.17% of 33–41s has at least one clear centre/upper probe"
+  ],
+  "cameraClearance": {
+    "radiusMeters": 0.25,
+    "minimumCenterToBoundsMeters": 3.7785204598578144,
+    "minimumSphereClearanceMeters": 3.5285204598578144,
+    "failingSamples": 0,
+    "nearestEntity": "flower_24",
+    "timeOfMinimum": 41.61666666666667
+  },
+  "framing": [
+    {
+      "actionId": "stadium-01-winners-run-shot-01",
+      "target": "runner_01",
+      "samples": 481,
+      "fullyInFramePercent": 100.0,
+      "minimumEdgeMargin": 0.34049,
+      "firstFailureTime": null
+    },
+    {
+      "actionId": "stadium-01-winners-run-shot-02",
+      "target": "runner_01",
+      "samples": 1501,
+      "fullyInFramePercent": 100.0,
+      "minimumEdgeMargin": 0.33217,
+      "firstFailureTime": null
+    },
+    {
+      "actionId": "stadium-01-winners-run-shot-03",
+      "target": "runner_01",
+      "samples": 481,
+      "fullyInFramePercent": 100.0,
+      "minimumEdgeMargin": 0.35468,
+      "firstFailureTime": null
+    },
+    {
+      "actionId": "stadium-01-winners-run-shot-04",
+      "target": "runner_01",
+      "samples": 421,
+      "fullyInFramePercent": 100.0,
+      "minimumEdgeMargin": 0.39791,
+      "firstFailureTime": null
+    }
+  ],
+  "visibility": [
+    {
+      "actionId": "stadium-01-winners-run-shot-01",
+      "target": "runner_01",
+      "oneOrMoreProbesVisiblePercent": 100.0,
+      "bothProbesVisiblePercent": 90.021,
+      "fullyBlockedSamples": 0,
+      "firstFullyBlockedTime": null,
+      "dominantProxyBlockers": [
+        [
+          "runner_02",
+          48
+        ]
+      ]
+    },
+    {
+      "actionId": "stadium-01-winners-run-shot-02",
+      "target": "runner_01",
+      "oneOrMoreProbesVisiblePercent": 99.4,
+      "bothProbesVisiblePercent": 85.943,
+      "fullyBlockedSamples": 9,
+      "firstFullyBlockedTime": 11.416666666666666,
+      "dominantProxyBlockers": [
+        [
+          "runner_02",
+          220
+        ]
+      ]
+    },
+    {
+      "actionId": "stadium-01-winners-run-shot-03",
+      "target": "runner_01",
+      "oneOrMoreProbesVisiblePercent": 99.168,
+      "bothProbesVisiblePercent": 96.674,
+      "fullyBlockedSamples": 4,
+      "firstFullyBlockedTime": 37.2,
+      "dominantProxyBlockers": [
+        [
+          "finish-header",
+          16
+        ],
+        [
+          "finish-ribbon",
+          4
+        ]
+      ]
+    },
+    {
+      "actionId": "stadium-01-winners-run-shot-04",
+      "target": "runner_01",
+      "oneOrMoreProbesVisiblePercent": 100.0,
+      "bothProbesVisiblePercent": 97.15,
+      "fullyBlockedSamples": 0,
+      "firstFullyBlockedTime": null,
+      "dominantProxyBlockers": [
+        [
+          "flower_17",
+          12
+        ]
+      ]
+    }
+  ],
+  "staticPhases": [],
+  "motion": {
+    "maxSpeedMetersPerSecond": 10.907811411837786,
+    "maxAccelerationMetersPerSecondSquared": 6.090353000309818,
+    "maxAngularSpeedDegreesPerSecond": 17.593075999190766,
+    "maxFovRateDegreesPerSecond": 3.749307374930595,
+    "maxAbsoluteHorizonRollDegrees": 7.511832929194799e-05,
+    "fovYRangeDegrees": [
+      37.0,
+      50.0
+    ],
+    "cameraHeightRangeMeters": [
+      6.7,
+      13.0
+    ]
+  },
+  "eventCoverage": [
+    {
+      "eventId": "race_start",
+      "time": 2,
+      "subjects": [
+        {
+          "id": "runner_01",
+          "centreInViewport": true
+        },
+        {
+          "id": "runner_02",
+          "centreInViewport": true
+        },
+        {
+          "id": "runner_03",
+          "centreInViewport": true
+        },
+        {
+          "id": "runner_04",
+          "centreInViewport": false
+        },
+        {
+          "id": "runner_05",
+          "centreInViewport": false
+        },
+        {
+          "id": "runner_06",
+          "centreInViewport": false
+        }
+      ]
+    },
+    {
+      "eventId": "winner_finish",
+      "time": 38,
+      "subjects": [
+        {
+          "id": "runner_01",
+          "centreInViewport": true
+        },
+        {
+          "id": "finish-ribbon",
+          "centreInViewport": true
+        }
+      ]
+    },
+    {
+      "eventId": "football_goal",
+      "time": 38.2,
+      "subjects": [
+        {
+          "id": "ball",
+          "centreInViewport": true
+        },
+        {
+          "id": "goal_east",
+          "centreInViewport": true
+        },
+        {
+          "id": "football_red_10",
+          "centreInViewport": true
+        }
+      ]
+    },
+    {
+      "eventId": "winner_jump",
+      "time": 39.3,
+      "subjects": [
+        {
+          "id": "runner_01",
+          "centreInViewport": true
+        }
+      ]
+    },
+    {
+      "eventId": "flower_shower",
+      "time": 39.4,
+      "subjects": [
+        {
+          "id": "runner_01",
+          "centreInViewport": true
+        },
+        {
+          "id": "spectator_047",
+          "centreInViewport": false
+        },
+        {
+          "id": "spectator_059",
+          "centreInViewport": false
+        },
+        {
+          "id": "spectator_048",
+          "centreInViewport": false
+        },
+        {
+          "id": "spectator_071",
+          "centreInViewport": false
+        },
+        {
+          "id": "spectator_046",
+          "centreInViewport": false
+        },
+        {
+          "id": "spectator_060",
+          "centreInViewport": false
+        },
+        {
+          "id": "spectator_058",
+          "centreInViewport": false
+        },
+        {
+          "id": "spectator_072",
+          "centreInViewport": false
+        },
+        {
+          "id": "spectator_070",
+          "centreInViewport": false
+        }
+      ]
+    }
+  ],
+  "limits": [
+    "60 Hz discrete replay checks, not continuous swept-volume certification.",
+    "Bounds are supplied conservative proxies, not rendered animated mesh/limb intersections.",
+    "Frustum inclusion does not prove pixel-level visibility.",
+    "Visibility rays test centre and upper probes; a clear probe does not imply the whole subject is unobstructed.",
+    "Artistic quality and numerical optimizer convergence are not certified by these checks."
+  ]
+}

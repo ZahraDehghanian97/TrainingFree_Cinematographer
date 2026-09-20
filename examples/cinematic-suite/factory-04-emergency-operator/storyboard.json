@@ -1,0 +1,59 @@
+{
+  "title": "The Emergency Operator",
+  "phases": [
+    {
+      "actionId": "factory-04-emergency-operator-shot-01",
+      "start": 0,
+      "end": 16,
+      "title": "Approach the operator",
+      "movement": "dollyIn",
+      "primaryTargets": [
+        "worker_05",
+        "control_station"
+      ]
+    },
+    {
+      "actionId": "factory-04-emergency-operator-shot-02",
+      "start": 16,
+      "end": 24,
+      "title": "Emergency-stop coverage",
+      "movement": "static",
+      "primaryTargets": [
+        "worker_05",
+        "control_station"
+      ]
+    },
+    {
+      "actionId": "factory-04-emergency-operator-shot-03",
+      "start": 24,
+      "end": 35,
+      "title": "Connect operator and aftermath",
+      "movement": "craneUp",
+      "primaryTargets": []
+    },
+    {
+      "actionId": "factory-04-emergency-operator-shot-04",
+      "start": 35,
+      "end": 48,
+      "title": "Response tableau",
+      "movement": "truckLeft",
+      "primaryTargets": [
+        "worker_a",
+        "worker_b",
+        "worker_05"
+      ]
+    }
+  ],
+  "sceneBeats": [
+    20.8,
+    21.7,
+    22.7,
+    28
+  ],
+  "previewTimes": [
+    8,
+    21.7,
+    29,
+    44
+  ]
+}

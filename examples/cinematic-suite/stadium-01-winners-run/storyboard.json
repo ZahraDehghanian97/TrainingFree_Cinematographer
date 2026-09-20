@@ -1,0 +1,57 @@
+{
+  "title": "The Winner's Run",
+  "phases": [
+    {
+      "actionId": "stadium-01-winners-run-shot-01",
+      "start": 0,
+      "end": 8,
+      "title": "Establish and descend",
+      "movement": "follow",
+      "primaryTargets": [
+        "runner_01"
+      ]
+    },
+    {
+      "actionId": "stadium-01-winners-run-shot-02",
+      "start": 8,
+      "end": 33,
+      "title": "Outside-track hero follow",
+      "movement": "follow",
+      "primaryTargets": [
+        "runner_01"
+      ]
+    },
+    {
+      "actionId": "stadium-01-winners-run-shot-03",
+      "start": 33,
+      "end": 41,
+      "title": "Finish and celebration",
+      "movement": "follow",
+      "primaryTargets": [
+        "runner_01"
+      ]
+    },
+    {
+      "actionId": "stadium-01-winners-run-shot-04",
+      "start": 41,
+      "end": 48,
+      "title": "Winner-to-crowd reveal",
+      "movement": "craneUp",
+      "primaryTargets": [
+        "runner_01"
+      ]
+    }
+  ],
+  "sceneBeats": [
+    2,
+    38,
+    39.8,
+    42
+  ],
+  "previewTimes": [
+    5,
+    25,
+    39.8,
+    45
+  ]
+}

@@ -1,0 +1,50 @@
+{
+  "title": "The Chain Reaction",
+  "phases": [
+    {
+      "actionId": "factory-03-chain-reaction-shot-01",
+      "start": 0,
+      "end": 14,
+      "title": "Interior geography to causal master",
+      "movement": "dollyIn",
+      "primaryTargets": []
+    },
+    {
+      "actionId": "factory-03-chain-reaction-shot-02",
+      "start": 14,
+      "end": 26,
+      "title": "Locked high-angle chain reaction",
+      "movement": "static",
+      "primaryTargets": [
+        "worker_a",
+        "worker_b",
+        "cargo_06",
+        "worker_05"
+      ]
+    },
+    {
+      "actionId": "factory-03-chain-reaction-shot-03",
+      "start": 26,
+      "end": 48,
+      "title": "Reveal the stopped system",
+      "movement": "dollyOut",
+      "primaryTargets": [
+        "worker_a",
+        "worker_b",
+        "worker_05"
+      ]
+    }
+  ],
+  "sceneBeats": [
+    20,
+    21,
+    21.7,
+    25
+  ],
+  "previewTimes": [
+    0,
+    15,
+    21.7,
+    42
+  ]
+}

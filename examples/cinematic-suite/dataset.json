@@ -1,0 +1,3980 @@
+{
+  "schemaVersion": "1.0",
+  "kind": "cinematicExampleDataset",
+  "referenceType": "synthetic-not-measured",
+  "environmentIds": [
+    "stadium",
+    "factory"
+  ],
+  "examples": [
+    {
+      "id": "stadium-01-winners-run",
+      "environmentId": "stadium",
+      "title": "The Winner's Run",
+      "style": "Hero tracking / finish / crane reveal",
+      "prompt": "Create one uninterrupted 48-second sports-hero shot in the stadium, at normal scene speed. Follow runner 01, the red-shirted eventual winner, from the outside of the athletics track; this is the main filming camera, not the visible sideline cameraman. Begin with a generous elevated three-quarter view and descend into a smooth, slightly trailing track by 8 seconds. Keep the runner just left of centre with breathing room rather than chasing every footfall. Maintain the outward-side route around the bend. From 33 to 37 seconds widen and rise gently so the finish ribbon is readable. Stay on this runner through the finish at 38 seconds and the celebratory jump at 39.3–40.3 seconds. From 41 to 48 seconds crane up and pull back to include the nearby flower shower and spectators, while retaining the winner as the visual anchor. Use a level horizon, restrained lens changes, and no cuts, shake, slow motion, or teleports.",
+      "resolvedCsl": {
+        "totalDuration": 48.0,
+        "sections": [
+          {
+            "initCamera": {
+              "targets": [
+                {
+                  "id": "runner_01",
+                  "description": "دوندهٔ 1 · برنده / winner"
+                }
+              ],
+              "config": {
+                "type": "nonSubjectAware",
+                "extrinsics": {
+                  "pose": {
+                    "position": {
+                      "x": -30.588929,
+                      "y": 8.0,
+                      "z": -45.61
+                    },
+                    "rotation": {
+                      "x": -0.0430346423,
+                      "y": 0.9538423912,
+                      "z": 0.245900129,
+                      "w": 0.166930641
+                    }
+                  }
+                },
+                "intrinsics": {
+                  "fov": 45.0,
+                  "aspectRatio": 1.7777777777777777
+                }
+              }
+            },
+            "actions": [
+              {
+                "id": "stadium-01-winners-run-shot-01",
+                "name": "Establish and descend",
+                "trigger": {
+                  "type": "absoluteTime",
+                  "time": 0
+                },
+                "movement": {
+                  "act": "follow",
+                  "duration": 8,
+                  "relativeFPS": "normal",
+                  "targets": [
+                    {
+                      "id": "runner_01",
+                      "description": "دوندهٔ 1 · برنده / winner"
+                    }
+                  ],
+                  "parameters": {
+                    "path": "spline",
+                    "handheld": false
+                  }
+                },
+                "constraints": [
+                  {
+                    "kind": "general",
+                    "constraint": "noShake",
+                    "allFrames": true
+                  },
+                  {
+                    "kind": "general",
+                    "constraint": "keepInFrame",
+                    "targets": [
+                      {
+                        "id": "runner_01",
+                        "description": "دوندهٔ 1 · برنده / winner"
+                      }
+                    ],
+                    "allFrames": true
+                  },
+                  {
+                    "config": {
+                      "type": "nonSubjectAware",
+                      "extrinsics": {
+                        "pose": {
+                          "position": {
+                            "x": -66.6229229,
+                            "y": 6.7,
+                            "z": -38.2558794
+                          },
+                          "rotation": {
+                            "x": 0.0246879356,
+                            "y": 0.9637811907,
+                            "z": 0.2475424806,
+                            "w": -0.0961199384
+                          }
+                        }
+                      },
+                      "intrinsics": {
+                        "fov": 37.0,
+                        "aspectRatio": 1.7777777777777777
+                      }
+                    },
+                    "allFrames": false,
+                    "easing": {
+                      "inDuration": 1.0,
+                      "curve": "easeInOut"
+                    }
+                  }
+                ]
+              },
+              {
+                "id": "stadium-01-winners-run-shot-02",
+                "name": "Outside-track hero follow",
+                "trigger": {
+                  "type": "relativeTime",
+                  "actionId": "stadium-01-winners-run-shot-01",
+                  "reference": "end",
+                  "offset": 0
+                },
+                "movement": {
+                  "act": "follow",
+                  "duration": 25,
+                  "relativeFPS": "normal",
+                  "targets": [
+                    {
+                      "id": "runner_01",
+                      "description": "دوندهٔ 1 · برنده / winner"
+                    }
+                  ],
+                  "parameters": {
+                    "path": "spline",
+                    "handheld": false
+                  }
+                },
+                "constraints": [
+                  {
+                    "kind": "general",
+                    "constraint": "noShake",
+                    "allFrames": true
+                  },
+                  {
+                    "kind": "general",
+                    "constraint": "keepInFrame",
+                    "targets": [
+                      {
+                        "id": "runner_01",
+                        "description": "دوندهٔ 1 · برنده / winner"
+                      }
+                    ],
+                    "allFrames": true
+                  },
+                  {
+                    "config": {
+                      "type": "nonSubjectAware",
+                      "extrinsics": {
+                        "pose": {
+                          "position": {
+                            "x": 2.7740827,
+                            "y": 6.9098765,
+                            "z": 43.6618519
+                          },
+                          "rotation": {
+                            "x": 0.2583217964,
+                            "y": 0.0655790702,
+                            "z": 0.0175791507,
+                            "w": -0.9636701762
+                          }
+                        }
+                      },
+                      "intrinsics": {
+                        "fov": 37.0,
+                        "aspectRatio": 1.7777777777777777
+                      }
+                    },
+                    "allFrames": false,
+                    "easing": {
+                      "inDuration": 1.0,
+                      "curve": "easeInOut"
+                    }
+                  }
+                ]
+              },
+              {
+                "id": "stadium-01-winners-run-shot-03",
+                "name": "Finish and celebration",
+                "trigger": {
+                  "type": "relativeTime",
+                  "actionId": "stadium-01-winners-run-shot-02",
+                  "reference": "end",
+                  "offset": 0
+                },
+                "movement": {
+                  "act": "follow",
+                  "duration": 8,
+                  "relativeFPS": "normal",
+                  "targets": [
+                    {
+                      "id": "runner_01",
+                      "description": "دوندهٔ 1 · برنده / winner"
+                    }
+                  ],
+                  "parameters": {
+                    "path": "spline",
+                    "handheld": false
+                  }
+                },
+                "constraints": [
+                  {
+                    "kind": "general",
+                    "constraint": "noShake",
+                    "allFrames": true
+                  },
+                  {
+                    "kind": "general",
+                    "constraint": "keepInFrame",
+                    "targets": [
+                      {
+                        "id": "runner_01",
+                        "description": "دوندهٔ 1 · برنده / winner"
+                      }
+                    ],
+                    "allFrames": true
+                  },
+                  {
+                    "config": {
+                      "type": "nonSubjectAware",
+                      "extrinsics": {
+                        "pose": {
+                          "position": {
+                            "x": 46.3,
+                            "y": 7.7,
+                            "z": 44.61
+                          },
+                          "rotation": {
+                            "x": 0.213750436,
+                            "y": -0.2555699572,
+                            "z": -0.0580486133,
+                            "w": -0.9410765679
+                          }
+                        }
+                      },
+                      "intrinsics": {
+                        "fov": 45.0,
+                        "aspectRatio": 1.7777777777777777
+                      }
+                    },
+                    "allFrames": false,
+                    "easing": {
+                      "inDuration": 1.0,
+                      "curve": "easeInOut"
+                    }
+                  }
+                ]
+              },
+              {
+                "id": "stadium-01-winners-run-shot-04",
+                "name": "Winner-to-crowd reveal",
+                "trigger": {
+                  "type": "relativeTime",
+                  "actionId": "stadium-01-winners-run-shot-03",
+                  "reference": "end",
+                  "offset": 0
+                },
+                "movement": {
+                  "act": "craneUp",
+                  "duration": 7,
+                  "relativeFPS": "normal",
+                  "targets": [
+                    {
+                      "id": "runner_01",
+                      "description": "دوندهٔ 1 · برنده / winner"
+                    }
+                  ],
+                  "parameters": {
+                    "path": "spline",
+                    "handheld": false
+                  }
+                },
+                "constraints": [
+                  {
+                    "kind": "general",
+                    "constraint": "noShake",
+                    "allFrames": true
+                  },
+                  {
+                    "kind": "general",
+                    "constraint": "keepInFrame",
+                    "targets": [
+                      {
+                        "id": "runner_01",
+                        "description": "دوندهٔ 1 · برنده / winner"
+                      }
+                    ],
+                    "allFrames": true
+                  },
+                  {
+                    "config": {
+                      "type": "nonSubjectAware",
+                      "extrinsics": {
+                        "pose": {
+                          "position": {
+                            "x": 46.3,
+                            "y": 13.0,
+                            "z": 51.61
+                          },
+                          "rotation": {
+                            "x": 0.2608103278,
+                            "y": -0.1450495871,
+                            "z": -0.0396709143,
+                            "w": -0.9536062126
+                          }
+                        }
+                      },
+                      "intrinsics": {
+                        "fov": 50.0,
+                        "aspectRatio": 1.7777777777777777
+                      }
+                    },
+                    "allFrames": false,
+                    "easing": {
+                      "inDuration": 1.0,
+                      "curve": "easeInOut"
+                    }
+                  }
+                ]
+              },
+              {
+                "id": "stadium-01-winners-run-overlay-01",
+                "name": "Concurrent craneDown",
+                "trigger": {
+                  "type": "absoluteTime",
+                  "time": 0
+                },
+                "movement": {
+                  "act": "craneDown",
+                  "duration": 8,
+                  "parameters": {}
+                }
+              },
+              {
+                "id": "stadium-01-winners-run-overlay-02",
+                "name": "Concurrent zoomOut",
+                "trigger": {
+                  "type": "absoluteTime",
+                  "time": 33
+                },
+                "movement": {
+                  "act": "zoomOut",
+                  "duration": 4,
+                  "parameters": {
+                    "zoomFactor": 1.2379538452286347
+                  }
+                }
+              },
+              {
+                "id": "stadium-01-winners-run-overlay-03",
+                "name": "Concurrent dollyOut",
+                "trigger": {
+                  "type": "absoluteTime",
+                  "time": 41
+                },
+                "movement": {
+                  "act": "dollyOut",
+                  "duration": 7,
+                  "parameters": {},
+                  "targets": [
+                    {
+                      "id": "runner_01",
+                      "description": "دوندهٔ 1 · برنده / winner"
+                    }
+                  ]
+                }
+              }
+            ]
+          }
+        ]
+      },
+      "trajectoryUrl": "/trajectories/cinematic-suite/stadium-01-winners-run-camera.json",
+      "durationSeconds": 48.0,
+      "sampleFps": 30,
+      "sampleCount": 1441,
+      "files": {
+        "prompt": "stadium-01-winners-run/prompt.txt",
+        "csl": "stadium-01-winners-run/csl.json",
+        "draftCsl": "stadium-01-winners-run/draft-csl.json",
+        "binding": "stadium-01-winners-run/binding.json",
+        "trajectory": "stadium-01-winners-run/trajectory.json",
+        "keyframes": "stadium-01-winners-run/keyframes.json",
+        "storyboard": "stadium-01-winners-run/storyboard.json",
+        "metadata": "stadium-01-winners-run/metadata.json"
+      }
+    },
+    {
+      "id": "stadium-02-fall-and-resolve",
+      "environmentId": "stadium",
+      "title": "Fall and Resolve",
+      "style": "Recovery story / anticipatory widening",
+      "prompt": "Film a continuous 48-second recovery story centred on runner 03, the yellow-shirted runner, in the stadium. Start in a stable elevated side-follow outside the racing lanes. Track this runner, not the race leader. Between 10 and 13.5 seconds move outward and slightly upward, widening before the fall begins at 13.7 seconds. Keep the entire falling body and the patch of track visible through the fall and recovery at 16.8–18 seconds; do not make an abrupt camera dip. Between 18.5 and 24 seconds ease back into the following distance as the runner resumes the race. Continue with this same runner through their later finish around 44.8 seconds. End with a gentle elevated pullback that gives the recovered runner room in the frame. Retain natural scene timing, smooth acceleration and a level horizon; use no cuts, dramatic roll, or freeze frames.",
+      "resolvedCsl": {
+        "totalDuration": 48.0,
+        "sections": [
+          {
+            "initCamera": {
+              "targets": [
+                {
+                  "id": "runner_03",
+                  "description": "دوندهٔ 3 · زمین‌خورده / falls and recovers"
+                }
+              ],
+              "config": {
+                "type": "nonSubjectAware",
+                "extrinsics": {
+                  "pose": {
+                    "position": {
+                      "x": -39.754415,
+                      "y": 5.2,
+                      "z": -46.05
+                    },
+                    "rotation": {
+                      "x": 0.0147449765,
+                      "y": -0.9774370161,
+                      "z": -0.197699408,
+                      "w": -0.0728999948
+                    }
+                  }
+                },
+                "intrinsics": {
+                  "fov": 39.0,
+                  "aspectRatio": 1.7777777777777777
+                }
+              }
+            },
+            "actions": [
+              {
+                "id": "stadium-02-fall-and-resolve-shot-01",
+                "name": "Track the recovering protagonist",
+                "trigger": {
+                  "type": "absoluteTime",
+                  "time": 0
+                },
+                "movement": {
+                  "act": "follow",
+                  "duration": 10,
+                  "relativeFPS": "normal",
+                  "targets": [
+                    {
+                      "id": "runner_03",
+                      "description": "دوندهٔ 3 · زمین‌خورده / falls and recovers"
+                    }
+                  ],
+                  "parameters": {
+                    "path": "spline",
+                    "handheld": false
+                  }
+                },
+                "constraints": [
+                  {
+                    "kind": "general",
+                    "constraint": "noShake",
+                    "allFrames": true
+                  },
+                  {
+                    "kind": "general",
+                    "constraint": "keepInFrame",
+                    "targets": [
+                      {
+                        "id": "runner_03",
+                        "description": "دوندهٔ 3 · زمین‌خورده / falls and recovers"
+                      }
+                    ],
+                    "allFrames": true
+                  },
+                  {
+                    "config": {
+                      "type": "nonSubjectAware",
+                      "extrinsics": {
+                        "pose": {
+                          "position": {
+                            "x": -78.8001705,
+                            "y": 4.5,
+                            "z": -30.866869
+                          },
+                          "rotation": {
+                            "x": -0.0620643388,
+                            "y": -0.9258610819,
+                            "z": -0.1744551248,
+                            "w": 0.3293853127
+                          }
+                        }
+                      },
+                      "intrinsics": {
+                        "fov": 37.0,
+                        "aspectRatio": 1.7777777777777777
+                      }
+                    },
+                    "allFrames": false,
+                    "easing": {
+                      "inDuration": 1.0,
+                      "curve": "easeInOut"
+                    }
+                  }
+                ]
+              },
+              {
+                "id": "stadium-02-fall-and-resolve-shot-02",
+                "name": "Anticipate and cover the fall",
+                "trigger": {
+                  "type": "relativeTime",
+                  "actionId": "stadium-02-fall-and-resolve-shot-01",
+                  "reference": "end",
+                  "offset": 0
+                },
+                "movement": {
+                  "act": "follow",
+                  "duration": 8.5,
+                  "relativeFPS": "normal",
+                  "targets": [
+                    {
+                      "id": "runner_03",
+                      "description": "دوندهٔ 3 · زمین‌خورده / falls and recovers"
+                    }
+                  ],
+                  "parameters": {
+                    "path": "spline",
+                    "handheld": false
+                  }
+                },
+                "constraints": [
+                  {
+                    "kind": "general",
+                    "constraint": "noShake",
+                    "allFrames": true
+                  },
+                  {
+                    "kind": "general",
+                    "constraint": "keepInFrame",
+                    "targets": [
+                      {
+                        "id": "runner_03",
+                        "description": "دوندهٔ 3 · زمین‌خورده / falls and recovers"
+                      }
+                    ],
+                    "allFrames": true
+                  },
+                  {
+                    "config": {
+                      "type": "nonSubjectAware",
+                      "extrinsics": {
+                        "pose": {
+                          "position": {
+                            "x": -95.1931579,
+                            "y": 6.0,
+                            "z": -5.750008
+                          },
+                          "rotation": {
+                            "x": -0.1126251576,
+                            "y": -0.7606795063,
+                            "z": -0.1372098111,
+                            "w": 0.6243842809
+                          }
+                        }
+                      },
+                      "intrinsics": {
+                        "fov": 45.0,
+                        "aspectRatio": 1.7777777777777777
+                      }
+                    },
+                    "allFrames": false,
+                    "easing": {
+                      "inDuration": 1.0,
+                      "curve": "easeInOut"
+                    }
+                  }
+                ]
+              },
+              {
+                "id": "stadium-02-fall-and-resolve-shot-03",
+                "name": "Rejoin the run",
+                "trigger": {
+                  "type": "relativeTime",
+                  "actionId": "stadium-02-fall-and-resolve-shot-02",
+                  "reference": "end",
+                  "offset": 0
+                },
+                "movement": {
+                  "act": "follow",
+                  "duration": 5.5,
+                  "relativeFPS": "normal",
+                  "targets": [
+                    {
+                      "id": "runner_03",
+                      "description": "دوندهٔ 3 · زمین‌خورده / falls and recovers"
+                    }
+                  ],
+                  "parameters": {
+                    "path": "spline",
+                    "handheld": false
+                  }
+                },
+                "constraints": [
+                  {
+                    "kind": "general",
+                    "constraint": "noShake",
+                    "allFrames": true
+                  },
+                  {
+                    "kind": "general",
+                    "constraint": "keepInFrame",
+                    "targets": [
+                      {
+                        "id": "runner_03",
+                        "description": "دوندهٔ 3 · زمین‌خورده / falls and recovers"
+                      }
+                    ],
+                    "allFrames": true
+                  },
+                  {
+                    "config": {
+                      "type": "nonSubjectAware",
+                      "extrinsics": {
+                        "pose": {
+                          "position": {
+                            "x": -81.7881941,
+                            "y": 4.8,
+                            "z": 28.9683107
+                          },
+                          "rotation": {
+                            "x": -0.1590244271,
+                            "y": -0.4742766353,
+                            "z": -0.0875512,
+                            "w": 0.8614567268
+                          }
+                        }
+                      },
+                      "intrinsics": {
+                        "fov": 38.0,
+                        "aspectRatio": 1.7777777777777777
+                      }
+                    },
+                    "allFrames": false,
+                    "easing": {
+                      "inDuration": 1.0,
+                      "curve": "easeInOut"
+                    }
+                  }
+                ]
+              },
+              {
+                "id": "stadium-02-fall-and-resolve-shot-04",
+                "name": "Recovery tracking",
+                "trigger": {
+                  "type": "relativeTime",
+                  "actionId": "stadium-02-fall-and-resolve-shot-03",
+                  "reference": "end",
+                  "offset": 0
+                },
+                "movement": {
+                  "act": "follow",
+                  "duration": 17,
+                  "relativeFPS": "normal",
+                  "targets": [
+                    {
+                      "id": "runner_03",
+                      "description": "دوندهٔ 3 · زمین‌خورده / falls and recovers"
+                    }
+                  ],
+                  "parameters": {
+                    "path": "spline",
+                    "handheld": false
+                  }
+                },
+                "constraints": [
+                  {
+                    "kind": "general",
+                    "constraint": "noShake",
+                    "allFrames": true
+                  },
+                  {
+                    "kind": "general",
+                    "constraint": "keepInFrame",
+                    "targets": [
+                      {
+                        "id": "runner_03",
+                        "description": "دوندهٔ 3 · زمین‌خورده / falls and recovers"
+                      }
+                    ],
+                    "allFrames": true
+                  },
+                  {
+                    "config": {
+                      "type": "nonSubjectAware",
+                      "extrinsics": {
+                        "pose": {
+                          "position": {
+                            "x": 15.210475,
+                            "y": 4.8,
+                            "z": 46.05
+                          },
+                          "rotation": {
+                            "x": -0.1810295154,
+                            "y": -0.0731404673,
+                            "z": -0.0135016891,
+                            "w": 0.9806612519
+                          }
+                        }
+                      },
+                      "intrinsics": {
+                        "fov": 38.0,
+                        "aspectRatio": 1.7777777777777777
+                      }
+                    },
+                    "allFrames": false,
+                    "easing": {
+                      "inDuration": 1.0,
+                      "curve": "easeInOut"
+                    }
+                  }
+                ]
+              },
+              {
+                "id": "stadium-02-fall-and-resolve-shot-05",
+                "name": "Late finish and release",
+                "trigger": {
+                  "type": "relativeTime",
+                  "actionId": "stadium-02-fall-and-resolve-shot-04",
+                  "reference": "end",
+                  "offset": 0
+                },
+                "movement": {
+                  "act": "craneUp",
+                  "duration": 7,
+                  "relativeFPS": "normal",
+                  "targets": [
+                    {
+                      "id": "runner_03",
+                      "description": "دوندهٔ 3 · زمین‌خورده / falls and recovers"
+                    }
+                  ],
+                  "parameters": {
+                    "path": "spline",
+                    "handheld": false
+                  }
+                },
+                "constraints": [
+                  {
+                    "kind": "general",
+                    "constraint": "noShake",
+                    "allFrames": true
+                  },
+                  {
+                    "kind": "general",
+                    "constraint": "keepInFrame",
+                    "targets": [
+                      {
+                        "id": "runner_03",
+                        "description": "دوندهٔ 3 · زمین‌خورده / falls and recovers"
+                      }
+                    ],
+                    "allFrames": true
+                  },
+                  {
+                    "config": {
+                      "type": "nonSubjectAware",
+                      "extrinsics": {
+                        "pose": {
+                          "position": {
+                            "x": 36.8,
+                            "y": 8.0,
+                            "z": 51.05
+                          },
+                          "rotation": {
+                            "x": -0.2171129939,
+                            "y": -0.0486224777,
+                            "z": -0.0108286454,
+                            "w": 0.9748746294
+                          }
+                        }
+                      },
+                      "intrinsics": {
+                        "fov": 46.0,
+                        "aspectRatio": 1.7777777777777777
+                      }
+                    },
+                    "allFrames": false,
+                    "easing": {
+                      "inDuration": 1.0,
+                      "curve": "easeInOut"
+                    }
+                  }
+                ]
+              },
+              {
+                "id": "stadium-02-fall-and-resolve-overlay-01",
+                "name": "Concurrent dollyOut",
+                "trigger": {
+                  "type": "absoluteTime",
+                  "time": 10
+                },
+                "movement": {
+                  "act": "dollyOut",
+                  "duration": 3.5,
+                  "parameters": {},
+                  "targets": [
+                    {
+                      "id": "runner_03",
+                      "description": "دوندهٔ 3 · زمین‌خورده / falls and recovers"
+                    }
+                  ]
+                }
+              },
+              {
+                "id": "stadium-02-fall-and-resolve-overlay-02",
+                "name": "Concurrent craneUp",
+                "trigger": {
+                  "type": "absoluteTime",
+                  "time": 10
+                },
+                "movement": {
+                  "act": "craneUp",
+                  "duration": 3.5,
+                  "parameters": {}
+                }
+              },
+              {
+                "id": "stadium-02-fall-and-resolve-overlay-03",
+                "name": "Concurrent dollyIn",
+                "trigger": {
+                  "type": "absoluteTime",
+                  "time": 18.5
+                },
+                "movement": {
+                  "act": "dollyIn",
+                  "duration": 5.5,
+                  "parameters": {},
+                  "targets": [
+                    {
+                      "id": "runner_03",
+                      "description": "دوندهٔ 3 · زمین‌خورده / falls and recovers"
+                    }
+                  ]
+                }
+              }
+            ]
+          }
+        ]
+      },
+      "trajectoryUrl": "/trajectories/cinematic-suite/stadium-02-fall-and-resolve-camera.json",
+      "durationSeconds": 48.0,
+      "sampleFps": 30,
+      "sampleCount": 1441,
+      "files": {
+        "prompt": "stadium-02-fall-and-resolve/prompt.txt",
+        "csl": "stadium-02-fall-and-resolve/csl.json",
+        "draftCsl": "stadium-02-fall-and-resolve/draft-csl.json",
+        "binding": "stadium-02-fall-and-resolve/binding.json",
+        "trajectory": "stadium-02-fall-and-resolve/trajectory.json",
+        "keyframes": "stadium-02-fall-and-resolve/keyframes.json",
+        "storyboard": "stadium-02-fall-and-resolve/storyboard.json",
+        "metadata": "stadium-02-fall-and-resolve/metadata.json"
+      }
+    },
+    {
+      "id": "stadium-03-decisive-play",
+      "environmentId": "stadium",
+      "title": "The Decisive Play",
+      "style": "Ball tracking / settled goal coverage",
+      "prompt": "Make a 48-second, single-take football sequence inside the stadium. Follow the ball from an elevated touchline-style camera on the positive-Z side of the pitch, keeping enough field in view to understand the passing play. Smooth the camera path across changes in ball direction instead of copying the ball's sharp turns. From 29 to 35 seconds leave the moving follow rig and settle into a wider fixed view containing the approaching ball and the east goal. Hold this shot through the kick, the goal at 38.2 seconds, and the ball settling in the net; do not cut away to the simultaneous running-race finish. After 40 seconds drift gently toward a more frontal view of the east goal and finish on the result of the play. Use normal playback, a level horizon, a moderately wide lens, and no handheld shake or snap pans.",
+      "resolvedCsl": {
+        "totalDuration": 48.0,
+        "sections": [
+          {
+            "initCamera": {
+              "targets": [
+                {
+                  "id": "ball",
+                  "description": "توپ فوتبال؛ گل در ثانیه ۳۸٫۲ / football goal at 38.2 s"
+                }
+              ],
+              "config": {
+                "type": "nonSubjectAware",
+                "extrinsics": {
+                  "pose": {
+                    "position": {
+                      "x": -19.2821055,
+                      "y": 8.5,
+                      "z": 26.2991227
+                    },
+                    "rotation": {
+                      "x": -0.2029842989,
+                      "y": 0.0,
+                      "z": 0.0,
+                      "w": 0.9791819925
+                    }
+                  }
+                },
+                "intrinsics": {
+                  "fov": 43.0,
+                  "aspectRatio": 1.7777777777777777
+                }
+              }
+            },
+            "actions": [
+              {
+                "id": "stadium-03-decisive-play-shot-01",
+                "name": "Ball-led field coverage",
+                "trigger": {
+                  "type": "absoluteTime",
+                  "time": 0
+                },
+                "movement": {
+                  "act": "track",
+                  "duration": 29,
+                  "relativeFPS": "normal",
+                  "targets": [
+                    {
+                      "id": "ball",
+                      "description": "توپ فوتبال؛ گل در ثانیه ۳۸٫۲ / football goal at 38.2 s"
+                    }
+                  ],
+                  "parameters": {
+                    "path": "spline",
+                    "handheld": false
+                  }
+                },
+                "constraints": [
+                  {
+                    "kind": "general",
+                    "constraint": "noShake",
+                    "allFrames": true
+                  },
+                  {
+                    "kind": "general",
+                    "constraint": "keepInFrame",
+                    "targets": [
+                      {
+                        "id": "ball",
+                        "description": "توپ فوتبال؛ گل در ثانیه ۳۸٫۲ / football goal at 38.2 s"
+                      }
+                    ],
+                    "allFrames": true
+                  },
+                  {
+                    "config": {
+                      "type": "nonSubjectAware",
+                      "extrinsics": {
+                        "pose": {
+                          "position": {
+                            "x": 16.9999527,
+                            "y": 8.5,
+                            "z": 30.9997366
+                          },
+                          "rotation": {
+                            "x": -0.1985900024,
+                            "y": 0.0,
+                            "z": 0.0,
+                            "w": 0.9800826552
+                          }
+                        }
+                      },
+                      "intrinsics": {
+                        "fov": 43.0,
+                        "aspectRatio": 1.7777777777777777
+                      }
+                    },
+                    "allFrames": false,
+                    "easing": {
+                      "inDuration": 1.0,
+                      "curve": "easeInOut"
+                    }
+                  }
+                ]
+              },
+              {
+                "id": "stadium-03-decisive-play-shot-02",
+                "name": "Settle for the attack",
+                "trigger": {
+                  "type": "relativeTime",
+                  "actionId": "stadium-03-decisive-play-shot-01",
+                  "reference": "end",
+                  "offset": 0
+                },
+                "movement": {
+                  "act": "track",
+                  "duration": 6,
+                  "relativeFPS": "normal",
+                  "targets": [
+                    {
+                      "id": "ball",
+                      "description": "توپ فوتبال؛ گل در ثانیه ۳۸٫۲ / football goal at 38.2 s"
+                    }
+                  ],
+                  "parameters": {
+                    "path": "spline",
+                    "handheld": false
+                  }
+                },
+                "constraints": [
+                  {
+                    "kind": "general",
+                    "constraint": "noShake",
+                    "allFrames": true
+                  },
+                  {
+                    "kind": "general",
+                    "constraint": "keepInFrame",
+                    "targets": [
+                      {
+                        "id": "ball",
+                        "description": "توپ فوتبال؛ گل در ثانیه ۳۸٫۲ / football goal at 38.2 s"
+                      }
+                    ],
+                    "allFrames": true
+                  },
+                  {
+                    "config": {
+                      "type": "nonSubjectAware",
+                      "extrinsics": {
+                        "pose": {
+                          "position": {
+                            "x": 33.0,
+                            "y": 8.5,
+                            "z": 23.0
+                          },
+                          "rotation": {
+                            "x": -0.1616238233,
+                            "y": -0.0993723965,
+                            "z": -0.0163603382,
+                            "w": 0.9817001609
+                          }
+                        }
+                      },
+                      "intrinsics": {
+                        "fov": 48.0,
+                        "aspectRatio": 1.7777777777777777
+                      }
+                    },
+                    "allFrames": false,
+                    "easing": {
+                      "inDuration": 1.0,
+                      "curve": "easeInOut"
+                    }
+                  }
+                ]
+              },
+              {
+                "id": "stadium-03-decisive-play-shot-03",
+                "name": "Hold the ball and east goal",
+                "trigger": {
+                  "type": "relativeTime",
+                  "actionId": "stadium-03-decisive-play-shot-02",
+                  "reference": "end",
+                  "offset": 0
+                },
+                "movement": {
+                  "act": "static",
+                  "duration": 5,
+                  "relativeFPS": "normal",
+                  "targets": [
+                    {
+                      "id": "ball",
+                      "description": "توپ فوتبال؛ گل در ثانیه ۳۸٫۲ / football goal at 38.2 s"
+                    },
+                    {
+                      "id": "goal_east",
+                      "description": "دروازهٔ شرقی / east goal"
+                    }
+                  ]
+                },
+                "constraints": [
+                  {
+                    "kind": "general",
+                    "constraint": "noShake",
+                    "allFrames": true
+                  },
+                  {
+                    "kind": "general",
+                    "constraint": "keepInFrame",
+                    "targets": [
+                      {
+                        "id": "ball",
+                        "description": "توپ فوتبال؛ گل در ثانیه ۳۸٫۲ / football goal at 38.2 s"
+                      },
+                      {
+                        "id": "goal_east",
+                        "description": "دروازهٔ شرقی / east goal"
+                      }
+                    ],
+                    "allFrames": true
+                  },
+                  {
+                    "config": {
+                      "type": "nonSubjectAware",
+                      "extrinsics": {
+                        "pose": {
+                          "position": {
+                            "x": 33.0,
+                            "y": 8.5,
+                            "z": 23.0
+                          },
+                          "rotation": {
+                            "x": -0.1616238233,
+                            "y": -0.0993723965,
+                            "z": -0.0163603382,
+                            "w": 0.9817001609
+                          }
+                        }
+                      },
+                      "intrinsics": {
+                        "fov": 48.0,
+                        "aspectRatio": 1.7777777777777777
+                      }
+                    },
+                    "allFrames": false,
+                    "easing": {
+                      "inDuration": 1.0,
+                      "curve": "easeInOut"
+                    }
+                  }
+                ]
+              },
+              {
+                "id": "stadium-03-decisive-play-shot-04",
+                "name": "Goal aftermath drift",
+                "trigger": {
+                  "type": "relativeTime",
+                  "actionId": "stadium-03-decisive-play-shot-03",
+                  "reference": "end",
+                  "offset": 0
+                },
+                "movement": {
+                  "act": "arcRight",
+                  "duration": 8,
+                  "relativeFPS": "normal",
+                  "targets": [
+                    {
+                      "id": "ball",
+                      "description": "توپ فوتبال؛ گل در ثانیه ۳۸٫۲ / football goal at 38.2 s"
+                    },
+                    {
+                      "id": "goal_east",
+                      "description": "دروازهٔ شرقی / east goal"
+                    }
+                  ],
+                  "parameters": {
+                    "path": "spline",
+                    "handheld": false
+                  }
+                },
+                "constraints": [
+                  {
+                    "kind": "general",
+                    "constraint": "noShake",
+                    "allFrames": true
+                  },
+                  {
+                    "kind": "general",
+                    "constraint": "keepInFrame",
+                    "targets": [
+                      {
+                        "id": "ball",
+                        "description": "توپ فوتبال؛ گل در ثانیه ۳۸٫۲ / football goal at 38.2 s"
+                      },
+                      {
+                        "id": "goal_east",
+                        "description": "دروازهٔ شرقی / east goal"
+                      }
+                    ],
+                    "allFrames": true
+                  },
+                  {
+                    "config": {
+                      "type": "nonSubjectAware",
+                      "extrinsics": {
+                        "pose": {
+                          "position": {
+                            "x": 36.8159907,
+                            "y": 8.5,
+                            "z": 23.9331262
+                          },
+                          "rotation": {
+                            "x": -0.1325695208,
+                            "y": -0.1975350791,
+                            "z": -0.0269715738,
+                            "w": 0.970915933
+                          }
+                        }
+                      },
+                      "intrinsics": {
+                        "fov": 44.0,
+                        "aspectRatio": 1.7777777777777777
+                      }
+                    },
+                    "allFrames": false,
+                    "easing": {
+                      "inDuration": 1.0,
+                      "curve": "easeInOut"
+                    }
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      "trajectoryUrl": "/trajectories/cinematic-suite/stadium-03-decisive-play-camera.json",
+      "durationSeconds": 48.0,
+      "sampleFps": 30,
+      "sampleCount": 1441,
+      "files": {
+        "prompt": "stadium-03-decisive-play/prompt.txt",
+        "csl": "stadium-03-decisive-play/csl.json",
+        "draftCsl": "stadium-03-decisive-play/draft-csl.json",
+        "binding": "stadium-03-decisive-play/binding.json",
+        "trajectory": "stadium-03-decisive-play/trajectory.json",
+        "keyframes": "stadium-03-decisive-play/keyframes.json",
+        "storyboard": "stadium-03-decisive-play/storyboard.json",
+        "metadata": "stadium-03-decisive-play/metadata.json"
+      }
+    },
+    {
+      "id": "stadium-04-behind-the-lens",
+      "environmentId": "stadium",
+      "title": "Behind the Sideline Lens",
+      "style": "Character study / parallel tracking",
+      "prompt": "Create a 48-second behind-the-scenes portrait of the independent sideline cameraman in the stadium. The visible track_cameraman is the subject, carrying the physical shoulder camera; do not mistake him for the filming viewpoint. Track from farther outside the oval, above the spectator sightline, starting slightly behind him. Move with his run in a stable medium-long composition and let the racing action appear as context behind him. From 12 to 32 seconds make a very gradual transition toward a side/front-quarter relationship without orbiting through the track or stands. Continue through the race finish, then widen and rise from 34 to 48 seconds to show the operator within the event he is filming. Keep his full body and equipment readable, respect the grandstands, maintain a level horizon, and use one uninterrupted take at normal speed.",
+      "resolvedCsl": {
+        "totalDuration": 48.0,
+        "sections": [
+          {
+            "initCamera": {
+              "targets": [
+                {
+                  "id": "track_cameraman",
+                  "description": "فیلم‌بردار کنار پیست · دوربین اصلی نیست / independent sideline camera operator"
+                }
+              ],
+              "config": {
+                "type": "nonSubjectAware",
+                "extrinsics": {
+                  "pose": {
+                    "position": {
+                      "x": -31.588929,
+                      "y": 6.3,
+                      "z": -50.71
+                    },
+                    "rotation": {
+                      "x": 0.0313583068,
+                      "y": -0.9558810504,
+                      "z": -0.2701851246,
+                      "w": -0.1109417524
+                    }
+                  }
+                },
+                "intrinsics": {
+                  "fov": 40.0,
+                  "aspectRatio": 1.7777777777777777
+                }
+              }
+            },
+            "actions": [
+              {
+                "id": "stadium-04-behind-the-lens-shot-01",
+                "name": "Follow the operator",
+                "trigger": {
+                  "type": "absoluteTime",
+                  "time": 0
+                },
+                "movement": {
+                  "act": "follow",
+                  "duration": 12,
+                  "relativeFPS": "normal",
+                  "targets": [
+                    {
+                      "id": "track_cameraman",
+                      "description": "فیلم‌بردار کنار پیست · دوربین اصلی نیست / independent sideline camera operator"
+                    }
+                  ],
+                  "parameters": {
+                    "path": "spline",
+                    "handheld": false
+                  }
+                },
+                "constraints": [
+                  {
+                    "kind": "general",
+                    "constraint": "noShake",
+                    "allFrames": true
+                  },
+                  {
+                    "kind": "general",
+                    "constraint": "keepInFrame",
+                    "targets": [
+                      {
+                        "id": "track_cameraman",
+                        "description": "فیلم‌بردار کنار پیست · دوربین اصلی نیست / independent sideline camera operator"
+                      }
+                    ],
+                    "allFrames": true
+                  },
+                  {
+                    "config": {
+                      "type": "nonSubjectAware",
+                      "extrinsics": {
+                        "pose": {
+                          "position": {
+                            "x": -92.3367949,
+                            "y": 5.8,
+                            "z": -17.9023128
+                          },
+                          "rotation": {
+                            "x": -0.1302488838,
+                            "y": -0.8475805637,
+                            "z": -0.243664475,
+                            "w": 0.453067368
+                          }
+                        }
+                      },
+                      "intrinsics": {
+                        "fov": 36.0,
+                        "aspectRatio": 1.7777777777777777
+                      }
+                    },
+                    "allFrames": false,
+                    "easing": {
+                      "inDuration": 1.0,
+                      "curve": "easeInOut"
+                    }
+                  }
+                ]
+              },
+              {
+                "id": "stadium-04-behind-the-lens-shot-02",
+                "name": "Gradual parallel lead change",
+                "trigger": {
+                  "type": "relativeTime",
+                  "actionId": "stadium-04-behind-the-lens-shot-01",
+                  "reference": "end",
+                  "offset": 0
+                },
+                "movement": {
+                  "act": "follow",
+                  "duration": 20,
+                  "relativeFPS": "normal",
+                  "targets": [
+                    {
+                      "id": "track_cameraman",
+                      "description": "فیلم‌بردار کنار پیست · دوربین اصلی نیست / independent sideline camera operator"
+                    }
+                  ],
+                  "parameters": {
+                    "path": "spline",
+                    "handheld": false
+                  }
+                },
+                "constraints": [
+                  {
+                    "kind": "general",
+                    "constraint": "noShake",
+                    "allFrames": true
+                  },
+                  {
+                    "kind": "general",
+                    "constraint": "keepInFrame",
+                    "targets": [
+                      {
+                        "id": "track_cameraman",
+                        "description": "فیلم‌بردار کنار پیست · دوربین اصلی نیست / independent sideline camera operator"
+                      }
+                    ],
+                    "allFrames": true
+                  },
+                  {
+                    "config": {
+                      "type": "nonSubjectAware",
+                      "extrinsics": {
+                        "pose": {
+                          "position": {
+                            "x": 1.7044281,
+                            "y": 5.8,
+                            "z": 49.71
+                          },
+                          "rotation": {
+                            "x": -0.2191908261,
+                            "y": 0.3219531523,
+                            "z": 0.0768879902,
+                            "w": 0.9178179484
+                          }
+                        }
+                      },
+                      "intrinsics": {
+                        "fov": 36.0,
+                        "aspectRatio": 1.7777777777777777
+                      }
+                    },
+                    "allFrames": false,
+                    "easing": {
+                      "inDuration": 1.0,
+                      "curve": "easeInOut"
+                    }
+                  }
+                ]
+              },
+              {
+                "id": "stadium-04-behind-the-lens-shot-03",
+                "name": "Finish-line context",
+                "trigger": {
+                  "type": "relativeTime",
+                  "actionId": "stadium-04-behind-the-lens-shot-02",
+                  "reference": "end",
+                  "offset": 0
+                },
+                "movement": {
+                  "act": "follow",
+                  "duration": 8,
+                  "relativeFPS": "normal",
+                  "targets": [
+                    {
+                      "id": "track_cameraman",
+                      "description": "فیلم‌بردار کنار پیست · دوربین اصلی نیست / independent sideline camera operator"
+                    }
+                  ],
+                  "parameters": {
+                    "path": "spline",
+                    "handheld": false
+                  }
+                },
+                "constraints": [
+                  {
+                    "kind": "general",
+                    "constraint": "noShake",
+                    "allFrames": true
+                  },
+                  {
+                    "kind": "general",
+                    "constraint": "keepInFrame",
+                    "targets": [
+                      {
+                        "id": "track_cameraman",
+                        "description": "فیلم‌بردار کنار پیست · دوربین اصلی نیست / independent sideline camera operator"
+                      }
+                    ],
+                    "allFrames": true
+                  },
+                  {
+                    "config": {
+                      "type": "nonSubjectAware",
+                      "extrinsics": {
+                        "pose": {
+                          "position": {
+                            "x": 46.2995267,
+                            "y": 7.2,
+                            "z": 46.21
+                          },
+                          "rotation": {
+                            "x": -0.2558611541,
+                            "y": 0.5013859033,
+                            "z": 0.1581308897,
+                            "w": 0.811259433
+                          }
+                        }
+                      },
+                      "intrinsics": {
+                        "fov": 44.0,
+                        "aspectRatio": 1.7777777777777777
+                      }
+                    },
+                    "allFrames": false,
+                    "easing": {
+                      "inDuration": 1.0,
+                      "curve": "easeInOut"
+                    }
+                  }
+                ]
+              },
+              {
+                "id": "stadium-04-behind-the-lens-shot-04",
+                "name": "Operator within the event",
+                "trigger": {
+                  "type": "relativeTime",
+                  "actionId": "stadium-04-behind-the-lens-shot-03",
+                  "reference": "end",
+                  "offset": 0
+                },
+                "movement": {
+                  "act": "craneUp",
+                  "duration": 8,
+                  "relativeFPS": "normal",
+                  "targets": [
+                    {
+                      "id": "track_cameraman",
+                      "description": "فیلم‌بردار کنار پیست · دوربین اصلی نیست / independent sideline camera operator"
+                    }
+                  ],
+                  "parameters": {
+                    "path": "spline",
+                    "handheld": false
+                  }
+                },
+                "constraints": [
+                  {
+                    "kind": "general",
+                    "constraint": "noShake",
+                    "allFrames": true
+                  },
+                  {
+                    "kind": "general",
+                    "constraint": "keepInFrame",
+                    "targets": [
+                      {
+                        "id": "track_cameraman",
+                        "description": "فیلم‌بردار کنار پیست · دوربین اصلی نیست / independent sideline camera operator"
+                      }
+                    ],
+                    "allFrames": true
+                  },
+                  {
+                    "config": {
+                      "type": "nonSubjectAware",
+                      "extrinsics": {
+                        "pose": {
+                          "position": {
+                            "x": 46.3,
+                            "y": 10.0,
+                            "z": 56.21
+                          },
+                          "rotation": {
+                            "x": -0.2448012779,
+                            "y": 0.2482983328,
+                            "z": 0.0650105136,
+                            "w": 0.9349833717
+                          }
+                        }
+                      },
+                      "intrinsics": {
+                        "fov": 49.0,
+                        "aspectRatio": 1.7777777777777777
+                      }
+                    },
+                    "allFrames": false,
+                    "easing": {
+                      "inDuration": 1.0,
+                      "curve": "easeInOut"
+                    }
+                  }
+                ]
+              },
+              {
+                "id": "stadium-04-behind-the-lens-overlay-01",
+                "name": "Concurrent zoomOut",
+                "trigger": {
+                  "type": "absoluteTime",
+                  "time": 34
+                },
+                "movement": {
+                  "act": "zoomOut",
+                  "duration": 6,
+                  "parameters": {
+                    "zoomFactor": 1.2434648638399133
+                  }
+                }
+              }
+            ]
+          }
+        ]
+      },
+      "trajectoryUrl": "/trajectories/cinematic-suite/stadium-04-behind-the-lens-camera.json",
+      "durationSeconds": 48.0,
+      "sampleFps": 30,
+      "sampleCount": 1441,
+      "files": {
+        "prompt": "stadium-04-behind-the-lens/prompt.txt",
+        "csl": "stadium-04-behind-the-lens/csl.json",
+        "draftCsl": "stadium-04-behind-the-lens/draft-csl.json",
+        "binding": "stadium-04-behind-the-lens/binding.json",
+        "trajectory": "stadium-04-behind-the-lens/trajectory.json",
+        "keyframes": "stadium-04-behind-the-lens/keyframes.json",
+        "storyboard": "stadium-04-behind-the-lens/storyboard.json",
+        "metadata": "stadium-04-behind-the-lens/metadata.json"
+      }
+    },
+    {
+      "id": "stadium-05-stadium-breathes",
+      "environmentId": "stadium",
+      "title": "The Stadium Breathes",
+      "style": "60-degree aerial arc / geographic master",
+      "prompt": "Make a 48-second architectural aerial master of the stadium, not a close-up sports shot. Keep the athletics oval, infield football pitch, and stands readable together. Move through a steady 60-degree rightward arc around the centre at an approximately 170-metre horizontal radius. Begin at 67 metres height, descend smoothly to 58 metres over the first 12 seconds, hold that height until 36 seconds, then rise smoothly to 73 metres by the end. Use a fixed 58-degree vertical field of view and a level horizon. The ongoing race and football match should remain environmental activity inside the composition; do not promise facial or ball detail from this distance. Preserve the full normal-speed scene clock and use no cuts, zooms, shake, or sudden changes of angular pace.",
+      "resolvedCsl": {
+        "totalDuration": 48.0,
+        "sections": [
+          {
+            "initCamera": {
+              "targets": [
+                {
+                  "id": "athletics_track",
+                  "description": "پیست ۶ خط دومیدانی / six-lane athletics track"
+                },
+                {
+                  "id": "football_pitch",
+                  "description": "زمین فوتبال داخل پیست / infield pitch"
+                }
+              ],
+              "config": {
+                "type": "nonSubjectAware",
+                "extrinsics": {
+                  "pose": {
+                    "position": {
+                      "x": 71.8451045,
+                      "y": 67.0,
+                      "z": 154.0723238
+                    },
+                    "rotation": {
+                      "x": 0.1819444452,
+                      "y": -0.2126478416,
+                      "z": -0.0403361124,
+                      "w": -0.9591924272
+                    }
+                  }
+                },
+                "intrinsics": {
+                  "fov": 58.0,
+                  "aspectRatio": 1.7777777777777777
+                }
+              }
+            },
+            "actions": [
+              {
+                "id": "stadium-05-stadium-breathes-shot-01",
+                "name": "Descending aerial arc",
+                "trigger": {
+                  "type": "absoluteTime",
+                  "time": 0
+                },
+                "movement": {
+                  "act": "arcRight",
+                  "duration": 12,
+                  "relativeFPS": "normal",
+                  "targets": [
+                    {
+                      "id": "athletics_track",
+                      "description": "پیست ۶ خط دومیدانی / six-lane athletics track"
+                    },
+                    {
+                      "id": "football_pitch",
+                      "description": "زمین فوتبال داخل پیست / infield pitch"
+                    }
+                  ],
+                  "parameters": {
+                    "arcRadius": 170,
+                    "arcAngle": 15.0,
+                    "constantSpeed": true
+                  }
+                },
+                "constraints": [
+                  {
+                    "kind": "general",
+                    "constraint": "noShake",
+                    "allFrames": true
+                  },
+                  {
+                    "kind": "general",
+                    "constraint": "keepInFrame",
+                    "targets": [
+                      {
+                        "id": "athletics_track",
+                        "description": "پیست ۶ خط دومیدانی / six-lane athletics track"
+                      },
+                      {
+                        "id": "football_pitch",
+                        "description": "زمین فوتبال داخل پیست / infield pitch"
+                      }
+                    ],
+                    "allFrames": true
+                  },
+                  {
+                    "config": {
+                      "type": "nonSubjectAware",
+                      "extrinsics": {
+                        "pose": {
+                          "position": {
+                            "x": 109.2738936,
+                            "y": 58.0,
+                            "z": 130.2275553
+                          },
+                          "rotation": {
+                            "x": 0.1535428552,
+                            "y": -0.337423535,
+                            "z": -0.055885029,
+                            "w": -0.9270635432
+                          }
+                        }
+                      },
+                      "intrinsics": {
+                        "fov": 58.0,
+                        "aspectRatio": 1.7777777777777777
+                      }
+                    },
+                    "allFrames": false,
+                    "easing": {
+                      "inDuration": 1.0,
+                      "curve": "easeInOut"
+                    }
+                  }
+                ]
+              },
+              {
+                "id": "stadium-05-stadium-breathes-shot-02",
+                "name": "Geographic master",
+                "trigger": {
+                  "type": "relativeTime",
+                  "actionId": "stadium-05-stadium-breathes-shot-01",
+                  "reference": "end",
+                  "offset": 0
+                },
+                "movement": {
+                  "act": "arcRight",
+                  "duration": 24,
+                  "relativeFPS": "normal",
+                  "targets": [
+                    {
+                      "id": "athletics_track",
+                      "description": "پیست ۶ خط دومیدانی / six-lane athletics track"
+                    },
+                    {
+                      "id": "football_pitch",
+                      "description": "زمین فوتبال داخل پیست / infield pitch"
+                    }
+                  ],
+                  "parameters": {
+                    "arcRadius": 170,
+                    "arcAngle": 30.0,
+                    "constantSpeed": true
+                  }
+                },
+                "constraints": [
+                  {
+                    "kind": "general",
+                    "constraint": "noShake",
+                    "allFrames": true
+                  },
+                  {
+                    "kind": "general",
+                    "constraint": "keepInFrame",
+                    "targets": [
+                      {
+                        "id": "athletics_track",
+                        "description": "پیست ۶ خط دومیدانی / six-lane athletics track"
+                      },
+                      {
+                        "id": "football_pitch",
+                        "description": "زمین فوتبال داخل پیست / infield pitch"
+                      }
+                    ],
+                    "allFrames": true
+                  },
+                  {
+                    "config": {
+                      "type": "nonSubjectAware",
+                      "extrinsics": {
+                        "pose": {
+                          "position": {
+                            "x": 159.7477455,
+                            "y": 58.0,
+                            "z": 58.1434244
+                          },
+                          "rotation": {
+                            "x": 0.1338468994,
+                            "y": -0.5658678079,
+                            "z": -0.0937206079,
+                            "w": -0.8081429819
+                          }
+                        }
+                      },
+                      "intrinsics": {
+                        "fov": 58.0,
+                        "aspectRatio": 1.7777777777777777
+                      }
+                    },
+                    "allFrames": false,
+                    "easing": {
+                      "inDuration": 1.0,
+                      "curve": "easeInOut"
+                    }
+                  }
+                ]
+              },
+              {
+                "id": "stadium-05-stadium-breathes-shot-03",
+                "name": "Ascending final arc",
+                "trigger": {
+                  "type": "relativeTime",
+                  "actionId": "stadium-05-stadium-breathes-shot-02",
+                  "reference": "end",
+                  "offset": 0
+                },
+                "movement": {
+                  "act": "arcRight",
+                  "duration": 12,
+                  "relativeFPS": "normal",
+                  "targets": [
+                    {
+                      "id": "athletics_track",
+                      "description": "پیست ۶ خط دومیدانی / six-lane athletics track"
+                    },
+                    {
+                      "id": "football_pitch",
+                      "description": "زمین فوتبال داخل پیست / infield pitch"
+                    }
+                  ],
+                  "parameters": {
+                    "arcRadius": 170,
+                    "arcAngle": 15.0,
+                    "constantSpeed": true
+                  }
+                },
+                "constraints": [
+                  {
+                    "kind": "general",
+                    "constraint": "noShake",
+                    "allFrames": true
+                  },
+                  {
+                    "kind": "general",
+                    "constraint": "keepInFrame",
+                    "targets": [
+                      {
+                        "id": "athletics_track",
+                        "description": "پیست ۶ خط دومیدانی / six-lane athletics track"
+                      },
+                      {
+                        "id": "football_pitch",
+                        "description": "زمین فوتبال داخل پیست / infield pitch"
+                      }
+                    ],
+                    "allFrames": true
+                  },
+                  {
+                    "config": {
+                      "type": "nonSubjectAware",
+                      "extrinsics": {
+                        "pose": {
+                          "position": {
+                            "x": 169.3530987,
+                            "y": 73.0,
+                            "z": 14.8164763
+                          },
+                          "rotation": {
+                            "x": 0.1483182129,
+                            "y": -0.6617786492,
+                            "z": -0.1359086021,
+                            "w": -0.7222046657
+                          }
+                        }
+                      },
+                      "intrinsics": {
+                        "fov": 58.0,
+                        "aspectRatio": 1.7777777777777777
+                      }
+                    },
+                    "allFrames": false,
+                    "easing": {
+                      "inDuration": 1.0,
+                      "curve": "easeInOut"
+                    }
+                  }
+                ]
+              },
+              {
+                "id": "stadium-05-stadium-breathes-overlay-01",
+                "name": "Concurrent craneDown",
+                "trigger": {
+                  "type": "absoluteTime",
+                  "time": 0
+                },
+                "movement": {
+                  "act": "craneDown",
+                  "duration": 12,
+                  "parameters": {
+                    "heightChange": 9
+                  }
+                }
+              },
+              {
+                "id": "stadium-05-stadium-breathes-overlay-02",
+                "name": "Concurrent craneUp",
+                "trigger": {
+                  "type": "absoluteTime",
+                  "time": 36
+                },
+                "movement": {
+                  "act": "craneUp",
+                  "duration": 12,
+                  "parameters": {
+                    "heightChange": 15
+                  }
+                }
+              }
+            ]
+          }
+        ]
+      },
+      "trajectoryUrl": "/trajectories/cinematic-suite/stadium-05-stadium-breathes-camera.json",
+      "durationSeconds": 48.0,
+      "sampleFps": 30,
+      "sampleCount": 1441,
+      "files": {
+        "prompt": "stadium-05-stadium-breathes/prompt.txt",
+        "csl": "stadium-05-stadium-breathes/csl.json",
+        "draftCsl": "stadium-05-stadium-breathes/draft-csl.json",
+        "binding": "stadium-05-stadium-breathes/binding.json",
+        "trajectory": "stadium-05-stadium-breathes/trajectory.json",
+        "keyframes": "stadium-05-stadium-breathes/keyframes.json",
+        "storyboard": "stadium-05-stadium-breathes/storyboard.json",
+        "metadata": "stadium-05-stadium-breathes/metadata.json"
+      }
+    },
+    {
+      "id": "factory-01-production-to-stillness",
+      "environmentId": "factory",
+      "title": "Production to Stillness",
+      "style": "Product-led opening / dramatic reveal",
+      "prompt": "Create one continuous 48-second factory sequence that changes from ordered production to quiet aftermath. Start by tracking cargo 01 along the conveyor in a composed product-led view, with the assembly line as background. Between 8 and 16 seconds smoothly leave the product tracking rig and reveal workers A and B in the south aisle; widen the lens gradually during the handoff. Be settled by 16 seconds in a stable elevated view that contains the argument, the shove at 20 seconds, the collision at 21 seconds, and the first falling pieces of cargo. Hold the physical camera still from 16 to 24 seconds so the cause and effect remain easy to read. From 24 to 48 seconds slowly pull back and rise, including the workers' reaction and the stopped production line. Stay inside the factory below its ceiling, preserve the normal scene clock, and use no cuts or camera shake.",
+      "resolvedCsl": {
+        "totalDuration": 48.0,
+        "sections": [
+          {
+            "initCamera": {
+              "targets": [
+                {
+                  "id": "cargo_01",
+                  "description": "قطعهٔ تولید 1 · سقوط از خط / spills on impact"
+                }
+              ],
+              "config": {
+                "type": "nonSubjectAware",
+                "extrinsics": {
+                  "pose": {
+                    "position": {
+                      "x": -10.0298075,
+                      "y": 3.4,
+                      "z": 3.95
+                    },
+                    "rotation": {
+                      "x": 0.2448812883,
+                      "y": -0.1275204965,
+                      "z": -0.0325088675,
+                      "w": -0.9605804762
+                    }
+                  }
+                },
+                "intrinsics": {
+                  "fov": 32.0,
+                  "aspectRatio": 1.7777777777777777
+                }
+              }
+            },
+            "actions": [
+              {
+                "id": "factory-01-production-to-stillness-shot-01",
+                "name": "Conveyor product tracking",
+                "trigger": {
+                  "type": "absoluteTime",
+                  "time": 0
+                },
+                "movement": {
+                  "act": "track",
+                  "duration": 8,
+                  "relativeFPS": "normal",
+                  "targets": [
+                    {
+                      "id": "cargo_01",
+                      "description": "قطعهٔ تولید 1 · سقوط از خط / spills on impact"
+                    }
+                  ],
+                  "parameters": {
+                    "path": "spline",
+                    "handheld": false
+                  }
+                },
+                "constraints": [
+                  {
+                    "kind": "general",
+                    "constraint": "noShake",
+                    "allFrames": true
+                  },
+                  {
+                    "kind": "general",
+                    "constraint": "keepInFrame",
+                    "targets": [
+                      {
+                        "id": "cargo_01",
+                        "description": "قطعهٔ تولید 1 · سقوط از خط / spills on impact"
+                      }
+                    ],
+                    "allFrames": true
+                  },
+                  {
+                    "config": {
+                      "type": "nonSubjectAware",
+                      "extrinsics": {
+                        "pose": {
+                          "position": {
+                            "x": -5.7,
+                            "y": 3.4,
+                            "z": 3.95
+                          },
+                          "rotation": {
+                            "x": 0.2448812883,
+                            "y": -0.1275204965,
+                            "z": -0.0325088675,
+                            "w": -0.9605804762
+                          }
+                        }
+                      },
+                      "intrinsics": {
+                        "fov": 32.0,
+                        "aspectRatio": 1.7777777777777777
+                      }
+                    },
+                    "allFrames": false,
+                    "easing": {
+                      "inDuration": 1.0,
+                      "curve": "easeInOut"
+                    }
+                  }
+                ]
+              },
+              {
+                "id": "factory-01-production-to-stillness-shot-02",
+                "name": "Product-to-workers handoff",
+                "trigger": {
+                  "type": "relativeTime",
+                  "actionId": "factory-01-production-to-stillness-shot-01",
+                  "reference": "end",
+                  "offset": 0
+                },
+                "movement": {
+                  "act": "track",
+                  "duration": 8,
+                  "relativeFPS": "normal",
+                  "targets": [
+                    {
+                      "id": "production_line",
+                      "description": "ریل خط تولید فعال / active production conveyor"
+                    }
+                  ],
+                  "parameters": {
+                    "path": "spline",
+                    "handheld": false
+                  }
+                },
+                "constraints": [
+                  {
+                    "kind": "general",
+                    "constraint": "noShake",
+                    "allFrames": true
+                  },
+                  {
+                    "config": {
+                      "type": "nonSubjectAware",
+                      "extrinsics": {
+                        "pose": {
+                          "position": {
+                            "x": 4.8,
+                            "y": 4.7,
+                            "z": 9.0
+                          },
+                          "rotation": {
+                            "x": 0.2099401845,
+                            "y": -0.1319929374,
+                            "z": -0.0286165977,
+                            "w": -0.9683408872
+                          }
+                        }
+                      },
+                      "intrinsics": {
+                        "fov": 53.0,
+                        "aspectRatio": 1.7777777777777777
+                      }
+                    },
+                    "allFrames": false,
+                    "easing": {
+                      "inDuration": 1.0,
+                      "curve": "easeInOut"
+                    }
+                  }
+                ]
+              },
+              {
+                "id": "factory-01-production-to-stillness-shot-03",
+                "name": "Locked causal master",
+                "trigger": {
+                  "type": "relativeTime",
+                  "actionId": "factory-01-production-to-stillness-shot-02",
+                  "reference": "end",
+                  "offset": 0
+                },
+                "movement": {
+                  "act": "static",
+                  "duration": 8,
+                  "relativeFPS": "normal",
+                  "targets": [
+                    {
+                      "id": "worker_a",
+                      "description": "کارگر الف / worker A — initiates shove"
+                    },
+                    {
+                      "id": "worker_b",
+                      "description": "کارگر ب / worker B — collides with production line"
+                    },
+                    {
+                      "id": "cargo_06",
+                      "description": "قطعهٔ تولید 6 · سقوط از خط / spills on impact"
+                    }
+                  ]
+                },
+                "constraints": [
+                  {
+                    "kind": "general",
+                    "constraint": "noShake",
+                    "allFrames": true
+                  },
+                  {
+                    "kind": "general",
+                    "constraint": "keepInFrame",
+                    "targets": [
+                      {
+                        "id": "worker_a",
+                        "description": "کارگر الف / worker A — initiates shove"
+                      },
+                      {
+                        "id": "worker_b",
+                        "description": "کارگر ب / worker B — collides with production line"
+                      },
+                      {
+                        "id": "cargo_06",
+                        "description": "قطعهٔ تولید 6 · سقوط از خط / spills on impact"
+                      }
+                    ],
+                    "allFrames": true
+                  },
+                  {
+                    "config": {
+                      "type": "nonSubjectAware",
+                      "extrinsics": {
+                        "pose": {
+                          "position": {
+                            "x": 4.8,
+                            "y": 4.7,
+                            "z": 9.0
+                          },
+                          "rotation": {
+                            "x": 0.2099401845,
+                            "y": -0.1319929374,
+                            "z": -0.0286165977,
+                            "w": -0.9683408872
+                          }
+                        }
+                      },
+                      "intrinsics": {
+                        "fov": 53.0,
+                        "aspectRatio": 1.7777777777777777
+                      }
+                    },
+                    "allFrames": false,
+                    "easing": {
+                      "inDuration": 1.0,
+                      "curve": "easeInOut"
+                    }
+                  }
+                ]
+              },
+              {
+                "id": "factory-01-production-to-stillness-shot-04",
+                "name": "Pull back into stillness",
+                "trigger": {
+                  "type": "relativeTime",
+                  "actionId": "factory-01-production-to-stillness-shot-03",
+                  "reference": "end",
+                  "offset": 0
+                },
+                "movement": {
+                  "act": "craneUp",
+                  "duration": 24,
+                  "relativeFPS": "normal",
+                  "targets": [
+                    {
+                      "id": "worker_a",
+                      "description": "کارگر الف / worker A — initiates shove"
+                    },
+                    {
+                      "id": "worker_b",
+                      "description": "کارگر ب / worker B — collides with production line"
+                    }
+                  ],
+                  "parameters": {
+                    "path": "spline",
+                    "handheld": false
+                  }
+                },
+                "constraints": [
+                  {
+                    "kind": "general",
+                    "constraint": "noShake",
+                    "allFrames": true
+                  },
+                  {
+                    "kind": "general",
+                    "constraint": "keepInFrame",
+                    "targets": [
+                      {
+                        "id": "worker_a",
+                        "description": "کارگر الف / worker A — initiates shove"
+                      },
+                      {
+                        "id": "worker_b",
+                        "description": "کارگر ب / worker B — collides with production line"
+                      }
+                    ],
+                    "allFrames": true
+                  },
+                  {
+                    "config": {
+                      "type": "nonSubjectAware",
+                      "extrinsics": {
+                        "pose": {
+                          "position": {
+                            "x": 10.0,
+                            "y": 7.6,
+                            "z": 17.0
+                          },
+                          "rotation": {
+                            "x": 0.1606096014,
+                            "y": -0.232371645,
+                            "z": -0.0389376475,
+                            "w": -0.9584841335
+                          }
+                        }
+                      },
+                      "intrinsics": {
+                        "fov": 55.0,
+                        "aspectRatio": 1.7777777777777777
+                      }
+                    },
+                    "allFrames": false,
+                    "easing": {
+                      "inDuration": 1.0,
+                      "curve": "easeInOut"
+                    }
+                  }
+                ]
+              },
+              {
+                "id": "factory-01-production-to-stillness-overlay-01",
+                "name": "Concurrent zoomOut",
+                "trigger": {
+                  "type": "absoluteTime",
+                  "time": 8
+                },
+                "movement": {
+                  "act": "zoomOut",
+                  "duration": 8,
+                  "parameters": {
+                    "zoomFactor": 1.7387607013589639
+                  }
+                }
+              },
+              {
+                "id": "factory-01-production-to-stillness-overlay-02",
+                "name": "Concurrent dollyOut",
+                "trigger": {
+                  "type": "absoluteTime",
+                  "time": 24
+                },
+                "movement": {
+                  "act": "dollyOut",
+                  "duration": 24,
+                  "parameters": {},
+                  "targets": [
+                    {
+                      "id": "worker_a",
+                      "description": "کارگر الف / worker A — initiates shove"
+                    },
+                    {
+                      "id": "worker_b",
+                      "description": "کارگر ب / worker B — collides with production line"
+                    }
+                  ]
+                }
+              }
+            ]
+          }
+        ]
+      },
+      "trajectoryUrl": "/trajectories/cinematic-suite/factory-01-production-to-stillness-camera.json",
+      "durationSeconds": 48.0,
+      "sampleFps": 30,
+      "sampleCount": 1441,
+      "files": {
+        "prompt": "factory-01-production-to-stillness/prompt.txt",
+        "csl": "factory-01-production-to-stillness/csl.json",
+        "draftCsl": "factory-01-production-to-stillness/draft-csl.json",
+        "binding": "factory-01-production-to-stillness/binding.json",
+        "trajectory": "factory-01-production-to-stillness/trajectory.json",
+        "keyframes": "factory-01-production-to-stillness/keyframes.json",
+        "storyboard": "factory-01-production-to-stillness/storyboard.json",
+        "metadata": "factory-01-production-to-stillness/metadata.json"
+      }
+    },
+    {
+      "id": "factory-02-aisle-two-shot",
+      "environmentId": "factory",
+      "title": "The Aisle Two-Shot",
+      "style": "Intimate two-shot / anticipatory retreat",
+      "prompt": "Film workers A and B in a restrained, uninterrupted 48-second two-shot in the factory's south aisle. Start in an elevated wide shot that contains both separated workers and looks over the control cabinet. Descend and tighten gradually as they converge, reaching a near-eye-level full two-shot by 12 seconds. Hold a respectful distance through the argument at 12.2–17 seconds. Between 17 and 20 seconds retreat, rise, and widen before the shove: the audience must see both bodies and the space between them. Maintain that more generous view through the impact at 21 seconds and the cargo spill, without whipping the camera toward individual falling items. After 25 seconds drift back into a quiet, wider two-shot of the workers and their immediate surroundings. Keep screen geography consistent from the same side of the aisle, use normal playback, and avoid cuts, shake, and extreme lens distortion.",
+      "resolvedCsl": {
+        "totalDuration": 48.0,
+        "sections": [
+          {
+            "initCamera": {
+              "targets": [
+                {
+                  "id": "worker_a",
+                  "description": "کارگر الف / worker A — initiates shove"
+                },
+                {
+                  "id": "worker_b",
+                  "description": "کارگر ب / worker B — collides with production line"
+                }
+              ],
+              "config": {
+                "type": "nonSubjectAware",
+                "extrinsics": {
+                  "pose": {
+                    "position": {
+                      "x": 0.5014963,
+                      "y": 7.1,
+                      "z": 6.0
+                    },
+                    "rotation": {
+                      "x": 0.5369124978,
+                      "y": -0.0743238039,
+                      "z": -0.0475624266,
+                      "w": -0.8390105824
+                    }
+                  }
+                },
+                "intrinsics": {
+                  "fov": 78.0,
+                  "aspectRatio": 1.7777777777777777
+                }
+              }
+            },
+            "actions": [
+              {
+                "id": "factory-02-aisle-two-shot-shot-01",
+                "name": "Converging two-shot",
+                "trigger": {
+                  "type": "absoluteTime",
+                  "time": 0
+                },
+                "movement": {
+                  "act": "track",
+                  "duration": 12,
+                  "relativeFPS": "normal",
+                  "targets": [
+                    {
+                      "id": "worker_a",
+                      "description": "کارگر الف / worker A — initiates shove"
+                    },
+                    {
+                      "id": "worker_b",
+                      "description": "کارگر ب / worker B — collides with production line"
+                    }
+                  ],
+                  "parameters": {
+                    "path": "spline",
+                    "handheld": false
+                  }
+                },
+                "constraints": [
+                  {
+                    "kind": "general",
+                    "constraint": "noShake",
+                    "allFrames": true
+                  },
+                  {
+                    "kind": "general",
+                    "constraint": "keepInFrame",
+                    "targets": [
+                      {
+                        "id": "worker_a",
+                        "description": "کارگر الف / worker A — initiates shove"
+                      },
+                      {
+                        "id": "worker_b",
+                        "description": "کارگر ب / worker B — collides with production line"
+                      }
+                    ],
+                    "allFrames": true
+                  },
+                  {
+                    "config": {
+                      "type": "nonSubjectAware",
+                      "extrinsics": {
+                        "pose": {
+                          "position": {
+                            "x": 0.8697601,
+                            "y": 2.5,
+                            "z": 7.8304438
+                          },
+                          "rotation": {
+                            "x": 0.1559415811,
+                            "y": -0.0512365577,
+                            "z": -0.0081000439,
+                            "w": -0.9864032784
+                          }
+                        }
+                      },
+                      "intrinsics": {
+                        "fov": 40.0,
+                        "aspectRatio": 1.7777777777777777
+                      }
+                    },
+                    "allFrames": false,
+                    "easing": {
+                      "inDuration": 1.0,
+                      "curve": "easeInOut"
+                    }
+                  }
+                ]
+              },
+              {
+                "id": "factory-02-aisle-two-shot-shot-02",
+                "name": "Argument at respectful distance",
+                "trigger": {
+                  "type": "relativeTime",
+                  "actionId": "factory-02-aisle-two-shot-shot-01",
+                  "reference": "end",
+                  "offset": 0
+                },
+                "movement": {
+                  "act": "follow",
+                  "duration": 5,
+                  "relativeFPS": "normal",
+                  "targets": [
+                    {
+                      "id": "worker_a",
+                      "description": "کارگر الف / worker A — initiates shove"
+                    },
+                    {
+                      "id": "worker_b",
+                      "description": "کارگر ب / worker B — collides with production line"
+                    }
+                  ],
+                  "parameters": {
+                    "path": "spline",
+                    "handheld": false
+                  }
+                },
+                "constraints": [
+                  {
+                    "kind": "general",
+                    "constraint": "noShake",
+                    "allFrames": true
+                  },
+                  {
+                    "kind": "general",
+                    "constraint": "keepInFrame",
+                    "targets": [
+                      {
+                        "id": "worker_a",
+                        "description": "کارگر الف / worker A — initiates shove"
+                      },
+                      {
+                        "id": "worker_b",
+                        "description": "کارگر ب / worker B — collides with production line"
+                      }
+                    ],
+                    "allFrames": true
+                  },
+                  {
+                    "config": {
+                      "type": "nonSubjectAware",
+                      "extrinsics": {
+                        "pose": {
+                          "position": {
+                            "x": 0.9138649,
+                            "y": 2.5,
+                            "z": 7.6444879
+                          },
+                          "rotation": {
+                            "x": 0.1559415811,
+                            "y": -0.0512365577,
+                            "z": -0.0081000439,
+                            "w": -0.9864032784
+                          }
+                        }
+                      },
+                      "intrinsics": {
+                        "fov": 40.0,
+                        "aspectRatio": 1.7777777777777777
+                      }
+                    },
+                    "allFrames": false,
+                    "easing": {
+                      "inDuration": 1.0,
+                      "curve": "easeInOut"
+                    }
+                  }
+                ]
+              },
+              {
+                "id": "factory-02-aisle-two-shot-shot-03",
+                "name": "Retreat before the shove",
+                "trigger": {
+                  "type": "relativeTime",
+                  "actionId": "factory-02-aisle-two-shot-shot-02",
+                  "reference": "end",
+                  "offset": 0
+                },
+                "movement": {
+                  "act": "follow",
+                  "duration": 8,
+                  "relativeFPS": "normal",
+                  "targets": [
+                    {
+                      "id": "worker_a",
+                      "description": "کارگر الف / worker A — initiates shove"
+                    },
+                    {
+                      "id": "worker_b",
+                      "description": "کارگر ب / worker B — collides with production line"
+                    }
+                  ],
+                  "parameters": {
+                    "path": "spline",
+                    "handheld": false
+                  }
+                },
+                "constraints": [
+                  {
+                    "kind": "general",
+                    "constraint": "noShake",
+                    "allFrames": true
+                  },
+                  {
+                    "kind": "general",
+                    "constraint": "keepInFrame",
+                    "targets": [
+                      {
+                        "id": "worker_a",
+                        "description": "کارگر الف / worker A — initiates shove"
+                      },
+                      {
+                        "id": "worker_b",
+                        "description": "کارگر ب / worker B — collides with production line"
+                      }
+                    ],
+                    "allFrames": true
+                  },
+                  {
+                    "config": {
+                      "type": "nonSubjectAware",
+                      "extrinsics": {
+                        "pose": {
+                          "position": {
+                            "x": 2.4854027,
+                            "y": 4.0,
+                            "z": 9.7231205
+                          },
+                          "rotation": {
+                            "x": 0.1719766481,
+                            "y": -0.0346217007,
+                            "z": -0.0060480265,
+                            "w": -0.9844738654
+                          }
+                        }
+                      },
+                      "intrinsics": {
+                        "fov": 51.0,
+                        "aspectRatio": 1.7777777777777777
+                      }
+                    },
+                    "allFrames": false,
+                    "easing": {
+                      "inDuration": 1.0,
+                      "curve": "easeInOut"
+                    }
+                  }
+                ]
+              },
+              {
+                "id": "factory-02-aisle-two-shot-shot-04",
+                "name": "Release into aftermath",
+                "trigger": {
+                  "type": "relativeTime",
+                  "actionId": "factory-02-aisle-two-shot-shot-03",
+                  "reference": "end",
+                  "offset": 0
+                },
+                "movement": {
+                  "act": "follow",
+                  "duration": 11,
+                  "relativeFPS": "normal",
+                  "targets": [
+                    {
+                      "id": "worker_a",
+                      "description": "کارگر الف / worker A — initiates shove"
+                    },
+                    {
+                      "id": "worker_b",
+                      "description": "کارگر ب / worker B — collides with production line"
+                    }
+                  ],
+                  "parameters": {
+                    "path": "spline",
+                    "handheld": false
+                  }
+                },
+                "constraints": [
+                  {
+                    "kind": "general",
+                    "constraint": "noShake",
+                    "allFrames": true
+                  },
+                  {
+                    "kind": "general",
+                    "constraint": "keepInFrame",
+                    "targets": [
+                      {
+                        "id": "worker_a",
+                        "description": "کارگر الف / worker A — initiates shove"
+                      },
+                      {
+                        "id": "worker_b",
+                        "description": "کارگر ب / worker B — collides with production line"
+                      }
+                    ],
+                    "allFrames": true
+                  },
+                  {
+                    "config": {
+                      "type": "nonSubjectAware",
+                      "extrinsics": {
+                        "pose": {
+                          "position": {
+                            "x": 3.25,
+                            "y": 3.5,
+                            "z": 12.125
+                          },
+                          "rotation": {
+                            "x": 0.1381199591,
+                            "y": -0.0274795573,
+                            "z": -0.0038337097,
+                            "w": -0.9900267943
+                          }
+                        }
+                      },
+                      "intrinsics": {
+                        "fov": 43.0,
+                        "aspectRatio": 1.7777777777777777
+                      }
+                    },
+                    "allFrames": false,
+                    "easing": {
+                      "inDuration": 1.0,
+                      "curve": "easeInOut"
+                    }
+                  }
+                ]
+              },
+              {
+                "id": "factory-02-aisle-two-shot-shot-05",
+                "name": "Quiet final two-shot",
+                "trigger": {
+                  "type": "relativeTime",
+                  "actionId": "factory-02-aisle-two-shot-shot-04",
+                  "reference": "end",
+                  "offset": 0
+                },
+                "movement": {
+                  "act": "static",
+                  "duration": 12,
+                  "relativeFPS": "normal",
+                  "targets": [
+                    {
+                      "id": "worker_a",
+                      "description": "کارگر الف / worker A — initiates shove"
+                    },
+                    {
+                      "id": "worker_b",
+                      "description": "کارگر ب / worker B — collides with production line"
+                    }
+                  ]
+                },
+                "constraints": [
+                  {
+                    "kind": "general",
+                    "constraint": "noShake",
+                    "allFrames": true
+                  },
+                  {
+                    "kind": "general",
+                    "constraint": "keepInFrame",
+                    "targets": [
+                      {
+                        "id": "worker_a",
+                        "description": "کارگر الف / worker A — initiates shove"
+                      },
+                      {
+                        "id": "worker_b",
+                        "description": "کارگر ب / worker B — collides with production line"
+                      }
+                    ],
+                    "allFrames": true
+                  },
+                  {
+                    "config": {
+                      "type": "nonSubjectAware",
+                      "extrinsics": {
+                        "pose": {
+                          "position": {
+                            "x": 3.25,
+                            "y": 3.5,
+                            "z": 12.125
+                          },
+                          "rotation": {
+                            "x": 0.1381199591,
+                            "y": -0.0274795573,
+                            "z": -0.0038337097,
+                            "w": -0.9900267943
+                          }
+                        }
+                      },
+                      "intrinsics": {
+                        "fov": 43.0,
+                        "aspectRatio": 1.7777777777777777
+                      }
+                    },
+                    "allFrames": false,
+                    "easing": {
+                      "inDuration": 1.0,
+                      "curve": "easeInOut"
+                    }
+                  }
+                ]
+              },
+              {
+                "id": "factory-02-aisle-two-shot-overlay-01",
+                "name": "Concurrent craneDown",
+                "trigger": {
+                  "type": "absoluteTime",
+                  "time": 0
+                },
+                "movement": {
+                  "act": "craneDown",
+                  "duration": 12,
+                  "parameters": {}
+                }
+              },
+              {
+                "id": "factory-02-aisle-two-shot-overlay-02",
+                "name": "Concurrent zoomIn",
+                "trigger": {
+                  "type": "absoluteTime",
+                  "time": 0
+                },
+                "movement": {
+                  "act": "zoomIn",
+                  "duration": 12,
+                  "parameters": {
+                    "zoomFactor": 2.224863345838174
+                  }
+                }
+              },
+              {
+                "id": "factory-02-aisle-two-shot-overlay-03",
+                "name": "Concurrent dollyOut",
+                "trigger": {
+                  "type": "absoluteTime",
+                  "time": 17
+                },
+                "movement": {
+                  "act": "dollyOut",
+                  "duration": 3,
+                  "parameters": {},
+                  "targets": [
+                    {
+                      "id": "worker_a",
+                      "description": "کارگر الف / worker A — initiates shove"
+                    },
+                    {
+                      "id": "worker_b",
+                      "description": "کارگر ب / worker B — collides with production line"
+                    }
+                  ]
+                }
+              },
+              {
+                "id": "factory-02-aisle-two-shot-overlay-04",
+                "name": "Concurrent craneUp",
+                "trigger": {
+                  "type": "absoluteTime",
+                  "time": 17
+                },
+                "movement": {
+                  "act": "craneUp",
+                  "duration": 3,
+                  "parameters": {}
+                }
+              },
+              {
+                "id": "factory-02-aisle-two-shot-overlay-05",
+                "name": "Concurrent zoomOut",
+                "trigger": {
+                  "type": "absoluteTime",
+                  "time": 17
+                },
+                "movement": {
+                  "act": "zoomOut",
+                  "duration": 3,
+                  "parameters": {
+                    "zoomFactor": 1.310479505720535
+                  }
+                }
+              }
+            ]
+          }
+        ]
+      },
+      "trajectoryUrl": "/trajectories/cinematic-suite/factory-02-aisle-two-shot-camera.json",
+      "durationSeconds": 48.0,
+      "sampleFps": 30,
+      "sampleCount": 1441,
+      "files": {
+        "prompt": "factory-02-aisle-two-shot/prompt.txt",
+        "csl": "factory-02-aisle-two-shot/csl.json",
+        "draftCsl": "factory-02-aisle-two-shot/draft-csl.json",
+        "binding": "factory-02-aisle-two-shot/binding.json",
+        "trajectory": "factory-02-aisle-two-shot/trajectory.json",
+        "keyframes": "factory-02-aisle-two-shot/keyframes.json",
+        "storyboard": "factory-02-aisle-two-shot/storyboard.json",
+        "metadata": "factory-02-aisle-two-shot/metadata.json"
+      }
+    },
+    {
+      "id": "factory-03-chain-reaction",
+      "environmentId": "factory",
+      "title": "The Chain Reaction",
+      "style": "High-angle master / spatial causality",
+      "prompt": "Create a 48-second high-angle, single-take factory master that explains the chain reaction spatially. Begin with a broad interior view of the conveyor and its two end stations. Over the first 14 seconds move closer to an elevated view of the central south-side work area, remaining around 8.1 metres high and below the ceiling and beams. From 14 to 26 seconds lock both camera position and aim. In that frame, show workers A and B, the shove at 20 seconds, the impact and clustered cargo spill at 21 seconds, and the emergency operator near the control station at 21.7 seconds. Prioritize clear spatial relationships over close-ups. After 26 seconds slowly withdraw and drift to the right to reveal the stopped line and the wider response. Use a level horizon, normal speed, gentle lens changes, and no cuts or shake.",
+      "resolvedCsl": {
+        "totalDuration": 48.0,
+        "sections": [
+          {
+            "initCamera": {
+              "targets": [
+                {
+                  "id": "worker_a",
+                  "description": "کارگر الف / worker A — initiates shove"
+                },
+                {
+                  "id": "worker_b",
+                  "description": "کارگر ب / worker B — collides with production line"
+                },
+                {
+                  "id": "cargo_06",
+                  "description": "قطعهٔ تولید 6 · سقوط از خط / spills on impact"
+                },
+                {
+                  "id": "worker_05",
+                  "description": "کارگر خط تولید 5 · توقف اضطراری / emergency stop"
+                }
+              ],
+              "config": {
+                "type": "nonSubjectAware",
+                "extrinsics": {
+                  "pose": {
+                    "position": {
+                      "x": 0.0,
+                      "y": 8.1,
+                      "z": 12.0
+                    },
+                    "rotation": {
+                      "x": -0.2639689089,
+                      "y": 0.0,
+                      "z": 0.0,
+                      "w": 0.9645311893
+                    }
+                  }
+                },
+                "intrinsics": {
+                  "fov": 68.0,
+                  "aspectRatio": 1.7777777777777777
+                }
+              }
+            },
+            "actions": [
+              {
+                "id": "factory-03-chain-reaction-shot-01",
+                "name": "Interior geography to causal master",
+                "trigger": {
+                  "type": "absoluteTime",
+                  "time": 0
+                },
+                "movement": {
+                  "act": "dollyIn",
+                  "duration": 14,
+                  "relativeFPS": "normal",
+                  "targets": [
+                    {
+                      "id": "production_line",
+                      "description": "ریل خط تولید فعال / active production conveyor"
+                    }
+                  ],
+                  "parameters": {
+                    "path": "spline",
+                    "handheld": false
+                  }
+                },
+                "constraints": [
+                  {
+                    "kind": "general",
+                    "constraint": "noShake",
+                    "allFrames": true
+                  },
+                  {
+                    "config": {
+                      "type": "nonSubjectAware",
+                      "extrinsics": {
+                        "pose": {
+                          "position": {
+                            "x": 2.0,
+                            "y": 8.1,
+                            "z": 6.5
+                          },
+                          "rotation": {
+                            "x": -0.443522616,
+                            "y": 0.0,
+                            "z": 0.0,
+                            "w": 0.8962631807
+                          }
+                        }
+                      },
+                      "intrinsics": {
+                        "fov": 56.0,
+                        "aspectRatio": 1.7777777777777777
+                      }
+                    },
+                    "allFrames": false,
+                    "easing": {
+                      "inDuration": 1.0,
+                      "curve": "easeInOut"
+                    }
+                  }
+                ]
+              },
+              {
+                "id": "factory-03-chain-reaction-shot-02",
+                "name": "Locked high-angle chain reaction",
+                "trigger": {
+                  "type": "relativeTime",
+                  "actionId": "factory-03-chain-reaction-shot-01",
+                  "reference": "end",
+                  "offset": 0
+                },
+                "movement": {
+                  "act": "static",
+                  "duration": 12,
+                  "relativeFPS": "normal",
+                  "targets": [
+                    {
+                      "id": "worker_a",
+                      "description": "کارگر الف / worker A — initiates shove"
+                    },
+                    {
+                      "id": "worker_b",
+                      "description": "کارگر ب / worker B — collides with production line"
+                    },
+                    {
+                      "id": "cargo_06",
+                      "description": "قطعهٔ تولید 6 · سقوط از خط / spills on impact"
+                    },
+                    {
+                      "id": "worker_05",
+                      "description": "کارگر خط تولید 5 · توقف اضطراری / emergency stop"
+                    }
+                  ]
+                },
+                "constraints": [
+                  {
+                    "kind": "general",
+                    "constraint": "noShake",
+                    "allFrames": true
+                  },
+                  {
+                    "kind": "general",
+                    "constraint": "keepInFrame",
+                    "targets": [
+                      {
+                        "id": "worker_a",
+                        "description": "کارگر الف / worker A — initiates shove"
+                      },
+                      {
+                        "id": "worker_b",
+                        "description": "کارگر ب / worker B — collides with production line"
+                      },
+                      {
+                        "id": "cargo_06",
+                        "description": "قطعهٔ تولید 6 · سقوط از خط / spills on impact"
+                      },
+                      {
+                        "id": "worker_05",
+                        "description": "کارگر خط تولید 5 · توقف اضطراری / emergency stop"
+                      }
+                    ],
+                    "allFrames": true
+                  },
+                  {
+                    "config": {
+                      "type": "nonSubjectAware",
+                      "extrinsics": {
+                        "pose": {
+                          "position": {
+                            "x": 2.0,
+                            "y": 8.1,
+                            "z": 6.5
+                          },
+                          "rotation": {
+                            "x": -0.443522616,
+                            "y": 0.0,
+                            "z": 0.0,
+                            "w": 0.8962631807
+                          }
+                        }
+                      },
+                      "intrinsics": {
+                        "fov": 56.0,
+                        "aspectRatio": 1.7777777777777777
+                      }
+                    },
+                    "allFrames": false,
+                    "easing": {
+                      "inDuration": 1.0,
+                      "curve": "easeInOut"
+                    }
+                  }
+                ]
+              },
+              {
+                "id": "factory-03-chain-reaction-shot-03",
+                "name": "Reveal the stopped system",
+                "trigger": {
+                  "type": "relativeTime",
+                  "actionId": "factory-03-chain-reaction-shot-02",
+                  "reference": "end",
+                  "offset": 0
+                },
+                "movement": {
+                  "act": "dollyOut",
+                  "duration": 22,
+                  "relativeFPS": "normal",
+                  "targets": [
+                    {
+                      "id": "worker_a",
+                      "description": "کارگر الف / worker A — initiates shove"
+                    },
+                    {
+                      "id": "worker_b",
+                      "description": "کارگر ب / worker B — collides with production line"
+                    },
+                    {
+                      "id": "worker_05",
+                      "description": "کارگر خط تولید 5 · توقف اضطراری / emergency stop"
+                    }
+                  ],
+                  "parameters": {
+                    "path": "spline",
+                    "handheld": false
+                  }
+                },
+                "constraints": [
+                  {
+                    "kind": "general",
+                    "constraint": "noShake",
+                    "allFrames": true
+                  },
+                  {
+                    "kind": "general",
+                    "constraint": "keepInFrame",
+                    "targets": [
+                      {
+                        "id": "worker_a",
+                        "description": "کارگر الف / worker A — initiates shove"
+                      },
+                      {
+                        "id": "worker_b",
+                        "description": "کارگر ب / worker B — collides with production line"
+                      },
+                      {
+                        "id": "worker_05",
+                        "description": "کارگر خط تولید 5 · توقف اضطراری / emergency stop"
+                      }
+                    ],
+                    "allFrames": true
+                  },
+                  {
+                    "config": {
+                      "type": "nonSubjectAware",
+                      "extrinsics": {
+                        "pose": {
+                          "position": {
+                            "x": 4.0,
+                            "y": 8.2,
+                            "z": 11.0
+                          },
+                          "rotation": {
+                            "x": -0.293245854,
+                            "y": 0.1167284218,
+                            "z": 0.0361002143,
+                            "w": 0.9481972997
+                          }
+                        }
+                      },
+                      "intrinsics": {
+                        "fov": 61.0,
+                        "aspectRatio": 1.7777777777777777
+                      }
+                    },
+                    "allFrames": false,
+                    "easing": {
+                      "inDuration": 1.0,
+                      "curve": "easeInOut"
+                    }
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      "trajectoryUrl": "/trajectories/cinematic-suite/factory-03-chain-reaction-camera.json",
+      "durationSeconds": 48.0,
+      "sampleFps": 30,
+      "sampleCount": 1441,
+      "files": {
+        "prompt": "factory-03-chain-reaction/prompt.txt",
+        "csl": "factory-03-chain-reaction/csl.json",
+        "draftCsl": "factory-03-chain-reaction/draft-csl.json",
+        "binding": "factory-03-chain-reaction/binding.json",
+        "trajectory": "factory-03-chain-reaction/trajectory.json",
+        "keyframes": "factory-03-chain-reaction/keyframes.json",
+        "storyboard": "factory-03-chain-reaction/storyboard.json",
+        "metadata": "factory-03-chain-reaction/metadata.json"
+      }
+    },
+    {
+      "id": "factory-04-emergency-operator",
+      "environmentId": "factory",
+      "title": "The Emergency Operator",
+      "style": "Supporting character / response coverage",
+      "prompt": "Make a 48-second factory sequence centred on worker 05, the emergency-stop operator, rather than the arguing pair. Begin from the south-east in a calm three-quarter composition that includes worker 05 and the control station. Push in very gently until 16 seconds, then lock the camera through 24 seconds. Keep a clear oblique view when the worker reaches the station around 21.7 seconds and the production line ramps down by 22.7 seconds; do not invent a close-up button-press animation that the scene does not contain. From 24 to 35 seconds rise and pull back, shifting the composition toward the affected workers and the operator together. Finish with a slow lateral drift through 48 seconds that connects the emergency response to the aftermath. Remain inside the room, avoid hiding the operator behind the control cabinet, preserve normal playback, and use no cuts or shake.",
+      "resolvedCsl": {
+        "totalDuration": 48.0,
+        "sections": [
+          {
+            "initCamera": {
+              "targets": [
+                {
+                  "id": "worker_05",
+                  "description": "کارگر خط تولید 5 · توقف اضطراری / emergency stop"
+                },
+                {
+                  "id": "control_station",
+                  "description": "کنترل تولید / emergency stop station"
+                }
+              ],
+              "config": {
+                "type": "nonSubjectAware",
+                "extrinsics": {
+                  "pose": {
+                    "position": {
+                      "x": 12.0,
+                      "y": 4.0,
+                      "z": 5.5
+                    },
+                    "rotation": {
+                      "x": 0.1707648842,
+                      "y": -0.5396451692,
+                      "z": -0.112844455,
+                      "w": -0.81663246
+                    }
+                  }
+                },
+                "intrinsics": {
+                  "fov": 39.0,
+                  "aspectRatio": 1.7777777777777777
+                }
+              }
+            },
+            "actions": [
+              {
+                "id": "factory-04-emergency-operator-shot-01",
+                "name": "Approach the operator",
+                "trigger": {
+                  "type": "absoluteTime",
+                  "time": 0
+                },
+                "movement": {
+                  "act": "dollyIn",
+                  "duration": 16,
+                  "relativeFPS": "normal",
+                  "targets": [
+                    {
+                      "id": "worker_05",
+                      "description": "کارگر خط تولید 5 · توقف اضطراری / emergency stop"
+                    },
+                    {
+                      "id": "control_station",
+                      "description": "کنترل تولید / emergency stop station"
+                    }
+                  ],
+                  "parameters": {
+                    "path": "spline",
+                    "handheld": false
+                  }
+                },
+                "constraints": [
+                  {
+                    "kind": "general",
+                    "constraint": "noShake",
+                    "allFrames": true
+                  },
+                  {
+                    "kind": "general",
+                    "constraint": "keepInFrame",
+                    "targets": [
+                      {
+                        "id": "worker_05",
+                        "description": "کارگر خط تولید 5 · توقف اضطراری / emergency stop"
+                      },
+                      {
+                        "id": "control_station",
+                        "description": "کنترل تولید / emergency stop station"
+                      }
+                    ],
+                    "allFrames": true
+                  },
+                  {
+                    "config": {
+                      "type": "nonSubjectAware",
+                      "extrinsics": {
+                        "pose": {
+                          "position": {
+                            "x": 10.3,
+                            "y": 3.3,
+                            "z": 7.8
+                          },
+                          "rotation": {
+                            "x": 0.1405558352,
+                            "y": -0.3709990263,
+                            "z": -0.0569175814,
+                            "w": -0.9161681989
+                          }
+                        }
+                      },
+                      "intrinsics": {
+                        "fov": 36.0,
+                        "aspectRatio": 1.7777777777777777
+                      }
+                    },
+                    "allFrames": false,
+                    "easing": {
+                      "inDuration": 1.0,
+                      "curve": "easeInOut"
+                    }
+                  }
+                ]
+              },
+              {
+                "id": "factory-04-emergency-operator-shot-02",
+                "name": "Emergency-stop coverage",
+                "trigger": {
+                  "type": "relativeTime",
+                  "actionId": "factory-04-emergency-operator-shot-01",
+                  "reference": "end",
+                  "offset": 0
+                },
+                "movement": {
+                  "act": "static",
+                  "duration": 8,
+                  "relativeFPS": "normal",
+                  "targets": [
+                    {
+                      "id": "worker_05",
+                      "description": "کارگر خط تولید 5 · توقف اضطراری / emergency stop"
+                    },
+                    {
+                      "id": "control_station",
+                      "description": "کنترل تولید / emergency stop station"
+                    }
+                  ]
+                },
+                "constraints": [
+                  {
+                    "kind": "general",
+                    "constraint": "noShake",
+                    "allFrames": true
+                  },
+                  {
+                    "kind": "general",
+                    "constraint": "keepInFrame",
+                    "targets": [
+                      {
+                        "id": "worker_05",
+                        "description": "کارگر خط تولید 5 · توقف اضطراری / emergency stop"
+                      },
+                      {
+                        "id": "control_station",
+                        "description": "کنترل تولید / emergency stop station"
+                      }
+                    ],
+                    "allFrames": true
+                  },
+                  {
+                    "config": {
+                      "type": "nonSubjectAware",
+                      "extrinsics": {
+                        "pose": {
+                          "position": {
+                            "x": 10.3,
+                            "y": 3.3,
+                            "z": 7.8
+                          },
+                          "rotation": {
+                            "x": 0.1405558352,
+                            "y": -0.3709990263,
+                            "z": -0.0569175814,
+                            "w": -0.9161681989
+                          }
+                        }
+                      },
+                      "intrinsics": {
+                        "fov": 36.0,
+                        "aspectRatio": 1.7777777777777777
+                      }
+                    },
+                    "allFrames": false,
+                    "easing": {
+                      "inDuration": 1.0,
+                      "curve": "easeInOut"
+                    }
+                  }
+                ]
+              },
+              {
+                "id": "factory-04-emergency-operator-shot-03",
+                "name": "Connect operator and aftermath",
+                "trigger": {
+                  "type": "relativeTime",
+                  "actionId": "factory-04-emergency-operator-shot-02",
+                  "reference": "end",
+                  "offset": 0
+                },
+                "movement": {
+                  "act": "craneUp",
+                  "duration": 11,
+                  "relativeFPS": "normal",
+                  "parameters": {
+                    "path": "spline",
+                    "handheld": false
+                  }
+                },
+                "constraints": [
+                  {
+                    "kind": "general",
+                    "constraint": "noShake",
+                    "allFrames": true
+                  },
+                  {
+                    "config": {
+                      "type": "nonSubjectAware",
+                      "extrinsics": {
+                        "pose": {
+                          "position": {
+                            "x": 6.8,
+                            "y": 6.1,
+                            "z": 12.0
+                          },
+                          "rotation": {
+                            "x": 0.2202424845,
+                            "y": -0.1695093237,
+                            "z": -0.0388961542,
+                            "w": -0.9598160899
+                          }
+                        }
+                      },
+                      "intrinsics": {
+                        "fov": 48.0,
+                        "aspectRatio": 1.7777777777777777
+                      }
+                    },
+                    "allFrames": false,
+                    "easing": {
+                      "inDuration": 1.0,
+                      "curve": "easeInOut"
+                    }
+                  }
+                ]
+              },
+              {
+                "id": "factory-04-emergency-operator-shot-04",
+                "name": "Response tableau",
+                "trigger": {
+                  "type": "relativeTime",
+                  "actionId": "factory-04-emergency-operator-shot-03",
+                  "reference": "end",
+                  "offset": 0
+                },
+                "movement": {
+                  "act": "truckLeft",
+                  "duration": 13,
+                  "relativeFPS": "normal",
+                  "parameters": {
+                    "path": "spline",
+                    "handheld": false
+                  }
+                },
+                "constraints": [
+                  {
+                    "kind": "general",
+                    "constraint": "noShake",
+                    "allFrames": true
+                  },
+                  {
+                    "kind": "general",
+                    "constraint": "keepInFrame",
+                    "targets": [
+                      {
+                        "id": "worker_a",
+                        "description": "کارگر الف / worker A — initiates shove"
+                      },
+                      {
+                        "id": "worker_b",
+                        "description": "کارگر ب / worker B — collides with production line"
+                      },
+                      {
+                        "id": "worker_05",
+                        "description": "کارگر خط تولید 5 · توقف اضطراری / emergency stop"
+                      }
+                    ],
+                    "allFrames": true
+                  },
+                  {
+                    "config": {
+                      "type": "nonSubjectAware",
+                      "extrinsics": {
+                        "pose": {
+                          "position": {
+                            "x": 3.8,
+                            "y": 6.1,
+                            "z": 12.0
+                          },
+                          "rotation": {
+                            "x": 0.2391737497,
+                            "y": -0.0356987833,
+                            "z": -0.0087997364,
+                            "w": -0.9702804126
+                          }
+                        }
+                      },
+                      "intrinsics": {
+                        "fov": 48.0,
+                        "aspectRatio": 1.7777777777777777
+                      }
+                    },
+                    "allFrames": false,
+                    "easing": {
+                      "inDuration": 1.0,
+                      "curve": "easeInOut"
+                    }
+                  }
+                ]
+              },
+              {
+                "id": "factory-04-emergency-operator-overlay-01",
+                "name": "Concurrent dollyOut",
+                "trigger": {
+                  "type": "absoluteTime",
+                  "time": 24
+                },
+                "movement": {
+                  "act": "dollyOut",
+                  "duration": 11,
+                  "parameters": {},
+                  "targets": [
+                    {
+                      "id": "worker_05",
+                      "description": "کارگر خط تولید 5 · توقف اضطراری / emergency stop"
+                    },
+                    {
+                      "id": "control_station",
+                      "description": "کنترل تولید / emergency stop station"
+                    }
+                  ]
+                }
+              }
+            ]
+          }
+        ]
+      },
+      "trajectoryUrl": "/trajectories/cinematic-suite/factory-04-emergency-operator-camera.json",
+      "durationSeconds": 48.0,
+      "sampleFps": 30,
+      "sampleCount": 1441,
+      "files": {
+        "prompt": "factory-04-emergency-operator/prompt.txt",
+        "csl": "factory-04-emergency-operator/csl.json",
+        "draftCsl": "factory-04-emergency-operator/draft-csl.json",
+        "binding": "factory-04-emergency-operator/binding.json",
+        "trajectory": "factory-04-emergency-operator/trajectory.json",
+        "keyframes": "factory-04-emergency-operator/keyframes.json",
+        "storyboard": "factory-04-emergency-operator/storyboard.json",
+        "metadata": "factory-04-emergency-operator/metadata.json"
+      }
+    },
+    {
+      "id": "factory-05-one-piece",
+      "environmentId": "factory",
+      "title": "One Piece, Many Consequences",
+      "style": "Cargo-led story / floor-level aftermath",
+      "prompt": "Tell a 48-second factory story through cargo 06, the sixth piece that spills from the production line. For the first 15 seconds smoothly track this piece with a relatively tight product-led composition; show enough conveyor to establish its movement. Between 15 and 20 seconds rise, move farther out, and widen before the impact. Track the piece through its airborne motion beginning at 21.3 seconds and its bounce and settling, smoothing the camera rather than copying the object's vertical jolt. Keep the production line and fragments of the workers' action as context. Between 26 and 34 seconds make a deliberate smooth handoff to a low oblique, stationary view of the resting piece on the floor. Hold that quiet insert from 34 to 48 seconds while the factory aftermath continues behind it. Use a level horizon, normal scene speed, no cuts, no focus-pull claims, and no camera intersections with the floor, workers, or machinery.",
+      "resolvedCsl": {
+        "totalDuration": 48.0,
+        "sections": [
+          {
+            "initCamera": {
+              "targets": [
+                {
+                  "id": "cargo_06",
+                  "description": "قطعهٔ تولید 6 · سقوط از خط / spills on impact"
+                }
+              ],
+              "config": {
+                "type": "nonSubjectAware",
+                "extrinsics": {
+                  "pose": {
+                    "position": {
+                      "x": -6.2341957,
+                      "y": 3.4,
+                      "z": 4.14
+                    },
+                    "rotation": {
+                      "x": 0.2159764088,
+                      "y": -0.0876686127,
+                      "z": -0.0194745806,
+                      "w": -0.972259814
+                    }
+                  }
+                },
+                "intrinsics": {
+                  "fov": 29.0,
+                  "aspectRatio": 1.7777777777777777
+                }
+              }
+            },
+            "actions": [
+              {
+                "id": "factory-05-one-piece-shot-01",
+                "name": "Product-led tracking",
+                "trigger": {
+                  "type": "absoluteTime",
+                  "time": 0
+                },
+                "movement": {
+                  "act": "track",
+                  "duration": 15,
+                  "relativeFPS": "normal",
+                  "targets": [
+                    {
+                      "id": "cargo_06",
+                      "description": "قطعهٔ تولید 6 · سقوط از خط / spills on impact"
+                    }
+                  ],
+                  "parameters": {
+                    "path": "spline",
+                    "handheld": false
+                  }
+                },
+                "constraints": [
+                  {
+                    "kind": "general",
+                    "constraint": "noShake",
+                    "allFrames": true
+                  },
+                  {
+                    "kind": "general",
+                    "constraint": "keepInFrame",
+                    "targets": [
+                      {
+                        "id": "cargo_06",
+                        "description": "قطعهٔ تولید 6 · سقوط از خط / spills on impact"
+                      }
+                    ],
+                    "allFrames": true
+                  },
+                  {
+                    "config": {
+                      "type": "nonSubjectAware",
+                      "extrinsics": {
+                        "pose": {
+                          "position": {
+                            "x": 1.95,
+                            "y": 3.4,
+                            "z": 4.14
+                          },
+                          "rotation": {
+                            "x": 0.2159764088,
+                            "y": -0.0876686127,
+                            "z": -0.0194745806,
+                            "w": -0.972259814
+                          }
+                        }
+                      },
+                      "intrinsics": {
+                        "fov": 29.0,
+                        "aspectRatio": 1.7777777777777777
+                      }
+                    },
+                    "allFrames": false,
+                    "easing": {
+                      "inDuration": 1.0,
+                      "curve": "easeInOut"
+                    }
+                  }
+                ]
+              },
+              {
+                "id": "factory-05-one-piece-shot-02",
+                "name": "Anticipatory lift and widen",
+                "trigger": {
+                  "type": "relativeTime",
+                  "actionId": "factory-05-one-piece-shot-01",
+                  "reference": "end",
+                  "offset": 0
+                },
+                "movement": {
+                  "act": "track",
+                  "duration": 5,
+                  "relativeFPS": "normal",
+                  "targets": [
+                    {
+                      "id": "cargo_06",
+                      "description": "قطعهٔ تولید 6 · سقوط از خط / spills on impact"
+                    }
+                  ],
+                  "parameters": {
+                    "path": "spline",
+                    "handheld": false
+                  }
+                },
+                "constraints": [
+                  {
+                    "kind": "general",
+                    "constraint": "noShake",
+                    "allFrames": true
+                  },
+                  {
+                    "kind": "general",
+                    "constraint": "keepInFrame",
+                    "targets": [
+                      {
+                        "id": "cargo_06",
+                        "description": "قطعهٔ تولید 6 · سقوط از خط / spills on impact"
+                      }
+                    ],
+                    "allFrames": true
+                  },
+                  {
+                    "config": {
+                      "type": "nonSubjectAware",
+                      "extrinsics": {
+                        "pose": {
+                          "position": {
+                            "x": 4.7,
+                            "y": 5.8,
+                            "z": 6.14
+                          },
+                          "rotation": {
+                            "x": 0.298824536,
+                            "y": -0.0592869928,
+                            "z": -0.0186041427,
+                            "w": -0.9522829596
+                          }
+                        }
+                      },
+                      "intrinsics": {
+                        "fov": 44.0,
+                        "aspectRatio": 1.7777777777777777
+                      }
+                    },
+                    "allFrames": false,
+                    "easing": {
+                      "inDuration": 1.0,
+                      "curve": "easeInOut"
+                    }
+                  }
+                ]
+              },
+              {
+                "id": "factory-05-one-piece-shot-03",
+                "name": "Spill, bounce, and settling",
+                "trigger": {
+                  "type": "relativeTime",
+                  "actionId": "factory-05-one-piece-shot-02",
+                  "reference": "end",
+                  "offset": 0
+                },
+                "movement": {
+                  "act": "track",
+                  "duration": 6,
+                  "relativeFPS": "normal",
+                  "targets": [
+                    {
+                      "id": "cargo_06",
+                      "description": "قطعهٔ تولید 6 · سقوط از خط / spills on impact"
+                    }
+                  ],
+                  "parameters": {
+                    "path": "spline",
+                    "handheld": false
+                  }
+                },
+                "constraints": [
+                  {
+                    "kind": "general",
+                    "constraint": "noShake",
+                    "allFrames": true
+                  },
+                  {
+                    "kind": "general",
+                    "constraint": "keepInFrame",
+                    "targets": [
+                      {
+                        "id": "cargo_06",
+                        "description": "قطعهٔ تولید 6 · سقوط از خط / spills on impact"
+                      }
+                    ],
+                    "allFrames": true
+                  },
+                  {
+                    "config": {
+                      "type": "nonSubjectAware",
+                      "extrinsics": {
+                        "pose": {
+                          "position": {
+                            "x": 7.5349942,
+                            "y": 5.7511454,
+                            "z": 9.7234657
+                          },
+                          "rotation": {
+                            "x": 0.3463634169,
+                            "y": -0.0586973164,
+                            "z": -0.0217204914,
+                            "w": -0.9360102717
+                          }
+                        }
+                      },
+                      "intrinsics": {
+                        "fov": 43.8138871,
+                        "aspectRatio": 1.7777777777777777
+                      }
+                    },
+                    "allFrames": false,
+                    "easing": {
+                      "inDuration": 1.0,
+                      "curve": "easeInOut"
+                    }
+                  }
+                ]
+              },
+              {
+                "id": "factory-05-one-piece-shot-04",
+                "name": "Handoff to low aftermath insert",
+                "trigger": {
+                  "type": "relativeTime",
+                  "actionId": "factory-05-one-piece-shot-03",
+                  "reference": "end",
+                  "offset": 0
+                },
+                "movement": {
+                  "act": "track",
+                  "duration": 8,
+                  "relativeFPS": "normal",
+                  "targets": [
+                    {
+                      "id": "cargo_06",
+                      "description": "قطعهٔ تولید 6 · سقوط از خط / spills on impact"
+                    }
+                  ],
+                  "parameters": {
+                    "path": "spline",
+                    "handheld": false
+                  }
+                },
+                "constraints": [
+                  {
+                    "kind": "general",
+                    "constraint": "noShake",
+                    "allFrames": true
+                  },
+                  {
+                    "kind": "general",
+                    "constraint": "keepInFrame",
+                    "targets": [
+                      {
+                        "id": "cargo_06",
+                        "description": "قطعهٔ تولید 6 · سقوط از خط / spills on impact"
+                      }
+                    ],
+                    "allFrames": true
+                  },
+                  {
+                    "config": {
+                      "type": "nonSubjectAware",
+                      "extrinsics": {
+                        "pose": {
+                          "position": {
+                            "x": 4.035,
+                            "y": 2.06,
+                            "z": 7.07
+                          },
+                          "rotation": {
+                            "x": 0.176958207,
+                            "y": 0.3045900817,
+                            "z": 0.0577010245,
+                            "w": -0.9341205848
+                          }
+                        }
+                      },
+                      "intrinsics": {
+                        "fov": 31.0,
+                        "aspectRatio": 1.7777777777777777
+                      }
+                    },
+                    "allFrames": false,
+                    "easing": {
+                      "inDuration": 1.0,
+                      "curve": "easeInOut"
+                    }
+                  }
+                ]
+              },
+              {
+                "id": "factory-05-one-piece-shot-05",
+                "name": "Resting piece, living background",
+                "trigger": {
+                  "type": "relativeTime",
+                  "actionId": "factory-05-one-piece-shot-04",
+                  "reference": "end",
+                  "offset": 0
+                },
+                "movement": {
+                  "act": "static",
+                  "duration": 14,
+                  "relativeFPS": "normal",
+                  "targets": [
+                    {
+                      "id": "cargo_06",
+                      "description": "قطعهٔ تولید 6 · سقوط از خط / spills on impact"
+                    }
+                  ]
+                },
+                "constraints": [
+                  {
+                    "kind": "general",
+                    "constraint": "noShake",
+                    "allFrames": true
+                  },
+                  {
+                    "kind": "general",
+                    "constraint": "keepInFrame",
+                    "targets": [
+                      {
+                        "id": "cargo_06",
+                        "description": "قطعهٔ تولید 6 · سقوط از خط / spills on impact"
+                      }
+                    ],
+                    "allFrames": true
+                  },
+                  {
+                    "config": {
+                      "type": "nonSubjectAware",
+                      "extrinsics": {
+                        "pose": {
+                          "position": {
+                            "x": 4.035,
+                            "y": 2.06,
+                            "z": 7.07
+                          },
+                          "rotation": {
+                            "x": 0.176958207,
+                            "y": 0.3045900817,
+                            "z": 0.0577010245,
+                            "w": -0.9341205848
+                          }
+                        }
+                      },
+                      "intrinsics": {
+                        "fov": 31.0,
+                        "aspectRatio": 1.7777777777777777
+                      }
+                    },
+                    "allFrames": false,
+                    "easing": {
+                      "inDuration": 1.0,
+                      "curve": "easeInOut"
+                    }
+                  }
+                ]
+              },
+              {
+                "id": "factory-05-one-piece-overlay-01",
+                "name": "Concurrent craneUp",
+                "trigger": {
+                  "type": "absoluteTime",
+                  "time": 15
+                },
+                "movement": {
+                  "act": "craneUp",
+                  "duration": 5,
+                  "parameters": {}
+                }
+              },
+              {
+                "id": "factory-05-one-piece-overlay-02",
+                "name": "Concurrent zoomOut",
+                "trigger": {
+                  "type": "absoluteTime",
+                  "time": 15
+                },
+                "movement": {
+                  "act": "zoomOut",
+                  "duration": 5,
+                  "parameters": {
+                    "zoomFactor": 1.5622534981193157
+                  }
+                }
+              }
+            ]
+          }
+        ]
+      },
+      "trajectoryUrl": "/trajectories/cinematic-suite/factory-05-one-piece-camera.json",
+      "durationSeconds": 48.0,
+      "sampleFps": 30,
+      "sampleCount": 1441,
+      "files": {
+        "prompt": "factory-05-one-piece/prompt.txt",
+        "csl": "factory-05-one-piece/csl.json",
+        "draftCsl": "factory-05-one-piece/draft-csl.json",
+        "binding": "factory-05-one-piece/binding.json",
+        "trajectory": "factory-05-one-piece/trajectory.json",
+        "keyframes": "factory-05-one-piece/keyframes.json",
+        "storyboard": "factory-05-one-piece/storyboard.json",
+        "metadata": "factory-05-one-piece/metadata.json"
+      }
+    }
+  ]
+}

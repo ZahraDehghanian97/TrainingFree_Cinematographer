@@ -1,0 +1,372 @@
+{
+  "totalDuration": 48.0,
+  "sections": [
+    {
+      "initCamera": {
+        "targets": [
+          {
+            "id": "cargo_01",
+            "description": "قطعهٔ تولید 1 · سقوط از خط / spills on impact"
+          }
+        ],
+        "config": {
+          "type": "nonSubjectAware",
+          "extrinsics": {
+            "pose": {
+              "position": {
+                "x": -10.0298075,
+                "y": 3.4,
+                "z": 3.95
+              },
+              "rotation": {
+                "x": 0.2448812883,
+                "y": -0.1275204965,
+                "z": -0.0325088675,
+                "w": -0.9605804762
+              }
+            }
+          },
+          "intrinsics": {
+            "fov": 32.0,
+            "aspectRatio": 1.7777777777777777
+          }
+        }
+      },
+      "actions": [
+        {
+          "id": "factory-01-production-to-stillness-shot-01",
+          "name": "Conveyor product tracking",
+          "trigger": {
+            "type": "absoluteTime",
+            "time": 0
+          },
+          "movement": {
+            "act": "track",
+            "duration": 8,
+            "relativeFPS": "normal",
+            "targets": [
+              {
+                "id": "cargo_01",
+                "description": "قطعهٔ تولید 1 · سقوط از خط / spills on impact"
+              }
+            ],
+            "parameters": {
+              "path": "spline",
+              "handheld": false
+            }
+          },
+          "constraints": [
+            {
+              "kind": "general",
+              "constraint": "noShake",
+              "allFrames": true
+            },
+            {
+              "kind": "general",
+              "constraint": "keepInFrame",
+              "targets": [
+                {
+                  "id": "cargo_01",
+                  "description": "قطعهٔ تولید 1 · سقوط از خط / spills on impact"
+                }
+              ],
+              "allFrames": true
+            },
+            {
+              "config": {
+                "type": "nonSubjectAware",
+                "extrinsics": {
+                  "pose": {
+                    "position": {
+                      "x": -5.7,
+                      "y": 3.4,
+                      "z": 3.95
+                    },
+                    "rotation": {
+                      "x": 0.2448812883,
+                      "y": -0.1275204965,
+                      "z": -0.0325088675,
+                      "w": -0.9605804762
+                    }
+                  }
+                },
+                "intrinsics": {
+                  "fov": 32.0,
+                  "aspectRatio": 1.7777777777777777
+                }
+              },
+              "allFrames": false,
+              "easing": {
+                "inDuration": 1.0,
+                "curve": "easeInOut"
+              }
+            }
+          ]
+        },
+        {
+          "id": "factory-01-production-to-stillness-shot-02",
+          "name": "Product-to-workers handoff",
+          "trigger": {
+            "type": "relativeTime",
+            "actionId": "factory-01-production-to-stillness-shot-01",
+            "reference": "end",
+            "offset": 0
+          },
+          "movement": {
+            "act": "track",
+            "duration": 8,
+            "relativeFPS": "normal",
+            "targets": [
+              {
+                "id": "production_line",
+                "description": "ریل خط تولید فعال / active production conveyor"
+              }
+            ],
+            "parameters": {
+              "path": "spline",
+              "handheld": false
+            }
+          },
+          "constraints": [
+            {
+              "kind": "general",
+              "constraint": "noShake",
+              "allFrames": true
+            },
+            {
+              "config": {
+                "type": "nonSubjectAware",
+                "extrinsics": {
+                  "pose": {
+                    "position": {
+                      "x": 4.8,
+                      "y": 4.7,
+                      "z": 9.0
+                    },
+                    "rotation": {
+                      "x": 0.2099401845,
+                      "y": -0.1319929374,
+                      "z": -0.0286165977,
+                      "w": -0.9683408872
+                    }
+                  }
+                },
+                "intrinsics": {
+                  "fov": 53.0,
+                  "aspectRatio": 1.7777777777777777
+                }
+              },
+              "allFrames": false,
+              "easing": {
+                "inDuration": 1.0,
+                "curve": "easeInOut"
+              }
+            }
+          ]
+        },
+        {
+          "id": "factory-01-production-to-stillness-shot-03",
+          "name": "Locked causal master",
+          "trigger": {
+            "type": "relativeTime",
+            "actionId": "factory-01-production-to-stillness-shot-02",
+            "reference": "end",
+            "offset": 0
+          },
+          "movement": {
+            "act": "static",
+            "duration": 8,
+            "relativeFPS": "normal",
+            "targets": [
+              {
+                "id": "worker_a",
+                "description": "کارگر الف / worker A — initiates shove"
+              },
+              {
+                "id": "worker_b",
+                "description": "کارگر ب / worker B — collides with production line"
+              },
+              {
+                "id": "cargo_06",
+                "description": "قطعهٔ تولید 6 · سقوط از خط / spills on impact"
+              }
+            ]
+          },
+          "constraints": [
+            {
+              "kind": "general",
+              "constraint": "noShake",
+              "allFrames": true
+            },
+            {
+              "kind": "general",
+              "constraint": "keepInFrame",
+              "targets": [
+                {
+                  "id": "worker_a",
+                  "description": "کارگر الف / worker A — initiates shove"
+                },
+                {
+                  "id": "worker_b",
+                  "description": "کارگر ب / worker B — collides with production line"
+                },
+                {
+                  "id": "cargo_06",
+                  "description": "قطعهٔ تولید 6 · سقوط از خط / spills on impact"
+                }
+              ],
+              "allFrames": true
+            },
+            {
+              "config": {
+                "type": "nonSubjectAware",
+                "extrinsics": {
+                  "pose": {
+                    "position": {
+                      "x": 4.8,
+                      "y": 4.7,
+                      "z": 9.0
+                    },
+                    "rotation": {
+                      "x": 0.2099401845,
+                      "y": -0.1319929374,
+                      "z": -0.0286165977,
+                      "w": -0.9683408872
+                    }
+                  }
+                },
+                "intrinsics": {
+                  "fov": 53.0,
+                  "aspectRatio": 1.7777777777777777
+                }
+              },
+              "allFrames": false,
+              "easing": {
+                "inDuration": 1.0,
+                "curve": "easeInOut"
+              }
+            }
+          ]
+        },
+        {
+          "id": "factory-01-production-to-stillness-shot-04",
+          "name": "Pull back into stillness",
+          "trigger": {
+            "type": "relativeTime",
+            "actionId": "factory-01-production-to-stillness-shot-03",
+            "reference": "end",
+            "offset": 0
+          },
+          "movement": {
+            "act": "craneUp",
+            "duration": 24,
+            "relativeFPS": "normal",
+            "targets": [
+              {
+                "id": "worker_a",
+                "description": "کارگر الف / worker A — initiates shove"
+              },
+              {
+                "id": "worker_b",
+                "description": "کارگر ب / worker B — collides with production line"
+              }
+            ],
+            "parameters": {
+              "path": "spline",
+              "handheld": false
+            }
+          },
+          "constraints": [
+            {
+              "kind": "general",
+              "constraint": "noShake",
+              "allFrames": true
+            },
+            {
+              "kind": "general",
+              "constraint": "keepInFrame",
+              "targets": [
+                {
+                  "id": "worker_a",
+                  "description": "کارگر الف / worker A — initiates shove"
+                },
+                {
+                  "id": "worker_b",
+                  "description": "کارگر ب / worker B — collides with production line"
+                }
+              ],
+              "allFrames": true
+            },
+            {
+              "config": {
+                "type": "nonSubjectAware",
+                "extrinsics": {
+                  "pose": {
+                    "position": {
+                      "x": 10.0,
+                      "y": 7.6,
+                      "z": 17.0
+                    },
+                    "rotation": {
+                      "x": 0.1606096014,
+                      "y": -0.232371645,
+                      "z": -0.0389376475,
+                      "w": -0.9584841335
+                    }
+                  }
+                },
+                "intrinsics": {
+                  "fov": 55.0,
+                  "aspectRatio": 1.7777777777777777
+                }
+              },
+              "allFrames": false,
+              "easing": {
+                "inDuration": 1.0,
+                "curve": "easeInOut"
+              }
+            }
+          ]
+        },
+        {
+          "id": "factory-01-production-to-stillness-overlay-01",
+          "name": "Concurrent zoomOut",
+          "trigger": {
+            "type": "absoluteTime",
+            "time": 8
+          },
+          "movement": {
+            "act": "zoomOut",
+            "duration": 8,
+            "parameters": {
+              "zoomFactor": 1.7387607013589639
+            }
+          }
+        },
+        {
+          "id": "factory-01-production-to-stillness-overlay-02",
+          "name": "Concurrent dollyOut",
+          "trigger": {
+            "type": "absoluteTime",
+            "time": 24
+          },
+          "movement": {
+            "act": "dollyOut",
+            "duration": 24,
+            "parameters": {},
+            "targets": [
+              {
+                "id": "worker_a",
+                "description": "کارگر الف / worker A — initiates shove"
+              },
+              {
+                "id": "worker_b",
+                "description": "کارگر ب / worker B — collides with production line"
+              }
+            ]
+          }
+        }
+      ]
+    }
+  ]
+}

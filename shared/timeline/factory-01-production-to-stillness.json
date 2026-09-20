@@ -1,0 +1,431 @@
+{
+  "schemaVersion": "1.0",
+  "kind": "timelineSolverOutput",
+  "exampleId": "factory-01-production-to-stillness",
+  "environmentId": "factory",
+  "prompt": "Create one continuous 48-second factory sequence that changes from ordered production to quiet aftermath. Start by tracking cargo 01 along the conveyor in a composed product-led view, with the assembly line as background. Between 8 and 16 seconds smoothly leave the product tracking rig and reveal workers A and B in the south aisle; widen the lens gradually during the handoff. Be settled by 16 seconds in a stable elevated view that contains the argument, the shove at 20 seconds, the collision at 21 seconds, and the first falling pieces of cargo. Hold the physical camera still from 16 to 24 seconds so the cause and effect remain easy to read. From 24 to 48 seconds slowly pull back and rise, including the workers' reaction and the stopped production line. Stay inside the factory below its ceiling, preserve the normal scene clock, and use no cuts or camera shake.",
+  "totalDuration": 48,
+  "subjectBinding": {
+    "mode": "resolved",
+    "source": "resolved-fixture"
+  },
+  "timeline": {
+    "timeline": [
+      {
+        "kind": "interval",
+        "shotStartTime": 0,
+        "startTime": 0,
+        "endTime": 8,
+        "lossFunctions": [
+          {
+            "type": "trackMovement",
+            "parameters": {
+              "subjectId": "cargo_01",
+              "path": "spline",
+              "handheld": false
+            },
+            "sourceActionId": "factory-01-production-to-stillness-shot-01"
+          }
+        ],
+        "weight": 1
+      },
+      {
+        "kind": "interval",
+        "shotStartTime": 0,
+        "startTime": 0,
+        "endTime": 8,
+        "lossFunctions": [
+          {
+            "type": "noShake",
+            "parameters": {},
+            "sourceActionId": "factory-01-production-to-stillness-shot-01"
+          }
+        ],
+        "weight": 1
+      },
+      {
+        "kind": "interval",
+        "shotStartTime": 0,
+        "startTime": 0,
+        "endTime": 8,
+        "lossFunctions": [
+          {
+            "type": "keepInFrame",
+            "parameters": {
+              "subjectId": "cargo_01"
+            },
+            "sourceActionId": "factory-01-production-to-stillness-shot-01"
+          }
+        ],
+        "weight": 1
+      },
+      {
+        "kind": "point",
+        "shotStartTime": 0,
+        "time": 0,
+        "lossFunctions": [
+          {
+            "type": "minPath",
+            "parameters": {
+              "targetPose": {
+                "position": {
+                  "x": -10.0298075,
+                  "y": 3.4,
+                  "z": 3.95
+                },
+                "rotation": {
+                  "x": 0.2448812883,
+                  "y": -0.1275204965,
+                  "z": -0.0325088675,
+                  "w": -0.9605804762
+                }
+              },
+              "targetIntrinsics": {
+                "fov": 32,
+                "aspectRatio": 1.7777777777777777
+              }
+            }
+          }
+        ],
+        "weight": 1
+      },
+      {
+        "kind": "point",
+        "shotStartTime": 0,
+        "time": 8,
+        "lossFunctions": [
+          {
+            "type": "minPath",
+            "parameters": {
+              "targetPose": {
+                "position": {
+                  "x": -5.7,
+                  "y": 3.4,
+                  "z": 3.95
+                },
+                "rotation": {
+                  "x": 0.2448812883,
+                  "y": -0.1275204965,
+                  "z": -0.0325088675,
+                  "w": -0.9605804762
+                }
+              },
+              "targetIntrinsics": {
+                "fov": 32,
+                "aspectRatio": 1.7777777777777777
+              }
+            }
+          }
+        ],
+        "weight": 1,
+        "easing": {
+          "inDuration": 1,
+          "curve": "easeInOut"
+        }
+      },
+      {
+        "kind": "interval",
+        "shotStartTime": 0,
+        "startTime": 8,
+        "endTime": 16,
+        "lossFunctions": [
+          {
+            "type": "trackMovement",
+            "parameters": {
+              "subjectId": "production_line",
+              "path": "spline",
+              "handheld": false
+            },
+            "sourceActionId": "factory-01-production-to-stillness-shot-02"
+          }
+        ],
+        "weight": 1
+      },
+      {
+        "kind": "interval",
+        "shotStartTime": 0,
+        "startTime": 8,
+        "endTime": 16,
+        "lossFunctions": [
+          {
+            "type": "noShake",
+            "parameters": {},
+            "sourceActionId": "factory-01-production-to-stillness-shot-02"
+          }
+        ],
+        "weight": 1
+      },
+      {
+        "kind": "interval",
+        "shotStartTime": 0,
+        "startTime": 8,
+        "endTime": 16,
+        "lossFunctions": [
+          {
+            "type": "zoomOutMovement",
+            "parameters": {
+              "zoomFactor": 1.7387607013589639
+            },
+            "sourceActionId": "factory-01-production-to-stillness-overlay-01"
+          }
+        ],
+        "weight": 1
+      },
+      {
+        "kind": "point",
+        "shotStartTime": 0,
+        "time": 16,
+        "lossFunctions": [
+          {
+            "type": "minPath",
+            "parameters": {
+              "targetPose": {
+                "position": {
+                  "x": 4.8,
+                  "y": 4.7,
+                  "z": 9
+                },
+                "rotation": {
+                  "x": 0.2099401845,
+                  "y": -0.1319929374,
+                  "z": -0.0286165977,
+                  "w": -0.9683408872
+                }
+              },
+              "targetIntrinsics": {
+                "fov": 53,
+                "aspectRatio": 1.7777777777777777
+              }
+            }
+          }
+        ],
+        "weight": 1,
+        "easing": {
+          "inDuration": 1,
+          "curve": "easeInOut"
+        }
+      },
+      {
+        "kind": "interval",
+        "shotStartTime": 0,
+        "startTime": 16,
+        "endTime": 24,
+        "lossFunctions": [
+          {
+            "type": "Static",
+            "parameters": {
+              "subjectIds": [
+                "worker_a",
+                "worker_b",
+                "cargo_06"
+              ]
+            },
+            "sourceActionId": "factory-01-production-to-stillness-shot-03"
+          }
+        ],
+        "weight": 1
+      },
+      {
+        "kind": "interval",
+        "shotStartTime": 0,
+        "startTime": 16,
+        "endTime": 24,
+        "lossFunctions": [
+          {
+            "type": "noShake",
+            "parameters": {},
+            "sourceActionId": "factory-01-production-to-stillness-shot-03"
+          }
+        ],
+        "weight": 1
+      },
+      {
+        "kind": "interval",
+        "shotStartTime": 0,
+        "startTime": 16,
+        "endTime": 24,
+        "lossFunctions": [
+          {
+            "type": "keepInFrame",
+            "parameters": {
+              "subjectIds": [
+                "worker_a",
+                "worker_b",
+                "cargo_06"
+              ]
+            },
+            "sourceActionId": "factory-01-production-to-stillness-shot-03"
+          }
+        ],
+        "weight": 1
+      },
+      {
+        "kind": "point",
+        "shotStartTime": 0,
+        "time": 24,
+        "lossFunctions": [
+          {
+            "type": "minPath",
+            "parameters": {
+              "targetPose": {
+                "position": {
+                  "x": 4.8,
+                  "y": 4.7,
+                  "z": 9
+                },
+                "rotation": {
+                  "x": 0.2099401845,
+                  "y": -0.1319929374,
+                  "z": -0.0286165977,
+                  "w": -0.9683408872
+                }
+              },
+              "targetIntrinsics": {
+                "fov": 53,
+                "aspectRatio": 1.7777777777777777
+              }
+            }
+          }
+        ],
+        "weight": 1,
+        "easing": {
+          "inDuration": 1,
+          "curve": "easeInOut"
+        }
+      },
+      {
+        "kind": "interval",
+        "shotStartTime": 0,
+        "startTime": 24,
+        "endTime": 48,
+        "lossFunctions": [
+          {
+            "type": "craneUpMovement",
+            "parameters": {
+              "subjectIds": [
+                "worker_a",
+                "worker_b"
+              ],
+              "path": "spline",
+              "handheld": false
+            },
+            "sourceActionId": "factory-01-production-to-stillness-shot-04"
+          }
+        ],
+        "weight": 1
+      },
+      {
+        "kind": "interval",
+        "shotStartTime": 0,
+        "startTime": 24,
+        "endTime": 48,
+        "lossFunctions": [
+          {
+            "type": "noShake",
+            "parameters": {},
+            "sourceActionId": "factory-01-production-to-stillness-shot-04"
+          }
+        ],
+        "weight": 1
+      },
+      {
+        "kind": "interval",
+        "shotStartTime": 0,
+        "startTime": 24,
+        "endTime": 48,
+        "lossFunctions": [
+          {
+            "type": "keepInFrame",
+            "parameters": {
+              "subjectIds": [
+                "worker_a",
+                "worker_b"
+              ]
+            },
+            "sourceActionId": "factory-01-production-to-stillness-shot-04"
+          }
+        ],
+        "weight": 1
+      },
+      {
+        "kind": "interval",
+        "shotStartTime": 0,
+        "startTime": 24,
+        "endTime": 48,
+        "lossFunctions": [
+          {
+            "type": "dollyOutMovement",
+            "parameters": {
+              "subjectIds": [
+                "worker_a",
+                "worker_b"
+              ]
+            },
+            "sourceActionId": "factory-01-production-to-stillness-overlay-02"
+          }
+        ],
+        "weight": 1
+      },
+      {
+        "kind": "point",
+        "shotStartTime": 0,
+        "time": 48,
+        "lossFunctions": [
+          {
+            "type": "minPath",
+            "parameters": {
+              "targetPose": {
+                "position": {
+                  "x": 10,
+                  "y": 7.6,
+                  "z": 17
+                },
+                "rotation": {
+                  "x": 0.1606096014,
+                  "y": -0.232371645,
+                  "z": -0.0389376475,
+                  "w": -0.9584841335
+                }
+              },
+              "targetIntrinsics": {
+                "fov": 55,
+                "aspectRatio": 1.7777777777777777
+              }
+            }
+          }
+        ],
+        "weight": 1,
+        "easing": {
+          "inDuration": 1,
+          "curve": "easeInOut"
+        }
+      }
+    ],
+    "timeWarp": [
+      {
+        "startTimePlayback": 0,
+        "endTimePlayback": 8,
+        "rate": 1,
+        "label": "normal"
+      },
+      {
+        "startTimePlayback": 8,
+        "endTimePlayback": 16,
+        "rate": 1,
+        "label": "normal"
+      },
+      {
+        "startTimePlayback": 16,
+        "endTimePlayback": 24,
+        "rate": 1,
+        "label": "normal"
+      },
+      {
+        "startTimePlayback": 24,
+        "endTimePlayback": 48,
+        "rate": 1,
+        "label": "normal"
+      }
+    ]
+  }
+}

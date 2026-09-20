@@ -1,0 +1,157 @@
+{
+  "exampleId": "stadium-04-behind-the-lens",
+  "environmentId": "stadium",
+  "auditFps": 60,
+  "cameraProbes": 2881,
+  "status": "pass",
+  "errors": [],
+  "visibilityReviewNotes": [
+    "track_cameraman: 93.14% of 32–40s has at least one clear centre/upper probe"
+  ],
+  "cameraClearance": {
+    "radiusMeters": 0.25,
+    "minimumCenterToBoundsMeters": 2.575085580877985,
+    "minimumSphereClearanceMeters": 2.325085580877985,
+    "failingSamples": 0,
+    "nearestEntity": "spectator_061",
+    "timeOfMinimum": 23.733333333333334
+  },
+  "framing": [
+    {
+      "actionId": "stadium-04-behind-the-lens-shot-01",
+      "target": "track_cameraman",
+      "samples": 721,
+      "fullyInFramePercent": 100.0,
+      "minimumEdgeMargin": 0.30354,
+      "firstFailureTime": null
+    },
+    {
+      "actionId": "stadium-04-behind-the-lens-shot-02",
+      "target": "track_cameraman",
+      "samples": 1201,
+      "fullyInFramePercent": 100.0,
+      "minimumEdgeMargin": 0.30119,
+      "firstFailureTime": null
+    },
+    {
+      "actionId": "stadium-04-behind-the-lens-shot-03",
+      "target": "track_cameraman",
+      "samples": 481,
+      "fullyInFramePercent": 100.0,
+      "minimumEdgeMargin": 0.35003,
+      "firstFailureTime": null
+    },
+    {
+      "actionId": "stadium-04-behind-the-lens-shot-04",
+      "target": "track_cameraman",
+      "samples": 481,
+      "fullyInFramePercent": 100.0,
+      "minimumEdgeMargin": 0.3841,
+      "firstFailureTime": null
+    }
+  ],
+  "visibility": [
+    {
+      "actionId": "stadium-04-behind-the-lens-shot-01",
+      "target": "track_cameraman",
+      "oneOrMoreProbesVisiblePercent": 100.0,
+      "bothProbesVisiblePercent": 100.0,
+      "fullyBlockedSamples": 0,
+      "firstFullyBlockedTime": null,
+      "dominantProxyBlockers": []
+    },
+    {
+      "actionId": "stadium-04-behind-the-lens-shot-02",
+      "target": "track_cameraman",
+      "oneOrMoreProbesVisiblePercent": 100.0,
+      "bothProbesVisiblePercent": 100.0,
+      "fullyBlockedSamples": 0,
+      "firstFullyBlockedTime": null,
+      "dominantProxyBlockers": []
+    },
+    {
+      "actionId": "stadium-04-behind-the-lens-shot-03",
+      "target": "track_cameraman",
+      "oneOrMoreProbesVisiblePercent": 93.139,
+      "bothProbesVisiblePercent": 90.437,
+      "fullyBlockedSamples": 33,
+      "firstFullyBlockedTime": 37.75,
+      "dominantProxyBlockers": [
+        [
+          "marshal_2",
+          74
+        ],
+        [
+          "race-flag-3",
+          39
+        ]
+      ]
+    },
+    {
+      "actionId": "stadium-04-behind-the-lens-shot-04",
+      "target": "track_cameraman",
+      "oneOrMoreProbesVisiblePercent": 100.0,
+      "bothProbesVisiblePercent": 100.0,
+      "fullyBlockedSamples": 0,
+      "firstFullyBlockedTime": null,
+      "dominantProxyBlockers": []
+    }
+  ],
+  "staticPhases": [],
+  "motion": {
+    "maxSpeedMetersPerSecond": 9.288385630447857,
+    "maxAccelerationMetersPerSecondSquared": 6.073602917212315,
+    "maxAngularSpeedDegreesPerSecond": 15.011092329789165,
+    "maxFovRateDegreesPerSecond": 2.4997952499793996,
+    "maxAbsoluteHorizonRollDegrees": 0.0001127557216960296,
+    "fovYRangeDegrees": [
+      36.0,
+      49.0
+    ],
+    "cameraHeightRangeMeters": [
+      5.8,
+      10.0
+    ]
+  },
+  "eventCoverage": [
+    {
+      "eventId": "winner_finish",
+      "time": 38,
+      "subjects": [
+        {
+          "id": "runner_01",
+          "centreInViewport": true
+        },
+        {
+          "id": "finish-ribbon",
+          "centreInViewport": true
+        }
+      ]
+    },
+    {
+      "eventId": "football_goal",
+      "time": 38.2,
+      "subjects": [
+        {
+          "id": "ball",
+          "centreInViewport": false
+        },
+        {
+          "id": "goal_east",
+          "centreInViewport": false
+        },
+        {
+          "id": "football_red_10",
+          "centreInViewport": false
+        }
+      ]
+    }
+  ],
+  "limits": [
+    "60 Hz discrete replay checks, not continuous swept-volume certification.",
+    "Bounds are supplied conservative proxies, not rendered animated mesh/limb intersections.",
+    "Frustum inclusion does not prove pixel-level visibility.",
+    "Visibility rays test centre and upper probes; a clear probe does not imply the whole subject is unobstructed.",
+    "Artistic quality and numerical optimizer convergence are not certified by these checks."
+  ]
+}

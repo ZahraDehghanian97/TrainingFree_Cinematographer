@@ -1,0 +1,446 @@
+{
+  "schemaVersion": "1.0",
+  "kind": "timelineSolverOutput",
+  "exampleId": "stadium-01-winners-run",
+  "environmentId": "stadium",
+  "prompt": "Create one uninterrupted 48-second sports-hero shot in the stadium, at normal scene speed. Follow runner 01, the red-shirted eventual winner, from the outside of the athletics track; this is the main filming camera, not the visible sideline cameraman. Begin with a generous elevated three-quarter view and descend into a smooth, slightly trailing track by 8 seconds. Keep the runner just left of centre with breathing room rather than chasing every footfall. Maintain the outward-side route around the bend. From 33 to 37 seconds widen and rise gently so the finish ribbon is readable. Stay on this runner through the finish at 38 seconds and the celebratory jump at 39.3–40.3 seconds. From 41 to 48 seconds crane up and pull back to include the nearby flower shower and spectators, while retaining the winner as the visual anchor. Use a level horizon, restrained lens changes, and no cuts, shake, slow motion, or teleports.",
+  "totalDuration": 48,
+  "subjectBinding": {
+    "mode": "resolved",
+    "source": "resolved-fixture"
+  },
+  "timeline": {
+    "timeline": [
+      {
+        "kind": "interval",
+        "shotStartTime": 0,
+        "startTime": 0,
+        "endTime": 8,
+        "lossFunctions": [
+          {
+            "type": "followMovement",
+            "parameters": {
+              "subjectId": "runner_01",
+              "path": "spline",
+              "handheld": false
+            },
+            "sourceActionId": "stadium-01-winners-run-shot-01"
+          }
+        ],
+        "weight": 1
+      },
+      {
+        "kind": "interval",
+        "shotStartTime": 0,
+        "startTime": 0,
+        "endTime": 8,
+        "lossFunctions": [
+          {
+            "type": "noShake",
+            "parameters": {},
+            "sourceActionId": "stadium-01-winners-run-shot-01"
+          }
+        ],
+        "weight": 1
+      },
+      {
+        "kind": "interval",
+        "shotStartTime": 0,
+        "startTime": 0,
+        "endTime": 8,
+        "lossFunctions": [
+          {
+            "type": "keepInFrame",
+            "parameters": {
+              "subjectId": "runner_01"
+            },
+            "sourceActionId": "stadium-01-winners-run-shot-01"
+          }
+        ],
+        "weight": 1
+      },
+      {
+        "kind": "interval",
+        "shotStartTime": 0,
+        "startTime": 0,
+        "endTime": 8,
+        "lossFunctions": [
+          {
+            "type": "craneDownMovement",
+            "parameters": {},
+            "sourceActionId": "stadium-01-winners-run-overlay-01"
+          }
+        ],
+        "weight": 1
+      },
+      {
+        "kind": "point",
+        "shotStartTime": 0,
+        "time": 0,
+        "lossFunctions": [
+          {
+            "type": "minPath",
+            "parameters": {
+              "targetPose": {
+                "position": {
+                  "x": -30.588929,
+                  "y": 8,
+                  "z": -45.61
+                },
+                "rotation": {
+                  "x": -0.0430346423,
+                  "y": 0.9538423912,
+                  "z": 0.245900129,
+                  "w": 0.166930641
+                }
+              },
+              "targetIntrinsics": {
+                "fov": 45,
+                "aspectRatio": 1.7777777777777777
+              }
+            }
+          }
+        ],
+        "weight": 1
+      },
+      {
+        "kind": "point",
+        "shotStartTime": 0,
+        "time": 8,
+        "lossFunctions": [
+          {
+            "type": "minPath",
+            "parameters": {
+              "targetPose": {
+                "position": {
+                  "x": -66.6229229,
+                  "y": 6.7,
+                  "z": -38.2558794
+                },
+                "rotation": {
+                  "x": 0.0246879356,
+                  "y": 0.9637811907,
+                  "z": 0.2475424806,
+                  "w": -0.0961199384
+                }
+              },
+              "targetIntrinsics": {
+                "fov": 37,
+                "aspectRatio": 1.7777777777777777
+              }
+            }
+          }
+        ],
+        "weight": 1,
+        "easing": {
+          "inDuration": 1,
+          "curve": "easeInOut"
+        }
+      },
+      {
+        "kind": "interval",
+        "shotStartTime": 0,
+        "startTime": 8,
+        "endTime": 33,
+        "lossFunctions": [
+          {
+            "type": "followMovement",
+            "parameters": {
+              "subjectId": "runner_01",
+              "path": "spline",
+              "handheld": false
+            },
+            "sourceActionId": "stadium-01-winners-run-shot-02"
+          }
+        ],
+        "weight": 1
+      },
+      {
+        "kind": "interval",
+        "shotStartTime": 0,
+        "startTime": 8,
+        "endTime": 33,
+        "lossFunctions": [
+          {
+            "type": "noShake",
+            "parameters": {},
+            "sourceActionId": "stadium-01-winners-run-shot-02"
+          }
+        ],
+        "weight": 1
+      },
+      {
+        "kind": "interval",
+        "shotStartTime": 0,
+        "startTime": 8,
+        "endTime": 33,
+        "lossFunctions": [
+          {
+            "type": "keepInFrame",
+            "parameters": {
+              "subjectId": "runner_01"
+            },
+            "sourceActionId": "stadium-01-winners-run-shot-02"
+          }
+        ],
+        "weight": 1
+      },
+      {
+        "kind": "point",
+        "shotStartTime": 0,
+        "time": 33,
+        "lossFunctions": [
+          {
+            "type": "minPath",
+            "parameters": {
+              "targetPose": {
+                "position": {
+                  "x": 2.7740827,
+                  "y": 6.9098765,
+                  "z": 43.6618519
+                },
+                "rotation": {
+                  "x": 0.2583217964,
+                  "y": 0.0655790702,
+                  "z": 0.0175791507,
+                  "w": -0.9636701762
+                }
+              },
+              "targetIntrinsics": {
+                "fov": 37,
+                "aspectRatio": 1.7777777777777777
+              }
+            }
+          }
+        ],
+        "weight": 1,
+        "easing": {
+          "inDuration": 1,
+          "curve": "easeInOut"
+        }
+      },
+      {
+        "kind": "interval",
+        "shotStartTime": 0,
+        "startTime": 33,
+        "endTime": 41,
+        "lossFunctions": [
+          {
+            "type": "followMovement",
+            "parameters": {
+              "subjectId": "runner_01",
+              "path": "spline",
+              "handheld": false
+            },
+            "sourceActionId": "stadium-01-winners-run-shot-03"
+          }
+        ],
+        "weight": 1
+      },
+      {
+        "kind": "interval",
+        "shotStartTime": 0,
+        "startTime": 33,
+        "endTime": 41,
+        "lossFunctions": [
+          {
+            "type": "noShake",
+            "parameters": {},
+            "sourceActionId": "stadium-01-winners-run-shot-03"
+          }
+        ],
+        "weight": 1
+      },
+      {
+        "kind": "interval",
+        "shotStartTime": 0,
+        "startTime": 33,
+        "endTime": 41,
+        "lossFunctions": [
+          {
+            "type": "keepInFrame",
+            "parameters": {
+              "subjectId": "runner_01"
+            },
+            "sourceActionId": "stadium-01-winners-run-shot-03"
+          }
+        ],
+        "weight": 1
+      },
+      {
+        "kind": "interval",
+        "shotStartTime": 0,
+        "startTime": 33,
+        "endTime": 37,
+        "lossFunctions": [
+          {
+            "type": "zoomOutMovement",
+            "parameters": {
+              "zoomFactor": 1.2379538452286347
+            },
+            "sourceActionId": "stadium-01-winners-run-overlay-02"
+          }
+        ],
+        "weight": 1
+      },
+      {
+        "kind": "point",
+        "shotStartTime": 0,
+        "time": 41,
+        "lossFunctions": [
+          {
+            "type": "minPath",
+            "parameters": {
+              "targetPose": {
+                "position": {
+                  "x": 46.3,
+                  "y": 7.7,
+                  "z": 44.61
+                },
+                "rotation": {
+                  "x": 0.213750436,
+                  "y": -0.2555699572,
+                  "z": -0.0580486133,
+                  "w": -0.9410765679
+                }
+              },
+              "targetIntrinsics": {
+                "fov": 45,
+                "aspectRatio": 1.7777777777777777
+              }
+            }
+          }
+        ],
+        "weight": 1,
+        "easing": {
+          "inDuration": 1,
+          "curve": "easeInOut"
+        }
+      },
+      {
+        "kind": "interval",
+        "shotStartTime": 0,
+        "startTime": 41,
+        "endTime": 48,
+        "lossFunctions": [
+          {
+            "type": "craneUpMovement",
+            "parameters": {
+              "subjectId": "runner_01",
+              "path": "spline",
+              "handheld": false
+            },
+            "sourceActionId": "stadium-01-winners-run-shot-04"
+          }
+        ],
+        "weight": 1
+      },
+      {
+        "kind": "interval",
+        "shotStartTime": 0,
+        "startTime": 41,
+        "endTime": 48,
+        "lossFunctions": [
+          {
+            "type": "noShake",
+            "parameters": {},
+            "sourceActionId": "stadium-01-winners-run-shot-04"
+          }
+        ],
+        "weight": 1
+      },
+      {
+        "kind": "interval",
+        "shotStartTime": 0,
+        "startTime": 41,
+        "endTime": 48,
+        "lossFunctions": [
+          {
+            "type": "keepInFrame",
+            "parameters": {
+              "subjectId": "runner_01"
+            },
+            "sourceActionId": "stadium-01-winners-run-shot-04"
+          }
+        ],
+        "weight": 1
+      },
+      {
+        "kind": "interval",
+        "shotStartTime": 0,
+        "startTime": 41,
+        "endTime": 48,
+        "lossFunctions": [
+          {
+            "type": "dollyOutMovement",
+            "parameters": {
+              "subjectId": "runner_01"
+            },
+            "sourceActionId": "stadium-01-winners-run-overlay-03"
+          }
+        ],
+        "weight": 1
+      },
+      {
+        "kind": "point",
+        "shotStartTime": 0,
+        "time": 48,
+        "lossFunctions": [
+          {
+            "type": "minPath",
+            "parameters": {
+              "targetPose": {
+                "position": {
+                  "x": 46.3,
+                  "y": 13,
+                  "z": 51.61
+                },
+                "rotation": {
+                  "x": 0.2608103278,
+                  "y": -0.1450495871,
+                  "z": -0.0396709143,
+                  "w": -0.9536062126
+                }
+              },
+              "targetIntrinsics": {
+                "fov": 50,
+                "aspectRatio": 1.7777777777777777
+              }
+            }
+          }
+        ],
+        "weight": 1,
+        "easing": {
+          "inDuration": 1,
+          "curve": "easeInOut"
+        }
+      }
+    ],
+    "timeWarp": [
+      {
+        "startTimePlayback": 0,
+        "endTimePlayback": 8,
+        "rate": 1,
+        "label": "normal"
+      },
+      {
+        "startTimePlayback": 8,
+        "endTimePlayback": 33,
+        "rate": 1,
+        "label": "normal"
+      },
+      {
+        "startTimePlayback": 33,
+        "endTimePlayback": 41,
+        "rate": 1,
+        "label": "normal"
+      },
+      {
+        "startTimePlayback": 41,
+        "endTimePlayback": 48,
+        "rate": 1,
+        "label": "normal"
+      }
+    ]
+  }
+}

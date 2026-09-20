@@ -1,0 +1,273 @@
+{
+  "exampleId": "stadium-03-decisive-play",
+  "environmentId": "stadium",
+  "auditFps": 60,
+  "cameraProbes": 2881,
+  "status": "pass",
+  "errors": [],
+  "visibilityReviewNotes": [
+    "ball: 97.36% of 0–29s has at least one clear centre/upper probe",
+    "ball: 93.63% of 29–35s has at least one clear centre/upper probe",
+    "ball: 98.34% of 35–40s has at least one clear centre/upper probe"
+  ],
+  "cameraClearance": {
+    "radiusMeters": 0.25,
+    "minimumCenterToBoundsMeters": 6.671679131726938,
+    "minimumSphereClearanceMeters": 6.421679131726938,
+    "failingSamples": 0,
+    "nearestEntity": "football_blue_10",
+    "timeOfMinimum": 24.816666666666666
+  },
+  "framing": [
+    {
+      "actionId": "stadium-03-decisive-play-shot-01",
+      "target": "ball",
+      "samples": 1741,
+      "fullyInFramePercent": 100.0,
+      "minimumEdgeMargin": 0.43246,
+      "firstFailureTime": null
+    },
+    {
+      "actionId": "stadium-03-decisive-play-shot-02",
+      "target": "ball",
+      "samples": 361,
+      "fullyInFramePercent": 100.0,
+      "minimumEdgeMargin": 0.03862,
+      "firstFailureTime": null
+    },
+    {
+      "actionId": "stadium-03-decisive-play-shot-03",
+      "target": "ball",
+      "samples": 301,
+      "fullyInFramePercent": 100.0,
+      "minimumEdgeMargin": 0.11898,
+      "firstFailureTime": null
+    },
+    {
+      "actionId": "stadium-03-decisive-play-shot-03",
+      "target": "goal_east",
+      "samples": 301,
+      "fullyInFramePercent": 100.0,
+      "minimumEdgeMargin": 0.19652,
+      "firstFailureTime": null
+    },
+    {
+      "actionId": "stadium-03-decisive-play-shot-04",
+      "target": "ball",
+      "samples": 481,
+      "fullyInFramePercent": 100.0,
+      "minimumEdgeMargin": 0.26344,
+      "firstFailureTime": null
+    },
+    {
+      "actionId": "stadium-03-decisive-play-shot-04",
+      "target": "goal_east",
+      "samples": 481,
+      "fullyInFramePercent": 100.0,
+      "minimumEdgeMargin": 0.19652,
+      "firstFailureTime": null
+    }
+  ],
+  "visibility": [
+    {
+      "actionId": "stadium-03-decisive-play-shot-01",
+      "target": "ball",
+      "oneOrMoreProbesVisiblePercent": 97.358,
+      "bothProbesVisiblePercent": 97.358,
+      "fullyBlockedSamples": 46,
+      "firstFullyBlockedTime": 5.683333333333334,
+      "dominantProxyBlockers": [
+        [
+          "football_blue_07",
+          42
+        ],
+        [
+          "football_red_11",
+          26
+        ],
+        [
+          "football_blue_11",
+          24
+        ]
+      ]
+    },
+    {
+      "actionId": "stadium-03-decisive-play-shot-02",
+      "target": "ball",
+      "oneOrMoreProbesVisiblePercent": 93.629,
+      "bothProbesVisiblePercent": 89.474,
+      "fullyBlockedSamples": 23,
+      "firstFullyBlockedTime": 30.983333333333334,
+      "dominantProxyBlockers": [
+        [
+          "football_blue_09",
+          47
+        ],
+        [
+          "football_red_12",
+          14
+        ]
+      ]
+    },
+    {
+      "actionId": "stadium-03-decisive-play-shot-03",
+      "target": "ball",
+      "oneOrMoreProbesVisiblePercent": 98.339,
+      "bothProbesVisiblePercent": 98.339,
+      "fullyBlockedSamples": 5,
+      "firstFullyBlockedTime": 36.733333333333334,
+      "dominantProxyBlockers": [
+        [
+          "football_red_10",
+          10
+        ]
+      ]
+    },
+    {
+      "actionId": "stadium-03-decisive-play-shot-03",
+      "target": "goal_east",
+      "oneOrMoreProbesVisiblePercent": 100.0,
+      "bothProbesVisiblePercent": 100.0,
+      "fullyBlockedSamples": 0,
+      "firstFullyBlockedTime": null,
+      "dominantProxyBlockers": []
+    },
+    {
+      "actionId": "stadium-03-decisive-play-shot-04",
+      "target": "ball",
+      "oneOrMoreProbesVisiblePercent": 100.0,
+      "bothProbesVisiblePercent": 100.0,
+      "fullyBlockedSamples": 0,
+      "firstFullyBlockedTime": null,
+      "dominantProxyBlockers": []
+    },
+    {
+      "actionId": "stadium-03-decisive-play-shot-04",
+      "target": "goal_east",
+      "oneOrMoreProbesVisiblePercent": 100.0,
+      "bothProbesVisiblePercent": 100.0,
+      "fullyBlockedSamples": 0,
+      "firstFullyBlockedTime": null,
+      "dominantProxyBlockers": []
+    }
+  ],
+  "staticPhases": [
+    {
+      "actionId": "stadium-03-decisive-play-shot-03",
+      "maxTranslationMeters": 9.188110298522524e-11,
+      "maxRotationDegrees": 3.578210293673815e-15
+    }
+  ],
+  "motion": {
+    "maxSpeedMetersPerSecond": 6.377309685126956,
+    "maxAccelerationMetersPerSecondSquared": 5.686334828200905,
+    "maxAngularSpeedDegreesPerSecond": 3.956948851659407,
+    "maxFovRateDegreesPerSecond": 1.565915686817192,
+    "maxAbsoluteHorizonRollDegrees": 1.3660695277528808e-05,
+    "fovYRangeDegrees": [
+      43.0,
+      48.0
+    ],
+    "cameraHeightRangeMeters": [
+      8.5,
+      8.5
+    ]
+  },
+  "eventCoverage": [
+    {
+      "eventId": "winner_finish",
+      "time": 38,
+      "subjects": [
+        {
+          "id": "runner_01",
+          "centreInViewport": false
+        },
+        {
+          "id": "finish-ribbon",
+          "centreInViewport": false
+        }
+      ]
+    },
+    {
+      "eventId": "football_goal",
+      "time": 38.2,
+      "subjects": [
+        {
+          "id": "ball",
+          "centreInViewport": true
+        },
+        {
+          "id": "goal_east",
+          "centreInViewport": true
+        },
+        {
+          "id": "football_red_10",
+          "centreInViewport": true
+        }
+      ]
+    },
+    {
+      "eventId": "winner_jump",
+      "time": 39.3,
+      "subjects": [
+        {
+          "id": "runner_01",
+          "centreInViewport": false
+        }
+      ]
+    },
+    {
+      "eventId": "flower_shower",
+      "time": 39.4,
+      "subjects": [
+        {
+          "id": "runner_01",
+          "centreInViewport": false
+        },
+        {
+          "id": "spectator_047",
+          "centreInViewport": false
+        },
+        {
+          "id": "spectator_059",
+          "centreInViewport": false
+        },
+        {
+          "id": "spectator_048",
+          "centreInViewport": false
+        },
+        {
+          "id": "spectator_071",
+          "centreInViewport": false
+        },
+        {
+          "id": "spectator_046",
+          "centreInViewport": false
+        },
+        {
+          "id": "spectator_060",
+          "centreInViewport": false
+        },
+        {
+          "id": "spectator_058",
+          "centreInViewport": false
+        },
+        {
+          "id": "spectator_072",
+          "centreInViewport": false
+        },
+        {
+          "id": "spectator_070",
+          "centreInViewport": false
+        }
+      ]
+    }
+  ],
+  "limits": [
+    "60 Hz discrete replay checks, not continuous swept-volume certification.",
+    "Bounds are supplied conservative proxies, not rendered animated mesh/limb intersections.",
+    "Frustum inclusion does not prove pixel-level visibility.",
+    "Visibility rays test centre and upper probes; a clear probe does not imply the whole subject is unobstructed.",
+    "Artistic quality and numerical optimizer convergence are not certified by these checks."
+  ]
+}

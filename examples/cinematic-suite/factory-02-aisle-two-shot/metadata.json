@@ -1,0 +1,30 @@
+{
+  "schemaVersion": "1.0",
+  "kind": "syntheticCameraReferenceMetadata",
+  "exampleId": "factory-02-aisle-two-shot",
+  "title": "The Aisle Two-Shot",
+  "environmentId": "factory",
+  "referenceType": "ai-authored-synthetic-ground-truth",
+  "authoringMethod": "AI shot design + deterministic scene-aware camera synthesis; no optimizer or live model API call",
+  "measuredGroundTruth": false,
+  "uniqueOrOptimalSolution": false,
+  "durationSeconds": 48.0,
+  "sampleFps": 30,
+  "samples": 1441,
+  "cutCount": 0,
+  "coordinateConvention": {
+    "handedness": "right",
+    "upAxis": "+Y",
+    "cameraForwardAxis": "-Z",
+    "lengthUnit": "meter",
+    "rotationOrder": "quaternion-xyzw"
+  },
+  "timeConvention": "playback seconds == scene seconds; starts at 0; no retiming",
+  "smoothing": "offline symmetric Gaussian target smoothing; 120 Hz cubic construction; 30 Hz camera samples with C2 position jets",
+  "sourceEnvironmentSha256": "1bf281054a4c256098a05ca7d6e2c294773c51178cd18093d26f623512a400ee",
+  "sourceGeneratorSha256": "28159f4f61dca7b15c7365658c7eb922294410522b0cf9b520c7b8a29d0d99a9",
+  "promptSha256": "0d47bfa1b3bc7e980ee533cc60fb840c32546d61751f937d6405e63bfe1f2383",
+  "cslSha256": "76eeef88e5c1fc7c06e0ff7ff5465eb3c51fd973f8ada1b6cc6237e9cfb0ed1f",
+  "trajectorySha256": "daaca7a4e521ed726cc59d03072c5a5ce7cb72f4464e0fa0dae1589f1d3007fc",
+  "evaluationBoundary": "Primary-target framing and geometry are tested separately. Numerical validation is not a pixel-level visibility or artistic-optimality certificate."
+}

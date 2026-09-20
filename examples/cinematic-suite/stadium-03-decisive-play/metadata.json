@@ -1,0 +1,30 @@
+{
+  "schemaVersion": "1.0",
+  "kind": "syntheticCameraReferenceMetadata",
+  "exampleId": "stadium-03-decisive-play",
+  "title": "The Decisive Play",
+  "environmentId": "stadium",
+  "referenceType": "ai-authored-synthetic-ground-truth",
+  "authoringMethod": "AI shot design + deterministic scene-aware camera synthesis; no optimizer or live model API call",
+  "measuredGroundTruth": false,
+  "uniqueOrOptimalSolution": false,
+  "durationSeconds": 48.0,
+  "sampleFps": 30,
+  "samples": 1441,
+  "cutCount": 0,
+  "coordinateConvention": {
+    "handedness": "right",
+    "upAxis": "+Y",
+    "cameraForwardAxis": "-Z",
+    "lengthUnit": "meter",
+    "rotationOrder": "quaternion-xyzw"
+  },
+  "timeConvention": "playback seconds == scene seconds; starts at 0; no retiming",
+  "smoothing": "offline symmetric Gaussian target smoothing; 120 Hz cubic construction; 30 Hz camera samples with C2 position jets",
+  "sourceEnvironmentSha256": "e7111e7cd27898d2b010c481223221f2c80e2908572890a5e6f88f25b4a44380",
+  "sourceGeneratorSha256": "28159f4f61dca7b15c7365658c7eb922294410522b0cf9b520c7b8a29d0d99a9",
+  "promptSha256": "a5aea94c2307c5d4ea665baf1653fd46ff0380a8f5005f956e65a9259a03f206",
+  "cslSha256": "db162f399f06e720bb2b50fa2635b7b68065718ee98b47703dc47c6aa1d04950",
+  "trajectorySha256": "54c16180e9487f6e636c97466d9b1dc3427506b38fc151362f32161b36cf6665",
+  "evaluationBoundary": "Primary-target framing and geometry are tested separately. Numerical validation is not a pixel-level visibility or artistic-optimality certificate."
+}

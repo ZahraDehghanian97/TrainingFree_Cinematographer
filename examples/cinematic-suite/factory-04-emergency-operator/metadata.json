@@ -1,0 +1,30 @@
+{
+  "schemaVersion": "1.0",
+  "kind": "syntheticCameraReferenceMetadata",
+  "exampleId": "factory-04-emergency-operator",
+  "title": "The Emergency Operator",
+  "environmentId": "factory",
+  "referenceType": "ai-authored-synthetic-ground-truth",
+  "authoringMethod": "AI shot design + deterministic scene-aware camera synthesis; no optimizer or live model API call",
+  "measuredGroundTruth": false,
+  "uniqueOrOptimalSolution": false,
+  "durationSeconds": 48.0,
+  "sampleFps": 30,
+  "samples": 1441,
+  "cutCount": 0,
+  "coordinateConvention": {
+    "handedness": "right",
+    "upAxis": "+Y",
+    "cameraForwardAxis": "-Z",
+    "lengthUnit": "meter",
+    "rotationOrder": "quaternion-xyzw"
+  },
+  "timeConvention": "playback seconds == scene seconds; starts at 0; no retiming",
+  "smoothing": "offline symmetric Gaussian target smoothing; 120 Hz cubic construction; 30 Hz camera samples with C2 position jets",
+  "sourceEnvironmentSha256": "1bf281054a4c256098a05ca7d6e2c294773c51178cd18093d26f623512a400ee",
+  "sourceGeneratorSha256": "28159f4f61dca7b15c7365658c7eb922294410522b0cf9b520c7b8a29d0d99a9",
+  "promptSha256": "527224b45c37175b61deb0c9f177c3f72dd0b3304d4a3f74da27d1f316bb46d2",
+  "cslSha256": "7a047745252c9eb5711eecba20438f7e744c43ec4f169a0cf9a9927c0da71ba6",
+  "trajectorySha256": "9f472c90c3cadc287aff75a2b10d34edd7e301e339af8fb753b899553fbabcfa",
+  "evaluationBoundary": "Primary-target framing and geometry are tested separately. Numerical validation is not a pixel-level visibility or artistic-optimality certificate."
+}

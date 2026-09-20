@@ -1,0 +1,84 @@
+{
+  "examples": [
+    {
+      "id": "stadium-01-winners-run",
+      "title": "The Winner's Run",
+      "environmentId": "stadium",
+      "prompt": "Create one uninterrupted 48-second sports-hero shot in the stadium, at normal scene speed. Follow runner 01, the red-shirted eventual winner, from the outside of the athletics track; this is the main filming camera, not the visible sideline cameraman. Begin with a generous elevated three-quarter view and descend into a smooth, slightly trailing track by 8 seconds. Keep the runner just left of centre with breathing room rather than chasing every footfall. Maintain the outward-side route around the bend. From 33 to 37 seconds widen and rise gently so the finish ribbon is readable. Stay on this runner through the finish at 38 seconds and the celebratory jump at 39.3–40.3 seconds. From 41 to 48 seconds crane up and pull back to include the nearby flower shower and spectators, while retaining the winner as the visual anchor. Use a level horizon, restrained lens changes, and no cuts, shake, slow motion, or teleports.",
+      "trajectoryUrl": "/trajectories/cinematic-suite/stadium-01-winners-run-camera.json",
+      "durationSeconds": 48.0
+    },
+    {
+      "id": "stadium-02-fall-and-resolve",
+      "title": "Fall and Resolve",
+      "environmentId": "stadium",
+      "prompt": "Film a continuous 48-second recovery story centred on runner 03, the yellow-shirted runner, in the stadium. Start in a stable elevated side-follow outside the racing lanes. Track this runner, not the race leader. Between 10 and 13.5 seconds move outward and slightly upward, widening before the fall begins at 13.7 seconds. Keep the entire falling body and the patch of track visible through the fall and recovery at 16.8–18 seconds; do not make an abrupt camera dip. Between 18.5 and 24 seconds ease back into the following distance as the runner resumes the race. Continue with this same runner through their later finish around 44.8 seconds. End with a gentle elevated pullback that gives the recovered runner room in the frame. Retain natural scene timing, smooth acceleration and a level horizon; use no cuts, dramatic roll, or freeze frames.",
+      "trajectoryUrl": "/trajectories/cinematic-suite/stadium-02-fall-and-resolve-camera.json",
+      "durationSeconds": 48.0
+    },
+    {
+      "id": "stadium-03-decisive-play",
+      "title": "The Decisive Play",
+      "environmentId": "stadium",
+      "prompt": "Make a 48-second, single-take football sequence inside the stadium. Follow the ball from an elevated touchline-style camera on the positive-Z side of the pitch, keeping enough field in view to understand the passing play. Smooth the camera path across changes in ball direction instead of copying the ball's sharp turns. From 29 to 35 seconds leave the moving follow rig and settle into a wider fixed view containing the approaching ball and the east goal. Hold this shot through the kick, the goal at 38.2 seconds, and the ball settling in the net; do not cut away to the simultaneous running-race finish. After 40 seconds drift gently toward a more frontal view of the east goal and finish on the result of the play. Use normal playback, a level horizon, a moderately wide lens, and no handheld shake or snap pans.",
+      "trajectoryUrl": "/trajectories/cinematic-suite/stadium-03-decisive-play-camera.json",
+      "durationSeconds": 48.0
+    },
+    {
+      "id": "stadium-04-behind-the-lens",
+      "title": "Behind the Sideline Lens",
+      "environmentId": "stadium",
+      "prompt": "Create a 48-second behind-the-scenes portrait of the independent sideline cameraman in the stadium. The visible track_cameraman is the subject, carrying the physical shoulder camera; do not mistake him for the filming viewpoint. Track from farther outside the oval, above the spectator sightline, starting slightly behind him. Move with his run in a stable medium-long composition and let the racing action appear as context behind him. From 12 to 32 seconds make a very gradual transition toward a side/front-quarter relationship without orbiting through the track or stands. Continue through the race finish, then widen and rise from 34 to 48 seconds to show the operator within the event he is filming. Keep his full body and equipment readable, respect the grandstands, maintain a level horizon, and use one uninterrupted take at normal speed.",
+      "trajectoryUrl": "/trajectories/cinematic-suite/stadium-04-behind-the-lens-camera.json",
+      "durationSeconds": 48.0
+    },
+    {
+      "id": "stadium-05-stadium-breathes",
+      "title": "The Stadium Breathes",
+      "environmentId": "stadium",
+      "prompt": "Make a 48-second architectural aerial master of the stadium, not a close-up sports shot. Keep the athletics oval, infield football pitch, and stands readable together. Move through a steady 60-degree rightward arc around the centre at an approximately 170-metre horizontal radius. Begin at 67 metres height, descend smoothly to 58 metres over the first 12 seconds, hold that height until 36 seconds, then rise smoothly to 73 metres by the end. Use a fixed 58-degree vertical field of view and a level horizon. The ongoing race and football match should remain environmental activity inside the composition; do not promise facial or ball detail from this distance. Preserve the full normal-speed scene clock and use no cuts, zooms, shake, or sudden changes of angular pace.",
+      "trajectoryUrl": "/trajectories/cinematic-suite/stadium-05-stadium-breathes-camera.json",
+      "durationSeconds": 48.0
+    },
+    {
+      "id": "factory-01-production-to-stillness",
+      "title": "Production to Stillness",
+      "environmentId": "factory",
+      "prompt": "Create one continuous 48-second factory sequence that changes from ordered production to quiet aftermath. Start by tracking cargo 01 along the conveyor in a composed product-led view, with the assembly line as background. Between 8 and 16 seconds smoothly leave the product tracking rig and reveal workers A and B in the south aisle; widen the lens gradually during the handoff. Be settled by 16 seconds in a stable elevated view that contains the argument, the shove at 20 seconds, the collision at 21 seconds, and the first falling pieces of cargo. Hold the physical camera still from 16 to 24 seconds so the cause and effect remain easy to read. From 24 to 48 seconds slowly pull back and rise, including the workers' reaction and the stopped production line. Stay inside the factory below its ceiling, preserve the normal scene clock, and use no cuts or camera shake.",
+      "trajectoryUrl": "/trajectories/cinematic-suite/factory-01-production-to-stillness-camera.json",
+      "durationSeconds": 48.0
+    },
+    {
+      "id": "factory-02-aisle-two-shot",
+      "title": "The Aisle Two-Shot",
+      "environmentId": "factory",
+      "prompt": "Film workers A and B in a restrained, uninterrupted 48-second two-shot in the factory's south aisle. Start in an elevated wide shot that contains both separated workers and looks over the control cabinet. Descend and tighten gradually as they converge, reaching a near-eye-level full two-shot by 12 seconds. Hold a respectful distance through the argument at 12.2–17 seconds. Between 17 and 20 seconds retreat, rise, and widen before the shove: the audience must see both bodies and the space between them. Maintain that more generous view through the impact at 21 seconds and the cargo spill, without whipping the camera toward individual falling items. After 25 seconds drift back into a quiet, wider two-shot of the workers and their immediate surroundings. Keep screen geography consistent from the same side of the aisle, use normal playback, and avoid cuts, shake, and extreme lens distortion.",
+      "trajectoryUrl": "/trajectories/cinematic-suite/factory-02-aisle-two-shot-camera.json",
+      "durationSeconds": 48.0
+    },
+    {
+      "id": "factory-03-chain-reaction",
+      "title": "The Chain Reaction",
+      "environmentId": "factory",
+      "prompt": "Create a 48-second high-angle, single-take factory master that explains the chain reaction spatially. Begin with a broad interior view of the conveyor and its two end stations. Over the first 14 seconds move closer to an elevated view of the central south-side work area, remaining around 8.1 metres high and below the ceiling and beams. From 14 to 26 seconds lock both camera position and aim. In that frame, show workers A and B, the shove at 20 seconds, the impact and clustered cargo spill at 21 seconds, and the emergency operator near the control station at 21.7 seconds. Prioritize clear spatial relationships over close-ups. After 26 seconds slowly withdraw and drift to the right to reveal the stopped line and the wider response. Use a level horizon, normal speed, gentle lens changes, and no cuts or shake.",
+      "trajectoryUrl": "/trajectories/cinematic-suite/factory-03-chain-reaction-camera.json",
+      "durationSeconds": 48.0
+    },
+    {
+      "id": "factory-04-emergency-operator",
+      "title": "The Emergency Operator",
+      "environmentId": "factory",
+      "prompt": "Make a 48-second factory sequence centred on worker 05, the emergency-stop operator, rather than the arguing pair. Begin from the south-east in a calm three-quarter composition that includes worker 05 and the control station. Push in very gently until 16 seconds, then lock the camera through 24 seconds. Keep a clear oblique view when the worker reaches the station around 21.7 seconds and the production line ramps down by 22.7 seconds; do not invent a close-up button-press animation that the scene does not contain. From 24 to 35 seconds rise and pull back, shifting the composition toward the affected workers and the operator together. Finish with a slow lateral drift through 48 seconds that connects the emergency response to the aftermath. Remain inside the room, avoid hiding the operator behind the control cabinet, preserve normal playback, and use no cuts or shake.",
+      "trajectoryUrl": "/trajectories/cinematic-suite/factory-04-emergency-operator-camera.json",
+      "durationSeconds": 48.0
+    },
+    {
+      "id": "factory-05-one-piece",
+      "title": "One Piece, Many Consequences",
+      "environmentId": "factory",
+      "prompt": "Tell a 48-second factory story through cargo 06, the sixth piece that spills from the production line. For the first 15 seconds smoothly track this piece with a relatively tight product-led composition; show enough conveyor to establish its movement. Between 15 and 20 seconds rise, move farther out, and widen before the impact. Track the piece through its airborne motion beginning at 21.3 seconds and its bounce and settling, smoothing the camera rather than copying the object's vertical jolt. Keep the production line and fragments of the workers' action as context. Between 26 and 34 seconds make a deliberate smooth handoff to a low oblique, stationary view of the resting piece on the floor. Hold that quiet insert from 34 to 48 seconds while the factory aftermath continues behind it. Use a level horizon, normal scene speed, no cuts, no focus-pull claims, and no camera intersections with the floor, workers, or machinery.",
+      "trajectoryUrl": "/trajectories/cinematic-suite/factory-05-one-piece-camera.json",
+      "durationSeconds": 48.0
+    }
+  ]
+}

@@ -1,0 +1,25 @@
+{
+  "schemaVersion": "1.0",
+  "bindings": {
+    "subject_worker_a": {
+      "id": "worker_a",
+      "description": "کارگر الف / worker A — initiates shove"
+    },
+    "subject_worker_b": {
+      "id": "worker_b",
+      "description": "کارگر ب / worker B — collides with production line"
+    },
+    "subject_cargo_06": {
+      "id": "cargo_06",
+      "description": "قطعهٔ تولید 6 · سقوط از خط / spills on impact"
+    },
+    "subject_worker_05": {
+      "id": "worker_05",
+      "description": "کارگر خط تولید 5 · توقف اضطراری / emergency stop"
+    },
+    "subject_production_line": {
+      "id": "production_line",
+      "description": "ریل خط تولید فعال / active production conveyor"
+    }
+  }
+}

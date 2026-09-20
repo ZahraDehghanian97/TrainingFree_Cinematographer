@@ -1,0 +1,252 @@
+{
+  "exampleId": "factory-04-emergency-operator",
+  "environmentId": "factory",
+  "auditFps": 60,
+  "cameraProbes": 2881,
+  "status": "pass",
+  "errors": [],
+  "visibilityReviewNotes": [],
+  "cameraClearance": {
+    "radiusMeters": 0.25,
+    "minimumCenterToBoundsMeters": 1.8439185776701401,
+    "minimumSphereClearanceMeters": 1.5939185776701401,
+    "failingSamples": 0,
+    "nearestEntity": "worker_08",
+    "timeOfMinimum": 8.933333333333334
+  },
+  "framing": [
+    {
+      "actionId": "factory-04-emergency-operator-shot-01",
+      "target": "worker_05",
+      "samples": 961,
+      "fullyInFramePercent": 100.0,
+      "minimumEdgeMargin": 0.22858,
+      "firstFailureTime": null
+    },
+    {
+      "actionId": "factory-04-emergency-operator-shot-01",
+      "target": "control_station",
+      "samples": 961,
+      "fullyInFramePercent": 100.0,
+      "minimumEdgeMargin": 0.19212,
+      "firstFailureTime": null
+    },
+    {
+      "actionId": "factory-04-emergency-operator-shot-02",
+      "target": "worker_05",
+      "samples": 481,
+      "fullyInFramePercent": 100.0,
+      "minimumEdgeMargin": 0.22858,
+      "firstFailureTime": null
+    },
+    {
+      "actionId": "factory-04-emergency-operator-shot-02",
+      "target": "control_station",
+      "samples": 481,
+      "fullyInFramePercent": 100.0,
+      "minimumEdgeMargin": 0.19212,
+      "firstFailureTime": null
+    },
+    {
+      "actionId": "factory-04-emergency-operator-shot-04",
+      "target": "worker_a",
+      "samples": 781,
+      "fullyInFramePercent": 100.0,
+      "minimumEdgeMargin": 0.34706,
+      "firstFailureTime": null
+    },
+    {
+      "actionId": "factory-04-emergency-operator-shot-04",
+      "target": "worker_b",
+      "samples": 781,
+      "fullyInFramePercent": 100.0,
+      "minimumEdgeMargin": 0.34306,
+      "firstFailureTime": null
+    },
+    {
+      "actionId": "factory-04-emergency-operator-shot-04",
+      "target": "worker_05",
+      "samples": 781,
+      "fullyInFramePercent": 100.0,
+      "minimumEdgeMargin": 0.31038,
+      "firstFailureTime": null
+    }
+  ],
+  "visibility": [
+    {
+      "actionId": "factory-04-emergency-operator-shot-01",
+      "target": "worker_05",
+      "oneOrMoreProbesVisiblePercent": 100.0,
+      "bothProbesVisiblePercent": 89.074,
+      "fullyBlockedSamples": 0,
+      "firstFullyBlockedTime": null,
+      "dominantProxyBlockers": [
+        [
+          "worker_b",
+          105
+        ]
+      ]
+    },
+    {
+      "actionId": "factory-04-emergency-operator-shot-01",
+      "target": "control_station",
+      "oneOrMoreProbesVisiblePercent": 100.0,
+      "bothProbesVisiblePercent": 100.0,
+      "fullyBlockedSamples": 0,
+      "firstFullyBlockedTime": null,
+      "dominantProxyBlockers": []
+    },
+    {
+      "actionId": "factory-04-emergency-operator-shot-02",
+      "target": "worker_05",
+      "oneOrMoreProbesVisiblePercent": 100.0,
+      "bothProbesVisiblePercent": 100.0,
+      "fullyBlockedSamples": 0,
+      "firstFullyBlockedTime": null,
+      "dominantProxyBlockers": []
+    },
+    {
+      "actionId": "factory-04-emergency-operator-shot-02",
+      "target": "control_station",
+      "oneOrMoreProbesVisiblePercent": 100.0,
+      "bothProbesVisiblePercent": 100.0,
+      "fullyBlockedSamples": 0,
+      "firstFullyBlockedTime": null,
+      "dominantProxyBlockers": []
+    },
+    {
+      "actionId": "factory-04-emergency-operator-shot-04",
+      "target": "worker_a",
+      "oneOrMoreProbesVisiblePercent": 100.0,
+      "bothProbesVisiblePercent": 100.0,
+      "fullyBlockedSamples": 0,
+      "firstFullyBlockedTime": null,
+      "dominantProxyBlockers": []
+    },
+    {
+      "actionId": "factory-04-emergency-operator-shot-04",
+      "target": "worker_b",
+      "oneOrMoreProbesVisiblePercent": 100.0,
+      "bothProbesVisiblePercent": 100.0,
+      "fullyBlockedSamples": 0,
+      "firstFullyBlockedTime": null,
+      "dominantProxyBlockers": []
+    },
+    {
+      "actionId": "factory-04-emergency-operator-shot-04",
+      "target": "worker_05",
+      "oneOrMoreProbesVisiblePercent": 100.0,
+      "bothProbesVisiblePercent": 100.0,
+      "fullyBlockedSamples": 0,
+      "firstFullyBlockedTime": null,
+      "dominantProxyBlockers": []
+    }
+  ],
+  "staticPhases": [
+    {
+      "actionId": "factory-04-emergency-operator-shot-02",
+      "maxTranslationMeters": 7.15845283027228e-12,
+      "maxRotationDegrees": 3.670794509051526e-15
+    }
+  ],
+  "motion": {
+    "maxSpeedMetersPerSecond": 1.0470127848268664,
+    "maxAccelerationMetersPerSecondSquared": 0.2930846880353356,
+    "maxAngularSpeedDegreesPerSecond": 4.573264015642947,
+    "maxFovRateDegreesPerSecond": 2.0454032045401505,
+    "maxAbsoluteHorizonRollDegrees": 1.6452512916021048e-05,
+    "fovYRangeDegrees": [
+      36.0,
+      48.0
+    ],
+    "cameraHeightRangeMeters": [
+      3.3,
+      6.1
+    ]
+  },
+  "eventCoverage": [
+    {
+      "eventId": "worker_shove",
+      "time": 20,
+      "subjects": [
+        {
+          "id": "worker_a",
+          "centreInViewport": true
+        },
+        {
+          "id": "worker_b",
+          "centreInViewport": true
+        }
+      ]
+    },
+    {
+      "eventId": "line_collision",
+      "time": 21,
+      "subjects": [
+        {
+          "id": "worker_b",
+          "centreInViewport": true
+        },
+        {
+          "id": "production_line",
+          "centreInViewport": true
+        }
+      ]
+    },
+    {
+      "eventId": "cargo_spill",
+      "time": 21,
+      "subjects": [
+        {
+          "id": "cargo_01",
+          "centreInViewport": true
+        },
+        {
+          "id": "cargo_02",
+          "centreInViewport": true
+        },
+        {
+          "id": "cargo_03",
+          "centreInViewport": true
+        },
+        {
+          "id": "cargo_04",
+          "centreInViewport": true
+        },
+        {
+          "id": "cargo_05",
+          "centreInViewport": true
+        },
+        {
+          "id": "cargo_06",
+          "centreInViewport": true
+        }
+      ]
+    },
+    {
+      "eventId": "emergency_stop",
+      "time": 21.7,
+      "subjects": [
+        {
+          "id": "production_line",
+          "centreInViewport": true
+        },
+        {
+          "id": "worker_05",
+          "centreInViewport": true
+        },
+        {
+          "id": "control_station",
+          "centreInViewport": true
+        }
+      ]
+    }
+  ],
+  "limits": [
+    "60 Hz discrete replay checks, not continuous swept-volume certification.",
+    "Bounds are supplied conservative proxies, not rendered animated mesh/limb intersections.",
+    "Frustum inclusion does not prove pixel-level visibility.",
+    "Visibility rays test centre and upper probes; a clear probe does not imply the whole subject is unobstructed.",
+    "Artistic quality and numerical optimizer convergence are not certified by these checks."
+  ]
+}

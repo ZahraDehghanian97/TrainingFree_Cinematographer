@@ -33,7 +33,13 @@
     "test:scenarios": "node --test -r ts-node/register tests/scenario-motion.test.ts tests/environment-layout.test.ts tests/reference-generation.test.ts",
     "test:offline": "npm run typecheck:scenarios && npm run test:node",
     "check:syntax": "node scripts/check-typescript-syntax.cjs",
-    "smoke:optimizer": "ts-node scripts/smoke-two-environments.ts"
+    "smoke:optimizer": "ts-node scripts/smoke-two-environments.ts",
+    "generate:cinematic": "python3 scripts/generate-cinematic-suite.py",
+    "validate:cinematic": "ts-node scripts/validate-cinematic-suite.ts",
+    "audit:cinematic": "python3 scripts/audit-cinematic-suite.py",
+    "test:cinematic": "npm run validate:cinematic && npm run audit:cinematic",
+    "timelines:cinematic": "ts-node scripts/generate-optimized-trajectories.ts --suite cinematic --timeline-only",
+    "typecheck:cinematic": "tsc -p tsconfig.cinematic.json"
   },
   "keywords": [],
   "author": "",

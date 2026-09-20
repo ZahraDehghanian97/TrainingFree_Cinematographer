@@ -1,0 +1,337 @@
+{
+  "totalDuration": 48.0,
+  "sections": [
+    {
+      "initCamera": {
+        "targets": [
+          {
+            "id": "ball",
+            "description": "توپ فوتبال؛ گل در ثانیه ۳۸٫۲ / football goal at 38.2 s"
+          }
+        ],
+        "config": {
+          "type": "nonSubjectAware",
+          "extrinsics": {
+            "pose": {
+              "position": {
+                "x": -19.2821055,
+                "y": 8.5,
+                "z": 26.2991227
+              },
+              "rotation": {
+                "x": -0.2029842989,
+                "y": 0.0,
+                "z": 0.0,
+                "w": 0.9791819925
+              }
+            }
+          },
+          "intrinsics": {
+            "fov": 43.0,
+            "aspectRatio": 1.7777777777777777
+          }
+        }
+      },
+      "actions": [
+        {
+          "id": "stadium-03-decisive-play-shot-01",
+          "name": "Ball-led field coverage",
+          "trigger": {
+            "type": "absoluteTime",
+            "time": 0
+          },
+          "movement": {
+            "act": "track",
+            "duration": 29,
+            "relativeFPS": "normal",
+            "targets": [
+              {
+                "id": "ball",
+                "description": "توپ فوتبال؛ گل در ثانیه ۳۸٫۲ / football goal at 38.2 s"
+              }
+            ],
+            "parameters": {
+              "path": "spline",
+              "handheld": false
+            }
+          },
+          "constraints": [
+            {
+              "kind": "general",
+              "constraint": "noShake",
+              "allFrames": true
+            },
+            {
+              "kind": "general",
+              "constraint": "keepInFrame",
+              "targets": [
+                {
+                  "id": "ball",
+                  "description": "توپ فوتبال؛ گل در ثانیه ۳۸٫۲ / football goal at 38.2 s"
+                }
+              ],
+              "allFrames": true
+            },
+            {
+              "config": {
+                "type": "nonSubjectAware",
+                "extrinsics": {
+                  "pose": {
+                    "position": {
+                      "x": 16.9999527,
+                      "y": 8.5,
+                      "z": 30.9997366
+                    },
+                    "rotation": {
+                      "x": -0.1985900024,
+                      "y": 0.0,
+                      "z": 0.0,
+                      "w": 0.9800826552
+                    }
+                  }
+                },
+                "intrinsics": {
+                  "fov": 43.0,
+                  "aspectRatio": 1.7777777777777777
+                }
+              },
+              "allFrames": false,
+              "easing": {
+                "inDuration": 1.0,
+                "curve": "easeInOut"
+              }
+            }
+          ]
+        },
+        {
+          "id": "stadium-03-decisive-play-shot-02",
+          "name": "Settle for the attack",
+          "trigger": {
+            "type": "relativeTime",
+            "actionId": "stadium-03-decisive-play-shot-01",
+            "reference": "end",
+            "offset": 0
+          },
+          "movement": {
+            "act": "track",
+            "duration": 6,
+            "relativeFPS": "normal",
+            "targets": [
+              {
+                "id": "ball",
+                "description": "توپ فوتبال؛ گل در ثانیه ۳۸٫۲ / football goal at 38.2 s"
+              }
+            ],
+            "parameters": {
+              "path": "spline",
+              "handheld": false
+            }
+          },
+          "constraints": [
+            {
+              "kind": "general",
+              "constraint": "noShake",
+              "allFrames": true
+            },
+            {
+              "kind": "general",
+              "constraint": "keepInFrame",
+              "targets": [
+                {
+                  "id": "ball",
+                  "description": "توپ فوتبال؛ گل در ثانیه ۳۸٫۲ / football goal at 38.2 s"
+                }
+              ],
+              "allFrames": true
+            },
+            {
+              "config": {
+                "type": "nonSubjectAware",
+                "extrinsics": {
+                  "pose": {
+                    "position": {
+                      "x": 33.0,
+                      "y": 8.5,
+                      "z": 23.0
+                    },
+                    "rotation": {
+                      "x": -0.1616238233,
+                      "y": -0.0993723965,
+                      "z": -0.0163603382,
+                      "w": 0.9817001609
+                    }
+                  }
+                },
+                "intrinsics": {
+                  "fov": 48.0,
+                  "aspectRatio": 1.7777777777777777
+                }
+              },
+              "allFrames": false,
+              "easing": {
+                "inDuration": 1.0,
+                "curve": "easeInOut"
+              }
+            }
+          ]
+        },
+        {
+          "id": "stadium-03-decisive-play-shot-03",
+          "name": "Hold the ball and east goal",
+          "trigger": {
+            "type": "relativeTime",
+            "actionId": "stadium-03-decisive-play-shot-02",
+            "reference": "end",
+            "offset": 0
+          },
+          "movement": {
+            "act": "static",
+            "duration": 5,
+            "relativeFPS": "normal",
+            "targets": [
+              {
+                "id": "ball",
+                "description": "توپ فوتبال؛ گل در ثانیه ۳۸٫۲ / football goal at 38.2 s"
+              },
+              {
+                "id": "goal_east",
+                "description": "دروازهٔ شرقی / east goal"
+              }
+            ]
+          },
+          "constraints": [
+            {
+              "kind": "general",
+              "constraint": "noShake",
+              "allFrames": true
+            },
+            {
+              "kind": "general",
+              "constraint": "keepInFrame",
+              "targets": [
+                {
+                  "id": "ball",
+                  "description": "توپ فوتبال؛ گل در ثانیه ۳۸٫۲ / football goal at 38.2 s"
+                },
+                {
+                  "id": "goal_east",
+                  "description": "دروازهٔ شرقی / east goal"
+                }
+              ],
+              "allFrames": true
+            },
+            {
+              "config": {
+                "type": "nonSubjectAware",
+                "extrinsics": {
+                  "pose": {
+                    "position": {
+                      "x": 33.0,
+                      "y": 8.5,
+                      "z": 23.0
+                    },
+                    "rotation": {
+                      "x": -0.1616238233,
+                      "y": -0.0993723965,
+                      "z": -0.0163603382,
+                      "w": 0.9817001609
+                    }
+                  }
+                },
+                "intrinsics": {
+                  "fov": 48.0,
+                  "aspectRatio": 1.7777777777777777
+                }
+              },
+              "allFrames": false,
+              "easing": {
+                "inDuration": 1.0,
+                "curve": "easeInOut"
+              }
+            }
+          ]
+        },
+        {
+          "id": "stadium-03-decisive-play-shot-04",
+          "name": "Goal aftermath drift",
+          "trigger": {
+            "type": "relativeTime",
+            "actionId": "stadium-03-decisive-play-shot-03",
+            "reference": "end",
+            "offset": 0
+          },
+          "movement": {
+            "act": "arcRight",
+            "duration": 8,
+            "relativeFPS": "normal",
+            "targets": [
+              {
+                "id": "ball",
+                "description": "توپ فوتبال؛ گل در ثانیه ۳۸٫۲ / football goal at 38.2 s"
+              },
+              {
+                "id": "goal_east",
+                "description": "دروازهٔ شرقی / east goal"
+              }
+            ],
+            "parameters": {
+              "path": "spline",
+              "handheld": false
+            }
+          },
+          "constraints": [
+            {
+              "kind": "general",
+              "constraint": "noShake",
+              "allFrames": true
+            },
+            {
+              "kind": "general",
+              "constraint": "keepInFrame",
+              "targets": [
+                {
+                  "id": "ball",
+                  "description": "توپ فوتبال؛ گل در ثانیه ۳۸٫۲ / football goal at 38.2 s"
+                },
+                {
+                  "id": "goal_east",
+                  "description": "دروازهٔ شرقی / east goal"
+                }
+              ],
+              "allFrames": true
+            },
+            {
+              "config": {
+                "type": "nonSubjectAware",
+                "extrinsics": {
+                  "pose": {
+                    "position": {
+                      "x": 36.8159907,
+                      "y": 8.5,
+                      "z": 23.9331262
+                    },
+                    "rotation": {
+                      "x": -0.1325695208,
+                      "y": -0.1975350791,
+                      "z": -0.0269715738,
+                      "w": 0.970915933
+                    }
+                  }
+                },
+                "intrinsics": {
+                  "fov": 44.0,
+                  "aspectRatio": 1.7777777777777777
+                }
+              },
+              "allFrames": false,
+              "easing": {
+                "inDuration": 1.0,
+                "curve": "easeInOut"
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

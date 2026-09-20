@@ -57,6 +57,14 @@ interface EnvironmentManifest {
   environments: EnvironmentManifestEntry[];
 }
 
+interface PromptExample {
+  id: string;
+  title: string;
+  environmentId: string;
+  prompt: string;
+  trajectoryUrl: string;
+}
+
 const byId = <T extends HTMLElement>(id: string): T => {
   const element = document.getElementById(id);
   if (!element) throw new Error(`Missing UI element #${id}`);
@@ -65,6 +73,7 @@ const byId = <T extends HTMLElement>(id: string): T => {
 
 const canvas = byId<HTMLCanvasElement>("scene");
 const environmentSelect = byId<HTMLSelectElement>("environmentSelect");
+const promptSelect = byId<HTMLSelectElement>("promptSelect");
 const sceneStatus = byId<HTMLSpanElement>("sceneStatus");
 const sceneTitle = byId<HTMLHeadingElement>("sceneTitle");
 const promptText = byId<HTMLParagraphElement>("promptText");
@@ -161,6 +170,7 @@ function emptyStageState(): Record<PipelineStage, StageUiState> {
 
 let renderer: SceneRenderer;
 let manifest: EnvironmentManifest;
+let promptExamples: PromptExample[] = [];
 let environment: EnvironmentV1 | null = null;
 let trajectory: CameraTrajectoryV1 | null = null;
 let currentTime = 0;
@@ -213,6 +223,19 @@ async function fetchManifest(): Promise<EnvironmentManifest> {
   return value;
 }
 
+async function fetchPromptExamples(): Promise<PromptExample[]> {
+  const response = await fetch(publicUrl("trajectories/cinematic-suite/catalogue.json"));
+  if (!response.ok) throw new Error(`Could not load example prompts (${response.status}).`);
+  const value: unknown = await response.json();
+  if (!isRecord(value) || !Array.isArray(value.examples) || !value.examples.every((example: unknown) =>
+    isRecord(example) && ["id", "title", "environmentId", "prompt", "trajectoryUrl"].every((key) =>
+      typeof example[key] === "string" && example[key].trim().length > 0),
+  )) {
+    throw new Error("The example prompt catalogue has an unsupported shape.");
+  }
+  return value.examples as PromptExample[];
+}
+
 function labelFor(entry: EnvironmentManifestEntry): string {
   return entry.title ?? entry.id;
 }
@@ -235,6 +258,30 @@ function populateEnvironmentPicker(): void {
     option.textContent = labelFor(entry);
     environmentSelect.append(option);
   }
+}
+
+function populatePromptPicker(
+  entry: EnvironmentManifestEntry,
+  requestedPromptId: string | null = null,
+  requestedTrajectoryUrl: string | null = null,
+): void {
+  const examples = promptExamples.filter((example) => example.environmentId === entry.id);
+  const defaultOption = document.createElement("option");
+  defaultOption.value = entry.promptExampleId;
+  defaultOption.textContent = "Default prompt";
+  promptSelect.replaceChildren(defaultOption);
+  for (const example of examples) {
+    const option = document.createElement("option");
+    option.value = example.id;
+    option.textContent = example.title;
+    promptSelect.append(option);
+  }
+  const requested = examples.find((example) => example.id === requestedPromptId)
+    ?? (requestedTrajectoryUrl ? examples.find((example) =>
+      new URL(trajectoryUrl(example.trajectoryUrl), location.href).href
+        === new URL(trajectoryUrl(requestedTrajectoryUrl), location.href).href,
+    ) : undefined);
+  promptSelect.value = requested?.id ?? entry.promptExampleId;
 }
 
 function setPlaying(value: boolean): void {
@@ -379,6 +426,8 @@ function renderPipelineUi(): void {
     && pipelineUiError?.retryable
     && lastPipelineRequest?.environmentId === environment?.id
   );
+  environmentSelect.disabled = environmentLoading;
+  promptSelect.disabled = active || environmentLoading || environment === null;
   replayExampleButton.disabled = active || environmentLoading || environment === null;
   runExampleButton.disabled = active || environmentLoading || environment === null;
   runCustomButton.disabled = active || environmentLoading || environment === null || customPrompt.value.trim().length === 0;
@@ -530,6 +579,24 @@ async function loadAutomaticTrajectory(
 
 function selectedManifestEntry(): EnvironmentManifestEntry | undefined {
   return manifest?.environments.find((candidate) => candidate.id === environmentSelect.value);
+}
+
+function selectedPromptEntry(): EnvironmentManifestEntry | undefined {
+  const entry = selectedManifestEntry();
+  if (!entry) return undefined;
+  const example = promptExamples.find((candidate) =>
+    candidate.environmentId === entry.id && candidate.id === promptSelect.value,
+  );
+  if (!example) return entry;
+  return {
+    id: entry.id,
+    title: entry.title,
+    url: entry.url,
+    durationSeconds: entry.durationSeconds,
+    promptExampleId: example.id,
+    prompt: example.prompt,
+    referenceTrajectoryUrl: example.trajectoryUrl,
+  };
 }
 
 function closePipelineEventStream(options: { abortStart?: boolean } = {}): void {
@@ -782,42 +849,49 @@ async function runPipeline(request: PipelineRunRequest): Promise<void> {
 }
 
 async function replayBundledExample(): Promise<void> {
-  const entry = selectedManifestEntry();
+  const entry = selectedPromptEntry();
   if (!entry || !environment) return;
-  const request = environmentRequest;
-  pipelineStatus = "idle";
-  pipelineConnection.textContent = "";
-  lastPipelineRequest = null;
-  resetPipelineArtifacts();
+  clearPipelineForEnvironmentChange();
+  const request = ++environmentRequest;
+  const previousView = activeView;
+  environmentLoading = true;
   setPlaying(false);
+  currentTime = 0;
   resetTrajectory();
   promptText.textContent = entry.prompt || environment.prompt;
+  examplePrompt.textContent = promptText.textContent;
 
-  if (!entry.sampleTrajectoryUrl) {
-    await loadAutomaticTrajectory(entry, null, request);
-    return;
-  }
   try {
-    const response = await fetch(trajectoryUrl(entry.sampleTrajectoryUrl));
-    if (request !== environmentRequest) return;
-    if (!response.ok) throw new Error(`Could not load bundled example (HTTP ${response.status}).`);
-    await applyTrajectory(await response.json() as unknown, entry.referenceTrajectoryUrl ? "Authored reference (not optimized)" : "Bundled demo");
+    if (!entry.sampleTrajectoryUrl) {
+      await loadAutomaticTrajectory(entry, null, request);
+    } else {
+      const response = await fetch(trajectoryUrl(entry.sampleTrajectoryUrl));
+      if (request !== environmentRequest) return;
+      if (!response.ok) throw new Error(`Could not load bundled example (HTTP ${response.status}).`);
+      const value: unknown = await response.json();
+      if (request !== environmentRequest) return;
+      await applyTrajectory(value, entry.referenceTrajectoryUrl ? "Authored reference (not optimized)" : "Bundled demo");
+    }
+    if (request === environmentRequest && trajectory) setView(previousView);
   } catch (error) {
     if (request !== environmentRequest) return;
     const message = error instanceof Error ? error.message : String(error);
     setUploadMessage(message, "error");
     showToast(message, "error");
+  } finally {
+    if (request === environmentRequest) environmentLoading = false;
+    renderPipelineUi();
   }
 }
 
 async function selectEnvironment(
   entry: EnvironmentManifestEntry,
   requestedTrajectoryUrl: string | null = null,
+  requestedPromptId: string | null = null,
 ): Promise<void> {
   clearPipelineForEnvironmentChange();
   const request = ++environmentRequest;
   environmentLoading = true;
-  environmentSelect.disabled = true;
   sceneStatus.textContent = "Loading environment";
   setPlaying(false);
   renderPipelineUi();
@@ -839,31 +913,32 @@ async function selectEnvironment(
     renderer.setEnvironment(environment);
     renderer.setShowLabels(labelsToggle.checked);
     renderSceneEvents();
+    populatePromptPicker(entry, requestedPromptId, requestedTrajectoryUrl);
     resetTrajectory();
 
+    const promptEntry = selectedPromptEntry() ?? entry;
     sceneTitle.textContent = labelFor(entry);
-    promptText.textContent = environment.prompt;
-    examplePrompt.textContent = entry.prompt || environment.prompt;
+    promptText.textContent = promptEntry.prompt || environment.prompt;
+    examplePrompt.textContent = promptText.textContent;
     durationValue.textContent = `${environment.clock.durationSeconds.toFixed(1)} s`;
     entityValue.textContent = String(environment.entities.length);
     sceneStatus.textContent = "Environment ready";
     document.title = `${shortEnvironmentName(environment)} · Camera Lab`;
 
-    await loadAutomaticTrajectory(entry, requestedTrajectoryUrl, request);
+    await loadAutomaticTrajectory(promptEntry, requestedTrajectoryUrl, request);
     refreshDrawer();
   } catch (error) {
     const message = error instanceof Error ? error.message : String(error);
     sceneStatus.textContent = "Environment error";
     if (environment && manifest.environments.some((candidate) => candidate.id === environment?.id)) {
       environmentSelect.value = environment.id;
-      const previous = selectedManifestEntry();
+      const previous = selectedPromptEntry();
       examplePrompt.textContent = previous?.prompt ?? environment.prompt;
     }
     showToast(message, "error");
   } finally {
     if (request === environmentRequest) {
       environmentLoading = false;
-      environmentSelect.disabled = false;
     }
     renderPipelineUi();
   }
@@ -1213,6 +1288,10 @@ function bindEvents(): void {
     const entry = manifest.environments.find((candidate) => candidate.id === environmentSelect.value);
     if (entry) void selectEnvironment(entry);
   });
+  promptSelect.addEventListener("change", () => {
+    setComposerMode("example");
+    void replayBundledExample();
+  });
 
   composerTabs.addEventListener("click", (event) => {
     const button = (event.target as HTMLElement).closest<HTMLButtonElement>("button[data-mode]");
@@ -1229,7 +1308,7 @@ function bindEvents(): void {
   });
   replayExampleButton.addEventListener("click", () => { void replayBundledExample(); });
   runExampleButton.addEventListener("click", () => {
-    const entry = selectedManifestEntry();
+    const entry = selectedPromptEntry();
     if (environment && entry) {
       void runPipeline({ environmentId: environment.id, prompt: entry.prompt || environment.prompt });
     }
@@ -1368,7 +1447,13 @@ function bindEvents(): void {
 async function bootstrap(): Promise<void> {
   try {
     renderer = new SceneRenderer(canvas);
-    manifest = await fetchManifest();
+    [manifest, promptExamples] = await Promise.all([
+      fetchManifest(),
+      fetchPromptExamples().catch((error: unknown) => {
+        showToast(`${error instanceof Error ? error.message : String(error)} Using default prompts.`, "warning");
+        return [];
+      }),
+    ]);
     populateEnvironmentPicker();
     bindEvents();
 
@@ -1377,7 +1462,8 @@ async function bootstrap(): Promise<void> {
     const requestedTrajectoryUrl = search.get("trajectory");
     const first = manifest.environments.find((entry) => entry.id === requestedId) ?? manifest.environments[0]!;
     environmentSelect.value = first.id;
-    await selectEnvironment(first, requestedTrajectoryUrl);
+    await selectEnvironment(first, requestedTrajectoryUrl, search.get("prompt"));
+    if (search.get("view") === "director" && trajectory) setView("director");
 
     lastFrameAt = performance.now();
     requestAnimationFrame(animationFrame);

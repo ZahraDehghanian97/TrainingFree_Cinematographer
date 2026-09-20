@@ -1,3 +1,5 @@
+> **New: 10 cinematic examples.** See [the cinematic suite guide](examples/cinematic-suite/PROJECT_GUIDE.md). In the main visualizer, select an **Environment**, then choose its **Prompt** from the adjacent menu.
+
 # TrainingFree Cinematographer — Two Shared Environments
 
 **[راهنمای کامل فارسی](README.fa.md)**
@@ -13,7 +15,7 @@ npm ci
 npm run visualizer
 ```
 
-Open `http://127.0.0.1:4173`. Select a world, then **Replay reference**. Bundled authored camera paths do not require an API key. **Director** is the filming camera; **God** is the free overview. The scene-event buttons seek to event times, including when a camera trajectory changes scene playback speed. A frozen trajectory that never reaches an event reports that fact instead of seeking to an unrelated time.
+Open `http://127.0.0.1:4173`. Select an **Environment**, then a **Prompt**. Each world offers its default prompt and five cinematic examples; selecting a prompt loads its camera reference automatically. Use **Replay reference** to replay the selected example or **Run full pipeline** to generate a new trajectory from its prompt. Bundled authored camera paths do not require an API key. **Director** is the filming camera; **God** is the free overview. The scene-event buttons seek to event times, including when a camera trajectory changes scene playback speed. A frozen trajectory that never reaches an event reports that fact instead of seeking to an unrelated time.
 
 For text-to-camera generation, copy `.env.example` to `.env`, set credentials/models available to your account, and use **Custom prompt / Run full pipeline**. The two environments are allowlisted by `EnvironmentRepository`. Actor motion is not generated or reset by a camera prompt.
 

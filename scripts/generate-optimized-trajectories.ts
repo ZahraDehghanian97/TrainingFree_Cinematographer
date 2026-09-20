@@ -4,6 +4,7 @@ import { publishOptimizedProvenance } from './reference-io';
 
 import { resolvedPromptExampleFixtures } from "../src/data/resolved-example-fixtures";
 import { dontCarePromptExampleFixtures } from "../src/data/dont-care-examples";
+import { cinematicPromptExampleFixtures } from "../src/data/cinematic-examples";
 import { optimizeCameraTrajectory } from "../src/optimizer/index";
 import { DEFAULT_OPTIONS } from "../src/optimizer/config/defaults";
 import { flattenTimeline } from "../src/timeline/flattener";
@@ -22,7 +23,7 @@ interface GeneratorOptions {
   outputFps?: number;
   exampleId?: string;
   keyframesPath?: string;
-  suite?: "dont-care";
+  suite?: "dont-care" | "cinematic";
 }
 
 function parsePositiveNumber(value: string | undefined, option: string): number {
@@ -61,7 +62,7 @@ function parseOptions(args: readonly string[]): GeneratorOptions {
       if (!value) throw new Error("--keyframes requires a JSON path");
       options.keyframesPath = path.resolve(process.cwd(), value);
     } else if (name === "--suite") {
-      if (value !== "dont-care") throw new Error("--suite must be dont-care");
+      if (value !== "dont-care" && value !== "cinematic") throw new Error("--suite must be dont-care or cinematic");
       options.suite = value;
     } else {
       throw new Error(`Unknown option: ${argument}`);
@@ -117,21 +118,24 @@ function main(): void {
   );
   const timelineDirectory = path.resolve(process.cwd(), "shared/timeline");
 
-  const suiteIds = new Set(dontCarePromptExampleFixtures.map(({ id }) => id));
-  const selected = resolvedPromptExampleFixtures
+  const cinematic = options.suite === "cinematic"
+    || cinematicPromptExampleFixtures.some(f => f.id === options.exampleId);
+  const pool = cinematic ? cinematicPromptExampleFixtures
+    : options.suite === "dont-care" ? dontCarePromptExampleFixtures : resolvedPromptExampleFixtures;
+  const selected = pool
     .map((fixture, index) => ({ fixture, index }))
-    .filter(({ fixture }) => (options.exampleId === undefined || fixture.id === options.exampleId)
-      && (options.suite === undefined || suiteIds.has(fixture.id)));
+    .filter(({ fixture }) => options.exampleId === undefined || fixture.id === options.exampleId);
   if (selected.length === 0) throw new Error(`Unknown example ID: ${options.exampleId}`);
   if (options.keyframesPath !== undefined && selected.length !== 1) {
     throw new Error("--keyframes requires exactly one --example");
   }
 
   selected.forEach(({ fixture, index }) => {
+    const artifactId = cinematic ? fixture.id : `output_${index + 1}`;
     const environment = loadEnvironment(fixture.environmentId);
     const timeline = flattenTimeline(solveTimeline(fixture.resolvedCsl, environment));
     writeJsonAtomically(
-      path.join(timelineDirectory, `output_${index + 1}.json`),
+      path.join(timelineDirectory, `${artifactId}.json`),
       {
         schemaVersion: "1.0",
         kind: "timelineSolverOutput",
@@ -164,15 +168,15 @@ function main(): void {
       path.join(trajectoryDirectory, `${fixture.id}-camera.json`),
       result.trajectory,
     );
-    writeJsonAtomically(path.join(diagnosticsDirectory, `output_${index + 1}_camera.json`), result.trajectory);
+    writeJsonAtomically(path.join(diagnosticsDirectory, `${artifactId}_camera.json`), result.trajectory);
     const document = {
       schemaVersion: "1.0", kind: "cameraOptimizerDiagnostics", exampleId: fixture.id,
       environmentId: environment.id, trajectory: result.trajectory,
       diagnostics: result.diagnostics, compiledPlan: result.compiledPlan,
     } satisfies CameraOptimizerDiagnosticsDocumentV1;
-    writeJsonAtomically(path.join(diagnosticsDirectory, `output_${index + 1}.json`), document);
+    writeJsonAtomically(path.join(diagnosticsDirectory, `${artifactId}.json`), document);
     writeJsonAtomically(
-      path.join(diagnosticsDirectory, `output_${index + 1}_optimized.json`),
+      path.join(diagnosticsDirectory, `${artifactId}_optimized.json`),
       document,
     );
     publishOptimizedProvenance(process.cwd(), fixture, environment, result.trajectory);

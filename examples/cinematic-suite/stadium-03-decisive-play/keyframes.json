@@ -1,0 +1,284 @@
+{
+  "note": "Human-readable subset; trajectory.json is the complete replay reference.",
+  "samples": [
+    {
+      "t": 0.0,
+      "position": [
+        -19.2821055,
+        8.5,
+        26.2991227
+      ],
+      "positionVelocity": [
+        1.4999994,
+        0.0,
+        0.6249998
+      ],
+      "positionAcceleration": [
+        1.9951375,
+        0.0,
+        0.8313073
+      ],
+      "rotation": [
+        -0.2029842989,
+        0.0,
+        0.0,
+        0.9791819925
+      ],
+      "lookAt": [
+        -19.2821055,
+        0.2688874,
+        7.2991227
+      ],
+      "fovYDegrees": 43.0,
+      "actionId": "stadium-03-decisive-play-shot-01"
+    },
+    {
+      "t": 29.0,
+      "position": [
+        16.9999527,
+        8.5,
+        30.9997366
+      ],
+      "positionVelocity": [
+        1.5005045,
+        0.0,
+        1.9980884
+      ],
+      "positionAcceleration": [
+        -0.0023808,
+        0.0,
+        -0.0133629
+      ],
+      "rotation": [
+        -0.1985900024,
+        0.0,
+        0.0,
+        0.9800826552
+      ],
+      "lookAt": [
+        16.9999527,
+        0.4705542,
+        11.9997366
+      ],
+      "fovYDegrees": 43.0,
+      "actionId": "stadium-03-decisive-play-shot-02"
+    },
+    {
+      "t": 34.0,
+      "position": [
+        32.7109937,
+        8.5,
+        23.1167951
+      ],
+      "positionVelocity": [
+        0.833936,
+        0.0,
+        -0.4023098
+      ],
+      "positionAcceleration": [
+        -1.5346943,
+        -0.0,
+        0.9980465
+      ],
+      "rotation": [
+        -0.1629671417,
+        -0.0963788522,
+        -0.0159980301,
+        0.9817825068
+      ],
+      "lookAt": [
+        37.0512714,
+        0.8803491,
+        1.2232766
+      ],
+      "fovYDegrees": 47.8038674,
+      "actionId": "stadium-03-decisive-play-shot-02"
+    },
+    {
+      "t": 35.0,
+      "position": [
+        33.0,
+        8.5,
+        23.0
+      ],
+      "positionVelocity": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "positionAcceleration": [
+        -2e-06,
+        0.0,
+        -4.9e-06
+      ],
+      "rotation": [
+        -0.1616238233,
+        -0.0993723965,
+        -0.0163603382,
+        0.9817001609
+      ],
+      "lookAt": [
+        37.5,
+        0.9,
+        1.0
+      ],
+      "fovYDegrees": 48.0,
+      "actionId": "stadium-03-decisive-play-shot-03"
+    },
+    {
+      "t": 36.8,
+      "position": [
+        33.0,
+        8.5,
+        23.0
+      ],
+      "positionVelocity": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "positionAcceleration": [
+        -0.0,
+        0.0,
+        -0.0
+      ],
+      "rotation": [
+        -0.1616238233,
+        -0.0993723965,
+        -0.0163603382,
+        0.9817001609
+      ],
+      "lookAt": [
+        37.5,
+        0.9,
+        1.0
+      ],
+      "fovYDegrees": 48.0,
+      "actionId": "stadium-03-decisive-play-shot-03"
+    },
+    {
+      "t": 38.2,
+      "position": [
+        33.0,
+        8.5,
+        23.0
+      ],
+      "positionVelocity": [
+        0.0,
+        0.0,
+        -0.0
+      ],
+      "positionAcceleration": [
+        0.0,
+        0.0,
+        -0.0
+      ],
+      "rotation": [
+        -0.1616238233,
+        -0.0993723965,
+        -0.0163603382,
+        0.9817001609
+      ],
+      "lookAt": [
+        37.5,
+        0.9,
+        1.0
+      ],
+      "fovYDegrees": 48.0,
+      "actionId": "stadium-03-decisive-play-shot-03"
+    },
+    {
+      "t": 39.3,
+      "position": [
+        33.0,
+        8.5,
+        23.0
+      ],
+      "positionVelocity": [
+        0.0,
+        0.0,
+        -0.0
+      ],
+      "positionAcceleration": [
+        0.0,
+        0.0,
+        -0.0
+      ],
+      "rotation": [
+        -0.1616238233,
+        -0.0993723965,
+        -0.0163603382,
+        0.9817001609
+      ],
+      "lookAt": [
+        37.5,
+        0.9,
+        1.0
+      ],
+      "fovYDegrees": 48.0,
+      "actionId": "stadium-03-decisive-play-shot-03"
+    },
+    {
+      "t": 40.0,
+      "position": [
+        33.0,
+        8.5,
+        23.0
+      ],
+      "positionVelocity": [
+        0.0,
+        0.0,
+        -0.0
+      ],
+      "positionAcceleration": [
+        2e-07,
+        0.0,
+        -1e-07
+      ],
+      "rotation": [
+        -0.1616238233,
+        -0.0993723965,
+        -0.0163603382,
+        0.9817001609
+      ],
+      "lookAt": [
+        37.5,
+        0.9,
+        1.0
+      ],
+      "fovYDegrees": 48.0,
+      "actionId": "stadium-03-decisive-play-shot-04"
+    },
+    {
+      "t": 48.0,
+      "position": [
+        36.8159907,
+        8.5,
+        23.9331262
+      ],
+      "positionVelocity": [
+        -1e-07,
+        0.0,
+        -0.0
+      ],
+      "positionAcceleration": [
+        -2.9e-05,
+        0.0,
+        -9.3e-06
+      ],
+      "rotation": [
+        -0.1325695208,
+        -0.1975350791,
+        -0.0269715738,
+        0.970915933
+      ],
+      "lookAt": [
+        46.975,
+        1.265,
+        -0.0
+      ],
+      "fovYDegrees": 44.0,
+      "actionId": "stadium-03-decisive-play-shot-04"
+    }
+  ]
+}

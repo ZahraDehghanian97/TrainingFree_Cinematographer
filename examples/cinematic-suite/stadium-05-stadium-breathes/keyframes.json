@@ -1,0 +1,253 @@
+{
+  "note": "Human-readable subset; trajectory.json is the complete replay reference.",
+  "samples": [
+    {
+      "t": 0.0,
+      "position": [
+        71.8451045,
+        67.0,
+        154.0723238
+      ],
+      "positionVelocity": [
+        3.3613367,
+        0.0,
+        -1.567417
+      ],
+      "positionAcceleration": [
+        -0.0341957,
+        -7.6e-06,
+        -0.073333
+      ],
+      "rotation": [
+        0.1819444452,
+        -0.2126478416,
+        -0.0403361124,
+        -0.9591924272
+      ],
+      "lookAt": [
+        0.0,
+        0.1,
+        0.0
+      ],
+      "fovYDegrees": 58.0,
+      "actionId": "stadium-05-stadium-breathes-shot-01"
+    },
+    {
+      "t": 2.0,
+      "position": [
+        78.4972642,
+        66.6805556,
+        150.7918416
+      ],
+      "positionVelocity": [
+        3.2897677,
+        -0.4340278,
+        -1.7125446
+      ],
+      "positionAcceleration": [
+        -0.0373619,
+        -0.3472228,
+        -0.0717716
+      ],
+      "rotation": [
+        0.1802442703,
+        -0.2335578921,
+        -0.0441054923,
+        -0.9544723252
+      ],
+      "lookAt": [
+        0.0,
+        0.1,
+        0.0
+      ],
+      "fovYDegrees": 58.0,
+      "actionId": "stadium-05-stadium-breathes-shot-01"
+    },
+    {
+      "t": 12.0,
+      "position": [
+        109.2738936,
+        58.0,
+        130.2275553
+      ],
+      "positionVelocity": [
+        2.8411245,
+        -0.0,
+        -2.3839865
+      ],
+      "positionAcceleration": [
+        -0.0520105,
+        5e-07,
+        -0.0619837
+      ],
+      "rotation": [
+        0.1535428552,
+        -0.337423535,
+        -0.055885029,
+        -0.9270635432
+      ],
+      "lookAt": [
+        0.0,
+        0.1,
+        0.0
+      ],
+      "fovYDegrees": 58.0,
+      "actionId": "stadium-05-stadium-breathes-shot-02"
+    },
+    {
+      "t": 36.0,
+      "position": [
+        159.7477455,
+        58.0,
+        58.1434244
+      ],
+      "positionVelocity": [
+        1.2684927,
+        0.0,
+        -3.4851552
+      ],
+      "positionAcceleration": [
+        -0.0760343,
+        8e-07,
+        -0.0276742
+      ],
+      "rotation": [
+        0.1338468994,
+        -0.5658678079,
+        -0.0937206079,
+        -0.8081429819
+      ],
+      "lookAt": [
+        0.0,
+        0.1,
+        0.0
+      ],
+      "fovYDegrees": 58.0,
+      "actionId": "stadium-05-stadium-breathes-shot-03"
+    },
+    {
+      "t": 38.0,
+      "position": [
+        162.1318816,
+        58.5324074,
+        51.1199859
+      ],
+      "positionVelocity": [
+        1.1152651,
+        0.7233796,
+        -3.5371689
+      ],
+      "positionAcceleration": [
+        -0.0771691,
+        0.5787047,
+        -0.0243313
+      ],
+      "rotation": [
+        0.1328856911,
+        -0.5832266808,
+        -0.09743582,
+        -0.7954208275
+      ],
+      "lookAt": [
+        0.0,
+        0.1,
+        0.0
+      ],
+      "fovYDegrees": 58.0,
+      "actionId": "stadium-05-stadium-breathes-shot-03"
+    },
+    {
+      "t": 39.8,
+      "position": [
+        164.0138451,
+        60.7872626,
+        44.7153065
+      ],
+      "positionVelocity": [
+        0.9755367,
+        1.7559057,
+        -3.578227
+      ],
+      "positionAcceleration": [
+        -0.0780648,
+        0.4958918,
+        -0.0212829
+      ],
+      "rotation": [
+        0.1355746153,
+        -0.5981300271,
+        -0.1035609166,
+        -0.7830294573
+      ],
+      "lookAt": [
+        0.0,
+        0.1,
+        0.0
+      ],
+      "fovYDegrees": 58.0,
+      "actionId": "stadium-05-stadium-breathes-shot-03"
+    },
+    {
+      "t": 44.0,
+      "position": [
+        167.417318,
+        69.8518519,
+        29.5201902
+      ],
+      "positionVelocity": [
+        0.6440306,
+        1.8518519,
+        -3.6524793
+      ],
+      "positionAcceleration": [
+        -0.0796847,
+        -0.4629635,
+        -0.0140506
+      ],
+      "rotation": [
+        0.1481926502,
+        -0.6306452149,
+        -0.1243483981,
+        -0.7515737005
+      ],
+      "lookAt": [
+        0.0,
+        0.1,
+        0.0
+      ],
+      "fovYDegrees": 58.0,
+      "actionId": "stadium-05-stadium-breathes-shot-03"
+    },
+    {
+      "t": 48.0,
+      "position": [
+        169.3530987,
+        73.0,
+        14.8164763
+      ],
+      "positionVelocity": [
+        0.3232454,
+        -0.0,
+        -3.6947115
+      ],
+      "positionAcceleration": [
+        -0.0806061,
+        -1.27e-05,
+        -0.0070521
+      ],
+      "rotation": [
+        0.1483182129,
+        -0.6617786492,
+        -0.1359086021,
+        -0.7222046657
+      ],
+      "lookAt": [
+        0.0,
+        0.1,
+        0.0
+      ],
+      "fovYDegrees": 58.0,
+      "actionId": "stadium-05-stadium-breathes-shot-03"
+    }
+  ]
+}

@@ -1,0 +1,349 @@
+{
+  "totalDuration": 48.0,
+  "sections": [
+    {
+      "initCamera": {
+        "targets": [
+          {
+            "ref": "subject_worker_05",
+            "description": "کارگر خط تولید 5 · توقف اضطراری / emergency stop"
+          },
+          {
+            "ref": "subject_control_station",
+            "description": "کنترل تولید / emergency stop station"
+          }
+        ],
+        "config": {
+          "type": "nonSubjectAware",
+          "extrinsics": {
+            "pose": {
+              "position": {
+                "x": 12.0,
+                "y": 4.0,
+                "z": 5.5
+              },
+              "rotation": {
+                "x": 0.1707648842,
+                "y": -0.5396451692,
+                "z": -0.112844455,
+                "w": -0.81663246
+              }
+            }
+          },
+          "intrinsics": {
+            "fov": 39.0,
+            "aspectRatio": 1.7777777777777777
+          }
+        }
+      },
+      "actions": [
+        {
+          "id": "factory-04-emergency-operator-shot-01",
+          "name": "Approach the operator",
+          "trigger": {
+            "type": "absoluteTime",
+            "time": 0
+          },
+          "movement": {
+            "act": "dollyIn",
+            "duration": 16,
+            "relativeFPS": "normal",
+            "targets": [
+              {
+                "ref": "subject_worker_05",
+                "description": "کارگر خط تولید 5 · توقف اضطراری / emergency stop"
+              },
+              {
+                "ref": "subject_control_station",
+                "description": "کنترل تولید / emergency stop station"
+              }
+            ],
+            "parameters": {
+              "path": "spline",
+              "handheld": false
+            }
+          },
+          "constraints": [
+            {
+              "kind": "general",
+              "constraint": "noShake",
+              "allFrames": true
+            },
+            {
+              "kind": "general",
+              "constraint": "keepInFrame",
+              "targets": [
+                {
+                  "ref": "subject_worker_05",
+                  "description": "کارگر خط تولید 5 · توقف اضطراری / emergency stop"
+                },
+                {
+                  "ref": "subject_control_station",
+                  "description": "کنترل تولید / emergency stop station"
+                }
+              ],
+              "allFrames": true
+            },
+            {
+              "config": {
+                "type": "nonSubjectAware",
+                "extrinsics": {
+                  "pose": {
+                    "position": {
+                      "x": 10.3,
+                      "y": 3.3,
+                      "z": 7.8
+                    },
+                    "rotation": {
+                      "x": 0.1405558352,
+                      "y": -0.3709990263,
+                      "z": -0.0569175814,
+                      "w": -0.9161681989
+                    }
+                  }
+                },
+                "intrinsics": {
+                  "fov": 36.0,
+                  "aspectRatio": 1.7777777777777777
+                }
+              },
+              "allFrames": false,
+              "easing": {
+                "inDuration": 1.0,
+                "curve": "easeInOut"
+              }
+            }
+          ]
+        },
+        {
+          "id": "factory-04-emergency-operator-shot-02",
+          "name": "Emergency-stop coverage",
+          "trigger": {
+            "type": "relativeTime",
+            "actionId": "factory-04-emergency-operator-shot-01",
+            "reference": "end",
+            "offset": 0
+          },
+          "movement": {
+            "act": "static",
+            "duration": 8,
+            "relativeFPS": "normal",
+            "targets": [
+              {
+                "ref": "subject_worker_05",
+                "description": "کارگر خط تولید 5 · توقف اضطراری / emergency stop"
+              },
+              {
+                "ref": "subject_control_station",
+                "description": "کنترل تولید / emergency stop station"
+              }
+            ]
+          },
+          "constraints": [
+            {
+              "kind": "general",
+              "constraint": "noShake",
+              "allFrames": true
+            },
+            {
+              "kind": "general",
+              "constraint": "keepInFrame",
+              "targets": [
+                {
+                  "ref": "subject_worker_05",
+                  "description": "کارگر خط تولید 5 · توقف اضطراری / emergency stop"
+                },
+                {
+                  "ref": "subject_control_station",
+                  "description": "کنترل تولید / emergency stop station"
+                }
+              ],
+              "allFrames": true
+            },
+            {
+              "config": {
+                "type": "nonSubjectAware",
+                "extrinsics": {
+                  "pose": {
+                    "position": {
+                      "x": 10.3,
+                      "y": 3.3,
+                      "z": 7.8
+                    },
+                    "rotation": {
+                      "x": 0.1405558352,
+                      "y": -0.3709990263,
+                      "z": -0.0569175814,
+                      "w": -0.9161681989
+                    }
+                  }
+                },
+                "intrinsics": {
+                  "fov": 36.0,
+                  "aspectRatio": 1.7777777777777777
+                }
+              },
+              "allFrames": false,
+              "easing": {
+                "inDuration": 1.0,
+                "curve": "easeInOut"
+              }
+            }
+          ]
+        },
+        {
+          "id": "factory-04-emergency-operator-shot-03",
+          "name": "Connect operator and aftermath",
+          "trigger": {
+            "type": "relativeTime",
+            "actionId": "factory-04-emergency-operator-shot-02",
+            "reference": "end",
+            "offset": 0
+          },
+          "movement": {
+            "act": "craneUp",
+            "duration": 11,
+            "relativeFPS": "normal",
+            "parameters": {
+              "path": "spline",
+              "handheld": false
+            }
+          },
+          "constraints": [
+            {
+              "kind": "general",
+              "constraint": "noShake",
+              "allFrames": true
+            },
+            {
+              "config": {
+                "type": "nonSubjectAware",
+                "extrinsics": {
+                  "pose": {
+                    "position": {
+                      "x": 6.8,
+                      "y": 6.1,
+                      "z": 12.0
+                    },
+                    "rotation": {
+                      "x": 0.2202424845,
+                      "y": -0.1695093237,
+                      "z": -0.0388961542,
+                      "w": -0.9598160899
+                    }
+                  }
+                },
+                "intrinsics": {
+                  "fov": 48.0,
+                  "aspectRatio": 1.7777777777777777
+                }
+              },
+              "allFrames": false,
+              "easing": {
+                "inDuration": 1.0,
+                "curve": "easeInOut"
+              }
+            }
+          ]
+        },
+        {
+          "id": "factory-04-emergency-operator-shot-04",
+          "name": "Response tableau",
+          "trigger": {
+            "type": "relativeTime",
+            "actionId": "factory-04-emergency-operator-shot-03",
+            "reference": "end",
+            "offset": 0
+          },
+          "movement": {
+            "act": "truckLeft",
+            "duration": 13,
+            "relativeFPS": "normal",
+            "parameters": {
+              "path": "spline",
+              "handheld": false
+            }
+          },
+          "constraints": [
+            {
+              "kind": "general",
+              "constraint": "noShake",
+              "allFrames": true
+            },
+            {
+              "kind": "general",
+              "constraint": "keepInFrame",
+              "targets": [
+                {
+                  "ref": "subject_worker_a",
+                  "description": "کارگر الف / worker A — initiates shove"
+                },
+                {
+                  "ref": "subject_worker_b",
+                  "description": "کارگر ب / worker B — collides with production line"
+                },
+                {
+                  "ref": "subject_worker_05",
+                  "description": "کارگر خط تولید 5 · توقف اضطراری / emergency stop"
+                }
+              ],
+              "allFrames": true
+            },
+            {
+              "config": {
+                "type": "nonSubjectAware",
+                "extrinsics": {
+                  "pose": {
+                    "position": {
+                      "x": 3.8,
+                      "y": 6.1,
+                      "z": 12.0
+                    },
+                    "rotation": {
+                      "x": 0.2391737497,
+                      "y": -0.0356987833,
+                      "z": -0.0087997364,
+                      "w": -0.9702804126
+                    }
+                  }
+                },
+                "intrinsics": {
+                  "fov": 48.0,
+                  "aspectRatio": 1.7777777777777777
+                }
+              },
+              "allFrames": false,
+              "easing": {
+                "inDuration": 1.0,
+                "curve": "easeInOut"
+              }
+            }
+          ]
+        },
+        {
+          "id": "factory-04-emergency-operator-overlay-01",
+          "name": "Concurrent dollyOut",
+          "trigger": {
+            "type": "absoluteTime",
+            "time": 24
+          },
+          "movement": {
+            "act": "dollyOut",
+            "duration": 11,
+            "parameters": {},
+            "targets": [
+              {
+                "ref": "subject_worker_05",
+                "description": "کارگر خط تولید 5 · توقف اضطراری / emergency stop"
+              },
+              {
+                "ref": "subject_control_station",
+                "description": "کنترل تولید / emergency stop station"
+              }
+            ]
+          }
+        }
+      ]
+    }
+  ]
+}

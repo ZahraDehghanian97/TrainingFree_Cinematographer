@@ -1,0 +1,290 @@
+{
+  "totalDuration": 48.0,
+  "sections": [
+    {
+      "initCamera": {
+        "targets": [
+          {
+            "id": "worker_a",
+            "description": "کارگر الف / worker A — initiates shove"
+          },
+          {
+            "id": "worker_b",
+            "description": "کارگر ب / worker B — collides with production line"
+          },
+          {
+            "id": "cargo_06",
+            "description": "قطعهٔ تولید 6 · سقوط از خط / spills on impact"
+          },
+          {
+            "id": "worker_05",
+            "description": "کارگر خط تولید 5 · توقف اضطراری / emergency stop"
+          }
+        ],
+        "config": {
+          "type": "nonSubjectAware",
+          "extrinsics": {
+            "pose": {
+              "position": {
+                "x": 0.0,
+                "y": 8.1,
+                "z": 12.0
+              },
+              "rotation": {
+                "x": -0.2639689089,
+                "y": 0.0,
+                "z": 0.0,
+                "w": 0.9645311893
+              }
+            }
+          },
+          "intrinsics": {
+            "fov": 68.0,
+            "aspectRatio": 1.7777777777777777
+          }
+        }
+      },
+      "actions": [
+        {
+          "id": "factory-03-chain-reaction-shot-01",
+          "name": "Interior geography to causal master",
+          "trigger": {
+            "type": "absoluteTime",
+            "time": 0
+          },
+          "movement": {
+            "act": "dollyIn",
+            "duration": 14,
+            "relativeFPS": "normal",
+            "targets": [
+              {
+                "id": "production_line",
+                "description": "ریل خط تولید فعال / active production conveyor"
+              }
+            ],
+            "parameters": {
+              "path": "spline",
+              "handheld": false
+            }
+          },
+          "constraints": [
+            {
+              "kind": "general",
+              "constraint": "noShake",
+              "allFrames": true
+            },
+            {
+              "config": {
+                "type": "nonSubjectAware",
+                "extrinsics": {
+                  "pose": {
+                    "position": {
+                      "x": 2.0,
+                      "y": 8.1,
+                      "z": 6.5
+                    },
+                    "rotation": {
+                      "x": -0.443522616,
+                      "y": 0.0,
+                      "z": 0.0,
+                      "w": 0.8962631807
+                    }
+                  }
+                },
+                "intrinsics": {
+                  "fov": 56.0,
+                  "aspectRatio": 1.7777777777777777
+                }
+              },
+              "allFrames": false,
+              "easing": {
+                "inDuration": 1.0,
+                "curve": "easeInOut"
+              }
+            }
+          ]
+        },
+        {
+          "id": "factory-03-chain-reaction-shot-02",
+          "name": "Locked high-angle chain reaction",
+          "trigger": {
+            "type": "relativeTime",
+            "actionId": "factory-03-chain-reaction-shot-01",
+            "reference": "end",
+            "offset": 0
+          },
+          "movement": {
+            "act": "static",
+            "duration": 12,
+            "relativeFPS": "normal",
+            "targets": [
+              {
+                "id": "worker_a",
+                "description": "کارگر الف / worker A — initiates shove"
+              },
+              {
+                "id": "worker_b",
+                "description": "کارگر ب / worker B — collides with production line"
+              },
+              {
+                "id": "cargo_06",
+                "description": "قطعهٔ تولید 6 · سقوط از خط / spills on impact"
+              },
+              {
+                "id": "worker_05",
+                "description": "کارگر خط تولید 5 · توقف اضطراری / emergency stop"
+              }
+            ]
+          },
+          "constraints": [
+            {
+              "kind": "general",
+              "constraint": "noShake",
+              "allFrames": true
+            },
+            {
+              "kind": "general",
+              "constraint": "keepInFrame",
+              "targets": [
+                {
+                  "id": "worker_a",
+                  "description": "کارگر الف / worker A — initiates shove"
+                },
+                {
+                  "id": "worker_b",
+                  "description": "کارگر ب / worker B — collides with production line"
+                },
+                {
+                  "id": "cargo_06",
+                  "description": "قطعهٔ تولید 6 · سقوط از خط / spills on impact"
+                },
+                {
+                  "id": "worker_05",
+                  "description": "کارگر خط تولید 5 · توقف اضطراری / emergency stop"
+                }
+              ],
+              "allFrames": true
+            },
+            {
+              "config": {
+                "type": "nonSubjectAware",
+                "extrinsics": {
+                  "pose": {
+                    "position": {
+                      "x": 2.0,
+                      "y": 8.1,
+                      "z": 6.5
+                    },
+                    "rotation": {
+                      "x": -0.443522616,
+                      "y": 0.0,
+                      "z": 0.0,
+                      "w": 0.8962631807
+                    }
+                  }
+                },
+                "intrinsics": {
+                  "fov": 56.0,
+                  "aspectRatio": 1.7777777777777777
+                }
+              },
+              "allFrames": false,
+              "easing": {
+                "inDuration": 1.0,
+                "curve": "easeInOut"
+              }
+            }
+          ]
+        },
+        {
+          "id": "factory-03-chain-reaction-shot-03",
+          "name": "Reveal the stopped system",
+          "trigger": {
+            "type": "relativeTime",
+            "actionId": "factory-03-chain-reaction-shot-02",
+            "reference": "end",
+            "offset": 0
+          },
+          "movement": {
+            "act": "dollyOut",
+            "duration": 22,
+            "relativeFPS": "normal",
+            "targets": [
+              {
+                "id": "worker_a",
+                "description": "کارگر الف / worker A — initiates shove"
+              },
+              {
+                "id": "worker_b",
+                "description": "کارگر ب / worker B — collides with production line"
+              },
+              {
+                "id": "worker_05",
+                "description": "کارگر خط تولید 5 · توقف اضطراری / emergency stop"
+              }
+            ],
+            "parameters": {
+              "path": "spline",
+              "handheld": false
+            }
+          },
+          "constraints": [
+            {
+              "kind": "general",
+              "constraint": "noShake",
+              "allFrames": true
+            },
+            {
+              "kind": "general",
+              "constraint": "keepInFrame",
+              "targets": [
+                {
+                  "id": "worker_a",
+                  "description": "کارگر الف / worker A — initiates shove"
+                },
+                {
+                  "id": "worker_b",
+                  "description": "کارگر ب / worker B — collides with production line"
+                },
+                {
+                  "id": "worker_05",
+                  "description": "کارگر خط تولید 5 · توقف اضطراری / emergency stop"
+                }
+              ],
+              "allFrames": true
+            },
+            {
+              "config": {
+                "type": "nonSubjectAware",
+                "extrinsics": {
+                  "pose": {
+                    "position": {
+                      "x": 4.0,
+                      "y": 8.2,
+                      "z": 11.0
+                    },
+                    "rotation": {
+                      "x": -0.293245854,
+                      "y": 0.1167284218,
+                      "z": 0.0361002143,
+                      "w": 0.9481972997
+                    }
+                  }
+                },
+                "intrinsics": {
+                  "fov": 61.0,
+                  "aspectRatio": 1.7777777777777777
+                }
+              },
+              "allFrames": false,
+              "easing": {
+                "inDuration": 1.0,
+                "curve": "easeInOut"
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

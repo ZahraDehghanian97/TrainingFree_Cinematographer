@@ -1,0 +1,314 @@
+{
+  "totalDuration": 48.0,
+  "sections": [
+    {
+      "initCamera": {
+        "targets": [
+          {
+            "ref": "subject_athletics_track",
+            "description": "پیست ۶ خط دومیدانی / six-lane athletics track"
+          },
+          {
+            "ref": "subject_football_pitch",
+            "description": "زمین فوتبال داخل پیست / infield pitch"
+          }
+        ],
+        "config": {
+          "type": "nonSubjectAware",
+          "extrinsics": {
+            "pose": {
+              "position": {
+                "x": 71.8451045,
+                "y": 67.0,
+                "z": 154.0723238
+              },
+              "rotation": {
+                "x": 0.1819444452,
+                "y": -0.2126478416,
+                "z": -0.0403361124,
+                "w": -0.9591924272
+              }
+            }
+          },
+          "intrinsics": {
+            "fov": 58.0,
+            "aspectRatio": 1.7777777777777777
+          }
+        }
+      },
+      "actions": [
+        {
+          "id": "stadium-05-stadium-breathes-shot-01",
+          "name": "Descending aerial arc",
+          "trigger": {
+            "type": "absoluteTime",
+            "time": 0
+          },
+          "movement": {
+            "act": "arcRight",
+            "duration": 12,
+            "relativeFPS": "normal",
+            "targets": [
+              {
+                "ref": "subject_athletics_track",
+                "description": "پیست ۶ خط دومیدانی / six-lane athletics track"
+              },
+              {
+                "ref": "subject_football_pitch",
+                "description": "زمین فوتبال داخل پیست / infield pitch"
+              }
+            ],
+            "parameters": {
+              "arcRadius": 170,
+              "arcAngle": 15.0,
+              "constantSpeed": true
+            }
+          },
+          "constraints": [
+            {
+              "kind": "general",
+              "constraint": "noShake",
+              "allFrames": true
+            },
+            {
+              "kind": "general",
+              "constraint": "keepInFrame",
+              "targets": [
+                {
+                  "ref": "subject_athletics_track",
+                  "description": "پیست ۶ خط دومیدانی / six-lane athletics track"
+                },
+                {
+                  "ref": "subject_football_pitch",
+                  "description": "زمین فوتبال داخل پیست / infield pitch"
+                }
+              ],
+              "allFrames": true
+            },
+            {
+              "config": {
+                "type": "nonSubjectAware",
+                "extrinsics": {
+                  "pose": {
+                    "position": {
+                      "x": 109.2738936,
+                      "y": 58.0,
+                      "z": 130.2275553
+                    },
+                    "rotation": {
+                      "x": 0.1535428552,
+                      "y": -0.337423535,
+                      "z": -0.055885029,
+                      "w": -0.9270635432
+                    }
+                  }
+                },
+                "intrinsics": {
+                  "fov": 58.0,
+                  "aspectRatio": 1.7777777777777777
+                }
+              },
+              "allFrames": false,
+              "easing": {
+                "inDuration": 1.0,
+                "curve": "easeInOut"
+              }
+            }
+          ]
+        },
+        {
+          "id": "stadium-05-stadium-breathes-shot-02",
+          "name": "Geographic master",
+          "trigger": {
+            "type": "relativeTime",
+            "actionId": "stadium-05-stadium-breathes-shot-01",
+            "reference": "end",
+            "offset": 0
+          },
+          "movement": {
+            "act": "arcRight",
+            "duration": 24,
+            "relativeFPS": "normal",
+            "targets": [
+              {
+                "ref": "subject_athletics_track",
+                "description": "پیست ۶ خط دومیدانی / six-lane athletics track"
+              },
+              {
+                "ref": "subject_football_pitch",
+                "description": "زمین فوتبال داخل پیست / infield pitch"
+              }
+            ],
+            "parameters": {
+              "arcRadius": 170,
+              "arcAngle": 30.0,
+              "constantSpeed": true
+            }
+          },
+          "constraints": [
+            {
+              "kind": "general",
+              "constraint": "noShake",
+              "allFrames": true
+            },
+            {
+              "kind": "general",
+              "constraint": "keepInFrame",
+              "targets": [
+                {
+                  "ref": "subject_athletics_track",
+                  "description": "پیست ۶ خط دومیدانی / six-lane athletics track"
+                },
+                {
+                  "ref": "subject_football_pitch",
+                  "description": "زمین فوتبال داخل پیست / infield pitch"
+                }
+              ],
+              "allFrames": true
+            },
+            {
+              "config": {
+                "type": "nonSubjectAware",
+                "extrinsics": {
+                  "pose": {
+                    "position": {
+                      "x": 159.7477455,
+                      "y": 58.0,
+                      "z": 58.1434244
+                    },
+                    "rotation": {
+                      "x": 0.1338468994,
+                      "y": -0.5658678079,
+                      "z": -0.0937206079,
+                      "w": -0.8081429819
+                    }
+                  }
+                },
+                "intrinsics": {
+                  "fov": 58.0,
+                  "aspectRatio": 1.7777777777777777
+                }
+              },
+              "allFrames": false,
+              "easing": {
+                "inDuration": 1.0,
+                "curve": "easeInOut"
+              }
+            }
+          ]
+        },
+        {
+          "id": "stadium-05-stadium-breathes-shot-03",
+          "name": "Ascending final arc",
+          "trigger": {
+            "type": "relativeTime",
+            "actionId": "stadium-05-stadium-breathes-shot-02",
+            "reference": "end",
+            "offset": 0
+          },
+          "movement": {
+            "act": "arcRight",
+            "duration": 12,
+            "relativeFPS": "normal",
+            "targets": [
+              {
+                "ref": "subject_athletics_track",
+                "description": "پیست ۶ خط دومیدانی / six-lane athletics track"
+              },
+              {
+                "ref": "subject_football_pitch",
+                "description": "زمین فوتبال داخل پیست / infield pitch"
+              }
+            ],
+            "parameters": {
+              "arcRadius": 170,
+              "arcAngle": 15.0,
+              "constantSpeed": true
+            }
+          },
+          "constraints": [
+            {
+              "kind": "general",
+              "constraint": "noShake",
+              "allFrames": true
+            },
+            {
+              "kind": "general",
+              "constraint": "keepInFrame",
+              "targets": [
+                {
+                  "ref": "subject_athletics_track",
+                  "description": "پیست ۶ خط دومیدانی / six-lane athletics track"
+                },
+                {
+                  "ref": "subject_football_pitch",
+                  "description": "زمین فوتبال داخل پیست / infield pitch"
+                }
+              ],
+              "allFrames": true
+            },
+            {
+              "config": {
+                "type": "nonSubjectAware",
+                "extrinsics": {
+                  "pose": {
+                    "position": {
+                      "x": 169.3530987,
+                      "y": 73.0,
+                      "z": 14.8164763
+                    },
+                    "rotation": {
+                      "x": 0.1483182129,
+                      "y": -0.6617786492,
+                      "z": -0.1359086021,
+                      "w": -0.7222046657
+                    }
+                  }
+                },
+                "intrinsics": {
+                  "fov": 58.0,
+                  "aspectRatio": 1.7777777777777777
+                }
+              },
+              "allFrames": false,
+              "easing": {
+                "inDuration": 1.0,
+                "curve": "easeInOut"
+              }
+            }
+          ]
+        },
+        {
+          "id": "stadium-05-stadium-breathes-overlay-01",
+          "name": "Concurrent craneDown",
+          "trigger": {
+            "type": "absoluteTime",
+            "time": 0
+          },
+          "movement": {
+            "act": "craneDown",
+            "duration": 12,
+            "parameters": {
+              "heightChange": 9
+            }
+          }
+        },
+        {
+          "id": "stadium-05-stadium-breathes-overlay-02",
+          "name": "Concurrent craneUp",
+          "trigger": {
+            "type": "absoluteTime",
+            "time": 36
+          },
+          "movement": {
+            "act": "craneUp",
+            "duration": 12,
+            "parameters": {
+              "heightChange": 15
+            }
+          }
+        }
+      ]
+    }
+  ]
+}

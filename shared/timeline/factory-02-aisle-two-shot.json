@@ -1,0 +1,595 @@
+{
+  "schemaVersion": "1.0",
+  "kind": "timelineSolverOutput",
+  "exampleId": "factory-02-aisle-two-shot",
+  "environmentId": "factory",
+  "prompt": "Film workers A and B in a restrained, uninterrupted 48-second two-shot in the factory's south aisle. Start in an elevated wide shot that contains both separated workers and looks over the control cabinet. Descend and tighten gradually as they converge, reaching a near-eye-level full two-shot by 12 seconds. Hold a respectful distance through the argument at 12.2–17 seconds. Between 17 and 20 seconds retreat, rise, and widen before the shove: the audience must see both bodies and the space between them. Maintain that more generous view through the impact at 21 seconds and the cargo spill, without whipping the camera toward individual falling items. After 25 seconds drift back into a quiet, wider two-shot of the workers and their immediate surroundings. Keep screen geography consistent from the same side of the aisle, use normal playback, and avoid cuts, shake, and extreme lens distortion.",
+  "totalDuration": 48,
+  "subjectBinding": {
+    "mode": "resolved",
+    "source": "resolved-fixture"
+  },
+  "timeline": {
+    "timeline": [
+      {
+        "kind": "interval",
+        "shotStartTime": 0,
+        "startTime": 0,
+        "endTime": 12,
+        "lossFunctions": [
+          {
+            "type": "trackMovement",
+            "parameters": {
+              "subjectIds": [
+                "worker_a",
+                "worker_b"
+              ],
+              "path": "spline",
+              "handheld": false
+            },
+            "sourceActionId": "factory-02-aisle-two-shot-shot-01"
+          }
+        ],
+        "weight": 1
+      },
+      {
+        "kind": "interval",
+        "shotStartTime": 0,
+        "startTime": 0,
+        "endTime": 12,
+        "lossFunctions": [
+          {
+            "type": "noShake",
+            "parameters": {},
+            "sourceActionId": "factory-02-aisle-two-shot-shot-01"
+          }
+        ],
+        "weight": 1
+      },
+      {
+        "kind": "interval",
+        "shotStartTime": 0,
+        "startTime": 0,
+        "endTime": 12,
+        "lossFunctions": [
+          {
+            "type": "keepInFrame",
+            "parameters": {
+              "subjectIds": [
+                "worker_a",
+                "worker_b"
+              ]
+            },
+            "sourceActionId": "factory-02-aisle-two-shot-shot-01"
+          }
+        ],
+        "weight": 1
+      },
+      {
+        "kind": "interval",
+        "shotStartTime": 0,
+        "startTime": 0,
+        "endTime": 12,
+        "lossFunctions": [
+          {
+            "type": "craneDownMovement",
+            "parameters": {},
+            "sourceActionId": "factory-02-aisle-two-shot-overlay-01"
+          }
+        ],
+        "weight": 1
+      },
+      {
+        "kind": "interval",
+        "shotStartTime": 0,
+        "startTime": 0,
+        "endTime": 12,
+        "lossFunctions": [
+          {
+            "type": "zoomInMovement",
+            "parameters": {
+              "zoomFactor": 2.224863345838174
+            },
+            "sourceActionId": "factory-02-aisle-two-shot-overlay-02"
+          }
+        ],
+        "weight": 1
+      },
+      {
+        "kind": "point",
+        "shotStartTime": 0,
+        "time": 0,
+        "lossFunctions": [
+          {
+            "type": "minPath",
+            "parameters": {
+              "targetPose": {
+                "position": {
+                  "x": 0.5014963,
+                  "y": 7.1,
+                  "z": 6
+                },
+                "rotation": {
+                  "x": 0.5369124978,
+                  "y": -0.0743238039,
+                  "z": -0.0475624266,
+                  "w": -0.8390105824
+                }
+              },
+              "targetIntrinsics": {
+                "fov": 78,
+                "aspectRatio": 1.7777777777777777
+              }
+            }
+          }
+        ],
+        "weight": 1
+      },
+      {
+        "kind": "point",
+        "shotStartTime": 0,
+        "time": 12,
+        "lossFunctions": [
+          {
+            "type": "minPath",
+            "parameters": {
+              "targetPose": {
+                "position": {
+                  "x": 0.8697601,
+                  "y": 2.5,
+                  "z": 7.8304438
+                },
+                "rotation": {
+                  "x": 0.1559415811,
+                  "y": -0.0512365577,
+                  "z": -0.0081000439,
+                  "w": -0.9864032784
+                }
+              },
+              "targetIntrinsics": {
+                "fov": 40,
+                "aspectRatio": 1.7777777777777777
+              }
+            }
+          }
+        ],
+        "weight": 1,
+        "easing": {
+          "inDuration": 1,
+          "curve": "easeInOut"
+        }
+      },
+      {
+        "kind": "interval",
+        "shotStartTime": 0,
+        "startTime": 12,
+        "endTime": 17,
+        "lossFunctions": [
+          {
+            "type": "followMovement",
+            "parameters": {
+              "subjectIds": [
+                "worker_a",
+                "worker_b"
+              ],
+              "path": "spline",
+              "handheld": false
+            },
+            "sourceActionId": "factory-02-aisle-two-shot-shot-02"
+          }
+        ],
+        "weight": 1
+      },
+      {
+        "kind": "interval",
+        "shotStartTime": 0,
+        "startTime": 12,
+        "endTime": 17,
+        "lossFunctions": [
+          {
+            "type": "noShake",
+            "parameters": {},
+            "sourceActionId": "factory-02-aisle-two-shot-shot-02"
+          }
+        ],
+        "weight": 1
+      },
+      {
+        "kind": "interval",
+        "shotStartTime": 0,
+        "startTime": 12,
+        "endTime": 17,
+        "lossFunctions": [
+          {
+            "type": "keepInFrame",
+            "parameters": {
+              "subjectIds": [
+                "worker_a",
+                "worker_b"
+              ]
+            },
+            "sourceActionId": "factory-02-aisle-two-shot-shot-02"
+          }
+        ],
+        "weight": 1
+      },
+      {
+        "kind": "point",
+        "shotStartTime": 0,
+        "time": 17,
+        "lossFunctions": [
+          {
+            "type": "minPath",
+            "parameters": {
+              "targetPose": {
+                "position": {
+                  "x": 0.9138649,
+                  "y": 2.5,
+                  "z": 7.6444879
+                },
+                "rotation": {
+                  "x": 0.1559415811,
+                  "y": -0.0512365577,
+                  "z": -0.0081000439,
+                  "w": -0.9864032784
+                }
+              },
+              "targetIntrinsics": {
+                "fov": 40,
+                "aspectRatio": 1.7777777777777777
+              }
+            }
+          }
+        ],
+        "weight": 1,
+        "easing": {
+          "inDuration": 1,
+          "curve": "easeInOut"
+        }
+      },
+      {
+        "kind": "interval",
+        "shotStartTime": 0,
+        "startTime": 17,
+        "endTime": 25,
+        "lossFunctions": [
+          {
+            "type": "followMovement",
+            "parameters": {
+              "subjectIds": [
+                "worker_a",
+                "worker_b"
+              ],
+              "path": "spline",
+              "handheld": false
+            },
+            "sourceActionId": "factory-02-aisle-two-shot-shot-03"
+          }
+        ],
+        "weight": 1
+      },
+      {
+        "kind": "interval",
+        "shotStartTime": 0,
+        "startTime": 17,
+        "endTime": 25,
+        "lossFunctions": [
+          {
+            "type": "noShake",
+            "parameters": {},
+            "sourceActionId": "factory-02-aisle-two-shot-shot-03"
+          }
+        ],
+        "weight": 1
+      },
+      {
+        "kind": "interval",
+        "shotStartTime": 0,
+        "startTime": 17,
+        "endTime": 25,
+        "lossFunctions": [
+          {
+            "type": "keepInFrame",
+            "parameters": {
+              "subjectIds": [
+                "worker_a",
+                "worker_b"
+              ]
+            },
+            "sourceActionId": "factory-02-aisle-two-shot-shot-03"
+          }
+        ],
+        "weight": 1
+      },
+      {
+        "kind": "interval",
+        "shotStartTime": 0,
+        "startTime": 17,
+        "endTime": 20,
+        "lossFunctions": [
+          {
+            "type": "dollyOutMovement",
+            "parameters": {
+              "subjectIds": [
+                "worker_a",
+                "worker_b"
+              ]
+            },
+            "sourceActionId": "factory-02-aisle-two-shot-overlay-03"
+          }
+        ],
+        "weight": 1
+      },
+      {
+        "kind": "interval",
+        "shotStartTime": 0,
+        "startTime": 17,
+        "endTime": 20,
+        "lossFunctions": [
+          {
+            "type": "craneUpMovement",
+            "parameters": {},
+            "sourceActionId": "factory-02-aisle-two-shot-overlay-04"
+          }
+        ],
+        "weight": 1
+      },
+      {
+        "kind": "interval",
+        "shotStartTime": 0,
+        "startTime": 17,
+        "endTime": 20,
+        "lossFunctions": [
+          {
+            "type": "zoomOutMovement",
+            "parameters": {
+              "zoomFactor": 1.310479505720535
+            },
+            "sourceActionId": "factory-02-aisle-two-shot-overlay-05"
+          }
+        ],
+        "weight": 1
+      },
+      {
+        "kind": "point",
+        "shotStartTime": 0,
+        "time": 25,
+        "lossFunctions": [
+          {
+            "type": "minPath",
+            "parameters": {
+              "targetPose": {
+                "position": {
+                  "x": 2.4854027,
+                  "y": 4,
+                  "z": 9.7231205
+                },
+                "rotation": {
+                  "x": 0.1719766481,
+                  "y": -0.0346217007,
+                  "z": -0.0060480265,
+                  "w": -0.9844738654
+                }
+              },
+              "targetIntrinsics": {
+                "fov": 51,
+                "aspectRatio": 1.7777777777777777
+              }
+            }
+          }
+        ],
+        "weight": 1,
+        "easing": {
+          "inDuration": 1,
+          "curve": "easeInOut"
+        }
+      },
+      {
+        "kind": "interval",
+        "shotStartTime": 0,
+        "startTime": 25,
+        "endTime": 36,
+        "lossFunctions": [
+          {
+            "type": "followMovement",
+            "parameters": {
+              "subjectIds": [
+                "worker_a",
+                "worker_b"
+              ],
+              "path": "spline",
+              "handheld": false
+            },
+            "sourceActionId": "factory-02-aisle-two-shot-shot-04"
+          }
+        ],
+        "weight": 1
+      },
+      {
+        "kind": "interval",
+        "shotStartTime": 0,
+        "startTime": 25,
+        "endTime": 36,
+        "lossFunctions": [
+          {
+            "type": "noShake",
+            "parameters": {},
+            "sourceActionId": "factory-02-aisle-two-shot-shot-04"
+          }
+        ],
+        "weight": 1
+      },
+      {
+        "kind": "interval",
+        "shotStartTime": 0,
+        "startTime": 25,
+        "endTime": 36,
+        "lossFunctions": [
+          {
+            "type": "keepInFrame",
+            "parameters": {
+              "subjectIds": [
+                "worker_a",
+                "worker_b"
+              ]
+            },
+            "sourceActionId": "factory-02-aisle-two-shot-shot-04"
+          }
+        ],
+        "weight": 1
+      },
+      {
+        "kind": "point",
+        "shotStartTime": 0,
+        "time": 36,
+        "lossFunctions": [
+          {
+            "type": "minPath",
+            "parameters": {
+              "targetPose": {
+                "position": {
+                  "x": 3.25,
+                  "y": 3.5,
+                  "z": 12.125
+                },
+                "rotation": {
+                  "x": 0.1381199591,
+                  "y": -0.0274795573,
+                  "z": -0.0038337097,
+                  "w": -0.9900267943
+                }
+              },
+              "targetIntrinsics": {
+                "fov": 43,
+                "aspectRatio": 1.7777777777777777
+              }
+            }
+          }
+        ],
+        "weight": 1,
+        "easing": {
+          "inDuration": 1,
+          "curve": "easeInOut"
+        }
+      },
+      {
+        "kind": "interval",
+        "shotStartTime": 0,
+        "startTime": 36,
+        "endTime": 48,
+        "lossFunctions": [
+          {
+            "type": "Static",
+            "parameters": {
+              "subjectIds": [
+                "worker_a",
+                "worker_b"
+              ]
+            },
+            "sourceActionId": "factory-02-aisle-two-shot-shot-05"
+          }
+        ],
+        "weight": 1
+      },
+      {
+        "kind": "interval",
+        "shotStartTime": 0,
+        "startTime": 36,
+        "endTime": 48,
+        "lossFunctions": [
+          {
+            "type": "noShake",
+            "parameters": {},
+            "sourceActionId": "factory-02-aisle-two-shot-shot-05"
+          }
+        ],
+        "weight": 1
+      },
+      {
+        "kind": "interval",
+        "shotStartTime": 0,
+        "startTime": 36,
+        "endTime": 48,
+        "lossFunctions": [
+          {
+            "type": "keepInFrame",
+            "parameters": {
+              "subjectIds": [
+                "worker_a",
+                "worker_b"
+              ]
+            },
+            "sourceActionId": "factory-02-aisle-two-shot-shot-05"
+          }
+        ],
+        "weight": 1
+      },
+      {
+        "kind": "point",
+        "shotStartTime": 0,
+        "time": 48,
+        "lossFunctions": [
+          {
+            "type": "minPath",
+            "parameters": {
+              "targetPose": {
+                "position": {
+                  "x": 3.25,
+                  "y": 3.5,
+                  "z": 12.125
+                },
+                "rotation": {
+                  "x": 0.1381199591,
+                  "y": -0.0274795573,
+                  "z": -0.0038337097,
+                  "w": -0.9900267943
+                }
+              },
+              "targetIntrinsics": {
+                "fov": 43,
+                "aspectRatio": 1.7777777777777777
+              }
+            }
+          }
+        ],
+        "weight": 1,
+        "easing": {
+          "inDuration": 1,
+          "curve": "easeInOut"
+        }
+      }
+    ],
+    "timeWarp": [
+      {
+        "startTimePlayback": 0,
+        "endTimePlayback": 12,
+        "rate": 1,
+        "label": "normal"
+      },
+      {
+        "startTimePlayback": 12,
+        "endTimePlayback": 17,
+        "rate": 1,
+        "label": "normal"
+      },
+      {
+        "startTimePlayback": 17,
+        "endTimePlayback": 25,
+        "rate": 1,
+        "label": "normal"
+      },
+      {
+        "startTimePlayback": 25,
+        "endTimePlayback": 36,
+        "rate": 1,
+        "label": "normal"
+      },
+      {
+        "startTimePlayback": 36,
+        "endTimePlayback": 48,
+        "rate": 1,
+        "label": "normal"
+      }
+    ]
+  }
+}

@@ -1,0 +1,30 @@
+{
+  "schemaVersion": "1.0",
+  "kind": "syntheticCameraReferenceMetadata",
+  "exampleId": "stadium-04-behind-the-lens",
+  "title": "Behind the Sideline Lens",
+  "environmentId": "stadium",
+  "referenceType": "ai-authored-synthetic-ground-truth",
+  "authoringMethod": "AI shot design + deterministic scene-aware camera synthesis; no optimizer or live model API call",
+  "measuredGroundTruth": false,
+  "uniqueOrOptimalSolution": false,
+  "durationSeconds": 48.0,
+  "sampleFps": 30,
+  "samples": 1441,
+  "cutCount": 0,
+  "coordinateConvention": {
+    "handedness": "right",
+    "upAxis": "+Y",
+    "cameraForwardAxis": "-Z",
+    "lengthUnit": "meter",
+    "rotationOrder": "quaternion-xyzw"
+  },
+  "timeConvention": "playback seconds == scene seconds; starts at 0; no retiming",
+  "smoothing": "offline symmetric Gaussian target smoothing; 120 Hz cubic construction; 30 Hz camera samples with C2 position jets",
+  "sourceEnvironmentSha256": "e7111e7cd27898d2b010c481223221f2c80e2908572890a5e6f88f25b4a44380",
+  "sourceGeneratorSha256": "28159f4f61dca7b15c7365658c7eb922294410522b0cf9b520c7b8a29d0d99a9",
+  "promptSha256": "b72d21ba499d82bf36df546f6b1ce41c551aa506baa967b87e8c2934723829e1",
+  "cslSha256": "c831d67819947f426a90ba3172f0d55bb3fe9ee1c6aa4297e4dc4792ae526945",
+  "trajectorySha256": "656b58c77d73a69d454ad0ffb1cbe93eeea9d488fe49d55acf9257f80f9e4e6c",
+  "evaluationBoundary": "Primary-target framing and geometry are tested separately. Numerical validation is not a pixel-level visibility or artistic-optimality certificate."
+}

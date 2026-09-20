@@ -1,0 +1,253 @@
+{
+  "note": "Human-readable subset; trajectory.json is the complete replay reference.",
+  "samples": [
+    {
+      "t": 0.0,
+      "position": [
+        -31.588929,
+        6.3,
+        -50.71
+      ],
+      "positionVelocity": [
+        -0.0,
+        0.0,
+        -0.0
+      ],
+      "positionAcceleration": [
+        0.0,
+        -1.3e-06,
+        2.7e-06
+      ],
+      "rotation": [
+        0.0313583068,
+        -0.9558810504,
+        -0.2701851246,
+        -0.1109417524
+      ],
+      "lookAt": [
+        -33.588929,
+        0.935,
+        -42.21
+      ],
+      "fovYDegrees": 40.0,
+      "actionId": "stadium-04-behind-the-lens-shot-01"
+    },
+    {
+      "t": 12.0,
+      "position": [
+        -92.3367949,
+        5.8,
+        -17.9023128
+      ],
+      "positionVelocity": [
+        -3.3462703,
+        -0.0,
+        8.6639231
+      ],
+      "positionAcceleration": [
+        1.6042733,
+        0.0,
+        0.6454043
+      ],
+      "rotation": [
+        -0.1302488838,
+        -0.8475805637,
+        -0.243664475,
+        0.453067368
+      ],
+      "lookAt": [
+        -85.8826484,
+        0.935,
+        -13.5902375
+      ],
+      "fovYDegrees": 36.0,
+      "actionId": "stadium-04-behind-the-lens-shot-02"
+    },
+    {
+      "t": 30.0,
+      "position": [
+        -11.8952902,
+        5.8,
+        49.71
+      ],
+      "positionVelocity": [
+        6.0787644,
+        0.0,
+        -0.0
+      ],
+      "positionAcceleration": [
+        0.7174901,
+        0.0,
+        -0.0
+      ],
+      "rotation": [
+        -0.220229635,
+        0.3193169234,
+        0.0765614898,
+        0.9185172555
+      ],
+      "lookAt": [
+        -17.8268102,
+        0.935,
+        42.21
+      ],
+      "fovYDegrees": 36.0,
+      "actionId": "stadium-04-behind-the-lens-shot-02"
+    },
+    {
+      "t": 32.0,
+      "position": [
+        1.7044281,
+        5.8,
+        49.71
+      ],
+      "positionVelocity": [
+        7.4368361,
+        0.0,
+        -0.0
+      ],
+      "positionAcceleration": [
+        0.4759854,
+        5.7e-06,
+        -1.42e-05
+      ],
+      "rotation": [
+        -0.2191908261,
+        0.3219531523,
+        0.0768879902,
+        0.9178179484
+      ],
+      "lookAt": [
+        -4.2955719,
+        0.935,
+        42.21
+      ],
+      "fovYDegrees": 36.0,
+      "actionId": "stadium-04-behind-the-lens-shot-03"
+    },
+    {
+      "t": 38.0,
+      "position": [
+        43.702463,
+        7.2,
+        46.21
+      ],
+      "positionVelocity": [
+        2.833143,
+        0.0,
+        -0.0
+      ],
+      "positionAcceleration": [
+        -3.2810995,
+        -0.0,
+        0.0
+      ],
+      "rotation": [
+        -0.2558611541,
+        0.5013859033,
+        0.1581308897,
+        0.811259433
+      ],
+      "lookAt": [
+        35.702463,
+        0.935,
+        42.21
+      ],
+      "fovYDegrees": 42.3209877,
+      "actionId": "stadium-04-behind-the-lens-shot-03"
+    },
+    {
+      "t": 40.0,
+      "position": [
+        46.2995267,
+        7.2,
+        46.21
+      ],
+      "positionVelocity": [
+        0.0051027,
+        0.0,
+        0.0
+      ],
+      "positionAcceleration": [
+        -0.0493359,
+        7e-07,
+        2.5e-06
+      ],
+      "rotation": [
+        -0.2558611541,
+        0.5013859033,
+        0.1581308897,
+        0.811259433
+      ],
+      "lookAt": [
+        38.2995267,
+        0.935,
+        42.21
+      ],
+      "fovYDegrees": 44.0,
+      "actionId": "stadium-04-behind-the-lens-shot-04"
+    },
+    {
+      "t": 42.0,
+      "position": [
+        46.3,
+        7.4898438,
+        47.2451562
+      ],
+      "positionVelocity": [
+        0.0,
+        0.3691406,
+        1.3183594
+      ],
+      "positionAcceleration": [
+        -0.0,
+        0.2460945,
+        0.8789088
+      ],
+      "rotation": [
+        -0.2613369648,
+        0.4613459169,
+        0.1443071578,
+        0.8354869119
+      ],
+      "lookAt": [
+        38.3,
+        0.935,
+        42.21
+      ],
+      "fovYDegrees": 44.5175781,
+      "actionId": "stadium-04-behind-the-lens-shot-04"
+    },
+    {
+      "t": 48.0,
+      "position": [
+        46.3,
+        10.0,
+        56.21
+      ],
+      "positionVelocity": [
+        0.0,
+        -0.0,
+        -1e-07
+      ],
+      "positionAcceleration": [
+        0.0,
+        -1.2e-05,
+        -4.3e-05
+      ],
+      "rotation": [
+        -0.2448012779,
+        0.2482983328,
+        0.0650105136,
+        0.9349833717
+      ],
+      "lookAt": [
+        38.3,
+        0.935,
+        42.21
+      ],
+      "fovYDegrees": 49.0,
+      "actionId": "stadium-04-behind-the-lens-shot-04"
+    }
+  ]
+}

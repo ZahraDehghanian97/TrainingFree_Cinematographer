@@ -1,0 +1,421 @@
+{
+  "totalDuration": 48.0,
+  "sections": [
+    {
+      "initCamera": {
+        "targets": [
+          {
+            "ref": "subject_cargo_06",
+            "description": "قطعهٔ تولید 6 · سقوط از خط / spills on impact"
+          }
+        ],
+        "config": {
+          "type": "nonSubjectAware",
+          "extrinsics": {
+            "pose": {
+              "position": {
+                "x": -6.2341957,
+                "y": 3.4,
+                "z": 4.14
+              },
+              "rotation": {
+                "x": 0.2159764088,
+                "y": -0.0876686127,
+                "z": -0.0194745806,
+                "w": -0.972259814
+              }
+            }
+          },
+          "intrinsics": {
+            "fov": 29.0,
+            "aspectRatio": 1.7777777777777777
+          }
+        }
+      },
+      "actions": [
+        {
+          "id": "factory-05-one-piece-shot-01",
+          "name": "Product-led tracking",
+          "trigger": {
+            "type": "absoluteTime",
+            "time": 0
+          },
+          "movement": {
+            "act": "track",
+            "duration": 15,
+            "relativeFPS": "normal",
+            "targets": [
+              {
+                "ref": "subject_cargo_06",
+                "description": "قطعهٔ تولید 6 · سقوط از خط / spills on impact"
+              }
+            ],
+            "parameters": {
+              "path": "spline",
+              "handheld": false
+            }
+          },
+          "constraints": [
+            {
+              "kind": "general",
+              "constraint": "noShake",
+              "allFrames": true
+            },
+            {
+              "kind": "general",
+              "constraint": "keepInFrame",
+              "targets": [
+                {
+                  "ref": "subject_cargo_06",
+                  "description": "قطعهٔ تولید 6 · سقوط از خط / spills on impact"
+                }
+              ],
+              "allFrames": true
+            },
+            {
+              "config": {
+                "type": "nonSubjectAware",
+                "extrinsics": {
+                  "pose": {
+                    "position": {
+                      "x": 1.95,
+                      "y": 3.4,
+                      "z": 4.14
+                    },
+                    "rotation": {
+                      "x": 0.2159764088,
+                      "y": -0.0876686127,
+                      "z": -0.0194745806,
+                      "w": -0.972259814
+                    }
+                  }
+                },
+                "intrinsics": {
+                  "fov": 29.0,
+                  "aspectRatio": 1.7777777777777777
+                }
+              },
+              "allFrames": false,
+              "easing": {
+                "inDuration": 1.0,
+                "curve": "easeInOut"
+              }
+            }
+          ]
+        },
+        {
+          "id": "factory-05-one-piece-shot-02",
+          "name": "Anticipatory lift and widen",
+          "trigger": {
+            "type": "relativeTime",
+            "actionId": "factory-05-one-piece-shot-01",
+            "reference": "end",
+            "offset": 0
+          },
+          "movement": {
+            "act": "track",
+            "duration": 5,
+            "relativeFPS": "normal",
+            "targets": [
+              {
+                "ref": "subject_cargo_06",
+                "description": "قطعهٔ تولید 6 · سقوط از خط / spills on impact"
+              }
+            ],
+            "parameters": {
+              "path": "spline",
+              "handheld": false
+            }
+          },
+          "constraints": [
+            {
+              "kind": "general",
+              "constraint": "noShake",
+              "allFrames": true
+            },
+            {
+              "kind": "general",
+              "constraint": "keepInFrame",
+              "targets": [
+                {
+                  "ref": "subject_cargo_06",
+                  "description": "قطعهٔ تولید 6 · سقوط از خط / spills on impact"
+                }
+              ],
+              "allFrames": true
+            },
+            {
+              "config": {
+                "type": "nonSubjectAware",
+                "extrinsics": {
+                  "pose": {
+                    "position": {
+                      "x": 4.7,
+                      "y": 5.8,
+                      "z": 6.14
+                    },
+                    "rotation": {
+                      "x": 0.298824536,
+                      "y": -0.0592869928,
+                      "z": -0.0186041427,
+                      "w": -0.9522829596
+                    }
+                  }
+                },
+                "intrinsics": {
+                  "fov": 44.0,
+                  "aspectRatio": 1.7777777777777777
+                }
+              },
+              "allFrames": false,
+              "easing": {
+                "inDuration": 1.0,
+                "curve": "easeInOut"
+              }
+            }
+          ]
+        },
+        {
+          "id": "factory-05-one-piece-shot-03",
+          "name": "Spill, bounce, and settling",
+          "trigger": {
+            "type": "relativeTime",
+            "actionId": "factory-05-one-piece-shot-02",
+            "reference": "end",
+            "offset": 0
+          },
+          "movement": {
+            "act": "track",
+            "duration": 6,
+            "relativeFPS": "normal",
+            "targets": [
+              {
+                "ref": "subject_cargo_06",
+                "description": "قطعهٔ تولید 6 · سقوط از خط / spills on impact"
+              }
+            ],
+            "parameters": {
+              "path": "spline",
+              "handheld": false
+            }
+          },
+          "constraints": [
+            {
+              "kind": "general",
+              "constraint": "noShake",
+              "allFrames": true
+            },
+            {
+              "kind": "general",
+              "constraint": "keepInFrame",
+              "targets": [
+                {
+                  "ref": "subject_cargo_06",
+                  "description": "قطعهٔ تولید 6 · سقوط از خط / spills on impact"
+                }
+              ],
+              "allFrames": true
+            },
+            {
+              "config": {
+                "type": "nonSubjectAware",
+                "extrinsics": {
+                  "pose": {
+                    "position": {
+                      "x": 7.5349942,
+                      "y": 5.7511454,
+                      "z": 9.7234657
+                    },
+                    "rotation": {
+                      "x": 0.3463634169,
+                      "y": -0.0586973164,
+                      "z": -0.0217204914,
+                      "w": -0.9360102717
+                    }
+                  }
+                },
+                "intrinsics": {
+                  "fov": 43.8138871,
+                  "aspectRatio": 1.7777777777777777
+                }
+              },
+              "allFrames": false,
+              "easing": {
+                "inDuration": 1.0,
+                "curve": "easeInOut"
+              }
+            }
+          ]
+        },
+        {
+          "id": "factory-05-one-piece-shot-04",
+          "name": "Handoff to low aftermath insert",
+          "trigger": {
+            "type": "relativeTime",
+            "actionId": "factory-05-one-piece-shot-03",
+            "reference": "end",
+            "offset": 0
+          },
+          "movement": {
+            "act": "track",
+            "duration": 8,
+            "relativeFPS": "normal",
+            "targets": [
+              {
+                "ref": "subject_cargo_06",
+                "description": "قطعهٔ تولید 6 · سقوط از خط / spills on impact"
+              }
+            ],
+            "parameters": {
+              "path": "spline",
+              "handheld": false
+            }
+          },
+          "constraints": [
+            {
+              "kind": "general",
+              "constraint": "noShake",
+              "allFrames": true
+            },
+            {
+              "kind": "general",
+              "constraint": "keepInFrame",
+              "targets": [
+                {
+                  "ref": "subject_cargo_06",
+                  "description": "قطعهٔ تولید 6 · سقوط از خط / spills on impact"
+                }
+              ],
+              "allFrames": true
+            },
+            {
+              "config": {
+                "type": "nonSubjectAware",
+                "extrinsics": {
+                  "pose": {
+                    "position": {
+                      "x": 4.035,
+                      "y": 2.06,
+                      "z": 7.07
+                    },
+                    "rotation": {
+                      "x": 0.176958207,
+                      "y": 0.3045900817,
+                      "z": 0.0577010245,
+                      "w": -0.9341205848
+                    }
+                  }
+                },
+                "intrinsics": {
+                  "fov": 31.0,
+                  "aspectRatio": 1.7777777777777777
+                }
+              },
+              "allFrames": false,
+              "easing": {
+                "inDuration": 1.0,
+                "curve": "easeInOut"
+              }
+            }
+          ]
+        },
+        {
+          "id": "factory-05-one-piece-shot-05",
+          "name": "Resting piece, living background",
+          "trigger": {
+            "type": "relativeTime",
+            "actionId": "factory-05-one-piece-shot-04",
+            "reference": "end",
+            "offset": 0
+          },
+          "movement": {
+            "act": "static",
+            "duration": 14,
+            "relativeFPS": "normal",
+            "targets": [
+              {
+                "ref": "subject_cargo_06",
+                "description": "قطعهٔ تولید 6 · سقوط از خط / spills on impact"
+              }
+            ]
+          },
+          "constraints": [
+            {
+              "kind": "general",
+              "constraint": "noShake",
+              "allFrames": true
+            },
+            {
+              "kind": "general",
+              "constraint": "keepInFrame",
+              "targets": [
+                {
+                  "ref": "subject_cargo_06",
+                  "description": "قطعهٔ تولید 6 · سقوط از خط / spills on impact"
+                }
+              ],
+              "allFrames": true
+            },
+            {
+              "config": {
+                "type": "nonSubjectAware",
+                "extrinsics": {
+                  "pose": {
+                    "position": {
+                      "x": 4.035,
+                      "y": 2.06,
+                      "z": 7.07
+                    },
+                    "rotation": {
+                      "x": 0.176958207,
+                      "y": 0.3045900817,
+                      "z": 0.0577010245,
+                      "w": -0.9341205848
+                    }
+                  }
+                },
+                "intrinsics": {
+                  "fov": 31.0,
+                  "aspectRatio": 1.7777777777777777
+                }
+              },
+              "allFrames": false,
+              "easing": {
+                "inDuration": 1.0,
+                "curve": "easeInOut"
+              }
+            }
+          ]
+        },
+        {
+          "id": "factory-05-one-piece-overlay-01",
+          "name": "Concurrent craneUp",
+          "trigger": {
+            "type": "absoluteTime",
+            "time": 15
+          },
+          "movement": {
+            "act": "craneUp",
+            "duration": 5,
+            "parameters": {}
+          }
+        },
+        {
+          "id": "factory-05-one-piece-overlay-02",
+          "name": "Concurrent zoomOut",
+          "trigger": {
+            "type": "absoluteTime",
+            "time": 15
+          },
+          "movement": {
+            "act": "zoomOut",
+            "duration": 5,
+            "parameters": {
+              "zoomFactor": 1.5622534981193157
+            }
+          }
+        }
+      ]
+    }
+  ]
+}

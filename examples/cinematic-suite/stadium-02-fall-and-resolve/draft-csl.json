@@ -1,0 +1,448 @@
+{
+  "totalDuration": 48.0,
+  "sections": [
+    {
+      "initCamera": {
+        "targets": [
+          {
+            "ref": "subject_runner_03",
+            "description": "دوندهٔ 3 · زمین‌خورده / falls and recovers"
+          }
+        ],
+        "config": {
+          "type": "nonSubjectAware",
+          "extrinsics": {
+            "pose": {
+              "position": {
+                "x": -39.754415,
+                "y": 5.2,
+                "z": -46.05
+              },
+              "rotation": {
+                "x": 0.0147449765,
+                "y": -0.9774370161,
+                "z": -0.197699408,
+                "w": -0.0728999948
+              }
+            }
+          },
+          "intrinsics": {
+            "fov": 39.0,
+            "aspectRatio": 1.7777777777777777
+          }
+        }
+      },
+      "actions": [
+        {
+          "id": "stadium-02-fall-and-resolve-shot-01",
+          "name": "Track the recovering protagonist",
+          "trigger": {
+            "type": "absoluteTime",
+            "time": 0
+          },
+          "movement": {
+            "act": "follow",
+            "duration": 10,
+            "relativeFPS": "normal",
+            "targets": [
+              {
+                "ref": "subject_runner_03",
+                "description": "دوندهٔ 3 · زمین‌خورده / falls and recovers"
+              }
+            ],
+            "parameters": {
+              "path": "spline",
+              "handheld": false
+            }
+          },
+          "constraints": [
+            {
+              "kind": "general",
+              "constraint": "noShake",
+              "allFrames": true
+            },
+            {
+              "kind": "general",
+              "constraint": "keepInFrame",
+              "targets": [
+                {
+                  "ref": "subject_runner_03",
+                  "description": "دوندهٔ 3 · زمین‌خورده / falls and recovers"
+                }
+              ],
+              "allFrames": true
+            },
+            {
+              "config": {
+                "type": "nonSubjectAware",
+                "extrinsics": {
+                  "pose": {
+                    "position": {
+                      "x": -78.8001705,
+                      "y": 4.5,
+                      "z": -30.866869
+                    },
+                    "rotation": {
+                      "x": -0.0620643388,
+                      "y": -0.9258610819,
+                      "z": -0.1744551248,
+                      "w": 0.3293853127
+                    }
+                  }
+                },
+                "intrinsics": {
+                  "fov": 37.0,
+                  "aspectRatio": 1.7777777777777777
+                }
+              },
+              "allFrames": false,
+              "easing": {
+                "inDuration": 1.0,
+                "curve": "easeInOut"
+              }
+            }
+          ]
+        },
+        {
+          "id": "stadium-02-fall-and-resolve-shot-02",
+          "name": "Anticipate and cover the fall",
+          "trigger": {
+            "type": "relativeTime",
+            "actionId": "stadium-02-fall-and-resolve-shot-01",
+            "reference": "end",
+            "offset": 0
+          },
+          "movement": {
+            "act": "follow",
+            "duration": 8.5,
+            "relativeFPS": "normal",
+            "targets": [
+              {
+                "ref": "subject_runner_03",
+                "description": "دوندهٔ 3 · زمین‌خورده / falls and recovers"
+              }
+            ],
+            "parameters": {
+              "path": "spline",
+              "handheld": false
+            }
+          },
+          "constraints": [
+            {
+              "kind": "general",
+              "constraint": "noShake",
+              "allFrames": true
+            },
+            {
+              "kind": "general",
+              "constraint": "keepInFrame",
+              "targets": [
+                {
+                  "ref": "subject_runner_03",
+                  "description": "دوندهٔ 3 · زمین‌خورده / falls and recovers"
+                }
+              ],
+              "allFrames": true
+            },
+            {
+              "config": {
+                "type": "nonSubjectAware",
+                "extrinsics": {
+                  "pose": {
+                    "position": {
+                      "x": -95.1931579,
+                      "y": 6.0,
+                      "z": -5.750008
+                    },
+                    "rotation": {
+                      "x": -0.1126251576,
+                      "y": -0.7606795063,
+                      "z": -0.1372098111,
+                      "w": 0.6243842809
+                    }
+                  }
+                },
+                "intrinsics": {
+                  "fov": 45.0,
+                  "aspectRatio": 1.7777777777777777
+                }
+              },
+              "allFrames": false,
+              "easing": {
+                "inDuration": 1.0,
+                "curve": "easeInOut"
+              }
+            }
+          ]
+        },
+        {
+          "id": "stadium-02-fall-and-resolve-shot-03",
+          "name": "Rejoin the run",
+          "trigger": {
+            "type": "relativeTime",
+            "actionId": "stadium-02-fall-and-resolve-shot-02",
+            "reference": "end",
+            "offset": 0
+          },
+          "movement": {
+            "act": "follow",
+            "duration": 5.5,
+            "relativeFPS": "normal",
+            "targets": [
+              {
+                "ref": "subject_runner_03",
+                "description": "دوندهٔ 3 · زمین‌خورده / falls and recovers"
+              }
+            ],
+            "parameters": {
+              "path": "spline",
+              "handheld": false
+            }
+          },
+          "constraints": [
+            {
+              "kind": "general",
+              "constraint": "noShake",
+              "allFrames": true
+            },
+            {
+              "kind": "general",
+              "constraint": "keepInFrame",
+              "targets": [
+                {
+                  "ref": "subject_runner_03",
+                  "description": "دوندهٔ 3 · زمین‌خورده / falls and recovers"
+                }
+              ],
+              "allFrames": true
+            },
+            {
+              "config": {
+                "type": "nonSubjectAware",
+                "extrinsics": {
+                  "pose": {
+                    "position": {
+                      "x": -81.7881941,
+                      "y": 4.8,
+                      "z": 28.9683107
+                    },
+                    "rotation": {
+                      "x": -0.1590244271,
+                      "y": -0.4742766353,
+                      "z": -0.0875512,
+                      "w": 0.8614567268
+                    }
+                  }
+                },
+                "intrinsics": {
+                  "fov": 38.0,
+                  "aspectRatio": 1.7777777777777777
+                }
+              },
+              "allFrames": false,
+              "easing": {
+                "inDuration": 1.0,
+                "curve": "easeInOut"
+              }
+            }
+          ]
+        },
+        {
+          "id": "stadium-02-fall-and-resolve-shot-04",
+          "name": "Recovery tracking",
+          "trigger": {
+            "type": "relativeTime",
+            "actionId": "stadium-02-fall-and-resolve-shot-03",
+            "reference": "end",
+            "offset": 0
+          },
+          "movement": {
+            "act": "follow",
+            "duration": 17,
+            "relativeFPS": "normal",
+            "targets": [
+              {
+                "ref": "subject_runner_03",
+                "description": "دوندهٔ 3 · زمین‌خورده / falls and recovers"
+              }
+            ],
+            "parameters": {
+              "path": "spline",
+              "handheld": false
+            }
+          },
+          "constraints": [
+            {
+              "kind": "general",
+              "constraint": "noShake",
+              "allFrames": true
+            },
+            {
+              "kind": "general",
+              "constraint": "keepInFrame",
+              "targets": [
+                {
+                  "ref": "subject_runner_03",
+                  "description": "دوندهٔ 3 · زمین‌خورده / falls and recovers"
+                }
+              ],
+              "allFrames": true
+            },
+            {
+              "config": {
+                "type": "nonSubjectAware",
+                "extrinsics": {
+                  "pose": {
+                    "position": {
+                      "x": 15.210475,
+                      "y": 4.8,
+                      "z": 46.05
+                    },
+                    "rotation": {
+                      "x": -0.1810295154,
+                      "y": -0.0731404673,
+                      "z": -0.0135016891,
+                      "w": 0.9806612519
+                    }
+                  }
+                },
+                "intrinsics": {
+                  "fov": 38.0,
+                  "aspectRatio": 1.7777777777777777
+                }
+              },
+              "allFrames": false,
+              "easing": {
+                "inDuration": 1.0,
+                "curve": "easeInOut"
+              }
+            }
+          ]
+        },
+        {
+          "id": "stadium-02-fall-and-resolve-shot-05",
+          "name": "Late finish and release",
+          "trigger": {
+            "type": "relativeTime",
+            "actionId": "stadium-02-fall-and-resolve-shot-04",
+            "reference": "end",
+            "offset": 0
+          },
+          "movement": {
+            "act": "craneUp",
+            "duration": 7,
+            "relativeFPS": "normal",
+            "targets": [
+              {
+                "ref": "subject_runner_03",
+                "description": "دوندهٔ 3 · زمین‌خورده / falls and recovers"
+              }
+            ],
+            "parameters": {
+              "path": "spline",
+              "handheld": false
+            }
+          },
+          "constraints": [
+            {
+              "kind": "general",
+              "constraint": "noShake",
+              "allFrames": true
+            },
+            {
+              "kind": "general",
+              "constraint": "keepInFrame",
+              "targets": [
+                {
+                  "ref": "subject_runner_03",
+                  "description": "دوندهٔ 3 · زمین‌خورده / falls and recovers"
+                }
+              ],
+              "allFrames": true
+            },
+            {
+              "config": {
+                "type": "nonSubjectAware",
+                "extrinsics": {
+                  "pose": {
+                    "position": {
+                      "x": 36.8,
+                      "y": 8.0,
+                      "z": 51.05
+                    },
+                    "rotation": {
+                      "x": -0.2171129939,
+                      "y": -0.0486224777,
+                      "z": -0.0108286454,
+                      "w": 0.9748746294
+                    }
+                  }
+                },
+                "intrinsics": {
+                  "fov": 46.0,
+                  "aspectRatio": 1.7777777777777777
+                }
+              },
+              "allFrames": false,
+              "easing": {
+                "inDuration": 1.0,
+                "curve": "easeInOut"
+              }
+            }
+          ]
+        },
+        {
+          "id": "stadium-02-fall-and-resolve-overlay-01",
+          "name": "Concurrent dollyOut",
+          "trigger": {
+            "type": "absoluteTime",
+            "time": 10
+          },
+          "movement": {
+            "act": "dollyOut",
+            "duration": 3.5,
+            "parameters": {},
+            "targets": [
+              {
+                "ref": "subject_runner_03",
+                "description": "دوندهٔ 3 · زمین‌خورده / falls and recovers"
+              }
+            ]
+          }
+        },
+        {
+          "id": "stadium-02-fall-and-resolve-overlay-02",
+          "name": "Concurrent craneUp",
+          "trigger": {
+            "type": "absoluteTime",
+            "time": 10
+          },
+          "movement": {
+            "act": "craneUp",
+            "duration": 3.5,
+            "parameters": {}
+          }
+        },
+        {
+          "id": "stadium-02-fall-and-resolve-overlay-03",
+          "name": "Concurrent dollyIn",
+          "trigger": {
+            "type": "absoluteTime",
+            "time": 18.5
+          },
+          "movement": {
+            "act": "dollyIn",
+            "duration": 5.5,
+            "parameters": {},
+            "targets": [
+              {
+                "ref": "subject_runner_03",
+                "description": "دوندهٔ 3 · زمین‌خورده / falls and recovers"
+              }
+            ]
+          }
+        }
+      ]
+    }
+  ]
+}

@@ -22,10 +22,16 @@
           </span>
         </a>
 
-        <label class="environment-picker">
-          <span>Environment</span>
-          <select id="environmentSelect" aria-label="Prompt environment" dir="auto"></select>
-        </label>
+        <div class="scene-pickers">
+          <label class="scene-picker environment-picker">
+            <span>Environment</span>
+            <select id="environmentSelect" aria-label="Prompt environment" dir="auto"></select>
+          </label>
+          <label class="scene-picker prompt-picker">
+            <span>Prompt</span>
+            <select id="promptSelect" aria-label="Example prompt" dir="auto" disabled></select>
+          </label>
+        </div>
 
         <div class="top-actions">
           <div class="segmented" id="viewMode" aria-label="View mode">

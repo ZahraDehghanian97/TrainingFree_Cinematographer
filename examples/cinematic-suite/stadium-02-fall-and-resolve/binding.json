@@ -1,0 +1,9 @@
+{
+  "schemaVersion": "1.0",
+  "bindings": {
+    "subject_runner_03": {
+      "id": "runner_03",
+      "description": "دوندهٔ 3 · زمین‌خورده / falls and recovers"
+    }
+  }
+}
