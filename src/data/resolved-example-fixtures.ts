@@ -16,7 +16,11 @@ const descriptions: Record<string,string> = {
 };
 function shot(id: string, time: number, duration: number, targets: string[], act = CameraMovementType.Follow): Action {
   const subjects = targets.map(id => ({ id, description: descriptions[id] ?? id }));
-  return { id, trigger: { type: "absoluteTime", time }, movement: { act, targets: subjects, duration },
+  return { id, trigger: { type: "absoluteTime", time }, movement: { act, targets: subjects, duration,
+      parameters: act === CameraMovementType.DollyIn ? { distance: 1.3, handheld: false }
+        : act === CameraMovementType.DollyOut ? { distance: 2.5, handheld: false }
+        : act === CameraMovementType.ArcRight ? { arcAngle: 14, arcRadius: 12, constantSpeed: true, handheld: false }
+        : { followDelay: 0.1, leadAmount: 0.6, handheld: false } },
     constraints: [
       { kind: "general", constraint: ConstraintType.NoShake, allFrames: true },
       { kind: "general", constraint: ConstraintType.KeepInFrame, targets: subjects, allFrames: true },
@@ -26,7 +30,7 @@ function shot(id: string, time: number, duration: number, targets: string[], act
 /** Only two environments. Additional films should reuse environmentId, not clone a scene. */
 export const resolvedPromptExampleFixtures: ResolvedPromptExampleFixture[] = [
   { id: "stadium", environmentId: "stadium",
-    prompt: "مسابقهٔ شش دونده را در پیست دور زمین فوتبال دنبال کن؛ زمین‌خوردن دوندهٔ سوم، برد دوندهٔ اول در ثانیهٔ ۳۸، گل فوتبال در ۳۸٫۲ و سپس پرش برنده و گل‌افشانی را نشان بده. فیلم‌بردار کنار زمین شخصیت مستقلی است.",
+    prompt: "Create a 48-second real-time stadium film. Establish the six runners with a smooth elevated outside-track follow, then transfer attention to runner_03 before the fall at scene 13.7 s and hold the whole body through recovery at 16.8–18 s. Rejoin runner_01 for the finish at 38 s, give the football goal at 38.2 s its own readable coverage, then make a restrained outside arc for the winner's jump at 39.3–40.3 s and the fluttering flower shower. Let the moving flags and splitting finish ribbon add environmental action. Keep transitions collision-safe, the horizon level, and the subjects clear; the visible sideline cameraman is a character, not this filming viewpoint.",
     resolvedCsl: { totalDuration: 48, sections: [{ actions: [
       shot("race_open", 0, 12.3, ["runner_01", "runner_02", "track_cameraman"]),
       shot("fall_and_recovery", 12.3, 6.7, ["runner_03"]),
@@ -35,7 +39,7 @@ export const resolvedPromptExampleFixtures: ResolvedPromptExampleFixture[] = [
       shot("jump_and_flowers", 39.1, 8.9, ["runner_01"], CameraMovementType.ArcRight),
     ] }] } },
   { id: "factory", environmentId: "factory",
-    prompt: "کارخانهٔ فعال و حرکت قطعات روی خط تولید را معرفی کن؛ مشاجرهٔ دو کارگر، هل‌دادن در ثانیهٔ ۲۰، برخورد به ریل و ریزش وسایل در ۲۱، توقف اضطراری و واکنش همکاران را ثبت کن.",
+    prompt: "Create a 48-second real-time industrial film. Begin with a controlled product-led track along the moving conveyor, detailed cargo and coordinated robot sweeps. Dolly gently toward worker_a and worker_b during their argument, then widen before the shove at scene 20 s. Keep the collision at 21 s, the six staggered tumbling pieces, and the emergency response readable as one causal sequence. The button press at 21.7 s starts a one-second mechanical deceleration, not an instantaneous freeze. Let rebounds and rolling parts settle before a slow retreat into the crew's response. Stay in the open aisle and below the roof; preserve the line's stopped state while the people continue to react.",
     resolvedCsl: { totalDuration: 48, sections: [{ actions: [
       shot("production", 0, 11, ["cargo_01", "robot_1", "worker_03"], CameraMovementType.Track),
       shot("argument", 11, 9, ["worker_a", "worker_b"], CameraMovementType.DollyIn),

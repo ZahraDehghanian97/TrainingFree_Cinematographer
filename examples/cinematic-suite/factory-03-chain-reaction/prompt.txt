@@ -1,1 +1,19 @@
-Create a 48-second high-angle, single-take factory master that explains the chain reaction spatially. Begin with a broad interior view of the conveyor and its two end stations. Over the first 14 seconds move closer to an elevated view of the central south-side work area, remaining around 8.1 metres high and below the ceiling and beams. From 14 to 26 seconds lock both camera position and aim. In that frame, show workers A and B, the shove at 20 seconds, the impact and clustered cargo spill at 21 seconds, and the emergency operator near the control station at 21.7 seconds. Prioritize clear spatial relationships over close-ups. After 26 seconds slowly withdraw and drift to the right to reveal the stopped line and the wider response. Use a level horizon, normal speed, gentle lens changes, and no cuts or shake.
+Make a 48-second causal industrial tableau: a working machine rhythm is interrupted by one human action, which propagates through the line. Begin with a deliberate mechanical stop-motion-style interlude, then return to uninterrupted real time for the accident so no causal step is obscured. View the line, workers and safety response from the open south aisle; never send the camera through the conveyor, housings or roof.
+
+Playback 0–6 s (scene 0–6 s): Move inward 1.5 m toward the working conveyor, making the frame, slats and staged robot sweeps distinct layers.
+
+Playback 6–9 s: Use a three-second stop-motion-style study of the working line. Repeat four pose beats per second: freeze scene time for 0.1875 s and advance it at 4x for 0.0625 s. Keep a slow, continuous 1-degree-per-second camera arc. This deliberately stepped rhythm is confined to production, before the argument and collision.
+
+Playback 9–14 s (scene 9–14 s): Return the entire scene to real time. Rise 1 m with 1 m of retreat into a causal master that includes workers, belt and controls.
+
+Playback 14–20 s (scene 14–20 s): Keep the argument, the contact point and the safety operator in a stable, sufficiently wide high-angle view. Let movement inside the frame build tension.
+
+Playback 20–24.1 s (scene 20–24.1 s): Remain at real time through the shove, impact, staggered cargo falls, emergency command and completed mechanical stop. Do not swap to an unrelated detail shot.
+
+Playback 24.1–34 s (scene 24.1–34 s): Retreat 2 m to show the settled pieces and crew response around the halted equipment.
+
+Playback 34–44 s (scene 34–44 s): Arc 7 degrees at 12 m, keeping the response visible while changing foreground overlap only gently.
+
+Playback 44–48 s (scene 44–48 s): Finish on the same world after the motion has ceased, not a new scene or a restarted line.
+
+All intervals above are playback time; scene-time ranges explicitly identify the authored events. The time treatment applies to the entire environment, including props and performances, while the camera continues on playback time. Complete the full scene exactly once, from scene 0 to 48 s, in a 48-second film. Use non-overlapping relativeFPS intervals, a continuous camera pose, smooth camera acceleration and a level horizon. Use no cuts, teleports, unmotivated roll, random shake, new actors or invented events. Keep a collision-safe route and do not pass through subjects.

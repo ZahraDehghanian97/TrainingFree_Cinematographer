@@ -1,1 +1,21 @@
-Make a 48-second, single-take football sequence inside the stadium. Follow the ball from an elevated touchline-style camera on the positive-Z side of the pitch, keeping enough field in view to understand the passing play. Smooth the camera path across changes in ball direction instead of copying the ball's sharp turns. From 29 to 35 seconds leave the moving follow rig and settle into a wider fixed view containing the approaching ball and the east goal. Hold this shot through the kick, the goal at 38.2 seconds, and the ball settling in the net; do not cut away to the simultaneous running-race finish. After 40 seconds drift gently toward a more frontal view of the east goal and finish on the result of the play. Use normal playback, a level horizon, a moderately wide lens, and no handheld shake or snap pans.
+Create one uninterrupted 48-second football sequence with a clear cause-and-effect line: moving possession, the attacking lane, the ball crossing the east goal line, a suspended goal instant, and the rebound into the net area. The ball is the primary moving subject. Frame enough pitch to understand its direction rather than chasing it with a tight, oscillating pan. No cut to another camera or through the goal frame.
+
+Playback 0–8 s (scene 0–8 s): Begin with stable elevated sideline coverage and open lead room in the direction of the pass.
+
+Playback 8–14 s (scene 8–20 s): Accelerate the scene to 2x for six playback seconds. Track with a smooth camera path, letting player runs and ball circulation compress into a readable build-up.
+
+Playback 14–26 s (scene 20–32 s): Return to real time and follow the ball toward the east end. Keep the approach corridor clear and avoid an unnecessary full orbit.
+
+Playback 26–31.8 s (scene 32–37.8 s): Retreat 2 m into a ball-and-goal composition before the ball enters the goal area. Both goalposts and the approach must remain legible.
+
+Playback 31.8–35.8 s (scene 37.8–38.2 s): Use 0.1x very slow motion from scene 37.8 to 38.2 s. Arc 4 degrees at 22 m, gently separating the ball from the background without crossing the goal mouth.
+
+Playback 35.8–36.4 s (scene 38.2–38.2 s): Freeze scene time at 38.2 s for 0.6 playback seconds while the camera continues a 1-degree drift. Preserve the ball just across the line and the goal geometry in the same frame.
+
+Playback 36.4–38.4 s (scene 38.2–38.4 s): Resume 0.1x very slow motion from scene 38.2 to 38.4 s, continuing the arc by 2 degrees. Do not replay or reverse the crossing.
+
+Playback 38.4–42 s (scene 38.4–42 s): Return to real time for the net-area rebound, floor bounces and settling ball. Keep the goal frame as stable geographic context.
+
+Playback 42–48 s (scene 42–48 s): Crane up 2 m and retreat 2 m into the celebration and updated scoreboard, without abandoning the scored goal as the visual anchor.
+
+All intervals above are playback time; scene-time ranges explicitly identify the authored events. The time treatment applies to the entire environment, including props and performances, while the camera continues on playback time. Complete the full scene exactly once, from scene 0 to 48 s, in a 48-second film. Use non-overlapping relativeFPS intervals, a continuous camera pose, smooth camera acceleration and a level horizon. Use no cuts, teleports, unmotivated roll, random shake, new actors or invented events. Keep a collision-safe route and do not pass through subjects.

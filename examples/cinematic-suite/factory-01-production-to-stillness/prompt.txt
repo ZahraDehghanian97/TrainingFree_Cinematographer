@@ -1,1 +1,21 @@
-Create one continuous 48-second factory sequence that changes from ordered production to quiet aftermath. Start by tracking cargo 01 along the conveyor in a composed product-led view, with the assembly line as background. Between 8 and 16 seconds smoothly leave the product tracking rig and reveal workers A and B in the south aisle; widen the lens gradually during the handoff. Be settled by 16 seconds in a stable elevated view that contains the argument, the shove at 20 seconds, the collision at 21 seconds, and the first falling pieces of cargo. Hold the physical camera still from 16 to 24 seconds so the cause and effect remain easy to read. From 24 to 48 seconds slowly pull back and rise, including the workers' reaction and the stopped production line. Stay inside the factory below its ceiling, preserve the normal scene clock, and use no cuts or camera shake.
+Create a 48-second continuous industrial film that begins as a precise production study and ends as a human aftermath. Let the conveyor slats, turning rollers, coordinated robot joints, cargo surface detail and status lights establish a working system. Then make the causal sequence unmistakable: argument, shove, collision, falling pieces, button press, mechanical ramp-down. Keep the camera in the clear south aisle, below the roof and away from robot sweep volumes.
+
+Playback 0–4 s (scene 0–8 s): Track cargo_01 along the operating conveyor at 2x fast motion. Use rail edges and the press frame for parallax while maintaining space around the product.
+
+Playback 4–8 s (scene 8–12 s): Restore real time; register the moving slats and material details instead of inventing sparks or a new assembly operation.
+
+Playback 8–12 s (scene 12–16 s): Retreat 2 m from the product to bring the two arguing workers and the surrounding line into one spatially legible frame.
+
+Playback 12–15 s (scene 16–19 s): Arc 8 degrees at 9 m from the clear aisle, holding the workers together with the conveyor edge as context.
+
+Playback 15–17 s (scene 19–20 s): Shift the scene to 0.5x slow motion from scene 19 to 20 s. Leave room for the shove and recoil; do not add a gratuitous camera lurch.
+
+Playback 17–23 s (scene 20–23 s): At 0.5x slow motion show the shove at playback 17 s, rail impact at 19 s, cargo arcs, and safety command at 20.4 s. The line decelerates through playback 22.4 s before stopping.
+
+Playback 23–32 s (scene 23–32 s): Return to real time and retreat 2.5 m, showing the fallen pieces settle while people remain active around the stopped machinery.
+
+Playback 32–44 s (scene 32–44 s): Rise 1.5 m with 2 m of retreat to place the human reaction against the halted production line and red status lamps.
+
+Playback 44–48 s (scene 44–48 s): Finish on a deliberate quiet tableau. Mechanical stillness must not freeze the workers or the whole film.
+
+All intervals above are playback time; scene-time ranges explicitly identify the authored events. The time treatment applies to the entire environment, including props and performances, while the camera continues on playback time. Complete the full scene exactly once, from scene 0 to 48 s, in a 48-second film. Use non-overlapping relativeFPS intervals, a continuous camera pose, smooth camera acceleration and a level horizon. Use no cuts, teleports, unmotivated roll, random shake, new actors or invented events. Keep a collision-safe route and do not pass through subjects.

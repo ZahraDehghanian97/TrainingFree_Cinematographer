@@ -1,6 +1,8 @@
 import * as THREE from "three";
 import { RoundedBoxGeometry } from "three/examples/jsm/geometries/RoundedBoxGeometry.js";
 
+import { conveyorTravel, mechanicalState, registerScenarioPropUpdate, updateScenarioProp } from "./scenario-props";
+
 import type { SceneEntityV1, Vec3 } from "../../src/types/environment";
 
 type Material = THREE.MeshStandardMaterial;
@@ -257,25 +259,153 @@ function briefcase(builder: PropBuilder, [w, h, d]: Dimensions): void {
   builder.box([w * 0.37, h * 0.065, d * 0.27], [0, h * 0.4675, 0], edging, true);
 }
 
+
+function cargoDetail(builder: PropBuilder, [w, h, d]: Dimensions, color: string, cylinder: boolean): void {
+  const shell = material(color, cylinder ? .65 : .18, cylinder ? .38 : .68);
+  const metal = material("#a4b1b3", .75, .32), band = material("#334b59", .25, .64);
+  const label = material("#e5d8ba", 0, .9), ink = material("#34414a");
+  if (cylinder) {
+    const radius = Math.min(w, d) / 2;
+    builder.cylinder(radius * .94, h * .93, [0, 0, 0], shell);
+    for (const sign of [-1, 1]) {
+      builder.cylinder(radius, h * .045, [0, sign * h * .472, 0], metal);
+      builder.cylinder(radius * .79, h * .01, [0, sign * h * .497, 0], band);
+      builder.cylinder(radius * .19, h * .016, [0, sign * h * .486, 0], metal);
+    }
+    builder.box([w * .37, h * .29, d * .012], [0, 0, d * .472], label);
+    for (let i = 0; i < 5; i++) builder.box([w * .018, h * .19, d * .014], [w * (-.13 + i * .065), 0, d * .484], ink);
+    return;
+  }
+  builder.box([w * .96, h * .96, d * .96], [0, 0, 0], shell, true);
+  builder.box([w * .97, h * .045, d * .97], [0, h * .475, 0], metal, true);
+  for (const x of [-1, 1]) {
+    // Packing bands pass around all four visible sides and remain inside the declared bounds.
+    builder.box([w * .045, h * .98, d * .982], [x * w * .29, 0, 0], band);
+    builder.box([w * .065, h * .016, d * .14], [x * w * .29, h * .497, 0], metal);
+  }
+  builder.box([w * .36, h * .29, d * .008], [0, h * .04, d * .486], label);
+  for (let i = 0; i < 7; i++) builder.box([w * (.009 + i % 2 * .006), h * .17, d * .009], [w * (-.13 + i * .043), h * .04, d * .493], ink);
+  for (const x of [-1, 1]) for (const z of [-1, 1]) builder.cylinder(w * .019, h * .012, [x * w * .40, h * .495, z * d * .39], band);
+}
+
+function fitProp(group: THREE.Group, entity: SceneEntityV1, size: Dimensions): THREE.Group {
+  const bounds = entity.bounds;
+  if (!bounds || bounds.type !== "box") return group;
+  group.name = `environment-prop:${entity.id}`;
+  const actual = new THREE.Box3().setFromObject(group);
+  const actualSize = actual.getSize(new THREE.Vector3()), actualCenter = actual.getCenter(new THREE.Vector3());
+  if (![actualSize.x, actualSize.y, actualSize.z].every(value => Number.isFinite(value) && value > 0)) {
+    throw new Error(`Environment prop ${entity.id} produced empty or invalid geometry`);
+  }
+  group.scale.set(...size.map((value, axis) => Math.min(1, value / actualSize.getComponent(axis))) as Vec3);
+  group.position.set(...bounds.min.map((value, axis) =>
+    (value + bounds.max[axis]) * .5 - actualCenter.getComponent(axis) * group.scale.getComponent(axis)) as Vec3);
+  return group;
+}
+
+/** Cabinet controls face the worker in the south aisle (-Z), not the back of the cabinet. */
+function controlStation(entity: SceneEntityV1, size: Dimensions): THREE.Group {
+  const [w, h, d] = size, builder = new PropBuilder();
+  const body = material("#42697b", .4, .48), dark = material("#223842", .4, .42), steel = material("#acb8bd", .7, .3);
+  const screen = material("#315e65", .1, .28); screen.emissive.set("#4aafaa");
+  builder.box([w * .91, h * .85, d * .87], [0, -h * .03, d * .025], body, true);
+  builder.box([w, h * .07, d], [0, -h * .465, 0], dark);
+  builder.box([w * .84, h * .36, d * .055], [0, h * .27, -d * .433], steel, true);
+  builder.box([w * .58, h * .14, d * .027], [-w * .08, h * .33, -d * .472], dark);
+  builder.box([w * .52, h * .115, d * .016], [-w * .08, h * .33, -d * .491], screen);
+  for (let i = 0; i < 4; i++) builder.box([w * (.20 + (i % 2) * .15), h * .009, d * .003], [-w * .11, h * (.36 - i * .023), -d * .499], steel);
+  for (const sign of [-1, 1]) builder.box([w * .03, h * .36, d * .05], [sign * w * .41, -h * .09, -d * .42], dark);
+  const lamps = [material("#67c897", .1, .3), material("#f3ba58", .1, .3), material("#e76558", .1, .3)];
+  lamps.forEach((paint, i) => {
+    paint.emissive.copy(paint.color);
+    builder.ellipsoid([w * .025, w * .025, d * .022], [-w * .26 + i * w * .12, h * .205, -d * .478], paint);
+  });
+  const group = builder.finish(), button = new THREE.Group(), buttonParts = new PropBuilder();
+  buttonParts.cylinder(w * .11, d * .032, [0, 0, 0], material("#e5c459", .2, .55), "z");
+  buttonParts.cylinder(w * .071, d * .08, [0, 0, -d * .025], material("#d94f45", .15, .36), "z");
+  button.add(buttonParts.finish()); button.position.set(w * .245, h * .18, -d * .455); group.add(button);
+  const buttonRestZ = button.position.z;
+  registerScenarioPropUpdate(group, time => {
+    const state = mechanicalState(time, 21.7);
+    const u = THREE.MathUtils.clamp((time - 21.62) / .08, 0, 1);
+    // Emergency stop latches inward, rather than repeatedly bouncing while stopped.
+    button.position.z = buttonRestZ + d * .055 * u * u * (3 - 2 * u);
+    lamps[0].emissiveIntensity = state === "running" ? .85 : .015;
+    lamps[1].emissiveIntensity = state === "stopping" ? .8 : .015;
+    lamps[2].emissiveIntensity = state === "stopped" ? .95 : .015;
+    screen.emissiveIntensity = state === "running" ? .38 : .12;
+  });
+  updateScenarioProp(group, 0);
+  // Geometry stays within this envelope throughout the inward-only button animation.
+  return fitProp(group, entity, size);
+}
+
+/** Framed housings expose a cargo tunnel; moving heads remain above its clearance plane. */
+function framedMachine(entity: SceneEntityV1, size: Dimensions): THREE.Group {
+  const [w, h, d] = size, builder = new PropBuilder();
+  const shell = material("#617f89", .5, .45), steel = material("#b0bcc1", .8, .28), dark = material("#263943", .5, .45), safety = material("#d6aa46", .2, .6);
+  for (const sign of [-1, 1]) {
+    builder.box([w, h * .97, d * .135], [0, 0, sign * d * .422], shell, true);
+    builder.box([w, h * .085, d * .14], [0, -h * .452, sign * d * .422], dark);
+    for (const x of [-1, 1]) builder.box([w * .11, h * .86, d * .11], [x * w * .435, -h * .02, sign * d * .39], steel);
+    for (let i = 0; i < 6; i++) builder.box([w * .04, h * .009, d * .007], [w * (-.31 + i * .125), h * .2, sign * d * .495], dark);
+  }
+  builder.box([w, h * .17, d], [0, h * .415, 0], shell, true);
+  builder.box([w * .9, h * .035, d * .83], [0, h * .31, 0], safety);
+  // Bridge the hidden conveyor joins through the press/packaging housing at belt height 1.05 m.
+  builder.box([w, .045, 1.6], [0, 1.05 - h / 2 - .0225, 0], dark);
+  for (const x of [-1, 1]) builder.cylinder(w * .022, h * .30, [x * w * .28, h * .22, 0], steel);
+  const group = builder.finish(), headParts = new PropBuilder();
+  headParts.box([w * .61, h * .085, d * .49], [0, 0, 0], steel, true);
+  headParts.box([w * .54, h * .012, d * .44], [0, -h * .048, 0], dark);
+  const head = headParts.finish(); head.position.y = h * .285; group.add(head);
+  const phase = entity.id.includes("--") ? 0 : 1.3;
+  registerScenarioPropUpdate(group, time => {
+    const clock = conveyorTravel(time, 1, 21.7), u = ((clock / 3.2 + phase) % 1 + 1) % 1;
+    const smooth = (value: number): number => { const x = THREE.MathUtils.clamp(value, 0, 1); return x * x * (3 - 2 * x); };
+    const stroke = smooth(u / .18) * (1 - smooth((u - .34) / .3));
+    head.position.y = h * (.285 - .045 * stroke);
+  });
+  updateScenarioProp(group, 0);
+  return fitProp(group, entity, size);
+}
+
+function maintenanceBench(builder: PropBuilder, [w, h, d]: Dimensions): void {
+  const steel = material("#587381", .55, .45), top = material("#a7ada8", .5, .48), yellow = material("#d3ad4d", .2, .65);
+  builder.box([w, h * .09, d], [0, h * .455, 0], top, true);
+  for (const x of [-1, 1]) for (const z of [-1, 1]) builder.box([w * .045, h * .89, d * .09], [x * w * .45, -h * .05, z * d * .4], steel);
+  builder.box([w * .91, h * .055, d * .83], [0, -h * .29, 0], steel);
+  builder.box([w * .25, h * .17, d * .52], [w * .2, h * .3, 0], steel, true);
+  builder.box([w * .08, h * .018, d * .018], [w * .2, h * .3, d * .27], yellow);
+}
+
 const PROP_IDS = new Set([
   "tree-entity", "fountain-entity", "lamppost-entity", "desk-entity", "shelving-entity",
   "crate-stack-entity", "ac-unit-entity", "vent-pipe-entity", "central_machine",
-  "shelf_left", "shelf_right", "loading_bay_frame", "briefcase-entity",
+  "shelf_left", "shelf_right", "loading_bay_frame", "briefcase-entity", "control_station", "set-maintenance-bench",
 ]);
 
 /** Refine bundled box placeholders while retaining their local collision/anchor envelope. */
 export function createEnvironmentProp(entity: SceneEntityV1): THREE.Object3D | null {
-  if (!PROP_IDS.has(entity.id)) return null;
+  const cargo = /^cargo_\d+$/.test(entity.id);
+  const machineHousing = /^machine-housing--?14\.1$/.test(entity.id);
+  const stockRack = /^set-stock-rack-\d+$/.test(entity.id);
+  if (!PROP_IDS.has(entity.id) && !cargo && !machineHousing && !stockRack) return null;
   const visual = entity.visual;
-  const isPlaceholder = (visual.type === "primitive" && visual.shape === "box")
+  const isPlaceholder = (visual.type === "primitive" && (visual.shape === "box" || (cargo && visual.shape === "cylinder")))
     || (visual.type === "preset" && visual.name === "genericObject" && visual.params?.shape === "box");
   if (!isPlaceholder) return null;
   if (entity.bounds?.type !== "box") return null;
   const bounds = entity.bounds;
   const size = bounds.max.map((value, axis) => value - bounds.min[axis]) as Dimensions;
   if (!size.every(value => Number.isFinite(value) && value > 0)) return null;
+  if (entity.id === "control_station") return controlStation(entity, size);
+  if (machineHousing) return framedMachine(entity, size);
   const builder = new PropBuilder();
+  if (cargo) cargoDetail(builder, size, visual.type === "primitive" ? visual.color ?? "#d28e35" : "#d28e35", visual.type === "primitive" && visual.shape === "cylinder");
+  if (stockRack) shelving(builder, size);
   switch (entity.id) {
+    case "set-maintenance-bench": maintenanceBench(builder, size); break;
     case "tree-entity": tree(builder, size); break;
     case "fountain-entity": fountain(builder, size); break;
     case "lamppost-entity": lamp(builder, size); break;
@@ -327,14 +457,5 @@ export function createEnvironmentProp(entity: SceneEntityV1): THREE.Object3D | n
       break;
     }
   }
-  const group = builder.finish();
-  group.name = `environment-prop:${entity.id}`;
-  // Guard even rounded geometry and future details against extending the authored envelope.
-  const actual = new THREE.Box3().setFromObject(group);
-  const actualSize = actual.getSize(new THREE.Vector3());
-  const actualCenter = actual.getCenter(new THREE.Vector3());
-  group.scale.set(...size.map((value, axis) => Math.min(1, value / actualSize.getComponent(axis))) as Vec3);
-  group.position.set(...bounds.min.map((value, axis) =>
-    (value + bounds.max[axis]) * 0.5 - actualCenter.getComponent(axis) * group.scale.getComponent(axis)) as Vec3);
-  return group;
+  return fitProp(builder.finish(), entity, size);
 }

@@ -1,5 +1,5 @@
 {
-  "totalDuration": 48.0,
+  "totalDuration": 48,
   "sections": [
     {
       "initCamera": {
@@ -38,15 +38,15 @@
       },
       "actions": [
         {
-          "id": "factory-02-aisle-two-shot-shot-01",
-          "name": "Converging two-shot",
+          "id": "factory-02-aisle-two-shot-shot-001",
+          "name": "Find the converging workers",
           "trigger": {
             "type": "absoluteTime",
             "time": 0
           },
           "movement": {
             "act": "track",
-            "duration": 12,
+            "duration": 6,
             "relativeFPS": "normal",
             "targets": [
               {
@@ -59,8 +59,10 @@
               }
             ],
             "parameters": {
-              "path": "spline",
-              "handheld": false
+              "followDelay": 0.12,
+              "leadAmount": 0,
+              "handheld": false,
+              "path": "linear"
             }
           },
           "constraints": [
@@ -85,47 +87,140 @@
               "allFrames": true
             },
             {
-              "config": {
-                "type": "nonSubjectAware",
-                "extrinsics": {
-                  "pose": {
-                    "position": {
-                      "x": 0.8697601,
-                      "y": 2.5,
-                      "z": 7.8304438
-                    },
-                    "rotation": {
-                      "x": 0.1559415811,
-                      "y": -0.0512365577,
-                      "z": -0.0081000439,
-                      "w": -0.9864032784
-                    }
-                  }
+              "kind": "general",
+              "constraint": "avoidOcclusion",
+              "targets": [
+                {
+                  "ref": "subject_worker_a",
+                  "description": "کارگر الف / worker A — initiates shove"
                 },
-                "intrinsics": {
-                  "fov": 40.0,
-                  "aspectRatio": 1.7777777777777777
+                {
+                  "ref": "subject_worker_b",
+                  "description": "کارگر ب / worker B — collides with production line"
                 }
+              ],
+              "allFrames": true,
+              "weight": 0.8
+            },
+            {
+              "targets": [
+                {
+                  "ref": "subject_worker_a",
+                  "description": "کارگر الف / worker A — initiates shove"
+                },
+                {
+                  "ref": "subject_worker_b",
+                  "description": "کارگر ب / worker B — collides with production line"
+                }
+              ],
+              "config": {
+                "type": "subjectAware",
+                "shotSize": "longShot"
               },
               "allFrames": false,
               "easing": {
-                "inDuration": 1.0,
+                "inDuration": 0.6,
                 "curve": "easeInOut"
               }
             }
           ]
         },
         {
-          "id": "factory-02-aisle-two-shot-shot-02",
-          "name": "Argument at respectful distance",
+          "id": "factory-02-aisle-two-shot-shot-002",
+          "name": "Enter the conversation",
           "trigger": {
-            "type": "relativeTime",
-            "actionId": "factory-02-aisle-two-shot-shot-01",
-            "reference": "end",
-            "offset": 0
+            "type": "absoluteTime",
+            "time": 6
           },
           "movement": {
-            "act": "follow",
+            "act": "dollyIn",
+            "duration": 6,
+            "relativeFPS": "normal",
+            "targets": [
+              {
+                "ref": "subject_worker_a",
+                "description": "کارگر الف / worker A — initiates shove"
+              },
+              {
+                "ref": "subject_worker_b",
+                "description": "کارگر ب / worker B — collides with production line"
+              }
+            ],
+            "parameters": {
+              "distance": 1.3,
+              "handheld": false,
+              "path": "linear"
+            }
+          },
+          "constraints": [
+            {
+              "kind": "general",
+              "constraint": "noShake",
+              "allFrames": true
+            },
+            {
+              "kind": "general",
+              "constraint": "keepInFrame",
+              "targets": [
+                {
+                  "ref": "subject_worker_a",
+                  "description": "کارگر الف / worker A — initiates shove"
+                },
+                {
+                  "ref": "subject_worker_b",
+                  "description": "کارگر ب / worker B — collides with production line"
+                }
+              ],
+              "allFrames": true
+            },
+            {
+              "kind": "general",
+              "constraint": "avoidOcclusion",
+              "targets": [
+                {
+                  "ref": "subject_worker_a",
+                  "description": "کارگر الف / worker A — initiates shove"
+                },
+                {
+                  "ref": "subject_worker_b",
+                  "description": "کارگر ب / worker B — collides with production line"
+                }
+              ],
+              "allFrames": true,
+              "weight": 0.8
+            },
+            {
+              "targets": [
+                {
+                  "ref": "subject_worker_a",
+                  "description": "کارگر الف / worker A — initiates shove"
+                },
+                {
+                  "ref": "subject_worker_b",
+                  "description": "کارگر ب / worker B — collides with production line"
+                }
+              ],
+              "config": {
+                "type": "subjectAware",
+                "shotSize": "fullShot"
+              },
+              "allFrames": false,
+              "easing": {
+                "inDuration": 0.6,
+                "curve": "easeInOut"
+              }
+            }
+          ]
+        },
+        {
+          "id": "factory-02-aisle-two-shot-shot-003",
+          "name": "Pressure within the two-shot",
+          "trigger": {
+            "type": "absoluteTime",
+            "time": 12
+          },
+          "movement": {
+            "act": "arcRight",
             "duration": 5,
             "relativeFPS": "normal",
             "targets": [
@@ -139,7 +234,9 @@
               }
             ],
             "parameters": {
-              "path": "spline",
+              "arcAngle": 8,
+              "arcRadius": 8,
+              "constantSpeed": true,
               "handheld": false
             }
           },
@@ -165,73 +262,8 @@
               "allFrames": true
             },
             {
-              "config": {
-                "type": "nonSubjectAware",
-                "extrinsics": {
-                  "pose": {
-                    "position": {
-                      "x": 0.9138649,
-                      "y": 2.5,
-                      "z": 7.6444879
-                    },
-                    "rotation": {
-                      "x": 0.1559415811,
-                      "y": -0.0512365577,
-                      "z": -0.0081000439,
-                      "w": -0.9864032784
-                    }
-                  }
-                },
-                "intrinsics": {
-                  "fov": 40.0,
-                  "aspectRatio": 1.7777777777777777
-                }
-              },
-              "allFrames": false,
-              "easing": {
-                "inDuration": 1.0,
-                "curve": "easeInOut"
-              }
-            }
-          ]
-        },
-        {
-          "id": "factory-02-aisle-two-shot-shot-03",
-          "name": "Retreat before the shove",
-          "trigger": {
-            "type": "relativeTime",
-            "actionId": "factory-02-aisle-two-shot-shot-02",
-            "reference": "end",
-            "offset": 0
-          },
-          "movement": {
-            "act": "follow",
-            "duration": 8,
-            "relativeFPS": "normal",
-            "targets": [
-              {
-                "ref": "subject_worker_a",
-                "description": "کارگر الف / worker A — initiates shove"
-              },
-              {
-                "ref": "subject_worker_b",
-                "description": "کارگر ب / worker B — collides with production line"
-              }
-            ],
-            "parameters": {
-              "path": "spline",
-              "handheld": false
-            }
-          },
-          "constraints": [
-            {
               "kind": "general",
-              "constraint": "noShake",
-              "allFrames": true
-            },
-            {
-              "kind": "general",
-              "constraint": "keepInFrame",
+              "constraint": "avoidOcclusion",
               "targets": [
                 {
                   "ref": "subject_worker_a",
@@ -242,76 +274,10 @@
                   "description": "کارگر ب / worker B — collides with production line"
                 }
               ],
-              "allFrames": true
+              "allFrames": true,
+              "weight": 0.8
             },
             {
-              "config": {
-                "type": "nonSubjectAware",
-                "extrinsics": {
-                  "pose": {
-                    "position": {
-                      "x": 2.4854027,
-                      "y": 4.0,
-                      "z": 9.7231205
-                    },
-                    "rotation": {
-                      "x": 0.1719766481,
-                      "y": -0.0346217007,
-                      "z": -0.0060480265,
-                      "w": -0.9844738654
-                    }
-                  }
-                },
-                "intrinsics": {
-                  "fov": 51.0,
-                  "aspectRatio": 1.7777777777777777
-                }
-              },
-              "allFrames": false,
-              "easing": {
-                "inDuration": 1.0,
-                "curve": "easeInOut"
-              }
-            }
-          ]
-        },
-        {
-          "id": "factory-02-aisle-two-shot-shot-04",
-          "name": "Release into aftermath",
-          "trigger": {
-            "type": "relativeTime",
-            "actionId": "factory-02-aisle-two-shot-shot-03",
-            "reference": "end",
-            "offset": 0
-          },
-          "movement": {
-            "act": "follow",
-            "duration": 11,
-            "relativeFPS": "normal",
-            "targets": [
-              {
-                "ref": "subject_worker_a",
-                "description": "کارگر الف / worker A — initiates shove"
-              },
-              {
-                "ref": "subject_worker_b",
-                "description": "کارگر ب / worker B — collides with production line"
-              }
-            ],
-            "parameters": {
-              "path": "spline",
-              "handheld": false
-            }
-          },
-          "constraints": [
-            {
-              "kind": "general",
-              "constraint": "noShake",
-              "allFrames": true
-            },
-            {
-              "kind": "general",
-              "constraint": "keepInFrame",
               "targets": [
                 {
                   "ref": "subject_worker_a",
@@ -322,146 +288,21 @@
                   "description": "کارگر ب / worker B — collides with production line"
                 }
               ],
-              "allFrames": true
-            },
-            {
               "config": {
-                "type": "nonSubjectAware",
-                "extrinsics": {
-                  "pose": {
-                    "position": {
-                      "x": 3.25,
-                      "y": 3.5,
-                      "z": 12.125
-                    },
-                    "rotation": {
-                      "x": 0.1381199591,
-                      "y": -0.0274795573,
-                      "z": -0.0038337097,
-                      "w": -0.9900267943
-                    }
-                  }
-                },
-                "intrinsics": {
-                  "fov": 43.0,
-                  "aspectRatio": 1.7777777777777777
-                }
+                "type": "subjectAware",
+                "shotSize": "fullShot"
               },
               "allFrames": false,
               "easing": {
-                "inDuration": 1.0,
+                "inDuration": 0.6,
                 "curve": "easeInOut"
               }
             }
           ]
         },
         {
-          "id": "factory-02-aisle-two-shot-shot-05",
-          "name": "Quiet final two-shot",
-          "trigger": {
-            "type": "relativeTime",
-            "actionId": "factory-02-aisle-two-shot-shot-04",
-            "reference": "end",
-            "offset": 0
-          },
-          "movement": {
-            "act": "static",
-            "duration": 12,
-            "relativeFPS": "normal",
-            "targets": [
-              {
-                "ref": "subject_worker_a",
-                "description": "کارگر الف / worker A — initiates shove"
-              },
-              {
-                "ref": "subject_worker_b",
-                "description": "کارگر ب / worker B — collides with production line"
-              }
-            ]
-          },
-          "constraints": [
-            {
-              "kind": "general",
-              "constraint": "noShake",
-              "allFrames": true
-            },
-            {
-              "kind": "general",
-              "constraint": "keepInFrame",
-              "targets": [
-                {
-                  "ref": "subject_worker_a",
-                  "description": "کارگر الف / worker A — initiates shove"
-                },
-                {
-                  "ref": "subject_worker_b",
-                  "description": "کارگر ب / worker B — collides with production line"
-                }
-              ],
-              "allFrames": true
-            },
-            {
-              "config": {
-                "type": "nonSubjectAware",
-                "extrinsics": {
-                  "pose": {
-                    "position": {
-                      "x": 3.25,
-                      "y": 3.5,
-                      "z": 12.125
-                    },
-                    "rotation": {
-                      "x": 0.1381199591,
-                      "y": -0.0274795573,
-                      "z": -0.0038337097,
-                      "w": -0.9900267943
-                    }
-                  }
-                },
-                "intrinsics": {
-                  "fov": 43.0,
-                  "aspectRatio": 1.7777777777777777
-                }
-              },
-              "allFrames": false,
-              "easing": {
-                "inDuration": 1.0,
-                "curve": "easeInOut"
-              }
-            }
-          ]
-        },
-        {
-          "id": "factory-02-aisle-two-shot-overlay-01",
-          "name": "Concurrent craneDown",
-          "trigger": {
-            "type": "absoluteTime",
-            "time": 0
-          },
-          "movement": {
-            "act": "craneDown",
-            "duration": 12,
-            "parameters": {}
-          }
-        },
-        {
-          "id": "factory-02-aisle-two-shot-overlay-02",
-          "name": "Concurrent zoomIn",
-          "trigger": {
-            "type": "absoluteTime",
-            "time": 0
-          },
-          "movement": {
-            "act": "zoomIn",
-            "duration": 12,
-            "parameters": {
-              "zoomFactor": 2.224863345838174
-            }
-          }
-        },
-        {
-          "id": "factory-02-aisle-two-shot-overlay-03",
-          "name": "Concurrent dollyOut",
+          "id": "factory-02-aisle-two-shot-shot-004",
+          "name": "Give the shove room",
           "trigger": {
             "type": "absoluteTime",
             "time": 17
@@ -469,7 +310,94 @@
           "movement": {
             "act": "dollyOut",
             "duration": 3,
-            "parameters": {},
+            "relativeFPS": "normal",
+            "targets": [
+              {
+                "ref": "subject_worker_a",
+                "description": "کارگر الف / worker A — initiates shove"
+              },
+              {
+                "ref": "subject_worker_b",
+                "description": "کارگر ب / worker B — collides with production line"
+              }
+            ],
+            "parameters": {
+              "distance": 1.4,
+              "handheld": false,
+              "path": "linear"
+            }
+          },
+          "constraints": [
+            {
+              "kind": "general",
+              "constraint": "noShake",
+              "allFrames": true
+            },
+            {
+              "kind": "general",
+              "constraint": "keepInFrame",
+              "targets": [
+                {
+                  "ref": "subject_worker_a",
+                  "description": "کارگر الف / worker A — initiates shove"
+                },
+                {
+                  "ref": "subject_worker_b",
+                  "description": "کارگر ب / worker B — collides with production line"
+                }
+              ],
+              "allFrames": true
+            },
+            {
+              "kind": "general",
+              "constraint": "avoidOcclusion",
+              "targets": [
+                {
+                  "ref": "subject_worker_a",
+                  "description": "کارگر الف / worker A — initiates shove"
+                },
+                {
+                  "ref": "subject_worker_b",
+                  "description": "کارگر ب / worker B — collides with production line"
+                }
+              ],
+              "allFrames": true,
+              "weight": 0.8
+            },
+            {
+              "targets": [
+                {
+                  "ref": "subject_worker_a",
+                  "description": "کارگر الف / worker A — initiates shove"
+                },
+                {
+                  "ref": "subject_worker_b",
+                  "description": "کارگر ب / worker B — collides with production line"
+                }
+              ],
+              "config": {
+                "type": "subjectAware",
+                "shotSize": "longShot"
+              },
+              "allFrames": false,
+              "easing": {
+                "inDuration": 0.6,
+                "curve": "easeInOut"
+              }
+            }
+          ]
+        },
+        {
+          "id": "factory-02-aisle-two-shot-shot-005",
+          "name": "Do not hide the cause",
+          "trigger": {
+            "type": "absoluteTime",
+            "time": 20
+          },
+          "movement": {
+            "act": "static",
+            "duration": 3,
+            "relativeFPS": "normal",
             "targets": [
               {
                 "ref": "subject_worker_a",
@@ -480,35 +408,312 @@
                 "description": "کارگر ب / worker B — collides with production line"
               }
             ]
-          }
-        },
-        {
-          "id": "factory-02-aisle-two-shot-overlay-04",
-          "name": "Concurrent craneUp",
-          "trigger": {
-            "type": "absoluteTime",
-            "time": 17
           },
-          "movement": {
-            "act": "craneUp",
-            "duration": 3,
-            "parameters": {}
-          }
-        },
-        {
-          "id": "factory-02-aisle-two-shot-overlay-05",
-          "name": "Concurrent zoomOut",
-          "trigger": {
-            "type": "absoluteTime",
-            "time": 17
-          },
-          "movement": {
-            "act": "zoomOut",
-            "duration": 3,
-            "parameters": {
-              "zoomFactor": 1.310479505720535
+          "constraints": [
+            {
+              "kind": "general",
+              "constraint": "noShake",
+              "allFrames": true
+            },
+            {
+              "kind": "general",
+              "constraint": "keepInFrame",
+              "targets": [
+                {
+                  "ref": "subject_worker_a",
+                  "description": "کارگر الف / worker A — initiates shove"
+                },
+                {
+                  "ref": "subject_worker_b",
+                  "description": "کارگر ب / worker B — collides with production line"
+                }
+              ],
+              "allFrames": true
+            },
+            {
+              "kind": "general",
+              "constraint": "avoidOcclusion",
+              "targets": [
+                {
+                  "ref": "subject_worker_a",
+                  "description": "کارگر الف / worker A — initiates shove"
+                },
+                {
+                  "ref": "subject_worker_b",
+                  "description": "کارگر ب / worker B — collides with production line"
+                }
+              ],
+              "allFrames": true,
+              "weight": 0.8
+            },
+            {
+              "targets": [
+                {
+                  "ref": "subject_worker_a",
+                  "description": "کارگر الف / worker A — initiates shove"
+                },
+                {
+                  "ref": "subject_worker_b",
+                  "description": "کارگر ب / worker B — collides with production line"
+                }
+              ],
+              "config": {
+                "type": "subjectAware",
+                "shotSize": "longShot"
+              },
+              "allFrames": false,
+              "easing": {
+                "inDuration": 0.6,
+                "curve": "easeInOut"
+              }
             }
-          }
+          ]
+        },
+        {
+          "id": "factory-02-aisle-two-shot-shot-006",
+          "name": "Bring attention to the aftermath",
+          "trigger": {
+            "type": "absoluteTime",
+            "time": 23
+          },
+          "movement": {
+            "act": "pedestalDown",
+            "duration": 6,
+            "relativeFPS": "normal",
+            "parameters": {
+              "distance": 0.45,
+              "handheld": false,
+              "path": "linear"
+            }
+          },
+          "constraints": [
+            {
+              "kind": "general",
+              "constraint": "noShake",
+              "allFrames": true
+            },
+            {
+              "kind": "general",
+              "constraint": "keepInFrame",
+              "targets": [
+                {
+                  "ref": "subject_worker_a",
+                  "description": "کارگر الف / worker A — initiates shove"
+                },
+                {
+                  "ref": "subject_worker_b",
+                  "description": "کارگر ب / worker B — collides with production line"
+                }
+              ],
+              "allFrames": true
+            },
+            {
+              "kind": "general",
+              "constraint": "avoidOcclusion",
+              "targets": [
+                {
+                  "ref": "subject_worker_a",
+                  "description": "کارگر الف / worker A — initiates shove"
+                },
+                {
+                  "ref": "subject_worker_b",
+                  "description": "کارگر ب / worker B — collides with production line"
+                }
+              ],
+              "allFrames": true,
+              "weight": 0.8
+            },
+            {
+              "targets": [
+                {
+                  "ref": "subject_worker_a",
+                  "description": "کارگر الف / worker A — initiates shove"
+                },
+                {
+                  "ref": "subject_worker_b",
+                  "description": "کارگر ب / worker B — collides with production line"
+                }
+              ],
+              "config": {
+                "type": "subjectAware",
+                "shotSize": "longShot"
+              },
+              "allFrames": false,
+              "easing": {
+                "inDuration": 0.6,
+                "curve": "easeInOut"
+              }
+            }
+          ]
+        },
+        {
+          "id": "factory-02-aisle-two-shot-shot-007",
+          "name": "Let the distance return",
+          "trigger": {
+            "type": "absoluteTime",
+            "time": 29
+          },
+          "movement": {
+            "act": "dollyOut",
+            "duration": 9,
+            "relativeFPS": "normal",
+            "targets": [
+              {
+                "ref": "subject_worker_a",
+                "description": "کارگر الف / worker A — initiates shove"
+              },
+              {
+                "ref": "subject_worker_b",
+                "description": "کارگر ب / worker B — collides with production line"
+              }
+            ],
+            "parameters": {
+              "distance": 2,
+              "handheld": false,
+              "path": "linear"
+            }
+          },
+          "constraints": [
+            {
+              "kind": "general",
+              "constraint": "noShake",
+              "allFrames": true
+            },
+            {
+              "kind": "general",
+              "constraint": "keepInFrame",
+              "targets": [
+                {
+                  "ref": "subject_worker_a",
+                  "description": "کارگر الف / worker A — initiates shove"
+                },
+                {
+                  "ref": "subject_worker_b",
+                  "description": "کارگر ب / worker B — collides with production line"
+                }
+              ],
+              "allFrames": true
+            },
+            {
+              "kind": "general",
+              "constraint": "avoidOcclusion",
+              "targets": [
+                {
+                  "ref": "subject_worker_a",
+                  "description": "کارگر الف / worker A — initiates shove"
+                },
+                {
+                  "ref": "subject_worker_b",
+                  "description": "کارگر ب / worker B — collides with production line"
+                }
+              ],
+              "allFrames": true,
+              "weight": 0.8
+            },
+            {
+              "targets": [
+                {
+                  "ref": "subject_worker_a",
+                  "description": "کارگر الف / worker A — initiates shove"
+                },
+                {
+                  "ref": "subject_worker_b",
+                  "description": "کارگر ب / worker B — collides with production line"
+                }
+              ],
+              "config": {
+                "type": "subjectAware",
+                "shotSize": "longShot"
+              },
+              "allFrames": false,
+              "easing": {
+                "inDuration": 0.6,
+                "curve": "easeInOut"
+              }
+            }
+          ]
+        },
+        {
+          "id": "factory-02-aisle-two-shot-shot-008",
+          "name": "End on unresolved stillness",
+          "trigger": {
+            "type": "absoluteTime",
+            "time": 38
+          },
+          "movement": {
+            "act": "static",
+            "duration": 10,
+            "relativeFPS": "normal",
+            "targets": [
+              {
+                "ref": "subject_worker_a",
+                "description": "کارگر الف / worker A — initiates shove"
+              },
+              {
+                "ref": "subject_worker_b",
+                "description": "کارگر ب / worker B — collides with production line"
+              }
+            ]
+          },
+          "constraints": [
+            {
+              "kind": "general",
+              "constraint": "noShake",
+              "allFrames": true
+            },
+            {
+              "kind": "general",
+              "constraint": "keepInFrame",
+              "targets": [
+                {
+                  "ref": "subject_worker_a",
+                  "description": "کارگر الف / worker A — initiates shove"
+                },
+                {
+                  "ref": "subject_worker_b",
+                  "description": "کارگر ب / worker B — collides with production line"
+                }
+              ],
+              "allFrames": true
+            },
+            {
+              "kind": "general",
+              "constraint": "avoidOcclusion",
+              "targets": [
+                {
+                  "ref": "subject_worker_a",
+                  "description": "کارگر الف / worker A — initiates shove"
+                },
+                {
+                  "ref": "subject_worker_b",
+                  "description": "کارگر ب / worker B — collides with production line"
+                }
+              ],
+              "allFrames": true,
+              "weight": 0.8
+            },
+            {
+              "targets": [
+                {
+                  "ref": "subject_worker_a",
+                  "description": "کارگر الف / worker A — initiates shove"
+                },
+                {
+                  "ref": "subject_worker_b",
+                  "description": "کارگر ب / worker B — collides with production line"
+                }
+              ],
+              "config": {
+                "type": "subjectAware",
+                "shotSize": "longShot"
+              },
+              "allFrames": false,
+              "easing": {
+                "inDuration": 0.6,
+                "curve": "easeInOut"
+              }
+            }
+          ]
         }
       ]
     }

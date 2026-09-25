@@ -1,1 +1,21 @@
-Film a continuous 48-second recovery story centred on runner 03, the yellow-shirted runner, in the stadium. Start in a stable elevated side-follow outside the racing lanes. Track this runner, not the race leader. Between 10 and 13.5 seconds move outward and slightly upward, widening before the fall begins at 13.7 seconds. Keep the entire falling body and the patch of track visible through the fall and recovery at 16.8–18 seconds; do not make an abrupt camera dip. Between 18.5 and 24 seconds ease back into the following distance as the runner resumes the race. Continue with this same runner through their later finish around 44.8 seconds. End with a gentle elevated pullback that gives the recovered runner room in the frame. Retain natural scene timing, smooth acceleration and a level horizon; use no cuts, dramatic roll, or freeze frames.
+Film a continuous 48-second recovery story about runner_03, the yellow-shirted runner, not the race leader. The camera must anticipate the fall rather than react with a frantic dip. Keep the athlete and the contact patch readable, then let resumed forward movement restore the energy of the film. Stay outside the lanes and preserve respectful distance during the fall.
+
+Playback 0–8 s (scene 0–8 s): Track from an elevated outside three-quarter position, keeping the full body and the next stretch of track visible.
+
+Playback 8–13.3 s (scene 8–13.3 s): Ease the tracking position outward and widen before scene 13.7 s; do not zoom into a body that is about to leave its standing silhouette.
+
+Playback 13.3–17.3 s (scene 13.3–15.3 s): Run the scene at 0.5x. Hold the whole falling body and its track contact in view; let the loss of balance, recoil and pause read without cutting away.
+
+Playback 17.3–21.3 s (scene 15.3–17.3 s): Continue 0.5x slow motion. Make a small 6-degree outside arc at 12 m, giving space for the hands to plant and the body to rise. Recovery begins at playback 20.3 s, corresponding to scene 16.8 s.
+
+Playback 21.3–25 s (scene 17.3–21 s): Return to real time, soften the lead and re-establish parallel tracking as the athlete regains forward rhythm.
+
+Playback 25–29 s (scene 21–29 s): Use a deliberate four-second 2x fast-motion passage for the recovered run, never for the impact. This catches the scene clock up without skipping the recovery.
+
+Playback 29–41 s (scene 29–41 s): Restore real time and stay with the same athlete. Do not switch to the winner or imply this runner won.
+
+Playback 41–44.8 s (scene 41–44.8 s): Track the runner through the later finish at scene and playback 44.8 s; protect the entire stride and finish line.
+
+Playback 44.8–48 s (scene 44.8–48 s): Rise 2 m with 1.5 m of retreat, leaving the recovered athlete small but unambiguously central to the story.
+
+All intervals above are playback time; scene-time ranges explicitly identify the authored events. The time treatment applies to the entire environment, including props and performances, while the camera continues on playback time. Complete the full scene exactly once, from scene 0 to 48 s, in a 48-second film. Use non-overlapping relativeFPS intervals, a continuous camera pose, smooth camera acceleration and a level horizon. Use no cuts, teleports, unmotivated roll, random shake, new actors or invented events. Keep a collision-safe route and do not pass through subjects. Concurrent camera-only moves: Before the fall, increase the camera stand-off by 2.2 m. Lift 1 m during that anticipation move. These overlays do not set another scene-time rate.

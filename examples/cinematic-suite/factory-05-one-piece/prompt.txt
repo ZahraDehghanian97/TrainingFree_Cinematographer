@@ -1,1 +1,23 @@
-Tell a 48-second factory story through cargo 06, the sixth piece that spills from the production line. For the first 15 seconds smoothly track this piece with a relatively tight product-led composition; show enough conveyor to establish its movement. Between 15 and 20 seconds rise, move farther out, and widen before the impact. Track the piece through its airborne motion beginning at 21.3 seconds and its bounce and settling, smoothing the camera rather than copying the object's vertical jolt. Keep the production line and fragments of the workers' action as context. Between 26 and 34 seconds make a deliberate smooth handoff to a low oblique, stationary view of the resting piece on the floor. Hold that quiet insert from 34 to 48 seconds while the factory aftermath continues behind it. Use a level horizon, normal scene speed, no cuts, no focus-pull claims, and no camera intersections with the floor, workers, or machinery.
+Tell a 48-second product-led story about cargo_06, the sixth falling box, from ordered production to disorder and rest. Let its seams and packing bands make it recognisable throughout. The piece remains the same entity: no substitution, teleport, or imaginary pickup by a robot. Start above the belt in the clear south aisle; widen before the fall so the full trajectory and contact patch stay inside the image.
+
+Playback 0–8.6 s (scene 0–17.2 s): Use 2x fast motion to compress the routine belt journey. Track the same piece, preserving its shape and the moving slats below it.
+
+Playback 8.6–11 s (scene 17.2–19.6 s): Return to real time, easing the camera outward and upward before the release at scene 21.3 s.
+
+Playback 11–12.7 s (scene 19.6–21.3 s): Retreat 0.8 m to leave room for the box, tumbling rotation and floor impact rather than trying to remain in an impossible close-up.
+
+Playback 12.7–17.7 s (scene 21.3–21.8 s): Use 0.1x very slow motion from scene 21.3 to 21.8 s. Follow the box leaving the belt, changing orientation, and entering its downward arc.
+
+Playback 17.7–18.2 s (scene 21.8–21.8 s): Freeze the scene at 21.8 s for 0.5 playback seconds while making a 2-degree camera arc at 5 m. The cargo remains suspended; do not reset its rotation.
+
+Playback 18.2–22.2 s (scene 21.8–22.2 s): Resume 0.1x from scene 21.8 to 22.2 s, retaining the entire falling box and the approaching floor.
+
+Playback 22.2–26 s (scene 22.2–26 s): Return to real time for floor contact, diminishing rebounds, a short slide and rotational settling. Avoid a camera overshoot when the piece stops.
+
+Playback 26–32 s (scene 26–32 s): Descend 0.8 m into a low, safe insert, never below the floor. Keep the stationary piece crisp in the foreground with workers still active behind it.
+
+Playback 32–40 s (scene 32–40 s): Arc 8 degrees at 5 m around the resting piece; use foreground-to-background separation rather than an unsupported rack-focus instruction.
+
+Playback 40–48 s (scene 40–48 s): Hold on the settled piece and the living background. The cargo must no longer spin or drift, and the stopped line must not resume.
+
+All intervals above are playback time; scene-time ranges explicitly identify the authored events. The time treatment applies to the entire environment, including props and performances, while the camera continues on playback time. Complete the full scene exactly once, from scene 0 to 48 s, in a 48-second film. Use non-overlapping relativeFPS intervals, a continuous camera pose, smooth camera acceleration and a level horizon. Use no cuts, teleports, unmotivated roll, random shake, new actors or invented events. Keep a collision-safe route and do not pass through subjects. Concurrent camera-only moves: Lift 0.65 m while preparing for the spill. Widen the lens by 1.15x before the box falls. These overlays do not set another scene-time rate.

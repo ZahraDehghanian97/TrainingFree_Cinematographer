@@ -1,1 +1,17 @@
-Create a 48-second behind-the-scenes portrait of the independent sideline cameraman in the stadium. The visible track_cameraman is the subject, carrying the physical shoulder camera; do not mistake him for the filming viewpoint. Track from farther outside the oval, above the spectator sightline, starting slightly behind him. Move with his run in a stable medium-long composition and let the racing action appear as context behind him. From 12 to 32 seconds make a very gradual transition toward a side/front-quarter relationship without orbiting through the track or stands. Continue through the race finish, then widen and rise from 34 to 48 seconds to show the operator within the event he is filming. Keep his full body and equipment readable, respect the grandstands, maintain a level horizon, and use one uninterrupted take at normal speed.
+Create a 48-second observational portrait of track_cameraman, the independent, visible sideline operator carrying a shoulder camera. He is the on-screen subject, never the filming viewpoint. This is the real-time contrast to the speed-treated sports films: emphasize his effort, camera handling, and his place within the race. Start farther outside the oval and above nearby spectators; maintain a continuous, level-horizon take.
+
+Playback 0–4 s (scene 0–4 s): Ease backward 1 m so both the operator and the shoulder camera read before committing to the run.
+
+Playback 4–14 s (scene 4–14 s): Track slightly behind his outside shoulder, matching his run with a stable camera and preserving his full body and equipment.
+
+Playback 14–27 s (scene 14–27 s): Make a gradual parallel transition toward a side relationship. Let lanes, runners and stands provide parallax without circling through any of them.
+
+Playback 27–34 s (scene 27–34 s): Ease to a modest front-quarter lead of 1.5 m; anticipate where he is filming rather than mechanically centring his head.
+
+Playback 34–40 s (scene 34–40 s): Stay on him through the winner crossing and the start of celebration. Widen smoothly so the audience can read his work and its subject together.
+
+Playback 40–44 s (scene 40–44 s): Rise 2 m with 1 m of horizontal retreat to connect his silhouette to the flower shower and nearby audience.
+
+Playback 44–48 s (scene 44–48 s): Retreat 3 m into a layered wide, preserving the operator as the anchor rather than transferring the shot to the winner.
+
+All intervals above are playback time; scene-time ranges explicitly identify the authored events. The time treatment applies to the entire environment, including props and performances, while the camera continues on playback time. Complete the full scene exactly once, from scene 0 to 48 s, in a 48-second film. Use non-overlapping relativeFPS intervals, a continuous camera pose, smooth camera acceleration and a level horizon. Use no cuts, teleports, unmotivated roll, random shake, new actors or invented events. Keep a collision-safe route and do not pass through subjects. Concurrent camera-only moves: Widen the lens by 1.18x during the finish coverage. These overlays do not set another scene-time rate.
