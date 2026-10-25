@@ -1,0 +1,63 @@
+{
+  "totalDuration": 5,
+  "sections": [
+    {
+      "actions": [
+        {
+          "id": "orbit_subject_25deg",
+          "trigger": {
+            "type": "absoluteTime",
+            "time": 0
+          },
+          "movement": {
+            "act": "arcRight",
+            "targets": [
+              {
+                "id": "subject_1",
+                "description": "Main man in brown coat"
+              }
+            ],
+            "duration": 5,
+            "parameters": {
+              "arcAngle": 360,
+              "arcRadius": 6,
+              "constantSpeed": true,
+              "handheld": false
+            }
+          },
+          "constraints": [
+            {
+              "kind": "general",
+              "constraint": "noShake",
+              "allFrames": true
+            },
+            {
+              "kind": "general",
+              "constraint": "keepInFrame",
+              "targets": [
+                {
+                  "id": "subject_1",
+                  "description": "Main man in brown coat"
+                }
+              ],
+              "allFrames": true
+            },
+            {
+              "targets": [
+                {
+                  "id": "subject_1",
+                  "description": "Main man in brown coat"
+                }
+              ],
+              "config": {
+                "type": "subjectAware",
+                "shotSize": "mediumShot"
+              },
+              "allFrames": true
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,16 @@
+{
+  "schemaVersion": "1.0",
+  "kind": "environmentManifest",
+  "environments": [
+    {
+      "id": "the-pianist",
+      "promptExampleId": "the-pianist",
+      "title": "Video · the-pianist",
+      "prompt": "Object-centric 4D environment reconstructed from video, scaled by 15.2 m per tracker unit",
+      "durationSeconds": 9.046191821,
+      "url": "/environments/the-pianist.json",
+      "optimizedTrajectoryUrl": "/trajectories/optimized/the-pianist-camera.json",
+      "optimizedTrajectoryStale": true
+    }
+  ]
+}
