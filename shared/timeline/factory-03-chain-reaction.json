@@ -1,0 +1,312 @@
+{
+  "schemaVersion": "1.0",
+  "kind": "timelineSolverOutput",
+  "exampleId": "factory-03-chain-reaction",
+  "environmentId": "factory",
+  "prompt": "Create a 48-second high-angle, single-take factory master that explains the chain reaction spatially. Begin with a broad interior view of the conveyor and its two end stations. Over the first 14 seconds move closer to an elevated view of the central south-side work area, remaining around 8.1 metres high and below the ceiling and beams. From 14 to 26 seconds lock both camera position and aim. In that frame, show workers A and B, the shove at 20 seconds, the impact and clustered cargo spill at 21 seconds, and the emergency operator near the control station at 21.7 seconds. Prioritize clear spatial relationships over close-ups. After 26 seconds slowly withdraw and drift to the right to reveal the stopped line and the wider response. Use a level horizon, normal speed, gentle lens changes, and no cuts or shake.",
+  "totalDuration": 48,
+  "subjectBinding": {
+    "mode": "resolved",
+    "source": "resolved-fixture"
+  },
+  "timeline": {
+    "timeline": [
+      {
+        "kind": "interval",
+        "shotStartTime": 0,
+        "startTime": 0,
+        "endTime": 14,
+        "lossFunctions": [
+          {
+            "type": "dollyInMovement",
+            "parameters": {
+              "subjectId": "production_line",
+              "path": "spline",
+              "handheld": false
+            },
+            "sourceActionId": "factory-03-chain-reaction-shot-01"
+          }
+        ],
+        "weight": 1
+      },
+      {
+        "kind": "interval",
+        "shotStartTime": 0,
+        "startTime": 0,
+        "endTime": 14,
+        "lossFunctions": [
+          {
+            "type": "noShake",
+            "parameters": {},
+            "sourceActionId": "factory-03-chain-reaction-shot-01"
+          }
+        ],
+        "weight": 1
+      },
+      {
+        "kind": "point",
+        "shotStartTime": 0,
+        "time": 0,
+        "lossFunctions": [
+          {
+            "type": "minPath",
+            "parameters": {
+              "targetPose": {
+                "position": {
+                  "x": 0,
+                  "y": 8.1,
+                  "z": 12
+                },
+                "rotation": {
+                  "x": -0.2639689089,
+                  "y": 0,
+                  "z": 0,
+                  "w": 0.9645311893
+                }
+              },
+              "targetIntrinsics": {
+                "fov": 68,
+                "aspectRatio": 1.7777777777777777
+              }
+            }
+          }
+        ],
+        "weight": 1
+      },
+      {
+        "kind": "point",
+        "shotStartTime": 0,
+        "time": 14,
+        "lossFunctions": [
+          {
+            "type": "minPath",
+            "parameters": {
+              "targetPose": {
+                "position": {
+                  "x": 2,
+                  "y": 8.1,
+                  "z": 6.5
+                },
+                "rotation": {
+                  "x": -0.443522616,
+                  "y": 0,
+                  "z": 0,
+                  "w": 0.8962631807
+                }
+              },
+              "targetIntrinsics": {
+                "fov": 56,
+                "aspectRatio": 1.7777777777777777
+              }
+            }
+          }
+        ],
+        "weight": 1,
+        "easing": {
+          "inDuration": 1,
+          "curve": "easeInOut"
+        }
+      },
+      {
+        "kind": "interval",
+        "shotStartTime": 0,
+        "startTime": 14,
+        "endTime": 26,
+        "lossFunctions": [
+          {
+            "type": "Static",
+            "parameters": {
+              "subjectIds": [
+                "worker_a",
+                "worker_b",
+                "cargo_06",
+                "worker_05"
+              ]
+            },
+            "sourceActionId": "factory-03-chain-reaction-shot-02"
+          }
+        ],
+        "weight": 1
+      },
+      {
+        "kind": "interval",
+        "shotStartTime": 0,
+        "startTime": 14,
+        "endTime": 26,
+        "lossFunctions": [
+          {
+            "type": "noShake",
+            "parameters": {},
+            "sourceActionId": "factory-03-chain-reaction-shot-02"
+          }
+        ],
+        "weight": 1
+      },
+      {
+        "kind": "interval",
+        "shotStartTime": 0,
+        "startTime": 14,
+        "endTime": 26,
+        "lossFunctions": [
+          {
+            "type": "keepInFrame",
+            "parameters": {
+              "subjectIds": [
+                "worker_a",
+                "worker_b",
+                "cargo_06",
+                "worker_05"
+              ]
+            },
+            "sourceActionId": "factory-03-chain-reaction-shot-02"
+          }
+        ],
+        "weight": 1
+      },
+      {
+        "kind": "point",
+        "shotStartTime": 0,
+        "time": 26,
+        "lossFunctions": [
+          {
+            "type": "minPath",
+            "parameters": {
+              "targetPose": {
+                "position": {
+                  "x": 2,
+                  "y": 8.1,
+                  "z": 6.5
+                },
+                "rotation": {
+                  "x": -0.443522616,
+                  "y": 0,
+                  "z": 0,
+                  "w": 0.8962631807
+                }
+              },
+              "targetIntrinsics": {
+                "fov": 56,
+                "aspectRatio": 1.7777777777777777
+              }
+            }
+          }
+        ],
+        "weight": 1,
+        "easing": {
+          "inDuration": 1,
+          "curve": "easeInOut"
+        }
+      },
+      {
+        "kind": "interval",
+        "shotStartTime": 0,
+        "startTime": 26,
+        "endTime": 48,
+        "lossFunctions": [
+          {
+            "type": "dollyOutMovement",
+            "parameters": {
+              "subjectIds": [
+                "worker_a",
+                "worker_b",
+                "worker_05"
+              ],
+              "path": "spline",
+              "handheld": false
+            },
+            "sourceActionId": "factory-03-chain-reaction-shot-03"
+          }
+        ],
+        "weight": 1
+      },
+      {
+        "kind": "interval",
+        "shotStartTime": 0,
+        "startTime": 26,
+        "endTime": 48,
+        "lossFunctions": [
+          {
+            "type": "noShake",
+            "parameters": {},
+            "sourceActionId": "factory-03-chain-reaction-shot-03"
+          }
+        ],
+        "weight": 1
+      },
+      {
+        "kind": "interval",
+        "shotStartTime": 0,
+        "startTime": 26,
+        "endTime": 48,
+        "lossFunctions": [
+          {
+            "type": "keepInFrame",
+            "parameters": {
+              "subjectIds": [
+                "worker_a",
+                "worker_b",
+                "worker_05"
+              ]
+            },
+            "sourceActionId": "factory-03-chain-reaction-shot-03"
+          }
+        ],
+        "weight": 1
+      },
+      {
+        "kind": "point",
+        "shotStartTime": 0,
+        "time": 48,
+        "lossFunctions": [
+          {
+            "type": "minPath",
+            "parameters": {
+              "targetPose": {
+                "position": {
+                  "x": 4,
+                  "y": 8.2,
+                  "z": 11
+                },
+                "rotation": {
+                  "x": -0.293245854,
+                  "y": 0.1167284218,
+                  "z": 0.0361002143,
+                  "w": 0.9481972997
+                }
+              },
+              "targetIntrinsics": {
+                "fov": 61,
+                "aspectRatio": 1.7777777777777777
+              }
+            }
+          }
+        ],
+        "weight": 1,
+        "easing": {
+          "inDuration": 1,
+          "curve": "easeInOut"
+        }
+      }
+    ],
+    "timeWarp": [
+      {
+        "startTimePlayback": 0,
+        "endTimePlayback": 14,
+        "rate": 1,
+        "label": "normal"
+      },
+      {
+        "startTimePlayback": 14,
+        "endTimePlayback": 26,
+        "rate": 1,
+        "label": "normal"
+      },
+      {
+        "startTimePlayback": 26,
+        "endTimePlayback": 48,
+        "rate": 1,
+        "label": "normal"
+      }
+    ]
+  }
+}

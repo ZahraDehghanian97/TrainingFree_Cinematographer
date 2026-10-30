@@ -1,0 +1,253 @@
+{
+  "note": "Human-readable subset; trajectory.json is the complete replay reference.",
+  "samples": [
+    {
+      "t": 0.0,
+      "position": [
+        -6.2341957,
+        3.4,
+        4.14
+      ],
+      "positionVelocity": [
+        0.2749992,
+        0.0,
+        0.0
+      ],
+      "positionAcceleration": [
+        0.7318827,
+        0.0,
+        0.0
+      ],
+      "rotation": [
+        0.2159764088,
+        -0.0876686127,
+        -0.0194745806,
+        -0.972259814
+      ],
+      "lookAt": [
+        -7.0341957,
+        1.31,
+        -0.26
+      ],
+      "fovYDegrees": 29.0,
+      "actionId": "factory-05-one-piece-shot-01"
+    },
+    {
+      "t": 15.0,
+      "position": [
+        1.95,
+        3.4,
+        4.14
+      ],
+      "positionVelocity": [
+        0.55,
+        0.0,
+        0.0
+      ],
+      "positionAcceleration": [
+        -0.0,
+        4e-06,
+        3.3e-06
+      ],
+      "rotation": [
+        0.2159764088,
+        -0.0876686127,
+        -0.0194745806,
+        -0.972259814
+      ],
+      "lookAt": [
+        1.15,
+        1.31,
+        -0.26
+      ],
+      "fovYDegrees": 29.0,
+      "actionId": "factory-05-one-piece-shot-02"
+    },
+    {
+      "t": 20.0,
+      "position": [
+        4.7,
+        5.8,
+        6.14
+      ],
+      "positionVelocity": [
+        0.55,
+        0.0,
+        0.0
+      ],
+      "positionAcceleration": [
+        0.0,
+        -4e-06,
+        -3.3e-06
+      ],
+      "rotation": [
+        0.298824536,
+        -0.0592869928,
+        -0.0186041427,
+        -0.9522829596
+      ],
+      "lookAt": [
+        3.9,
+        1.31,
+        -0.26
+      ],
+      "fovYDegrees": 44.0,
+      "actionId": "factory-05-one-piece-shot-03"
+    },
+    {
+      "t": 21.7,
+      "position": [
+        6.1527159,
+        5.8,
+        7.4720147
+      ],
+      "positionVelocity": [
+        1.6748109,
+        0.0,
+        2.9017628
+      ],
+      "positionAcceleration": [
+        0.519268,
+        -0.0,
+        1.4220682
+      ],
+      "rotation": [
+        0.2504448171,
+        -0.0601493733,
+        -0.0155921304,
+        -0.966134738
+      ],
+      "lookAt": [
+        5.3527159,
+        2.2152325,
+        1.0720147
+      ],
+      "fovYDegrees": 44.0,
+      "actionId": "factory-05-one-piece-shot-03"
+    },
+    {
+      "t": 22.6,
+      "position": [
+        7.3549481,
+        5.8,
+        9.5360461
+      ],
+      "positionVelocity": [
+        0.5874164,
+        -0.0,
+        0.8864721
+      ],
+      "positionAcceleration": [
+        -1.7419348,
+        -0.0,
+        -3.086386
+      ],
+      "rotation": [
+        0.3360722433,
+        -0.0585088496,
+        -0.0209231011,
+        -0.9397842229
+      ],
+      "lookAt": [
+        6.5549481,
+        0.5106069,
+        3.1360461
+      ],
+      "fovYDegrees": 44.0,
+      "actionId": "factory-05-one-piece-shot-03"
+    },
+    {
+      "t": 26.0,
+      "position": [
+        7.5349942,
+        5.7511454,
+        9.7234657
+      ],
+      "positionVelocity": [
+        1.74e-05,
+        -0.1349438,
+        -0.1284994
+      ],
+      "positionAcceleration": [
+        -5.35e-05,
+        -0.2249087,
+        -0.2142534
+      ],
+      "rotation": [
+        0.3463634169,
+        -0.0586973164,
+        -0.0217204914,
+        -0.9360102717
+      ],
+      "lookAt": [
+        6.7349942,
+        0.26,
+        3.369994
+      ],
+      "fovYDegrees": 43.8138871,
+      "actionId": "factory-05-one-piece-shot-04"
+    },
+    {
+      "t": 34.0,
+      "position": [
+        4.035,
+        2.06,
+        7.07
+      ],
+      "positionVelocity": [
+        -0.0,
+        -0.0,
+        -0.0
+      ],
+      "positionAcceleration": [
+        9e-07,
+        4e-07,
+        2e-07
+      ],
+      "rotation": [
+        0.176958207,
+        0.3045900817,
+        0.0577010245,
+        -0.9341205848
+      ],
+      "lookAt": [
+        6.735,
+        0.26,
+        3.37
+      ],
+      "fovYDegrees": 31.0,
+      "actionId": "factory-05-one-piece-shot-05"
+    },
+    {
+      "t": 48.0,
+      "position": [
+        4.035,
+        2.06,
+        7.07
+      ],
+      "positionVelocity": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "positionAcceleration": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "rotation": [
+        0.176958207,
+        0.3045900817,
+        0.0577010245,
+        -0.9341205848
+      ],
+      "lookAt": [
+        6.735,
+        0.26,
+        3.37
+      ],
+      "fovYDegrees": 31.0,
+      "actionId": "factory-05-one-piece-shot-05"
+    }
+  ]
+}

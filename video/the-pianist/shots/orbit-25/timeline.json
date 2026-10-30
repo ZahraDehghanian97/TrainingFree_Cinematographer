@@ -1,0 +1,91 @@
+{
+  "timeline": [
+    {
+      "kind": "interval",
+      "shotStartTime": 0,
+      "startTime": 0,
+      "endTime": 5,
+      "lossFunctions": [
+        {
+          "type": "arcMovement",
+          "parameters": {
+            "sign": 1,
+            "arcAngle": 25,
+            "arcRadius": 6,
+            "subjectId": "subject_1",
+            "handheld": false,
+            "constantSpeed": true
+          },
+          "sourceActionId": "orbit_subject_25deg"
+        }
+      ],
+      "weight": 1
+    },
+    {
+      "kind": "interval",
+      "shotStartTime": 0,
+      "startTime": 0,
+      "endTime": 5,
+      "lossFunctions": [
+        {
+          "type": "noShake",
+          "parameters": {},
+          "sourceActionId": "orbit_subject_25deg"
+        }
+      ],
+      "weight": 1
+    },
+    {
+      "kind": "interval",
+      "shotStartTime": 0,
+      "startTime": 0,
+      "endTime": 5,
+      "lossFunctions": [
+        {
+          "type": "keepInFrame",
+          "parameters": {
+            "subjectId": "subject_1"
+          },
+          "sourceActionId": "orbit_subject_25deg"
+        }
+      ],
+      "weight": 1
+    },
+    {
+      "kind": "interval",
+      "shotStartTime": 0,
+      "startTime": 0,
+      "endTime": 5,
+      "lossFunctions": [
+        {
+          "type": "shotSize",
+          "parameters": {
+            "shotSize": "mediumShot",
+            "subjectId": "subject_1"
+          },
+          "sourceActionId": "orbit_subject_25deg"
+        }
+      ],
+      "weight": 1
+    },
+    {
+      "kind": "interval",
+      "shotStartTime": 0,
+      "startTime": 0,
+      "endTime": 5,
+      "lossFunctions": [
+        {
+          "type": "minPath",
+          "parameters": {
+            "targetIntrinsics": {
+              "fov": 15.7
+            }
+          },
+          "sourceActionId": "orbit_subject_25deg"
+        }
+      ],
+      "weight": 1
+    }
+  ],
+  "timeWarp": []
+}

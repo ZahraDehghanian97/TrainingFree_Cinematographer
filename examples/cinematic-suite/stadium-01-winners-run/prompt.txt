@@ -1,0 +1,23 @@
+Create a 48-second, single-take sports-hero film about runner_01, the red-shirted eventual winner. Give the shot an emotional progression: anticipation, controlled acceleration, the finish, a suspended instant of triumph, then release into the crowd. The visible sideline operator is another person in the world, not this filming camera. Use the outside of the oval for parallax, never an orbit through the racing lanes or grandstands.
+
+Playback 0–6 s (scene 0–6 s): Begin elevated in a three-quarter trailing view. Descend with the start, let the lane markings slide through the lower foreground, and reveal the runner as the runners launch at scene 2 s.
+
+Playback 6–8 s (scene 6–8 s): Match the runner from the outward side. Keep full-body stride readable, with lead room rather than locking the face at dead centre.
+
+Playback 8–11 s (scene 8–14 s): Use 2x fast motion for this three-second mid-race burst. Continue a stable follow; do not simulate speed with random camera shake.
+
+Playback 11–28 s (scene 14–31 s): Return the scene to real time. Hold an elevated side track, using the field, flags and competing runners as layered moving background.
+
+Playback 28–35 s (scene 31–38 s): Ease the lead forward and widen before the finish. Include the complete ribbon and leave headroom for the jump; the winner reaches scene 38 s at playback 35 s.
+
+Playback 35–38.6 s (scene 38–39.8 s): At 0.5x slow motion, arc only 12 degrees at an 11 m radius on the clear outside. Show the tape splitting, the deceleration, and the winner lifting into the celebratory jump.
+
+Playback 38.6–39.3 s (scene 39.8–39.8 s): Freeze scene time at 39.8 s, the jump apex, for 0.7 playback seconds. Continue a restrained 3-degree camera arc around the suspended athlete and airborne flowers. This is a single frozen-time beat, distinct from stop-motion.
+
+Playback 39.3–40.3 s (scene 39.8–40.3 s): Resume 0.5x slow motion until scene 40.3 s so the landing is visible, without snapping the camera back to an earlier pose.
+
+Playback 40.3–44 s (scene 40.3–44 s): Return to real time and crane up 3 m with 1.5 m of horizontal retreat, keeping the winner as the anchor while petals tumble, flutter and settle.
+
+Playback 44–48 s (scene 44–48 s): Pull back 4 m to reveal the cheering spectators. Finish with a composed wide, not an abrupt stop or an unexplained cut.
+
+All intervals above are playback time; scene-time ranges explicitly identify the authored events. The time treatment applies to the entire environment, including props and performances, while the camera continues on playback time. Complete the full scene exactly once, from scene 0 to 48 s, in a 48-second film. Use non-overlapping relativeFPS intervals, a continuous camera pose, smooth camera acceleration and a level horizon. Use no cuts, teleports, unmotivated roll, random shake, new actors or invented events. Keep a collision-safe route and do not pass through subjects. Concurrent camera-only moves: During the opening follow, lower the camera by 2 m. During the approach to the finish, widen the lens by a restrained 1.15x. These overlays do not set another scene-time rate.

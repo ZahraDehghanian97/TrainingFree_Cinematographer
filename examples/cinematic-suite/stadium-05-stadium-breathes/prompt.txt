@@ -1,0 +1,17 @@
+Make a 48-second architectural aerial film in which the stadium feels active rather than static. Keep the complete athletics oval, infield pitch and stands readable together. Use a steady 60-degree rightward arc around their aggregate centre at a 170 m horizontal radius, a fixed 58-degree vertical field of view, and a level horizon. The miniature people remain environmental activity: do not promise facial detail or a readable football close-up from this distance.
+
+Playback 0–8 s (scene 0–8 s): Begin at 67 m and descend along the wide aerial arc, revealing the relationship between track and pitch.
+
+Playback 8–12 s (scene 8–16 s): Use 2x fast motion for the people and field action while retaining the same steady camera angular pace.
+
+Playback 12–16 s (scene 16–20 s): Return to real time at 58 m; do not pause or reverse the aerial camera.
+
+Playback 16–24 s (scene 20–24 s): Let the ensemble run at 0.5x slow motion while the aerial arc continues. Keep all three layers of the venue inside the composition.
+
+Playback 24–36 s (scene 24–36 s): Return to real time and sustain the master until the final straight. No extra zoom or sudden angular acceleration.
+
+Playback 36–38 s: Introduce a two-second stop-motion-style ensemble passage: four hold-and-advance beats per playback second. For each 0.25 s cycle hold scene time for 0.1875 s, then advance at 4x for 0.0625 s. The camera keeps its smooth aerial arc; these are repeated pose holds, not one long bullet-time freeze.
+
+Playback 38–48 s (scene 38–48 s): Restore real time before the goal at scene 38.2 s. Continue the arc and rise to a final 73 m master, letting the winner, flowers and spectators resolve as one event.
+
+All intervals above are playback time; scene-time ranges explicitly identify the authored events. The time treatment applies to the entire environment, including props and performances, while the camera continues on playback time. Complete the full scene exactly once, from scene 0 to 48 s, in a 48-second film. Use non-overlapping relativeFPS intervals, a continuous camera pose, smooth camera acceleration and a level horizon. Use no cuts, teleports, unmotivated roll, random shake, new actors or invented events. Keep a collision-safe route and do not pass through subjects. Concurrent camera-only moves: Descend 9 m over the first 12 playback seconds, from 67 m to 58 m. Rise 15 m over playback 36–48 s, from 58 m to 73 m. These overlays do not set another scene-time rate.

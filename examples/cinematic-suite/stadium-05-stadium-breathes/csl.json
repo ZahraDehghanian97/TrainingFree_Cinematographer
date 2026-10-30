@@ -1,0 +1,1549 @@
+{
+  "totalDuration": 48,
+  "sections": [
+    {
+      "initCamera": {
+        "targets": [
+          {
+            "id": "athletics_track",
+            "description": "پیست ۶ خط دومیدانی / six-lane athletics track"
+          },
+          {
+            "id": "football_pitch",
+            "description": "زمین فوتبال داخل پیست / infield pitch"
+          }
+        ],
+        "config": {
+          "type": "nonSubjectAware",
+          "extrinsics": {
+            "pose": {
+              "position": {
+                "x": 71.8451045,
+                "y": 67.0,
+                "z": 154.0723238
+              },
+              "rotation": {
+                "x": 0.1819444452,
+                "y": -0.2126478416,
+                "z": -0.0403361124,
+                "w": -0.9591924272
+              }
+            }
+          },
+          "intrinsics": {
+            "fov": 58.0,
+            "aspectRatio": 1.7777777777777777
+          }
+        }
+      },
+      "actions": [
+        {
+          "id": "stadium-05-stadium-breathes-shot-001",
+          "name": "Descending architectural reveal",
+          "trigger": {
+            "type": "absoluteTime",
+            "time": 0
+          },
+          "movement": {
+            "act": "arcRight",
+            "duration": 8,
+            "relativeFPS": "normal",
+            "targets": [
+              {
+                "id": "athletics_track",
+                "description": "پیست ۶ خط دومیدانی / six-lane athletics track"
+              },
+              {
+                "id": "football_pitch",
+                "description": "زمین فوتبال داخل پیست / infield pitch"
+              }
+            ],
+            "parameters": {
+              "arcRadius": 170,
+              "arcAngle": 10,
+              "constantSpeed": true,
+              "handheld": false
+            }
+          },
+          "constraints": [
+            {
+              "kind": "general",
+              "constraint": "noShake",
+              "allFrames": true
+            },
+            {
+              "kind": "general",
+              "constraint": "keepInFrame",
+              "targets": [
+                {
+                  "id": "athletics_track",
+                  "description": "پیست ۶ خط دومیدانی / six-lane athletics track"
+                },
+                {
+                  "id": "football_pitch",
+                  "description": "زمین فوتبال داخل پیست / infield pitch"
+                }
+              ],
+              "allFrames": true
+            },
+            {
+              "kind": "general",
+              "constraint": "avoidOcclusion",
+              "targets": [
+                {
+                  "id": "athletics_track",
+                  "description": "پیست ۶ خط دومیدانی / six-lane athletics track"
+                },
+                {
+                  "id": "football_pitch",
+                  "description": "زمین فوتبال داخل پیست / infield pitch"
+                }
+              ],
+              "allFrames": true,
+              "weight": 0.8
+            }
+          ]
+        },
+        {
+          "id": "stadium-05-stadium-breathes-shot-002",
+          "name": "Fast-motion pulse of the venue",
+          "trigger": {
+            "type": "absoluteTime",
+            "time": 8
+          },
+          "movement": {
+            "act": "arcRight",
+            "duration": 4,
+            "relativeFPS": "fast",
+            "targets": [
+              {
+                "id": "athletics_track",
+                "description": "پیست ۶ خط دومیدانی / six-lane athletics track"
+              },
+              {
+                "id": "football_pitch",
+                "description": "زمین فوتبال داخل پیست / infield pitch"
+              }
+            ],
+            "parameters": {
+              "arcRadius": 170,
+              "arcAngle": 5,
+              "constantSpeed": true,
+              "handheld": false
+            }
+          },
+          "constraints": [
+            {
+              "kind": "general",
+              "constraint": "noShake",
+              "allFrames": true
+            },
+            {
+              "kind": "general",
+              "constraint": "keepInFrame",
+              "targets": [
+                {
+                  "id": "athletics_track",
+                  "description": "پیست ۶ خط دومیدانی / six-lane athletics track"
+                },
+                {
+                  "id": "football_pitch",
+                  "description": "زمین فوتبال داخل پیست / infield pitch"
+                }
+              ],
+              "allFrames": true
+            },
+            {
+              "kind": "general",
+              "constraint": "avoidOcclusion",
+              "targets": [
+                {
+                  "id": "athletics_track",
+                  "description": "پیست ۶ خط دومیدانی / six-lane athletics track"
+                },
+                {
+                  "id": "football_pitch",
+                  "description": "زمین فوتبال داخل پیست / infield pitch"
+                }
+              ],
+              "allFrames": true,
+              "weight": 0.8
+            }
+          ]
+        },
+        {
+          "id": "stadium-05-stadium-breathes-shot-003",
+          "name": "Geographic pause",
+          "trigger": {
+            "type": "absoluteTime",
+            "time": 12
+          },
+          "movement": {
+            "act": "arcRight",
+            "duration": 4,
+            "relativeFPS": "normal",
+            "targets": [
+              {
+                "id": "athletics_track",
+                "description": "پیست ۶ خط دومیدانی / six-lane athletics track"
+              },
+              {
+                "id": "football_pitch",
+                "description": "زمین فوتبال داخل پیست / infield pitch"
+              }
+            ],
+            "parameters": {
+              "arcRadius": 170,
+              "arcAngle": 5,
+              "constantSpeed": true,
+              "handheld": false
+            }
+          },
+          "constraints": [
+            {
+              "kind": "general",
+              "constraint": "noShake",
+              "allFrames": true
+            },
+            {
+              "kind": "general",
+              "constraint": "keepInFrame",
+              "targets": [
+                {
+                  "id": "athletics_track",
+                  "description": "پیست ۶ خط دومیدانی / six-lane athletics track"
+                },
+                {
+                  "id": "football_pitch",
+                  "description": "زمین فوتبال داخل پیست / infield pitch"
+                }
+              ],
+              "allFrames": true
+            },
+            {
+              "kind": "general",
+              "constraint": "avoidOcclusion",
+              "targets": [
+                {
+                  "id": "athletics_track",
+                  "description": "پیست ۶ خط دومیدانی / six-lane athletics track"
+                },
+                {
+                  "id": "football_pitch",
+                  "description": "زمین فوتبال داخل پیست / infield pitch"
+                }
+              ],
+              "allFrames": true,
+              "weight": 0.8
+            }
+          ]
+        },
+        {
+          "id": "stadium-05-stadium-breathes-shot-004",
+          "name": "Slow-motion breathing space",
+          "trigger": {
+            "type": "absoluteTime",
+            "time": 16
+          },
+          "movement": {
+            "act": "arcRight",
+            "duration": 8,
+            "relativeFPS": "slow",
+            "targets": [
+              {
+                "id": "athletics_track",
+                "description": "پیست ۶ خط دومیدانی / six-lane athletics track"
+              },
+              {
+                "id": "football_pitch",
+                "description": "زمین فوتبال داخل پیست / infield pitch"
+              }
+            ],
+            "parameters": {
+              "arcRadius": 170,
+              "arcAngle": 10,
+              "constantSpeed": true,
+              "handheld": false
+            }
+          },
+          "constraints": [
+            {
+              "kind": "general",
+              "constraint": "noShake",
+              "allFrames": true
+            },
+            {
+              "kind": "general",
+              "constraint": "keepInFrame",
+              "targets": [
+                {
+                  "id": "athletics_track",
+                  "description": "پیست ۶ خط دومیدانی / six-lane athletics track"
+                },
+                {
+                  "id": "football_pitch",
+                  "description": "زمین فوتبال داخل پیست / infield pitch"
+                }
+              ],
+              "allFrames": true
+            },
+            {
+              "kind": "general",
+              "constraint": "avoidOcclusion",
+              "targets": [
+                {
+                  "id": "athletics_track",
+                  "description": "پیست ۶ خط دومیدانی / six-lane athletics track"
+                },
+                {
+                  "id": "football_pitch",
+                  "description": "زمین فوتبال داخل پیست / infield pitch"
+                }
+              ],
+              "allFrames": true,
+              "weight": 0.8
+            }
+          ]
+        },
+        {
+          "id": "stadium-05-stadium-breathes-shot-005",
+          "name": "Gather the competing actions",
+          "trigger": {
+            "type": "absoluteTime",
+            "time": 24
+          },
+          "movement": {
+            "act": "arcRight",
+            "duration": 12,
+            "relativeFPS": "normal",
+            "targets": [
+              {
+                "id": "athletics_track",
+                "description": "پیست ۶ خط دومیدانی / six-lane athletics track"
+              },
+              {
+                "id": "football_pitch",
+                "description": "زمین فوتبال داخل پیست / infield pitch"
+              }
+            ],
+            "parameters": {
+              "arcRadius": 170,
+              "arcAngle": 15,
+              "constantSpeed": true,
+              "handheld": false
+            }
+          },
+          "constraints": [
+            {
+              "kind": "general",
+              "constraint": "noShake",
+              "allFrames": true
+            },
+            {
+              "kind": "general",
+              "constraint": "keepInFrame",
+              "targets": [
+                {
+                  "id": "athletics_track",
+                  "description": "پیست ۶ خط دومیدانی / six-lane athletics track"
+                },
+                {
+                  "id": "football_pitch",
+                  "description": "زمین فوتبال داخل پیست / infield pitch"
+                }
+              ],
+              "allFrames": true
+            },
+            {
+              "kind": "general",
+              "constraint": "avoidOcclusion",
+              "targets": [
+                {
+                  "id": "athletics_track",
+                  "description": "پیست ۶ خط دومیدانی / six-lane athletics track"
+                },
+                {
+                  "id": "football_pitch",
+                  "description": "زمین فوتبال داخل پیست / infield pitch"
+                }
+              ],
+              "allFrames": true,
+              "weight": 0.8
+            }
+          ]
+        },
+        {
+          "id": "stadium-05-stadium-breathes-shot-006",
+          "name": "Stop-motion pose 01: hold",
+          "trigger": {
+            "type": "absoluteTime",
+            "time": 36.0
+          },
+          "movement": {
+            "act": "arcRight",
+            "duration": 0.1875,
+            "relativeFPS": "frozen",
+            "targets": [
+              {
+                "id": "athletics_track",
+                "description": "پیست ۶ خط دومیدانی / six-lane athletics track"
+              },
+              {
+                "id": "football_pitch",
+                "description": "زمین فوتبال داخل پیست / infield pitch"
+              }
+            ],
+            "parameters": {
+              "arcRadius": 170,
+              "arcAngle": 0.234375,
+              "constantSpeed": true,
+              "handheld": false
+            }
+          },
+          "constraints": [
+            {
+              "kind": "general",
+              "constraint": "noShake",
+              "allFrames": true
+            },
+            {
+              "kind": "general",
+              "constraint": "keepInFrame",
+              "targets": [
+                {
+                  "id": "athletics_track",
+                  "description": "پیست ۶ خط دومیدانی / six-lane athletics track"
+                },
+                {
+                  "id": "football_pitch",
+                  "description": "زمین فوتبال داخل پیست / infield pitch"
+                }
+              ],
+              "allFrames": true
+            },
+            {
+              "kind": "general",
+              "constraint": "avoidOcclusion",
+              "targets": [
+                {
+                  "id": "athletics_track",
+                  "description": "پیست ۶ خط دومیدانی / six-lane athletics track"
+                },
+                {
+                  "id": "football_pitch",
+                  "description": "زمین فوتبال داخل پیست / infield pitch"
+                }
+              ],
+              "allFrames": true,
+              "weight": 0.8
+            }
+          ]
+        },
+        {
+          "id": "stadium-05-stadium-breathes-shot-007",
+          "name": "Stop-motion pose 01: advance",
+          "trigger": {
+            "type": "absoluteTime",
+            "time": 36.1875
+          },
+          "movement": {
+            "act": "arcRight",
+            "duration": 0.0625,
+            "relativeFPS": "veryFast",
+            "targets": [
+              {
+                "id": "athletics_track",
+                "description": "پیست ۶ خط دومیدانی / six-lane athletics track"
+              },
+              {
+                "id": "football_pitch",
+                "description": "زمین فوتبال داخل پیست / infield pitch"
+              }
+            ],
+            "parameters": {
+              "arcRadius": 170,
+              "arcAngle": 0.078125,
+              "constantSpeed": true,
+              "handheld": false
+            }
+          },
+          "constraints": [
+            {
+              "kind": "general",
+              "constraint": "noShake",
+              "allFrames": true
+            },
+            {
+              "kind": "general",
+              "constraint": "keepInFrame",
+              "targets": [
+                {
+                  "id": "athletics_track",
+                  "description": "پیست ۶ خط دومیدانی / six-lane athletics track"
+                },
+                {
+                  "id": "football_pitch",
+                  "description": "زمین فوتبال داخل پیست / infield pitch"
+                }
+              ],
+              "allFrames": true
+            },
+            {
+              "kind": "general",
+              "constraint": "avoidOcclusion",
+              "targets": [
+                {
+                  "id": "athletics_track",
+                  "description": "پیست ۶ خط دومیدانی / six-lane athletics track"
+                },
+                {
+                  "id": "football_pitch",
+                  "description": "زمین فوتبال داخل پیست / infield pitch"
+                }
+              ],
+              "allFrames": true,
+              "weight": 0.8
+            }
+          ]
+        },
+        {
+          "id": "stadium-05-stadium-breathes-shot-008",
+          "name": "Stop-motion pose 02: hold",
+          "trigger": {
+            "type": "absoluteTime",
+            "time": 36.25
+          },
+          "movement": {
+            "act": "arcRight",
+            "duration": 0.1875,
+            "relativeFPS": "frozen",
+            "targets": [
+              {
+                "id": "athletics_track",
+                "description": "پیست ۶ خط دومیدانی / six-lane athletics track"
+              },
+              {
+                "id": "football_pitch",
+                "description": "زمین فوتبال داخل پیست / infield pitch"
+              }
+            ],
+            "parameters": {
+              "arcRadius": 170,
+              "arcAngle": 0.234375,
+              "constantSpeed": true,
+              "handheld": false
+            }
+          },
+          "constraints": [
+            {
+              "kind": "general",
+              "constraint": "noShake",
+              "allFrames": true
+            },
+            {
+              "kind": "general",
+              "constraint": "keepInFrame",
+              "targets": [
+                {
+                  "id": "athletics_track",
+                  "description": "پیست ۶ خط دومیدانی / six-lane athletics track"
+                },
+                {
+                  "id": "football_pitch",
+                  "description": "زمین فوتبال داخل پیست / infield pitch"
+                }
+              ],
+              "allFrames": true
+            },
+            {
+              "kind": "general",
+              "constraint": "avoidOcclusion",
+              "targets": [
+                {
+                  "id": "athletics_track",
+                  "description": "پیست ۶ خط دومیدانی / six-lane athletics track"
+                },
+                {
+                  "id": "football_pitch",
+                  "description": "زمین فوتبال داخل پیست / infield pitch"
+                }
+              ],
+              "allFrames": true,
+              "weight": 0.8
+            }
+          ]
+        },
+        {
+          "id": "stadium-05-stadium-breathes-shot-009",
+          "name": "Stop-motion pose 02: advance",
+          "trigger": {
+            "type": "absoluteTime",
+            "time": 36.4375
+          },
+          "movement": {
+            "act": "arcRight",
+            "duration": 0.0625,
+            "relativeFPS": "veryFast",
+            "targets": [
+              {
+                "id": "athletics_track",
+                "description": "پیست ۶ خط دومیدانی / six-lane athletics track"
+              },
+              {
+                "id": "football_pitch",
+                "description": "زمین فوتبال داخل پیست / infield pitch"
+              }
+            ],
+            "parameters": {
+              "arcRadius": 170,
+              "arcAngle": 0.078125,
+              "constantSpeed": true,
+              "handheld": false
+            }
+          },
+          "constraints": [
+            {
+              "kind": "general",
+              "constraint": "noShake",
+              "allFrames": true
+            },
+            {
+              "kind": "general",
+              "constraint": "keepInFrame",
+              "targets": [
+                {
+                  "id": "athletics_track",
+                  "description": "پیست ۶ خط دومیدانی / six-lane athletics track"
+                },
+                {
+                  "id": "football_pitch",
+                  "description": "زمین فوتبال داخل پیست / infield pitch"
+                }
+              ],
+              "allFrames": true
+            },
+            {
+              "kind": "general",
+              "constraint": "avoidOcclusion",
+              "targets": [
+                {
+                  "id": "athletics_track",
+                  "description": "پیست ۶ خط دومیدانی / six-lane athletics track"
+                },
+                {
+                  "id": "football_pitch",
+                  "description": "زمین فوتبال داخل پیست / infield pitch"
+                }
+              ],
+              "allFrames": true,
+              "weight": 0.8
+            }
+          ]
+        },
+        {
+          "id": "stadium-05-stadium-breathes-shot-010",
+          "name": "Stop-motion pose 03: hold",
+          "trigger": {
+            "type": "absoluteTime",
+            "time": 36.5
+          },
+          "movement": {
+            "act": "arcRight",
+            "duration": 0.1875,
+            "relativeFPS": "frozen",
+            "targets": [
+              {
+                "id": "athletics_track",
+                "description": "پیست ۶ خط دومیدانی / six-lane athletics track"
+              },
+              {
+                "id": "football_pitch",
+                "description": "زمین فوتبال داخل پیست / infield pitch"
+              }
+            ],
+            "parameters": {
+              "arcRadius": 170,
+              "arcAngle": 0.234375,
+              "constantSpeed": true,
+              "handheld": false
+            }
+          },
+          "constraints": [
+            {
+              "kind": "general",
+              "constraint": "noShake",
+              "allFrames": true
+            },
+            {
+              "kind": "general",
+              "constraint": "keepInFrame",
+              "targets": [
+                {
+                  "id": "athletics_track",
+                  "description": "پیست ۶ خط دومیدانی / six-lane athletics track"
+                },
+                {
+                  "id": "football_pitch",
+                  "description": "زمین فوتبال داخل پیست / infield pitch"
+                }
+              ],
+              "allFrames": true
+            },
+            {
+              "kind": "general",
+              "constraint": "avoidOcclusion",
+              "targets": [
+                {
+                  "id": "athletics_track",
+                  "description": "پیست ۶ خط دومیدانی / six-lane athletics track"
+                },
+                {
+                  "id": "football_pitch",
+                  "description": "زمین فوتبال داخل پیست / infield pitch"
+                }
+              ],
+              "allFrames": true,
+              "weight": 0.8
+            }
+          ]
+        },
+        {
+          "id": "stadium-05-stadium-breathes-shot-011",
+          "name": "Stop-motion pose 03: advance",
+          "trigger": {
+            "type": "absoluteTime",
+            "time": 36.6875
+          },
+          "movement": {
+            "act": "arcRight",
+            "duration": 0.0625,
+            "relativeFPS": "veryFast",
+            "targets": [
+              {
+                "id": "athletics_track",
+                "description": "پیست ۶ خط دومیدانی / six-lane athletics track"
+              },
+              {
+                "id": "football_pitch",
+                "description": "زمین فوتبال داخل پیست / infield pitch"
+              }
+            ],
+            "parameters": {
+              "arcRadius": 170,
+              "arcAngle": 0.078125,
+              "constantSpeed": true,
+              "handheld": false
+            }
+          },
+          "constraints": [
+            {
+              "kind": "general",
+              "constraint": "noShake",
+              "allFrames": true
+            },
+            {
+              "kind": "general",
+              "constraint": "keepInFrame",
+              "targets": [
+                {
+                  "id": "athletics_track",
+                  "description": "پیست ۶ خط دومیدانی / six-lane athletics track"
+                },
+                {
+                  "id": "football_pitch",
+                  "description": "زمین فوتبال داخل پیست / infield pitch"
+                }
+              ],
+              "allFrames": true
+            },
+            {
+              "kind": "general",
+              "constraint": "avoidOcclusion",
+              "targets": [
+                {
+                  "id": "athletics_track",
+                  "description": "پیست ۶ خط دومیدانی / six-lane athletics track"
+                },
+                {
+                  "id": "football_pitch",
+                  "description": "زمین فوتبال داخل پیست / infield pitch"
+                }
+              ],
+              "allFrames": true,
+              "weight": 0.8
+            }
+          ]
+        },
+        {
+          "id": "stadium-05-stadium-breathes-shot-012",
+          "name": "Stop-motion pose 04: hold",
+          "trigger": {
+            "type": "absoluteTime",
+            "time": 36.75
+          },
+          "movement": {
+            "act": "arcRight",
+            "duration": 0.1875,
+            "relativeFPS": "frozen",
+            "targets": [
+              {
+                "id": "athletics_track",
+                "description": "پیست ۶ خط دومیدانی / six-lane athletics track"
+              },
+              {
+                "id": "football_pitch",
+                "description": "زمین فوتبال داخل پیست / infield pitch"
+              }
+            ],
+            "parameters": {
+              "arcRadius": 170,
+              "arcAngle": 0.234375,
+              "constantSpeed": true,
+              "handheld": false
+            }
+          },
+          "constraints": [
+            {
+              "kind": "general",
+              "constraint": "noShake",
+              "allFrames": true
+            },
+            {
+              "kind": "general",
+              "constraint": "keepInFrame",
+              "targets": [
+                {
+                  "id": "athletics_track",
+                  "description": "پیست ۶ خط دومیدانی / six-lane athletics track"
+                },
+                {
+                  "id": "football_pitch",
+                  "description": "زمین فوتبال داخل پیست / infield pitch"
+                }
+              ],
+              "allFrames": true
+            },
+            {
+              "kind": "general",
+              "constraint": "avoidOcclusion",
+              "targets": [
+                {
+                  "id": "athletics_track",
+                  "description": "پیست ۶ خط دومیدانی / six-lane athletics track"
+                },
+                {
+                  "id": "football_pitch",
+                  "description": "زمین فوتبال داخل پیست / infield pitch"
+                }
+              ],
+              "allFrames": true,
+              "weight": 0.8
+            }
+          ]
+        },
+        {
+          "id": "stadium-05-stadium-breathes-shot-013",
+          "name": "Stop-motion pose 04: advance",
+          "trigger": {
+            "type": "absoluteTime",
+            "time": 36.9375
+          },
+          "movement": {
+            "act": "arcRight",
+            "duration": 0.0625,
+            "relativeFPS": "veryFast",
+            "targets": [
+              {
+                "id": "athletics_track",
+                "description": "پیست ۶ خط دومیدانی / six-lane athletics track"
+              },
+              {
+                "id": "football_pitch",
+                "description": "زمین فوتبال داخل پیست / infield pitch"
+              }
+            ],
+            "parameters": {
+              "arcRadius": 170,
+              "arcAngle": 0.078125,
+              "constantSpeed": true,
+              "handheld": false
+            }
+          },
+          "constraints": [
+            {
+              "kind": "general",
+              "constraint": "noShake",
+              "allFrames": true
+            },
+            {
+              "kind": "general",
+              "constraint": "keepInFrame",
+              "targets": [
+                {
+                  "id": "athletics_track",
+                  "description": "پیست ۶ خط دومیدانی / six-lane athletics track"
+                },
+                {
+                  "id": "football_pitch",
+                  "description": "زمین فوتبال داخل پیست / infield pitch"
+                }
+              ],
+              "allFrames": true
+            },
+            {
+              "kind": "general",
+              "constraint": "avoidOcclusion",
+              "targets": [
+                {
+                  "id": "athletics_track",
+                  "description": "پیست ۶ خط دومیدانی / six-lane athletics track"
+                },
+                {
+                  "id": "football_pitch",
+                  "description": "زمین فوتبال داخل پیست / infield pitch"
+                }
+              ],
+              "allFrames": true,
+              "weight": 0.8
+            }
+          ]
+        },
+        {
+          "id": "stadium-05-stadium-breathes-shot-014",
+          "name": "Stop-motion pose 05: hold",
+          "trigger": {
+            "type": "absoluteTime",
+            "time": 37.0
+          },
+          "movement": {
+            "act": "arcRight",
+            "duration": 0.1875,
+            "relativeFPS": "frozen",
+            "targets": [
+              {
+                "id": "athletics_track",
+                "description": "پیست ۶ خط دومیدانی / six-lane athletics track"
+              },
+              {
+                "id": "football_pitch",
+                "description": "زمین فوتبال داخل پیست / infield pitch"
+              }
+            ],
+            "parameters": {
+              "arcRadius": 170,
+              "arcAngle": 0.234375,
+              "constantSpeed": true,
+              "handheld": false
+            }
+          },
+          "constraints": [
+            {
+              "kind": "general",
+              "constraint": "noShake",
+              "allFrames": true
+            },
+            {
+              "kind": "general",
+              "constraint": "keepInFrame",
+              "targets": [
+                {
+                  "id": "athletics_track",
+                  "description": "پیست ۶ خط دومیدانی / six-lane athletics track"
+                },
+                {
+                  "id": "football_pitch",
+                  "description": "زمین فوتبال داخل پیست / infield pitch"
+                }
+              ],
+              "allFrames": true
+            },
+            {
+              "kind": "general",
+              "constraint": "avoidOcclusion",
+              "targets": [
+                {
+                  "id": "athletics_track",
+                  "description": "پیست ۶ خط دومیدانی / six-lane athletics track"
+                },
+                {
+                  "id": "football_pitch",
+                  "description": "زمین فوتبال داخل پیست / infield pitch"
+                }
+              ],
+              "allFrames": true,
+              "weight": 0.8
+            }
+          ]
+        },
+        {
+          "id": "stadium-05-stadium-breathes-shot-015",
+          "name": "Stop-motion pose 05: advance",
+          "trigger": {
+            "type": "absoluteTime",
+            "time": 37.1875
+          },
+          "movement": {
+            "act": "arcRight",
+            "duration": 0.0625,
+            "relativeFPS": "veryFast",
+            "targets": [
+              {
+                "id": "athletics_track",
+                "description": "پیست ۶ خط دومیدانی / six-lane athletics track"
+              },
+              {
+                "id": "football_pitch",
+                "description": "زمین فوتبال داخل پیست / infield pitch"
+              }
+            ],
+            "parameters": {
+              "arcRadius": 170,
+              "arcAngle": 0.078125,
+              "constantSpeed": true,
+              "handheld": false
+            }
+          },
+          "constraints": [
+            {
+              "kind": "general",
+              "constraint": "noShake",
+              "allFrames": true
+            },
+            {
+              "kind": "general",
+              "constraint": "keepInFrame",
+              "targets": [
+                {
+                  "id": "athletics_track",
+                  "description": "پیست ۶ خط دومیدانی / six-lane athletics track"
+                },
+                {
+                  "id": "football_pitch",
+                  "description": "زمین فوتبال داخل پیست / infield pitch"
+                }
+              ],
+              "allFrames": true
+            },
+            {
+              "kind": "general",
+              "constraint": "avoidOcclusion",
+              "targets": [
+                {
+                  "id": "athletics_track",
+                  "description": "پیست ۶ خط دومیدانی / six-lane athletics track"
+                },
+                {
+                  "id": "football_pitch",
+                  "description": "زمین فوتبال داخل پیست / infield pitch"
+                }
+              ],
+              "allFrames": true,
+              "weight": 0.8
+            }
+          ]
+        },
+        {
+          "id": "stadium-05-stadium-breathes-shot-016",
+          "name": "Stop-motion pose 06: hold",
+          "trigger": {
+            "type": "absoluteTime",
+            "time": 37.25
+          },
+          "movement": {
+            "act": "arcRight",
+            "duration": 0.1875,
+            "relativeFPS": "frozen",
+            "targets": [
+              {
+                "id": "athletics_track",
+                "description": "پیست ۶ خط دومیدانی / six-lane athletics track"
+              },
+              {
+                "id": "football_pitch",
+                "description": "زمین فوتبال داخل پیست / infield pitch"
+              }
+            ],
+            "parameters": {
+              "arcRadius": 170,
+              "arcAngle": 0.234375,
+              "constantSpeed": true,
+              "handheld": false
+            }
+          },
+          "constraints": [
+            {
+              "kind": "general",
+              "constraint": "noShake",
+              "allFrames": true
+            },
+            {
+              "kind": "general",
+              "constraint": "keepInFrame",
+              "targets": [
+                {
+                  "id": "athletics_track",
+                  "description": "پیست ۶ خط دومیدانی / six-lane athletics track"
+                },
+                {
+                  "id": "football_pitch",
+                  "description": "زمین فوتبال داخل پیست / infield pitch"
+                }
+              ],
+              "allFrames": true
+            },
+            {
+              "kind": "general",
+              "constraint": "avoidOcclusion",
+              "targets": [
+                {
+                  "id": "athletics_track",
+                  "description": "پیست ۶ خط دومیدانی / six-lane athletics track"
+                },
+                {
+                  "id": "football_pitch",
+                  "description": "زمین فوتبال داخل پیست / infield pitch"
+                }
+              ],
+              "allFrames": true,
+              "weight": 0.8
+            }
+          ]
+        },
+        {
+          "id": "stadium-05-stadium-breathes-shot-017",
+          "name": "Stop-motion pose 06: advance",
+          "trigger": {
+            "type": "absoluteTime",
+            "time": 37.4375
+          },
+          "movement": {
+            "act": "arcRight",
+            "duration": 0.0625,
+            "relativeFPS": "veryFast",
+            "targets": [
+              {
+                "id": "athletics_track",
+                "description": "پیست ۶ خط دومیدانی / six-lane athletics track"
+              },
+              {
+                "id": "football_pitch",
+                "description": "زمین فوتبال داخل پیست / infield pitch"
+              }
+            ],
+            "parameters": {
+              "arcRadius": 170,
+              "arcAngle": 0.078125,
+              "constantSpeed": true,
+              "handheld": false
+            }
+          },
+          "constraints": [
+            {
+              "kind": "general",
+              "constraint": "noShake",
+              "allFrames": true
+            },
+            {
+              "kind": "general",
+              "constraint": "keepInFrame",
+              "targets": [
+                {
+                  "id": "athletics_track",
+                  "description": "پیست ۶ خط دومیدانی / six-lane athletics track"
+                },
+                {
+                  "id": "football_pitch",
+                  "description": "زمین فوتبال داخل پیست / infield pitch"
+                }
+              ],
+              "allFrames": true
+            },
+            {
+              "kind": "general",
+              "constraint": "avoidOcclusion",
+              "targets": [
+                {
+                  "id": "athletics_track",
+                  "description": "پیست ۶ خط دومیدانی / six-lane athletics track"
+                },
+                {
+                  "id": "football_pitch",
+                  "description": "زمین فوتبال داخل پیست / infield pitch"
+                }
+              ],
+              "allFrames": true,
+              "weight": 0.8
+            }
+          ]
+        },
+        {
+          "id": "stadium-05-stadium-breathes-shot-018",
+          "name": "Stop-motion pose 07: hold",
+          "trigger": {
+            "type": "absoluteTime",
+            "time": 37.5
+          },
+          "movement": {
+            "act": "arcRight",
+            "duration": 0.1875,
+            "relativeFPS": "frozen",
+            "targets": [
+              {
+                "id": "athletics_track",
+                "description": "پیست ۶ خط دومیدانی / six-lane athletics track"
+              },
+              {
+                "id": "football_pitch",
+                "description": "زمین فوتبال داخل پیست / infield pitch"
+              }
+            ],
+            "parameters": {
+              "arcRadius": 170,
+              "arcAngle": 0.234375,
+              "constantSpeed": true,
+              "handheld": false
+            }
+          },
+          "constraints": [
+            {
+              "kind": "general",
+              "constraint": "noShake",
+              "allFrames": true
+            },
+            {
+              "kind": "general",
+              "constraint": "keepInFrame",
+              "targets": [
+                {
+                  "id": "athletics_track",
+                  "description": "پیست ۶ خط دومیدانی / six-lane athletics track"
+                },
+                {
+                  "id": "football_pitch",
+                  "description": "زمین فوتبال داخل پیست / infield pitch"
+                }
+              ],
+              "allFrames": true
+            },
+            {
+              "kind": "general",
+              "constraint": "avoidOcclusion",
+              "targets": [
+                {
+                  "id": "athletics_track",
+                  "description": "پیست ۶ خط دومیدانی / six-lane athletics track"
+                },
+                {
+                  "id": "football_pitch",
+                  "description": "زمین فوتبال داخل پیست / infield pitch"
+                }
+              ],
+              "allFrames": true,
+              "weight": 0.8
+            }
+          ]
+        },
+        {
+          "id": "stadium-05-stadium-breathes-shot-019",
+          "name": "Stop-motion pose 07: advance",
+          "trigger": {
+            "type": "absoluteTime",
+            "time": 37.6875
+          },
+          "movement": {
+            "act": "arcRight",
+            "duration": 0.0625,
+            "relativeFPS": "veryFast",
+            "targets": [
+              {
+                "id": "athletics_track",
+                "description": "پیست ۶ خط دومیدانی / six-lane athletics track"
+              },
+              {
+                "id": "football_pitch",
+                "description": "زمین فوتبال داخل پیست / infield pitch"
+              }
+            ],
+            "parameters": {
+              "arcRadius": 170,
+              "arcAngle": 0.078125,
+              "constantSpeed": true,
+              "handheld": false
+            }
+          },
+          "constraints": [
+            {
+              "kind": "general",
+              "constraint": "noShake",
+              "allFrames": true
+            },
+            {
+              "kind": "general",
+              "constraint": "keepInFrame",
+              "targets": [
+                {
+                  "id": "athletics_track",
+                  "description": "پیست ۶ خط دومیدانی / six-lane athletics track"
+                },
+                {
+                  "id": "football_pitch",
+                  "description": "زمین فوتبال داخل پیست / infield pitch"
+                }
+              ],
+              "allFrames": true
+            },
+            {
+              "kind": "general",
+              "constraint": "avoidOcclusion",
+              "targets": [
+                {
+                  "id": "athletics_track",
+                  "description": "پیست ۶ خط دومیدانی / six-lane athletics track"
+                },
+                {
+                  "id": "football_pitch",
+                  "description": "زمین فوتبال داخل پیست / infield pitch"
+                }
+              ],
+              "allFrames": true,
+              "weight": 0.8
+            }
+          ]
+        },
+        {
+          "id": "stadium-05-stadium-breathes-shot-020",
+          "name": "Stop-motion pose 08: hold",
+          "trigger": {
+            "type": "absoluteTime",
+            "time": 37.75
+          },
+          "movement": {
+            "act": "arcRight",
+            "duration": 0.1875,
+            "relativeFPS": "frozen",
+            "targets": [
+              {
+                "id": "athletics_track",
+                "description": "پیست ۶ خط دومیدانی / six-lane athletics track"
+              },
+              {
+                "id": "football_pitch",
+                "description": "زمین فوتبال داخل پیست / infield pitch"
+              }
+            ],
+            "parameters": {
+              "arcRadius": 170,
+              "arcAngle": 0.234375,
+              "constantSpeed": true,
+              "handheld": false
+            }
+          },
+          "constraints": [
+            {
+              "kind": "general",
+              "constraint": "noShake",
+              "allFrames": true
+            },
+            {
+              "kind": "general",
+              "constraint": "keepInFrame",
+              "targets": [
+                {
+                  "id": "athletics_track",
+                  "description": "پیست ۶ خط دومیدانی / six-lane athletics track"
+                },
+                {
+                  "id": "football_pitch",
+                  "description": "زمین فوتبال داخل پیست / infield pitch"
+                }
+              ],
+              "allFrames": true
+            },
+            {
+              "kind": "general",
+              "constraint": "avoidOcclusion",
+              "targets": [
+                {
+                  "id": "athletics_track",
+                  "description": "پیست ۶ خط دومیدانی / six-lane athletics track"
+                },
+                {
+                  "id": "football_pitch",
+                  "description": "زمین فوتبال داخل پیست / infield pitch"
+                }
+              ],
+              "allFrames": true,
+              "weight": 0.8
+            }
+          ]
+        },
+        {
+          "id": "stadium-05-stadium-breathes-shot-021",
+          "name": "Stop-motion pose 08: advance",
+          "trigger": {
+            "type": "absoluteTime",
+            "time": 37.9375
+          },
+          "movement": {
+            "act": "arcRight",
+            "duration": 0.0625,
+            "relativeFPS": "veryFast",
+            "targets": [
+              {
+                "id": "athletics_track",
+                "description": "پیست ۶ خط دومیدانی / six-lane athletics track"
+              },
+              {
+                "id": "football_pitch",
+                "description": "زمین فوتبال داخل پیست / infield pitch"
+              }
+            ],
+            "parameters": {
+              "arcRadius": 170,
+              "arcAngle": 0.078125,
+              "constantSpeed": true,
+              "handheld": false
+            }
+          },
+          "constraints": [
+            {
+              "kind": "general",
+              "constraint": "noShake",
+              "allFrames": true
+            },
+            {
+              "kind": "general",
+              "constraint": "keepInFrame",
+              "targets": [
+                {
+                  "id": "athletics_track",
+                  "description": "پیست ۶ خط دومیدانی / six-lane athletics track"
+                },
+                {
+                  "id": "football_pitch",
+                  "description": "زمین فوتبال داخل پیست / infield pitch"
+                }
+              ],
+              "allFrames": true
+            },
+            {
+              "kind": "general",
+              "constraint": "avoidOcclusion",
+              "targets": [
+                {
+                  "id": "athletics_track",
+                  "description": "پیست ۶ خط دومیدانی / six-lane athletics track"
+                },
+                {
+                  "id": "football_pitch",
+                  "description": "زمین فوتبال داخل پیست / infield pitch"
+                }
+              ],
+              "allFrames": true,
+              "weight": 0.8
+            }
+          ]
+        },
+        {
+          "id": "stadium-05-stadium-breathes-shot-022",
+          "name": "Release the full stadium",
+          "trigger": {
+            "type": "absoluteTime",
+            "time": 38
+          },
+          "movement": {
+            "act": "arcRight",
+            "duration": 10,
+            "relativeFPS": "normal",
+            "targets": [
+              {
+                "id": "athletics_track",
+                "description": "پیست ۶ خط دومیدانی / six-lane athletics track"
+              },
+              {
+                "id": "football_pitch",
+                "description": "زمین فوتبال داخل پیست / infield pitch"
+              }
+            ],
+            "parameters": {
+              "arcRadius": 170,
+              "arcAngle": 12.5,
+              "constantSpeed": true,
+              "handheld": false
+            }
+          },
+          "constraints": [
+            {
+              "kind": "general",
+              "constraint": "noShake",
+              "allFrames": true
+            },
+            {
+              "kind": "general",
+              "constraint": "keepInFrame",
+              "targets": [
+                {
+                  "id": "athletics_track",
+                  "description": "پیست ۶ خط دومیدانی / six-lane athletics track"
+                },
+                {
+                  "id": "football_pitch",
+                  "description": "زمین فوتبال داخل پیست / infield pitch"
+                }
+              ],
+              "allFrames": true
+            },
+            {
+              "kind": "general",
+              "constraint": "avoidOcclusion",
+              "targets": [
+                {
+                  "id": "athletics_track",
+                  "description": "پیست ۶ خط دومیدانی / six-lane athletics track"
+                },
+                {
+                  "id": "football_pitch",
+                  "description": "زمین فوتبال داخل پیست / infield pitch"
+                }
+              ],
+              "allFrames": true,
+              "weight": 0.8
+            }
+          ]
+        },
+        {
+          "id": "stadium-05-stadium-breathes-overlay-01",
+          "name": "Descend 9 m over the first 12 playback seconds, from 67 m to 58 m.",
+          "trigger": {
+            "type": "absoluteTime",
+            "time": 0
+          },
+          "movement": {
+            "act": "craneDown",
+            "duration": 12,
+            "parameters": {
+              "heightChange": 9,
+              "handheld": false
+            }
+          }
+        },
+        {
+          "id": "stadium-05-stadium-breathes-overlay-02",
+          "name": "Rise 15 m over playback 36–48 s, from 58 m to 73 m.",
+          "trigger": {
+            "type": "absoluteTime",
+            "time": 36
+          },
+          "movement": {
+            "act": "craneUp",
+            "duration": 12,
+            "parameters": {
+              "heightChange": 15,
+              "handheld": false
+            }
+          }
+        }
+      ]
+    }
+  ]
+}

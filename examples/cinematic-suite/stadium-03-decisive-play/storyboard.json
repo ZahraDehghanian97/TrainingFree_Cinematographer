@@ -1,0 +1,59 @@
+{
+  "title": "The Decisive Play",
+  "phases": [
+    {
+      "actionId": "stadium-03-decisive-play-shot-01",
+      "start": 0,
+      "end": 29,
+      "title": "Ball-led field coverage",
+      "movement": "track",
+      "primaryTargets": [
+        "ball"
+      ]
+    },
+    {
+      "actionId": "stadium-03-decisive-play-shot-02",
+      "start": 29,
+      "end": 35,
+      "title": "Settle for the attack",
+      "movement": "track",
+      "primaryTargets": [
+        "ball"
+      ]
+    },
+    {
+      "actionId": "stadium-03-decisive-play-shot-03",
+      "start": 35,
+      "end": 40,
+      "title": "Hold the ball and east goal",
+      "movement": "static",
+      "primaryTargets": [
+        "ball",
+        "goal_east"
+      ]
+    },
+    {
+      "actionId": "stadium-03-decisive-play-shot-04",
+      "start": 40,
+      "end": 48,
+      "title": "Goal aftermath drift",
+      "movement": "arcRight",
+      "primaryTargets": [
+        "ball",
+        "goal_east"
+      ]
+    }
+  ],
+  "sceneBeats": [
+    34,
+    36.8,
+    38.2,
+    39.3
+  ],
+  "previewTimes": [
+    8,
+    24,
+    37.6,
+    43
+  ]
+}

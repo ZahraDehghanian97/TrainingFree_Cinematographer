@@ -222,6 +222,11 @@ function renderPointSegment(
   seg: {
     time: number;
     lossFunctions: LossFunction[];
+    easing?: {
+      inDuration?: number;
+      outDuration?: number;
+      curve?: string;
+    };
   },
   scale: number,
   color: string,
@@ -244,6 +249,18 @@ function renderPointSegment(
   const baseTopY =
     pointBaseY -
     stackOffset;
+
+  if (seg.easing) {
+    const inDuration = seg.easing.inDuration ?? 0;
+    const outDuration = seg.easing.outDuration ?? 0;
+    const easedStartX = x - inDuration * scale;
+    const easedEndX = x + outDuration * scale;
+    if (easedEndX > easedStartX) {
+      lines.push(
+        `<rect x="${easedStartX}" y="${TIMELINE_Y - 7}" width="${easedEndX - easedStartX}" height="14" fill="${color}" fill-opacity="0.16" rx="7" />`
+      );
+    }
+  }
 
   lines.push(
     `<line x1="${x}" y1="${TIMELINE_Y}" x2="${x}" y2="${baseTopY}" stroke="${color}" stroke-width="2" stroke-dasharray="4"/>`

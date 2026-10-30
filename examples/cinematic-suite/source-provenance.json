@@ -1,0 +1,17 @@
+{
+  "sourceArchive": "TrainingFree_Cinematographer(2).zip",
+  "sourceBranch": "origin/integration",
+  "sourceCommit": "14001bc9fc80a9dbe0f8e2f79c47036535fa06ab",
+  "extractionMethod": "git archive origin/integration; active checkout was an older timeline-only branch",
+  "worldFiles": {
+    "stadium": {
+      "path": "web/public/environments/stadium.json",
+      "sha256": "e7111e7cd27898d2b010c481223221f2c80e2908572890a5e6f88f25b4a44380"
+    },
+    "factory": {
+      "path": "web/public/environments/factory.json",
+      "sha256": "1bf281054a4c256098a05ca7d6e2c294773c51178cd18093d26f623512a400ee"
+    }
+  },
+  "worldFilesEdited": false
+}

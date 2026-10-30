@@ -1,0 +1,2560 @@
+{
+  "schemaVersion": "1.0",
+  "kind": "cinematicSuiteValidation",
+  "auditFps": 60,
+  "examples": 10,
+  "passed": 10,
+  "totalCameraProbes": 28810,
+  "allWorldFilesUnmodified": true,
+  "sourceHashChecks": {
+    "stadium": true,
+    "factory": true
+  },
+  "nativeWorldSamplerAgreement": [
+    {
+      "exampleId": "stadium-01-winners-run",
+      "subjectSamples": 8,
+      "maxAbsoluteCoordinateErrorMeters": 3.552713678800501e-15,
+      "pass": true
+    },
+    {
+      "exampleId": "stadium-02-fall-and-resolve",
+      "subjectSamples": 8,
+      "maxAbsoluteCoordinateErrorMeters": 2.220446049250313e-16,
+      "pass": true
+    },
+    {
+      "exampleId": "stadium-03-decisive-play",
+      "subjectSamples": 16,
+      "maxAbsoluteCoordinateErrorMeters": 7.105427357601002e-15,
+      "pass": true
+    },
+    {
+      "exampleId": "stadium-04-behind-the-lens",
+      "subjectSamples": 8,
+      "maxAbsoluteCoordinateErrorMeters": 1.4210854715202004e-14,
+      "pass": true
+    },
+    {
+      "exampleId": "stadium-05-stadium-breathes",
+      "subjectSamples": 16,
+      "maxAbsoluteCoordinateErrorMeters": 0.0,
+      "pass": true
+    },
+    {
+      "exampleId": "factory-01-production-to-stillness",
+      "subjectSamples": 40,
+      "maxAbsoluteCoordinateErrorMeters": 1.1236211960863329e-10,
+      "pass": true
+    },
+    {
+      "exampleId": "factory-02-aisle-two-shot",
+      "subjectSamples": 16,
+      "maxAbsoluteCoordinateErrorMeters": 1.1236211960863329e-10,
+      "pass": true
+    },
+    {
+      "exampleId": "factory-03-chain-reaction",
+      "subjectSamples": 40,
+      "maxAbsoluteCoordinateErrorMeters": 1.1236211960863329e-10,
+      "pass": true
+    },
+    {
+      "exampleId": "factory-04-emergency-operator",
+      "subjectSamples": 32,
+      "maxAbsoluteCoordinateErrorMeters": 1.1236211960863329e-10,
+      "pass": true
+    },
+    {
+      "exampleId": "factory-05-one-piece",
+      "subjectSamples": 8,
+      "maxAbsoluteCoordinateErrorMeters": 5.551115123125783e-17,
+      "pass": true
+    }
+  ],
+  "artifactIntegrity": [
+    {
+      "exampleId": "stadium-01-winners-run",
+      "metadataHashesMatch": true,
+      "publicMirrorsMatch": true
+    },
+    {
+      "exampleId": "stadium-02-fall-and-resolve",
+      "metadataHashesMatch": true,
+      "publicMirrorsMatch": true
+    },
+    {
+      "exampleId": "stadium-03-decisive-play",
+      "metadataHashesMatch": true,
+      "publicMirrorsMatch": true
+    },
+    {
+      "exampleId": "stadium-04-behind-the-lens",
+      "metadataHashesMatch": true,
+      "publicMirrorsMatch": true
+    },
+    {
+      "exampleId": "stadium-05-stadium-breathes",
+      "metadataHashesMatch": true,
+      "publicMirrorsMatch": true
+    },
+    {
+      "exampleId": "factory-01-production-to-stillness",
+      "metadataHashesMatch": true,
+      "publicMirrorsMatch": true
+    },
+    {
+      "exampleId": "factory-02-aisle-two-shot",
+      "metadataHashesMatch": true,
+      "publicMirrorsMatch": true
+    },
+    {
+      "exampleId": "factory-03-chain-reaction",
+      "metadataHashesMatch": true,
+      "publicMirrorsMatch": true
+    },
+    {
+      "exampleId": "factory-04-emergency-operator",
+      "metadataHashesMatch": true,
+      "publicMirrorsMatch": true
+    },
+    {
+      "exampleId": "factory-05-one-piece",
+      "metadataHashesMatch": true,
+      "publicMirrorsMatch": true
+    }
+  ],
+  "reports": [
+    {
+      "exampleId": "stadium-01-winners-run",
+      "environmentId": "stadium",
+      "auditFps": 60,
+      "cameraProbes": 2881,
+      "status": "pass",
+      "errors": [],
+      "visibilityReviewNotes": [
+        "runner_01: 99.40% of 8–33s has at least one clear centre/upper probe",
+        "runner_01: 99.17% of 33–41s has at least one clear centre/upper probe"
+      ],
+      "cameraClearance": {
+        "radiusMeters": 0.25,
+        "minimumCenterToBoundsMeters": 3.7785204598578144,
+        "minimumSphereClearanceMeters": 3.5285204598578144,
+        "failingSamples": 0,
+        "nearestEntity": "flower_24",
+        "timeOfMinimum": 41.61666666666667
+      },
+      "framing": [
+        {
+          "actionId": "stadium-01-winners-run-shot-01",
+          "target": "runner_01",
+          "samples": 481,
+          "fullyInFramePercent": 100.0,
+          "minimumEdgeMargin": 0.34049,
+          "firstFailureTime": null
+        },
+        {
+          "actionId": "stadium-01-winners-run-shot-02",
+          "target": "runner_01",
+          "samples": 1501,
+          "fullyInFramePercent": 100.0,
+          "minimumEdgeMargin": 0.33217,
+          "firstFailureTime": null
+        },
+        {
+          "actionId": "stadium-01-winners-run-shot-03",
+          "target": "runner_01",
+          "samples": 481,
+          "fullyInFramePercent": 100.0,
+          "minimumEdgeMargin": 0.35468,
+          "firstFailureTime": null
+        },
+        {
+          "actionId": "stadium-01-winners-run-shot-04",
+          "target": "runner_01",
+          "samples": 421,
+          "fullyInFramePercent": 100.0,
+          "minimumEdgeMargin": 0.39791,
+          "firstFailureTime": null
+        }
+      ],
+      "visibility": [
+        {
+          "actionId": "stadium-01-winners-run-shot-01",
+          "target": "runner_01",
+          "oneOrMoreProbesVisiblePercent": 100.0,
+          "bothProbesVisiblePercent": 90.021,
+          "fullyBlockedSamples": 0,
+          "firstFullyBlockedTime": null,
+          "dominantProxyBlockers": [
+            [
+              "runner_02",
+              48
+            ]
+          ]
+        },
+        {
+          "actionId": "stadium-01-winners-run-shot-02",
+          "target": "runner_01",
+          "oneOrMoreProbesVisiblePercent": 99.4,
+          "bothProbesVisiblePercent": 85.943,
+          "fullyBlockedSamples": 9,
+          "firstFullyBlockedTime": 11.416666666666666,
+          "dominantProxyBlockers": [
+            [
+              "runner_02",
+              220
+            ]
+          ]
+        },
+        {
+          "actionId": "stadium-01-winners-run-shot-03",
+          "target": "runner_01",
+          "oneOrMoreProbesVisiblePercent": 99.168,
+          "bothProbesVisiblePercent": 96.674,
+          "fullyBlockedSamples": 4,
+          "firstFullyBlockedTime": 37.2,
+          "dominantProxyBlockers": [
+            [
+              "finish-header",
+              16
+            ],
+            [
+              "finish-ribbon",
+              4
+            ]
+          ]
+        },
+        {
+          "actionId": "stadium-01-winners-run-shot-04",
+          "target": "runner_01",
+          "oneOrMoreProbesVisiblePercent": 100.0,
+          "bothProbesVisiblePercent": 97.15,
+          "fullyBlockedSamples": 0,
+          "firstFullyBlockedTime": null,
+          "dominantProxyBlockers": [
+            [
+              "flower_17",
+              12
+            ]
+          ]
+        }
+      ],
+      "staticPhases": [],
+      "motion": {
+        "maxSpeedMetersPerSecond": 10.907811411837786,
+        "maxAccelerationMetersPerSecondSquared": 6.090353000309818,
+        "maxAngularSpeedDegreesPerSecond": 17.593075999190766,
+        "maxFovRateDegreesPerSecond": 3.749307374930595,
+        "maxAbsoluteHorizonRollDegrees": 7.511832929194799e-05,
+        "fovYRangeDegrees": [
+          37.0,
+          50.0
+        ],
+        "cameraHeightRangeMeters": [
+          6.7,
+          13.0
+        ]
+      },
+      "eventCoverage": [
+        {
+          "eventId": "race_start",
+          "time": 2,
+          "subjects": [
+            {
+              "id": "runner_01",
+              "centreInViewport": true
+            },
+            {
+              "id": "runner_02",
+              "centreInViewport": true
+            },
+            {
+              "id": "runner_03",
+              "centreInViewport": true
+            },
+            {
+              "id": "runner_04",
+              "centreInViewport": false
+            },
+            {
+              "id": "runner_05",
+              "centreInViewport": false
+            },
+            {
+              "id": "runner_06",
+              "centreInViewport": false
+            }
+          ]
+        },
+        {
+          "eventId": "winner_finish",
+          "time": 38,
+          "subjects": [
+            {
+              "id": "runner_01",
+              "centreInViewport": true
+            },
+            {
+              "id": "finish-ribbon",
+              "centreInViewport": true
+            }
+          ]
+        },
+        {
+          "eventId": "football_goal",
+          "time": 38.2,
+          "subjects": [
+            {
+              "id": "ball",
+              "centreInViewport": true
+            },
+            {
+              "id": "goal_east",
+              "centreInViewport": true
+            },
+            {
+              "id": "football_red_10",
+              "centreInViewport": true
+            }
+          ]
+        },
+        {
+          "eventId": "winner_jump",
+          "time": 39.3,
+          "subjects": [
+            {
+              "id": "runner_01",
+              "centreInViewport": true
+            }
+          ]
+        },
+        {
+          "eventId": "flower_shower",
+          "time": 39.4,
+          "subjects": [
+            {
+              "id": "runner_01",
+              "centreInViewport": true
+            },
+            {
+              "id": "spectator_047",
+              "centreInViewport": false
+            },
+            {
+              "id": "spectator_059",
+              "centreInViewport": false
+            },
+            {
+              "id": "spectator_048",
+              "centreInViewport": false
+            },
+            {
+              "id": "spectator_071",
+              "centreInViewport": false
+            },
+            {
+              "id": "spectator_046",
+              "centreInViewport": false
+            },
+            {
+              "id": "spectator_060",
+              "centreInViewport": false
+            },
+            {
+              "id": "spectator_058",
+              "centreInViewport": false
+            },
+            {
+              "id": "spectator_072",
+              "centreInViewport": false
+            },
+            {
+              "id": "spectator_070",
+              "centreInViewport": false
+            }
+          ]
+        }
+      ],
+      "limits": [
+        "60 Hz discrete replay checks, not continuous swept-volume certification.",
+        "Bounds are supplied conservative proxies, not rendered animated mesh/limb intersections.",
+        "Frustum inclusion does not prove pixel-level visibility.",
+        "Visibility rays test centre and upper probes; a clear probe does not imply the whole subject is unobstructed.",
+        "Artistic quality and numerical optimizer convergence are not certified by these checks."
+      ]
+    },
+    {
+      "exampleId": "stadium-02-fall-and-resolve",
+      "environmentId": "stadium",
+      "auditFps": 60,
+      "cameraProbes": 2881,
+      "status": "pass",
+      "errors": [],
+      "visibilityReviewNotes": [
+        "runner_03: 99.05% of 41–48s has at least one clear centre/upper probe"
+      ],
+      "cameraClearance": {
+        "radiusMeters": 0.25,
+        "minimumCenterToBoundsMeters": 2.000849819451726,
+        "minimumSphereClearanceMeters": 1.7508498194517261,
+        "failingSamples": 0,
+        "nearestEntity": "spectator_051",
+        "timeOfMinimum": 32.68333333333333
+      },
+      "framing": [
+        {
+          "actionId": "stadium-02-fall-and-resolve-shot-01",
+          "target": "runner_03",
+          "samples": 601,
+          "fullyInFramePercent": 100.0,
+          "minimumEdgeMargin": 0.32591,
+          "firstFailureTime": null
+        },
+        {
+          "actionId": "stadium-02-fall-and-resolve-shot-02",
+          "target": "runner_03",
+          "samples": 511,
+          "fullyInFramePercent": 100.0,
+          "minimumEdgeMargin": 0.32593,
+          "firstFailureTime": null
+        },
+        {
+          "actionId": "stadium-02-fall-and-resolve-shot-03",
+          "target": "runner_03",
+          "samples": 331,
+          "fullyInFramePercent": 100.0,
+          "minimumEdgeMargin": 0.34814,
+          "firstFailureTime": null
+        },
+        {
+          "actionId": "stadium-02-fall-and-resolve-shot-04",
+          "target": "runner_03",
+          "samples": 1021,
+          "fullyInFramePercent": 100.0,
+          "minimumEdgeMargin": 0.34694,
+          "firstFailureTime": null
+        },
+        {
+          "actionId": "stadium-02-fall-and-resolve-shot-05",
+          "target": "runner_03",
+          "samples": 421,
+          "fullyInFramePercent": 100.0,
+          "minimumEdgeMargin": 0.3651,
+          "firstFailureTime": null
+        }
+      ],
+      "visibility": [
+        {
+          "actionId": "stadium-02-fall-and-resolve-shot-01",
+          "target": "runner_03",
+          "oneOrMoreProbesVisiblePercent": 100.0,
+          "bothProbesVisiblePercent": 100.0,
+          "fullyBlockedSamples": 0,
+          "firstFullyBlockedTime": null,
+          "dominantProxyBlockers": []
+        },
+        {
+          "actionId": "stadium-02-fall-and-resolve-shot-02",
+          "target": "runner_03",
+          "oneOrMoreProbesVisiblePercent": 100.0,
+          "bothProbesVisiblePercent": 100.0,
+          "fullyBlockedSamples": 0,
+          "firstFullyBlockedTime": null,
+          "dominantProxyBlockers": []
+        },
+        {
+          "actionId": "stadium-02-fall-and-resolve-shot-03",
+          "target": "runner_03",
+          "oneOrMoreProbesVisiblePercent": 100.0,
+          "bothProbesVisiblePercent": 100.0,
+          "fullyBlockedSamples": 0,
+          "firstFullyBlockedTime": null,
+          "dominantProxyBlockers": []
+        },
+        {
+          "actionId": "stadium-02-fall-and-resolve-shot-04",
+          "target": "runner_03",
+          "oneOrMoreProbesVisiblePercent": 100.0,
+          "bothProbesVisiblePercent": 100.0,
+          "fullyBlockedSamples": 0,
+          "firstFullyBlockedTime": null,
+          "dominantProxyBlockers": []
+        },
+        {
+          "actionId": "stadium-02-fall-and-resolve-shot-05",
+          "target": "runner_03",
+          "oneOrMoreProbesVisiblePercent": 99.05,
+          "bothProbesVisiblePercent": 67.458,
+          "fullyBlockedSamples": 4,
+          "firstFullyBlockedTime": 45.15,
+          "dominantProxyBlockers": [
+            [
+              "runner_04",
+              133
+            ],
+            [
+              "finish-post-41.2",
+              8
+            ]
+          ]
+        }
+      ],
+      "staticPhases": [],
+      "motion": {
+        "maxSpeedMetersPerSecond": 7.9347316572296185,
+        "maxAccelerationMetersPerSecondSquared": 6.742000856170261,
+        "maxAngularSpeedDegreesPerSecond": 9.4493151197554,
+        "maxFovRateDegreesPerSecond": 4.2854571429087684,
+        "maxAbsoluteHorizonRollDegrees": 1.5911407207472793e-05,
+        "fovYRangeDegrees": [
+          37.0,
+          46.0
+        ],
+        "cameraHeightRangeMeters": [
+          4.5,
+          8.0
+        ]
+      },
+      "eventCoverage": [
+        {
+          "eventId": "runner_fall",
+          "time": 13.7,
+          "subjects": [
+            {
+              "id": "runner_03",
+              "centreInViewport": true
+            }
+          ]
+        },
+        {
+          "eventId": "runner_recovery",
+          "time": 16.8,
+          "subjects": [
+            {
+              "id": "runner_03",
+              "centreInViewport": true
+            }
+          ]
+        }
+      ],
+      "limits": [
+        "60 Hz discrete replay checks, not continuous swept-volume certification.",
+        "Bounds are supplied conservative proxies, not rendered animated mesh/limb intersections.",
+        "Frustum inclusion does not prove pixel-level visibility.",
+        "Visibility rays test centre and upper probes; a clear probe does not imply the whole subject is unobstructed.",
+        "Artistic quality and numerical optimizer convergence are not certified by these checks."
+      ]
+    },
+    {
+      "exampleId": "stadium-03-decisive-play",
+      "environmentId": "stadium",
+      "auditFps": 60,
+      "cameraProbes": 2881,
+      "status": "pass",
+      "errors": [],
+      "visibilityReviewNotes": [
+        "ball: 97.36% of 0–29s has at least one clear centre/upper probe",
+        "ball: 93.63% of 29–35s has at least one clear centre/upper probe",
+        "ball: 98.34% of 35–40s has at least one clear centre/upper probe"
+      ],
+      "cameraClearance": {
+        "radiusMeters": 0.25,
+        "minimumCenterToBoundsMeters": 6.671679131726938,
+        "minimumSphereClearanceMeters": 6.421679131726938,
+        "failingSamples": 0,
+        "nearestEntity": "football_blue_10",
+        "timeOfMinimum": 24.816666666666666
+      },
+      "framing": [
+        {
+          "actionId": "stadium-03-decisive-play-shot-01",
+          "target": "ball",
+          "samples": 1741,
+          "fullyInFramePercent": 100.0,
+          "minimumEdgeMargin": 0.43246,
+          "firstFailureTime": null
+        },
+        {
+          "actionId": "stadium-03-decisive-play-shot-02",
+          "target": "ball",
+          "samples": 361,
+          "fullyInFramePercent": 100.0,
+          "minimumEdgeMargin": 0.03862,
+          "firstFailureTime": null
+        },
+        {
+          "actionId": "stadium-03-decisive-play-shot-03",
+          "target": "ball",
+          "samples": 301,
+          "fullyInFramePercent": 100.0,
+          "minimumEdgeMargin": 0.11898,
+          "firstFailureTime": null
+        },
+        {
+          "actionId": "stadium-03-decisive-play-shot-03",
+          "target": "goal_east",
+          "samples": 301,
+          "fullyInFramePercent": 100.0,
+          "minimumEdgeMargin": 0.19652,
+          "firstFailureTime": null
+        },
+        {
+          "actionId": "stadium-03-decisive-play-shot-04",
+          "target": "ball",
+          "samples": 481,
+          "fullyInFramePercent": 100.0,
+          "minimumEdgeMargin": 0.26344,
+          "firstFailureTime": null
+        },
+        {
+          "actionId": "stadium-03-decisive-play-shot-04",
+          "target": "goal_east",
+          "samples": 481,
+          "fullyInFramePercent": 100.0,
+          "minimumEdgeMargin": 0.19652,
+          "firstFailureTime": null
+        }
+      ],
+      "visibility": [
+        {
+          "actionId": "stadium-03-decisive-play-shot-01",
+          "target": "ball",
+          "oneOrMoreProbesVisiblePercent": 97.358,
+          "bothProbesVisiblePercent": 97.358,
+          "fullyBlockedSamples": 46,
+          "firstFullyBlockedTime": 5.683333333333334,
+          "dominantProxyBlockers": [
+            [
+              "football_blue_07",
+              42
+            ],
+            [
+              "football_red_11",
+              26
+            ],
+            [
+              "football_blue_11",
+              24
+            ]
+          ]
+        },
+        {
+          "actionId": "stadium-03-decisive-play-shot-02",
+          "target": "ball",
+          "oneOrMoreProbesVisiblePercent": 93.629,
+          "bothProbesVisiblePercent": 89.474,
+          "fullyBlockedSamples": 23,
+          "firstFullyBlockedTime": 30.983333333333334,
+          "dominantProxyBlockers": [
+            [
+              "football_blue_09",
+              47
+            ],
+            [
+              "football_red_12",
+              14
+            ]
+          ]
+        },
+        {
+          "actionId": "stadium-03-decisive-play-shot-03",
+          "target": "ball",
+          "oneOrMoreProbesVisiblePercent": 98.339,
+          "bothProbesVisiblePercent": 98.339,
+          "fullyBlockedSamples": 5,
+          "firstFullyBlockedTime": 36.733333333333334,
+          "dominantProxyBlockers": [
+            [
+              "football_red_10",
+              10
+            ]
+          ]
+        },
+        {
+          "actionId": "stadium-03-decisive-play-shot-03",
+          "target": "goal_east",
+          "oneOrMoreProbesVisiblePercent": 100.0,
+          "bothProbesVisiblePercent": 100.0,
+          "fullyBlockedSamples": 0,
+          "firstFullyBlockedTime": null,
+          "dominantProxyBlockers": []
+        },
+        {
+          "actionId": "stadium-03-decisive-play-shot-04",
+          "target": "ball",
+          "oneOrMoreProbesVisiblePercent": 100.0,
+          "bothProbesVisiblePercent": 100.0,
+          "fullyBlockedSamples": 0,
+          "firstFullyBlockedTime": null,
+          "dominantProxyBlockers": []
+        },
+        {
+          "actionId": "stadium-03-decisive-play-shot-04",
+          "target": "goal_east",
+          "oneOrMoreProbesVisiblePercent": 100.0,
+          "bothProbesVisiblePercent": 100.0,
+          "fullyBlockedSamples": 0,
+          "firstFullyBlockedTime": null,
+          "dominantProxyBlockers": []
+        }
+      ],
+      "staticPhases": [
+        {
+          "actionId": "stadium-03-decisive-play-shot-03",
+          "maxTranslationMeters": 9.188110298522524e-11,
+          "maxRotationDegrees": 3.578210293673815e-15
+        }
+      ],
+      "motion": {
+        "maxSpeedMetersPerSecond": 6.377309685126956,
+        "maxAccelerationMetersPerSecondSquared": 5.686334828200905,
+        "maxAngularSpeedDegreesPerSecond": 3.956948851659407,
+        "maxFovRateDegreesPerSecond": 1.565915686817192,
+        "maxAbsoluteHorizonRollDegrees": 1.3660695277528808e-05,
+        "fovYRangeDegrees": [
+          43.0,
+          48.0
+        ],
+        "cameraHeightRangeMeters": [
+          8.5,
+          8.5
+        ]
+      },
+      "eventCoverage": [
+        {
+          "eventId": "winner_finish",
+          "time": 38,
+          "subjects": [
+            {
+              "id": "runner_01",
+              "centreInViewport": false
+            },
+            {
+              "id": "finish-ribbon",
+              "centreInViewport": false
+            }
+          ]
+        },
+        {
+          "eventId": "football_goal",
+          "time": 38.2,
+          "subjects": [
+            {
+              "id": "ball",
+              "centreInViewport": true
+            },
+            {
+              "id": "goal_east",
+              "centreInViewport": true
+            },
+            {
+              "id": "football_red_10",
+              "centreInViewport": true
+            }
+          ]
+        },
+        {
+          "eventId": "winner_jump",
+          "time": 39.3,
+          "subjects": [
+            {
+              "id": "runner_01",
+              "centreInViewport": false
+            }
+          ]
+        },
+        {
+          "eventId": "flower_shower",
+          "time": 39.4,
+          "subjects": [
+            {
+              "id": "runner_01",
+              "centreInViewport": false
+            },
+            {
+              "id": "spectator_047",
+              "centreInViewport": false
+            },
+            {
+              "id": "spectator_059",
+              "centreInViewport": false
+            },
+            {
+              "id": "spectator_048",
+              "centreInViewport": false
+            },
+            {
+              "id": "spectator_071",
+              "centreInViewport": false
+            },
+            {
+              "id": "spectator_046",
+              "centreInViewport": false
+            },
+            {
+              "id": "spectator_060",
+              "centreInViewport": false
+            },
+            {
+              "id": "spectator_058",
+              "centreInViewport": false
+            },
+            {
+              "id": "spectator_072",
+              "centreInViewport": false
+            },
+            {
+              "id": "spectator_070",
+              "centreInViewport": false
+            }
+          ]
+        }
+      ],
+      "limits": [
+        "60 Hz discrete replay checks, not continuous swept-volume certification.",
+        "Bounds are supplied conservative proxies, not rendered animated mesh/limb intersections.",
+        "Frustum inclusion does not prove pixel-level visibility.",
+        "Visibility rays test centre and upper probes; a clear probe does not imply the whole subject is unobstructed.",
+        "Artistic quality and numerical optimizer convergence are not certified by these checks."
+      ]
+    },
+    {
+      "exampleId": "stadium-04-behind-the-lens",
+      "environmentId": "stadium",
+      "auditFps": 60,
+      "cameraProbes": 2881,
+      "status": "pass",
+      "errors": [],
+      "visibilityReviewNotes": [
+        "track_cameraman: 93.14% of 32–40s has at least one clear centre/upper probe"
+      ],
+      "cameraClearance": {
+        "radiusMeters": 0.25,
+        "minimumCenterToBoundsMeters": 2.575085580877985,
+        "minimumSphereClearanceMeters": 2.325085580877985,
+        "failingSamples": 0,
+        "nearestEntity": "spectator_061",
+        "timeOfMinimum": 23.733333333333334
+      },
+      "framing": [
+        {
+          "actionId": "stadium-04-behind-the-lens-shot-01",
+          "target": "track_cameraman",
+          "samples": 721,
+          "fullyInFramePercent": 100.0,
+          "minimumEdgeMargin": 0.30354,
+          "firstFailureTime": null
+        },
+        {
+          "actionId": "stadium-04-behind-the-lens-shot-02",
+          "target": "track_cameraman",
+          "samples": 1201,
+          "fullyInFramePercent": 100.0,
+          "minimumEdgeMargin": 0.30119,
+          "firstFailureTime": null
+        },
+        {
+          "actionId": "stadium-04-behind-the-lens-shot-03",
+          "target": "track_cameraman",
+          "samples": 481,
+          "fullyInFramePercent": 100.0,
+          "minimumEdgeMargin": 0.35003,
+          "firstFailureTime": null
+        },
+        {
+          "actionId": "stadium-04-behind-the-lens-shot-04",
+          "target": "track_cameraman",
+          "samples": 481,
+          "fullyInFramePercent": 100.0,
+          "minimumEdgeMargin": 0.3841,
+          "firstFailureTime": null
+        }
+      ],
+      "visibility": [
+        {
+          "actionId": "stadium-04-behind-the-lens-shot-01",
+          "target": "track_cameraman",
+          "oneOrMoreProbesVisiblePercent": 100.0,
+          "bothProbesVisiblePercent": 100.0,
+          "fullyBlockedSamples": 0,
+          "firstFullyBlockedTime": null,
+          "dominantProxyBlockers": []
+        },
+        {
+          "actionId": "stadium-04-behind-the-lens-shot-02",
+          "target": "track_cameraman",
+          "oneOrMoreProbesVisiblePercent": 100.0,
+          "bothProbesVisiblePercent": 100.0,
+          "fullyBlockedSamples": 0,
+          "firstFullyBlockedTime": null,
+          "dominantProxyBlockers": []
+        },
+        {
+          "actionId": "stadium-04-behind-the-lens-shot-03",
+          "target": "track_cameraman",
+          "oneOrMoreProbesVisiblePercent": 93.139,
+          "bothProbesVisiblePercent": 90.437,
+          "fullyBlockedSamples": 33,
+          "firstFullyBlockedTime": 37.75,
+          "dominantProxyBlockers": [
+            [
+              "marshal_2",
+              74
+            ],
+            [
+              "race-flag-3",
+              39
+            ]
+          ]
+        },
+        {
+          "actionId": "stadium-04-behind-the-lens-shot-04",
+          "target": "track_cameraman",
+          "oneOrMoreProbesVisiblePercent": 100.0,
+          "bothProbesVisiblePercent": 100.0,
+          "fullyBlockedSamples": 0,
+          "firstFullyBlockedTime": null,
+          "dominantProxyBlockers": []
+        }
+      ],
+      "staticPhases": [],
+      "motion": {
+        "maxSpeedMetersPerSecond": 9.288385630447857,
+        "maxAccelerationMetersPerSecondSquared": 6.073602917212315,
+        "maxAngularSpeedDegreesPerSecond": 15.011092329789165,
+        "maxFovRateDegreesPerSecond": 2.4997952499793996,
+        "maxAbsoluteHorizonRollDegrees": 0.0001127557216960296,
+        "fovYRangeDegrees": [
+          36.0,
+          49.0
+        ],
+        "cameraHeightRangeMeters": [
+          5.8,
+          10.0
+        ]
+      },
+      "eventCoverage": [
+        {
+          "eventId": "winner_finish",
+          "time": 38,
+          "subjects": [
+            {
+              "id": "runner_01",
+              "centreInViewport": true
+            },
+            {
+              "id": "finish-ribbon",
+              "centreInViewport": true
+            }
+          ]
+        },
+        {
+          "eventId": "football_goal",
+          "time": 38.2,
+          "subjects": [
+            {
+              "id": "ball",
+              "centreInViewport": false
+            },
+            {
+              "id": "goal_east",
+              "centreInViewport": false
+            },
+            {
+              "id": "football_red_10",
+              "centreInViewport": false
+            }
+          ]
+        }
+      ],
+      "limits": [
+        "60 Hz discrete replay checks, not continuous swept-volume certification.",
+        "Bounds are supplied conservative proxies, not rendered animated mesh/limb intersections.",
+        "Frustum inclusion does not prove pixel-level visibility.",
+        "Visibility rays test centre and upper probes; a clear probe does not imply the whole subject is unobstructed.",
+        "Artistic quality and numerical optimizer convergence are not certified by these checks."
+      ]
+    },
+    {
+      "exampleId": "stadium-05-stadium-breathes",
+      "environmentId": "stadium",
+      "auditFps": 60,
+      "cameraProbes": 2881,
+      "status": "pass",
+      "errors": [],
+      "visibilityReviewNotes": [],
+      "cameraClearance": {
+        "radiusMeters": 0.25,
+        "minimumCenterToBoundsMeters": 94.36335148188405,
+        "minimumSphereClearanceMeters": 94.11335148188405,
+        "failingSamples": 0,
+        "nearestEntity": "floodlight-62-53-2",
+        "timeOfMinimum": 19.966666666666665
+      },
+      "framing": [
+        {
+          "actionId": "stadium-05-stadium-breathes-shot-01",
+          "target": "athletics_track",
+          "samples": 721,
+          "fullyInFramePercent": 100.0,
+          "minimumEdgeMargin": 0.2005,
+          "firstFailureTime": null
+        },
+        {
+          "actionId": "stadium-05-stadium-breathes-shot-01",
+          "target": "football_pitch",
+          "samples": 721,
+          "fullyInFramePercent": 100.0,
+          "minimumEdgeMargin": 0.34539,
+          "firstFailureTime": null
+        },
+        {
+          "actionId": "stadium-05-stadium-breathes-shot-02",
+          "target": "athletics_track",
+          "samples": 1441,
+          "fullyInFramePercent": 100.0,
+          "minimumEdgeMargin": 0.18731,
+          "firstFailureTime": null
+        },
+        {
+          "actionId": "stadium-05-stadium-breathes-shot-02",
+          "target": "football_pitch",
+          "samples": 1441,
+          "fullyInFramePercent": 100.0,
+          "minimumEdgeMargin": 0.3446,
+          "firstFailureTime": null
+        },
+        {
+          "actionId": "stadium-05-stadium-breathes-shot-03",
+          "target": "athletics_track",
+          "samples": 721,
+          "fullyInFramePercent": 100.0,
+          "minimumEdgeMargin": 0.17813,
+          "firstFailureTime": null
+        },
+        {
+          "actionId": "stadium-05-stadium-breathes-shot-03",
+          "target": "football_pitch",
+          "samples": 721,
+          "fullyInFramePercent": 100.0,
+          "minimumEdgeMargin": 0.36148,
+          "firstFailureTime": null
+        }
+      ],
+      "visibility": [],
+      "staticPhases": [],
+      "motion": {
+        "maxSpeedMetersPerSecond": 4.387316310554102,
+        "maxAccelerationMetersPerSecondSquared": 0.6068256277092045,
+        "maxAngularSpeedDegreesPerSecond": 1.4269978489677624,
+        "maxFovRateDegreesPerSecond": 0.0,
+        "maxAbsoluteHorizonRollDegrees": 2.0860394221651084e-06,
+        "fovYRangeDegrees": [
+          58.0,
+          58.0
+        ],
+        "cameraHeightRangeMeters": [
+          58.0,
+          72.99999999999999
+        ]
+      },
+      "eventCoverage": [
+        {
+          "eventId": "race_start",
+          "time": 2,
+          "subjects": [
+            {
+              "id": "runner_01",
+              "centreInViewport": true
+            },
+            {
+              "id": "runner_02",
+              "centreInViewport": true
+            },
+            {
+              "id": "runner_03",
+              "centreInViewport": true
+            },
+            {
+              "id": "runner_04",
+              "centreInViewport": true
+            },
+            {
+              "id": "runner_05",
+              "centreInViewport": true
+            },
+            {
+              "id": "runner_06",
+              "centreInViewport": true
+            }
+          ]
+        },
+        {
+          "eventId": "winner_finish",
+          "time": 38,
+          "subjects": [
+            {
+              "id": "runner_01",
+              "centreInViewport": true
+            },
+            {
+              "id": "finish-ribbon",
+              "centreInViewport": true
+            }
+          ]
+        },
+        {
+          "eventId": "football_goal",
+          "time": 38.2,
+          "subjects": [
+            {
+              "id": "ball",
+              "centreInViewport": true
+            },
+            {
+              "id": "goal_east",
+              "centreInViewport": true
+            },
+            {
+              "id": "football_red_10",
+              "centreInViewport": true
+            }
+          ]
+        },
+        {
+          "eventId": "winner_jump",
+          "time": 39.3,
+          "subjects": [
+            {
+              "id": "runner_01",
+              "centreInViewport": true
+            }
+          ]
+        },
+        {
+          "eventId": "flower_shower",
+          "time": 39.4,
+          "subjects": [
+            {
+              "id": "runner_01",
+              "centreInViewport": true
+            },
+            {
+              "id": "spectator_047",
+              "centreInViewport": true
+            },
+            {
+              "id": "spectator_059",
+              "centreInViewport": true
+            },
+            {
+              "id": "spectator_048",
+              "centreInViewport": true
+            },
+            {
+              "id": "spectator_071",
+              "centreInViewport": true
+            },
+            {
+              "id": "spectator_046",
+              "centreInViewport": true
+            },
+            {
+              "id": "spectator_060",
+              "centreInViewport": true
+            },
+            {
+              "id": "spectator_058",
+              "centreInViewport": true
+            },
+            {
+              "id": "spectator_072",
+              "centreInViewport": true
+            },
+            {
+              "id": "spectator_070",
+              "centreInViewport": true
+            }
+          ]
+        }
+      ],
+      "limits": [
+        "60 Hz discrete replay checks, not continuous swept-volume certification.",
+        "Bounds are supplied conservative proxies, not rendered animated mesh/limb intersections.",
+        "Frustum inclusion does not prove pixel-level visibility.",
+        "Visibility rays test centre and upper probes; a clear probe does not imply the whole subject is unobstructed.",
+        "Artistic quality and numerical optimizer convergence are not certified by these checks."
+      ]
+    },
+    {
+      "exampleId": "factory-01-production-to-stillness",
+      "environmentId": "factory",
+      "auditFps": 60,
+      "cameraProbes": 2881,
+      "status": "pass",
+      "errors": [],
+      "visibilityReviewNotes": [
+        "worker_a: 99.58% of 16–24s has at least one clear centre/upper probe",
+        "worker_b: 96.26% of 16–24s has at least one clear centre/upper probe"
+      ],
+      "cameraClearance": {
+        "radiusMeters": 0.25,
+        "minimumCenterToBoundsMeters": 1.9000000000000012,
+        "minimumSphereClearanceMeters": 1.6500000000000012,
+        "failingSamples": 0,
+        "nearestEntity": "arch-warehouse-ceiling",
+        "timeOfMinimum": 48.0
+      },
+      "framing": [
+        {
+          "actionId": "factory-01-production-to-stillness-shot-01",
+          "target": "cargo_01",
+          "samples": 481,
+          "fullyInFramePercent": 100.0,
+          "minimumEdgeMargin": 0.33758,
+          "firstFailureTime": null
+        },
+        {
+          "actionId": "factory-01-production-to-stillness-shot-03",
+          "target": "worker_a",
+          "samples": 481,
+          "fullyInFramePercent": 100.0,
+          "minimumEdgeMargin": 0.22385,
+          "firstFailureTime": null
+        },
+        {
+          "actionId": "factory-01-production-to-stillness-shot-03",
+          "target": "worker_b",
+          "samples": 481,
+          "fullyInFramePercent": 100.0,
+          "minimumEdgeMargin": 0.29771,
+          "firstFailureTime": null
+        },
+        {
+          "actionId": "factory-01-production-to-stillness-shot-03",
+          "target": "cargo_06",
+          "samples": 481,
+          "fullyInFramePercent": 100.0,
+          "minimumEdgeMargin": 0.08924,
+          "firstFailureTime": null
+        },
+        {
+          "actionId": "factory-01-production-to-stillness-shot-04",
+          "target": "worker_a",
+          "samples": 1441,
+          "fullyInFramePercent": 100.0,
+          "minimumEdgeMargin": 0.2834,
+          "firstFailureTime": null
+        },
+        {
+          "actionId": "factory-01-production-to-stillness-shot-04",
+          "target": "worker_b",
+          "samples": 1441,
+          "fullyInFramePercent": 100.0,
+          "minimumEdgeMargin": 0.27786,
+          "firstFailureTime": null
+        }
+      ],
+      "visibility": [
+        {
+          "actionId": "factory-01-production-to-stillness-shot-01",
+          "target": "cargo_01",
+          "oneOrMoreProbesVisiblePercent": 100.0,
+          "bothProbesVisiblePercent": 100.0,
+          "fullyBlockedSamples": 0,
+          "firstFullyBlockedTime": null,
+          "dominantProxyBlockers": []
+        },
+        {
+          "actionId": "factory-01-production-to-stillness-shot-03",
+          "target": "worker_a",
+          "oneOrMoreProbesVisiblePercent": 99.584,
+          "bothProbesVisiblePercent": 98.129,
+          "fullyBlockedSamples": 2,
+          "firstFullyBlockedTime": 21.9,
+          "dominantProxyBlockers": [
+            [
+              "cargo_01",
+              11
+            ]
+          ]
+        },
+        {
+          "actionId": "factory-01-production-to-stillness-shot-03",
+          "target": "worker_b",
+          "oneOrMoreProbesVisiblePercent": 96.258,
+          "bothProbesVisiblePercent": 77.547,
+          "fullyBlockedSamples": 18,
+          "firstFullyBlockedTime": 21.133333333333333,
+          "dominantProxyBlockers": [
+            [
+              "production_line",
+              108
+            ],
+            [
+              "cargo_03",
+              29
+            ]
+          ]
+        },
+        {
+          "actionId": "factory-01-production-to-stillness-shot-03",
+          "target": "cargo_06",
+          "oneOrMoreProbesVisiblePercent": 100.0,
+          "bothProbesVisiblePercent": 100.0,
+          "fullyBlockedSamples": 0,
+          "firstFullyBlockedTime": null,
+          "dominantProxyBlockers": []
+        },
+        {
+          "actionId": "factory-01-production-to-stillness-shot-04",
+          "target": "worker_a",
+          "oneOrMoreProbesVisiblePercent": 100.0,
+          "bothProbesVisiblePercent": 100.0,
+          "fullyBlockedSamples": 0,
+          "firstFullyBlockedTime": null,
+          "dominantProxyBlockers": []
+        },
+        {
+          "actionId": "factory-01-production-to-stillness-shot-04",
+          "target": "worker_b",
+          "oneOrMoreProbesVisiblePercent": 100.0,
+          "bothProbesVisiblePercent": 100.0,
+          "fullyBlockedSamples": 0,
+          "firstFullyBlockedTime": null,
+          "dominantProxyBlockers": []
+        }
+      ],
+      "staticPhases": [
+        {
+          "actionId": "factory-01-production-to-stillness-shot-03",
+          "maxTranslationMeters": 2.83158324387324e-11,
+          "maxRotationDegrees": 3.206847095524615e-15
+        }
+      ],
+      "motion": {
+        "maxSpeedMetersPerSecond": 2.598947343633928,
+        "maxAccelerationMetersPerSecondSquared": 0.9712809686587398,
+        "maxAngularSpeedDegreesPerSecond": 2.0687670993176077,
+        "maxFovRateDegreesPerSecond": 5.198166519817136,
+        "maxAbsoluteHorizonRollDegrees": 2.744873594825774e-06,
+        "fovYRangeDegrees": [
+          32.0,
+          55.0
+        ],
+        "cameraHeightRangeMeters": [
+          3.399999999998264,
+          7.599999999999999
+        ]
+      },
+      "eventCoverage": [
+        {
+          "eventId": "workers_argument",
+          "time": 12.2,
+          "subjects": [
+            {
+              "id": "worker_a",
+              "centreInViewport": true
+            },
+            {
+              "id": "worker_b",
+              "centreInViewport": true
+            }
+          ]
+        },
+        {
+          "eventId": "worker_shove",
+          "time": 20,
+          "subjects": [
+            {
+              "id": "worker_a",
+              "centreInViewport": true
+            },
+            {
+              "id": "worker_b",
+              "centreInViewport": true
+            }
+          ]
+        },
+        {
+          "eventId": "line_collision",
+          "time": 21,
+          "subjects": [
+            {
+              "id": "worker_b",
+              "centreInViewport": true
+            },
+            {
+              "id": "production_line",
+              "centreInViewport": true
+            }
+          ]
+        },
+        {
+          "eventId": "cargo_spill",
+          "time": 21,
+          "subjects": [
+            {
+              "id": "cargo_01",
+              "centreInViewport": true
+            },
+            {
+              "id": "cargo_02",
+              "centreInViewport": true
+            },
+            {
+              "id": "cargo_03",
+              "centreInViewport": true
+            },
+            {
+              "id": "cargo_04",
+              "centreInViewport": true
+            },
+            {
+              "id": "cargo_05",
+              "centreInViewport": true
+            },
+            {
+              "id": "cargo_06",
+              "centreInViewport": true
+            }
+          ]
+        },
+        {
+          "eventId": "emergency_stop",
+          "time": 21.7,
+          "subjects": [
+            {
+              "id": "production_line",
+              "centreInViewport": true
+            },
+            {
+              "id": "worker_05",
+              "centreInViewport": true
+            },
+            {
+              "id": "control_station",
+              "centreInViewport": true
+            }
+          ]
+        },
+        {
+          "eventId": "workers_response",
+          "time": 25,
+          "subjects": [
+            {
+              "id": "worker_a",
+              "centreInViewport": true
+            },
+            {
+              "id": "worker_b",
+              "centreInViewport": true
+            },
+            {
+              "id": "worker_07",
+              "centreInViewport": false
+            }
+          ]
+        }
+      ],
+      "limits": [
+        "60 Hz discrete replay checks, not continuous swept-volume certification.",
+        "Bounds are supplied conservative proxies, not rendered animated mesh/limb intersections.",
+        "Frustum inclusion does not prove pixel-level visibility.",
+        "Visibility rays test centre and upper probes; a clear probe does not imply the whole subject is unobstructed.",
+        "Artistic quality and numerical optimizer convergence are not certified by these checks."
+      ]
+    },
+    {
+      "exampleId": "factory-02-aisle-two-shot",
+      "environmentId": "factory",
+      "auditFps": 60,
+      "cameraProbes": 2881,
+      "status": "pass",
+      "errors": [],
+      "visibilityReviewNotes": [
+        "worker_a: 99.58% of 17–25s has at least one clear centre/upper probe",
+        "worker_b: 97.92% of 17–25s has at least one clear centre/upper probe"
+      ],
+      "cameraClearance": {
+        "radiusMeters": 0.25,
+        "minimumCenterToBoundsMeters": 1.9642709207235136,
+        "minimumSphereClearanceMeters": 1.7142709207235136,
+        "failingSamples": 0,
+        "nearestEntity": "arch-warehouse-light-2-1",
+        "timeOfMinimum": 0.0
+      },
+      "framing": [
+        {
+          "actionId": "factory-02-aisle-two-shot-shot-01",
+          "target": "worker_a",
+          "samples": 721,
+          "fullyInFramePercent": 100.0,
+          "minimumEdgeMargin": 0.10633,
+          "firstFailureTime": null
+        },
+        {
+          "actionId": "factory-02-aisle-two-shot-shot-01",
+          "target": "worker_b",
+          "samples": 721,
+          "fullyInFramePercent": 100.0,
+          "minimumEdgeMargin": 0.02705,
+          "firstFailureTime": null
+        },
+        {
+          "actionId": "factory-02-aisle-two-shot-shot-02",
+          "target": "worker_a",
+          "samples": 301,
+          "fullyInFramePercent": 100.0,
+          "minimumEdgeMargin": 0.22105,
+          "firstFailureTime": null
+        },
+        {
+          "actionId": "factory-02-aisle-two-shot-shot-02",
+          "target": "worker_b",
+          "samples": 301,
+          "fullyInFramePercent": 100.0,
+          "minimumEdgeMargin": 0.20751,
+          "firstFailureTime": null
+        },
+        {
+          "actionId": "factory-02-aisle-two-shot-shot-03",
+          "target": "worker_a",
+          "samples": 481,
+          "fullyInFramePercent": 100.0,
+          "minimumEdgeMargin": 0.22061,
+          "firstFailureTime": null
+        },
+        {
+          "actionId": "factory-02-aisle-two-shot-shot-03",
+          "target": "worker_b",
+          "samples": 481,
+          "fullyInFramePercent": 100.0,
+          "minimumEdgeMargin": 0.22231,
+          "firstFailureTime": null
+        },
+        {
+          "actionId": "factory-02-aisle-two-shot-shot-04",
+          "target": "worker_a",
+          "samples": 661,
+          "fullyInFramePercent": 100.0,
+          "minimumEdgeMargin": 0.28543,
+          "firstFailureTime": null
+        },
+        {
+          "actionId": "factory-02-aisle-two-shot-shot-04",
+          "target": "worker_b",
+          "samples": 661,
+          "fullyInFramePercent": 100.0,
+          "minimumEdgeMargin": 0.30417,
+          "firstFailureTime": null
+        },
+        {
+          "actionId": "factory-02-aisle-two-shot-shot-05",
+          "target": "worker_a",
+          "samples": 721,
+          "fullyInFramePercent": 100.0,
+          "minimumEdgeMargin": 0.36337,
+          "firstFailureTime": null
+        },
+        {
+          "actionId": "factory-02-aisle-two-shot-shot-05",
+          "target": "worker_b",
+          "samples": 721,
+          "fullyInFramePercent": 100.0,
+          "minimumEdgeMargin": 0.36337,
+          "firstFailureTime": null
+        }
+      ],
+      "visibility": [
+        {
+          "actionId": "factory-02-aisle-two-shot-shot-01",
+          "target": "worker_a",
+          "oneOrMoreProbesVisiblePercent": 100.0,
+          "bothProbesVisiblePercent": 100.0,
+          "fullyBlockedSamples": 0,
+          "firstFullyBlockedTime": null,
+          "dominantProxyBlockers": []
+        },
+        {
+          "actionId": "factory-02-aisle-two-shot-shot-01",
+          "target": "worker_b",
+          "oneOrMoreProbesVisiblePercent": 100.0,
+          "bothProbesVisiblePercent": 81.276,
+          "fullyBlockedSamples": 0,
+          "firstFullyBlockedTime": null,
+          "dominantProxyBlockers": [
+            [
+              "control_station",
+              135
+            ]
+          ]
+        },
+        {
+          "actionId": "factory-02-aisle-two-shot-shot-02",
+          "target": "worker_a",
+          "oneOrMoreProbesVisiblePercent": 100.0,
+          "bothProbesVisiblePercent": 100.0,
+          "fullyBlockedSamples": 0,
+          "firstFullyBlockedTime": null,
+          "dominantProxyBlockers": []
+        },
+        {
+          "actionId": "factory-02-aisle-two-shot-shot-02",
+          "target": "worker_b",
+          "oneOrMoreProbesVisiblePercent": 100.0,
+          "bothProbesVisiblePercent": 100.0,
+          "fullyBlockedSamples": 0,
+          "firstFullyBlockedTime": null,
+          "dominantProxyBlockers": []
+        },
+        {
+          "actionId": "factory-02-aisle-two-shot-shot-03",
+          "target": "worker_a",
+          "oneOrMoreProbesVisiblePercent": 99.584,
+          "bothProbesVisiblePercent": 98.129,
+          "fullyBlockedSamples": 2,
+          "firstFullyBlockedTime": 21.9,
+          "dominantProxyBlockers": [
+            [
+              "cargo_01",
+              11
+            ]
+          ]
+        },
+        {
+          "actionId": "factory-02-aisle-two-shot-shot-03",
+          "target": "worker_b",
+          "oneOrMoreProbesVisiblePercent": 97.921,
+          "bothProbesVisiblePercent": 77.547,
+          "fullyBlockedSamples": 10,
+          "firstFullyBlockedTime": 21.133333333333333,
+          "dominantProxyBlockers": [
+            [
+              "production_line",
+              108
+            ],
+            [
+              "cargo_02",
+              10
+            ],
+            [
+              "cargo_03",
+              7
+            ]
+          ]
+        },
+        {
+          "actionId": "factory-02-aisle-two-shot-shot-04",
+          "target": "worker_a",
+          "oneOrMoreProbesVisiblePercent": 100.0,
+          "bothProbesVisiblePercent": 100.0,
+          "fullyBlockedSamples": 0,
+          "firstFullyBlockedTime": null,
+          "dominantProxyBlockers": []
+        },
+        {
+          "actionId": "factory-02-aisle-two-shot-shot-04",
+          "target": "worker_b",
+          "oneOrMoreProbesVisiblePercent": 100.0,
+          "bothProbesVisiblePercent": 100.0,
+          "fullyBlockedSamples": 0,
+          "firstFullyBlockedTime": null,
+          "dominantProxyBlockers": []
+        },
+        {
+          "actionId": "factory-02-aisle-two-shot-shot-05",
+          "target": "worker_a",
+          "oneOrMoreProbesVisiblePercent": 100.0,
+          "bothProbesVisiblePercent": 100.0,
+          "fullyBlockedSamples": 0,
+          "firstFullyBlockedTime": null,
+          "dominantProxyBlockers": []
+        },
+        {
+          "actionId": "factory-02-aisle-two-shot-shot-05",
+          "target": "worker_b",
+          "oneOrMoreProbesVisiblePercent": 100.0,
+          "bothProbesVisiblePercent": 100.0,
+          "fullyBlockedSamples": 0,
+          "firstFullyBlockedTime": null,
+          "dominantProxyBlockers": []
+        }
+      ],
+      "staticPhases": [
+        {
+          "actionId": "factory-02-aisle-two-shot-shot-05",
+          "maxTranslationMeters": 1.737276988933445e-12,
+          "maxRotationDegrees": 3.182107686679075e-15
+        }
+      ],
+      "motion": {
+        "maxSpeedMetersPerSecond": 1.6672521682281236,
+        "maxAccelerationMetersPerSecondSquared": 2.1995172250399357,
+        "maxAngularSpeedDegreesPerSecond": 15.346850242749715,
+        "maxFovRateDegreesPerSecond": 11.24791912479239,
+        "maxAbsoluteHorizonRollDegrees": 3.2322841572102194e-05,
+        "fovYRangeDegrees": [
+          40.0,
+          78.0
+        ],
+        "cameraHeightRangeMeters": [
+          2.5,
+          7.1
+        ]
+      },
+      "eventCoverage": [
+        {
+          "eventId": "workers_argument",
+          "time": 12.2,
+          "subjects": [
+            {
+              "id": "worker_a",
+              "centreInViewport": true
+            },
+            {
+              "id": "worker_b",
+              "centreInViewport": true
+            }
+          ]
+        },
+        {
+          "eventId": "worker_shove",
+          "time": 20,
+          "subjects": [
+            {
+              "id": "worker_a",
+              "centreInViewport": true
+            },
+            {
+              "id": "worker_b",
+              "centreInViewport": true
+            }
+          ]
+        },
+        {
+          "eventId": "line_collision",
+          "time": 21,
+          "subjects": [
+            {
+              "id": "worker_b",
+              "centreInViewport": true
+            },
+            {
+              "id": "production_line",
+              "centreInViewport": true
+            }
+          ]
+        },
+        {
+          "eventId": "cargo_spill",
+          "time": 21,
+          "subjects": [
+            {
+              "id": "cargo_01",
+              "centreInViewport": true
+            },
+            {
+              "id": "cargo_02",
+              "centreInViewport": true
+            },
+            {
+              "id": "cargo_03",
+              "centreInViewport": true
+            },
+            {
+              "id": "cargo_04",
+              "centreInViewport": true
+            },
+            {
+              "id": "cargo_05",
+              "centreInViewport": true
+            },
+            {
+              "id": "cargo_06",
+              "centreInViewport": true
+            }
+          ]
+        },
+        {
+          "eventId": "emergency_stop",
+          "time": 21.7,
+          "subjects": [
+            {
+              "id": "production_line",
+              "centreInViewport": true
+            },
+            {
+              "id": "worker_05",
+              "centreInViewport": true
+            },
+            {
+              "id": "control_station",
+              "centreInViewport": true
+            }
+          ]
+        }
+      ],
+      "limits": [
+        "60 Hz discrete replay checks, not continuous swept-volume certification.",
+        "Bounds are supplied conservative proxies, not rendered animated mesh/limb intersections.",
+        "Frustum inclusion does not prove pixel-level visibility.",
+        "Visibility rays test centre and upper probes; a clear probe does not imply the whole subject is unobstructed.",
+        "Artistic quality and numerical optimizer convergence are not certified by these checks."
+      ]
+    },
+    {
+      "exampleId": "factory-03-chain-reaction",
+      "environmentId": "factory",
+      "auditFps": 60,
+      "cameraProbes": 2881,
+      "status": "pass",
+      "errors": [],
+      "visibilityReviewNotes": [
+        "worker_a: 99.58% of 14–26s has at least one clear centre/upper probe",
+        "worker_b: 95.28% of 14–26s has at least one clear centre/upper probe"
+      ],
+      "cameraClearance": {
+        "radiusMeters": 0.25,
+        "minimumCenterToBoundsMeters": 1.1627553482998911,
+        "minimumSphereClearanceMeters": 0.9127553482998911,
+        "failingSamples": 0,
+        "nearestEntity": "arch-warehouse-light-3-1-mount",
+        "timeOfMinimum": 0.0
+      },
+      "framing": [
+        {
+          "actionId": "factory-03-chain-reaction-shot-02",
+          "target": "worker_a",
+          "samples": 721,
+          "fullyInFramePercent": 100.0,
+          "minimumEdgeMargin": 0.23172,
+          "firstFailureTime": null
+        },
+        {
+          "actionId": "factory-03-chain-reaction-shot-02",
+          "target": "worker_b",
+          "samples": 721,
+          "fullyInFramePercent": 100.0,
+          "minimumEdgeMargin": 0.23342,
+          "firstFailureTime": null
+        },
+        {
+          "actionId": "factory-03-chain-reaction-shot-02",
+          "target": "cargo_06",
+          "samples": 721,
+          "fullyInFramePercent": 100.0,
+          "minimumEdgeMargin": 0.1466,
+          "firstFailureTime": null
+        },
+        {
+          "actionId": "factory-03-chain-reaction-shot-02",
+          "target": "worker_05",
+          "samples": 721,
+          "fullyInFramePercent": 100.0,
+          "minimumEdgeMargin": 0.18178,
+          "firstFailureTime": null
+        },
+        {
+          "actionId": "factory-03-chain-reaction-shot-03",
+          "target": "worker_a",
+          "samples": 1321,
+          "fullyInFramePercent": 100.0,
+          "minimumEdgeMargin": 0.21473,
+          "firstFailureTime": null
+        },
+        {
+          "actionId": "factory-03-chain-reaction-shot-03",
+          "target": "worker_b",
+          "samples": 1321,
+          "fullyInFramePercent": 100.0,
+          "minimumEdgeMargin": 0.21845,
+          "firstFailureTime": null
+        },
+        {
+          "actionId": "factory-03-chain-reaction-shot-03",
+          "target": "worker_05",
+          "samples": 1321,
+          "fullyInFramePercent": 100.0,
+          "minimumEdgeMargin": 0.18735,
+          "firstFailureTime": null
+        }
+      ],
+      "visibility": [
+        {
+          "actionId": "factory-03-chain-reaction-shot-02",
+          "target": "worker_a",
+          "oneOrMoreProbesVisiblePercent": 99.584,
+          "bothProbesVisiblePercent": 98.752,
+          "fullyBlockedSamples": 3,
+          "firstFullyBlockedTime": 21.883333333333333,
+          "dominantProxyBlockers": [
+            [
+              "cargo_01",
+              12
+            ]
+          ]
+        },
+        {
+          "actionId": "factory-03-chain-reaction-shot-02",
+          "target": "worker_b",
+          "oneOrMoreProbesVisiblePercent": 95.284,
+          "bothProbesVisiblePercent": 85.021,
+          "fullyBlockedSamples": 34,
+          "firstFullyBlockedTime": 21.133333333333333,
+          "dominantProxyBlockers": [
+            [
+              "production_line",
+              108
+            ],
+            [
+              "cargo_03",
+              34
+            ]
+          ]
+        },
+        {
+          "actionId": "factory-03-chain-reaction-shot-02",
+          "target": "cargo_06",
+          "oneOrMoreProbesVisiblePercent": 100.0,
+          "bothProbesVisiblePercent": 100.0,
+          "fullyBlockedSamples": 0,
+          "firstFullyBlockedTime": null,
+          "dominantProxyBlockers": []
+        },
+        {
+          "actionId": "factory-03-chain-reaction-shot-02",
+          "target": "worker_05",
+          "oneOrMoreProbesVisiblePercent": 100.0,
+          "bothProbesVisiblePercent": 70.874,
+          "fullyBlockedSamples": 0,
+          "firstFullyBlockedTime": null,
+          "dominantProxyBlockers": [
+            [
+              "control_station",
+              210
+            ]
+          ]
+        },
+        {
+          "actionId": "factory-03-chain-reaction-shot-03",
+          "target": "worker_a",
+          "oneOrMoreProbesVisiblePercent": 100.0,
+          "bothProbesVisiblePercent": 100.0,
+          "fullyBlockedSamples": 0,
+          "firstFullyBlockedTime": null,
+          "dominantProxyBlockers": []
+        },
+        {
+          "actionId": "factory-03-chain-reaction-shot-03",
+          "target": "worker_b",
+          "oneOrMoreProbesVisiblePercent": 100.0,
+          "bothProbesVisiblePercent": 100.0,
+          "fullyBlockedSamples": 0,
+          "firstFullyBlockedTime": null,
+          "dominantProxyBlockers": []
+        },
+        {
+          "actionId": "factory-03-chain-reaction-shot-03",
+          "target": "worker_05",
+          "oneOrMoreProbesVisiblePercent": 100.0,
+          "bothProbesVisiblePercent": 100.0,
+          "fullyBlockedSamples": 0,
+          "firstFullyBlockedTime": null,
+          "dominantProxyBlockers": []
+        }
+      ],
+      "staticPhases": [
+        {
+          "actionId": "factory-03-chain-reaction-shot-02",
+          "maxTranslationMeters": 2.454682569991828e-12,
+          "maxRotationDegrees": 6.3611093629270335e-15
+        }
+      ],
+      "motion": {
+        "maxSpeedMetersPerSecond": 0.7837968140984116,
+        "maxAccelerationMetersPerSecondSquared": 0.172389699470386,
+        "maxAngularSpeedDegreesPerSecond": 3.121260025388121,
+        "maxFovRateDegreesPerSecond": 1.607118160711991,
+        "maxAbsoluteHorizonRollDegrees": 4.993251689006569e-06,
+        "fovYRangeDegrees": [
+          56.0,
+          68.0
+        ],
+        "cameraHeightRangeMeters": [
+          8.099999996282985,
+          8.200000003717012
+        ]
+      },
+      "eventCoverage": [
+        {
+          "eventId": "worker_shove",
+          "time": 20,
+          "subjects": [
+            {
+              "id": "worker_a",
+              "centreInViewport": true
+            },
+            {
+              "id": "worker_b",
+              "centreInViewport": true
+            }
+          ]
+        },
+        {
+          "eventId": "line_collision",
+          "time": 21,
+          "subjects": [
+            {
+              "id": "worker_b",
+              "centreInViewport": true
+            },
+            {
+              "id": "production_line",
+              "centreInViewport": true
+            }
+          ]
+        },
+        {
+          "eventId": "cargo_spill",
+          "time": 21,
+          "subjects": [
+            {
+              "id": "cargo_01",
+              "centreInViewport": true
+            },
+            {
+              "id": "cargo_02",
+              "centreInViewport": true
+            },
+            {
+              "id": "cargo_03",
+              "centreInViewport": true
+            },
+            {
+              "id": "cargo_04",
+              "centreInViewport": true
+            },
+            {
+              "id": "cargo_05",
+              "centreInViewport": true
+            },
+            {
+              "id": "cargo_06",
+              "centreInViewport": true
+            }
+          ]
+        },
+        {
+          "eventId": "emergency_stop",
+          "time": 21.7,
+          "subjects": [
+            {
+              "id": "production_line",
+              "centreInViewport": true
+            },
+            {
+              "id": "worker_05",
+              "centreInViewport": true
+            },
+            {
+              "id": "control_station",
+              "centreInViewport": true
+            }
+          ]
+        },
+        {
+          "eventId": "workers_response",
+          "time": 25,
+          "subjects": [
+            {
+              "id": "worker_a",
+              "centreInViewport": true
+            },
+            {
+              "id": "worker_b",
+              "centreInViewport": true
+            },
+            {
+              "id": "worker_07",
+              "centreInViewport": false
+            }
+          ]
+        }
+      ],
+      "limits": [
+        "60 Hz discrete replay checks, not continuous swept-volume certification.",
+        "Bounds are supplied conservative proxies, not rendered animated mesh/limb intersections.",
+        "Frustum inclusion does not prove pixel-level visibility.",
+        "Visibility rays test centre and upper probes; a clear probe does not imply the whole subject is unobstructed.",
+        "Artistic quality and numerical optimizer convergence are not certified by these checks."
+      ]
+    },
+    {
+      "exampleId": "factory-04-emergency-operator",
+      "environmentId": "factory",
+      "auditFps": 60,
+      "cameraProbes": 2881,
+      "status": "pass",
+      "errors": [],
+      "visibilityReviewNotes": [],
+      "cameraClearance": {
+        "radiusMeters": 0.25,
+        "minimumCenterToBoundsMeters": 1.8439185776701401,
+        "minimumSphereClearanceMeters": 1.5939185776701401,
+        "failingSamples": 0,
+        "nearestEntity": "worker_08",
+        "timeOfMinimum": 8.933333333333334
+      },
+      "framing": [
+        {
+          "actionId": "factory-04-emergency-operator-shot-01",
+          "target": "worker_05",
+          "samples": 961,
+          "fullyInFramePercent": 100.0,
+          "minimumEdgeMargin": 0.22858,
+          "firstFailureTime": null
+        },
+        {
+          "actionId": "factory-04-emergency-operator-shot-01",
+          "target": "control_station",
+          "samples": 961,
+          "fullyInFramePercent": 100.0,
+          "minimumEdgeMargin": 0.19212,
+          "firstFailureTime": null
+        },
+        {
+          "actionId": "factory-04-emergency-operator-shot-02",
+          "target": "worker_05",
+          "samples": 481,
+          "fullyInFramePercent": 100.0,
+          "minimumEdgeMargin": 0.22858,
+          "firstFailureTime": null
+        },
+        {
+          "actionId": "factory-04-emergency-operator-shot-02",
+          "target": "control_station",
+          "samples": 481,
+          "fullyInFramePercent": 100.0,
+          "minimumEdgeMargin": 0.19212,
+          "firstFailureTime": null
+        },
+        {
+          "actionId": "factory-04-emergency-operator-shot-04",
+          "target": "worker_a",
+          "samples": 781,
+          "fullyInFramePercent": 100.0,
+          "minimumEdgeMargin": 0.34706,
+          "firstFailureTime": null
+        },
+        {
+          "actionId": "factory-04-emergency-operator-shot-04",
+          "target": "worker_b",
+          "samples": 781,
+          "fullyInFramePercent": 100.0,
+          "minimumEdgeMargin": 0.34306,
+          "firstFailureTime": null
+        },
+        {
+          "actionId": "factory-04-emergency-operator-shot-04",
+          "target": "worker_05",
+          "samples": 781,
+          "fullyInFramePercent": 100.0,
+          "minimumEdgeMargin": 0.31038,
+          "firstFailureTime": null
+        }
+      ],
+      "visibility": [
+        {
+          "actionId": "factory-04-emergency-operator-shot-01",
+          "target": "worker_05",
+          "oneOrMoreProbesVisiblePercent": 100.0,
+          "bothProbesVisiblePercent": 89.074,
+          "fullyBlockedSamples": 0,
+          "firstFullyBlockedTime": null,
+          "dominantProxyBlockers": [
+            [
+              "worker_b",
+              105
+            ]
+          ]
+        },
+        {
+          "actionId": "factory-04-emergency-operator-shot-01",
+          "target": "control_station",
+          "oneOrMoreProbesVisiblePercent": 100.0,
+          "bothProbesVisiblePercent": 100.0,
+          "fullyBlockedSamples": 0,
+          "firstFullyBlockedTime": null,
+          "dominantProxyBlockers": []
+        },
+        {
+          "actionId": "factory-04-emergency-operator-shot-02",
+          "target": "worker_05",
+          "oneOrMoreProbesVisiblePercent": 100.0,
+          "bothProbesVisiblePercent": 100.0,
+          "fullyBlockedSamples": 0,
+          "firstFullyBlockedTime": null,
+          "dominantProxyBlockers": []
+        },
+        {
+          "actionId": "factory-04-emergency-operator-shot-02",
+          "target": "control_station",
+          "oneOrMoreProbesVisiblePercent": 100.0,
+          "bothProbesVisiblePercent": 100.0,
+          "fullyBlockedSamples": 0,
+          "firstFullyBlockedTime": null,
+          "dominantProxyBlockers": []
+        },
+        {
+          "actionId": "factory-04-emergency-operator-shot-04",
+          "target": "worker_a",
+          "oneOrMoreProbesVisiblePercent": 100.0,
+          "bothProbesVisiblePercent": 100.0,
+          "fullyBlockedSamples": 0,
+          "firstFullyBlockedTime": null,
+          "dominantProxyBlockers": []
+        },
+        {
+          "actionId": "factory-04-emergency-operator-shot-04",
+          "target": "worker_b",
+          "oneOrMoreProbesVisiblePercent": 100.0,
+          "bothProbesVisiblePercent": 100.0,
+          "fullyBlockedSamples": 0,
+          "firstFullyBlockedTime": null,
+          "dominantProxyBlockers": []
+        },
+        {
+          "actionId": "factory-04-emergency-operator-shot-04",
+          "target": "worker_05",
+          "oneOrMoreProbesVisiblePercent": 100.0,
+          "bothProbesVisiblePercent": 100.0,
+          "fullyBlockedSamples": 0,
+          "firstFullyBlockedTime": null,
+          "dominantProxyBlockers": []
+        }
+      ],
+      "staticPhases": [
+        {
+          "actionId": "factory-04-emergency-operator-shot-02",
+          "maxTranslationMeters": 7.15845283027228e-12,
+          "maxRotationDegrees": 3.670794509051526e-15
+        }
+      ],
+      "motion": {
+        "maxSpeedMetersPerSecond": 1.0470127848268664,
+        "maxAccelerationMetersPerSecondSquared": 0.2930846880353356,
+        "maxAngularSpeedDegreesPerSecond": 4.573264015642947,
+        "maxFovRateDegreesPerSecond": 2.0454032045401505,
+        "maxAbsoluteHorizonRollDegrees": 1.6452512916021048e-05,
+        "fovYRangeDegrees": [
+          36.0,
+          48.0
+        ],
+        "cameraHeightRangeMeters": [
+          3.3,
+          6.1
+        ]
+      },
+      "eventCoverage": [
+        {
+          "eventId": "worker_shove",
+          "time": 20,
+          "subjects": [
+            {
+              "id": "worker_a",
+              "centreInViewport": true
+            },
+            {
+              "id": "worker_b",
+              "centreInViewport": true
+            }
+          ]
+        },
+        {
+          "eventId": "line_collision",
+          "time": 21,
+          "subjects": [
+            {
+              "id": "worker_b",
+              "centreInViewport": true
+            },
+            {
+              "id": "production_line",
+              "centreInViewport": true
+            }
+          ]
+        },
+        {
+          "eventId": "cargo_spill",
+          "time": 21,
+          "subjects": [
+            {
+              "id": "cargo_01",
+              "centreInViewport": true
+            },
+            {
+              "id": "cargo_02",
+              "centreInViewport": true
+            },
+            {
+              "id": "cargo_03",
+              "centreInViewport": true
+            },
+            {
+              "id": "cargo_04",
+              "centreInViewport": true
+            },
+            {
+              "id": "cargo_05",
+              "centreInViewport": true
+            },
+            {
+              "id": "cargo_06",
+              "centreInViewport": true
+            }
+          ]
+        },
+        {
+          "eventId": "emergency_stop",
+          "time": 21.7,
+          "subjects": [
+            {
+              "id": "production_line",
+              "centreInViewport": true
+            },
+            {
+              "id": "worker_05",
+              "centreInViewport": true
+            },
+            {
+              "id": "control_station",
+              "centreInViewport": true
+            }
+          ]
+        }
+      ],
+      "limits": [
+        "60 Hz discrete replay checks, not continuous swept-volume certification.",
+        "Bounds are supplied conservative proxies, not rendered animated mesh/limb intersections.",
+        "Frustum inclusion does not prove pixel-level visibility.",
+        "Visibility rays test centre and upper probes; a clear probe does not imply the whole subject is unobstructed.",
+        "Artistic quality and numerical optimizer convergence are not certified by these checks."
+      ]
+    },
+    {
+      "exampleId": "factory-05-one-piece",
+      "environmentId": "factory",
+      "auditFps": 60,
+      "cameraProbes": 2881,
+      "status": "pass",
+      "errors": [],
+      "visibilityReviewNotes": [],
+      "cameraClearance": {
+        "radiusMeters": 0.25,
+        "minimumCenterToBoundsMeters": 1.682923955676127,
+        "minimumSphereClearanceMeters": 1.432923955676127,
+        "failingSamples": 0,
+        "nearestEntity": "worker_a",
+        "timeOfMinimum": 6.866666666666666
+      },
+      "framing": [
+        {
+          "actionId": "factory-05-one-piece-shot-01",
+          "target": "cargo_06",
+          "samples": 901,
+          "fullyInFramePercent": 100.0,
+          "minimumEdgeMargin": 0.33394,
+          "firstFailureTime": null
+        },
+        {
+          "actionId": "factory-05-one-piece-shot-02",
+          "target": "cargo_06",
+          "samples": 301,
+          "fullyInFramePercent": 100.0,
+          "minimumEdgeMargin": 0.33394,
+          "firstFailureTime": null
+        },
+        {
+          "actionId": "factory-05-one-piece-shot-03",
+          "target": "cargo_06",
+          "samples": 361,
+          "fullyInFramePercent": 100.0,
+          "minimumEdgeMargin": 0.3069,
+          "firstFailureTime": null
+        },
+        {
+          "actionId": "factory-05-one-piece-shot-04",
+          "target": "cargo_06",
+          "samples": 481,
+          "fullyInFramePercent": 100.0,
+          "minimumEdgeMargin": 0.3162,
+          "firstFailureTime": null
+        },
+        {
+          "actionId": "factory-05-one-piece-shot-05",
+          "target": "cargo_06",
+          "samples": 841,
+          "fullyInFramePercent": 100.0,
+          "minimumEdgeMargin": 0.32198,
+          "firstFailureTime": null
+        }
+      ],
+      "visibility": [
+        {
+          "actionId": "factory-05-one-piece-shot-01",
+          "target": "cargo_06",
+          "oneOrMoreProbesVisiblePercent": 100.0,
+          "bothProbesVisiblePercent": 100.0,
+          "fullyBlockedSamples": 0,
+          "firstFullyBlockedTime": null,
+          "dominantProxyBlockers": []
+        },
+        {
+          "actionId": "factory-05-one-piece-shot-02",
+          "target": "cargo_06",
+          "oneOrMoreProbesVisiblePercent": 100.0,
+          "bothProbesVisiblePercent": 100.0,
+          "fullyBlockedSamples": 0,
+          "firstFullyBlockedTime": null,
+          "dominantProxyBlockers": []
+        },
+        {
+          "actionId": "factory-05-one-piece-shot-03",
+          "target": "cargo_06",
+          "oneOrMoreProbesVisiblePercent": 100.0,
+          "bothProbesVisiblePercent": 100.0,
+          "fullyBlockedSamples": 0,
+          "firstFullyBlockedTime": null,
+          "dominantProxyBlockers": []
+        },
+        {
+          "actionId": "factory-05-one-piece-shot-04",
+          "target": "cargo_06",
+          "oneOrMoreProbesVisiblePercent": 100.0,
+          "bothProbesVisiblePercent": 100.0,
+          "fullyBlockedSamples": 0,
+          "firstFullyBlockedTime": null,
+          "dominantProxyBlockers": []
+        },
+        {
+          "actionId": "factory-05-one-piece-shot-05",
+          "target": "cargo_06",
+          "oneOrMoreProbesVisiblePercent": 100.0,
+          "bothProbesVisiblePercent": 100.0,
+          "fullyBlockedSamples": 0,
+          "firstFullyBlockedTime": null,
+          "dominantProxyBlockers": []
+        }
+      ],
+      "staticPhases": [
+        {
+          "actionId": "factory-05-one-piece-shot-05",
+          "maxTranslationMeters": 1.74473983813541e-11,
+          "maxRotationDegrees": 9.137610301317857e-15
+        }
+      ],
+      "motion": {
+        "maxSpeedMetersPerSecond": 3.4504933781757097,
+        "maxAccelerationMetersPerSecondSquared": 4.612551203563252,
+        "maxAngularSpeedDegreesPerSecond": 17.110323088782586,
+        "maxFovRateDegreesPerSecond": 5.624334562432978,
+        "maxAbsoluteHorizonRollDegrees": 0.0001404974002319728,
+        "fovYRangeDegrees": [
+          29.0,
+          44.0
+        ],
+        "cameraHeightRangeMeters": [
+          2.06,
+          5.8
+        ]
+      },
+      "eventCoverage": [
+        {
+          "eventId": "worker_shove",
+          "time": 20,
+          "subjects": [
+            {
+              "id": "worker_a",
+              "centreInViewport": true
+            },
+            {
+              "id": "worker_b",
+              "centreInViewport": true
+            }
+          ]
+        },
+        {
+          "eventId": "line_collision",
+          "time": 21,
+          "subjects": [
+            {
+              "id": "worker_b",
+              "centreInViewport": true
+            },
+            {
+              "id": "production_line",
+              "centreInViewport": true
+            }
+          ]
+        },
+        {
+          "eventId": "cargo_spill",
+          "time": 21,
+          "subjects": [
+            {
+              "id": "cargo_01",
+              "centreInViewport": true
+            },
+            {
+              "id": "cargo_02",
+              "centreInViewport": true
+            },
+            {
+              "id": "cargo_03",
+              "centreInViewport": true
+            },
+            {
+              "id": "cargo_04",
+              "centreInViewport": true
+            },
+            {
+              "id": "cargo_05",
+              "centreInViewport": true
+            },
+            {
+              "id": "cargo_06",
+              "centreInViewport": true
+            }
+          ]
+        },
+        {
+          "eventId": "emergency_stop",
+          "time": 21.7,
+          "subjects": [
+            {
+              "id": "production_line",
+              "centreInViewport": true
+            },
+            {
+              "id": "worker_05",
+              "centreInViewport": true
+            },
+            {
+              "id": "control_station",
+              "centreInViewport": false
+            }
+          ]
+        }
+      ],
+      "limits": [
+        "60 Hz discrete replay checks, not continuous swept-volume certification.",
+        "Bounds are supplied conservative proxies, not rendered animated mesh/limb intersections.",
+        "Frustum inclusion does not prove pixel-level visibility.",
+        "Visibility rays test centre and upper probes; a clear probe does not imply the whole subject is unobstructed.",
+        "Artistic quality and numerical optimizer convergence are not certified by these checks."
+      ]
+    }
+  ]
+}

@@ -1,0 +1,21 @@
+{
+  "environmentId": "the-pianist",
+  "keyframes": [
+    {
+      "id": "source-camera-start",
+      "time": 0,
+      "position": [
+        0,
+        1.9137996544,
+        0
+      ],
+      "rotation": [
+        -0.064026536,
+        0,
+        -0.016651128,
+        0.997809272
+      ],
+      "fovYDegrees": 15.697567781948655
+    }
+  ]
+}

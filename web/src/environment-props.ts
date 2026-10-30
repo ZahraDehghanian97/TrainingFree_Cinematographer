@@ -1,0 +1,461 @@
+import * as THREE from "three";
+import { RoundedBoxGeometry } from "three/examples/jsm/geometries/RoundedBoxGeometry.js";
+
+import { conveyorTravel, mechanicalState, registerScenarioPropUpdate, updateScenarioProp } from "./scenario-props";
+
+import type { SceneEntityV1, Vec3 } from "../../src/types/environment";
+
+type Material = THREE.MeshStandardMaterial;
+type Dimensions = [number, number, number];
+
+function material(color: THREE.ColorRepresentation, metalness = 0, roughness = 0.8): Material {
+  return new THREE.MeshStandardMaterial({ color, metalness, roughness });
+}
+
+/** Repeated hardware shares geometry and is submitted in one draw call per material. */
+class PropBuilder {
+  private readonly boxGeometry = new THREE.BoxGeometry(1, 1, 1);
+  private readonly roundedGeometry = new RoundedBoxGeometry(1, 1, 1, 2, 0.045);
+  private readonly cylinderGeometry = new THREE.CylinderGeometry(1, 1, 1, 16);
+  private readonly sphereGeometry = new THREE.SphereGeometry(1, 12, 8);
+  private readonly batches = new Map<THREE.BufferGeometry, Map<Material, THREE.Matrix4[]>>();
+
+  private part(geometry: THREE.BufferGeometry, paint: Material, size: Dimensions, position: Vec3, rotation?: THREE.Quaternion): void {
+    let paints = this.batches.get(geometry);
+    if (!paints) this.batches.set(geometry, paints = new Map());
+    let transforms = paints.get(paint);
+    if (!transforms) paints.set(paint, transforms = []);
+    transforms.push(new THREE.Matrix4().compose(
+      new THREE.Vector3(...position), rotation ?? new THREE.Quaternion(), new THREE.Vector3(...size),
+    ));
+  }
+
+  box(size: Dimensions, position: Vec3, paint: Material, rounded = false): void {
+    this.part(rounded ? this.roundedGeometry : this.boxGeometry, paint, size, position);
+  }
+
+  cylinder(radius: number, height: number, position: Vec3, paint: Material, axis: "x" | "y" | "z" = "y"): void {
+    const rotation = axis === "y" ? undefined : new THREE.Quaternion().setFromAxisAngle(
+      new THREE.Vector3(axis === "x" ? 0 : 1, 0, axis === "x" ? 1 : 0), Math.PI / 2,
+    );
+    this.part(this.cylinderGeometry, paint, [radius, height, radius], position, rotation);
+  }
+
+  ellipsoid(size: Dimensions, position: Vec3, paint: Material): void {
+    this.part(this.sphereGeometry, paint, size, position);
+  }
+
+  rod(start: Vec3, end: Vec3, radius: number, paint: Material): void {
+    const a = new THREE.Vector3(...start);
+    const b = new THREE.Vector3(...end);
+    const direction = b.clone().sub(a);
+    this.part(this.cylinderGeometry, paint, [radius, direction.length(), radius],
+      a.add(b).multiplyScalar(0.5).toArray(),
+      new THREE.Quaternion().setFromUnitVectors(new THREE.Vector3(0, 1, 0), direction.normalize()));
+  }
+
+  finish(): THREE.Group {
+    const group = new THREE.Group();
+    for (const [geometry, paints] of this.batches) {
+      for (const [paint, transforms] of paints) {
+        const mesh = new THREE.InstancedMesh(geometry, paint, transforms.length);
+        transforms.forEach((matrix, index) => mesh.setMatrixAt(index, matrix));
+        mesh.instanceMatrix.needsUpdate = true;
+        mesh.castShadow = true;
+        mesh.receiveShadow = true;
+        group.add(mesh);
+      }
+    }
+    // These helpers are allocated once per prop; unused geometries never reach the renderer.
+    for (const geometry of [this.boxGeometry, this.roundedGeometry, this.cylinderGeometry, this.sphereGeometry]) {
+      if (!this.batches.has(geometry)) geometry.dispose();
+    }
+    return group;
+  }
+}
+
+function tree(builder: PropBuilder, [w, h, d]: Dimensions): void {
+  const bark = material("#584638");
+  const leaves = [material("#394d2e"), material("#52603a"), material("#657246")];
+  builder.cylinder(w * 0.1, h * 0.85, [0, -h * 0.075, 0], bark);
+  // A columnar tree suits the narrow authored trunk envelope without adding camera obstacles.
+  for (let level = 0; level < 8; level++) {
+    const y = -h * 0.2 + level * h * 0.079;
+    const spread = Math.sin((level + 1) / 9 * Math.PI) * 0.25 + 0.04;
+    for (let side = 0; side < 3; side++) {
+      const angle = level * 1.7 + side * Math.PI * 2 / 3;
+      const x = Math.cos(angle) * w * spread;
+      const z = Math.sin(angle) * d * spread;
+      builder.rod([0, y - h * 0.06, 0], [x, y, z], w * 0.023, bark);
+      builder.ellipsoid([w * 0.18, h * (0.06 + (level % 2) * 0.012), d * 0.18], [x, y, z], leaves[(level + side) % 3]);
+    }
+  }
+}
+
+function fountain(builder: PropBuilder, [w, h, d]: Dimensions): void {
+  const r = Math.min(w, d) * 0.5;
+  const stone = material("#9b9b8d", 0, 0.87);
+  const edge = material("#bdbbae", 0, 0.72);
+  const water = material("#346e72", 0.32, 0.12);
+  const foam = material("#b8d5cc", 0.12, 0.24);
+  builder.cylinder(r, h * 0.14, [0, -h * 0.43, 0], stone);
+  builder.cylinder(r * 0.88, h * 0.44, [0, -h * 0.14, 0], stone);
+  builder.cylinder(r * 0.79, h * 0.025, [0, h * 0.09, 0], water);
+  // Individual cut stones expose mortar joints around the coping.
+  for (let i = 0; i < 24; i++) {
+    const angle = i * Math.PI / 12;
+    const next = angle + Math.PI / 12 * 0.96;
+    builder.rod([Math.cos(angle) * r * 0.87, h * 0.12, Math.sin(angle) * r * 0.87],
+      [Math.cos(next) * r * 0.87, h * 0.12, Math.sin(next) * r * 0.87], r * 0.09, edge);
+  }
+  builder.cylinder(r * 0.13, h * 0.64, [0, h * 0.12, 0], stone);
+  builder.cylinder(r * 0.32, h * 0.07, [0, h * 0.42, 0], edge);
+  builder.cylinder(r * 0.27, h * 0.02, [0, h * 0.464, 0], water);
+  for (let i = 0; i < 8; i++) {
+    const angle = i * Math.PI / 4;
+    const x = Math.cos(angle) * r * 0.28;
+    const z = Math.sin(angle) * r * 0.28;
+    builder.rod([x, h * 0.42, z], [x * 1.3, h * 0.12, z * 1.3], r * 0.009, foam);
+  }
+}
+
+function lamp(builder: PropBuilder, [w, h, d]: Dimensions): void {
+  const iron = material("#303832", 0.7, 0.45);
+  const bronze = material("#5c5a46", 0.65, 0.4);
+  const glass = material("#e8dfb1", 0.12, 0.24);
+  glass.emissive.set("#ffcf83");
+  glass.emissiveIntensity = 0.65;
+  const r = Math.min(w, d);
+  builder.cylinder(r * 0.46, h * 0.035, [0, -h * 0.4825, 0], iron);
+  builder.cylinder(r * 0.25, h * 0.79, [0, -h * 0.07, 0], iron);
+  builder.cylinder(r * 0.35, h * 0.025, [0, h * 0.33, 0], bronze);
+  builder.box([w * 0.65, h * 0.13, d * 0.65], [0, h * 0.4, 0], glass, true);
+  for (const x of [-1, 1]) for (const z of [-1, 1]) {
+    builder.box([w * 0.08, h * 0.14, d * 0.08], [x * w * 0.35, h * 0.4, z * d * 0.35], iron);
+  }
+  builder.box([w, h * 0.025, d], [0, h * 0.482, 0], iron, true);
+}
+
+function hvac(builder: PropBuilder, [w, h, d]: Dimensions): void {
+  const casing = material("#969b98", 0.5, 0.58);
+  const metal = material("#545d5f", 0.72, 0.5);
+  const dark = material("#252f31", 0.35, 0.8);
+  builder.box([w * 0.94, h * 0.9, d * 0.94], [0, h * 0.015, 0], casing, true);
+  for (const x of [-1, 1]) builder.box([w * 0.13, h * 0.08, d], [x * w * 0.32, -h * 0.46, 0], metal);
+  builder.box([w * 0.78, h * 0.61, d * 0.03], [0, h * 0.025, d * 0.48], dark);
+  for (let i = 0; i < 12; i++) {
+    builder.box([w * 0.76, h * 0.012, d * 0.045], [0, -h * 0.26 + i * h * 0.052, d * 0.477], metal);
+  }
+  const r = Math.min(w, d) * 0.32;
+  builder.cylinder(r, h * 0.012, [0, h * 0.477, 0], dark);
+  for (let i = -4; i <= 4; i++) {
+    const offset = i * r * 0.19;
+    const span = Math.sqrt(r * r - offset * offset) * 1.95;
+    builder.box([span, h * 0.006, d * 0.009], [0, h * 0.49, offset], metal);
+    builder.box([w * 0.009, h * 0.006, span], [offset, h * 0.49, 0], metal);
+  }
+  builder.box([w * 0.16, h * 0.045, d * 0.008], [w * 0.26, h * 0.377, d * 0.473], dark);
+}
+
+function vent(builder: PropBuilder, [w, h, d]: Dimensions): void {
+  const zinc = material("#a0a6a2", 0.8, 0.47);
+  const seams = material("#626c6b", 0.75, 0.44);
+  const dark = material("#283033", 0.35, 0.8);
+  const r = Math.min(w, d) * 0.5;
+  builder.cylinder(r * 0.64, h * 0.92, [0, -h * 0.04, 0], zinc);
+  for (const y of [-0.4, -0.1, 0.2]) builder.cylinder(r * 0.71, h * 0.018, [0, h * y, 0], seams);
+  builder.cylinder(r * 0.84, h * 0.03, [0, h * 0.39, 0], zinc);
+  builder.cylinder(r * 0.55, h * 0.07, [0, h * 0.44, 0], dark);
+  builder.cylinder(r, h * 0.025, [0, h * 0.4875, 0], zinc);
+  for (const x of [-1, 1]) builder.box([w * 0.07, h * 0.08, d * 0.07], [x * w * 0.31, h * 0.44, 0], seams);
+}
+
+function crate(builder: PropBuilder, size: Dimensions, center: Vec3, wood: Material, trim: Material): void {
+  const [w, h, d] = size;
+  const [x, y, z] = center;
+  builder.box([w * 0.94, h * 0.94, d * 0.94], center, wood, true);
+  for (const face of [-1, 1]) {
+    for (const edge of [-1, 1]) {
+      builder.box([w * 0.09, h, d * 0.04], [x + edge * w * 0.4, y, z + face * d * 0.48], trim);
+      builder.box([w * 0.04, h, d * 0.09], [x + face * w * 0.48, y, z + edge * d * 0.4], trim);
+    }
+    for (const edge of [-1, 1]) builder.box([w, h * 0.08, d * 0.04], [x, y + edge * h * 0.44, z + face * d * 0.48], trim);
+  }
+}
+
+function shelving(builder: PropBuilder, [w, h, d]: Dimensions): void {
+  const steel = material("#555f61", 0.7, 0.55);
+  const beams = material("#9b6842", 0.5, 0.68);
+  const pallets = material("#998365");
+  const cartons = [material("#ab9674"), material("#827b67"), material("#a2977f")];
+  const labels = material("#d0cabc");
+  const post = Math.min(w * 0.085, 0.085);
+  const bays = Math.max(2, Math.min(4, Math.round(d / 2)));
+  const levels = h > 3 ? 4 : 3;
+  for (const x of [-1, 1]) for (let bay = 0; bay <= bays; bay++) {
+    builder.box([post, h, post], [x * (w - post) * 0.5, 0, -d * 0.5 + post * 0.5 + bay * (d - post) / bays], steel);
+  }
+  for (let level = 0; level < levels; level++) {
+    const y = -h * 0.46 + level * h * 0.245;
+    builder.box([w * 0.95, h * 0.018, d * 0.98], [0, y, 0], steel);
+    for (const x of [-1, 1]) builder.box([post, h * 0.038, d], [x * (w - post) * 0.5, y, 0], beams);
+    for (let bay = 0; bay < bays; bay++) {
+      const z = -d * 0.5 + (bay + 0.5) * d / bays;
+      const height = h * (0.13 + ((level + bay) % 3) * 0.025);
+      const boxWidth = w * (0.67 + ((level + bay) % 2) * 0.1);
+      builder.box([w * 0.84, h * 0.022, d / bays * 0.84], [0, y + h * 0.02, z], pallets);
+      builder.box([boxWidth, height, d / bays * 0.72], [0, y + h * 0.033 + height * 0.5, z], cartons[(bay + level) % 3], true);
+      for (const x of [-1, 1]) builder.box([w * 0.004, height * 0.23, d / bays * 0.23], [x * (boxWidth * 0.5 + w * 0.003), y + h * 0.035 + height * 0.58, z], labels);
+    }
+  }
+}
+
+function machine(builder: PropBuilder, [w, h, d]: Dimensions): void {
+  const paint = material("#66776d", 0.45, 0.6);
+  const dark = material("#293234", 0.65, 0.58);
+  const steel = material("#9ca5a2", 0.8, 0.32);
+  const label = material("#c0b68d");
+  const screen = material("#2d5550", 0.1, 0.26);
+  screen.emissive.set("#6ab298");
+  screen.emissiveIntensity = 0.18;
+  builder.box([w, h * 0.1, d], [0, -h * 0.45, 0], dark, true);
+  builder.box([w * 0.95, h * 0.38, d * 0.94], [0, -h * 0.21, 0], paint, true);
+  builder.box([w * 0.45, h * 0.58, d * 0.8], [w * 0.235, h * 0.21, -d * 0.05], paint, true);
+  builder.box([w * 0.47, h * 0.26, d * 0.45], [-w * 0.235, h * 0.28, -d * 0.21], dark, true);
+  for (const x of [-0.405, -0.075]) builder.cylinder(w * 0.025, h * 0.45, [w * x, h * 0.185, d * 0.08], steel);
+  builder.box([w * 0.43, h * 0.045, d * 0.45], [-w * 0.235, h * 0.02, d * 0.08], steel);
+  builder.box([w * 0.36, h * 0.25, d * 0.06], [w * 0.235, h * 0.27, d * 0.38], dark, true);
+  builder.box([w * 0.21, h * 0.12, d * 0.013], [w * 0.20, h * 0.30, d * 0.419], screen);
+  const red = material("#95483c", 0.12, 0.4);
+  for (let i = 0; i < 4; i++) builder.cylinder(w * 0.012, d * 0.025, [w * (0.11 + i * 0.07), h * 0.20, d * 0.425], i === 3 ? red : steel, "z");
+  for (let i = 0; i < 8; i++) builder.box([w * 0.26, h * 0.013, d * 0.008], [w * 0.235, -h * 0.31 + i * h * 0.028, d * 0.475], dark);
+  builder.box([w * 0.12, h * 0.045, d * 0.009], [-w * 0.25, -h * 0.17, d * 0.475], label);
+}
+
+function loadingBay(builder: PropBuilder, [w, h, d]: Dimensions): void {
+  const steel = material("#545b5b", 0.65, 0.55);
+  const rubber = material("#292c2a");
+  const shutter = material("#969c98", 0.62, 0.6);
+  const warning = material("#c1a14a", 0.12, 0.7);
+  for (const side of [-1, 1]) {
+    builder.box([w * 0.9, h, d * 0.065], [0, 0, side * d * 0.4675], steel);
+    builder.box([w, h * 0.26, d * 0.085], [0, -h * 0.35, side * d * 0.425], rubber, true);
+    for (let i = 0; i < 4; i++) builder.box([w * 0.013, h * 0.023, d * 0.083], [-w * 0.499, -h * 0.43 + i * h * 0.055, side * d * 0.425], warning);
+  }
+  builder.box([w, h * 0.12, d], [0, h * 0.44, 0], steel);
+  for (let i = 0; i < 7; i++) builder.box([w * 0.12, h * 0.034, d * 0.87], [w * 0.2, h * 0.38 - i * h * 0.037, 0], shutter, true);
+}
+
+function briefcase(builder: PropBuilder, [w, h, d]: Dimensions): void {
+  const leather = material("#644d33", 0.04, 0.72);
+  const edging = material("#352d24", 0.12, 0.63);
+  const brass = material("#a18d59", 0.75, 0.34);
+  builder.box([w, h * 0.81, d], [0, -h * 0.095, 0], leather, true);
+  builder.box([w * 0.995, h * 0.022, d * 0.995], [0, h * 0.13, 0], edging);
+  for (const x of [-1, 1]) {
+    builder.box([w * 0.1, h * 0.13, d * 0.045], [x * w * 0.3, h * 0.11, d * 0.47], brass, true);
+    builder.box([w * 0.027, h * 0.16, d * 0.23], [x * w * 0.17, h * 0.38, 0], brass, true);
+  }
+  builder.box([w * 0.37, h * 0.065, d * 0.27], [0, h * 0.4675, 0], edging, true);
+}
+
+
+function cargoDetail(builder: PropBuilder, [w, h, d]: Dimensions, color: string, cylinder: boolean): void {
+  const shell = material(color, cylinder ? .65 : .18, cylinder ? .38 : .68);
+  const metal = material("#a4b1b3", .75, .32), band = material("#334b59", .25, .64);
+  const label = material("#e5d8ba", 0, .9), ink = material("#34414a");
+  if (cylinder) {
+    const radius = Math.min(w, d) / 2;
+    builder.cylinder(radius * .94, h * .93, [0, 0, 0], shell);
+    for (const sign of [-1, 1]) {
+      builder.cylinder(radius, h * .045, [0, sign * h * .472, 0], metal);
+      builder.cylinder(radius * .79, h * .01, [0, sign * h * .497, 0], band);
+      builder.cylinder(radius * .19, h * .016, [0, sign * h * .486, 0], metal);
+    }
+    builder.box([w * .37, h * .29, d * .012], [0, 0, d * .472], label);
+    for (let i = 0; i < 5; i++) builder.box([w * .018, h * .19, d * .014], [w * (-.13 + i * .065), 0, d * .484], ink);
+    return;
+  }
+  builder.box([w * .96, h * .96, d * .96], [0, 0, 0], shell, true);
+  builder.box([w * .97, h * .045, d * .97], [0, h * .475, 0], metal, true);
+  for (const x of [-1, 1]) {
+    // Packing bands pass around all four visible sides and remain inside the declared bounds.
+    builder.box([w * .045, h * .98, d * .982], [x * w * .29, 0, 0], band);
+    builder.box([w * .065, h * .016, d * .14], [x * w * .29, h * .497, 0], metal);
+  }
+  builder.box([w * .36, h * .29, d * .008], [0, h * .04, d * .486], label);
+  for (let i = 0; i < 7; i++) builder.box([w * (.009 + i % 2 * .006), h * .17, d * .009], [w * (-.13 + i * .043), h * .04, d * .493], ink);
+  for (const x of [-1, 1]) for (const z of [-1, 1]) builder.cylinder(w * .019, h * .012, [x * w * .40, h * .495, z * d * .39], band);
+}
+
+function fitProp(group: THREE.Group, entity: SceneEntityV1, size: Dimensions): THREE.Group {
+  const bounds = entity.bounds;
+  if (!bounds || bounds.type !== "box") return group;
+  group.name = `environment-prop:${entity.id}`;
+  const actual = new THREE.Box3().setFromObject(group);
+  const actualSize = actual.getSize(new THREE.Vector3()), actualCenter = actual.getCenter(new THREE.Vector3());
+  if (![actualSize.x, actualSize.y, actualSize.z].every(value => Number.isFinite(value) && value > 0)) {
+    throw new Error(`Environment prop ${entity.id} produced empty or invalid geometry`);
+  }
+  group.scale.set(...size.map((value, axis) => Math.min(1, value / actualSize.getComponent(axis))) as Vec3);
+  group.position.set(...bounds.min.map((value, axis) =>
+    (value + bounds.max[axis]) * .5 - actualCenter.getComponent(axis) * group.scale.getComponent(axis)) as Vec3);
+  return group;
+}
+
+/** Cabinet controls face the worker in the south aisle (-Z), not the back of the cabinet. */
+function controlStation(entity: SceneEntityV1, size: Dimensions): THREE.Group {
+  const [w, h, d] = size, builder = new PropBuilder();
+  const body = material("#42697b", .4, .48), dark = material("#223842", .4, .42), steel = material("#acb8bd", .7, .3);
+  const screen = material("#315e65", .1, .28); screen.emissive.set("#4aafaa");
+  builder.box([w * .91, h * .85, d * .87], [0, -h * .03, d * .025], body, true);
+  builder.box([w, h * .07, d], [0, -h * .465, 0], dark);
+  builder.box([w * .84, h * .36, d * .055], [0, h * .27, -d * .433], steel, true);
+  builder.box([w * .58, h * .14, d * .027], [-w * .08, h * .33, -d * .472], dark);
+  builder.box([w * .52, h * .115, d * .016], [-w * .08, h * .33, -d * .491], screen);
+  for (let i = 0; i < 4; i++) builder.box([w * (.20 + (i % 2) * .15), h * .009, d * .003], [-w * .11, h * (.36 - i * .023), -d * .499], steel);
+  for (const sign of [-1, 1]) builder.box([w * .03, h * .36, d * .05], [sign * w * .41, -h * .09, -d * .42], dark);
+  const lamps = [material("#67c897", .1, .3), material("#f3ba58", .1, .3), material("#e76558", .1, .3)];
+  lamps.forEach((paint, i) => {
+    paint.emissive.copy(paint.color);
+    builder.ellipsoid([w * .025, w * .025, d * .022], [-w * .26 + i * w * .12, h * .205, -d * .478], paint);
+  });
+  const group = builder.finish(), button = new THREE.Group(), buttonParts = new PropBuilder();
+  buttonParts.cylinder(w * .11, d * .032, [0, 0, 0], material("#e5c459", .2, .55), "z");
+  buttonParts.cylinder(w * .071, d * .08, [0, 0, -d * .025], material("#d94f45", .15, .36), "z");
+  button.add(buttonParts.finish()); button.position.set(w * .245, h * .18, -d * .455); group.add(button);
+  const buttonRestZ = button.position.z;
+  registerScenarioPropUpdate(group, time => {
+    const state = mechanicalState(time, 21.7);
+    const u = THREE.MathUtils.clamp((time - 21.62) / .08, 0, 1);
+    // Emergency stop latches inward, rather than repeatedly bouncing while stopped.
+    button.position.z = buttonRestZ + d * .055 * u * u * (3 - 2 * u);
+    lamps[0].emissiveIntensity = state === "running" ? .85 : .015;
+    lamps[1].emissiveIntensity = state === "stopping" ? .8 : .015;
+    lamps[2].emissiveIntensity = state === "stopped" ? .95 : .015;
+    screen.emissiveIntensity = state === "running" ? .38 : .12;
+  });
+  updateScenarioProp(group, 0);
+  // Geometry stays within this envelope throughout the inward-only button animation.
+  return fitProp(group, entity, size);
+}
+
+/** Framed housings expose a cargo tunnel; moving heads remain above its clearance plane. */
+function framedMachine(entity: SceneEntityV1, size: Dimensions): THREE.Group {
+  const [w, h, d] = size, builder = new PropBuilder();
+  const shell = material("#617f89", .5, .45), steel = material("#b0bcc1", .8, .28), dark = material("#263943", .5, .45), safety = material("#d6aa46", .2, .6);
+  for (const sign of [-1, 1]) {
+    builder.box([w, h * .97, d * .135], [0, 0, sign * d * .422], shell, true);
+    builder.box([w, h * .085, d * .14], [0, -h * .452, sign * d * .422], dark);
+    for (const x of [-1, 1]) builder.box([w * .11, h * .86, d * .11], [x * w * .435, -h * .02, sign * d * .39], steel);
+    for (let i = 0; i < 6; i++) builder.box([w * .04, h * .009, d * .007], [w * (-.31 + i * .125), h * .2, sign * d * .495], dark);
+  }
+  builder.box([w, h * .17, d], [0, h * .415, 0], shell, true);
+  builder.box([w * .9, h * .035, d * .83], [0, h * .31, 0], safety);
+  // Bridge the hidden conveyor joins through the press/packaging housing at belt height 1.05 m.
+  builder.box([w, .045, 1.6], [0, 1.05 - h / 2 - .0225, 0], dark);
+  for (const x of [-1, 1]) builder.cylinder(w * .022, h * .30, [x * w * .28, h * .22, 0], steel);
+  const group = builder.finish(), headParts = new PropBuilder();
+  headParts.box([w * .61, h * .085, d * .49], [0, 0, 0], steel, true);
+  headParts.box([w * .54, h * .012, d * .44], [0, -h * .048, 0], dark);
+  const head = headParts.finish(); head.position.y = h * .285; group.add(head);
+  const phase = entity.id.includes("--") ? 0 : 1.3;
+  registerScenarioPropUpdate(group, time => {
+    const clock = conveyorTravel(time, 1, 21.7), u = ((clock / 3.2 + phase) % 1 + 1) % 1;
+    const smooth = (value: number): number => { const x = THREE.MathUtils.clamp(value, 0, 1); return x * x * (3 - 2 * x); };
+    const stroke = smooth(u / .18) * (1 - smooth((u - .34) / .3));
+    head.position.y = h * (.285 - .045 * stroke);
+  });
+  updateScenarioProp(group, 0);
+  return fitProp(group, entity, size);
+}
+
+function maintenanceBench(builder: PropBuilder, [w, h, d]: Dimensions): void {
+  const steel = material("#587381", .55, .45), top = material("#a7ada8", .5, .48), yellow = material("#d3ad4d", .2, .65);
+  builder.box([w, h * .09, d], [0, h * .455, 0], top, true);
+  for (const x of [-1, 1]) for (const z of [-1, 1]) builder.box([w * .045, h * .89, d * .09], [x * w * .45, -h * .05, z * d * .4], steel);
+  builder.box([w * .91, h * .055, d * .83], [0, -h * .29, 0], steel);
+  builder.box([w * .25, h * .17, d * .52], [w * .2, h * .3, 0], steel, true);
+  builder.box([w * .08, h * .018, d * .018], [w * .2, h * .3, d * .27], yellow);
+}
+
+const PROP_IDS = new Set([
+  "tree-entity", "fountain-entity", "lamppost-entity", "desk-entity", "shelving-entity",
+  "crate-stack-entity", "ac-unit-entity", "vent-pipe-entity", "central_machine",
+  "shelf_left", "shelf_right", "loading_bay_frame", "briefcase-entity", "control_station", "set-maintenance-bench",
+]);
+
+/** Refine bundled box placeholders while retaining their local collision/anchor envelope. */
+export function createEnvironmentProp(entity: SceneEntityV1): THREE.Object3D | null {
+  const cargo = /^cargo_\d+$/.test(entity.id);
+  const machineHousing = /^machine-housing--?14\.1$/.test(entity.id);
+  const stockRack = /^set-stock-rack-\d+$/.test(entity.id);
+  if (!PROP_IDS.has(entity.id) && !cargo && !machineHousing && !stockRack) return null;
+  const visual = entity.visual;
+  const isPlaceholder = (visual.type === "primitive" && (visual.shape === "box" || (cargo && visual.shape === "cylinder")))
+    || (visual.type === "preset" && visual.name === "genericObject" && visual.params?.shape === "box");
+  if (!isPlaceholder) return null;
+  if (entity.bounds?.type !== "box") return null;
+  const bounds = entity.bounds;
+  const size = bounds.max.map((value, axis) => value - bounds.min[axis]) as Dimensions;
+  if (!size.every(value => Number.isFinite(value) && value > 0)) return null;
+  if (entity.id === "control_station") return controlStation(entity, size);
+  if (machineHousing) return framedMachine(entity, size);
+  const builder = new PropBuilder();
+  if (cargo) cargoDetail(builder, size, visual.type === "primitive" ? visual.color ?? "#d28e35" : "#d28e35", visual.type === "primitive" && visual.shape === "cylinder");
+  if (stockRack) shelving(builder, size);
+  switch (entity.id) {
+    case "set-maintenance-bench": maintenanceBench(builder, size); break;
+    case "tree-entity": tree(builder, size); break;
+    case "fountain-entity": fountain(builder, size); break;
+    case "lamppost-entity": lamp(builder, size); break;
+    case "ac-unit-entity": hvac(builder, size); break;
+    case "vent-pipe-entity": vent(builder, size); break;
+    case "shelving-entity": case "shelf_left": case "shelf_right": shelving(builder, size); break;
+    case "central_machine": machine(builder, size); break;
+    case "loading_bay_frame": loadingBay(builder, size); break;
+    case "briefcase-entity": briefcase(builder, size); break;
+    case "crate-stack-entity": {
+      const wood = material("#8e7754");
+      const trim = material("#b09a71");
+      crate(builder, [size[0] * 0.56, size[1], size[2]], [-size[0] * 0.22, 0, 0], wood, trim);
+      crate(builder, [size[0] * 0.4, size[1] * 0.76, size[2] * 0.82], [size[0] * 0.3, -size[1] * 0.12, size[2] * 0.03], trim, wood);
+      break;
+    }
+    case "desk-entity": {
+      const [w, h, d] = size;
+      const color = visual.type === "primitive" ? visual.color ?? "#755440" : "#755440";
+      const authoredSize = visual.type === "primitive" ? visual.params.size : undefined;
+      const authoredThickness = Array.isArray(authoredSize) ? authoredSize[1] : undefined;
+      const thickness = THREE.MathUtils.clamp(
+        typeof authoredThickness === "number" && Number.isFinite(authoredThickness) ? authoredThickness : h * 0.16,
+        h * 0.025, h * 0.45,
+      );
+      const timber = material("#483426");
+      const topY = h * 0.5;
+      const undersideY = topY - thickness;
+      const legHeight = h - thickness;
+      const legWidth = Math.min(w, d) * 0.065;
+      const inset = legWidth * 1.45;
+      const legX = w * 0.5 - inset;
+      const legZ = d * 0.5 - inset;
+      builder.box([w, thickness * 0.92, d], [0, topY - thickness * 0.54, 0], timber, true);
+      builder.box([w * 0.994, thickness * 0.08, d * 0.986], [0, topY - thickness * 0.04, 0], material(color), true);
+      for (const x of [-1, 1]) for (const z of [-1, 1]) {
+        builder.box([legWidth, legHeight, legWidth], [x * legX, -h * 0.5 + legHeight * 0.5, z * legZ], timber, true);
+      }
+      const apronHeight = Math.min(legHeight * 0.23, thickness * 0.85);
+      for (const side of [-1, 1]) {
+        builder.box([legX * 2, apronHeight, legWidth * 0.48], [0, undersideY - apronHeight * 0.5, side * legZ], timber);
+        builder.box([legWidth * 0.48, apronHeight, legZ * 2], [side * legX, undersideY - apronHeight * 0.5, 0], timber);
+      }
+      const seam = material("#563e2d");
+      seam.polygonOffset = true;
+      seam.polygonOffsetFactor = -1;
+      seam.polygonOffsetUnits = -1;
+      for (let i = 1; i < 7; i++) builder.box([w * 0.985, thickness * 0.002, d * 0.0015], [0, topY - thickness * 0.001, d * (i / 7 - 0.5)], seam);
+      break;
+    }
+  }
+  return fitProp(builder.finish(), entity, size);
+}

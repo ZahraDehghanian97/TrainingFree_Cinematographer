@@ -1,0 +1,58 @@
+{
+  "title": "Production to Stillness",
+  "phases": [
+    {
+      "actionId": "factory-01-production-to-stillness-shot-01",
+      "start": 0,
+      "end": 8,
+      "title": "Conveyor product tracking",
+      "movement": "track",
+      "primaryTargets": [
+        "cargo_01"
+      ]
+    },
+    {
+      "actionId": "factory-01-production-to-stillness-shot-02",
+      "start": 8,
+      "end": 16,
+      "title": "Product-to-workers handoff",
+      "movement": "track",
+      "primaryTargets": []
+    },
+    {
+      "actionId": "factory-01-production-to-stillness-shot-03",
+      "start": 16,
+      "end": 24,
+      "title": "Locked causal master",
+      "movement": "static",
+      "primaryTargets": [
+        "worker_a",
+        "worker_b",
+        "cargo_06"
+      ]
+    },
+    {
+      "actionId": "factory-01-production-to-stillness-shot-04",
+      "start": 24,
+      "end": 48,
+      "title": "Pull back into stillness",
+      "movement": "craneUp",
+      "primaryTargets": [
+        "worker_a",
+        "worker_b"
+      ]
+    }
+  ],
+  "sceneBeats": [
+    12.2,
+    20,
+    21.5,
+    25
+  ],
+  "previewTimes": [
+    4,
+    16,
+    21.5,
+    43
+  ]
+}

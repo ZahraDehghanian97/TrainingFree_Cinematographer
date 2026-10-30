@@ -1,0 +1,72 @@
+{
+  "title": "The Aisle Two-Shot",
+  "phases": [
+    {
+      "actionId": "factory-02-aisle-two-shot-shot-01",
+      "start": 0,
+      "end": 12,
+      "title": "Converging two-shot",
+      "movement": "track",
+      "primaryTargets": [
+        "worker_a",
+        "worker_b"
+      ]
+    },
+    {
+      "actionId": "factory-02-aisle-two-shot-shot-02",
+      "start": 12,
+      "end": 17,
+      "title": "Argument at respectful distance",
+      "movement": "follow",
+      "primaryTargets": [
+        "worker_a",
+        "worker_b"
+      ]
+    },
+    {
+      "actionId": "factory-02-aisle-two-shot-shot-03",
+      "start": 17,
+      "end": 25,
+      "title": "Retreat before the shove",
+      "movement": "follow",
+      "primaryTargets": [
+        "worker_a",
+        "worker_b"
+      ]
+    },
+    {
+      "actionId": "factory-02-aisle-two-shot-shot-04",
+      "start": 25,
+      "end": 36,
+      "title": "Release into aftermath",
+      "movement": "follow",
+      "primaryTargets": [
+        "worker_a",
+        "worker_b"
+      ]
+    },
+    {
+      "actionId": "factory-02-aisle-two-shot-shot-05",
+      "start": 36,
+      "end": 48,
+      "title": "Quiet final two-shot",
+      "movement": "static",
+      "primaryTargets": [
+        "worker_a",
+        "worker_b"
+      ]
+    }
+  ],
+  "sceneBeats": [
+    12.2,
+    19,
+    21,
+    27
+  ],
+  "previewTimes": [
+    5,
+    15,
+    21,
+    38
+  ]
+}

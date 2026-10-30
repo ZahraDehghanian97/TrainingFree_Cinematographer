@@ -1,0 +1,20 @@
+{
+  "kind": "cinematicSuiteDeliveryValidation",
+  "examples": 10,
+  "exportedSamples": 14410,
+  "geometryAuditProbes": 28810,
+  "allNativeRuntimeChecksPassed": true,
+  "allSampledGeometryChecksPassed": true,
+  "allSourceWorldHashesMatch": true,
+  "targetedStrictTypeScriptCheck": "pass: tsconfig.cinematic.json, global compiler and Node type declarations",
+  "cinematicTimelineOnlyCli": "pass for all 10 examples",
+  "nativeWorldSamplerMaxAbsoluteErrorMeters": 1.1236211960863329e-10,
+  "minimumCameraSphereClearanceMeters": 0.9127553482998911,
+  "notRun": [
+    "Full dependency-installed application build: npm dependency retrieval failed in execution environment",
+    "WebGL/pixel-level film review",
+    "Full numerical camera optimization"
+  ],
+  "gallerySmokeTest": "not completed: local HTTP navigation blocked by browser administration policy",
+  "warning": "Sampled proxy framing and clearance are not continuous collision, full-body visibility, or artistic-quality certificates."
+}

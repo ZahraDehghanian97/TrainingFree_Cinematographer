@@ -1,0 +1,363 @@
+{
+  "schemaVersion": "1.0",
+  "kind": "timelineSolverOutput",
+  "exampleId": "stadium",
+  "environmentId": "stadium",
+  "prompt": "مسابقهٔ شش دونده را در پیست دور زمین فوتبال دنبال کن؛ زمین‌خوردن دوندهٔ سوم، برد دوندهٔ اول در ثانیهٔ ۳۸، گل فوتبال در ۳۸٫۲ و سپس پرش برنده و گل‌افشانی را نشان بده. فیلم‌بردار کنار زمین شخصیت مستقلی است.",
+  "totalDuration": 48,
+  "subjectBinding": {
+    "mode": "resolved",
+    "source": "resolved-fixture"
+  },
+  "timeline": {
+    "timeline": [
+      {
+        "kind": "interval",
+        "shotStartTime": 0,
+        "startTime": 0,
+        "endTime": 12.3,
+        "lossFunctions": [
+          {
+            "type": "followMovement",
+            "parameters": {
+              "subjectIds": [
+                "runner_01",
+                "runner_02",
+                "track_cameraman"
+              ]
+            },
+            "sourceActionId": "race_open"
+          }
+        ],
+        "weight": 1
+      },
+      {
+        "kind": "interval",
+        "shotStartTime": 0,
+        "startTime": 0,
+        "endTime": 12.3,
+        "lossFunctions": [
+          {
+            "type": "noShake",
+            "parameters": {},
+            "sourceActionId": "race_open"
+          }
+        ],
+        "weight": 1
+      },
+      {
+        "kind": "interval",
+        "shotStartTime": 0,
+        "startTime": 0,
+        "endTime": 12.3,
+        "lossFunctions": [
+          {
+            "type": "keepInFrame",
+            "parameters": {
+              "subjectIds": [
+                "runner_01",
+                "runner_02",
+                "track_cameraman"
+              ]
+            },
+            "sourceActionId": "race_open"
+          }
+        ],
+        "weight": 1
+      },
+      {
+        "kind": "interval",
+        "shotStartTime": 0,
+        "startTime": 0,
+        "endTime": 12.3,
+        "lossFunctions": [
+          {
+            "type": "shotSize",
+            "parameters": {
+              "shotSize": "longShot",
+              "subjectIds": [
+                "runner_01",
+                "runner_02",
+                "track_cameraman"
+              ]
+            },
+            "sourceActionId": "race_open"
+          }
+        ],
+        "weight": 1
+      },
+      {
+        "kind": "interval",
+        "shotStartTime": 0,
+        "startTime": 12.3,
+        "endTime": 19,
+        "lossFunctions": [
+          {
+            "type": "followMovement",
+            "parameters": {
+              "subjectId": "runner_03"
+            },
+            "sourceActionId": "fall_and_recovery"
+          }
+        ],
+        "weight": 1
+      },
+      {
+        "kind": "interval",
+        "shotStartTime": 0,
+        "startTime": 12.3,
+        "endTime": 19,
+        "lossFunctions": [
+          {
+            "type": "noShake",
+            "parameters": {},
+            "sourceActionId": "fall_and_recovery"
+          }
+        ],
+        "weight": 1
+      },
+      {
+        "kind": "interval",
+        "shotStartTime": 0,
+        "startTime": 12.3,
+        "endTime": 19,
+        "lossFunctions": [
+          {
+            "type": "keepInFrame",
+            "parameters": {
+              "subjectId": "runner_03"
+            },
+            "sourceActionId": "fall_and_recovery"
+          }
+        ],
+        "weight": 1
+      },
+      {
+        "kind": "interval",
+        "shotStartTime": 0,
+        "startTime": 12.3,
+        "endTime": 19,
+        "lossFunctions": [
+          {
+            "type": "shotSize",
+            "parameters": {
+              "shotSize": "longShot",
+              "subjectId": "runner_03"
+            },
+            "sourceActionId": "fall_and_recovery"
+          }
+        ],
+        "weight": 1
+      },
+      {
+        "kind": "interval",
+        "shotStartTime": 0,
+        "startTime": 19,
+        "endTime": 38.1,
+        "lossFunctions": [
+          {
+            "type": "followMovement",
+            "parameters": {
+              "subjectIds": [
+                "runner_01",
+                "runner_02"
+              ]
+            },
+            "sourceActionId": "race_finish"
+          }
+        ],
+        "weight": 1
+      },
+      {
+        "kind": "interval",
+        "shotStartTime": 0,
+        "startTime": 19,
+        "endTime": 38.1,
+        "lossFunctions": [
+          {
+            "type": "noShake",
+            "parameters": {},
+            "sourceActionId": "race_finish"
+          }
+        ],
+        "weight": 1
+      },
+      {
+        "kind": "interval",
+        "shotStartTime": 0,
+        "startTime": 19,
+        "endTime": 38.1,
+        "lossFunctions": [
+          {
+            "type": "keepInFrame",
+            "parameters": {
+              "subjectIds": [
+                "runner_01",
+                "runner_02"
+              ]
+            },
+            "sourceActionId": "race_finish"
+          }
+        ],
+        "weight": 1
+      },
+      {
+        "kind": "interval",
+        "shotStartTime": 0,
+        "startTime": 19,
+        "endTime": 38.1,
+        "lossFunctions": [
+          {
+            "type": "shotSize",
+            "parameters": {
+              "shotSize": "longShot",
+              "subjectIds": [
+                "runner_01",
+                "runner_02"
+              ]
+            },
+            "sourceActionId": "race_finish"
+          }
+        ],
+        "weight": 1
+      },
+      {
+        "kind": "interval",
+        "shotStartTime": 0,
+        "startTime": 38.1,
+        "endTime": 39.1,
+        "lossFunctions": [
+          {
+            "type": "followMovement",
+            "parameters": {
+              "subjectIds": [
+                "ball",
+                "goal_east"
+              ]
+            },
+            "sourceActionId": "simultaneous_goal"
+          }
+        ],
+        "weight": 1
+      },
+      {
+        "kind": "interval",
+        "shotStartTime": 0,
+        "startTime": 38.1,
+        "endTime": 39.1,
+        "lossFunctions": [
+          {
+            "type": "noShake",
+            "parameters": {},
+            "sourceActionId": "simultaneous_goal"
+          }
+        ],
+        "weight": 1
+      },
+      {
+        "kind": "interval",
+        "shotStartTime": 0,
+        "startTime": 38.1,
+        "endTime": 39.1,
+        "lossFunctions": [
+          {
+            "type": "keepInFrame",
+            "parameters": {
+              "subjectIds": [
+                "ball",
+                "goal_east"
+              ]
+            },
+            "sourceActionId": "simultaneous_goal"
+          }
+        ],
+        "weight": 1
+      },
+      {
+        "kind": "interval",
+        "shotStartTime": 0,
+        "startTime": 38.1,
+        "endTime": 39.1,
+        "lossFunctions": [
+          {
+            "type": "shotSize",
+            "parameters": {
+              "shotSize": "longShot",
+              "subjectIds": [
+                "ball",
+                "goal_east"
+              ]
+            },
+            "sourceActionId": "simultaneous_goal"
+          }
+        ],
+        "weight": 1
+      },
+      {
+        "kind": "interval",
+        "shotStartTime": 0,
+        "startTime": 39.1,
+        "endTime": 48,
+        "lossFunctions": [
+          {
+            "type": "arcMovement",
+            "parameters": {
+              "sign": 1,
+              "subjectId": "runner_01"
+            },
+            "sourceActionId": "jump_and_flowers"
+          }
+        ],
+        "weight": 1
+      },
+      {
+        "kind": "interval",
+        "shotStartTime": 0,
+        "startTime": 39.1,
+        "endTime": 48,
+        "lossFunctions": [
+          {
+            "type": "noShake",
+            "parameters": {},
+            "sourceActionId": "jump_and_flowers"
+          }
+        ],
+        "weight": 1
+      },
+      {
+        "kind": "interval",
+        "shotStartTime": 0,
+        "startTime": 39.1,
+        "endTime": 48,
+        "lossFunctions": [
+          {
+            "type": "keepInFrame",
+            "parameters": {
+              "subjectId": "runner_01"
+            },
+            "sourceActionId": "jump_and_flowers"
+          }
+        ],
+        "weight": 1
+      },
+      {
+        "kind": "interval",
+        "shotStartTime": 0,
+        "startTime": 39.1,
+        "endTime": 48,
+        "lossFunctions": [
+          {
+            "type": "shotSize",
+            "parameters": {
+              "shotSize": "longShot",
+              "subjectId": "runner_01"
+            },
+            "sourceActionId": "jump_and_flowers"
+          }
+        ],
+        "weight": 1
+      }
+    ],
+    "timeWarp": []
+  }
+}

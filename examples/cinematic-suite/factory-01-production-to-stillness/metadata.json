@@ -1,0 +1,30 @@
+{
+  "schemaVersion": "1.0",
+  "kind": "syntheticCameraReferenceMetadata",
+  "exampleId": "factory-01-production-to-stillness",
+  "title": "Production to Stillness",
+  "environmentId": "factory",
+  "referenceType": "ai-authored-synthetic-ground-truth",
+  "authoringMethod": "AI shot design + deterministic scene-aware camera synthesis; no optimizer or live model API call",
+  "measuredGroundTruth": false,
+  "uniqueOrOptimalSolution": false,
+  "durationSeconds": 48.0,
+  "sampleFps": 30,
+  "samples": 1441,
+  "cutCount": 0,
+  "coordinateConvention": {
+    "handedness": "right",
+    "upAxis": "+Y",
+    "cameraForwardAxis": "-Z",
+    "lengthUnit": "meter",
+    "rotationOrder": "quaternion-xyzw"
+  },
+  "timeConvention": "playback seconds == scene seconds; starts at 0; no retiming",
+  "smoothing": "offline symmetric Gaussian target smoothing; 120 Hz cubic construction; 30 Hz camera samples with C2 position jets",
+  "sourceEnvironmentSha256": "1bf281054a4c256098a05ca7d6e2c294773c51178cd18093d26f623512a400ee",
+  "sourceGeneratorSha256": "28159f4f61dca7b15c7365658c7eb922294410522b0cf9b520c7b8a29d0d99a9",
+  "promptSha256": "9da4d69c074ae73eee844c8429875b8b15c7d451607f1fef9e5a671af13c2521",
+  "cslSha256": "df761de225eea0c3994aafa9170100adc664587d2e558528b61b845384ccad30",
+  "trajectorySha256": "dffa74dfcf8e9d0bd418ce31f5272faf0663fa7bf848d1ec4ff60a5b9466719f",
+  "evaluationBoundary": "Primary-target framing and geometry are tested separately. Numerical validation is not a pixel-level visibility or artistic-optimality certificate."
+}

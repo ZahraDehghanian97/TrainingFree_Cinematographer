@@ -1,0 +1,770 @@
+{
+  "diagnostics": {
+    "baselineLoss": 1762.0167036345783,
+    "initialLoss": 1762.0167036345244,
+    "finalLoss": 871.6930526007739,
+    "seedCandidateCount": 175,
+    "seedImprovementPercent": 3.0582888895939577e-12,
+    "refinementImprovementPercent": 50.52867258280093,
+    "totalImprovementPercent": 50.528672582802436,
+    "objectiveEvaluations": 16909,
+    "acceptedSteps": 3681,
+    "searchSweeps": 7,
+    "iterations": 5000,
+    "converged": false,
+    "terminationReason": "maxIterations",
+    "optimizationSampleCount": 88,
+    "outputSampleCount": 208,
+    "primitiveCount": 29,
+    "conflicts": [],
+    "lossBreakdown": [
+      {
+        "id": "p13",
+        "type": "screenScale",
+        "weightedLoss": 350.31850907134645
+      },
+      {
+        "id": "p10",
+        "type": "jerkSmoothness",
+        "weightedLoss": 333.6942100955263
+      },
+      {
+        "id": "p8",
+        "type": "accelerationSmoothness",
+        "weightedLoss": 92.81546873262926
+      },
+      {
+        "id": "p24",
+        "type": "jerkSmoothness",
+        "weightedLoss": 30.375019695188893
+      },
+      {
+        "id": "p2",
+        "type": "radiusHold",
+        "weightedLoss": 26.212189146128487
+      },
+      {
+        "id": "p11",
+        "type": "bboxInFrame",
+        "weightedLoss": 23.56553517140367
+      },
+      {
+        "id": "p22",
+        "type": "accelerationSmoothness",
+        "weightedLoss": 11.581770786839913
+      },
+      {
+        "id": "p9",
+        "type": "angularAccelerationSmoothness",
+        "weightedLoss": 1.3806184444366578
+      },
+      {
+        "id": "p7",
+        "type": "rollHold",
+        "weightedLoss": 1.3508846848787153
+      },
+      {
+        "id": "p27",
+        "type": "pathLength",
+        "weightedLoss": 0.30828596975945677
+      },
+      {
+        "id": "p23",
+        "type": "angularAccelerationSmoothness",
+        "weightedLoss": 0.09044248894317529
+      },
+      {
+        "id": "p14",
+        "type": "fovAnchor",
+        "weightedLoss": 0.00011831369298574484
+      },
+      {
+        "id": "p5",
+        "type": "angularPacing",
+        "weightedLoss": 3.364095886864128e-28
+      },
+      {
+        "id": "p3",
+        "type": "angularProgress",
+        "weightedLoss": 3.1612275255560915e-28
+      },
+      {
+        "id": "p1",
+        "type": "planeHold",
+        "weightedLoss": 1.540743955509796e-29
+      },
+      {
+        "id": "p15",
+        "type": "positionAnchor",
+        "weightedLoss": 0
+      },
+      {
+        "id": "p16",
+        "type": "rotationAnchor",
+        "weightedLoss": 0
+      },
+      {
+        "id": "p17",
+        "type": "fovAnchor",
+        "weightedLoss": 0
+      },
+      {
+        "id": "p12",
+        "type": "nearPlaneClearance",
+        "weightedLoss": 0
+      },
+      {
+        "id": "p18",
+        "type": "subjectVisibility",
+        "weightedLoss": 0
+      },
+      {
+        "id": "p28",
+        "type": "occlusion",
+        "weightedLoss": 0
+      },
+      {
+        "id": "p4",
+        "type": "angularDirection",
+        "weightedLoss": 0
+      },
+      {
+        "id": "p6",
+        "type": "fovHold",
+        "weightedLoss": 0
+      },
+      {
+        "id": "p25",
+        "type": "collisionClearance",
+        "weightedLoss": 0
+      },
+      {
+        "id": "p26",
+        "type": "groundClearance",
+        "weightedLoss": 0
+      },
+      {
+        "id": "p20",
+        "type": "subjectVisibility",
+        "weightedLoss": 0
+      },
+      {
+        "id": "p21",
+        "type": "subjectScaleFloor",
+        "weightedLoss": 0
+      },
+      {
+        "id": "p29",
+        "type": "occlusion",
+        "weightedLoss": 0
+      }
+    ],
+    "elapsedMilliseconds": 156301,
+    "maximumSafetyViolationMeters": 0,
+    "warnings": [
+      "Collision/occlusion geometry unavailable for 1 unbounded entities"
+    ]
+  },
+  "compiledPlan": {
+    "durationSeconds": 9.046191821,
+    "motionTransitions": [],
+    "primitives": [
+      {
+        "id": "p15",
+        "type": "positionAnchor",
+        "startTime": 0,
+        "endTime": 0,
+        "weight": 160,
+        "tolerance": 0.03,
+        "channel": "position",
+        "role": "primary",
+        "sourceType": "userKeyframe",
+        "parameters": {
+          "hard": true,
+          "keyframeTime": 0,
+          "target": [
+            0,
+            1.9137996544,
+            0
+          ]
+        }
+      },
+      {
+        "id": "p16",
+        "type": "rotationAnchor",
+        "startTime": 0,
+        "endTime": 0,
+        "weight": 160,
+        "tolerance": 0.017453292519943295,
+        "channel": "rotation",
+        "role": "primary",
+        "sourceType": "userKeyframe",
+        "parameters": {
+          "hard": true,
+          "keyframeTime": 0,
+          "target": [
+            -0.064026536,
+            0,
+            -0.016651128,
+            0.997809272
+          ]
+        }
+      },
+      {
+        "id": "p17",
+        "type": "fovAnchor",
+        "startTime": 0,
+        "endTime": 0,
+        "weight": 160,
+        "tolerance": 0.5,
+        "channel": "intrinsics",
+        "role": "primary",
+        "sourceType": "userKeyframe",
+        "parameters": {
+          "hard": true,
+          "keyframeTime": 0,
+          "target": 15.697567781948655
+        }
+      },
+      {
+        "id": "p1",
+        "type": "planeHold",
+        "startTime": 0,
+        "endTime": 5,
+        "weight": 10,
+        "tolerance": 0.06,
+        "channel": "position",
+        "role": "primary",
+        "sourceType": "arcMovement",
+        "sourceActionId": "orbit_subject_25deg",
+        "normalizationDuration": 5,
+        "parameters": {
+          "referenceTime": 0,
+          "plane": "subjectHorizontal",
+          "subjectIds": [
+            "subject_1"
+          ]
+        }
+      },
+      {
+        "id": "p10",
+        "type": "jerkSmoothness",
+        "startTime": 0,
+        "endTime": 5,
+        "weight": 2.5,
+        "tolerance": 0.8,
+        "channel": "regularity",
+        "role": "stabilizer",
+        "sourceType": "noShake",
+        "sourceActionId": "orbit_subject_25deg",
+        "normalizationDuration": 5,
+        "parameters": {
+          "referenceTime": 0
+        }
+      },
+      {
+        "id": "p11",
+        "type": "bboxInFrame",
+        "startTime": 0,
+        "endTime": 5,
+        "weight": 10,
+        "tolerance": 0.02,
+        "channel": "composition",
+        "role": "primary",
+        "sourceType": "keepInFrame",
+        "sourceActionId": "orbit_subject_25deg",
+        "normalizationDuration": 5,
+        "parameters": {
+          "referenceTime": 0,
+          "subjectIds": [
+            "subject_1"
+          ]
+        }
+      },
+      {
+        "id": "p12",
+        "type": "nearPlaneClearance",
+        "startTime": 0,
+        "endTime": 5,
+        "weight": 10,
+        "tolerance": 0.02,
+        "channel": "safety",
+        "role": "primary",
+        "sourceType": "keepInFrame",
+        "sourceActionId": "orbit_subject_25deg",
+        "normalizationDuration": 5,
+        "parameters": {
+          "referenceTime": 0,
+          "subjectIds": [
+            "subject_1"
+          ]
+        }
+      },
+      {
+        "id": "p13",
+        "type": "screenScale",
+        "startTime": 0,
+        "endTime": 5,
+        "weight": 10,
+        "tolerance": 0.035,
+        "channel": "composition",
+        "role": "primary",
+        "sourceType": "shotSize",
+        "sourceActionId": "orbit_subject_25deg",
+        "normalizationDuration": 5,
+        "parameters": {
+          "referenceTime": 0,
+          "targetCoverage": 0.43,
+          "subjectIds": [
+            "subject_1"
+          ]
+        }
+      },
+      {
+        "id": "p14",
+        "type": "fovAnchor",
+        "startTime": 0,
+        "endTime": 5,
+        "weight": 10,
+        "tolerance": 0.5,
+        "channel": "intrinsics",
+        "role": "primary",
+        "sourceType": "minPath",
+        "sourceActionId": "orbit_subject_25deg",
+        "normalizationDuration": 5,
+        "parameters": {
+          "referenceTime": 0,
+          "target": 15.7
+        }
+      },
+      {
+        "id": "p18",
+        "type": "subjectVisibility",
+        "startTime": 0,
+        "endTime": 5,
+        "weight": 2.5,
+        "tolerance": 0.04,
+        "channel": "composition",
+        "role": "stabilizer",
+        "sourceType": "arcMovement",
+        "sourceActionId": "orbit_subject_25deg",
+        "normalizationDuration": 5,
+        "parameters": {
+          "subjectId": "subject_1",
+          "cropWindows": [
+            {
+              "startTime": 0,
+              "endTime": 5
+            }
+          ],
+          "suppressionWindows": [
+            {
+              "startTime": 0,
+              "endTime": 0,
+              "pointTime": 0
+            }
+          ]
+        }
+      },
+      {
+        "id": "p19",
+        "type": "subjectScaleFloor",
+        "startTime": 0,
+        "endTime": 5,
+        "weight": 2.5,
+        "tolerance": 0.035,
+        "channel": "composition",
+        "role": "stabilizer",
+        "sourceType": "arcMovement",
+        "sourceActionId": "orbit_subject_25deg",
+        "normalizationDuration": 5,
+        "parameters": {
+          "subjectId": "subject_1",
+          "minimumCoverage": 0.12,
+          "suppressionWindows": [
+            {
+              "startTime": 0,
+              "endTime": 5
+            },
+            {
+              "startTime": 0,
+              "endTime": 0,
+              "pointTime": 0
+            }
+          ]
+        }
+      },
+      {
+        "id": "p2",
+        "type": "radiusHold",
+        "startTime": 0,
+        "endTime": 5,
+        "weight": 10,
+        "tolerance": 0.08,
+        "channel": "subjectRelative",
+        "role": "primary",
+        "sourceType": "arcMovement",
+        "sourceActionId": "orbit_subject_25deg",
+        "normalizationDuration": 5,
+        "parameters": {
+          "referenceTime": 0,
+          "targetRadius": 6,
+          "motionStartTime": 0,
+          "motionEndTime": 5,
+          "constantSpeed": true,
+          "speedKeyframes": [
+            {
+              "normalizedTime": 0,
+              "speedMultiplier": 1
+            },
+            {
+              "normalizedTime": 1,
+              "speedMultiplier": 1
+            }
+          ],
+          "subjectIds": [
+            "subject_1"
+          ]
+        }
+      },
+      {
+        "id": "p28",
+        "type": "occlusion",
+        "startTime": 0,
+        "endTime": 5,
+        "weight": 5,
+        "tolerance": 0.05,
+        "channel": "safety",
+        "role": "regularizer",
+        "sourceType": "global",
+        "normalizationDuration": 5,
+        "parameters": {
+          "subjectId": "subject_1",
+          "suppressionWindows": [
+            {
+              "startTime": 0,
+              "endTime": 0,
+              "pointTime": 0
+            }
+          ]
+        }
+      },
+      {
+        "id": "p3",
+        "type": "angularProgress",
+        "startTime": 0,
+        "endTime": 5,
+        "weight": 10,
+        "tolerance": 0.03490658503988659,
+        "channel": "subjectRelative",
+        "role": "primary",
+        "sourceType": "arcMovement",
+        "sourceActionId": "orbit_subject_25deg",
+        "normalizationDuration": 5,
+        "parameters": {
+          "referenceTime": 0,
+          "mode": "orbit",
+          "motionStartTime": 0,
+          "motionEndTime": 5,
+          "constantSpeed": true,
+          "speedKeyframes": [
+            {
+              "normalizedTime": 0,
+              "speedMultiplier": 1
+            },
+            {
+              "normalizedTime": 1,
+              "speedMultiplier": 1
+            }
+          ],
+          "targetDelta": 0.4363323129985824,
+          "fullTargetDelta": 0.4363323129985824,
+          "sign": 1,
+          "subjectIds": [
+            "subject_1"
+          ]
+        }
+      },
+      {
+        "id": "p4",
+        "type": "angularDirection",
+        "startTime": 0,
+        "endTime": 5,
+        "weight": 10,
+        "tolerance": 0.03490658503988659,
+        "channel": "subjectRelative",
+        "role": "primary",
+        "sourceType": "arcMovement",
+        "sourceActionId": "orbit_subject_25deg",
+        "normalizationDuration": 5,
+        "parameters": {
+          "referenceTime": 0,
+          "mode": "orbit",
+          "motionStartTime": 0,
+          "motionEndTime": 5,
+          "constantSpeed": true,
+          "speedKeyframes": [
+            {
+              "normalizedTime": 0,
+              "speedMultiplier": 1
+            },
+            {
+              "normalizedTime": 1,
+              "speedMultiplier": 1
+            }
+          ],
+          "targetDelta": 0.4363323129985824,
+          "fullTargetDelta": 0.4363323129985824,
+          "sign": 1,
+          "subjectIds": [
+            "subject_1"
+          ]
+        }
+      },
+      {
+        "id": "p5",
+        "type": "angularPacing",
+        "startTime": 0,
+        "endTime": 5,
+        "weight": 2.5,
+        "tolerance": 0.06981317007977318,
+        "channel": "regularity",
+        "role": "stabilizer",
+        "sourceType": "arcMovement",
+        "sourceActionId": "orbit_subject_25deg",
+        "normalizationDuration": 5,
+        "parameters": {
+          "referenceTime": 0,
+          "mode": "orbit",
+          "motionStartTime": 0,
+          "motionEndTime": 5,
+          "constantSpeed": true,
+          "speedKeyframes": [
+            {
+              "normalizedTime": 0,
+              "speedMultiplier": 1
+            },
+            {
+              "normalizedTime": 1,
+              "speedMultiplier": 1
+            }
+          ],
+          "targetDelta": 0.4363323129985824,
+          "fullTargetDelta": 0.4363323129985824,
+          "sign": 1,
+          "subjectIds": [
+            "subject_1"
+          ]
+        }
+      },
+      {
+        "id": "p6",
+        "type": "fovHold",
+        "startTime": 0,
+        "endTime": 5,
+        "weight": 5,
+        "tolerance": 0.5,
+        "channel": "intrinsics",
+        "role": "stabilizer",
+        "sourceType": "arcMovement",
+        "sourceActionId": "orbit_subject_25deg",
+        "normalizationDuration": 5,
+        "parameters": {
+          "referenceTime": 0
+        }
+      },
+      {
+        "id": "p7",
+        "type": "rollHold",
+        "startTime": 0,
+        "endTime": 5,
+        "weight": 2.5,
+        "tolerance": 0.017453292519943295,
+        "channel": "rotation",
+        "role": "stabilizer",
+        "sourceType": "arcMovement",
+        "sourceActionId": "orbit_subject_25deg",
+        "normalizationDuration": 5,
+        "parameters": {
+          "referenceTime": 0
+        }
+      },
+      {
+        "id": "p8",
+        "type": "accelerationSmoothness",
+        "startTime": 0,
+        "endTime": 5,
+        "weight": 10,
+        "tolerance": 0.35,
+        "channel": "regularity",
+        "role": "primary",
+        "sourceType": "noShake",
+        "sourceActionId": "orbit_subject_25deg",
+        "normalizationDuration": 5,
+        "parameters": {
+          "referenceTime": 0
+        }
+      },
+      {
+        "id": "p9",
+        "type": "angularAccelerationSmoothness",
+        "startTime": 0,
+        "endTime": 5,
+        "weight": 10,
+        "tolerance": 0.3,
+        "channel": "regularity",
+        "role": "primary",
+        "sourceType": "noShake",
+        "sourceActionId": "orbit_subject_25deg",
+        "normalizationDuration": 5,
+        "parameters": {
+          "referenceTime": 0
+        }
+      },
+      {
+        "id": "p22",
+        "type": "accelerationSmoothness",
+        "startTime": 0,
+        "endTime": 9.046191821,
+        "weight": 2,
+        "tolerance": 0.35,
+        "channel": "regularity",
+        "role": "regularizer",
+        "sourceType": "global",
+        "parameters": {
+          "cutTimes": [],
+          "referenceFrame": "world"
+        }
+      },
+      {
+        "id": "p23",
+        "type": "angularAccelerationSmoothness",
+        "startTime": 0,
+        "endTime": 9.046191821,
+        "weight": 1,
+        "tolerance": 0.3,
+        "channel": "regularity",
+        "role": "regularizer",
+        "sourceType": "global",
+        "parameters": {
+          "cutTimes": []
+        }
+      },
+      {
+        "id": "p24",
+        "type": "jerkSmoothness",
+        "startTime": 0,
+        "endTime": 9.046191821,
+        "weight": 0.4,
+        "tolerance": 0.8,
+        "channel": "regularity",
+        "role": "regularizer",
+        "sourceType": "global",
+        "parameters": {
+          "cutTimes": [],
+          "referenceFrame": "world"
+        }
+      },
+      {
+        "id": "p25",
+        "type": "collisionClearance",
+        "startTime": 0,
+        "endTime": 9.046191821,
+        "weight": 18,
+        "tolerance": 0.05,
+        "channel": "safety",
+        "role": "regularizer",
+        "sourceType": "global",
+        "parameters": {}
+      },
+      {
+        "id": "p26",
+        "type": "groundClearance",
+        "startTime": 0,
+        "endTime": 9.046191821,
+        "weight": 12,
+        "tolerance": 0.05,
+        "channel": "safety",
+        "role": "regularizer",
+        "sourceType": "global",
+        "parameters": {}
+      },
+      {
+        "id": "p27",
+        "type": "pathLength",
+        "startTime": 0,
+        "endTime": 9.046191821,
+        "weight": 0.025,
+        "tolerance": 1,
+        "channel": "regularity",
+        "role": "regularizer",
+        "sourceType": "global",
+        "parameters": {}
+      },
+      {
+        "id": "p20",
+        "type": "subjectVisibility",
+        "startTime": 5,
+        "endTime": 9.046191821,
+        "weight": 2.5,
+        "tolerance": 0.04,
+        "channel": "composition",
+        "role": "stabilizer",
+        "sourceType": "subjectPresence",
+        "normalizationDuration": 4.046191821000001,
+        "parameters": {
+          "subjectId": "subject_1",
+          "gapSubject": true,
+          "cropWindows": [
+            {
+              "startTime": 0,
+              "endTime": 5
+            }
+          ],
+          "suppressionWindows": []
+        }
+      },
+      {
+        "id": "p21",
+        "type": "subjectScaleFloor",
+        "startTime": 5,
+        "endTime": 9.046191821,
+        "weight": 2.5,
+        "tolerance": 0.035,
+        "channel": "composition",
+        "role": "stabilizer",
+        "sourceType": "subjectPresence",
+        "normalizationDuration": 4.046191821000001,
+        "parameters": {
+          "subjectId": "subject_1",
+          "gapSubject": true,
+          "minimumCoverage": 0.12,
+          "suppressionWindows": [
+            {
+              "startTime": 0,
+              "endTime": 5
+            }
+          ]
+        }
+      },
+      {
+        "id": "p29",
+        "type": "occlusion",
+        "startTime": 5,
+        "endTime": 9.046191821,
+        "weight": 5,
+        "tolerance": 0.05,
+        "channel": "safety",
+        "role": "regularizer",
+        "sourceType": "global",
+        "normalizationDuration": 4.046191821000001,
+        "parameters": {
+          "subjectId": "subject_1",
+          "suppressionWindows": []
+        }
+      }
+    ],
+    "conflicts": [],
+    "warnings": []
+  }
+}

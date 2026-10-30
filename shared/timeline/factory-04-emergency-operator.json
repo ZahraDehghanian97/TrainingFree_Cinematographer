@@ -1,0 +1,415 @@
+{
+  "schemaVersion": "1.0",
+  "kind": "timelineSolverOutput",
+  "exampleId": "factory-04-emergency-operator",
+  "environmentId": "factory",
+  "prompt": "Make a 48-second factory sequence centred on worker 05, the emergency-stop operator, rather than the arguing pair. Begin from the south-east in a calm three-quarter composition that includes worker 05 and the control station. Push in very gently until 16 seconds, then lock the camera through 24 seconds. Keep a clear oblique view when the worker reaches the station around 21.7 seconds and the production line ramps down by 22.7 seconds; do not invent a close-up button-press animation that the scene does not contain. From 24 to 35 seconds rise and pull back, shifting the composition toward the affected workers and the operator together. Finish with a slow lateral drift through 48 seconds that connects the emergency response to the aftermath. Remain inside the room, avoid hiding the operator behind the control cabinet, preserve normal playback, and use no cuts or shake.",
+  "totalDuration": 48,
+  "subjectBinding": {
+    "mode": "resolved",
+    "source": "resolved-fixture"
+  },
+  "timeline": {
+    "timeline": [
+      {
+        "kind": "interval",
+        "shotStartTime": 0,
+        "startTime": 0,
+        "endTime": 16,
+        "lossFunctions": [
+          {
+            "type": "dollyInMovement",
+            "parameters": {
+              "subjectIds": [
+                "worker_05",
+                "control_station"
+              ],
+              "path": "spline",
+              "handheld": false
+            },
+            "sourceActionId": "factory-04-emergency-operator-shot-01"
+          }
+        ],
+        "weight": 1
+      },
+      {
+        "kind": "interval",
+        "shotStartTime": 0,
+        "startTime": 0,
+        "endTime": 16,
+        "lossFunctions": [
+          {
+            "type": "noShake",
+            "parameters": {},
+            "sourceActionId": "factory-04-emergency-operator-shot-01"
+          }
+        ],
+        "weight": 1
+      },
+      {
+        "kind": "interval",
+        "shotStartTime": 0,
+        "startTime": 0,
+        "endTime": 16,
+        "lossFunctions": [
+          {
+            "type": "keepInFrame",
+            "parameters": {
+              "subjectIds": [
+                "worker_05",
+                "control_station"
+              ]
+            },
+            "sourceActionId": "factory-04-emergency-operator-shot-01"
+          }
+        ],
+        "weight": 1
+      },
+      {
+        "kind": "point",
+        "shotStartTime": 0,
+        "time": 0,
+        "lossFunctions": [
+          {
+            "type": "minPath",
+            "parameters": {
+              "targetPose": {
+                "position": {
+                  "x": 12,
+                  "y": 4,
+                  "z": 5.5
+                },
+                "rotation": {
+                  "x": 0.1707648842,
+                  "y": -0.5396451692,
+                  "z": -0.112844455,
+                  "w": -0.81663246
+                }
+              },
+              "targetIntrinsics": {
+                "fov": 39,
+                "aspectRatio": 1.7777777777777777
+              }
+            }
+          }
+        ],
+        "weight": 1
+      },
+      {
+        "kind": "point",
+        "shotStartTime": 0,
+        "time": 16,
+        "lossFunctions": [
+          {
+            "type": "minPath",
+            "parameters": {
+              "targetPose": {
+                "position": {
+                  "x": 10.3,
+                  "y": 3.3,
+                  "z": 7.8
+                },
+                "rotation": {
+                  "x": 0.1405558352,
+                  "y": -0.3709990263,
+                  "z": -0.0569175814,
+                  "w": -0.9161681989
+                }
+              },
+              "targetIntrinsics": {
+                "fov": 36,
+                "aspectRatio": 1.7777777777777777
+              }
+            }
+          }
+        ],
+        "weight": 1,
+        "easing": {
+          "inDuration": 1,
+          "curve": "easeInOut"
+        }
+      },
+      {
+        "kind": "interval",
+        "shotStartTime": 0,
+        "startTime": 16,
+        "endTime": 24,
+        "lossFunctions": [
+          {
+            "type": "Static",
+            "parameters": {
+              "subjectIds": [
+                "worker_05",
+                "control_station"
+              ]
+            },
+            "sourceActionId": "factory-04-emergency-operator-shot-02"
+          }
+        ],
+        "weight": 1
+      },
+      {
+        "kind": "interval",
+        "shotStartTime": 0,
+        "startTime": 16,
+        "endTime": 24,
+        "lossFunctions": [
+          {
+            "type": "noShake",
+            "parameters": {},
+            "sourceActionId": "factory-04-emergency-operator-shot-02"
+          }
+        ],
+        "weight": 1
+      },
+      {
+        "kind": "interval",
+        "shotStartTime": 0,
+        "startTime": 16,
+        "endTime": 24,
+        "lossFunctions": [
+          {
+            "type": "keepInFrame",
+            "parameters": {
+              "subjectIds": [
+                "worker_05",
+                "control_station"
+              ]
+            },
+            "sourceActionId": "factory-04-emergency-operator-shot-02"
+          }
+        ],
+        "weight": 1
+      },
+      {
+        "kind": "point",
+        "shotStartTime": 0,
+        "time": 24,
+        "lossFunctions": [
+          {
+            "type": "minPath",
+            "parameters": {
+              "targetPose": {
+                "position": {
+                  "x": 10.3,
+                  "y": 3.3,
+                  "z": 7.8
+                },
+                "rotation": {
+                  "x": 0.1405558352,
+                  "y": -0.3709990263,
+                  "z": -0.0569175814,
+                  "w": -0.9161681989
+                }
+              },
+              "targetIntrinsics": {
+                "fov": 36,
+                "aspectRatio": 1.7777777777777777
+              }
+            }
+          }
+        ],
+        "weight": 1,
+        "easing": {
+          "inDuration": 1,
+          "curve": "easeInOut"
+        }
+      },
+      {
+        "kind": "interval",
+        "shotStartTime": 0,
+        "startTime": 24,
+        "endTime": 35,
+        "lossFunctions": [
+          {
+            "type": "craneUpMovement",
+            "parameters": {
+              "path": "spline",
+              "handheld": false
+            },
+            "sourceActionId": "factory-04-emergency-operator-shot-03"
+          }
+        ],
+        "weight": 1
+      },
+      {
+        "kind": "interval",
+        "shotStartTime": 0,
+        "startTime": 24,
+        "endTime": 35,
+        "lossFunctions": [
+          {
+            "type": "noShake",
+            "parameters": {},
+            "sourceActionId": "factory-04-emergency-operator-shot-03"
+          }
+        ],
+        "weight": 1
+      },
+      {
+        "kind": "interval",
+        "shotStartTime": 0,
+        "startTime": 24,
+        "endTime": 35,
+        "lossFunctions": [
+          {
+            "type": "dollyOutMovement",
+            "parameters": {
+              "subjectIds": [
+                "worker_05",
+                "control_station"
+              ]
+            },
+            "sourceActionId": "factory-04-emergency-operator-overlay-01"
+          }
+        ],
+        "weight": 1
+      },
+      {
+        "kind": "point",
+        "shotStartTime": 0,
+        "time": 35,
+        "lossFunctions": [
+          {
+            "type": "minPath",
+            "parameters": {
+              "targetPose": {
+                "position": {
+                  "x": 6.8,
+                  "y": 6.1,
+                  "z": 12
+                },
+                "rotation": {
+                  "x": 0.2202424845,
+                  "y": -0.1695093237,
+                  "z": -0.0388961542,
+                  "w": -0.9598160899
+                }
+              },
+              "targetIntrinsics": {
+                "fov": 48,
+                "aspectRatio": 1.7777777777777777
+              }
+            }
+          }
+        ],
+        "weight": 1,
+        "easing": {
+          "inDuration": 1,
+          "curve": "easeInOut"
+        }
+      },
+      {
+        "kind": "interval",
+        "shotStartTime": 0,
+        "startTime": 35,
+        "endTime": 48,
+        "lossFunctions": [
+          {
+            "type": "truckLeftMovement",
+            "parameters": {
+              "path": "spline",
+              "handheld": false
+            },
+            "sourceActionId": "factory-04-emergency-operator-shot-04"
+          }
+        ],
+        "weight": 1
+      },
+      {
+        "kind": "interval",
+        "shotStartTime": 0,
+        "startTime": 35,
+        "endTime": 48,
+        "lossFunctions": [
+          {
+            "type": "noShake",
+            "parameters": {},
+            "sourceActionId": "factory-04-emergency-operator-shot-04"
+          }
+        ],
+        "weight": 1
+      },
+      {
+        "kind": "interval",
+        "shotStartTime": 0,
+        "startTime": 35,
+        "endTime": 48,
+        "lossFunctions": [
+          {
+            "type": "keepInFrame",
+            "parameters": {
+              "subjectIds": [
+                "worker_a",
+                "worker_b",
+                "worker_05"
+              ]
+            },
+            "sourceActionId": "factory-04-emergency-operator-shot-04"
+          }
+        ],
+        "weight": 1
+      },
+      {
+        "kind": "point",
+        "shotStartTime": 0,
+        "time": 48,
+        "lossFunctions": [
+          {
+            "type": "minPath",
+            "parameters": {
+              "targetPose": {
+                "position": {
+                  "x": 3.8,
+                  "y": 6.1,
+                  "z": 12
+                },
+                "rotation": {
+                  "x": 0.2391737497,
+                  "y": -0.0356987833,
+                  "z": -0.0087997364,
+                  "w": -0.9702804126
+                }
+              },
+              "targetIntrinsics": {
+                "fov": 48,
+                "aspectRatio": 1.7777777777777777
+              }
+            }
+          }
+        ],
+        "weight": 1,
+        "easing": {
+          "inDuration": 1,
+          "curve": "easeInOut"
+        }
+      }
+    ],
+    "timeWarp": [
+      {
+        "startTimePlayback": 0,
+        "endTimePlayback": 16,
+        "rate": 1,
+        "label": "normal"
+      },
+      {
+        "startTimePlayback": 16,
+        "endTimePlayback": 24,
+        "rate": 1,
+        "label": "normal"
+      },
+      {
+        "startTimePlayback": 24,
+        "endTimePlayback": 35,
+        "rate": 1,
+        "label": "normal"
+      },
+      {
+        "startTimePlayback": 35,
+        "endTimePlayback": 48,
+        "rate": 1,
+        "label": "normal"
+      }
+    ]
+  }
+}

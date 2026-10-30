@@ -1,0 +1,490 @@
+{
+  "schemaVersion": "1.0",
+  "generator": "scripts/generate-scene-assets.py",
+  "assets": [
+    {
+      "id": "slatted-bench",
+      "url": "/models/generated/slatted-bench.glb",
+      "bytes": 8816,
+      "sha256": "a43d65943a64935c05fa1a600fb77052d1c8622e6609745ff9f1d7239d627e82",
+      "bounds": {
+        "type": "box",
+        "min": [
+          -1.0,
+          0.0,
+          -0.325
+        ],
+        "max": [
+          1.0,
+          1.215,
+          0.325
+        ]
+      },
+      "triangles": 108,
+      "provenance": "original procedural geometry",
+      "license": "MIT"
+    },
+    {
+      "id": "planter-tree",
+      "url": "/models/generated/planter-tree.glb",
+      "bytes": 12784,
+      "sha256": "50bbad5a2d8e7bb734140df4f4521d420920270e9021649b3718e7fe8bf25f83",
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.986677,
+          0.0,
+          -1.034048
+        ],
+        "max": [
+          1.2,
+          3.48,
+          1.034048
+        ]
+      },
+      "triangles": 248,
+      "provenance": "original procedural geometry",
+      "license": "MIT"
+    },
+    {
+      "id": "streetlamp",
+      "url": "/models/generated/streetlamp.glb",
+      "bytes": 8632,
+      "sha256": "59fbac0ce743ec1c91274b20e95fe1b4d03459f073ce9ecaecf6081bf3c38cf0",
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.24,
+          0.0,
+          -0.24
+        ],
+        "max": [
+          0.975,
+          3.65,
+          0.24
+        ]
+      },
+      "triangles": 164,
+      "provenance": "original procedural geometry",
+      "license": "MIT"
+    },
+    {
+      "id": "warehouse-shelf",
+      "url": "/models/generated/warehouse-shelf.glb",
+      "bytes": 14536,
+      "sha256": "5551bfcfa574ce7ab6c1b23a522d1a90eaab034eacc3e9c3121944212e5d405b",
+      "bounds": {
+        "type": "box",
+        "min": [
+          -1.5,
+          0.0,
+          -0.54
+        ],
+        "max": [
+          1.5,
+          3.0,
+          0.54
+        ]
+      },
+      "triangles": 204,
+      "provenance": "original procedural geometry",
+      "license": "MIT"
+    },
+    {
+      "id": "crate-stack",
+      "url": "/models/generated/crate-stack.glb",
+      "bytes": 14576,
+      "sha256": "820bc5578428339c57d4fb690602759c0e8c89d053b72b28b8eeb4492fe1f49c",
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.95,
+          0.0,
+          -0.6
+        ],
+        "max": [
+          0.95,
+          1.725,
+          0.6
+        ]
+      },
+      "triangles": 216,
+      "provenance": "original procedural geometry",
+      "license": "MIT"
+    },
+    {
+      "id": "forklift",
+      "url": "/models/generated/forklift.glb",
+      "bytes": 30432,
+      "sha256": "40099395307d9d43e844f19050a4f456383db89e239ffccac91b664c6d10b50c",
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.735,
+          0.02,
+          -2.425
+        ],
+        "max": [
+          0.735,
+          2.775,
+          0.994227
+        ]
+      },
+      "triangles": 636,
+      "provenance": "original procedural geometry",
+      "license": "MIT"
+    },
+    {
+      "id": "rooftop-hvac",
+      "url": "/models/generated/rooftop-hvac.glb",
+      "bytes": 12324,
+      "sha256": "989e99663212644cf08e272443387475920bc57d17372356a392736a0d8a0e2b",
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.975,
+          0.0,
+          -0.71
+        ],
+        "max": [
+          0.975,
+          1.465,
+          0.71
+        ]
+      },
+      "triangles": 204,
+      "provenance": "original procedural geometry",
+      "license": "MIT"
+    },
+    {
+      "id": "courtyard-fountain",
+      "url": "/models/generated/courtyard-fountain.glb",
+      "bytes": 17092,
+      "sha256": "00b1400ac6bec0ed2105affaaff38e5a9c16e63c35bd77a8ba815ccd616c8b7b",
+      "bounds": {
+        "type": "box",
+        "min": [
+          -1.65,
+          0.0,
+          -1.65
+        ],
+        "max": [
+          1.65,
+          1.225,
+          1.65
+        ]
+      },
+      "triangles": 416,
+      "provenance": "original procedural geometry",
+      "license": "MIT"
+    },
+    {
+      "id": "briefcase",
+      "url": "/models/generated/briefcase.glb",
+      "bytes": 8068,
+      "sha256": "c5725704e6a097ff1f8e9e556299f464588d8146c5cc36ab3b0fa93fea6eb1df",
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.39,
+          0.01,
+          -0.09
+        ],
+        "max": [
+          0.39,
+          0.5675,
+          0.11
+        ]
+      },
+      "triangles": 96,
+      "provenance": "original procedural geometry",
+      "license": "MIT"
+    },
+    {
+      "id": "road-barrier",
+      "url": "/models/generated/road-barrier.glb",
+      "bytes": 5976,
+      "sha256": "55fb3ce0ad43b955d9dc66c54a01958fa1addd2a60fb32821ff502c39b3e9843",
+      "bounds": {
+        "type": "box",
+        "min": [
+          -1.0,
+          0.0,
+          -0.275
+        ],
+        "max": [
+          1.0,
+          0.8,
+          0.292
+        ]
+      },
+      "triangles": 72,
+      "provenance": "original procedural geometry",
+      "license": "MIT"
+    },
+    {
+      "id": "lighting-truss",
+      "url": "/models/generated/lighting-truss.glb",
+      "bytes": 19120,
+      "sha256": "1bf9d6572676ad84ed451240861cdd4e8df6bd58ef72680897c8bb3d0f6c47d7",
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.55,
+          0.0,
+          -0.55
+        ],
+        "max": [
+          0.55,
+          3.6,
+          0.55
+        ]
+      },
+      "triangles": 376,
+      "provenance": "original procedural geometry",
+      "license": "MIT"
+    },
+    {
+      "id": "vending-machine",
+      "url": "/models/generated/vending-machine.glb",
+      "bytes": 8796,
+      "sha256": "0dca21edbeda616ebd4c3b565669117c0d7a5812af5e266711e26358591fe9a1",
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.575,
+          0.0,
+          -0.2
+        ],
+        "max": [
+          0.575,
+          1.7,
+          0.2525
+        ]
+      },
+      "triangles": 84,
+      "provenance": "original procedural geometry",
+      "license": "MIT"
+    },
+    {
+      "id": "workbench",
+      "url": "/models/generated/workbench.glb",
+      "bytes": 8028,
+      "sha256": "b63c76015d2c20a6b1938d361aeb3157e8c0bf6623d130b4d02dd985f8b0206e",
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.9,
+          0.0,
+          -0.36
+        ],
+        "max": [
+          0.9,
+          0.93,
+          0.36
+        ]
+      },
+      "triangles": 84,
+      "provenance": "original procedural geometry",
+      "license": "MIT"
+    },
+    {
+      "id": "mezzanine",
+      "url": "/models/generated/mezzanine.glb",
+      "bytes": 9536,
+      "sha256": "cce3013b6a8566b4a8e649411eaac342c3199f6234d1e1f0876e80a1b7b61f74",
+      "bounds": {
+        "type": "box",
+        "min": [
+          -2.0,
+          0.0,
+          -1.4
+        ],
+        "max": [
+          2.0,
+          3.38,
+          1.4
+        ]
+      },
+      "triangles": 132,
+      "provenance": "original procedural geometry",
+      "license": "MIT"
+    },
+    {
+      "id": "loading-bay-portal",
+      "url": "/models/generated/loading-bay-portal.glb",
+      "bytes": 3756,
+      "sha256": "b353673f6b53c400f65280b944a32a6d41cf2fc3dee4b5c34384e5d0206c678c",
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.25,
+          0.0,
+          -4.0
+        ],
+        "max": [
+          0.25,
+          6.0,
+          4.0
+        ]
+      },
+      "triangles": 36,
+      "provenance": "original procedural geometry",
+      "license": "MIT"
+    },
+    {
+      "id": "lounge-sofa",
+      "url": "/models/generated/lounge-sofa.glb",
+      "bytes": 10948,
+      "sha256": "505282747eedfce05d9ca92f7bd012d68788307b4c64824f72834a24d445bea9",
+      "bounds": {
+        "type": "box",
+        "min": [
+          -1.22,
+          0.0,
+          -0.475
+        ],
+        "max": [
+          1.22,
+          1.02,
+          0.475
+        ]
+      },
+      "triangles": 144,
+      "provenance": "original procedural geometry",
+      "license": "MIT"
+    },
+    {
+      "id": "chair",
+      "url": "/models/generated/chair.glb",
+      "bytes": 7336,
+      "sha256": "13c56a2474ddf25e4c5d54f8d7d5ba4e6d30bc4228df398edc31a5e1744dc7d3",
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.35,
+          0.0,
+          -0.34
+        ],
+        "max": [
+          0.35,
+          1.14,
+          0.34
+        ]
+      },
+      "triangles": 84,
+      "provenance": "original procedural geometry",
+      "license": "MIT"
+    },
+    {
+      "id": "side-table",
+      "url": "/models/generated/side-table.glb",
+      "bytes": 5220,
+      "sha256": "44bb4c0134d45e1b318ed9145c13578210b59687329aa15416ecab69babc92d8",
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.4,
+          0.0,
+          -0.3
+        ],
+        "max": [
+          0.4,
+          0.57,
+          0.3
+        ]
+      },
+      "triangles": 60,
+      "provenance": "original procedural geometry",
+      "license": "MIT"
+    },
+    {
+      "id": "floor-lamp",
+      "url": "/models/generated/floor-lamp.glb",
+      "bytes": 17724,
+      "sha256": "1d129a2e85dafd6e8418ab040e9c0437e603c2edc9214fcfc4b51e8936797c4d",
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.32,
+          0.0,
+          -0.32
+        ],
+        "max": [
+          0.32,
+          1.95,
+          0.32
+        ]
+      },
+      "triangles": 416,
+      "provenance": "original procedural geometry",
+      "license": "MIT"
+    },
+    {
+      "id": "bookcase",
+      "url": "/models/generated/bookcase.glb",
+      "bytes": 32500,
+      "sha256": "4b382560bbae8029d84feee0c37ebdc36e6aff06b36c3383bdd3c1f3b368c14f",
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.76,
+          0.0,
+          -0.19
+        ],
+        "max": [
+          0.76,
+          2.1,
+          0.19
+        ]
+      },
+      "triangles": 480,
+      "provenance": "original procedural geometry",
+      "license": "MIT"
+    },
+    {
+      "id": "keyboard",
+      "url": "/models/generated/keyboard.glb",
+      "bytes": 36944,
+      "sha256": "c1bd28e26df369362b7b7a979727bf7b7ec73ebf1da3dd5a6219df35bdafc16b",
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.23,
+          0.0,
+          -0.08
+        ],
+        "max": [
+          0.23,
+          0.064,
+          0.08
+        ]
+      },
+      "triangles": 588,
+      "provenance": "original procedural geometry",
+      "license": "MIT"
+    },
+    {
+      "id": "gym-equipment-rack",
+      "url": "/models/generated/gym-equipment-rack.glb",
+      "bytes": 15372,
+      "sha256": "98b45bee13eb791ca3465c97ec852e5f1079f03157845230766962d1543276d8",
+      "bounds": {
+        "type": "box",
+        "min": [
+          -0.55,
+          0.0,
+          -0.55
+        ],
+        "max": [
+          0.55,
+          2.35,
+          0.55
+        ]
+      },
+      "triangles": 288,
+      "provenance": "original procedural geometry",
+      "license": "MIT"
+    }
+  ]
+}

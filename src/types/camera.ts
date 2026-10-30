@@ -1,4 +1,4 @@
-import {
+import type {
   CameraVerticalAngle,
   Scale,
   ShotSize,
@@ -37,28 +37,51 @@ export type TransformMatrix4x4 = [
 // ─── Camera Pose & Intrinsics ────────────────────────────────────────────────
 
 export interface CameraPose {
-  position: Vector3;
-  rotation: Quaternion | EulerAngles;
+  /** Omission leaves translation free for optimization. */
+  position?: Vector3;
+  /** Omission leaves orientation free for optimization. */
+  rotation?: Quaternion | EulerAngles;
 }
 
 export interface CameraExtrinsics {
-  pose: CameraPose;
+  pose?: CameraPose;
+  /** Row-major rigid camera-to-world transform; translation is the last column.
+   * When supplied, this matrix overrides pose. Scale and shear are unsupported.
+   */
   transformMatrix?: TransformMatrix4x4;
 }
 
 export interface CameraIntrinsics {
   focalLength?: number;       // mm
   fov?: number;               // degrees
+  /** Width / height for the whole trajectory; optimizer options may override it. */
   aspectRatio?: number;
   sensorSize?: { width: number; height: number }; // mm
 }
 
 // ─── Targets & Framing ───────────────────────────────────────────────────────
 
+export interface SubjectReference {
+  /** CSL-local correlation key. This is never an environment/track ID. */
+  ref: string;
+  id?: never;
+  /** Semantic subject description produced by the director-to-CSL model. */
+  description: string;
+  /** Defaults to exactly one. Use { min: 2, max: 2 } for "both actors". */
+  cardinality?: {
+    min: number;
+    max?: number;
+  };
+}
+
 export interface Target {
+  /** Runtime subject/track ID supplied by the 4D recognition module. */
   id: string;
+  ref?: never;
   description: string;
 }
+
+export type CameraTargetDescriptor = SubjectReference | Target;
 
 export interface SubjectFraming {
   position?: SubjectInFramePosition;
@@ -75,11 +98,15 @@ export interface SubjectAwareCameraConfig {
   subjectFraming?: SubjectFraming;
 }
 
-export interface NonSubjectAwareCameraConfig {
+export interface NonSubjectAwareCameraConfig<
+  TTarget extends CameraTargetDescriptor = Target,
+> {
   type: "nonSubjectAware";
-  extrinsics: CameraExtrinsics;
+  extrinsics?: CameraExtrinsics;
   intrinsics?: CameraIntrinsics;
-  lookAt?: Vector3 | Target[];
+  lookAt?: Vector3 | TTarget[];
 }
 
-export type CameraConfig = SubjectAwareCameraConfig | NonSubjectAwareCameraConfig;
+export type CameraConfig<TTarget extends CameraTargetDescriptor = Target> =
+  | SubjectAwareCameraConfig
+  | NonSubjectAwareCameraConfig<TTarget>;

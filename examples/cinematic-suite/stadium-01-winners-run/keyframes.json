@@ -1,0 +1,284 @@
+{
+  "note": "Human-readable subset; trajectory.json is the complete replay reference.",
+  "samples": [
+    {
+      "t": 0.0,
+      "position": [
+        -30.588929,
+        8.0,
+        -45.61
+      ],
+      "positionVelocity": [
+        0.0,
+        0.0,
+        -0.0
+      ],
+      "positionAcceleration": [
+        -9e-07,
+        -5.6e-06,
+        9.5e-06
+      ],
+      "rotation": [
+        -0.0430346423,
+        0.9538423912,
+        0.245900129,
+        0.166930641
+      ],
+      "lookAt": [
+        -33.588929,
+        0.935,
+        -33.61
+      ],
+      "fovYDegrees": 45.0,
+      "actionId": "stadium-01-winners-run-shot-01"
+    },
+    {
+      "t": 2.0,
+      "position": [
+        -30.6979372,
+        7.8654297,
+        -45.3822656
+      ],
+      "positionVelocity": [
+        -0.523137,
+        -0.1713867,
+        0.2900391
+      ],
+      "positionAcceleration": [
+        -2.3233143,
+        -0.1142581,
+        0.1933599
+      ],
+      "rotation": [
+        -0.0431266497,
+        0.9537863226,
+        0.2458359001,
+        0.1673214067
+      ],
+      "lookAt": [
+        -33.6772341,
+        0.935,
+        -33.61
+      ],
+      "fovYDegrees": 44.171875,
+      "actionId": "stadium-01-winners-run-shot-01"
+    },
+    {
+      "t": 8.0,
+      "position": [
+        -66.6229229,
+        6.7,
+        -38.2558794
+      ],
+      "positionVelocity": [
+        -5.8423701,
+        -0.0,
+        3.1508409
+      ],
+      "positionAcceleration": [
+        0.350595,
+        3e-07,
+        0.9678075
+      ],
+      "rotation": [
+        0.0246879356,
+        0.9637811907,
+        0.2475424806,
+        -0.0961199384
+      ],
+      "lookAt": [
+        -63.7994983,
+        0.935,
+        -28.4626024
+      ],
+      "fovYDegrees": 37.0,
+      "actionId": "stadium-01-winners-run-shot-02"
+    },
+    {
+      "t": 33.0,
+      "position": [
+        2.7740827,
+        6.9098765,
+        43.6618519
+      ],
+      "positionVelocity": [
+        10.3593355,
+        0.2469136,
+        0.2962963
+      ],
+      "positionAcceleration": [
+        1.3526387,
+        0.1234573,
+        0.1481488
+      ],
+      "rotation": [
+        0.2583217964,
+        0.0655790702,
+        0.0175791507,
+        -0.9636701762
+      ],
+      "lookAt": [
+        3.307416,
+        0.935,
+        33.61
+      ],
+      "fovYDegrees": 37.0,
+      "actionId": "stadium-01-winners-run-shot-03"
+    },
+    {
+      "t": 38.0,
+      "position": [
+        43.702463,
+        7.7,
+        44.61
+      ],
+      "positionVelocity": [
+        2.833143,
+        0.0,
+        0.0
+      ],
+      "positionAcceleration": [
+        -3.2810995,
+        -0.0,
+        -0.0
+      ],
+      "rotation": [
+        0.2138569786,
+        -0.255558212,
+        -0.0580762805,
+        -0.9410538447
+      ],
+      "lookAt": [
+        35.702463,
+        0.935,
+        33.61
+      ],
+      "fovYDegrees": 45.0,
+      "actionId": "stadium-01-winners-run-shot-03"
+    },
+    {
+      "t": 39.8,
+      "position": [
+        46.2966746,
+        7.7,
+        44.61
+      ],
+      "positionVelocity": [
+        0.0293576,
+        0.0,
+        0.0
+      ],
+      "positionAcceleration": [
+        -0.2311503,
+        0.0,
+        0.0
+      ],
+      "rotation": [
+        0.1983850493,
+        -0.2571940177,
+        -0.0540369658,
+        -0.9442322891
+      ],
+      "lookAt": [
+        38.2966746,
+        1.4791221,
+        33.61
+      ],
+      "fovYDegrees": 45.0,
+      "actionId": "stadium-01-winners-run-shot-03"
+    },
+    {
+      "t": 41.0,
+      "position": [
+        46.3,
+        7.7,
+        44.61
+      ],
+      "positionVelocity": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "positionAcceleration": [
+        -0.0,
+        2.3e-06,
+        3e-06
+      ],
+      "rotation": [
+        0.213750436,
+        -0.2555699572,
+        -0.0580486133,
+        -0.9410765679
+      ],
+      "lookAt": [
+        38.3,
+        0.9388111,
+        33.61
+      ],
+      "fovYDegrees": 45.0,
+      "actionId": "stadium-01-winners-run-shot-04"
+    },
+    {
+      "t": 42.0,
+      "position": [
+        46.3,
+        7.8232998,
+        44.7728488
+      ],
+      "positionVelocity": [
+        0.0,
+        0.3405724,
+        0.4498126
+      ],
+      "positionAcceleration": [
+        -0.0,
+        0.5676239,
+        0.749692
+      ],
+      "rotation": [
+        0.2156520995,
+        -0.2520998251,
+        -0.057737883,
+        -0.9415976779
+      ],
+      "lookAt": [
+        38.3,
+        0.935,
+        33.61
+      ],
+      "fovYDegrees": 45.0,
+      "actionId": "stadium-01-winners-run-shot-04"
+    },
+    {
+      "t": 48.0,
+      "position": [
+        46.3,
+        13.0,
+        51.61
+      ],
+      "positionVelocity": [
+        0.0,
+        -1e-07,
+        -1e-07
+      ],
+      "positionAcceleration": [
+        0.0,
+        -3.88e-05,
+        -5.13e-05
+      ],
+      "rotation": [
+        0.2608103278,
+        -0.1450495871,
+        -0.0396709143,
+        -0.9536062126
+      ],
+      "lookAt": [
+        38.3,
+        0.935,
+        33.61
+      ],
+      "fovYDegrees": 50.0,
+      "actionId": "stadium-01-winners-run-shot-04"
+    }
+  ]
+}

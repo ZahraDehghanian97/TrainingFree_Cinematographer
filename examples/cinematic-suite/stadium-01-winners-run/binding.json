@@ -1,0 +1,9 @@
+{
+  "schemaVersion": "1.0",
+  "bindings": {
+    "subject_runner_01": {
+      "id": "runner_01",
+      "description": "دوندهٔ 1 · برنده / winner"
+    }
+  }
+}

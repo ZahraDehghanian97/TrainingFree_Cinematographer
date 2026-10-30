@@ -1,0 +1,516 @@
+{
+  "schemaVersion": "1.0",
+  "kind": "timelineSolverOutput",
+  "exampleId": "factory-05-one-piece",
+  "environmentId": "factory",
+  "prompt": "Tell a 48-second factory story through cargo 06, the sixth piece that spills from the production line. For the first 15 seconds smoothly track this piece with a relatively tight product-led composition; show enough conveyor to establish its movement. Between 15 and 20 seconds rise, move farther out, and widen before the impact. Track the piece through its airborne motion beginning at 21.3 seconds and its bounce and settling, smoothing the camera rather than copying the object's vertical jolt. Keep the production line and fragments of the workers' action as context. Between 26 and 34 seconds make a deliberate smooth handoff to a low oblique, stationary view of the resting piece on the floor. Hold that quiet insert from 34 to 48 seconds while the factory aftermath continues behind it. Use a level horizon, normal scene speed, no cuts, no focus-pull claims, and no camera intersections with the floor, workers, or machinery.",
+  "totalDuration": 48,
+  "subjectBinding": {
+    "mode": "resolved",
+    "source": "resolved-fixture"
+  },
+  "timeline": {
+    "timeline": [
+      {
+        "kind": "interval",
+        "shotStartTime": 0,
+        "startTime": 0,
+        "endTime": 15,
+        "lossFunctions": [
+          {
+            "type": "trackMovement",
+            "parameters": {
+              "subjectId": "cargo_06",
+              "path": "spline",
+              "handheld": false
+            },
+            "sourceActionId": "factory-05-one-piece-shot-01"
+          }
+        ],
+        "weight": 1
+      },
+      {
+        "kind": "interval",
+        "shotStartTime": 0,
+        "startTime": 0,
+        "endTime": 15,
+        "lossFunctions": [
+          {
+            "type": "noShake",
+            "parameters": {},
+            "sourceActionId": "factory-05-one-piece-shot-01"
+          }
+        ],
+        "weight": 1
+      },
+      {
+        "kind": "interval",
+        "shotStartTime": 0,
+        "startTime": 0,
+        "endTime": 15,
+        "lossFunctions": [
+          {
+            "type": "keepInFrame",
+            "parameters": {
+              "subjectId": "cargo_06"
+            },
+            "sourceActionId": "factory-05-one-piece-shot-01"
+          }
+        ],
+        "weight": 1
+      },
+      {
+        "kind": "point",
+        "shotStartTime": 0,
+        "time": 0,
+        "lossFunctions": [
+          {
+            "type": "minPath",
+            "parameters": {
+              "targetPose": {
+                "position": {
+                  "x": -6.2341957,
+                  "y": 3.4,
+                  "z": 4.14
+                },
+                "rotation": {
+                  "x": 0.2159764088,
+                  "y": -0.0876686127,
+                  "z": -0.0194745806,
+                  "w": -0.972259814
+                }
+              },
+              "targetIntrinsics": {
+                "fov": 29,
+                "aspectRatio": 1.7777777777777777
+              }
+            }
+          }
+        ],
+        "weight": 1
+      },
+      {
+        "kind": "point",
+        "shotStartTime": 0,
+        "time": 15,
+        "lossFunctions": [
+          {
+            "type": "minPath",
+            "parameters": {
+              "targetPose": {
+                "position": {
+                  "x": 1.95,
+                  "y": 3.4,
+                  "z": 4.14
+                },
+                "rotation": {
+                  "x": 0.2159764088,
+                  "y": -0.0876686127,
+                  "z": -0.0194745806,
+                  "w": -0.972259814
+                }
+              },
+              "targetIntrinsics": {
+                "fov": 29,
+                "aspectRatio": 1.7777777777777777
+              }
+            }
+          }
+        ],
+        "weight": 1,
+        "easing": {
+          "inDuration": 1,
+          "curve": "easeInOut"
+        }
+      },
+      {
+        "kind": "interval",
+        "shotStartTime": 0,
+        "startTime": 15,
+        "endTime": 20,
+        "lossFunctions": [
+          {
+            "type": "trackMovement",
+            "parameters": {
+              "subjectId": "cargo_06",
+              "path": "spline",
+              "handheld": false
+            },
+            "sourceActionId": "factory-05-one-piece-shot-02"
+          }
+        ],
+        "weight": 1
+      },
+      {
+        "kind": "interval",
+        "shotStartTime": 0,
+        "startTime": 15,
+        "endTime": 20,
+        "lossFunctions": [
+          {
+            "type": "noShake",
+            "parameters": {},
+            "sourceActionId": "factory-05-one-piece-shot-02"
+          }
+        ],
+        "weight": 1
+      },
+      {
+        "kind": "interval",
+        "shotStartTime": 0,
+        "startTime": 15,
+        "endTime": 20,
+        "lossFunctions": [
+          {
+            "type": "keepInFrame",
+            "parameters": {
+              "subjectId": "cargo_06"
+            },
+            "sourceActionId": "factory-05-one-piece-shot-02"
+          }
+        ],
+        "weight": 1
+      },
+      {
+        "kind": "interval",
+        "shotStartTime": 0,
+        "startTime": 15,
+        "endTime": 20,
+        "lossFunctions": [
+          {
+            "type": "craneUpMovement",
+            "parameters": {},
+            "sourceActionId": "factory-05-one-piece-overlay-01"
+          }
+        ],
+        "weight": 1
+      },
+      {
+        "kind": "interval",
+        "shotStartTime": 0,
+        "startTime": 15,
+        "endTime": 20,
+        "lossFunctions": [
+          {
+            "type": "zoomOutMovement",
+            "parameters": {
+              "zoomFactor": 1.5622534981193157
+            },
+            "sourceActionId": "factory-05-one-piece-overlay-02"
+          }
+        ],
+        "weight": 1
+      },
+      {
+        "kind": "point",
+        "shotStartTime": 0,
+        "time": 20,
+        "lossFunctions": [
+          {
+            "type": "minPath",
+            "parameters": {
+              "targetPose": {
+                "position": {
+                  "x": 4.7,
+                  "y": 5.8,
+                  "z": 6.14
+                },
+                "rotation": {
+                  "x": 0.298824536,
+                  "y": -0.0592869928,
+                  "z": -0.0186041427,
+                  "w": -0.9522829596
+                }
+              },
+              "targetIntrinsics": {
+                "fov": 44,
+                "aspectRatio": 1.7777777777777777
+              }
+            }
+          }
+        ],
+        "weight": 1,
+        "easing": {
+          "inDuration": 1,
+          "curve": "easeInOut"
+        }
+      },
+      {
+        "kind": "interval",
+        "shotStartTime": 0,
+        "startTime": 20,
+        "endTime": 26,
+        "lossFunctions": [
+          {
+            "type": "trackMovement",
+            "parameters": {
+              "subjectId": "cargo_06",
+              "path": "spline",
+              "handheld": false
+            },
+            "sourceActionId": "factory-05-one-piece-shot-03"
+          }
+        ],
+        "weight": 1
+      },
+      {
+        "kind": "interval",
+        "shotStartTime": 0,
+        "startTime": 20,
+        "endTime": 26,
+        "lossFunctions": [
+          {
+            "type": "noShake",
+            "parameters": {},
+            "sourceActionId": "factory-05-one-piece-shot-03"
+          }
+        ],
+        "weight": 1
+      },
+      {
+        "kind": "interval",
+        "shotStartTime": 0,
+        "startTime": 20,
+        "endTime": 26,
+        "lossFunctions": [
+          {
+            "type": "keepInFrame",
+            "parameters": {
+              "subjectId": "cargo_06"
+            },
+            "sourceActionId": "factory-05-one-piece-shot-03"
+          }
+        ],
+        "weight": 1
+      },
+      {
+        "kind": "point",
+        "shotStartTime": 0,
+        "time": 26,
+        "lossFunctions": [
+          {
+            "type": "minPath",
+            "parameters": {
+              "targetPose": {
+                "position": {
+                  "x": 7.5349942,
+                  "y": 5.7511454,
+                  "z": 9.7234657
+                },
+                "rotation": {
+                  "x": 0.3463634169,
+                  "y": -0.0586973164,
+                  "z": -0.0217204914,
+                  "w": -0.9360102717
+                }
+              },
+              "targetIntrinsics": {
+                "fov": 43.8138871,
+                "aspectRatio": 1.7777777777777777
+              }
+            }
+          }
+        ],
+        "weight": 1,
+        "easing": {
+          "inDuration": 1,
+          "curve": "easeInOut"
+        }
+      },
+      {
+        "kind": "interval",
+        "shotStartTime": 0,
+        "startTime": 26,
+        "endTime": 34,
+        "lossFunctions": [
+          {
+            "type": "trackMovement",
+            "parameters": {
+              "subjectId": "cargo_06",
+              "path": "spline",
+              "handheld": false
+            },
+            "sourceActionId": "factory-05-one-piece-shot-04"
+          }
+        ],
+        "weight": 1
+      },
+      {
+        "kind": "interval",
+        "shotStartTime": 0,
+        "startTime": 26,
+        "endTime": 34,
+        "lossFunctions": [
+          {
+            "type": "noShake",
+            "parameters": {},
+            "sourceActionId": "factory-05-one-piece-shot-04"
+          }
+        ],
+        "weight": 1
+      },
+      {
+        "kind": "interval",
+        "shotStartTime": 0,
+        "startTime": 26,
+        "endTime": 34,
+        "lossFunctions": [
+          {
+            "type": "keepInFrame",
+            "parameters": {
+              "subjectId": "cargo_06"
+            },
+            "sourceActionId": "factory-05-one-piece-shot-04"
+          }
+        ],
+        "weight": 1
+      },
+      {
+        "kind": "point",
+        "shotStartTime": 0,
+        "time": 34,
+        "lossFunctions": [
+          {
+            "type": "minPath",
+            "parameters": {
+              "targetPose": {
+                "position": {
+                  "x": 4.035,
+                  "y": 2.06,
+                  "z": 7.07
+                },
+                "rotation": {
+                  "x": 0.176958207,
+                  "y": 0.3045900817,
+                  "z": 0.0577010245,
+                  "w": -0.9341205848
+                }
+              },
+              "targetIntrinsics": {
+                "fov": 31,
+                "aspectRatio": 1.7777777777777777
+              }
+            }
+          }
+        ],
+        "weight": 1,
+        "easing": {
+          "inDuration": 1,
+          "curve": "easeInOut"
+        }
+      },
+      {
+        "kind": "interval",
+        "shotStartTime": 0,
+        "startTime": 34,
+        "endTime": 48,
+        "lossFunctions": [
+          {
+            "type": "Static",
+            "parameters": {
+              "subjectId": "cargo_06"
+            },
+            "sourceActionId": "factory-05-one-piece-shot-05"
+          }
+        ],
+        "weight": 1
+      },
+      {
+        "kind": "interval",
+        "shotStartTime": 0,
+        "startTime": 34,
+        "endTime": 48,
+        "lossFunctions": [
+          {
+            "type": "noShake",
+            "parameters": {},
+            "sourceActionId": "factory-05-one-piece-shot-05"
+          }
+        ],
+        "weight": 1
+      },
+      {
+        "kind": "interval",
+        "shotStartTime": 0,
+        "startTime": 34,
+        "endTime": 48,
+        "lossFunctions": [
+          {
+            "type": "keepInFrame",
+            "parameters": {
+              "subjectId": "cargo_06"
+            },
+            "sourceActionId": "factory-05-one-piece-shot-05"
+          }
+        ],
+        "weight": 1
+      },
+      {
+        "kind": "point",
+        "shotStartTime": 0,
+        "time": 48,
+        "lossFunctions": [
+          {
+            "type": "minPath",
+            "parameters": {
+              "targetPose": {
+                "position": {
+                  "x": 4.035,
+                  "y": 2.06,
+                  "z": 7.07
+                },
+                "rotation": {
+                  "x": 0.176958207,
+                  "y": 0.3045900817,
+                  "z": 0.0577010245,
+                  "w": -0.9341205848
+                }
+              },
+              "targetIntrinsics": {
+                "fov": 31,
+                "aspectRatio": 1.7777777777777777
+              }
+            }
+          }
+        ],
+        "weight": 1,
+        "easing": {
+          "inDuration": 1,
+          "curve": "easeInOut"
+        }
+      }
+    ],
+    "timeWarp": [
+      {
+        "startTimePlayback": 0,
+        "endTimePlayback": 15,
+        "rate": 1,
+        "label": "normal"
+      },
+      {
+        "startTimePlayback": 15,
+        "endTimePlayback": 20,
+        "rate": 1,
+        "label": "normal"
+      },
+      {
+        "startTimePlayback": 20,
+        "endTimePlayback": 26,
+        "rate": 1,
+        "label": "normal"
+      },
+      {
+        "startTimePlayback": 26,
+        "endTimePlayback": 34,
+        "rate": 1,
+        "label": "normal"
+      },
+      {
+        "startTimePlayback": 34,
+        "endTimePlayback": 48,
+        "rate": 1,
+        "label": "normal"
+      }
+    ]
+  }
+}

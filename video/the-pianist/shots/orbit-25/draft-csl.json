@@ -1,0 +1,72 @@
+{
+  "totalDuration": 5,
+  "sections": [
+    {
+      "actions": [
+        {
+          "id": "orbit_subject_25deg",
+          "trigger": {
+            "type": "absoluteTime",
+            "time": 0
+          },
+          "movement": {
+            "act": "arcRight",
+            "targets": [
+              {
+                "id": "$SUBJECT",
+                "description": "$SUBJECT_DESCRIPTION"
+              }
+            ],
+            "duration": 5,
+            "parameters": {
+              "arcAngle": 25,
+              "arcRadius": 6,
+              "constantSpeed": true,
+              "handheld": false
+            }
+          },
+          "constraints": [
+            {
+              "kind": "general",
+              "constraint": "noShake",
+              "allFrames": true
+            },
+            {
+              "kind": "general",
+              "constraint": "keepInFrame",
+              "targets": [
+                {
+                  "id": "$SUBJECT",
+                  "description": "$SUBJECT_DESCRIPTION"
+                }
+              ],
+              "allFrames": true
+            },
+            {
+              "targets": [
+                {
+                  "id": "$SUBJECT",
+                  "description": "$SUBJECT_DESCRIPTION"
+                }
+              ],
+              "config": {
+                "type": "subjectAware",
+                "shotSize": "mediumShot"
+              },
+              "allFrames": true
+            },
+            {
+              "config": {
+                "type": "nonSubjectAware",
+                "intrinsics": {
+                  "fov": 15.7
+                }
+              },
+              "allFrames": true
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,557 @@
+{
+  "totalDuration": 48,
+  "sections": [
+    {
+      "initCamera": {
+        "targets": [
+          {
+            "id": "track_cameraman",
+            "description": "فیلم‌بردار کنار پیست · دوربین اصلی نیست / independent sideline camera operator"
+          }
+        ],
+        "config": {
+          "type": "nonSubjectAware",
+          "extrinsics": {
+            "pose": {
+              "position": {
+                "x": -31.588929,
+                "y": 6.3,
+                "z": -50.71
+              },
+              "rotation": {
+                "x": 0.0313583068,
+                "y": -0.9558810504,
+                "z": -0.2701851246,
+                "w": -0.1109417524
+              }
+            }
+          },
+          "intrinsics": {
+            "fov": 40.0,
+            "aspectRatio": 1.7777777777777777
+          }
+        }
+      },
+      "actions": [
+        {
+          "id": "stadium-04-behind-the-lens-shot-001",
+          "name": "Reveal the working operator",
+          "trigger": {
+            "type": "absoluteTime",
+            "time": 0
+          },
+          "movement": {
+            "act": "dollyOut",
+            "duration": 4,
+            "relativeFPS": "normal",
+            "targets": [
+              {
+                "id": "track_cameraman",
+                "description": "فیلم‌بردار کنار پیست · دوربین اصلی نیست / independent sideline camera operator"
+              }
+            ],
+            "parameters": {
+              "distance": 1,
+              "handheld": false,
+              "path": "linear"
+            }
+          },
+          "constraints": [
+            {
+              "kind": "general",
+              "constraint": "noShake",
+              "allFrames": true
+            },
+            {
+              "kind": "general",
+              "constraint": "keepInFrame",
+              "targets": [
+                {
+                  "id": "track_cameraman",
+                  "description": "فیلم‌بردار کنار پیست · دوربین اصلی نیست / independent sideline camera operator"
+                }
+              ],
+              "allFrames": true
+            },
+            {
+              "kind": "general",
+              "constraint": "avoidOcclusion",
+              "targets": [
+                {
+                  "id": "track_cameraman",
+                  "description": "فیلم‌بردار کنار پیست · دوربین اصلی نیست / independent sideline camera operator"
+                }
+              ],
+              "allFrames": true,
+              "weight": 0.8
+            },
+            {
+              "targets": [
+                {
+                  "id": "track_cameraman",
+                  "description": "فیلم‌بردار کنار پیست · دوربین اصلی نیست / independent sideline camera operator"
+                }
+              ],
+              "config": {
+                "type": "subjectAware",
+                "shotSize": "longShot"
+              },
+              "allFrames": false,
+              "easing": {
+                "inDuration": 0.6,
+                "curve": "easeInOut"
+              }
+            }
+          ]
+        },
+        {
+          "id": "stadium-04-behind-the-lens-shot-002",
+          "name": "Run beside the craft",
+          "trigger": {
+            "type": "absoluteTime",
+            "time": 4
+          },
+          "movement": {
+            "act": "follow",
+            "duration": 10,
+            "relativeFPS": "normal",
+            "targets": [
+              {
+                "id": "track_cameraman",
+                "description": "فیلم‌بردار کنار پیست · دوربین اصلی نیست / independent sideline camera operator"
+              }
+            ],
+            "parameters": {
+              "followDelay": 0.12,
+              "leadAmount": -0.7,
+              "handheld": false,
+              "path": "linear"
+            }
+          },
+          "constraints": [
+            {
+              "kind": "general",
+              "constraint": "noShake",
+              "allFrames": true
+            },
+            {
+              "kind": "general",
+              "constraint": "keepInFrame",
+              "targets": [
+                {
+                  "id": "track_cameraman",
+                  "description": "فیلم‌بردار کنار پیست · دوربین اصلی نیست / independent sideline camera operator"
+                }
+              ],
+              "allFrames": true
+            },
+            {
+              "kind": "general",
+              "constraint": "avoidOcclusion",
+              "targets": [
+                {
+                  "id": "track_cameraman",
+                  "description": "فیلم‌بردار کنار پیست · دوربین اصلی نیست / independent sideline camera operator"
+                }
+              ],
+              "allFrames": true,
+              "weight": 0.8
+            },
+            {
+              "targets": [
+                {
+                  "id": "track_cameraman",
+                  "description": "فیلم‌بردار کنار پیست · دوربین اصلی نیست / independent sideline camera operator"
+                }
+              ],
+              "config": {
+                "type": "subjectAware",
+                "shotSize": "longShot"
+              },
+              "allFrames": false,
+              "easing": {
+                "inDuration": 0.6,
+                "curve": "easeInOut"
+              }
+            }
+          ]
+        },
+        {
+          "id": "stadium-04-behind-the-lens-shot-003",
+          "name": "Let the race slide behind him",
+          "trigger": {
+            "type": "absoluteTime",
+            "time": 14
+          },
+          "movement": {
+            "act": "track",
+            "duration": 13,
+            "relativeFPS": "normal",
+            "targets": [
+              {
+                "id": "track_cameraman",
+                "description": "فیلم‌بردار کنار پیست · دوربین اصلی نیست / independent sideline camera operator"
+              }
+            ],
+            "parameters": {
+              "followDelay": 0.1,
+              "leadAmount": 0.5,
+              "handheld": false,
+              "path": "linear"
+            }
+          },
+          "constraints": [
+            {
+              "kind": "general",
+              "constraint": "noShake",
+              "allFrames": true
+            },
+            {
+              "kind": "general",
+              "constraint": "keepInFrame",
+              "targets": [
+                {
+                  "id": "track_cameraman",
+                  "description": "فیلم‌بردار کنار پیست · دوربین اصلی نیست / independent sideline camera operator"
+                }
+              ],
+              "allFrames": true
+            },
+            {
+              "kind": "general",
+              "constraint": "avoidOcclusion",
+              "targets": [
+                {
+                  "id": "track_cameraman",
+                  "description": "فیلم‌بردار کنار پیست · دوربین اصلی نیست / independent sideline camera operator"
+                }
+              ],
+              "allFrames": true,
+              "weight": 0.8
+            },
+            {
+              "targets": [
+                {
+                  "id": "track_cameraman",
+                  "description": "فیلم‌بردار کنار پیست · دوربین اصلی نیست / independent sideline camera operator"
+                }
+              ],
+              "config": {
+                "type": "subjectAware",
+                "shotSize": "longShot"
+              },
+              "allFrames": false,
+              "easing": {
+                "inDuration": 0.6,
+                "curve": "easeInOut"
+              }
+            }
+          ]
+        },
+        {
+          "id": "stadium-04-behind-the-lens-shot-004",
+          "name": "Lead the operator into the finish",
+          "trigger": {
+            "type": "absoluteTime",
+            "time": 27
+          },
+          "movement": {
+            "act": "follow",
+            "duration": 7,
+            "relativeFPS": "normal",
+            "targets": [
+              {
+                "id": "track_cameraman",
+                "description": "فیلم‌بردار کنار پیست · دوربین اصلی نیست / independent sideline camera operator"
+              }
+            ],
+            "parameters": {
+              "followDelay": 0.08,
+              "leadAmount": 1.5,
+              "handheld": false,
+              "path": "linear"
+            }
+          },
+          "constraints": [
+            {
+              "kind": "general",
+              "constraint": "noShake",
+              "allFrames": true
+            },
+            {
+              "kind": "general",
+              "constraint": "keepInFrame",
+              "targets": [
+                {
+                  "id": "track_cameraman",
+                  "description": "فیلم‌بردار کنار پیست · دوربین اصلی نیست / independent sideline camera operator"
+                }
+              ],
+              "allFrames": true
+            },
+            {
+              "kind": "general",
+              "constraint": "avoidOcclusion",
+              "targets": [
+                {
+                  "id": "track_cameraman",
+                  "description": "فیلم‌بردار کنار پیست · دوربین اصلی نیست / independent sideline camera operator"
+                }
+              ],
+              "allFrames": true,
+              "weight": 0.8
+            },
+            {
+              "targets": [
+                {
+                  "id": "track_cameraman",
+                  "description": "فیلم‌بردار کنار پیست · دوربین اصلی نیست / independent sideline camera operator"
+                }
+              ],
+              "config": {
+                "type": "subjectAware",
+                "shotSize": "longShot"
+              },
+              "allFrames": false,
+              "easing": {
+                "inDuration": 0.6,
+                "curve": "easeInOut"
+              }
+            }
+          ]
+        },
+        {
+          "id": "stadium-04-behind-the-lens-shot-005",
+          "name": "Hold his reaction to the event",
+          "trigger": {
+            "type": "absoluteTime",
+            "time": 34
+          },
+          "movement": {
+            "act": "follow",
+            "duration": 6,
+            "relativeFPS": "normal",
+            "targets": [
+              {
+                "id": "track_cameraman",
+                "description": "فیلم‌بردار کنار پیست · دوربین اصلی نیست / independent sideline camera operator"
+              }
+            ],
+            "parameters": {
+              "followDelay": 0.1,
+              "leadAmount": 1.5,
+              "handheld": false,
+              "path": "linear"
+            }
+          },
+          "constraints": [
+            {
+              "kind": "general",
+              "constraint": "noShake",
+              "allFrames": true
+            },
+            {
+              "kind": "general",
+              "constraint": "keepInFrame",
+              "targets": [
+                {
+                  "id": "track_cameraman",
+                  "description": "فیلم‌بردار کنار پیست · دوربین اصلی نیست / independent sideline camera operator"
+                }
+              ],
+              "allFrames": true
+            },
+            {
+              "kind": "general",
+              "constraint": "avoidOcclusion",
+              "targets": [
+                {
+                  "id": "track_cameraman",
+                  "description": "فیلم‌بردار کنار پیست · دوربین اصلی نیست / independent sideline camera operator"
+                }
+              ],
+              "allFrames": true,
+              "weight": 0.8
+            },
+            {
+              "targets": [
+                {
+                  "id": "track_cameraman",
+                  "description": "فیلم‌بردار کنار پیست · دوربین اصلی نیست / independent sideline camera operator"
+                }
+              ],
+              "config": {
+                "type": "subjectAware",
+                "shotSize": "longShot"
+              },
+              "allFrames": false,
+              "easing": {
+                "inDuration": 0.6,
+                "curve": "easeInOut"
+              }
+            }
+          ]
+        },
+        {
+          "id": "stadium-04-behind-the-lens-shot-006",
+          "name": "Connect craft and spectacle",
+          "trigger": {
+            "type": "absoluteTime",
+            "time": 40
+          },
+          "movement": {
+            "act": "craneUp",
+            "duration": 4,
+            "relativeFPS": "normal",
+            "targets": [
+              {
+                "id": "track_cameraman",
+                "description": "فیلم‌بردار کنار پیست · دوربین اصلی نیست / independent sideline camera operator"
+              }
+            ],
+            "parameters": {
+              "heightChange": 2,
+              "horizontalDistance": 1,
+              "handheld": false,
+              "path": "linear"
+            }
+          },
+          "constraints": [
+            {
+              "kind": "general",
+              "constraint": "noShake",
+              "allFrames": true
+            },
+            {
+              "kind": "general",
+              "constraint": "keepInFrame",
+              "targets": [
+                {
+                  "id": "track_cameraman",
+                  "description": "فیلم‌بردار کنار پیست · دوربین اصلی نیست / independent sideline camera operator"
+                }
+              ],
+              "allFrames": true
+            },
+            {
+              "kind": "general",
+              "constraint": "avoidOcclusion",
+              "targets": [
+                {
+                  "id": "track_cameraman",
+                  "description": "فیلم‌بردار کنار پیست · دوربین اصلی نیست / independent sideline camera operator"
+                }
+              ],
+              "allFrames": true,
+              "weight": 0.8
+            },
+            {
+              "targets": [
+                {
+                  "id": "track_cameraman",
+                  "description": "فیلم‌بردار کنار پیست · دوربین اصلی نیست / independent sideline camera operator"
+                }
+              ],
+              "config": {
+                "type": "subjectAware",
+                "shotSize": "longShot"
+              },
+              "allFrames": false,
+              "easing": {
+                "inDuration": 0.6,
+                "curve": "easeInOut"
+              }
+            }
+          ]
+        },
+        {
+          "id": "stadium-04-behind-the-lens-shot-007",
+          "name": "End with the operator inside the story",
+          "trigger": {
+            "type": "absoluteTime",
+            "time": 44
+          },
+          "movement": {
+            "act": "dollyOut",
+            "duration": 4,
+            "relativeFPS": "normal",
+            "targets": [
+              {
+                "id": "track_cameraman",
+                "description": "فیلم‌بردار کنار پیست · دوربین اصلی نیست / independent sideline camera operator"
+              }
+            ],
+            "parameters": {
+              "distance": 3,
+              "handheld": false,
+              "path": "linear"
+            }
+          },
+          "constraints": [
+            {
+              "kind": "general",
+              "constraint": "noShake",
+              "allFrames": true
+            },
+            {
+              "kind": "general",
+              "constraint": "keepInFrame",
+              "targets": [
+                {
+                  "id": "track_cameraman",
+                  "description": "فیلم‌بردار کنار پیست · دوربین اصلی نیست / independent sideline camera operator"
+                }
+              ],
+              "allFrames": true
+            },
+            {
+              "kind": "general",
+              "constraint": "avoidOcclusion",
+              "targets": [
+                {
+                  "id": "track_cameraman",
+                  "description": "فیلم‌بردار کنار پیست · دوربین اصلی نیست / independent sideline camera operator"
+                }
+              ],
+              "allFrames": true,
+              "weight": 0.8
+            },
+            {
+              "targets": [
+                {
+                  "id": "track_cameraman",
+                  "description": "فیلم‌بردار کنار پیست · دوربین اصلی نیست / independent sideline camera operator"
+                }
+              ],
+              "config": {
+                "type": "subjectAware",
+                "shotSize": "longShot"
+              },
+              "allFrames": false,
+              "easing": {
+                "inDuration": 0.6,
+                "curve": "easeInOut"
+              }
+            }
+          ]
+        },
+        {
+          "id": "stadium-04-behind-the-lens-overlay-01",
+          "name": "Widen the lens by 1.18x during the finish coverage.",
+          "trigger": {
+            "type": "absoluteTime",
+            "time": 34
+          },
+          "movement": {
+            "act": "zoomOut",
+            "duration": 6,
+            "parameters": {
+              "zoomFactor": 1.18,
+              "handheld": false
+            }
+          }
+        }
+      ]
+    }
+  ]
+}

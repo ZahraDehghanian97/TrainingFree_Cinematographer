@@ -1,0 +1,284 @@
+{
+  "note": "Human-readable subset; trajectory.json is the complete replay reference.",
+  "samples": [
+    {
+      "t": 0.0,
+      "position": [
+        12.0,
+        4.0,
+        5.5
+      ],
+      "positionVelocity": [
+        0.0,
+        0.0,
+        -0.0
+      ],
+      "positionAcceleration": [
+        -5e-07,
+        -2e-07,
+        6e-07
+      ],
+      "rotation": [
+        0.1707648842,
+        -0.5396451692,
+        -0.112844455,
+        -0.81663246
+      ],
+      "lookAt": [
+        5.9,
+        1.1,
+        2.9
+      ],
+      "fovYDegrees": 39.0,
+      "actionId": "factory-04-emergency-operator-shot-01"
+    },
+    {
+      "t": 16.0,
+      "position": [
+        10.3,
+        3.3,
+        7.8
+      ],
+      "positionVelocity": [
+        -0.0,
+        -0.0,
+        0.0
+      ],
+      "positionAcceleration": [
+        0.0,
+        0.0,
+        -0.0
+      ],
+      "rotation": [
+        0.1405558352,
+        -0.3709990263,
+        -0.0569175814,
+        -0.9161681989
+      ],
+      "lookAt": [
+        5.65,
+        1.2,
+        3.0
+      ],
+      "fovYDegrees": 36.0,
+      "actionId": "factory-04-emergency-operator-shot-02"
+    },
+    {
+      "t": 20.8,
+      "position": [
+        10.3,
+        3.3,
+        7.8
+      ],
+      "positionVelocity": [
+        -0.0,
+        0.0,
+        0.0
+      ],
+      "positionAcceleration": [
+        -0.0,
+        0.0,
+        0.0
+      ],
+      "rotation": [
+        0.1405558352,
+        -0.3709990263,
+        -0.0569175814,
+        -0.9161681989
+      ],
+      "lookAt": [
+        5.65,
+        1.2,
+        3.0
+      ],
+      "fovYDegrees": 36.0,
+      "actionId": "factory-04-emergency-operator-shot-02"
+    },
+    {
+      "t": 21.7,
+      "position": [
+        10.3,
+        3.3,
+        7.8
+      ],
+      "positionVelocity": [
+        -0.0,
+        0.0,
+        0.0
+      ],
+      "positionAcceleration": [
+        -0.0,
+        0.0,
+        0.0
+      ],
+      "rotation": [
+        0.1405558352,
+        -0.3709990263,
+        -0.0569175814,
+        -0.9161681989
+      ],
+      "lookAt": [
+        5.65,
+        1.2,
+        3.0
+      ],
+      "fovYDegrees": 36.0,
+      "actionId": "factory-04-emergency-operator-shot-02"
+    },
+    {
+      "t": 22.7,
+      "position": [
+        10.3,
+        3.3,
+        7.8
+      ],
+      "positionVelocity": [
+        -0.0,
+        0.0,
+        0.0
+      ],
+      "positionAcceleration": [
+        -0.0,
+        0.0,
+        0.0
+      ],
+      "rotation": [
+        0.1405558352,
+        -0.3709990263,
+        -0.0569175814,
+        -0.9161681989
+      ],
+      "lookAt": [
+        5.65,
+        1.2,
+        3.0
+      ],
+      "fovYDegrees": 36.0,
+      "actionId": "factory-04-emergency-operator-shot-02"
+    },
+    {
+      "t": 24.0,
+      "position": [
+        10.3,
+        3.3,
+        7.8
+      ],
+      "positionVelocity": [
+        -0.0,
+        0.0,
+        0.0
+      ],
+      "positionAcceleration": [
+        -2e-07,
+        2e-07,
+        3e-07
+      ],
+      "rotation": [
+        0.1405558352,
+        -0.3709990263,
+        -0.0569175814,
+        -0.9161681989
+      ],
+      "lookAt": [
+        5.65,
+        1.2,
+        3.0
+      ],
+      "fovYDegrees": 36.0,
+      "actionId": "factory-04-emergency-operator-shot-03"
+    },
+    {
+      "t": 28.0,
+      "position": [
+        9.401502,
+        4.0187984,
+        8.8781976
+      ],
+      "positionVelocity": [
+        -0.5111424,
+        0.4089139,
+        0.6133709
+      ],
+      "positionAcceleration": [
+        -0.1095307,
+        0.0876245,
+        0.1314368
+      ],
+      "rotation": [
+        0.1720698603,
+        -0.3025035971,
+        -0.0556205637,
+        -0.9358364653
+      ],
+      "lookAt": [
+        5.0467228,
+        1.1871643,
+        2.8459718
+      ],
+      "fovYDegrees": 39.0805645,
+      "actionId": "factory-04-emergency-operator-shot-03"
+    },
+    {
+      "t": 35.0,
+      "position": [
+        6.8,
+        6.1,
+        12.0
+      ],
+      "positionVelocity": [
+        -0.0,
+        0.0,
+        0.0
+      ],
+      "positionAcceleration": [
+        1e-07,
+        -2e-07,
+        -3e-07
+      ],
+      "rotation": [
+        0.2202424845,
+        -0.1695093237,
+        -0.0388961542,
+        -0.9598160899
+      ],
+      "lookAt": [
+        3.3,
+        1.15,
+        2.4
+      ],
+      "fovYDegrees": 48.0,
+      "actionId": "factory-04-emergency-operator-shot-04"
+    },
+    {
+      "t": 48.0,
+      "position": [
+        3.8,
+        6.1,
+        12.0
+      ],
+      "positionVelocity": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "positionAcceleration": [
+        1.8e-06,
+        0.0,
+        0.0
+      ],
+      "rotation": [
+        0.2391737497,
+        -0.0356987833,
+        -0.0087997364,
+        -0.9702804126
+      ],
+      "lookAt": [
+        3.1,
+        1.1,
+        2.5
+      ],
+      "fovYDegrees": 48.0,
+      "actionId": "factory-04-emergency-operator-shot-04"
+    }
+  ]
+}

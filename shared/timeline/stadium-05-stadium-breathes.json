@@ -1,0 +1,368 @@
+{
+  "schemaVersion": "1.0",
+  "kind": "timelineSolverOutput",
+  "exampleId": "stadium-05-stadium-breathes",
+  "environmentId": "stadium",
+  "prompt": "Make a 48-second architectural aerial master of the stadium, not a close-up sports shot. Keep the athletics oval, infield football pitch, and stands readable together. Move through a steady 60-degree rightward arc around the centre at an approximately 170-metre horizontal radius. Begin at 67 metres height, descend smoothly to 58 metres over the first 12 seconds, hold that height until 36 seconds, then rise smoothly to 73 metres by the end. Use a fixed 58-degree vertical field of view and a level horizon. The ongoing race and football match should remain environmental activity inside the composition; do not promise facial or ball detail from this distance. Preserve the full normal-speed scene clock and use no cuts, zooms, shake, or sudden changes of angular pace.",
+  "totalDuration": 48,
+  "subjectBinding": {
+    "mode": "resolved",
+    "source": "resolved-fixture"
+  },
+  "timeline": {
+    "timeline": [
+      {
+        "kind": "interval",
+        "shotStartTime": 0,
+        "startTime": 0,
+        "endTime": 12,
+        "lossFunctions": [
+          {
+            "type": "arcMovement",
+            "parameters": {
+              "sign": 1,
+              "arcAngle": 15,
+              "arcRadius": 170,
+              "subjectIds": [
+                "athletics_track",
+                "football_pitch"
+              ],
+              "constantSpeed": true
+            },
+            "sourceActionId": "stadium-05-stadium-breathes-shot-01"
+          }
+        ],
+        "weight": 1
+      },
+      {
+        "kind": "interval",
+        "shotStartTime": 0,
+        "startTime": 0,
+        "endTime": 12,
+        "lossFunctions": [
+          {
+            "type": "noShake",
+            "parameters": {},
+            "sourceActionId": "stadium-05-stadium-breathes-shot-01"
+          }
+        ],
+        "weight": 1
+      },
+      {
+        "kind": "interval",
+        "shotStartTime": 0,
+        "startTime": 0,
+        "endTime": 12,
+        "lossFunctions": [
+          {
+            "type": "keepInFrame",
+            "parameters": {
+              "subjectIds": [
+                "athletics_track",
+                "football_pitch"
+              ]
+            },
+            "sourceActionId": "stadium-05-stadium-breathes-shot-01"
+          }
+        ],
+        "weight": 1
+      },
+      {
+        "kind": "interval",
+        "shotStartTime": 0,
+        "startTime": 0,
+        "endTime": 12,
+        "lossFunctions": [
+          {
+            "type": "craneDownMovement",
+            "parameters": {
+              "heightChange": 9
+            },
+            "sourceActionId": "stadium-05-stadium-breathes-overlay-01"
+          }
+        ],
+        "weight": 1
+      },
+      {
+        "kind": "point",
+        "shotStartTime": 0,
+        "time": 0,
+        "lossFunctions": [
+          {
+            "type": "minPath",
+            "parameters": {
+              "targetPose": {
+                "position": {
+                  "x": 71.8451045,
+                  "y": 67,
+                  "z": 154.0723238
+                },
+                "rotation": {
+                  "x": 0.1819444452,
+                  "y": -0.2126478416,
+                  "z": -0.0403361124,
+                  "w": -0.9591924272
+                }
+              },
+              "targetIntrinsics": {
+                "fov": 58,
+                "aspectRatio": 1.7777777777777777
+              }
+            }
+          }
+        ],
+        "weight": 1
+      },
+      {
+        "kind": "point",
+        "shotStartTime": 0,
+        "time": 12,
+        "lossFunctions": [
+          {
+            "type": "minPath",
+            "parameters": {
+              "targetPose": {
+                "position": {
+                  "x": 109.2738936,
+                  "y": 58,
+                  "z": 130.2275553
+                },
+                "rotation": {
+                  "x": 0.1535428552,
+                  "y": -0.337423535,
+                  "z": -0.055885029,
+                  "w": -0.9270635432
+                }
+              },
+              "targetIntrinsics": {
+                "fov": 58,
+                "aspectRatio": 1.7777777777777777
+              }
+            }
+          }
+        ],
+        "weight": 1,
+        "easing": {
+          "inDuration": 1,
+          "curve": "easeInOut"
+        }
+      },
+      {
+        "kind": "interval",
+        "shotStartTime": 0,
+        "startTime": 12,
+        "endTime": 36,
+        "lossFunctions": [
+          {
+            "type": "arcMovement",
+            "parameters": {
+              "sign": 1,
+              "arcAngle": 30,
+              "arcRadius": 170,
+              "subjectIds": [
+                "athletics_track",
+                "football_pitch"
+              ],
+              "constantSpeed": true
+            },
+            "sourceActionId": "stadium-05-stadium-breathes-shot-02"
+          }
+        ],
+        "weight": 1
+      },
+      {
+        "kind": "interval",
+        "shotStartTime": 0,
+        "startTime": 12,
+        "endTime": 36,
+        "lossFunctions": [
+          {
+            "type": "noShake",
+            "parameters": {},
+            "sourceActionId": "stadium-05-stadium-breathes-shot-02"
+          }
+        ],
+        "weight": 1
+      },
+      {
+        "kind": "interval",
+        "shotStartTime": 0,
+        "startTime": 12,
+        "endTime": 36,
+        "lossFunctions": [
+          {
+            "type": "keepInFrame",
+            "parameters": {
+              "subjectIds": [
+                "athletics_track",
+                "football_pitch"
+              ]
+            },
+            "sourceActionId": "stadium-05-stadium-breathes-shot-02"
+          }
+        ],
+        "weight": 1
+      },
+      {
+        "kind": "point",
+        "shotStartTime": 0,
+        "time": 36,
+        "lossFunctions": [
+          {
+            "type": "minPath",
+            "parameters": {
+              "targetPose": {
+                "position": {
+                  "x": 159.7477455,
+                  "y": 58,
+                  "z": 58.1434244
+                },
+                "rotation": {
+                  "x": 0.1338468994,
+                  "y": -0.5658678079,
+                  "z": -0.0937206079,
+                  "w": -0.8081429819
+                }
+              },
+              "targetIntrinsics": {
+                "fov": 58,
+                "aspectRatio": 1.7777777777777777
+              }
+            }
+          }
+        ],
+        "weight": 1,
+        "easing": {
+          "inDuration": 1,
+          "curve": "easeInOut"
+        }
+      },
+      {
+        "kind": "interval",
+        "shotStartTime": 0,
+        "startTime": 36,
+        "endTime": 48,
+        "lossFunctions": [
+          {
+            "type": "arcMovement",
+            "parameters": {
+              "sign": 1,
+              "arcAngle": 15,
+              "arcRadius": 170,
+              "subjectIds": [
+                "athletics_track",
+                "football_pitch"
+              ],
+              "constantSpeed": true
+            },
+            "sourceActionId": "stadium-05-stadium-breathes-shot-03"
+          }
+        ],
+        "weight": 1
+      },
+      {
+        "kind": "interval",
+        "shotStartTime": 0,
+        "startTime": 36,
+        "endTime": 48,
+        "lossFunctions": [
+          {
+            "type": "noShake",
+            "parameters": {},
+            "sourceActionId": "stadium-05-stadium-breathes-shot-03"
+          }
+        ],
+        "weight": 1
+      },
+      {
+        "kind": "interval",
+        "shotStartTime": 0,
+        "startTime": 36,
+        "endTime": 48,
+        "lossFunctions": [
+          {
+            "type": "keepInFrame",
+            "parameters": {
+              "subjectIds": [
+                "athletics_track",
+                "football_pitch"
+              ]
+            },
+            "sourceActionId": "stadium-05-stadium-breathes-shot-03"
+          }
+        ],
+        "weight": 1
+      },
+      {
+        "kind": "interval",
+        "shotStartTime": 0,
+        "startTime": 36,
+        "endTime": 48,
+        "lossFunctions": [
+          {
+            "type": "craneUpMovement",
+            "parameters": {
+              "heightChange": 15
+            },
+            "sourceActionId": "stadium-05-stadium-breathes-overlay-02"
+          }
+        ],
+        "weight": 1
+      },
+      {
+        "kind": "point",
+        "shotStartTime": 0,
+        "time": 48,
+        "lossFunctions": [
+          {
+            "type": "minPath",
+            "parameters": {
+              "targetPose": {
+                "position": {
+                  "x": 169.3530987,
+                  "y": 73,
+                  "z": 14.8164763
+                },
+                "rotation": {
+                  "x": 0.1483182129,
+                  "y": -0.6617786492,
+                  "z": -0.1359086021,
+                  "w": -0.7222046657
+                }
+              },
+              "targetIntrinsics": {
+                "fov": 58,
+                "aspectRatio": 1.7777777777777777
+              }
+            }
+          }
+        ],
+        "weight": 1,
+        "easing": {
+          "inDuration": 1,
+          "curve": "easeInOut"
+        }
+      }
+    ],
+    "timeWarp": [
+      {
+        "startTimePlayback": 0,
+        "endTimePlayback": 12,
+        "rate": 1,
+        "label": "normal"
+      },
+      {
+        "startTimePlayback": 12,
+        "endTimePlayback": 36,
+        "rate": 1,
+        "label": "normal"
+      },
+      {
+        "startTimePlayback": 36,
+        "endTimePlayback": 48,
+        "rate": 1,
+        "label": "normal"
+      }
+    ]
+  }
+}

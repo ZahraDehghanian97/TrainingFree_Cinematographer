@@ -1,0 +1,522 @@
+{
+  "timeline": [
+    {
+      "kind": "interval",
+      "shotStartTime": 0,
+      "startTime": 0,
+      "endTime": 10,
+      "lossFunctions": [
+        {
+          "type": "followMovement",
+          "parameters": {
+            "subjectId": "runner_03",
+            "path": "spline",
+            "handheld": false
+          },
+          "sourceActionId": "stadium-02-fall-and-resolve-shot-01"
+        }
+      ],
+      "weight": 1
+    },
+    {
+      "kind": "interval",
+      "shotStartTime": 0,
+      "startTime": 0,
+      "endTime": 10,
+      "lossFunctions": [
+        {
+          "type": "noShake",
+          "parameters": {},
+          "sourceActionId": "stadium-02-fall-and-resolve-shot-01"
+        }
+      ],
+      "weight": 1
+    },
+    {
+      "kind": "interval",
+      "shotStartTime": 0,
+      "startTime": 0,
+      "endTime": 10,
+      "lossFunctions": [
+        {
+          "type": "keepInFrame",
+          "parameters": {
+            "subjectId": "runner_03"
+          },
+          "sourceActionId": "stadium-02-fall-and-resolve-shot-01"
+        }
+      ],
+      "weight": 1
+    },
+    {
+      "kind": "point",
+      "shotStartTime": 0,
+      "time": 0,
+      "lossFunctions": [
+        {
+          "type": "minPath",
+          "parameters": {
+            "targetPose": {
+              "position": {
+                "x": -39.754415,
+                "y": 5.2,
+                "z": -46.05
+              },
+              "rotation": {
+                "x": 0.0147449765,
+                "y": -0.9774370161,
+                "z": -0.197699408,
+                "w": -0.0728999948
+              }
+            },
+            "targetIntrinsics": {
+              "fov": 39,
+              "aspectRatio": 1.7777777777777777
+            }
+          }
+        }
+      ],
+      "weight": 1
+    },
+    {
+      "kind": "point",
+      "shotStartTime": 0,
+      "time": 10,
+      "lossFunctions": [
+        {
+          "type": "minPath",
+          "parameters": {
+            "targetPose": {
+              "position": {
+                "x": -78.8001705,
+                "y": 4.5,
+                "z": -30.866869
+              },
+              "rotation": {
+                "x": -0.0620643388,
+                "y": -0.9258610819,
+                "z": -0.1744551248,
+                "w": 0.3293853127
+              }
+            },
+            "targetIntrinsics": {
+              "fov": 37,
+              "aspectRatio": 1.7777777777777777
+            }
+          }
+        }
+      ],
+      "weight": 1,
+      "easing": {
+        "inDuration": 1,
+        "curve": "easeInOut"
+      }
+    },
+    {
+      "kind": "interval",
+      "shotStartTime": 0,
+      "startTime": 10,
+      "endTime": 18.5,
+      "lossFunctions": [
+        {
+          "type": "followMovement",
+          "parameters": {
+            "subjectId": "runner_03",
+            "path": "spline",
+            "handheld": false
+          },
+          "sourceActionId": "stadium-02-fall-and-resolve-shot-02"
+        }
+      ],
+      "weight": 1
+    },
+    {
+      "kind": "interval",
+      "shotStartTime": 0,
+      "startTime": 10,
+      "endTime": 18.5,
+      "lossFunctions": [
+        {
+          "type": "noShake",
+          "parameters": {},
+          "sourceActionId": "stadium-02-fall-and-resolve-shot-02"
+        }
+      ],
+      "weight": 1
+    },
+    {
+      "kind": "interval",
+      "shotStartTime": 0,
+      "startTime": 10,
+      "endTime": 18.5,
+      "lossFunctions": [
+        {
+          "type": "keepInFrame",
+          "parameters": {
+            "subjectId": "runner_03"
+          },
+          "sourceActionId": "stadium-02-fall-and-resolve-shot-02"
+        }
+      ],
+      "weight": 1
+    },
+    {
+      "kind": "interval",
+      "shotStartTime": 0,
+      "startTime": 10,
+      "endTime": 13.5,
+      "lossFunctions": [
+        {
+          "type": "dollyOutMovement",
+          "parameters": {
+            "subjectId": "runner_03"
+          },
+          "sourceActionId": "stadium-02-fall-and-resolve-overlay-01"
+        }
+      ],
+      "weight": 1
+    },
+    {
+      "kind": "interval",
+      "shotStartTime": 0,
+      "startTime": 10,
+      "endTime": 13.5,
+      "lossFunctions": [
+        {
+          "type": "craneUpMovement",
+          "parameters": {},
+          "sourceActionId": "stadium-02-fall-and-resolve-overlay-02"
+        }
+      ],
+      "weight": 1
+    },
+    {
+      "kind": "point",
+      "shotStartTime": 0,
+      "time": 18.5,
+      "lossFunctions": [
+        {
+          "type": "minPath",
+          "parameters": {
+            "targetPose": {
+              "position": {
+                "x": -95.1931579,
+                "y": 6,
+                "z": -5.750008
+              },
+              "rotation": {
+                "x": -0.1126251576,
+                "y": -0.7606795063,
+                "z": -0.1372098111,
+                "w": 0.6243842809
+              }
+            },
+            "targetIntrinsics": {
+              "fov": 45,
+              "aspectRatio": 1.7777777777777777
+            }
+          }
+        }
+      ],
+      "weight": 1,
+      "easing": {
+        "inDuration": 1,
+        "curve": "easeInOut"
+      }
+    },
+    {
+      "kind": "interval",
+      "shotStartTime": 0,
+      "startTime": 18.5,
+      "endTime": 24,
+      "lossFunctions": [
+        {
+          "type": "followMovement",
+          "parameters": {
+            "subjectId": "runner_03",
+            "path": "spline",
+            "handheld": false
+          },
+          "sourceActionId": "stadium-02-fall-and-resolve-shot-03"
+        }
+      ],
+      "weight": 1
+    },
+    {
+      "kind": "interval",
+      "shotStartTime": 0,
+      "startTime": 18.5,
+      "endTime": 24,
+      "lossFunctions": [
+        {
+          "type": "noShake",
+          "parameters": {},
+          "sourceActionId": "stadium-02-fall-and-resolve-shot-03"
+        }
+      ],
+      "weight": 1
+    },
+    {
+      "kind": "interval",
+      "shotStartTime": 0,
+      "startTime": 18.5,
+      "endTime": 24,
+      "lossFunctions": [
+        {
+          "type": "keepInFrame",
+          "parameters": {
+            "subjectId": "runner_03"
+          },
+          "sourceActionId": "stadium-02-fall-and-resolve-shot-03"
+        }
+      ],
+      "weight": 1
+    },
+    {
+      "kind": "interval",
+      "shotStartTime": 0,
+      "startTime": 18.5,
+      "endTime": 24,
+      "lossFunctions": [
+        {
+          "type": "dollyInMovement",
+          "parameters": {
+            "subjectId": "runner_03"
+          },
+          "sourceActionId": "stadium-02-fall-and-resolve-overlay-03"
+        }
+      ],
+      "weight": 1
+    },
+    {
+      "kind": "point",
+      "shotStartTime": 0,
+      "time": 24,
+      "lossFunctions": [
+        {
+          "type": "minPath",
+          "parameters": {
+            "targetPose": {
+              "position": {
+                "x": -81.7881941,
+                "y": 4.8,
+                "z": 28.9683107
+              },
+              "rotation": {
+                "x": -0.1590244271,
+                "y": -0.4742766353,
+                "z": -0.0875512,
+                "w": 0.8614567268
+              }
+            },
+            "targetIntrinsics": {
+              "fov": 38,
+              "aspectRatio": 1.7777777777777777
+            }
+          }
+        }
+      ],
+      "weight": 1,
+      "easing": {
+        "inDuration": 1,
+        "curve": "easeInOut"
+      }
+    },
+    {
+      "kind": "interval",
+      "shotStartTime": 0,
+      "startTime": 24,
+      "endTime": 41,
+      "lossFunctions": [
+        {
+          "type": "followMovement",
+          "parameters": {
+            "subjectId": "runner_03",
+            "path": "spline",
+            "handheld": false
+          },
+          "sourceActionId": "stadium-02-fall-and-resolve-shot-04"
+        }
+      ],
+      "weight": 1
+    },
+    {
+      "kind": "interval",
+      "shotStartTime": 0,
+      "startTime": 24,
+      "endTime": 41,
+      "lossFunctions": [
+        {
+          "type": "noShake",
+          "parameters": {},
+          "sourceActionId": "stadium-02-fall-and-resolve-shot-04"
+        }
+      ],
+      "weight": 1
+    },
+    {
+      "kind": "interval",
+      "shotStartTime": 0,
+      "startTime": 24,
+      "endTime": 41,
+      "lossFunctions": [
+        {
+          "type": "keepInFrame",
+          "parameters": {
+            "subjectId": "runner_03"
+          },
+          "sourceActionId": "stadium-02-fall-and-resolve-shot-04"
+        }
+      ],
+      "weight": 1
+    },
+    {
+      "kind": "point",
+      "shotStartTime": 0,
+      "time": 41,
+      "lossFunctions": [
+        {
+          "type": "minPath",
+          "parameters": {
+            "targetPose": {
+              "position": {
+                "x": 15.210475,
+                "y": 4.8,
+                "z": 46.05
+              },
+              "rotation": {
+                "x": -0.1810295154,
+                "y": -0.0731404673,
+                "z": -0.0135016891,
+                "w": 0.9806612519
+              }
+            },
+            "targetIntrinsics": {
+              "fov": 38,
+              "aspectRatio": 1.7777777777777777
+            }
+          }
+        }
+      ],
+      "weight": 1,
+      "easing": {
+        "inDuration": 1,
+        "curve": "easeInOut"
+      }
+    },
+    {
+      "kind": "interval",
+      "shotStartTime": 0,
+      "startTime": 41,
+      "endTime": 48,
+      "lossFunctions": [
+        {
+          "type": "craneUpMovement",
+          "parameters": {
+            "subjectId": "runner_03",
+            "path": "spline",
+            "handheld": false
+          },
+          "sourceActionId": "stadium-02-fall-and-resolve-shot-05"
+        }
+      ],
+      "weight": 1
+    },
+    {
+      "kind": "interval",
+      "shotStartTime": 0,
+      "startTime": 41,
+      "endTime": 48,
+      "lossFunctions": [
+        {
+          "type": "noShake",
+          "parameters": {},
+          "sourceActionId": "stadium-02-fall-and-resolve-shot-05"
+        }
+      ],
+      "weight": 1
+    },
+    {
+      "kind": "interval",
+      "shotStartTime": 0,
+      "startTime": 41,
+      "endTime": 48,
+      "lossFunctions": [
+        {
+          "type": "keepInFrame",
+          "parameters": {
+            "subjectId": "runner_03"
+          },
+          "sourceActionId": "stadium-02-fall-and-resolve-shot-05"
+        }
+      ],
+      "weight": 1
+    },
+    {
+      "kind": "point",
+      "shotStartTime": 0,
+      "time": 48,
+      "lossFunctions": [
+        {
+          "type": "minPath",
+          "parameters": {
+            "targetPose": {
+              "position": {
+                "x": 36.8,
+                "y": 8,
+                "z": 51.05
+              },
+              "rotation": {
+                "x": -0.2171129939,
+                "y": -0.0486224777,
+                "z": -0.0108286454,
+                "w": 0.9748746294
+              }
+            },
+            "targetIntrinsics": {
+              "fov": 46,
+              "aspectRatio": 1.7777777777777777
+            }
+          }
+        }
+      ],
+      "weight": 1,
+      "easing": {
+        "inDuration": 1,
+        "curve": "easeInOut"
+      }
+    }
+  ],
+  "timeWarp": [
+    {
+      "startTimePlayback": 0,
+      "endTimePlayback": 10,
+      "rate": 1,
+      "label": "normal"
+    },
+    {
+      "startTimePlayback": 10,
+      "endTimePlayback": 18.5,
+      "rate": 1,
+      "label": "normal"
+    },
+    {
+      "startTimePlayback": 18.5,
+      "endTimePlayback": 24,
+      "rate": 1,
+      "label": "normal"
+    },
+    {
+      "startTimePlayback": 24,
+      "endTimePlayback": 41,
+      "rate": 1,
+      "label": "normal"
+    },
+    {
+      "startTimePlayback": 41,
+      "endTimePlayback": 48,
+      "rate": 1,
+      "label": "normal"
+    }
+  ]
+}

@@ -1,374 +1,107 @@
 import {
   CameraMovementType,
-  RelativeFPS,
-  RelativeTimeReference,
+  ConstraintType,
 } from "../types/enums";
-import {
-  Action,
+import type {
   ConstraintConfig,
+  GeneralConstraintConfig,
+  ActionConstraintConfig,
   InitCamera,
-  Movement,
-  RelativeTimeTrigger,
-  Section,
-  SpeedKeyframe,
-  TriggerSpec,
 } from "../types/dsl";
 import {
-  Constraint,
-  IntervalConstraint,
-  SinglePointConstraint,
-  SectionSolverOutput,
-  TimelineSolverOutput,
-  LossFunction,
   LossFunctionType,
-  TimeWarpSegment,
+  type Constraint,
+  type IntervalConstraint,
+  type SinglePointConstraint,
+  type SectionSolverOutput,
+  type TimelineSolverOutput,
+  type LossFunction,
+  type TimeWarpSegment,
 } from "../types/solver";
-import { CameraDirectionDSL } from "../types/dsl";
+import type { CameraDirectionDSL } from "../types/dsl";
 import {
   MOVEMENT_TO_LOSS,
-  DEFAULT_DISTANCE_TRIGGER_OFFSET,
-  DEFAULT_VELOCITY_TRIGGER_OFFSET,
-  DEFAULT_DOLLY_DISTANCE,
-  DEFAULT_ROTATION_ANGLE,
-  DEFAULT_ARC_ANGLE,
-  DEFAULT_ARC_RADIUS,
-  FPS_DURATION_WEIGHT,
+  SCENE_PLAYBACK_RATE,
 } from "./constants";
-import { CameraConfig } from "../types/camera";
-import { log } from "node:console";
-import util from "util";
+import type { CameraConfig, Target } from "../types/camera";
+import { validatePointConstraintEasing } from "./easing";
+import { assertResolvedCameraDirection } from "../grounding/validation";
+import { resolveActionTimings, type TimedAction } from "./timing";
+import type { EnvironmentV1 } from "../types/environment";
 
-interface TimedAction extends Action {
-  startTime?: number;
-  duration?: number;
-  endTime?: number;
-}
-
-function resolveAnchorTime(
-  action: TimedAction,
-  reference: RelativeTimeReference,
-): number | undefined {
-  switch (reference) {
-    case RelativeTimeReference.Start:
-      return action.startTime;
-    case RelativeTimeReference.End:
-      return action.endTime;
-    case RelativeTimeReference.Middle:
-      return (action.startTime !== undefined && action.endTime !== undefined)
-        ? (action.startTime + action.endTime) / 2
-        : undefined;
-  }
-}
-
-export function solveTimeline(dsl: CameraDirectionDSL): TimelineSolverOutput {
+export function solveTimeline(
+  dsl: CameraDirectionDSL,
+  environment?: EnvironmentV1,
+): TimelineSolverOutput {
+  assertResolvedCameraDirection(dsl);
   const sections: SectionSolverOutput[] = [];
-  const totalDuration: number = dsl.totalDuration
+  const totalDuration = dsl.totalDuration;
 
   const allResolvedActions = resolveActionTimings(
     dsl.sections,
-    totalDuration
+    totalDuration,
+    environment,
   );
 
-  let resolvedActions : TimedAction[] = []
-  for (let i = 0; i < dsl.sections.length; i++) {
-    const section = dsl.sections[i]!;
-
-    resolvedActions = allResolvedActions.filter(a =>
-    section.actions.some(sa => sa.id === a.id)
+  for (const section of dsl.sections) {
+    const resolvedActions = allResolvedActions.filter(a =>
+      section.actions.some(sa => sa.id === a.id)
     );
 
-    const initCameraStartTime =
-    resolvedActions.length > 0
-    ? Math.min(...resolvedActions.map(a => a.startTime!))
-    : 0;
-
-    // 3. Build constraints
-    const initKeyframes: SinglePointConstraint[] = [
-    buildInitialKeyframe(
-    section.initCamera,
-    initCameraStartTime
-      ),
-    ];
-
+    const startTime = resolvedActions.length > 0
+      ? Math.min(...resolvedActions.map(a => a.startTime!))
+      : 0;
+    const initKeyframes = section.initCamera === undefined
+      ? []
+      : [buildInitialKeyframe(section.initCamera, startTime)];
 
     sections.push({
-      initKeyframes: initKeyframes,
+      startTime,
+      initKeyframes,
       constraints: resolvedActions.flatMap(buildActionConstraints),
     });
-
-
   }
   
   const timeWarp: TimeWarpSegment[] = [];
 
-  for (const action of resolvedActions) {
+  for (const action of allResolvedActions) {
+    const label = action.movement.relativeFPS;
+    if (
+      label === undefined
+      || action.startTime === undefined
+      || action.endTime === undefined
+      || !hasActionInterval(action)
+    ) {
+      continue;
+    }
 
-      const rate =
-          FPS_DURATION_WEIGHT[
-              action.movement.relativeFPS ??
-              RelativeFPS.Normal
-          ];
-
-      timeWarp.push({
-          startTimePlayback: action.startTime!,
-          endTimePlayback: action.endTime!,
-          rate
-      });
+    timeWarp.push({
+      startTimePlayback: action.startTime,
+      endTimePlayback: action.endTime,
+      rate: SCENE_PLAYBACK_RATE[label],
+      label,
+    });
   }
+
+  timeWarp.sort((a, b) =>
+    a.startTimePlayback - b.startTimePlayback
+    || a.endTimePlayback - b.endTimePlayback
+  );
 
   return { sections, timeWarp };
 }
 
-function isIndependentTrigger(t: TriggerSpec): boolean {
-  return "type" in t && (
-    t.type === "absoluteTime" ||
-    t.type === "distance" ||
-    t.type === "velocity"
-  );
-}
-
-function isRelativeTrigger(t: TriggerSpec): t is RelativeTimeTrigger {
-  return "type" in t && t.type === "relativeTime";
-}
-
-function resolveIndependentTriggerOffset(t: TriggerSpec): number {
-  if (!("type" in t)) return 0;
-
-  switch (t.type) {
-    case "absoluteTime": return t.time;
-    case "distance": return DEFAULT_DISTANCE_TRIGGER_OFFSET; // TODO: Must be replaced with real function
-    case "velocity": return DEFAULT_VELOCITY_TRIGGER_OFFSET; // TODO: Must be replaced with real function
-    default: return 0;
-  }
-}
-
-// Helper: Find the longest sequential chain waiting after this action
-function getSequentialChainDepth(actionId: string, allActions: Action[]): number {
-  const sequentialChildren = allActions.filter(a =>
-    isRelativeTrigger(a.trigger)
-    && a.trigger.actionId === actionId
-    && a.trigger.reference === RelativeTimeReference.End,
-  );
-
-  if (sequentialChildren.length === 0) return 0;
-
-  // Return 1 + the max depth of any sequential branch
-  return 1 + Math.max(...sequentialChildren.map(c => getSequentialChainDepth(c.id, allActions)));
-}
-
-// The Recursive Resolver
-function resolveBranch(
-  current: TimedAction,
-  windowEnd: number,
-  state: Map<string, TimedAction>,
-  allActions: Action[],
-): void {
-  if (current.duration === undefined) {
-    const available = windowEnd - current.startTime!;
-    const chainDepth = getSequentialChainDepth(current.id, allActions);
-    current.duration = Math.max(0, available / (chainDepth + 1));
-    current.endTime = current.startTime! + current.duration;
-  }
-
-  // Resolve every dependent action
-  const dependents = allActions
-    .map(a => state.get(a.id)!)
-    .filter(a => isRelativeTrigger(a.trigger) && (a.trigger as RelativeTimeTrigger).actionId === current.id);
-
-  // Now resolve all children
-  for (const dep of dependents) {
-    const trigger = dep.trigger as RelativeTimeTrigger;
-    const anchor = resolveAnchorTime(current, trigger.reference);
-
-    if (anchor !== undefined) {
-      dep.startTime = anchor + trigger.offset;
-      // Recurse: resolve this child's branch using the same window limit
-      resolveBranch(dep, windowEnd, state, allActions);
-    }
-  }
-}
-
-function resolveActionTimings(
-  sections: Section[],
-  totalDuration: number
-): TimedAction[] {
-
-  const allActions: Action[] = sections.flatMap(s => s.actions);
-  const state = new Map<string, TimedAction>();
-  for (const a of allActions) {
-    state.set(a.id, { ...a });
-  }
-
-  // PASS 1: Apply offset to absolute triggers
-  for (const a of state.values()) {
-    if (isIndependentTrigger(a.trigger)) {
-      // Scale absolute time to fit within the section offset
-      // If absolute time is 0, it starts at sectionOffset
-      a.startTime = resolveIndependentTriggerOffset(a.trigger);
-    }
-  }
-
-  //   PASS 2 — estimate durations if possible
-  for (const a of state.values()) {
-    if (a.startTime === undefined) continue;
-    if (a.movement.duration !== undefined) {
-      a.duration = a.movement.duration;
-      a.endTime = a.startTime + a.duration;
-    }
-  }
-
-  //  PASS 3 — resolve relative startTimes
-
-  let progress = true;
-
-  while (progress) {
-    progress = false;
-
-    for (const a of state.values()) {
-
-      if (a.startTime !== undefined) continue;
-      if (!isRelativeTrigger(a.trigger)) continue;
-
-      const ref = state.get(a.trigger.actionId);
-      if (!ref) continue;
-
-      const anchor = resolveAnchorTime(ref, a.trigger.reference);
-      if (anchor === undefined) continue;
-
-      a.startTime = anchor + a.trigger.offset;
-      progress = true;
-    }
-  }
-
-  // PASS 4 — Global Window Allocation
-
-  const roots = Array.from(state.values())
-    .filter(a => a.startTime !== undefined && !isRelativeTrigger(a.trigger))
-    .sort((a, b) => a.startTime! - b.startTime!);
- 
-  interface RootGroup {
-  startTime: number;
-  actions: TimedAction[];
-  }
-
-  const groups: RootGroup[] = [];
-
-  for (const root of roots) {
-
-    const last = groups.at(-1);
-
-    if (
-      last &&
-      Math.abs(last.startTime - root.startTime!) < 1e-6
-    ) {
-      last.actions.push(root);
-    } else {
-      groups.push({
-        startTime: root.startTime!,
-        actions: [root]
-      });
-    }
-  }
-
-  for (let i = 0; i < groups.length; i++) {
-
-    const group = groups[i]!;
-
-    const nextGroupStart =
-      groups[i + 1]?.startTime;
-
-    const windowEnd =
-      nextGroupStart ?? totalDuration;
-
-    for (const root of group.actions) {
-      resolveBranch(
-        root,
-        windowEnd,
-        state,
-        allActions
-      );
-    }
-  }
-
-  return allActions.map(a => state.get(a.id)!);
-}
-
-function degreesToDistance(deg: number, radius = 1): number {
-  // Degree to distance conversion using radian
-  return (deg * Math.PI / 180) * radius;
-}
-
-function estimateDistance(m: Movement): number {
-  const p = m.parameters ?? {};
-
-  switch (m.act) {
-    case CameraMovementType.PanLeft:
-    case CameraMovementType.PanRight:
-    case CameraMovementType.TiltUp:
-    case CameraMovementType.TiltDown:
-      return degreesToDistance(p.rotationAngle ?? 30);
-
-    case CameraMovementType.DollyIn:
-    case CameraMovementType.DollyOut:
-    case CameraMovementType.TruckLeft:
-    case CameraMovementType.TruckRight:
-    case CameraMovementType.PedestalUp:
-    case CameraMovementType.PedestalDown:
-      return p.distance ?? 2;
-
-    case CameraMovementType.ArcLeft:
-    case CameraMovementType.ArcRight:
-      return degreesToDistance(
-        p.arcAngle ?? 45,
-        p.arcRadius ?? 2
-      );
-
-    // Case: ZoomIn/out
-    // Case: Crane
-
-    default:
-      return 1;
-  }
-}
-
-function averageSpeedMultiplier(
-  keyframes?: SpeedKeyframe[]
-): number {
-  if (!keyframes || keyframes.length === 0) return 1;
-
-  let total = 0;
-  let lastT = 0;
-
-  const sorted = [...keyframes].sort(
-    (a, b) => a.normalizedTime - b.normalizedTime
-  );
-
-  for (const kf of sorted) {
-    const dt = kf.normalizedTime - lastT;
-    total += dt * kf.speedMultiplier;
-    lastT = kf.normalizedTime;
-  }
-
-  total += (1 - lastT) * sorted.at(-1)!.speedMultiplier;
-  return total;
-}
-
-function estimateDuration(initCamera: InitCamera, action: Action): number | undefined {
-  if (action.movement.duration !== undefined) return action.movement.duration;
-
-  // TODO: estimate duration based on distanceEstimator function
-
-  return undefined
-
-
-}
-
 // Building Constraints
+function hasActionInterval(action: TimedAction): boolean {
+  return action.endTime! - action.startTime! > 1e-9;
+}
+
 function buildInitialKeyframe(init: InitCamera, time: number): SinglePointConstraint {
   return {
     type: "singlePoint",
     time: time,
     config: init.config,
+    targets: init.targets,
     weight: 1
   };
 }
@@ -378,68 +111,193 @@ function buildMovementLossParameters(
 ): Record<string, unknown> {
 
   const p = action.movement.parameters ?? {};
+  const targetParameters = buildTargetParameters(action.movement.targets);
+  const generalParameters = {
+    ...(action.movement.speedKeyframes ? { speedKeyframes: action.movement.speedKeyframes } : {}),
+    ...(p.path ? { path: p.path } : {}),
+    ...(p.curveIntensity === undefined ? {} : { curveIntensity: p.curveIntensity }),
+    ...(p.handheld === undefined ? {} : { handheld: p.handheld }),
+    ...(p.constantSpeed === undefined ? {} : { constantSpeed: p.constantSpeed }),
+    ...(p.allowSubjectIntersection === undefined ? {} : { allowSubjectIntersection: p.allowSubjectIntersection }),
+  };
 
   switch (action.movement.act) {
 
     case CameraMovementType.DollyIn:
     case CameraMovementType.DollyOut:
+      return {
+        ...(p.distance === undefined ? {} : { distance: p.distance }),
+        ...targetParameters,
+        ...generalParameters,
+      };
+
+    case CameraMovementType.TruckLeft:
+    case CameraMovementType.TruckRight:
+    case CameraMovementType.PedestalUp:
+    case CameraMovementType.PedestalDown:
+      return {
+        ...(p.distance === undefined ? {} : { distance: p.distance }),
+        ...generalParameters,
+      };
+
     case CameraMovementType.Follow:
-      return { distance: p.distance ?? DEFAULT_DOLLY_DISTANCE };
+      return {
+        ...(p.distance === undefined ? {} : { distance: p.distance }),
+        ...targetParameters,
+        ...(p.followDelay === undefined ? {} : { followDelay: p.followDelay }),
+        ...(p.leadAmount === undefined ? {} : { leadAmount: p.leadAmount }),
+        ...generalParameters,
+      };
+
+    case CameraMovementType.Track:
+      return {
+        ...targetParameters,
+        ...(p.distance === undefined ? {} : { distance: p.distance }),
+        ...(p.followDelay === undefined ? {} : { followDelay: p.followDelay }),
+        ...(p.leadAmount === undefined ? {} : { leadAmount: p.leadAmount }),
+        ...generalParameters,
+      };
 
     case CameraMovementType.PanLeft:
     case CameraMovementType.PanRight:
-      return { rotationAngle: p.rotationAngle ?? DEFAULT_ROTATION_ANGLE };
+    case CameraMovementType.TiltUp:
+    case CameraMovementType.TiltDown:
+    case CameraMovementType.DutchLeft:
+    case CameraMovementType.DutchRight:
+      return {
+        ...(p.rotationAngle === undefined ? {} : { rotationAngle: p.rotationAngle }),
+        ...generalParameters,
+      };
+
+    case CameraMovementType.ZoomIn:
+    case CameraMovementType.ZoomOut:
+      return {
+        ...(p.zoomFactor === undefined ? {} : { zoomFactor: p.zoomFactor }),
+        ...generalParameters,
+      };
+
+    case CameraMovementType.CraneUp:
+    case CameraMovementType.CraneDown:
+      return {
+        ...(p.heightChange === undefined && p.distance === undefined
+          ? {} : { heightChange: p.heightChange ?? p.distance }),
+        ...(p.horizontalDistance === undefined ? {} : { horizontalDistance: p.horizontalDistance }),
+        ...targetParameters,
+        ...generalParameters,
+      };
 
     case CameraMovementType.ArcLeft:
     case CameraMovementType.ArcRight:
-    case CameraMovementType.Orbit:
+    case CameraMovementType.Orbit: {
+      const sign = action.movement.act === CameraMovementType.ArcRight
+        ? 1
+        : action.movement.act === CameraMovementType.ArcLeft
+          ? -1
+          : p.arcAngle === undefined ? undefined : Math.sign(p.arcAngle);
       return {
-        arcAngle: p.arcAngle ?? DEFAULT_ARC_ANGLE,
-        arcRadius: p.arcRadius ?? DEFAULT_ARC_RADIUS,
+        ...(sign === undefined ? {} : { sign }),
+        ...(p.arcAngle === undefined ? {} : {
+          arcAngle: action.movement.act === CameraMovementType.Orbit
+            ? p.arcAngle : p.arcAngle === 0 ? 0 : Math.abs(p.arcAngle) * sign!,
+        }),
+        ...(p.arcRadius === undefined ? {} : { arcRadius: p.arcRadius }),
+        ...targetParameters,
+        ...generalParameters,
       };
+    }
+
+    case CameraMovementType.Static:
+      return targetParameters;
 
     default:
       return {};
   }
 }
 
+function buildTargetParameters(
+  targets: Target[] = [],
+): Record<string, unknown> {
+  const targetIds = [...new Set(targets.map((target, index) => {
+    const id = (target as Partial<Target>).id;
+    if (typeof id !== "string" || !id.trim()) {
+      throw new Error(
+        `Unbound target at index ${index}; bind semantic CSL references before solving`,
+      );
+    }
+    return id.trim();
+  }))];
+  return targetIds.length > 1
+    ? { subjectIds: targetIds }
+    : targetIds.length === 1
+      ? { subjectId: targetIds[0] }
+      : {};
+}
+
 export function buildCameraConfigLosses(
-  config: CameraConfig
+  config: CameraConfig,
+  targets: Target[] = [],
 ): LossFunction[] {
 
   const losses: LossFunction[] = [];
+  const targetParameters = buildTargetParameters(targets);
 
   if (config.type === "subjectAware") {
 
     if (config.shotSize)
       losses.push({
         type: LossFunctionType.ShotSize,
-        parameters: { shotSize: config.shotSize }
+        parameters: { shotSize: config.shotSize, ...targetParameters }
       });
 
     if (config.subjectView)
       losses.push({
         type: LossFunctionType.SubjectView,
-        parameters: { view: config.subjectView }
+        parameters: { view: config.subjectView, ...targetParameters }
+      });
+
+    if (config.cameraAngle)
+      losses.push({
+        type: LossFunctionType.CameraVerticalAngle,
+        parameters: { angle: config.cameraAngle, ...targetParameters }
       });
 
     if (config.subjectFraming?.position)
       losses.push({
         type: LossFunctionType.FramingPosition,
-        parameters: { position: config.subjectFraming.position }
+        parameters: { position: config.subjectFraming.position, ...targetParameters }
       });
 
-    // TODO: CameraAngle must be supported (currently no corresponding loss function exists)
+    if (config.subjectFraming?.dutchAngleScale !== undefined)
+      losses.push({
+        type: LossFunctionType.FramingDutchAngle,
+        parameters: {
+          scale: config.subjectFraming.dutchAngleScale,
+          ...targetParameters,
+        }
+      });
 
+    // Keep the subject association even when every composition field is free.
+    // The optimizer derives visibility preferences from this intent metadata.
+    if (losses.length === 0 && targets.length > 0) {
+      losses.push({ type: LossFunctionType.SubjectPresence, parameters: targetParameters });
+    }
   }
 
   if (config.type === "nonSubjectAware") {
-
-    losses.push({
-      type: LossFunctionType.MinPath,
-      parameters: { targetPose: config.extrinsics.pose }
-    });
-
+    const pose = config.extrinsics?.pose;
+    const parameters = {
+      ...(pose?.position !== undefined || pose?.rotation !== undefined
+        ? { targetPose: pose } : {}),
+      ...(config.extrinsics?.transformMatrix === undefined
+        ? {} : { targetTransformMatrix: config.extrinsics.transformMatrix }),
+      ...(config.intrinsics && Object.keys(config.intrinsics).length > 0
+        ? { targetIntrinsics: config.intrinsics } : {}),
+      ...(config.lookAt === undefined || (Array.isArray(config.lookAt) && config.lookAt.length === 0)
+        ? {} : { lookAt: config.lookAt }),
+    };
+    if (Object.keys(parameters).length > 0) {
+      losses.push({ type: LossFunctionType.MinPath, parameters });
+    }
   }
 
   return losses;
@@ -450,9 +308,16 @@ function buildConstraintConfigEntries(
   action: TimedAction,
 ): Constraint[] {
 
-  const losses = buildCameraConfigLosses(cfg.config);
+  const losses = buildCameraConfigLosses(cfg.config, cfg.targets).map((loss) => ({
+    ...loss,
+    sourceActionId: action.id,
+    ...(action.priority === undefined ? {} : { priority: action.priority }),
+  }));
 
-  if (cfg.allFrames) {
+  if (cfg.allFrames && cfg.easing) {
+    throw new Error("Point constraint easing can only be used when allFrames is false");
+  }
+  if (cfg.allFrames && hasActionInterval(action)) {
     return losses.map(loss => ({
       type: "interval",
       startTime: action.startTime!,
@@ -462,15 +327,77 @@ function buildConstraintConfigEntries(
     }));
   }
 
+  validatePointConstraintEasing(cfg.easing);
   return [{
     type: "singlePoint",
     time: action.endTime!,
     config: cfg.config,
+    ...(cfg.targets ? { targets: cfg.targets } : {}),
     weight: 1,
+    ...(cfg.easing ? { easing: cfg.easing } : {}),
+  }];
+}
+
+const GENERAL_CONSTRAINT_TO_LOSS: Record<ConstraintType, LossFunctionType> = {
+  [ConstraintType.NoShake]: LossFunctionType.NoShake,
+  [ConstraintType.KeepInFrame]: LossFunctionType.KeepInFrame,
+  [ConstraintType.MaintainDistance]: LossFunctionType.MaintainDistance,
+  [ConstraintType.MaintainAngle]: LossFunctionType.MaintainAngle,
+  [ConstraintType.AvoidOcclusion]: LossFunctionType.AvoidOcclusion,
+  [ConstraintType.GroundLevel]: LossFunctionType.GroundLevel,
+};
+
+function isGeneralConstraint(
+  constraint: ActionConstraintConfig,
+): constraint is GeneralConstraintConfig {
+  return "kind" in constraint && constraint.kind === "general";
+}
+
+function buildGeneralConstraintEntries(
+  cfg: GeneralConstraintConfig,
+  action: TimedAction,
+): Constraint[] {
+  const lossType = GENERAL_CONSTRAINT_TO_LOSS[cfg.constraint];
+  if (lossType === undefined) {
+    throw new Error(`Unsupported general constraint: ${String(cfg.constraint)}`);
+  }
+  if (cfg.weight !== undefined && (!Number.isFinite(cfg.weight) || cfg.weight <= 0)) {
+    throw new Error("General constraint weight must be positive and finite");
+  }
+  const loss: LossFunction = {
+    type: lossType,
+    parameters: {
+      ...(cfg.parameters ?? {}),
+      ...buildTargetParameters(cfg.targets),
+    },
+    sourceActionId: action.id,
+    ...(action.priority === undefined ? {} : { priority: action.priority }),
+  };
+  const weight = cfg.weight ?? 1;
+  if (cfg.allFrames && cfg.easing) throw new Error("Point constraint easing requires allFrames=false");
+  if (cfg.allFrames && hasActionInterval(action)) {
+    return [{
+      type: "interval",
+      startTime: action.startTime!,
+      endTime: action.endTime!,
+      lossFunction: loss,
+      weight,
+    }];
+  }
+  validatePointConstraintEasing(cfg.easing);
+  return [{
+    type: "lossPoint",
+    time: action.endTime!,
+    lossFunctions: [loss],
+    weight,
+    ...(cfg.easing ? { easing: cfg.easing } : {}),
   }];
 }
 
 function buildMovementConstraint(action: TimedAction): IntervalConstraint[] {
+  // A clipped event at the playback endpoint has no time in which to move.
+  // Its authored constraints still apply at that point.
+  if (!hasActionInterval(action)) return [];
   const lossType = MOVEMENT_TO_LOSS[action.movement.act];
   if (!lossType) return [];
 
@@ -480,7 +407,9 @@ function buildMovementConstraint(action: TimedAction): IntervalConstraint[] {
     endTime: action.endTime!,
     lossFunction: {
       type: lossType,
-      parameters: buildMovementLossParameters(action)
+      parameters: buildMovementLossParameters(action),
+      sourceActionId: action.id,
+      ...(action.priority === undefined ? {} : { priority: action.priority }),
     },
     weight: 1,
   }];
@@ -490,10 +419,13 @@ function buildMovementConstraint(action: TimedAction): IntervalConstraint[] {
 
 function buildActionConstraints(
   action: TimedAction
-): (SinglePointConstraint | IntervalConstraint)[] {
+): Constraint[] {
   return [
-    // Other Constraint builders must be implemented
     ...buildMovementConstraint(action),
-    ...(action.constraints ?? []).flatMap(cfg => buildConstraintConfigEntries(cfg, action)),
+    ...(action.constraints ?? []).flatMap((cfg) =>
+      isGeneralConstraint(cfg)
+        ? buildGeneralConstraintEntries(cfg, action)
+        : buildConstraintConfigEntries(cfg, action),
+    ),
   ];
 }

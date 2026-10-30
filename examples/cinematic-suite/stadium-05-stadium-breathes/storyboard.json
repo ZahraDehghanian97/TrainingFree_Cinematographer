@@ -1,0 +1,50 @@
+{
+  "title": "The Stadium Breathes",
+  "phases": [
+    {
+      "actionId": "stadium-05-stadium-breathes-shot-01",
+      "start": 0,
+      "end": 12,
+      "title": "Descending aerial arc",
+      "movement": "arcRight",
+      "primaryTargets": [
+        "athletics_track",
+        "football_pitch"
+      ]
+    },
+    {
+      "actionId": "stadium-05-stadium-breathes-shot-02",
+      "start": 12,
+      "end": 36,
+      "title": "Geographic master",
+      "movement": "arcRight",
+      "primaryTargets": [
+        "athletics_track",
+        "football_pitch"
+      ]
+    },
+    {
+      "actionId": "stadium-05-stadium-breathes-shot-03",
+      "start": 36,
+      "end": 48,
+      "title": "Ascending final arc",
+      "movement": "arcRight",
+      "primaryTargets": [
+        "athletics_track",
+        "football_pitch"
+      ]
+    }
+  ],
+  "sceneBeats": [
+    2,
+    38,
+    39.8,
+    44
+  ],
+  "previewTimes": [
+    0,
+    16,
+    32,
+    48
+  ]
+}

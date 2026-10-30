@@ -1,0 +1,2047 @@
+{
+  "totalDuration": 48,
+  "sections": [
+    {
+      "initCamera": {
+        "targets": [
+          {
+            "id": "worker_a",
+            "description": "کارگر الف / worker A — initiates shove"
+          },
+          {
+            "id": "worker_b",
+            "description": "کارگر ب / worker B — collides with production line"
+          },
+          {
+            "id": "cargo_06",
+            "description": "قطعهٔ تولید 6 · سقوط از خط / spills on impact"
+          },
+          {
+            "id": "worker_05",
+            "description": "کارگر خط تولید 5 · توقف اضطراری / emergency stop"
+          }
+        ],
+        "config": {
+          "type": "nonSubjectAware",
+          "extrinsics": {
+            "pose": {
+              "position": {
+                "x": 0.0,
+                "y": 8.1,
+                "z": 12.0
+              },
+              "rotation": {
+                "x": -0.2639689089,
+                "y": 0.0,
+                "z": 0.0,
+                "w": 0.9645311893
+              }
+            }
+          },
+          "intrinsics": {
+            "fov": 68.0,
+            "aspectRatio": 1.7777777777777777
+          }
+        }
+      },
+      "actions": [
+        {
+          "id": "factory-03-chain-reaction-shot-001",
+          "name": "Read the mechanism",
+          "trigger": {
+            "type": "absoluteTime",
+            "time": 0
+          },
+          "movement": {
+            "act": "dollyIn",
+            "duration": 6,
+            "relativeFPS": "normal",
+            "targets": [
+              {
+                "id": "production_line",
+                "description": "ریل خط تولید فعال / active production conveyor"
+              }
+            ],
+            "parameters": {
+              "distance": 1.5,
+              "handheld": false,
+              "path": "linear"
+            }
+          },
+          "constraints": [
+            {
+              "kind": "general",
+              "constraint": "noShake",
+              "allFrames": true
+            },
+            {
+              "kind": "general",
+              "constraint": "keepInFrame",
+              "targets": [
+                {
+                  "id": "production_line",
+                  "description": "ریل خط تولید فعال / active production conveyor"
+                }
+              ],
+              "allFrames": true
+            },
+            {
+              "kind": "general",
+              "constraint": "avoidOcclusion",
+              "targets": [
+                {
+                  "id": "production_line",
+                  "description": "ریل خط تولید فعال / active production conveyor"
+                }
+              ],
+              "allFrames": true,
+              "weight": 0.8
+            },
+            {
+              "targets": [
+                {
+                  "id": "production_line",
+                  "description": "ریل خط تولید فعال / active production conveyor"
+                }
+              ],
+              "config": {
+                "type": "subjectAware",
+                "shotSize": "longShot"
+              },
+              "allFrames": false,
+              "easing": {
+                "inDuration": 0.6,
+                "curve": "easeInOut"
+              }
+            }
+          ]
+        },
+        {
+          "id": "factory-03-chain-reaction-shot-002",
+          "name": "Stop-motion pose 01: hold",
+          "trigger": {
+            "type": "absoluteTime",
+            "time": 6.0
+          },
+          "movement": {
+            "act": "arcRight",
+            "duration": 0.1875,
+            "relativeFPS": "frozen",
+            "targets": [
+              {
+                "id": "production_line",
+                "description": "ریل خط تولید فعال / active production conveyor"
+              }
+            ],
+            "parameters": {
+              "arcRadius": 12,
+              "arcAngle": 0.1875,
+              "constantSpeed": true,
+              "handheld": false
+            }
+          },
+          "constraints": [
+            {
+              "kind": "general",
+              "constraint": "noShake",
+              "allFrames": true
+            },
+            {
+              "kind": "general",
+              "constraint": "keepInFrame",
+              "targets": [
+                {
+                  "id": "production_line",
+                  "description": "ریل خط تولید فعال / active production conveyor"
+                }
+              ],
+              "allFrames": true
+            },
+            {
+              "kind": "general",
+              "constraint": "avoidOcclusion",
+              "targets": [
+                {
+                  "id": "production_line",
+                  "description": "ریل خط تولید فعال / active production conveyor"
+                }
+              ],
+              "allFrames": true,
+              "weight": 0.8
+            }
+          ]
+        },
+        {
+          "id": "factory-03-chain-reaction-shot-003",
+          "name": "Stop-motion pose 01: advance",
+          "trigger": {
+            "type": "absoluteTime",
+            "time": 6.1875
+          },
+          "movement": {
+            "act": "arcRight",
+            "duration": 0.0625,
+            "relativeFPS": "veryFast",
+            "targets": [
+              {
+                "id": "production_line",
+                "description": "ریل خط تولید فعال / active production conveyor"
+              }
+            ],
+            "parameters": {
+              "arcRadius": 12,
+              "arcAngle": 0.0625,
+              "constantSpeed": true,
+              "handheld": false
+            }
+          },
+          "constraints": [
+            {
+              "kind": "general",
+              "constraint": "noShake",
+              "allFrames": true
+            },
+            {
+              "kind": "general",
+              "constraint": "keepInFrame",
+              "targets": [
+                {
+                  "id": "production_line",
+                  "description": "ریل خط تولید فعال / active production conveyor"
+                }
+              ],
+              "allFrames": true
+            },
+            {
+              "kind": "general",
+              "constraint": "avoidOcclusion",
+              "targets": [
+                {
+                  "id": "production_line",
+                  "description": "ریل خط تولید فعال / active production conveyor"
+                }
+              ],
+              "allFrames": true,
+              "weight": 0.8
+            }
+          ]
+        },
+        {
+          "id": "factory-03-chain-reaction-shot-004",
+          "name": "Stop-motion pose 02: hold",
+          "trigger": {
+            "type": "absoluteTime",
+            "time": 6.25
+          },
+          "movement": {
+            "act": "arcRight",
+            "duration": 0.1875,
+            "relativeFPS": "frozen",
+            "targets": [
+              {
+                "id": "production_line",
+                "description": "ریل خط تولید فعال / active production conveyor"
+              }
+            ],
+            "parameters": {
+              "arcRadius": 12,
+              "arcAngle": 0.1875,
+              "constantSpeed": true,
+              "handheld": false
+            }
+          },
+          "constraints": [
+            {
+              "kind": "general",
+              "constraint": "noShake",
+              "allFrames": true
+            },
+            {
+              "kind": "general",
+              "constraint": "keepInFrame",
+              "targets": [
+                {
+                  "id": "production_line",
+                  "description": "ریل خط تولید فعال / active production conveyor"
+                }
+              ],
+              "allFrames": true
+            },
+            {
+              "kind": "general",
+              "constraint": "avoidOcclusion",
+              "targets": [
+                {
+                  "id": "production_line",
+                  "description": "ریل خط تولید فعال / active production conveyor"
+                }
+              ],
+              "allFrames": true,
+              "weight": 0.8
+            }
+          ]
+        },
+        {
+          "id": "factory-03-chain-reaction-shot-005",
+          "name": "Stop-motion pose 02: advance",
+          "trigger": {
+            "type": "absoluteTime",
+            "time": 6.4375
+          },
+          "movement": {
+            "act": "arcRight",
+            "duration": 0.0625,
+            "relativeFPS": "veryFast",
+            "targets": [
+              {
+                "id": "production_line",
+                "description": "ریل خط تولید فعال / active production conveyor"
+              }
+            ],
+            "parameters": {
+              "arcRadius": 12,
+              "arcAngle": 0.0625,
+              "constantSpeed": true,
+              "handheld": false
+            }
+          },
+          "constraints": [
+            {
+              "kind": "general",
+              "constraint": "noShake",
+              "allFrames": true
+            },
+            {
+              "kind": "general",
+              "constraint": "keepInFrame",
+              "targets": [
+                {
+                  "id": "production_line",
+                  "description": "ریل خط تولید فعال / active production conveyor"
+                }
+              ],
+              "allFrames": true
+            },
+            {
+              "kind": "general",
+              "constraint": "avoidOcclusion",
+              "targets": [
+                {
+                  "id": "production_line",
+                  "description": "ریل خط تولید فعال / active production conveyor"
+                }
+              ],
+              "allFrames": true,
+              "weight": 0.8
+            }
+          ]
+        },
+        {
+          "id": "factory-03-chain-reaction-shot-006",
+          "name": "Stop-motion pose 03: hold",
+          "trigger": {
+            "type": "absoluteTime",
+            "time": 6.5
+          },
+          "movement": {
+            "act": "arcRight",
+            "duration": 0.1875,
+            "relativeFPS": "frozen",
+            "targets": [
+              {
+                "id": "production_line",
+                "description": "ریل خط تولید فعال / active production conveyor"
+              }
+            ],
+            "parameters": {
+              "arcRadius": 12,
+              "arcAngle": 0.1875,
+              "constantSpeed": true,
+              "handheld": false
+            }
+          },
+          "constraints": [
+            {
+              "kind": "general",
+              "constraint": "noShake",
+              "allFrames": true
+            },
+            {
+              "kind": "general",
+              "constraint": "keepInFrame",
+              "targets": [
+                {
+                  "id": "production_line",
+                  "description": "ریل خط تولید فعال / active production conveyor"
+                }
+              ],
+              "allFrames": true
+            },
+            {
+              "kind": "general",
+              "constraint": "avoidOcclusion",
+              "targets": [
+                {
+                  "id": "production_line",
+                  "description": "ریل خط تولید فعال / active production conveyor"
+                }
+              ],
+              "allFrames": true,
+              "weight": 0.8
+            }
+          ]
+        },
+        {
+          "id": "factory-03-chain-reaction-shot-007",
+          "name": "Stop-motion pose 03: advance",
+          "trigger": {
+            "type": "absoluteTime",
+            "time": 6.6875
+          },
+          "movement": {
+            "act": "arcRight",
+            "duration": 0.0625,
+            "relativeFPS": "veryFast",
+            "targets": [
+              {
+                "id": "production_line",
+                "description": "ریل خط تولید فعال / active production conveyor"
+              }
+            ],
+            "parameters": {
+              "arcRadius": 12,
+              "arcAngle": 0.0625,
+              "constantSpeed": true,
+              "handheld": false
+            }
+          },
+          "constraints": [
+            {
+              "kind": "general",
+              "constraint": "noShake",
+              "allFrames": true
+            },
+            {
+              "kind": "general",
+              "constraint": "keepInFrame",
+              "targets": [
+                {
+                  "id": "production_line",
+                  "description": "ریل خط تولید فعال / active production conveyor"
+                }
+              ],
+              "allFrames": true
+            },
+            {
+              "kind": "general",
+              "constraint": "avoidOcclusion",
+              "targets": [
+                {
+                  "id": "production_line",
+                  "description": "ریل خط تولید فعال / active production conveyor"
+                }
+              ],
+              "allFrames": true,
+              "weight": 0.8
+            }
+          ]
+        },
+        {
+          "id": "factory-03-chain-reaction-shot-008",
+          "name": "Stop-motion pose 04: hold",
+          "trigger": {
+            "type": "absoluteTime",
+            "time": 6.75
+          },
+          "movement": {
+            "act": "arcRight",
+            "duration": 0.1875,
+            "relativeFPS": "frozen",
+            "targets": [
+              {
+                "id": "production_line",
+                "description": "ریل خط تولید فعال / active production conveyor"
+              }
+            ],
+            "parameters": {
+              "arcRadius": 12,
+              "arcAngle": 0.1875,
+              "constantSpeed": true,
+              "handheld": false
+            }
+          },
+          "constraints": [
+            {
+              "kind": "general",
+              "constraint": "noShake",
+              "allFrames": true
+            },
+            {
+              "kind": "general",
+              "constraint": "keepInFrame",
+              "targets": [
+                {
+                  "id": "production_line",
+                  "description": "ریل خط تولید فعال / active production conveyor"
+                }
+              ],
+              "allFrames": true
+            },
+            {
+              "kind": "general",
+              "constraint": "avoidOcclusion",
+              "targets": [
+                {
+                  "id": "production_line",
+                  "description": "ریل خط تولید فعال / active production conveyor"
+                }
+              ],
+              "allFrames": true,
+              "weight": 0.8
+            }
+          ]
+        },
+        {
+          "id": "factory-03-chain-reaction-shot-009",
+          "name": "Stop-motion pose 04: advance",
+          "trigger": {
+            "type": "absoluteTime",
+            "time": 6.9375
+          },
+          "movement": {
+            "act": "arcRight",
+            "duration": 0.0625,
+            "relativeFPS": "veryFast",
+            "targets": [
+              {
+                "id": "production_line",
+                "description": "ریل خط تولید فعال / active production conveyor"
+              }
+            ],
+            "parameters": {
+              "arcRadius": 12,
+              "arcAngle": 0.0625,
+              "constantSpeed": true,
+              "handheld": false
+            }
+          },
+          "constraints": [
+            {
+              "kind": "general",
+              "constraint": "noShake",
+              "allFrames": true
+            },
+            {
+              "kind": "general",
+              "constraint": "keepInFrame",
+              "targets": [
+                {
+                  "id": "production_line",
+                  "description": "ریل خط تولید فعال / active production conveyor"
+                }
+              ],
+              "allFrames": true
+            },
+            {
+              "kind": "general",
+              "constraint": "avoidOcclusion",
+              "targets": [
+                {
+                  "id": "production_line",
+                  "description": "ریل خط تولید فعال / active production conveyor"
+                }
+              ],
+              "allFrames": true,
+              "weight": 0.8
+            }
+          ]
+        },
+        {
+          "id": "factory-03-chain-reaction-shot-010",
+          "name": "Stop-motion pose 05: hold",
+          "trigger": {
+            "type": "absoluteTime",
+            "time": 7.0
+          },
+          "movement": {
+            "act": "arcRight",
+            "duration": 0.1875,
+            "relativeFPS": "frozen",
+            "targets": [
+              {
+                "id": "production_line",
+                "description": "ریل خط تولید فعال / active production conveyor"
+              }
+            ],
+            "parameters": {
+              "arcRadius": 12,
+              "arcAngle": 0.1875,
+              "constantSpeed": true,
+              "handheld": false
+            }
+          },
+          "constraints": [
+            {
+              "kind": "general",
+              "constraint": "noShake",
+              "allFrames": true
+            },
+            {
+              "kind": "general",
+              "constraint": "keepInFrame",
+              "targets": [
+                {
+                  "id": "production_line",
+                  "description": "ریل خط تولید فعال / active production conveyor"
+                }
+              ],
+              "allFrames": true
+            },
+            {
+              "kind": "general",
+              "constraint": "avoidOcclusion",
+              "targets": [
+                {
+                  "id": "production_line",
+                  "description": "ریل خط تولید فعال / active production conveyor"
+                }
+              ],
+              "allFrames": true,
+              "weight": 0.8
+            }
+          ]
+        },
+        {
+          "id": "factory-03-chain-reaction-shot-011",
+          "name": "Stop-motion pose 05: advance",
+          "trigger": {
+            "type": "absoluteTime",
+            "time": 7.1875
+          },
+          "movement": {
+            "act": "arcRight",
+            "duration": 0.0625,
+            "relativeFPS": "veryFast",
+            "targets": [
+              {
+                "id": "production_line",
+                "description": "ریل خط تولید فعال / active production conveyor"
+              }
+            ],
+            "parameters": {
+              "arcRadius": 12,
+              "arcAngle": 0.0625,
+              "constantSpeed": true,
+              "handheld": false
+            }
+          },
+          "constraints": [
+            {
+              "kind": "general",
+              "constraint": "noShake",
+              "allFrames": true
+            },
+            {
+              "kind": "general",
+              "constraint": "keepInFrame",
+              "targets": [
+                {
+                  "id": "production_line",
+                  "description": "ریل خط تولید فعال / active production conveyor"
+                }
+              ],
+              "allFrames": true
+            },
+            {
+              "kind": "general",
+              "constraint": "avoidOcclusion",
+              "targets": [
+                {
+                  "id": "production_line",
+                  "description": "ریل خط تولید فعال / active production conveyor"
+                }
+              ],
+              "allFrames": true,
+              "weight": 0.8
+            }
+          ]
+        },
+        {
+          "id": "factory-03-chain-reaction-shot-012",
+          "name": "Stop-motion pose 06: hold",
+          "trigger": {
+            "type": "absoluteTime",
+            "time": 7.25
+          },
+          "movement": {
+            "act": "arcRight",
+            "duration": 0.1875,
+            "relativeFPS": "frozen",
+            "targets": [
+              {
+                "id": "production_line",
+                "description": "ریل خط تولید فعال / active production conveyor"
+              }
+            ],
+            "parameters": {
+              "arcRadius": 12,
+              "arcAngle": 0.1875,
+              "constantSpeed": true,
+              "handheld": false
+            }
+          },
+          "constraints": [
+            {
+              "kind": "general",
+              "constraint": "noShake",
+              "allFrames": true
+            },
+            {
+              "kind": "general",
+              "constraint": "keepInFrame",
+              "targets": [
+                {
+                  "id": "production_line",
+                  "description": "ریل خط تولید فعال / active production conveyor"
+                }
+              ],
+              "allFrames": true
+            },
+            {
+              "kind": "general",
+              "constraint": "avoidOcclusion",
+              "targets": [
+                {
+                  "id": "production_line",
+                  "description": "ریل خط تولید فعال / active production conveyor"
+                }
+              ],
+              "allFrames": true,
+              "weight": 0.8
+            }
+          ]
+        },
+        {
+          "id": "factory-03-chain-reaction-shot-013",
+          "name": "Stop-motion pose 06: advance",
+          "trigger": {
+            "type": "absoluteTime",
+            "time": 7.4375
+          },
+          "movement": {
+            "act": "arcRight",
+            "duration": 0.0625,
+            "relativeFPS": "veryFast",
+            "targets": [
+              {
+                "id": "production_line",
+                "description": "ریل خط تولید فعال / active production conveyor"
+              }
+            ],
+            "parameters": {
+              "arcRadius": 12,
+              "arcAngle": 0.0625,
+              "constantSpeed": true,
+              "handheld": false
+            }
+          },
+          "constraints": [
+            {
+              "kind": "general",
+              "constraint": "noShake",
+              "allFrames": true
+            },
+            {
+              "kind": "general",
+              "constraint": "keepInFrame",
+              "targets": [
+                {
+                  "id": "production_line",
+                  "description": "ریل خط تولید فعال / active production conveyor"
+                }
+              ],
+              "allFrames": true
+            },
+            {
+              "kind": "general",
+              "constraint": "avoidOcclusion",
+              "targets": [
+                {
+                  "id": "production_line",
+                  "description": "ریل خط تولید فعال / active production conveyor"
+                }
+              ],
+              "allFrames": true,
+              "weight": 0.8
+            }
+          ]
+        },
+        {
+          "id": "factory-03-chain-reaction-shot-014",
+          "name": "Stop-motion pose 07: hold",
+          "trigger": {
+            "type": "absoluteTime",
+            "time": 7.5
+          },
+          "movement": {
+            "act": "arcRight",
+            "duration": 0.1875,
+            "relativeFPS": "frozen",
+            "targets": [
+              {
+                "id": "production_line",
+                "description": "ریل خط تولید فعال / active production conveyor"
+              }
+            ],
+            "parameters": {
+              "arcRadius": 12,
+              "arcAngle": 0.1875,
+              "constantSpeed": true,
+              "handheld": false
+            }
+          },
+          "constraints": [
+            {
+              "kind": "general",
+              "constraint": "noShake",
+              "allFrames": true
+            },
+            {
+              "kind": "general",
+              "constraint": "keepInFrame",
+              "targets": [
+                {
+                  "id": "production_line",
+                  "description": "ریل خط تولید فعال / active production conveyor"
+                }
+              ],
+              "allFrames": true
+            },
+            {
+              "kind": "general",
+              "constraint": "avoidOcclusion",
+              "targets": [
+                {
+                  "id": "production_line",
+                  "description": "ریل خط تولید فعال / active production conveyor"
+                }
+              ],
+              "allFrames": true,
+              "weight": 0.8
+            }
+          ]
+        },
+        {
+          "id": "factory-03-chain-reaction-shot-015",
+          "name": "Stop-motion pose 07: advance",
+          "trigger": {
+            "type": "absoluteTime",
+            "time": 7.6875
+          },
+          "movement": {
+            "act": "arcRight",
+            "duration": 0.0625,
+            "relativeFPS": "veryFast",
+            "targets": [
+              {
+                "id": "production_line",
+                "description": "ریل خط تولید فعال / active production conveyor"
+              }
+            ],
+            "parameters": {
+              "arcRadius": 12,
+              "arcAngle": 0.0625,
+              "constantSpeed": true,
+              "handheld": false
+            }
+          },
+          "constraints": [
+            {
+              "kind": "general",
+              "constraint": "noShake",
+              "allFrames": true
+            },
+            {
+              "kind": "general",
+              "constraint": "keepInFrame",
+              "targets": [
+                {
+                  "id": "production_line",
+                  "description": "ریل خط تولید فعال / active production conveyor"
+                }
+              ],
+              "allFrames": true
+            },
+            {
+              "kind": "general",
+              "constraint": "avoidOcclusion",
+              "targets": [
+                {
+                  "id": "production_line",
+                  "description": "ریل خط تولید فعال / active production conveyor"
+                }
+              ],
+              "allFrames": true,
+              "weight": 0.8
+            }
+          ]
+        },
+        {
+          "id": "factory-03-chain-reaction-shot-016",
+          "name": "Stop-motion pose 08: hold",
+          "trigger": {
+            "type": "absoluteTime",
+            "time": 7.75
+          },
+          "movement": {
+            "act": "arcRight",
+            "duration": 0.1875,
+            "relativeFPS": "frozen",
+            "targets": [
+              {
+                "id": "production_line",
+                "description": "ریل خط تولید فعال / active production conveyor"
+              }
+            ],
+            "parameters": {
+              "arcRadius": 12,
+              "arcAngle": 0.1875,
+              "constantSpeed": true,
+              "handheld": false
+            }
+          },
+          "constraints": [
+            {
+              "kind": "general",
+              "constraint": "noShake",
+              "allFrames": true
+            },
+            {
+              "kind": "general",
+              "constraint": "keepInFrame",
+              "targets": [
+                {
+                  "id": "production_line",
+                  "description": "ریل خط تولید فعال / active production conveyor"
+                }
+              ],
+              "allFrames": true
+            },
+            {
+              "kind": "general",
+              "constraint": "avoidOcclusion",
+              "targets": [
+                {
+                  "id": "production_line",
+                  "description": "ریل خط تولید فعال / active production conveyor"
+                }
+              ],
+              "allFrames": true,
+              "weight": 0.8
+            }
+          ]
+        },
+        {
+          "id": "factory-03-chain-reaction-shot-017",
+          "name": "Stop-motion pose 08: advance",
+          "trigger": {
+            "type": "absoluteTime",
+            "time": 7.9375
+          },
+          "movement": {
+            "act": "arcRight",
+            "duration": 0.0625,
+            "relativeFPS": "veryFast",
+            "targets": [
+              {
+                "id": "production_line",
+                "description": "ریل خط تولید فعال / active production conveyor"
+              }
+            ],
+            "parameters": {
+              "arcRadius": 12,
+              "arcAngle": 0.0625,
+              "constantSpeed": true,
+              "handheld": false
+            }
+          },
+          "constraints": [
+            {
+              "kind": "general",
+              "constraint": "noShake",
+              "allFrames": true
+            },
+            {
+              "kind": "general",
+              "constraint": "keepInFrame",
+              "targets": [
+                {
+                  "id": "production_line",
+                  "description": "ریل خط تولید فعال / active production conveyor"
+                }
+              ],
+              "allFrames": true
+            },
+            {
+              "kind": "general",
+              "constraint": "avoidOcclusion",
+              "targets": [
+                {
+                  "id": "production_line",
+                  "description": "ریل خط تولید فعال / active production conveyor"
+                }
+              ],
+              "allFrames": true,
+              "weight": 0.8
+            }
+          ]
+        },
+        {
+          "id": "factory-03-chain-reaction-shot-018",
+          "name": "Stop-motion pose 09: hold",
+          "trigger": {
+            "type": "absoluteTime",
+            "time": 8.0
+          },
+          "movement": {
+            "act": "arcRight",
+            "duration": 0.1875,
+            "relativeFPS": "frozen",
+            "targets": [
+              {
+                "id": "production_line",
+                "description": "ریل خط تولید فعال / active production conveyor"
+              }
+            ],
+            "parameters": {
+              "arcRadius": 12,
+              "arcAngle": 0.1875,
+              "constantSpeed": true,
+              "handheld": false
+            }
+          },
+          "constraints": [
+            {
+              "kind": "general",
+              "constraint": "noShake",
+              "allFrames": true
+            },
+            {
+              "kind": "general",
+              "constraint": "keepInFrame",
+              "targets": [
+                {
+                  "id": "production_line",
+                  "description": "ریل خط تولید فعال / active production conveyor"
+                }
+              ],
+              "allFrames": true
+            },
+            {
+              "kind": "general",
+              "constraint": "avoidOcclusion",
+              "targets": [
+                {
+                  "id": "production_line",
+                  "description": "ریل خط تولید فعال / active production conveyor"
+                }
+              ],
+              "allFrames": true,
+              "weight": 0.8
+            }
+          ]
+        },
+        {
+          "id": "factory-03-chain-reaction-shot-019",
+          "name": "Stop-motion pose 09: advance",
+          "trigger": {
+            "type": "absoluteTime",
+            "time": 8.1875
+          },
+          "movement": {
+            "act": "arcRight",
+            "duration": 0.0625,
+            "relativeFPS": "veryFast",
+            "targets": [
+              {
+                "id": "production_line",
+                "description": "ریل خط تولید فعال / active production conveyor"
+              }
+            ],
+            "parameters": {
+              "arcRadius": 12,
+              "arcAngle": 0.0625,
+              "constantSpeed": true,
+              "handheld": false
+            }
+          },
+          "constraints": [
+            {
+              "kind": "general",
+              "constraint": "noShake",
+              "allFrames": true
+            },
+            {
+              "kind": "general",
+              "constraint": "keepInFrame",
+              "targets": [
+                {
+                  "id": "production_line",
+                  "description": "ریل خط تولید فعال / active production conveyor"
+                }
+              ],
+              "allFrames": true
+            },
+            {
+              "kind": "general",
+              "constraint": "avoidOcclusion",
+              "targets": [
+                {
+                  "id": "production_line",
+                  "description": "ریل خط تولید فعال / active production conveyor"
+                }
+              ],
+              "allFrames": true,
+              "weight": 0.8
+            }
+          ]
+        },
+        {
+          "id": "factory-03-chain-reaction-shot-020",
+          "name": "Stop-motion pose 10: hold",
+          "trigger": {
+            "type": "absoluteTime",
+            "time": 8.25
+          },
+          "movement": {
+            "act": "arcRight",
+            "duration": 0.1875,
+            "relativeFPS": "frozen",
+            "targets": [
+              {
+                "id": "production_line",
+                "description": "ریل خط تولید فعال / active production conveyor"
+              }
+            ],
+            "parameters": {
+              "arcRadius": 12,
+              "arcAngle": 0.1875,
+              "constantSpeed": true,
+              "handheld": false
+            }
+          },
+          "constraints": [
+            {
+              "kind": "general",
+              "constraint": "noShake",
+              "allFrames": true
+            },
+            {
+              "kind": "general",
+              "constraint": "keepInFrame",
+              "targets": [
+                {
+                  "id": "production_line",
+                  "description": "ریل خط تولید فعال / active production conveyor"
+                }
+              ],
+              "allFrames": true
+            },
+            {
+              "kind": "general",
+              "constraint": "avoidOcclusion",
+              "targets": [
+                {
+                  "id": "production_line",
+                  "description": "ریل خط تولید فعال / active production conveyor"
+                }
+              ],
+              "allFrames": true,
+              "weight": 0.8
+            }
+          ]
+        },
+        {
+          "id": "factory-03-chain-reaction-shot-021",
+          "name": "Stop-motion pose 10: advance",
+          "trigger": {
+            "type": "absoluteTime",
+            "time": 8.4375
+          },
+          "movement": {
+            "act": "arcRight",
+            "duration": 0.0625,
+            "relativeFPS": "veryFast",
+            "targets": [
+              {
+                "id": "production_line",
+                "description": "ریل خط تولید فعال / active production conveyor"
+              }
+            ],
+            "parameters": {
+              "arcRadius": 12,
+              "arcAngle": 0.0625,
+              "constantSpeed": true,
+              "handheld": false
+            }
+          },
+          "constraints": [
+            {
+              "kind": "general",
+              "constraint": "noShake",
+              "allFrames": true
+            },
+            {
+              "kind": "general",
+              "constraint": "keepInFrame",
+              "targets": [
+                {
+                  "id": "production_line",
+                  "description": "ریل خط تولید فعال / active production conveyor"
+                }
+              ],
+              "allFrames": true
+            },
+            {
+              "kind": "general",
+              "constraint": "avoidOcclusion",
+              "targets": [
+                {
+                  "id": "production_line",
+                  "description": "ریل خط تولید فعال / active production conveyor"
+                }
+              ],
+              "allFrames": true,
+              "weight": 0.8
+            }
+          ]
+        },
+        {
+          "id": "factory-03-chain-reaction-shot-022",
+          "name": "Stop-motion pose 11: hold",
+          "trigger": {
+            "type": "absoluteTime",
+            "time": 8.5
+          },
+          "movement": {
+            "act": "arcRight",
+            "duration": 0.1875,
+            "relativeFPS": "frozen",
+            "targets": [
+              {
+                "id": "production_line",
+                "description": "ریل خط تولید فعال / active production conveyor"
+              }
+            ],
+            "parameters": {
+              "arcRadius": 12,
+              "arcAngle": 0.1875,
+              "constantSpeed": true,
+              "handheld": false
+            }
+          },
+          "constraints": [
+            {
+              "kind": "general",
+              "constraint": "noShake",
+              "allFrames": true
+            },
+            {
+              "kind": "general",
+              "constraint": "keepInFrame",
+              "targets": [
+                {
+                  "id": "production_line",
+                  "description": "ریل خط تولید فعال / active production conveyor"
+                }
+              ],
+              "allFrames": true
+            },
+            {
+              "kind": "general",
+              "constraint": "avoidOcclusion",
+              "targets": [
+                {
+                  "id": "production_line",
+                  "description": "ریل خط تولید فعال / active production conveyor"
+                }
+              ],
+              "allFrames": true,
+              "weight": 0.8
+            }
+          ]
+        },
+        {
+          "id": "factory-03-chain-reaction-shot-023",
+          "name": "Stop-motion pose 11: advance",
+          "trigger": {
+            "type": "absoluteTime",
+            "time": 8.6875
+          },
+          "movement": {
+            "act": "arcRight",
+            "duration": 0.0625,
+            "relativeFPS": "veryFast",
+            "targets": [
+              {
+                "id": "production_line",
+                "description": "ریل خط تولید فعال / active production conveyor"
+              }
+            ],
+            "parameters": {
+              "arcRadius": 12,
+              "arcAngle": 0.0625,
+              "constantSpeed": true,
+              "handheld": false
+            }
+          },
+          "constraints": [
+            {
+              "kind": "general",
+              "constraint": "noShake",
+              "allFrames": true
+            },
+            {
+              "kind": "general",
+              "constraint": "keepInFrame",
+              "targets": [
+                {
+                  "id": "production_line",
+                  "description": "ریل خط تولید فعال / active production conveyor"
+                }
+              ],
+              "allFrames": true
+            },
+            {
+              "kind": "general",
+              "constraint": "avoidOcclusion",
+              "targets": [
+                {
+                  "id": "production_line",
+                  "description": "ریل خط تولید فعال / active production conveyor"
+                }
+              ],
+              "allFrames": true,
+              "weight": 0.8
+            }
+          ]
+        },
+        {
+          "id": "factory-03-chain-reaction-shot-024",
+          "name": "Stop-motion pose 12: hold",
+          "trigger": {
+            "type": "absoluteTime",
+            "time": 8.75
+          },
+          "movement": {
+            "act": "arcRight",
+            "duration": 0.1875,
+            "relativeFPS": "frozen",
+            "targets": [
+              {
+                "id": "production_line",
+                "description": "ریل خط تولید فعال / active production conveyor"
+              }
+            ],
+            "parameters": {
+              "arcRadius": 12,
+              "arcAngle": 0.1875,
+              "constantSpeed": true,
+              "handheld": false
+            }
+          },
+          "constraints": [
+            {
+              "kind": "general",
+              "constraint": "noShake",
+              "allFrames": true
+            },
+            {
+              "kind": "general",
+              "constraint": "keepInFrame",
+              "targets": [
+                {
+                  "id": "production_line",
+                  "description": "ریل خط تولید فعال / active production conveyor"
+                }
+              ],
+              "allFrames": true
+            },
+            {
+              "kind": "general",
+              "constraint": "avoidOcclusion",
+              "targets": [
+                {
+                  "id": "production_line",
+                  "description": "ریل خط تولید فعال / active production conveyor"
+                }
+              ],
+              "allFrames": true,
+              "weight": 0.8
+            }
+          ]
+        },
+        {
+          "id": "factory-03-chain-reaction-shot-025",
+          "name": "Stop-motion pose 12: advance",
+          "trigger": {
+            "type": "absoluteTime",
+            "time": 8.9375
+          },
+          "movement": {
+            "act": "arcRight",
+            "duration": 0.0625,
+            "relativeFPS": "veryFast",
+            "targets": [
+              {
+                "id": "production_line",
+                "description": "ریل خط تولید فعال / active production conveyor"
+              }
+            ],
+            "parameters": {
+              "arcRadius": 12,
+              "arcAngle": 0.0625,
+              "constantSpeed": true,
+              "handheld": false
+            }
+          },
+          "constraints": [
+            {
+              "kind": "general",
+              "constraint": "noShake",
+              "allFrames": true
+            },
+            {
+              "kind": "general",
+              "constraint": "keepInFrame",
+              "targets": [
+                {
+                  "id": "production_line",
+                  "description": "ریل خط تولید فعال / active production conveyor"
+                }
+              ],
+              "allFrames": true
+            },
+            {
+              "kind": "general",
+              "constraint": "avoidOcclusion",
+              "targets": [
+                {
+                  "id": "production_line",
+                  "description": "ریل خط تولید فعال / active production conveyor"
+                }
+              ],
+              "allFrames": true,
+              "weight": 0.8
+            }
+          ]
+        },
+        {
+          "id": "factory-03-chain-reaction-shot-026",
+          "name": "Reveal the connected system",
+          "trigger": {
+            "type": "absoluteTime",
+            "time": 9
+          },
+          "movement": {
+            "act": "craneUp",
+            "duration": 5,
+            "relativeFPS": "normal",
+            "targets": [
+              {
+                "id": "production_line",
+                "description": "ریل خط تولید فعال / active production conveyor"
+              }
+            ],
+            "parameters": {
+              "heightChange": 1,
+              "horizontalDistance": 1,
+              "handheld": false,
+              "path": "linear"
+            }
+          },
+          "constraints": [
+            {
+              "kind": "general",
+              "constraint": "noShake",
+              "allFrames": true
+            },
+            {
+              "kind": "general",
+              "constraint": "keepInFrame",
+              "targets": [
+                {
+                  "id": "production_line",
+                  "description": "ریل خط تولید فعال / active production conveyor"
+                }
+              ],
+              "allFrames": true
+            },
+            {
+              "kind": "general",
+              "constraint": "avoidOcclusion",
+              "targets": [
+                {
+                  "id": "production_line",
+                  "description": "ریل خط تولید فعال / active production conveyor"
+                }
+              ],
+              "allFrames": true,
+              "weight": 0.8
+            },
+            {
+              "targets": [
+                {
+                  "id": "production_line",
+                  "description": "ریل خط تولید فعال / active production conveyor"
+                }
+              ],
+              "config": {
+                "type": "subjectAware",
+                "shotSize": "longShot"
+              },
+              "allFrames": false,
+              "easing": {
+                "inDuration": 0.6,
+                "curve": "easeInOut"
+              }
+            }
+          ]
+        },
+        {
+          "id": "factory-03-chain-reaction-shot-027",
+          "name": "Hold the chain before it starts",
+          "trigger": {
+            "type": "absoluteTime",
+            "time": 14
+          },
+          "movement": {
+            "act": "static",
+            "duration": 6,
+            "relativeFPS": "normal",
+            "targets": [
+              {
+                "id": "worker_a",
+                "description": "کارگر الف / worker A — initiates shove"
+              },
+              {
+                "id": "worker_b",
+                "description": "کارگر ب / worker B — collides with production line"
+              },
+              {
+                "id": "cargo_06",
+                "description": "قطعهٔ تولید 6 · سقوط از خط / spills on impact"
+              },
+              {
+                "id": "worker_05",
+                "description": "کارگر خط تولید 5 · توقف اضطراری / emergency stop"
+              }
+            ]
+          },
+          "constraints": [
+            {
+              "kind": "general",
+              "constraint": "noShake",
+              "allFrames": true
+            },
+            {
+              "kind": "general",
+              "constraint": "keepInFrame",
+              "targets": [
+                {
+                  "id": "worker_a",
+                  "description": "کارگر الف / worker A — initiates shove"
+                },
+                {
+                  "id": "worker_b",
+                  "description": "کارگر ب / worker B — collides with production line"
+                },
+                {
+                  "id": "cargo_06",
+                  "description": "قطعهٔ تولید 6 · سقوط از خط / spills on impact"
+                },
+                {
+                  "id": "worker_05",
+                  "description": "کارگر خط تولید 5 · توقف اضطراری / emergency stop"
+                }
+              ],
+              "allFrames": true
+            },
+            {
+              "kind": "general",
+              "constraint": "avoidOcclusion",
+              "targets": [
+                {
+                  "id": "worker_a",
+                  "description": "کارگر الف / worker A — initiates shove"
+                },
+                {
+                  "id": "worker_b",
+                  "description": "کارگر ب / worker B — collides with production line"
+                },
+                {
+                  "id": "cargo_06",
+                  "description": "قطعهٔ تولید 6 · سقوط از خط / spills on impact"
+                },
+                {
+                  "id": "worker_05",
+                  "description": "کارگر خط تولید 5 · توقف اضطراری / emergency stop"
+                }
+              ],
+              "allFrames": true,
+              "weight": 0.8
+            },
+            {
+              "targets": [
+                {
+                  "id": "worker_a",
+                  "description": "کارگر الف / worker A — initiates shove"
+                },
+                {
+                  "id": "worker_b",
+                  "description": "کارگر ب / worker B — collides with production line"
+                },
+                {
+                  "id": "cargo_06",
+                  "description": "قطعهٔ تولید 6 · سقوط از خط / spills on impact"
+                },
+                {
+                  "id": "worker_05",
+                  "description": "کارگر خط تولید 5 · توقف اضطراری / emergency stop"
+                }
+              ],
+              "config": {
+                "type": "subjectAware",
+                "shotSize": "longShot"
+              },
+              "allFrames": false,
+              "easing": {
+                "inDuration": 0.6,
+                "curve": "easeInOut"
+              }
+            }
+          ]
+        },
+        {
+          "id": "factory-03-chain-reaction-shot-028",
+          "name": "Show every link",
+          "trigger": {
+            "type": "absoluteTime",
+            "time": 20
+          },
+          "movement": {
+            "act": "static",
+            "duration": 4.1,
+            "relativeFPS": "normal",
+            "targets": [
+              {
+                "id": "worker_a",
+                "description": "کارگر الف / worker A — initiates shove"
+              },
+              {
+                "id": "worker_b",
+                "description": "کارگر ب / worker B — collides with production line"
+              },
+              {
+                "id": "cargo_06",
+                "description": "قطعهٔ تولید 6 · سقوط از خط / spills on impact"
+              },
+              {
+                "id": "worker_05",
+                "description": "کارگر خط تولید 5 · توقف اضطراری / emergency stop"
+              }
+            ]
+          },
+          "constraints": [
+            {
+              "kind": "general",
+              "constraint": "noShake",
+              "allFrames": true
+            },
+            {
+              "kind": "general",
+              "constraint": "keepInFrame",
+              "targets": [
+                {
+                  "id": "worker_a",
+                  "description": "کارگر الف / worker A — initiates shove"
+                },
+                {
+                  "id": "worker_b",
+                  "description": "کارگر ب / worker B — collides with production line"
+                },
+                {
+                  "id": "cargo_06",
+                  "description": "قطعهٔ تولید 6 · سقوط از خط / spills on impact"
+                },
+                {
+                  "id": "worker_05",
+                  "description": "کارگر خط تولید 5 · توقف اضطراری / emergency stop"
+                }
+              ],
+              "allFrames": true
+            },
+            {
+              "kind": "general",
+              "constraint": "avoidOcclusion",
+              "targets": [
+                {
+                  "id": "worker_a",
+                  "description": "کارگر الف / worker A — initiates shove"
+                },
+                {
+                  "id": "worker_b",
+                  "description": "کارگر ب / worker B — collides with production line"
+                },
+                {
+                  "id": "cargo_06",
+                  "description": "قطعهٔ تولید 6 · سقوط از خط / spills on impact"
+                },
+                {
+                  "id": "worker_05",
+                  "description": "کارگر خط تولید 5 · توقف اضطراری / emergency stop"
+                }
+              ],
+              "allFrames": true,
+              "weight": 0.8
+            },
+            {
+              "targets": [
+                {
+                  "id": "worker_a",
+                  "description": "کارگر الف / worker A — initiates shove"
+                },
+                {
+                  "id": "worker_b",
+                  "description": "کارگر ب / worker B — collides with production line"
+                },
+                {
+                  "id": "cargo_06",
+                  "description": "قطعهٔ تولید 6 · سقوط از خط / spills on impact"
+                },
+                {
+                  "id": "worker_05",
+                  "description": "کارگر خط تولید 5 · توقف اضطراری / emergency stop"
+                }
+              ],
+              "config": {
+                "type": "subjectAware",
+                "shotSize": "longShot"
+              },
+              "allFrames": false,
+              "easing": {
+                "inDuration": 0.6,
+                "curve": "easeInOut"
+              }
+            }
+          ]
+        },
+        {
+          "id": "factory-03-chain-reaction-shot-029",
+          "name": "Reveal the consequence",
+          "trigger": {
+            "type": "absoluteTime",
+            "time": 24.1
+          },
+          "movement": {
+            "act": "dollyOut",
+            "duration": 9.9,
+            "relativeFPS": "normal",
+            "targets": [
+              {
+                "id": "worker_a",
+                "description": "کارگر الف / worker A — initiates shove"
+              },
+              {
+                "id": "worker_b",
+                "description": "کارگر ب / worker B — collides with production line"
+              },
+              {
+                "id": "worker_05",
+                "description": "کارگر خط تولید 5 · توقف اضطراری / emergency stop"
+              }
+            ],
+            "parameters": {
+              "distance": 2,
+              "handheld": false,
+              "path": "linear"
+            }
+          },
+          "constraints": [
+            {
+              "kind": "general",
+              "constraint": "noShake",
+              "allFrames": true
+            },
+            {
+              "kind": "general",
+              "constraint": "keepInFrame",
+              "targets": [
+                {
+                  "id": "worker_a",
+                  "description": "کارگر الف / worker A — initiates shove"
+                },
+                {
+                  "id": "worker_b",
+                  "description": "کارگر ب / worker B — collides with production line"
+                },
+                {
+                  "id": "worker_05",
+                  "description": "کارگر خط تولید 5 · توقف اضطراری / emergency stop"
+                }
+              ],
+              "allFrames": true
+            },
+            {
+              "kind": "general",
+              "constraint": "avoidOcclusion",
+              "targets": [
+                {
+                  "id": "worker_a",
+                  "description": "کارگر الف / worker A — initiates shove"
+                },
+                {
+                  "id": "worker_b",
+                  "description": "کارگر ب / worker B — collides with production line"
+                },
+                {
+                  "id": "worker_05",
+                  "description": "کارگر خط تولید 5 · توقف اضطراری / emergency stop"
+                }
+              ],
+              "allFrames": true,
+              "weight": 0.8
+            },
+            {
+              "targets": [
+                {
+                  "id": "worker_a",
+                  "description": "کارگر الف / worker A — initiates shove"
+                },
+                {
+                  "id": "worker_b",
+                  "description": "کارگر ب / worker B — collides with production line"
+                },
+                {
+                  "id": "worker_05",
+                  "description": "کارگر خط تولید 5 · توقف اضطراری / emergency stop"
+                }
+              ],
+              "config": {
+                "type": "subjectAware",
+                "shotSize": "longShot"
+              },
+              "allFrames": false,
+              "easing": {
+                "inDuration": 0.6,
+                "curve": "easeInOut"
+              }
+            }
+          ]
+        },
+        {
+          "id": "factory-03-chain-reaction-shot-030",
+          "name": "Reframe the human system",
+          "trigger": {
+            "type": "absoluteTime",
+            "time": 34
+          },
+          "movement": {
+            "act": "arcRight",
+            "duration": 10,
+            "relativeFPS": "normal",
+            "targets": [
+              {
+                "id": "worker_a",
+                "description": "کارگر الف / worker A — initiates shove"
+              },
+              {
+                "id": "worker_b",
+                "description": "کارگر ب / worker B — collides with production line"
+              },
+              {
+                "id": "worker_05",
+                "description": "کارگر خط تولید 5 · توقف اضطراری / emergency stop"
+              }
+            ],
+            "parameters": {
+              "arcAngle": 7,
+              "arcRadius": 12,
+              "constantSpeed": true,
+              "handheld": false
+            }
+          },
+          "constraints": [
+            {
+              "kind": "general",
+              "constraint": "noShake",
+              "allFrames": true
+            },
+            {
+              "kind": "general",
+              "constraint": "keepInFrame",
+              "targets": [
+                {
+                  "id": "worker_a",
+                  "description": "کارگر الف / worker A — initiates shove"
+                },
+                {
+                  "id": "worker_b",
+                  "description": "کارگر ب / worker B — collides with production line"
+                },
+                {
+                  "id": "worker_05",
+                  "description": "کارگر خط تولید 5 · توقف اضطراری / emergency stop"
+                }
+              ],
+              "allFrames": true
+            },
+            {
+              "kind": "general",
+              "constraint": "avoidOcclusion",
+              "targets": [
+                {
+                  "id": "worker_a",
+                  "description": "کارگر الف / worker A — initiates shove"
+                },
+                {
+                  "id": "worker_b",
+                  "description": "کارگر ب / worker B — collides with production line"
+                },
+                {
+                  "id": "worker_05",
+                  "description": "کارگر خط تولید 5 · توقف اضطراری / emergency stop"
+                }
+              ],
+              "allFrames": true,
+              "weight": 0.8
+            },
+            {
+              "targets": [
+                {
+                  "id": "worker_a",
+                  "description": "کارگر الف / worker A — initiates shove"
+                },
+                {
+                  "id": "worker_b",
+                  "description": "کارگر ب / worker B — collides with production line"
+                },
+                {
+                  "id": "worker_05",
+                  "description": "کارگر خط تولید 5 · توقف اضطراری / emergency stop"
+                }
+              ],
+              "config": {
+                "type": "subjectAware",
+                "shotSize": "longShot"
+              },
+              "allFrames": false,
+              "easing": {
+                "inDuration": 0.6,
+                "curve": "easeInOut"
+              }
+            }
+          ]
+        },
+        {
+          "id": "factory-03-chain-reaction-shot-031",
+          "name": "Hold the new order",
+          "trigger": {
+            "type": "absoluteTime",
+            "time": 44
+          },
+          "movement": {
+            "act": "static",
+            "duration": 4,
+            "relativeFPS": "normal",
+            "targets": [
+              {
+                "id": "worker_a",
+                "description": "کارگر الف / worker A — initiates shove"
+              },
+              {
+                "id": "worker_b",
+                "description": "کارگر ب / worker B — collides with production line"
+              },
+              {
+                "id": "worker_05",
+                "description": "کارگر خط تولید 5 · توقف اضطراری / emergency stop"
+              }
+            ]
+          },
+          "constraints": [
+            {
+              "kind": "general",
+              "constraint": "noShake",
+              "allFrames": true
+            },
+            {
+              "kind": "general",
+              "constraint": "keepInFrame",
+              "targets": [
+                {
+                  "id": "worker_a",
+                  "description": "کارگر الف / worker A — initiates shove"
+                },
+                {
+                  "id": "worker_b",
+                  "description": "کارگر ب / worker B — collides with production line"
+                },
+                {
+                  "id": "worker_05",
+                  "description": "کارگر خط تولید 5 · توقف اضطراری / emergency stop"
+                }
+              ],
+              "allFrames": true
+            },
+            {
+              "kind": "general",
+              "constraint": "avoidOcclusion",
+              "targets": [
+                {
+                  "id": "worker_a",
+                  "description": "کارگر الف / worker A — initiates shove"
+                },
+                {
+                  "id": "worker_b",
+                  "description": "کارگر ب / worker B — collides with production line"
+                },
+                {
+                  "id": "worker_05",
+                  "description": "کارگر خط تولید 5 · توقف اضطراری / emergency stop"
+                }
+              ],
+              "allFrames": true,
+              "weight": 0.8
+            },
+            {
+              "targets": [
+                {
+                  "id": "worker_a",
+                  "description": "کارگر الف / worker A — initiates shove"
+                },
+                {
+                  "id": "worker_b",
+                  "description": "کارگر ب / worker B — collides with production line"
+                },
+                {
+                  "id": "worker_05",
+                  "description": "کارگر خط تولید 5 · توقف اضطراری / emergency stop"
+                }
+              ],
+              "config": {
+                "type": "subjectAware",
+                "shotSize": "longShot"
+              },
+              "allFrames": false,
+              "easing": {
+                "inDuration": 0.6,
+                "curve": "easeInOut"
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

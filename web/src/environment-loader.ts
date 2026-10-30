@@ -1,0 +1,665 @@
+import { assertScenarioData } from "../../src/environment/performance";
+import type {
+  BoundsV1,
+  Channel,
+  CoordinateSystemV1,
+  EntityTransformV1,
+  EnvironmentV1,
+  KeyframedChannel,
+  Quat,
+  SceneEntityV1,
+  Vec3,
+} from "../../src/types/environment";
+import { sampleLocomotionPosition } from "../../src/environment/locomotion-path";
+import { assertEntityOcclusion } from "../../src/environment/occlusion-geometry";
+import {
+  clamp,
+  normalizeQuat,
+  sampleQuatKeyframes,
+  sampleVec3Keyframes,
+  type Vec3Interpolation,
+} from "./interpolation";
+import {
+  DataValidationError,
+  expectArray,
+  expectBoolean,
+  expectFiniteNumber,
+  expectInteger,
+  expectLiteral,
+  expectNonEmptyString,
+  expectNonNegativeNumber,
+  expectObject,
+  expectOneOf,
+  expectPositiveNumber,
+  expectString,
+  fail,
+  parseJson,
+  type JsonObject,
+} from "./validation";
+
+const VEC3_INTERPOLATIONS = ["step", "linear", "catmullRom"] as const;
+const QUAT_INTERPOLATIONS = ["step", "slerp"] as const;
+const PRESET_NAMES = [
+  "soccerBall",
+  "soccerGoal",
+  "humanoid",
+  "car",
+  "door",
+  "vase",
+  "monitor",
+  "genericObject", "stadiumTrack", "raceFlag", "flower", "productionLine", "industrialRobot", "broadcastCamera", "scoreboard",
+] as const;
+const PRIMITIVE_SHAPES = ["box", "sphere", "cylinder", "cone", "plane", "torus"] as const;
+const WORLD_PROFILES = ["studio", "daylight", "road", "park", "industrial", "corridor", "stage", "rooftop"] as const;
+const GROUND_SURFACES = ["concrete", "wood", "asphalt", "grass", "stage"] as const;
+
+export const CANONICAL_COORDINATES_V1: CoordinateSystemV1 = {
+  handedness: "right",
+  upAxis: "+Y",
+  cameraForwardAxis: "-Z",
+  lengthUnit: "meter",
+  rotationOrder: "quaternion-xyzw",
+};
+
+export interface FetchResponseLike {
+  readonly ok: boolean;
+  readonly status: number;
+  readonly statusText: string;
+  text(): Promise<string>;
+}
+
+export type JsonFetcher = (url: string) => Promise<FetchResponseLike>;
+
+export interface LoadEnvironmentOptions {
+  fetcher?: JsonFetcher;
+}
+
+export interface SampledEntityTransformV1 {
+  space: "world";
+  position: Vec3;
+  rotation: Quat;
+  scale: Vec3;
+}
+
+export interface SampledSceneEntityV1 {
+  entity: SceneEntityV1;
+  transform: SampledEntityTransformV1;
+}
+
+export interface SampledEnvironmentV1 {
+  timeSeconds: number;
+  entities: SampledSceneEntityV1[];
+}
+
+export interface SampleEnvironmentOptions {
+  /** Defaults to true, which is convenient for scrubbers at either endpoint. */
+  clampToClock?: boolean;
+}
+
+function assertVec3(value: unknown, path: string): asserts value is Vec3 {
+  const tuple = expectArray(value, path);
+  if (tuple.length !== 3) {
+    fail(path, `expected exactly 3 numbers, received ${tuple.length}`, "invalid-tuple-size");
+  }
+  tuple.forEach((component, index) => expectFiniteNumber(component, `${path}[${index}]`));
+}
+
+function assertQuat(value: unknown, path: string): asserts value is Quat {
+  const tuple = expectArray(value, path);
+  if (tuple.length !== 4) {
+    fail(path, `expected exactly 4 numbers in x, y, z, w order, received ${tuple.length}`, "invalid-tuple-size");
+  }
+  tuple.forEach((component, index) => expectFiniteNumber(component, `${path}[${index}]`));
+  const length = Math.hypot(...(tuple as number[]));
+  if (length <= 1e-12) {
+    fail(path, "quaternion must have non-zero length", "invalid-quaternion");
+  }
+}
+
+/** Validates the one coordinate convention supported by schema v1. */
+export function assertCoordinateSystemV1(
+  value: unknown,
+  path: string,
+): asserts value is CoordinateSystemV1 {
+  const coordinates = expectObject(value, path);
+  expectLiteral(coordinates.handedness, "right", `${path}.handedness`);
+  expectLiteral(coordinates.upAxis, "+Y", `${path}.upAxis`);
+  expectLiteral(coordinates.cameraForwardAxis, "-Z", `${path}.cameraForwardAxis`);
+  expectLiteral(coordinates.lengthUnit, "meter", `${path}.lengthUnit`);
+  expectLiteral(coordinates.rotationOrder, "quaternion-xyzw", `${path}.rotationOrder`);
+  if (coordinates.metricScale !== undefined) {
+    const scale = expectObject(coordinates.metricScale, `${path}.metricScale`);
+    expectOneOf(scale.status, ["calibrated", "relative"] as const, `${path}.metricScale.status`);
+    if (scale.metersPerUnit !== undefined) {
+      expectPositiveNumber(scale.metersPerUnit, `${path}.metricScale.metersPerUnit`);
+      if (scale.status === "relative") fail(`${path}.metricScale.metersPerUnit`, "relative scale has no calibrated meter conversion", "invalid-scale");
+      if (scale.metersPerUnit !== 1) fail(`${path}.metricScale.metersPerUnit`, "canonical coordinates must already be converted to meters", "invalid-scale");
+    }
+  }
+}
+
+function assertStrictTimes(
+  keyframes: readonly unknown[],
+  path: string,
+  durationSeconds: number,
+): void {
+  let previousTime = -Infinity;
+  keyframes.forEach((candidate, index) => {
+    const keyframePath = `${path}[${index}]`;
+    const keyframe = expectObject(candidate, keyframePath);
+    const time = expectNonNegativeNumber(keyframe.t, `${keyframePath}.t`);
+    if (time > durationSeconds) {
+      fail(
+        `${keyframePath}.t`,
+        `must be within the environment clock (0..${durationSeconds} seconds)`,
+        "out-of-range",
+      );
+    }
+    if (time <= previousTime) {
+      fail(
+        `${keyframePath}.t`,
+        `times must be strictly increasing and unique; previous time is ${previousTime}`,
+        "non-monotonic-time",
+      );
+    }
+    previousTime = time;
+  });
+}
+
+function assertVec3Channel(
+  value: unknown,
+  path: string,
+  durationSeconds: number,
+): asserts value is Channel<Vec3> {
+  if (Array.isArray(value)) {
+    assertVec3(value, path);
+    return;
+  }
+  const channel = expectObject(value, path);
+  expectOneOf(channel.interpolation, VEC3_INTERPOLATIONS, `${path}.interpolation`);
+  if (channel.extrapolation !== undefined) {
+    expectLiteral(channel.extrapolation, "hold", `${path}.extrapolation`);
+  }
+  const keyframes = expectArray(channel.keyframes, `${path}.keyframes`);
+  if (keyframes.length === 0) {
+    fail(`${path}.keyframes`, "must contain at least one keyframe", "empty-track");
+  }
+  assertStrictTimes(keyframes, `${path}.keyframes`, durationSeconds);
+  keyframes.forEach((candidate, index) => {
+    const keyframe = expectObject(candidate, `${path}.keyframes[${index}]`);
+    assertVec3(keyframe.value, `${path}.keyframes[${index}].value`);
+  });
+}
+
+function assertQuatChannel(
+  value: unknown,
+  path: string,
+  durationSeconds: number,
+): asserts value is Channel<Quat> {
+  if (Array.isArray(value)) {
+    assertQuat(value, path);
+    return;
+  }
+  const channel = expectObject(value, path);
+  expectOneOf(channel.interpolation, QUAT_INTERPOLATIONS, `${path}.interpolation`);
+  if (channel.extrapolation !== undefined) {
+    expectLiteral(channel.extrapolation, "hold", `${path}.extrapolation`);
+  }
+  const keyframes = expectArray(channel.keyframes, `${path}.keyframes`);
+  if (keyframes.length === 0) {
+    fail(`${path}.keyframes`, "must contain at least one keyframe", "empty-track");
+  }
+  assertStrictTimes(keyframes, `${path}.keyframes`, durationSeconds);
+  keyframes.forEach((candidate, index) => {
+    const keyframe = expectObject(candidate, `${path}.keyframes[${index}]`);
+    assertQuat(keyframe.value, `${path}.keyframes[${index}].value`);
+  });
+}
+
+function assertBounds(value: unknown, path: string): asserts value is BoundsV1 {
+  const bounds = expectObject(value, path);
+  if (bounds.type === "sphere") {
+    assertVec3(bounds.center, `${path}.center`);
+    expectPositiveNumber(bounds.radius, `${path}.radius`);
+    return;
+  }
+  if (bounds.type === "box") {
+    assertVec3(bounds.min, `${path}.min`);
+    assertVec3(bounds.max, `${path}.max`);
+    for (let axis = 0; axis < 3; axis += 1) {
+      if (bounds.min[axis] > bounds.max[axis]) {
+        fail(
+          `${path}.min[${axis}]`,
+          `must not exceed ${path}.max[${axis}]`,
+          "invalid-bounds",
+        );
+      }
+    }
+    return;
+  }
+  fail(`${path}.type`, 'expected "sphere" or "box"', "invalid-enum");
+}
+
+function assertScalarParams(value: unknown, path: string): void {
+  const params = expectObject(value, path);
+  Object.entries(params).forEach(([key, item]) => {
+    if (typeof item === "number") {
+      expectFiniteNumber(item, `${path}.${key}`);
+    } else if (typeof item !== "string" && typeof item !== "boolean") {
+      fail(`${path}.${key}`, "expected a finite number, string, or boolean", "invalid-type");
+    }
+  });
+}
+
+function assertVisual(value: unknown, path: string, allowModel = true): void {
+  const visual = expectObject(value, path);
+  if (visual.type === "preset") {
+    expectOneOf(visual.name, PRESET_NAMES, `${path}.name`);
+    if (visual.params !== undefined) {
+      assertScalarParams(visual.params, `${path}.params`);
+    }
+    return;
+  }
+  if (visual.type === "primitive") {
+    expectOneOf(visual.shape, PRIMITIVE_SHAPES, `${path}.shape`);
+    const params = expectObject(visual.params, `${path}.params`);
+    Object.entries(params).forEach(([key, item]) => {
+      if (Array.isArray(item)) {
+        assertVec3(item, `${path}.params.${key}`);
+      } else {
+        expectFiniteNumber(item, `${path}.params.${key}`);
+      }
+    });
+    if (visual.color !== undefined) {
+      expectNonEmptyString(visual.color, `${path}.color`);
+    }
+    return;
+  }
+  if (visual.type === "model" && allowModel) {
+    const url = expectNonEmptyString(visual.url, `${path}.url`);
+    // Relative paths work with Vite's deployment base; executable/blob/data URLs
+    // are not asset locations. Remote HTTP(S) sources additionally require CORS.
+    if (
+      !/\.(?:glb|gltf)(?:[?#].*)?$/i.test(url)
+      || (/^[a-z][a-z\d+.-]*:/i.test(url) && !/^https?:\/\//i.test(url))
+    ) {
+      fail(`${path}.url`, "expected a relative or HTTP(S) .glb or .gltf asset URL", "invalid-model-url");
+    }
+    if (visual.position !== undefined) assertVec3(visual.position, `${path}.position`);
+    if (visual.rotation !== undefined) assertQuat(visual.rotation, `${path}.rotation`);
+    if (visual.scale !== undefined) {
+      assertVec3(visual.scale, `${path}.scale`);
+      (visual.scale as Vec3).forEach((component, index) => {
+        if (Math.abs(component) <= 1e-12) {
+          fail(`${path}.scale[${index}]`, "model scale components must be non-zero", "out-of-range");
+        }
+      });
+    }
+    if (visual.fitToBounds !== undefined) expectBoolean(visual.fitToBounds, `${path}.fitToBounds`);
+    if (visual.fallback !== undefined) assertVisual(visual.fallback, `${path}.fallback`, false);
+    return;
+  }
+  fail(`${path}.type`, allowModel ? 'expected "preset", "primitive", or "model"' : 'expected "preset" or "primitive"', "invalid-enum");
+}
+
+function assertTransform(
+  value: unknown,
+  path: string,
+  durationSeconds: number,
+): asserts value is EntityTransformV1 {
+  const transform = expectObject(value, path);
+  expectLiteral(transform.space, "world", `${path}.space`);
+  assertVec3Channel(transform.position, `${path}.position`, durationSeconds);
+  if (transform.rotation !== undefined) {
+    assertQuatChannel(transform.rotation, `${path}.rotation`, durationSeconds);
+  }
+  if (transform.scale !== undefined) {
+    assertVec3Channel(transform.scale, `${path}.scale`, durationSeconds);
+  }
+}
+
+function assertEntity(
+  value: unknown,
+  path: string,
+  durationSeconds: number,
+): asserts value is SceneEntityV1 {
+  const entity = expectObject(value, path);
+  expectNonEmptyString(entity.id, `${path}.id`);
+  if (entity.label !== undefined) {
+    expectNonEmptyString(entity.label, `${path}.label`);
+  }
+  if (entity.forwardAxis !== undefined) {
+    expectOneOf(entity.forwardAxis, ["+X", "-X", "+Z", "-Z"] as const, `${path}.forwardAxis`);
+  }
+  if (entity.layout !== undefined) {
+    const layout = expectObject(entity.layout, `${path}.layout`);
+    expectOneOf(layout.role, ["subject", "prop", "furniture", "wall", "window", "trim", "floor", "ceiling",
+      "fixture", "paving", "marking", "railing", "stair", "landing", "column", "beam", "door"] as const, `${path}.layout.role`);
+    expectNonEmptyString(layout.purpose, `${path}.layout.purpose`);
+    if (layout.support !== undefined) expectNonEmptyString(layout.support, `${path}.layout.support`);
+    if (layout.cutaway !== undefined) expectOneOf(layout.cutaway, ["roof", "wall"] as const, `${path}.layout.cutaway`);
+    if (layout.outwardNormal !== undefined) {
+      assertVec3(layout.outwardNormal, `${path}.layout.outwardNormal`);
+      if (Math.abs(Math.hypot(...layout.outwardNormal) - 1) > 1e-5)
+        fail(`${path}.layout.outwardNormal`, "expected a unit normal", "out-of-range");
+    }
+    if (layout.cutaway === "wall" && layout.outwardNormal === undefined)
+      fail(`${path}.layout.outwardNormal`, "wall cutaway requires its outward normal", "missing-reference");
+    if (layout.surface !== undefined) expectOneOf(layout.surface,
+      ["plaster", "concrete", "wood", "metal", "glass", "fabric", "emissive", "stone"] as const, `${path}.layout.surface`);
+    if (layout.sign !== undefined) expectNonEmptyString(layout.sign, `${path}.layout.sign`);
+    if (layout.light !== undefined) {
+      const light = expectObject(layout.light, `${path}.layout.light`);
+      expectNonEmptyString(light.color, `${path}.layout.light.color`);
+      expectNonNegativeNumber(light.intensity, `${path}.layout.light.intensity`);
+      expectPositiveNumber(light.distance, `${path}.layout.light.distance`);
+      if (light.offset !== undefined) assertVec3(light.offset, `${path}.layout.light.offset`);
+    }
+  }
+  assertTransform(entity.transform, `${path}.transform`, durationSeconds);
+  assertVisual(entity.visual, `${path}.visual`);
+  if (entity.bounds !== undefined) {
+    assertBounds(entity.bounds, `${path}.bounds`);
+  }
+  if (entity.occlusion !== undefined) {
+    try { assertEntityOcclusion(entity.occlusion, `${path}.occlusion`); }
+    catch (error) { fail(`${path}.occlusion`, error instanceof Error ? error.message : String(error), "invalid-occlusion"); }
+  }
+  const visual = expectObject(entity.visual, `${path}.visual`);
+  if (visual.type === "model" && visual.fitToBounds === true && entity.bounds === undefined) {
+    fail(`${path}.visual.fitToBounds`, "requires entity bounds", "missing-reference");
+  }
+}
+
+/** Throws DataValidationError at the precise JSON path on invalid input. */
+export function assertEnvironmentV1(value: unknown): asserts value is EnvironmentV1 {
+  const environment = expectObject(value, "$" as const);
+  expectLiteral(environment.schemaVersion, "1.0", "$.schemaVersion");
+  expectLiteral(environment.kind, "environment", "$.kind");
+  expectNonEmptyString(environment.id, "$.id");
+  expectNonEmptyString(environment.promptExampleId, "$.promptExampleId");
+  expectString(environment.prompt, "$.prompt");
+
+  const clock = expectObject(environment.clock, "$.clock");
+  const durationSeconds = expectPositiveNumber(clock.durationSeconds, "$.clock.durationSeconds");
+  expectLiteral(clock.timeDomain, "playback", "$.clock.timeDomain");
+  if (clock.fpsHint !== undefined) {
+    expectPositiveNumber(clock.fpsHint, "$.clock.fpsHint");
+  }
+  assertCoordinateSystemV1(environment.coordinates, "$.coordinates");
+
+  if (environment.evaluation !== undefined) {
+    const evaluation = expectObject(environment.evaluation, "$.evaluation");
+    expectOneOf(
+      evaluation.distanceMetric,
+      ["boundsSurface", "anchorCenter"] as const,
+      "$.evaluation.distanceMetric",
+    );
+    if (evaluation.epsilon !== undefined) {
+      expectNonNegativeNumber(evaluation.epsilon, "$.evaluation.epsilon");
+    }
+  }
+
+  if (environment.world !== undefined) {
+    const world = expectObject(environment.world, "$.world");
+    if (world.background !== undefined) {
+      expectNonEmptyString(world.background, "$.world.background");
+    }
+    if (world.profile !== undefined) expectOneOf(world.profile, WORLD_PROFILES, "$.world.profile");
+    if (world.exposure !== undefined) expectPositiveNumber(world.exposure, "$.world.exposure");
+    if (world.overviewCamera !== undefined) {
+      const overviewCamera = expectObject(world.overviewCamera, "$.world.overviewCamera");
+      const position = overviewCamera.position;
+      const target = overviewCamera.target;
+      assertVec3(position, "$.world.overviewCamera.position");
+      assertVec3(target, "$.world.overviewCamera.target");
+      if (
+        position.every(
+          (component, index) => component === target[index],
+        )
+      ) {
+        fail(
+          "$.world.overviewCamera",
+          "position and target must not be identical",
+          "invalid-camera-pose",
+        );
+      }
+    }
+    if (world.ground !== undefined) {
+      const ground = expectObject(world.ground, "$.world.ground");
+      expectFiniteNumber(ground.y, "$.world.ground.y");
+      if (ground.render !== undefined) expectBoolean(ground.render, "$.world.ground.render");
+      if (ground.continuation !== undefined) expectOneOf(ground.continuation, ["automatic", "none", "terrain"] as const, "$.world.ground.continuation");
+      if (ground.details !== undefined) expectOneOf(ground.details, ["automatic", "authored"] as const, "$.world.ground.details");
+      const size = expectArray(ground.size, "$.world.ground.size");
+      if (size.length !== 2) {
+        fail("$.world.ground.size", "expected exactly 2 numbers", "invalid-tuple-size");
+      }
+      size.forEach((component, index) =>
+        expectPositiveNumber(component, `$.world.ground.size[${index}]`));
+      if (ground.color !== undefined) {
+        expectNonEmptyString(ground.color, "$.world.ground.color");
+      }
+      if (ground.surface !== undefined) expectOneOf(ground.surface, GROUND_SURFACES, "$.world.ground.surface");
+    }
+    if (world.grid !== undefined) {
+      const grid = expectObject(world.grid, "$.world.grid");
+      expectPositiveNumber(grid.size, "$.world.grid.size");
+      const divisions = expectInteger(grid.divisions, "$.world.grid.divisions");
+      if (divisions <= 0) {
+        fail("$.world.grid.divisions", "must be greater than 0", "out-of-range");
+      }
+    }
+  }
+
+  const entities = expectArray(environment.entities, "$.entities");
+  const entityIds = new Set<string>();
+  entities.forEach((candidate, index) => {
+    const path = `$.entities[${index}]`;
+    assertEntity(candidate, path, durationSeconds);
+    if (entityIds.has(candidate.id)) {
+      fail(`${path}.id`, `duplicate entity id ${JSON.stringify(candidate.id)}`, "duplicate-id");
+    }
+    entityIds.add(candidate.id);
+  });
+
+  // Resolve after collecting every ID: authoring order must not affect supports.
+  const supportById = new Map<string, string>();
+  entities.forEach((candidate, index) => {
+    const entity = candidate as SceneEntityV1;
+    const support = entity.layout?.support;
+    if (!support || support === "ground") return;
+    if (!entityIds.has(support))
+      fail(`$.entities[${index}].layout.support`, `references missing entity ${JSON.stringify(support)}`, "missing-reference");
+    supportById.set(entity.id, support);
+  });
+  const complete = new Set<string>();
+  for (const id of supportById.keys()) {
+    const visiting = new Set<string>();
+    let current: string | undefined = id;
+    while (current && !complete.has(current)) {
+      if (visiting.has(current)) fail("$.entities", `cyclic support chain at ${JSON.stringify(current)}`, "invalid-layout");
+      visiting.add(current);
+      current = supportById.get(current);
+    }
+    visiting.forEach(value => complete.add(value));
+  }
+
+  const semanticAnchors = expectArray(environment.semanticAnchors, "$.semanticAnchors");
+  const semanticAnchorIds = new Set<string>();
+  semanticAnchors.forEach((candidate, index) => {
+    const path = `$.semanticAnchors[${index}]`;
+    const semanticAnchor = expectObject(candidate, path);
+    const id = expectNonEmptyString(semanticAnchor.id, `${path}.id`);
+    const entityId = expectNonEmptyString(semanticAnchor.entityId, `${path}.entityId`);
+    if (semanticAnchorIds.has(id)) {
+      fail(
+        `${path}.id`,
+        `duplicate semantic anchor id ${JSON.stringify(id)}`,
+        "duplicate-id",
+      );
+    }
+    if (entityIds.has(id)) {
+      fail(
+        `${path}.id`,
+        `semantic anchor id ${JSON.stringify(id)} conflicts with an entity id`,
+        "duplicate-id",
+      );
+    }
+    if (!entityIds.has(entityId)) {
+      fail(
+        `${path}.entityId`,
+        `references missing entity ${JSON.stringify(entityId)}`,
+        "missing-reference",
+      );
+    }
+    semanticAnchorIds.add(id);
+    if (semanticAnchor.label !== undefined) {
+      expectNonEmptyString(semanticAnchor.label, `${path}.label`);
+    }
+    assertVec3(semanticAnchor.localAnchor, `${path}.localAnchor`);
+    if (semanticAnchor.localBounds !== undefined) {
+      assertBounds(semanticAnchor.localBounds, `${path}.localBounds`);
+    }
+  });
+  assertScenarioData(value as EnvironmentV1);
+}
+
+export function parseEnvironment(input: unknown): EnvironmentV1 {
+  assertEnvironmentV1(input);
+  return input;
+}
+
+export function parseEnvironmentJson(json: string): EnvironmentV1 {
+  return parseEnvironment(parseJson(json, "Environment"));
+}
+
+export async function loadEnvironment(
+  url: string,
+  options: LoadEnvironmentOptions = {},
+): Promise<EnvironmentV1> {
+  const fetcher = options.fetcher ?? defaultFetcher;
+  let response: FetchResponseLike;
+  try {
+    response = await fetcher(url);
+  } catch (error) {
+    const detail = error instanceof Error ? error.message : String(error);
+    throw new Error(`Could not load environment ${JSON.stringify(url)}: ${detail}`);
+  }
+  if (!response.ok) {
+    throw new Error(
+      `Could not load environment ${JSON.stringify(url)}: HTTP ${response.status}${response.statusText ? ` ${response.statusText}` : ""}`,
+    );
+  }
+  return parseEnvironmentJson(await response.text());
+}
+
+async function defaultFetcher(url: string): Promise<FetchResponseLike> {
+  if (typeof globalThis.fetch !== "function") {
+    throw new Error("fetch is unavailable; pass LoadEnvironmentOptions.fetcher");
+  }
+  return globalThis.fetch(url);
+}
+
+function isKeyframedChannel<T>(value: Channel<T>): value is KeyframedChannel<T> {
+  return !Array.isArray(value);
+}
+
+export function sampleVec3ChannelAt(channel: Channel<Vec3>, timeSeconds: number): Vec3 {
+  if (!isKeyframedChannel(channel)) {
+    return [...channel] as Vec3;
+  }
+  return sampleVec3Keyframes(
+    channel.keyframes,
+    timeSeconds,
+    channel.interpolation as Vec3Interpolation,
+  );
+}
+
+export function sampleQuatChannelAt(channel: Channel<Quat>, timeSeconds: number): Quat {
+  if (!isKeyframedChannel(channel)) {
+    return normalizeQuat(channel);
+  }
+  return sampleQuatKeyframes(
+    channel.keyframes,
+    timeSeconds,
+    channel.interpolation as "step" | "slerp",
+  );
+}
+
+export function sampleEntityTransformAt(
+  transform: EntityTransformV1,
+  timeSeconds: number,
+): SampledEntityTransformV1 {
+  if (!Number.isFinite(timeSeconds)) {
+    throw new DataValidationError("timeSeconds", "expected a finite number", "invalid-number");
+  }
+  return {
+    space: "world",
+    position: sampleVec3ChannelAt(transform.position, timeSeconds),
+    rotation: transform.rotation
+      ? sampleQuatChannelAt(transform.rotation, timeSeconds)
+      : [0, 0, 0, 1],
+    scale: transform.scale ? sampleVec3ChannelAt(transform.scale, timeSeconds) : [1, 1, 1],
+  };
+}
+
+/** Stable renderer-facing form; accepts either an entity or its transform. */
+export function sampleEntityTransform(
+  entityOrTransform: SceneEntityV1 | EntityTransformV1,
+  timeSeconds: number,
+): SampledEntityTransformV1 {
+  if (!("transform" in entityOrTransform)) {
+    return sampleEntityTransformAt(entityOrTransform, timeSeconds);
+  }
+  const sampled = sampleEntityTransformAt(entityOrTransform.transform, timeSeconds);
+  sampled.position = sampleLocomotionPosition(entityOrTransform, timeSeconds) ?? sampled.position;
+  return sampled;
+}
+
+export function sampleEnvironmentAt(
+  environment: EnvironmentV1,
+  timeSeconds: number,
+  options: SampleEnvironmentOptions = {},
+): SampledEnvironmentV1 {
+  if (!Number.isFinite(timeSeconds)) {
+    throw new DataValidationError("timeSeconds", "expected a finite number", "invalid-number");
+  }
+  const duration = environment.clock.durationSeconds;
+  const clampToClock = options.clampToClock ?? true;
+  if (!clampToClock && (timeSeconds < 0 || timeSeconds > duration)) {
+    throw new DataValidationError(
+      "timeSeconds",
+      `must be within 0..${duration}`,
+      "out-of-range",
+    );
+  }
+  const sampledTime = clampToClock ? clamp(timeSeconds, 0, duration) : timeSeconds;
+  return {
+    timeSeconds: sampledTime,
+    entities: environment.entities.map((entity) => ({
+      entity,
+      transform: sampleEntityTransform(entity, sampledTime),
+    })),
+  };
+}
+
+/** Convenience form for renderers that index transforms by entity id. */
+export function sampleEnvironmentTransformsAt(
+  environment: EnvironmentV1,
+  timeSeconds: number,
+  options: SampleEnvironmentOptions = {},
+): Record<string, SampledEntityTransformV1> {
+  return Object.fromEntries(
+    sampleEnvironmentAt(environment, timeSeconds, options).entities.map(({ entity, transform }) => [
+      entity.id,
+      transform,
+    ]),
+  );
+}
+
+/** Stable public aliases used by the app integration layer. */
+export const validateEnvironment = parseEnvironment;
+export const fetchEnvironment = loadEnvironment;
+
+export { DataValidationError } from "./validation";

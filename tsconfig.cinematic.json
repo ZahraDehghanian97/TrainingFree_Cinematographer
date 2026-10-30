@@ -1,0 +1,5 @@
+{
+  "extends": "./tsconfig.json",
+  "compilerOptions": { "noEmit": true, "declaration": false },
+  "include": [ "src/data/cinematic-examples.ts", "scripts/validate-cinematic-suite.ts", "scripts/generate-optimized-trajectories.ts" ]
+}

@@ -1,0 +1,162 @@
+{
+  "exampleId": "stadium-02-fall-and-resolve",
+  "environmentId": "stadium",
+  "auditFps": 60,
+  "cameraProbes": 2881,
+  "status": "pass",
+  "errors": [],
+  "visibilityReviewNotes": [
+    "runner_03: 99.05% of 41–48s has at least one clear centre/upper probe"
+  ],
+  "cameraClearance": {
+    "radiusMeters": 0.25,
+    "minimumCenterToBoundsMeters": 2.000849819451726,
+    "minimumSphereClearanceMeters": 1.7508498194517261,
+    "failingSamples": 0,
+    "nearestEntity": "spectator_051",
+    "timeOfMinimum": 32.68333333333333
+  },
+  "framing": [
+    {
+      "actionId": "stadium-02-fall-and-resolve-shot-01",
+      "target": "runner_03",
+      "samples": 601,
+      "fullyInFramePercent": 100.0,
+      "minimumEdgeMargin": 0.32591,
+      "firstFailureTime": null
+    },
+    {
+      "actionId": "stadium-02-fall-and-resolve-shot-02",
+      "target": "runner_03",
+      "samples": 511,
+      "fullyInFramePercent": 100.0,
+      "minimumEdgeMargin": 0.32593,
+      "firstFailureTime": null
+    },
+    {
+      "actionId": "stadium-02-fall-and-resolve-shot-03",
+      "target": "runner_03",
+      "samples": 331,
+      "fullyInFramePercent": 100.0,
+      "minimumEdgeMargin": 0.34814,
+      "firstFailureTime": null
+    },
+    {
+      "actionId": "stadium-02-fall-and-resolve-shot-04",
+      "target": "runner_03",
+      "samples": 1021,
+      "fullyInFramePercent": 100.0,
+      "minimumEdgeMargin": 0.34694,
+      "firstFailureTime": null
+    },
+    {
+      "actionId": "stadium-02-fall-and-resolve-shot-05",
+      "target": "runner_03",
+      "samples": 421,
+      "fullyInFramePercent": 100.0,
+      "minimumEdgeMargin": 0.3651,
+      "firstFailureTime": null
+    }
+  ],
+  "visibility": [
+    {
+      "actionId": "stadium-02-fall-and-resolve-shot-01",
+      "target": "runner_03",
+      "oneOrMoreProbesVisiblePercent": 100.0,
+      "bothProbesVisiblePercent": 100.0,
+      "fullyBlockedSamples": 0,
+      "firstFullyBlockedTime": null,
+      "dominantProxyBlockers": []
+    },
+    {
+      "actionId": "stadium-02-fall-and-resolve-shot-02",
+      "target": "runner_03",
+      "oneOrMoreProbesVisiblePercent": 100.0,
+      "bothProbesVisiblePercent": 100.0,
+      "fullyBlockedSamples": 0,
+      "firstFullyBlockedTime": null,
+      "dominantProxyBlockers": []
+    },
+    {
+      "actionId": "stadium-02-fall-and-resolve-shot-03",
+      "target": "runner_03",
+      "oneOrMoreProbesVisiblePercent": 100.0,
+      "bothProbesVisiblePercent": 100.0,
+      "fullyBlockedSamples": 0,
+      "firstFullyBlockedTime": null,
+      "dominantProxyBlockers": []
+    },
+    {
+      "actionId": "stadium-02-fall-and-resolve-shot-04",
+      "target": "runner_03",
+      "oneOrMoreProbesVisiblePercent": 100.0,
+      "bothProbesVisiblePercent": 100.0,
+      "fullyBlockedSamples": 0,
+      "firstFullyBlockedTime": null,
+      "dominantProxyBlockers": []
+    },
+    {
+      "actionId": "stadium-02-fall-and-resolve-shot-05",
+      "target": "runner_03",
+      "oneOrMoreProbesVisiblePercent": 99.05,
+      "bothProbesVisiblePercent": 67.458,
+      "fullyBlockedSamples": 4,
+      "firstFullyBlockedTime": 45.15,
+      "dominantProxyBlockers": [
+        [
+          "runner_04",
+          133
+        ],
+        [
+          "finish-post-41.2",
+          8
+        ]
+      ]
+    }
+  ],
+  "staticPhases": [],
+  "motion": {
+    "maxSpeedMetersPerSecond": 7.9347316572296185,
+    "maxAccelerationMetersPerSecondSquared": 6.742000856170261,
+    "maxAngularSpeedDegreesPerSecond": 9.4493151197554,
+    "maxFovRateDegreesPerSecond": 4.2854571429087684,
+    "maxAbsoluteHorizonRollDegrees": 1.5911407207472793e-05,
+    "fovYRangeDegrees": [
+      37.0,
+      46.0
+    ],
+    "cameraHeightRangeMeters": [
+      4.5,
+      8.0
+    ]
+  },
+  "eventCoverage": [
+    {
+      "eventId": "runner_fall",
+      "time": 13.7,
+      "subjects": [
+        {
+          "id": "runner_03",
+          "centreInViewport": true
+        }
+      ]
+    },
+    {
+      "eventId": "runner_recovery",
+      "time": 16.8,
+      "subjects": [
+        {
+          "id": "runner_03",
+          "centreInViewport": true
+        }
+      ]
+    }
+  ],
+  "limits": [
+    "60 Hz discrete replay checks, not continuous swept-volume certification.",
+    "Bounds are supplied conservative proxies, not rendered animated mesh/limb intersections.",
+    "Frustum inclusion does not prove pixel-level visibility.",
+    "Visibility rays test centre and upper probes; a clear probe does not imply the whole subject is unobstructed.",
+    "Artistic quality and numerical optimizer convergence are not certified by these checks."
+  ]
+}

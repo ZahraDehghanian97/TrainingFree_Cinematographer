@@ -1,0 +1,67 @@
+{
+  "title": "Fall and Resolve",
+  "phases": [
+    {
+      "actionId": "stadium-02-fall-and-resolve-shot-01",
+      "start": 0,
+      "end": 10,
+      "title": "Track the recovering protagonist",
+      "movement": "follow",
+      "primaryTargets": [
+        "runner_03"
+      ]
+    },
+    {
+      "actionId": "stadium-02-fall-and-resolve-shot-02",
+      "start": 10,
+      "end": 18.5,
+      "title": "Anticipate and cover the fall",
+      "movement": "follow",
+      "primaryTargets": [
+        "runner_03"
+      ]
+    },
+    {
+      "actionId": "stadium-02-fall-and-resolve-shot-03",
+      "start": 18.5,
+      "end": 24,
+      "title": "Rejoin the run",
+      "movement": "follow",
+      "primaryTargets": [
+        "runner_03"
+      ]
+    },
+    {
+      "actionId": "stadium-02-fall-and-resolve-shot-04",
+      "start": 24,
+      "end": 41,
+      "title": "Recovery tracking",
+      "movement": "follow",
+      "primaryTargets": [
+        "runner_03"
+      ]
+    },
+    {
+      "actionId": "stadium-02-fall-and-resolve-shot-05",
+      "start": 41,
+      "end": 48,
+      "title": "Late finish and release",
+      "movement": "craneUp",
+      "primaryTargets": [
+        "runner_03"
+      ]
+    }
+  ],
+  "sceneBeats": [
+    13.7,
+    15,
+    17.5,
+    44.8
+  ],
+  "previewTimes": [
+    8,
+    15,
+    23,
+    44.8
+  ]
+}

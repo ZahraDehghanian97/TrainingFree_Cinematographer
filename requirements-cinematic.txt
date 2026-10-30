@@ -1,0 +1,3 @@
+# Only needed to regenerate or independently audit the synthetic references.
+numpy>=1.24
+scipy>=1.10

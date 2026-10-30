@@ -1,0 +1,285 @@
+import type { EnvironmentV1, Quat, Vec3 } from "../types/environment";
+import type { CameraTrajectoryV1 } from "../types/trajectory";
+import type {
+  FlattenedTimeline,
+  LossFunctionType,
+  TimelineSolverOutput,
+} from "../types/solver";
+
+export type KeyframeMode = "hard" | "soft";
+
+/** A user-authored camera state. Omitted channels remain unconstrained. */
+export interface UserCameraKeyframe {
+  id?: string;
+  time: number;
+  /** Hard keyframes lock supplied channels exactly. Defaults to hard. */
+  mode?: KeyframeMode;
+  /** Multiplier for soft keyframes. Ignored for hard channels. */
+  weight?: number;
+  position?: Vec3;
+  rotation?: Quat;
+  /** Convenience alternative to rotation. Invalid when rotation is also set. */
+  lookAt?: Vec3;
+  /** World-up by default when lookAt is used. */
+  up?: Vec3;
+  fovYDegrees?: number;
+  cutBefore?: boolean;
+}
+
+export type PrimitiveLossType =
+  | "positionAnchor"
+  | "rotationAnchor"
+  | "fovAnchor"
+  | "positionHold"
+  | "orientationHold"
+  | "forwardHold"
+  | "yawHold"
+  | "pitchHold"
+  | "rollHold"
+  | "fovHold"
+  | "axisProgress"
+  | "totalProgressTarget"
+  | "orthogonalDrift"
+  | "pathProfile"
+  | "stepPacing"
+  | "stepSmoothness"
+  | "angularProgress"
+  | "angularDirection"
+  | "angularPacing"
+  | "planeHold"
+  | "radiusHold"
+  | "radiusSchedule"
+  | "lookAt"
+  | "screenPosition"
+  | "bboxInFrame"
+  | "screenScale"
+  | "subjectVisibility"
+  | "subjectScaleFloor"
+  | "distanceHold"
+  | "relativeOffsetHold"
+  | "bearingHold"
+  | "elevationHold"
+  | "velocityMatch"
+  | "subjectView"
+  | "subjectElevation"
+  | "rollProgress"
+  | "rollTarget"
+  | "levelHorizon"
+  | "intrinsicsProgress"
+  | "intrinsicsPacing"
+  | "collisionClearance"
+  | "nearPlaneClearance"
+  | "occlusion"
+  | "heightAboveGround"
+  | "groundClearance"
+  | "accelerationSmoothness"
+  | "angularAccelerationSmoothness"
+  | "jerkSmoothness"
+  | "pathLength";
+
+export type LossChannel =
+  | "position"
+  | "rotation"
+  | "intrinsics"
+  | "composition"
+  | "subjectRelative"
+  | "safety"
+  | "regularity";
+
+export type PrimitiveRole = "primary" | "stabilizer" | "regularizer";
+
+export interface PrimitiveLoss {
+  id: string;
+  type: PrimitiveLossType;
+  startTime: number;
+  endTime: number;
+  weight: number;
+  /** Residual scale sigma in the residual's units; not a zero-cost error allowance. */
+  tolerance: number;
+  channel: LossChannel;
+  role: PrimitiveRole;
+  sourceType: LossFunctionType | "userKeyframe" | "global";
+  sourceActionId?: string;
+  /** Duration of the original constraint support, before overlap-band splitting. */
+  normalizationDuration?: number;
+  parameters: Record<string, unknown>;
+}
+
+export interface ConflictResolution {
+  interval: [number, number];
+  rule:
+    | "arc+dolly=>spiral"
+    | "arc+pedestal=>helical-crane"
+    | "follow+dolly=>radial-follow"
+    | "translation-removes-position-hold"
+    | "compound-motion-removes-orthogonal-hold"
+    | "rotation-removes-orientation-hold"
+    | "zoom-removes-fov-hold"
+    | "framing-removes-fov-hold"
+    | "dutch-removes-level-horizon"
+    | "screen-position-dominates-look-at"
+    | "explicit-framing-removes-default-centering"
+    | "follow+pedestal=>vertical-follow"
+    | "under-constrained-hold-strengthened"
+    | "level-horizon-removes-roll-hold";
+  removedPrimitiveIds: string[];
+  addedPrimitiveIds: string[];
+}
+
+export interface CompiledLossPlan {
+  durationSeconds: number;
+  /** Automatic easing windows around changes of motion within a shot. */
+  motionTransitions?: MotionTransition[];
+  primitives: PrimitiveLoss[];
+  conflicts: ConflictResolution[];
+  warnings: string[];
+}
+
+export interface MotionTransition {
+  startTime: number;
+  boundaryTime: number;
+  endTime: number;
+}
+
+export interface OptimizerWeights {
+  userSoftKeyframe: number;
+  semanticPrimary: number;
+  semanticStabilizer: number;
+  globalSmoothness: number;
+  globalAngularSmoothness: number;
+  globalJerk: number;
+  /** Additional subject-relative sampled regularity; separate from world motion. */
+  globalRelativeSmoothness: number;
+  globalRelativeJerk: number;
+  globalCollision: number;
+  globalOcclusion: number;
+  globalGround: number;
+  globalMinPath: number;
+  subjectVisibility: number;
+  subjectScaleFloor: number;
+}
+
+/** Explicit semantic regions; values should come from a recorded annotation or design protocol. */
+export interface SemanticTargetOptions {
+  /** Normalized projected subject-height intervals, keyed by an existing shot-size name. */
+  shotSizeCoverage?: Record<string, [number, number]>;
+  /** Normalized image coordinates (origin at top left), keyed by an existing framing name. */
+  framingRegions?: Record<string, { x: [number, number]; y: [number, number] }>;
+}
+
+export interface OptimizerOptions {
+  /** Optional acceptable regions. Omitted names keep the existing authored prototypes. */
+  semanticTargets?: SemanticTargetOptions;
+  /** Soft lower bound on projected subject height when shot size is unspecified. */
+  minimumSubjectCoverage?: number;
+  /** Soft movement floors prevent unspecified amounts collapsing to no movement. */
+  minimumMovementDistance?: number;
+  minimumDollyDistanceRatio?: number;
+  minimumMovementAngleDegrees?: number;
+  minimumOrbitAngleDegrees?: number;
+  minimumZoomChangeDegrees?: number;
+  /** Total automatic motion transition window in seconds. Default 1; 0 disables. */
+  motionTransitionSeconds?: number;
+  /** Internal samples per second. Timeline boundaries/keyframes are always added. */
+  optimizationFps?: number;
+  /** Output samples per second. Defaults to the environment fpsHint. */
+  outputFps?: number;
+  iterations?: number;
+  randomSeed?: number;
+  initialFovYDegrees?: number;
+  /** Overrides DSL intrinsics.aspectRatio; otherwise defaults to 16 / 9. */
+  aspectRatio?: number;
+  cameraRadius?: number;
+  collisionMargin?: number;
+  nearPlane?: number;
+  farPlane?: number;
+  weights?: Partial<OptimizerWeights>;
+  /** Disable only for focused tests or ablations. */
+  globalLosses?: Partial<{
+    smoothness: boolean;
+    angularSmoothness: boolean;
+    jerk: boolean;
+    collision: boolean;
+    occlusion: boolean;
+    ground: boolean;
+    minPath: boolean;
+  }>;
+}
+
+export interface CameraOptimizerInput {
+  environment: EnvironmentV1;
+  timeline: FlattenedTimeline;
+  userKeyframes?: UserCameraKeyframe[];
+  options?: OptimizerOptions;
+}
+
+/** Convenience input when the timeline has not yet been flattened. */
+export type TimelineSolverCameraOptimizerInput = Omit<CameraOptimizerInput, "timeline"> & {
+  timeline: TimelineSolverOutput;
+};
+
+export interface CameraStateSample {
+  time: number;
+  position: Vec3;
+  rotation: Quat;
+  fovYDegrees: number;
+  /** Optional exact output-curve jets, in meters/second and meters/second². */
+  positionVelocity?: Vec3;
+  positionAcceleration?: Vec3;
+}
+
+export interface LossBreakdownEntry {
+  id: string;
+  type: PrimitiveLossType;
+  weightedLoss: number;
+}
+
+export interface OptimizerDiagnostics {
+  /** Objective before scene-aware seed search; null for a non-finite baseline. */
+  baselineLoss: number | null;
+  /** Selected seed objective at the start of numerical refinement (legacy field). */
+  initialLoss: number;
+  finalLoss: number;
+  /** Number of seed candidates evaluated, including the baseline. */
+  seedCandidateCount: number;
+  /** Stage improvements are percentages; null for non-finite or negligible (<1e-12) starting loss. */
+  seedImprovementPercent: number | null;
+  refinementImprovementPercent: number | null;
+  totalImprovementPercent: number | null;
+  /** Objective evaluations during numerical refinement, including its initial state. */
+  objectiveEvaluations: number;
+  /** Monotone, safety-preserving updates accepted during numerical refinement. */
+  acceptedSteps: number;
+  /** Complete or partial numerical search passes. */
+  searchSweeps: number;
+  iterations: number;
+  /** Always false until the solver computes a stationarity certificate. */
+  converged: boolean;
+  terminationReason: "objectivePlateau" | "stalled" | "maxIterations" | "initialState";
+  optimizationSampleCount: number;
+  outputSampleCount: number;
+  primitiveCount: number;
+  conflicts: ConflictResolution[];
+  lossBreakdown: LossBreakdownEntry[];
+  elapsedMilliseconds: number;
+  /** Largest remaining collision/ground clearance shortfall in meters, including resampling. */
+  maximumSafetyViolationMeters?: number;
+  warnings: string[];
+}
+
+export interface CameraOptimizerResult {
+  trajectory: CameraTrajectoryV1;
+  diagnostics: OptimizerDiagnostics;
+  compiledPlan: CompiledLossPlan;
+}
+
+/** Self-contained persisted optimizer output that can also be opened by Camera Lab. */
+export interface CameraOptimizerDiagnosticsDocumentV1 {
+  schemaVersion: "1.0";
+  kind: "cameraOptimizerDiagnostics";
+  exampleId?: string;
+  environmentId: string;
+  trajectory: CameraTrajectoryV1;
+  diagnostics: OptimizerDiagnostics;
+  compiledPlan: CompiledLossPlan;
+}

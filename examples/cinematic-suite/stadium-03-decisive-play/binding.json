@@ -1,0 +1,13 @@
+{
+  "schemaVersion": "1.0",
+  "bindings": {
+    "subject_ball": {
+      "id": "ball",
+      "description": "توپ فوتبال؛ گل در ثانیه ۳۸٫۲ / football goal at 38.2 s"
+    },
+    "subject_goal_east": {
+      "id": "goal_east",
+      "description": "دروازهٔ شرقی / east goal"
+    }
+  }
+}

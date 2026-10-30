@@ -1,0 +1,9 @@
+{
+  "schemaVersion": "1.0",
+  "bindings": {
+    "subject_track_cameraman": {
+      "id": "track_cameraman",
+      "description": "فیلم‌بردار کنار پیست · دوربین اصلی نیست / independent sideline camera operator"
+    }
+  }
+}

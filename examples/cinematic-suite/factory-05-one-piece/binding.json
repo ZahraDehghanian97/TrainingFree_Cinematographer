@@ -1,0 +1,9 @@
+{
+  "schemaVersion": "1.0",
+  "bindings": {
+    "subject_cargo_06": {
+      "id": "cargo_06",
+      "description": "قطعهٔ تولید 6 · سقوط از خط / spills on impact"
+    }
+  }
+}

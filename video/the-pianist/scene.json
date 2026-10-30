@@ -1,0 +1,8 @@
+{
+  "schemaVersion": "1.0",
+  "kind": "videoScene",
+  "sceneId": "the-pianist",
+  "sourceEnvironmentId": "video_the-pianist",
+  "sourceEnvironmentSha256": "2299714898f642432a6935eca48948ef60d57e0fc90ffbdfdb42432aa040e1c8",
+  "metersPerTrackerUnitApplied": 15.2
+}

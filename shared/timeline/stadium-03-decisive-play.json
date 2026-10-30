@@ -1,0 +1,411 @@
+{
+  "schemaVersion": "1.0",
+  "kind": "timelineSolverOutput",
+  "exampleId": "stadium-03-decisive-play",
+  "environmentId": "stadium",
+  "prompt": "Make a 48-second, single-take football sequence inside the stadium. Follow the ball from an elevated touchline-style camera on the positive-Z side of the pitch, keeping enough field in view to understand the passing play. Smooth the camera path across changes in ball direction instead of copying the ball's sharp turns. From 29 to 35 seconds leave the moving follow rig and settle into a wider fixed view containing the approaching ball and the east goal. Hold this shot through the kick, the goal at 38.2 seconds, and the ball settling in the net; do not cut away to the simultaneous running-race finish. After 40 seconds drift gently toward a more frontal view of the east goal and finish on the result of the play. Use normal playback, a level horizon, a moderately wide lens, and no handheld shake or snap pans.",
+  "totalDuration": 48,
+  "subjectBinding": {
+    "mode": "resolved",
+    "source": "resolved-fixture"
+  },
+  "timeline": {
+    "timeline": [
+      {
+        "kind": "interval",
+        "shotStartTime": 0,
+        "startTime": 0,
+        "endTime": 29,
+        "lossFunctions": [
+          {
+            "type": "trackMovement",
+            "parameters": {
+              "subjectId": "ball",
+              "path": "spline",
+              "handheld": false
+            },
+            "sourceActionId": "stadium-03-decisive-play-shot-01"
+          }
+        ],
+        "weight": 1
+      },
+      {
+        "kind": "interval",
+        "shotStartTime": 0,
+        "startTime": 0,
+        "endTime": 29,
+        "lossFunctions": [
+          {
+            "type": "noShake",
+            "parameters": {},
+            "sourceActionId": "stadium-03-decisive-play-shot-01"
+          }
+        ],
+        "weight": 1
+      },
+      {
+        "kind": "interval",
+        "shotStartTime": 0,
+        "startTime": 0,
+        "endTime": 29,
+        "lossFunctions": [
+          {
+            "type": "keepInFrame",
+            "parameters": {
+              "subjectId": "ball"
+            },
+            "sourceActionId": "stadium-03-decisive-play-shot-01"
+          }
+        ],
+        "weight": 1
+      },
+      {
+        "kind": "point",
+        "shotStartTime": 0,
+        "time": 0,
+        "lossFunctions": [
+          {
+            "type": "minPath",
+            "parameters": {
+              "targetPose": {
+                "position": {
+                  "x": -19.2821055,
+                  "y": 8.5,
+                  "z": 26.2991227
+                },
+                "rotation": {
+                  "x": -0.2029842989,
+                  "y": 0,
+                  "z": 0,
+                  "w": 0.9791819925
+                }
+              },
+              "targetIntrinsics": {
+                "fov": 43,
+                "aspectRatio": 1.7777777777777777
+              }
+            }
+          }
+        ],
+        "weight": 1
+      },
+      {
+        "kind": "point",
+        "shotStartTime": 0,
+        "time": 29,
+        "lossFunctions": [
+          {
+            "type": "minPath",
+            "parameters": {
+              "targetPose": {
+                "position": {
+                  "x": 16.9999527,
+                  "y": 8.5,
+                  "z": 30.9997366
+                },
+                "rotation": {
+                  "x": -0.1985900024,
+                  "y": 0,
+                  "z": 0,
+                  "w": 0.9800826552
+                }
+              },
+              "targetIntrinsics": {
+                "fov": 43,
+                "aspectRatio": 1.7777777777777777
+              }
+            }
+          }
+        ],
+        "weight": 1,
+        "easing": {
+          "inDuration": 1,
+          "curve": "easeInOut"
+        }
+      },
+      {
+        "kind": "interval",
+        "shotStartTime": 0,
+        "startTime": 29,
+        "endTime": 35,
+        "lossFunctions": [
+          {
+            "type": "trackMovement",
+            "parameters": {
+              "subjectId": "ball",
+              "path": "spline",
+              "handheld": false
+            },
+            "sourceActionId": "stadium-03-decisive-play-shot-02"
+          }
+        ],
+        "weight": 1
+      },
+      {
+        "kind": "interval",
+        "shotStartTime": 0,
+        "startTime": 29,
+        "endTime": 35,
+        "lossFunctions": [
+          {
+            "type": "noShake",
+            "parameters": {},
+            "sourceActionId": "stadium-03-decisive-play-shot-02"
+          }
+        ],
+        "weight": 1
+      },
+      {
+        "kind": "interval",
+        "shotStartTime": 0,
+        "startTime": 29,
+        "endTime": 35,
+        "lossFunctions": [
+          {
+            "type": "keepInFrame",
+            "parameters": {
+              "subjectId": "ball"
+            },
+            "sourceActionId": "stadium-03-decisive-play-shot-02"
+          }
+        ],
+        "weight": 1
+      },
+      {
+        "kind": "point",
+        "shotStartTime": 0,
+        "time": 35,
+        "lossFunctions": [
+          {
+            "type": "minPath",
+            "parameters": {
+              "targetPose": {
+                "position": {
+                  "x": 33,
+                  "y": 8.5,
+                  "z": 23
+                },
+                "rotation": {
+                  "x": -0.1616238233,
+                  "y": -0.0993723965,
+                  "z": -0.0163603382,
+                  "w": 0.9817001609
+                }
+              },
+              "targetIntrinsics": {
+                "fov": 48,
+                "aspectRatio": 1.7777777777777777
+              }
+            }
+          }
+        ],
+        "weight": 1,
+        "easing": {
+          "inDuration": 1,
+          "curve": "easeInOut"
+        }
+      },
+      {
+        "kind": "interval",
+        "shotStartTime": 0,
+        "startTime": 35,
+        "endTime": 40,
+        "lossFunctions": [
+          {
+            "type": "Static",
+            "parameters": {
+              "subjectIds": [
+                "ball",
+                "goal_east"
+              ]
+            },
+            "sourceActionId": "stadium-03-decisive-play-shot-03"
+          }
+        ],
+        "weight": 1
+      },
+      {
+        "kind": "interval",
+        "shotStartTime": 0,
+        "startTime": 35,
+        "endTime": 40,
+        "lossFunctions": [
+          {
+            "type": "noShake",
+            "parameters": {},
+            "sourceActionId": "stadium-03-decisive-play-shot-03"
+          }
+        ],
+        "weight": 1
+      },
+      {
+        "kind": "interval",
+        "shotStartTime": 0,
+        "startTime": 35,
+        "endTime": 40,
+        "lossFunctions": [
+          {
+            "type": "keepInFrame",
+            "parameters": {
+              "subjectIds": [
+                "ball",
+                "goal_east"
+              ]
+            },
+            "sourceActionId": "stadium-03-decisive-play-shot-03"
+          }
+        ],
+        "weight": 1
+      },
+      {
+        "kind": "point",
+        "shotStartTime": 0,
+        "time": 40,
+        "lossFunctions": [
+          {
+            "type": "minPath",
+            "parameters": {
+              "targetPose": {
+                "position": {
+                  "x": 33,
+                  "y": 8.5,
+                  "z": 23
+                },
+                "rotation": {
+                  "x": -0.1616238233,
+                  "y": -0.0993723965,
+                  "z": -0.0163603382,
+                  "w": 0.9817001609
+                }
+              },
+              "targetIntrinsics": {
+                "fov": 48,
+                "aspectRatio": 1.7777777777777777
+              }
+            }
+          }
+        ],
+        "weight": 1,
+        "easing": {
+          "inDuration": 1,
+          "curve": "easeInOut"
+        }
+      },
+      {
+        "kind": "interval",
+        "shotStartTime": 0,
+        "startTime": 40,
+        "endTime": 48,
+        "lossFunctions": [
+          {
+            "type": "arcMovement",
+            "parameters": {
+              "sign": 1,
+              "subjectIds": [
+                "ball",
+                "goal_east"
+              ],
+              "path": "spline",
+              "handheld": false
+            },
+            "sourceActionId": "stadium-03-decisive-play-shot-04"
+          }
+        ],
+        "weight": 1
+      },
+      {
+        "kind": "interval",
+        "shotStartTime": 0,
+        "startTime": 40,
+        "endTime": 48,
+        "lossFunctions": [
+          {
+            "type": "noShake",
+            "parameters": {},
+            "sourceActionId": "stadium-03-decisive-play-shot-04"
+          }
+        ],
+        "weight": 1
+      },
+      {
+        "kind": "interval",
+        "shotStartTime": 0,
+        "startTime": 40,
+        "endTime": 48,
+        "lossFunctions": [
+          {
+            "type": "keepInFrame",
+            "parameters": {
+              "subjectIds": [
+                "ball",
+                "goal_east"
+              ]
+            },
+            "sourceActionId": "stadium-03-decisive-play-shot-04"
+          }
+        ],
+        "weight": 1
+      },
+      {
+        "kind": "point",
+        "shotStartTime": 0,
+        "time": 48,
+        "lossFunctions": [
+          {
+            "type": "minPath",
+            "parameters": {
+              "targetPose": {
+                "position": {
+                  "x": 36.8159907,
+                  "y": 8.5,
+                  "z": 23.9331262
+                },
+                "rotation": {
+                  "x": -0.1325695208,
+                  "y": -0.1975350791,
+                  "z": -0.0269715738,
+                  "w": 0.970915933
+                }
+              },
+              "targetIntrinsics": {
+                "fov": 44,
+                "aspectRatio": 1.7777777777777777
+              }
+            }
+          }
+        ],
+        "weight": 1,
+        "easing": {
+          "inDuration": 1,
+          "curve": "easeInOut"
+        }
+      }
+    ],
+    "timeWarp": [
+      {
+        "startTimePlayback": 0,
+        "endTimePlayback": 29,
+        "rate": 1,
+        "label": "normal"
+      },
+      {
+        "startTimePlayback": 29,
+        "endTimePlayback": 35,
+        "rate": 1,
+        "label": "normal"
+      },
+      {
+        "startTimePlayback": 35,
+        "endTimePlayback": 40,
+        "rate": 1,
+        "label": "normal"
+      },
+      {
+        "startTimePlayback": 40,
+        "endTimePlayback": 48,
+        "rate": 1,
+        "label": "normal"
+      }
+    ]
+  }
+}

@@ -1,0 +1,20 @@
+{
+  "schemaVersion": "1.0",
+  "kind": "videoShotMetadata",
+  "sceneId": "the-pianist",
+  "shotId": "orbit-360",
+  "environmentId": "the-pianist",
+  "subject": "subject_1",
+  "metersPerTrackerUnitApplied": 15.2,
+  "sourceEnvironmentSha256": "2299714898f642432a6935eca48948ef60d57e0fc90ffbdfdb42432aa040e1c8",
+  "draftCslSha256": "164ec9014251c4302c6a9c6cafe0a20a2bc72975e3535c0a4e1f59804ad69af0",
+  "keyframesSha256": "1ee09f621ecf04dd7ba8e0986db399d3a609aa4a0e0c67557bb1e09c81983571",
+  "options": {
+    "iterations": 5000,
+    "outputFps": 16,
+    "windowStartSeconds": 0,
+    "windowEndSeconds": 5
+  },
+  "referenceType": "optimizer-output",
+  "measuredGroundTruth": false
+}

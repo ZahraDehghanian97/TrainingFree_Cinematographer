@@ -1,12 +1,19 @@
-import {
+import type {
   CameraMovementType,
   ComparisonOperator,
   RelativeTimeReference,
   Scale,
   SpeedFunction,
   RelativeFPS,
+  ConstraintType,
 } from "./enums";
-import { CameraConfig, Target, Vector3 } from "./camera";
+import {
+  type CameraConfig,
+  type CameraTargetDescriptor,
+  type SubjectReference,
+  type Target,
+  type Vector3,
+} from "./camera";
 
 // ─── Triggers ────────────────────────────────────────────────────────────────
 
@@ -22,31 +29,56 @@ export interface RelativeTimeTrigger {
   offset: number; // seconds (can be negative)
 }
 
-export interface DistanceEventTrigger {
+export interface DistanceEventTrigger<
+  TTarget extends CameraTargetDescriptor = Target,
+> {
   type: "distance";
-  object1: Target;
-  object2: Target;
+  object1: TTarget;
+  object2: TTarget;
   operator: ComparisonOperator;
+  /** Nonnegative distance threshold in meters. Fires on the first matching sample. */
   distance: number;
 }
 
-export interface VelocityEventTrigger {
+export interface VelocityEventTrigger<
+  TTarget extends CameraTargetDescriptor = Target,
+> {
   type: "velocity";
-  subject: Target;
+  subject: TTarget;
   operator: ComparisonOperator;
-  speed: number;       // m/s
+  /** Threshold in m/s; signed only when direction is supplied. */
+  speed: number;
+  /**
+   * Nonzero finite world-space vector, normalized before use. When present,
+   * compare signed velocity projected along this direction; otherwise compare
+   * speed magnitude. Fires on the first sample satisfying the comparison.
+   */
   direction?: Vector3;
 }
 
-export type EventTrigger = DistanceEventTrigger | VelocityEventTrigger;
-export type Trigger = EventTrigger | AbsoluteTimeTrigger | RelativeTimeTrigger;
+export type EventTrigger<TTarget extends CameraTargetDescriptor = Target> =
+  | DistanceEventTrigger<TTarget>
+  | VelocityEventTrigger<TTarget>;
+export type Trigger<TTarget extends CameraTargetDescriptor = Target> =
+  | EventTrigger<TTarget>
+  | AbsoluteTimeTrigger
+  | RelativeTimeTrigger;
 
-export interface CompoundTrigger {
+/**
+ * Latched events: AND fires at the latest child event, OR at the earliest.
+ * Children need not remain true simultaneously. An OR may fire even if another
+ * branch never fires. An AND requires every branch to fire.
+ */
+export interface CompoundTrigger<
+  TTarget extends CameraTargetDescriptor = Target,
+> {
   operator: "and" | "or";
-  triggers: (Trigger | CompoundTrigger)[];
+  triggers: (Trigger<TTarget> | CompoundTrigger<TTarget>)[];
 }
 
-export type TriggerSpec = Trigger | CompoundTrigger;
+export type TriggerSpec<TTarget extends CameraTargetDescriptor = Target> =
+  | Trigger<TTarget>
+  | CompoundTrigger<TTarget>;
 
 // ─── Movement ────────────────────────────────────────────────────────────────
 
@@ -57,6 +89,7 @@ export interface SpeedKeyframe {
 }
 
 export interface MovementParameters {
+  // Omitted values are don't-care: only explicitly authored amounts constrain the move.
   // Arc / Orbit
   arcAngle?: number;
   arcRadius?: number;
@@ -71,21 +104,32 @@ export interface MovementParameters {
   heightChange?: number;
   horizontalDistance?: number;
 
-  // Zoom
+  // Zoom: optical focal-length multiplier (the inverse for ZoomOut), not FOV ratio.
   zoomFactor?: number;
 
   // Follow / Track
   followDelay?: number;
   leadAmount?: number;
 
+  // Permit an explicitly targeted camera move through its subject geometry.
+  allowSubjectIntersection?: boolean;
+
   // General
+  /** Authored handheld camera shake, layered on top of the movement path. */
+  handheld?: boolean;
+  /** Traverse the spatial camera path at constant speed, including a spiral. */
+  constantSpeed?: boolean;
+  // `curved` is a sinusoidal arch; legacy `spline` is a sinusoidal S-bend.
   path?: "linear" | "curved" | "spline";
   curveIntensity?: Scale;
 }
 
-export interface Movement {
+export interface Movement<TTarget extends CameraTargetDescriptor = Target> {
   act: CameraMovementType;
+  targets?: TTarget[];
   duration?: number;
+  // Relative speeds integrate to normalized progress and require positive area.
+  // Follow/Track apply this progress to the subject reference's playback clock.
   speedKeyframes?: SpeedKeyframe[];
   relativeFPS?: RelativeFPS;
   parameters?: MovementParameters;
@@ -93,35 +137,82 @@ export interface Movement {
 
 // ─── Constraints & Actions ───────────────────────────────────────────────────
 
-export interface ConstraintConfig {
-  targets?: Target[];
-  config: CameraConfig;
-  /** true → enforce on every frame; false → enforce only at the action's end */
-  allFrames: boolean;
+export type PointConstraintEasingCurve = "linear" | "easeIn" | "easeOut" | "easeInOut";
+
+/**
+ * Optional temporal falloff for a point-only constraint (`allFrames: false`).
+ * Durations are measured in seconds around the action end-time point.
+ */
+export interface PointConstraintEasing {
+  /** Fade the point constraint in during this many seconds before the point. */
+  inDuration?: number;
+  /** Fade the point constraint out during this many seconds after the point. */
+  outDuration?: number;
+  /** Defaults to `easeInOut`. */
+  curve?: PointConstraintEasingCurve;
 }
 
-export interface Action {
+export interface ConstraintConfig<
+  TTarget extends CameraTargetDescriptor = Target,
+> {
+  /** Discriminates this camera-config constraint from `kind: "general"`. */
+  kind?: never;
+  targets?: TTarget[];
+  config: CameraConfig<TTarget>;
+  /** true → enforce on every frame; false → enforce at the action end point. */
+  allFrames: boolean;
+  /** Optional soft temporal window for point-only constraints. Invalid when allFrames=true. */
+  easing?: PointConstraintEasing;
+}
+
+/** Environment/safety/regularity constraint compiled directly to a loss. */
+export interface GeneralConstraintConfig<
+  TTarget extends CameraTargetDescriptor = Target,
+> {
+  kind: "general";
+  constraint: ConstraintType;
+  targets?: TTarget[];
+  parameters?: Record<string, unknown>;
+  allFrames: boolean;
+  weight?: number;
+  easing?: PointConstraintEasing;
+}
+
+export type ActionConstraintConfig<
+  TTarget extends CameraTargetDescriptor = Target,
+> = ConstraintConfig<TTarget> | GeneralConstraintConfig<TTarget>;
+
+export interface Action<TTarget extends CameraTargetDescriptor = Target> {
   id: string;
   name?: string;
-  trigger: TriggerSpec;
-  movement: Movement;
+  trigger: TriggerSpec<TTarget>;
+  movement: Movement<TTarget>;
   priority?: number;
-  constraints?: ConstraintConfig[];
+  constraints?: ActionConstraintConfig<TTarget>[];
 }
 
 // ─── Section & Top-level DSL ─────────────────────────────────────────────────
 
-export interface InitCamera {
-  targets: Target[];
-  config: CameraConfig;
+export interface InitCamera<TTarget extends CameraTargetDescriptor = Target> {
+  targets: TTarget[];
+  config: CameraConfig<TTarget>;
 }
 
-export interface Section {
-  initCamera: InitCamera;
-  actions: Action[];
+export interface Section<TTarget extends CameraTargetDescriptor = Target> {
+  /** Omit when the director has not specified an initial camera configuration. */
+  initCamera?: InitCamera<TTarget>;
+  actions: Action<TTarget>[];
 }
 
-export interface CameraDirectionDSL {
-  sections: Section[];
+export interface CameraDirectionDSL<
+  TTarget extends CameraTargetDescriptor = Target,
+> {
+  sections: Section<TTarget>[];
   totalDuration: number;
 }
+
+/** Semantic CSL emitted before the 4D recognition module binds runtime IDs. */
+export type CameraDirectionDraft = CameraDirectionDSL<SubjectReference>;
+
+/** Executable CSL whose subject references have runtime 4D IDs. */
+export type ResolvedCameraDirectionDSL = CameraDirectionDSL<Target>;

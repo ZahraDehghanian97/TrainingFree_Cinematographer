@@ -1,0 +1,23 @@
+Create a 48-second safety-response film centred on worker_05 and control_station. The story is recognition, movement to the control, the emergency press, visible ramp-down, then the operator in relation to the wider crew. Use the open aisle to keep the operator and the front of the control panel readable. Do not imply that a pressed switch stops every machine instantaneously, or freeze the crew when the machinery stops.
+
+Playback 0–3 s (scene 0–6 s): Begin with a short 2x fast-motion passage through the operating line, moving inward 0.6 m toward the operator and control panel.
+
+Playback 3–6 s (scene 6–9 s): Return to real time, continuing inward another 0.6 m. Keep the control reachable in the composition.
+
+Playback 6–12 s (scene 9–15 s): Make an 8-degree arc at 7 m, staying in the clear aisle and never placing the cabinet between the camera and the operator.
+
+Playback 12–17 s (scene 15–20 s): Hold the operator and controls while the argument escalates in the background. Do not move the emergency action earlier than the authored event.
+
+Playback 17–20.4 s (scene 20–21.7 s): Run the scene at 0.5x from scene 20 s. Follow the operator moving to the panel; preserve feet, hand reach and the red control in one composition.
+
+Playback 20.4–22.4 s (scene 21.7–22.7 s): At 0.5x move inward only 0.25 m. The button depresses at scene 21.7 s / playback 20.4 s; the belt and robots decelerate until scene 22.7 s / playback 22.4 s.
+
+Playback 22.4–23 s (scene 22.7–23 s): Continue 0.5x briefly so the stopped belt and red status state can be read without an abrupt cut.
+
+Playback 23–30 s (scene 23–30 s): Return to real time and retreat 2 m to reconnect the control action with the settled cargo and surrounding people.
+
+Playback 30–40 s (scene 30–40 s): Rise 1.2 m and retreat 1.5 m into a wider crew tableau, staying below the roof.
+
+Playback 40–48 s (scene 40–48 s): Translate 2 m left along the clear aisle, preserving the operator and both workers in the final view.
+
+All intervals above are playback time; scene-time ranges explicitly identify the authored events. The time treatment applies to the entire environment, including props and performances, while the camera continues on playback time. Complete the full scene exactly once, from scene 0 to 48 s, in a 48-second film. Use non-overlapping relativeFPS intervals, a continuous camera pose, smooth camera acceleration and a level horizon. Use no cuts, teleports, unmotivated roll, random shake, new actors or invented events. Keep a collision-safe route and do not pass through subjects.

@@ -1,0 +1,98 @@
+{
+  "schemaVersion": "1.0",
+  "kind": "authoredReferenceMetadata",
+  "environmentId": "stadium",
+  "environmentSha256": "e7111e7cd27898d2b010c481223221f2c80e2908572890a5e6f88f25b4a44380",
+  "trajectorySha256": "57143788c417dfed4e8f234369c995a1a6b04f5ae1d9b57ec54a53663d6a7dae",
+  "source": "Deterministic authored storyboard, not optimized output or measured ground truth",
+  "events": [
+    {
+      "id": "race_start",
+      "label": "شروع مسابقه",
+      "type": "race_start",
+      "time": 2,
+      "subjects": [
+        "runner_01",
+        "runner_02",
+        "runner_03",
+        "runner_04",
+        "runner_05",
+        "runner_06"
+      ]
+    },
+    {
+      "id": "runner_fall",
+      "label": "زمین‌خوردن دوندهٔ سوم",
+      "type": "runner_fall",
+      "time": 13.7,
+      "subjects": [
+        "runner_03"
+      ],
+      "endTime": 16.8
+    },
+    {
+      "id": "runner_recovery",
+      "label": "بلندشدن و ادامهٔ مسابقه",
+      "type": "runner_recovery",
+      "time": 16.8,
+      "subjects": [
+        "runner_03"
+      ],
+      "endTime": 18
+    },
+    {
+      "id": "winner_finish",
+      "label": "عبور برنده از خط پایان",
+      "type": "winner_finish",
+      "time": 38,
+      "subjects": [
+        "runner_01",
+        "finish-ribbon"
+      ]
+    },
+    {
+      "id": "football_goal",
+      "label": "گل تیم قرمز، هم‌زمان با پایان دو",
+      "type": "football_goal",
+      "time": 38.2,
+      "subjects": [
+        "ball",
+        "goal_east",
+        "football_red_10"
+      ]
+    },
+    {
+      "id": "winner_jump",
+      "label": "پرش شادی برنده",
+      "type": "winner_jump",
+      "time": 39.3,
+      "subjects": [
+        "runner_01"
+      ],
+      "endTime": 40.3
+    },
+    {
+      "id": "flower_shower",
+      "label": "پرتاب گل از روی سکوها",
+      "type": "flower_shower",
+      "time": 39.4,
+      "subjects": [
+        "runner_01",
+        "spectator_047",
+        "spectator_059",
+        "spectator_048",
+        "spectator_071",
+        "spectator_046",
+        "spectator_060",
+        "spectator_058",
+        "spectator_072",
+        "spectator_070"
+      ],
+      "endTime": 44.5
+    }
+  ],
+  "limitations": [
+    "Camera reference requires visual review; camera optimizer is available separately.",
+    "Authored root motion and pose overlays are not a real-time physics simulation."
+  ]
+}

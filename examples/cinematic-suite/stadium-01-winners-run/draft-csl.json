@@ -1,0 +1,792 @@
+{
+  "totalDuration": 48,
+  "sections": [
+    {
+      "initCamera": {
+        "targets": [
+          {
+            "ref": "subject_runner_01",
+            "description": "دوندهٔ 1 · برنده / winner"
+          }
+        ],
+        "config": {
+          "type": "nonSubjectAware",
+          "extrinsics": {
+            "pose": {
+              "position": {
+                "x": -30.588929,
+                "y": 8.0,
+                "z": -45.61
+              },
+              "rotation": {
+                "x": -0.0430346423,
+                "y": 0.9538423912,
+                "z": 0.245900129,
+                "w": 0.166930641
+              }
+            }
+          },
+          "intrinsics": {
+            "fov": 45.0,
+            "aspectRatio": 1.7777777777777777
+          }
+        }
+      },
+      "actions": [
+        {
+          "id": "stadium-01-winners-run-shot-001",
+          "name": "Reveal the athlete, not just the venue",
+          "trigger": {
+            "type": "absoluteTime",
+            "time": 0
+          },
+          "movement": {
+            "act": "follow",
+            "duration": 6,
+            "relativeFPS": "normal",
+            "targets": [
+              {
+                "ref": "subject_runner_01",
+                "description": "دوندهٔ 1 · برنده / winner"
+              }
+            ],
+            "parameters": {
+              "path": "curved",
+              "curveIntensity": 2,
+              "followDelay": 0.12,
+              "leadAmount": 0.5,
+              "handheld": false
+            }
+          },
+          "constraints": [
+            {
+              "kind": "general",
+              "constraint": "noShake",
+              "allFrames": true
+            },
+            {
+              "kind": "general",
+              "constraint": "keepInFrame",
+              "targets": [
+                {
+                  "ref": "subject_runner_01",
+                  "description": "دوندهٔ 1 · برنده / winner"
+                }
+              ],
+              "allFrames": true
+            },
+            {
+              "kind": "general",
+              "constraint": "avoidOcclusion",
+              "targets": [
+                {
+                  "ref": "subject_runner_01",
+                  "description": "دوندهٔ 1 · برنده / winner"
+                }
+              ],
+              "allFrames": true,
+              "weight": 0.8
+            },
+            {
+              "targets": [
+                {
+                  "ref": "subject_runner_01",
+                  "description": "دوندهٔ 1 · برنده / winner"
+                }
+              ],
+              "config": {
+                "type": "subjectAware",
+                "shotSize": "longShot"
+              },
+              "allFrames": false,
+              "easing": {
+                "inDuration": 0.6,
+                "curve": "easeInOut"
+              }
+            }
+          ]
+        },
+        {
+          "id": "stadium-01-winners-run-shot-002",
+          "name": "Settle into side tracking",
+          "trigger": {
+            "type": "absoluteTime",
+            "time": 6
+          },
+          "movement": {
+            "act": "track",
+            "duration": 2,
+            "relativeFPS": "normal",
+            "targets": [
+              {
+                "ref": "subject_runner_01",
+                "description": "دوندهٔ 1 · برنده / winner"
+              }
+            ],
+            "parameters": {
+              "followDelay": 0.1,
+              "leadAmount": 1.2,
+              "handheld": false,
+              "path": "linear"
+            }
+          },
+          "constraints": [
+            {
+              "kind": "general",
+              "constraint": "noShake",
+              "allFrames": true
+            },
+            {
+              "kind": "general",
+              "constraint": "keepInFrame",
+              "targets": [
+                {
+                  "ref": "subject_runner_01",
+                  "description": "دوندهٔ 1 · برنده / winner"
+                }
+              ],
+              "allFrames": true
+            },
+            {
+              "kind": "general",
+              "constraint": "avoidOcclusion",
+              "targets": [
+                {
+                  "ref": "subject_runner_01",
+                  "description": "دوندهٔ 1 · برنده / winner"
+                }
+              ],
+              "allFrames": true,
+              "weight": 0.8
+            },
+            {
+              "targets": [
+                {
+                  "ref": "subject_runner_01",
+                  "description": "دوندهٔ 1 · برنده / winner"
+                }
+              ],
+              "config": {
+                "type": "subjectAware",
+                "shotSize": "longShot"
+              },
+              "allFrames": false,
+              "easing": {
+                "inDuration": 0.6,
+                "curve": "easeInOut"
+              }
+            }
+          ]
+        },
+        {
+          "id": "stadium-01-winners-run-shot-003",
+          "name": "Fast-motion momentum",
+          "trigger": {
+            "type": "absoluteTime",
+            "time": 8
+          },
+          "movement": {
+            "act": "follow",
+            "duration": 3,
+            "relativeFPS": "fast",
+            "targets": [
+              {
+                "ref": "subject_runner_01",
+                "description": "دوندهٔ 1 · برنده / winner"
+              }
+            ],
+            "parameters": {
+              "followDelay": 0.08,
+              "leadAmount": 1.6,
+              "handheld": false,
+              "path": "linear"
+            }
+          },
+          "constraints": [
+            {
+              "kind": "general",
+              "constraint": "noShake",
+              "allFrames": true
+            },
+            {
+              "kind": "general",
+              "constraint": "keepInFrame",
+              "targets": [
+                {
+                  "ref": "subject_runner_01",
+                  "description": "دوندهٔ 1 · برنده / winner"
+                }
+              ],
+              "allFrames": true
+            },
+            {
+              "kind": "general",
+              "constraint": "avoidOcclusion",
+              "targets": [
+                {
+                  "ref": "subject_runner_01",
+                  "description": "دوندهٔ 1 · برنده / winner"
+                }
+              ],
+              "allFrames": true,
+              "weight": 0.8
+            },
+            {
+              "targets": [
+                {
+                  "ref": "subject_runner_01",
+                  "description": "دوندهٔ 1 · برنده / winner"
+                }
+              ],
+              "config": {
+                "type": "subjectAware",
+                "shotSize": "longShot"
+              },
+              "allFrames": false,
+              "easing": {
+                "inDuration": 0.6,
+                "curve": "easeInOut"
+              }
+            }
+          ]
+        },
+        {
+          "id": "stadium-01-winners-run-shot-004",
+          "name": "Sustain the chase",
+          "trigger": {
+            "type": "absoluteTime",
+            "time": 11
+          },
+          "movement": {
+            "act": "track",
+            "duration": 17,
+            "relativeFPS": "normal",
+            "targets": [
+              {
+                "ref": "subject_runner_01",
+                "description": "دوندهٔ 1 · برنده / winner"
+              }
+            ],
+            "parameters": {
+              "followDelay": 0.12,
+              "leadAmount": 1.1,
+              "handheld": false,
+              "path": "linear"
+            }
+          },
+          "constraints": [
+            {
+              "kind": "general",
+              "constraint": "noShake",
+              "allFrames": true
+            },
+            {
+              "kind": "general",
+              "constraint": "keepInFrame",
+              "targets": [
+                {
+                  "ref": "subject_runner_01",
+                  "description": "دوندهٔ 1 · برنده / winner"
+                }
+              ],
+              "allFrames": true
+            },
+            {
+              "kind": "general",
+              "constraint": "avoidOcclusion",
+              "targets": [
+                {
+                  "ref": "subject_runner_01",
+                  "description": "دوندهٔ 1 · برنده / winner"
+                }
+              ],
+              "allFrames": true,
+              "weight": 0.8
+            },
+            {
+              "targets": [
+                {
+                  "ref": "subject_runner_01",
+                  "description": "دوندهٔ 1 · برنده / winner"
+                }
+              ],
+              "config": {
+                "type": "subjectAware",
+                "shotSize": "longShot"
+              },
+              "allFrames": false,
+              "easing": {
+                "inDuration": 0.6,
+                "curve": "easeInOut"
+              }
+            }
+          ]
+        },
+        {
+          "id": "stadium-01-winners-run-shot-005",
+          "name": "Anticipate the ribbon",
+          "trigger": {
+            "type": "absoluteTime",
+            "time": 28
+          },
+          "movement": {
+            "act": "follow",
+            "duration": 7,
+            "relativeFPS": "normal",
+            "targets": [
+              {
+                "ref": "subject_runner_01",
+                "description": "دوندهٔ 1 · برنده / winner"
+              }
+            ],
+            "parameters": {
+              "followDelay": 0.08,
+              "leadAmount": 2.2,
+              "handheld": false,
+              "path": "linear"
+            }
+          },
+          "constraints": [
+            {
+              "kind": "general",
+              "constraint": "noShake",
+              "allFrames": true
+            },
+            {
+              "kind": "general",
+              "constraint": "keepInFrame",
+              "targets": [
+                {
+                  "ref": "subject_runner_01",
+                  "description": "دوندهٔ 1 · برنده / winner"
+                }
+              ],
+              "allFrames": true
+            },
+            {
+              "kind": "general",
+              "constraint": "avoidOcclusion",
+              "targets": [
+                {
+                  "ref": "subject_runner_01",
+                  "description": "دوندهٔ 1 · برنده / winner"
+                }
+              ],
+              "allFrames": true,
+              "weight": 0.8
+            },
+            {
+              "targets": [
+                {
+                  "ref": "subject_runner_01",
+                  "description": "دوندهٔ 1 · برنده / winner"
+                }
+              ],
+              "config": {
+                "type": "subjectAware",
+                "shotSize": "longShot"
+              },
+              "allFrames": false,
+              "easing": {
+                "inDuration": 0.6,
+                "curve": "easeInOut"
+              }
+            }
+          ]
+        },
+        {
+          "id": "stadium-01-winners-run-shot-006",
+          "name": "Slow-motion finish and lift-off",
+          "trigger": {
+            "type": "absoluteTime",
+            "time": 35
+          },
+          "movement": {
+            "act": "arcRight",
+            "duration": 3.6,
+            "relativeFPS": "slow",
+            "targets": [
+              {
+                "ref": "subject_runner_01",
+                "description": "دوندهٔ 1 · برنده / winner"
+              }
+            ],
+            "parameters": {
+              "arcAngle": 12,
+              "arcRadius": 11,
+              "constantSpeed": true,
+              "handheld": false
+            }
+          },
+          "constraints": [
+            {
+              "kind": "general",
+              "constraint": "noShake",
+              "allFrames": true
+            },
+            {
+              "kind": "general",
+              "constraint": "keepInFrame",
+              "targets": [
+                {
+                  "ref": "subject_runner_01",
+                  "description": "دوندهٔ 1 · برنده / winner"
+                }
+              ],
+              "allFrames": true
+            },
+            {
+              "kind": "general",
+              "constraint": "avoidOcclusion",
+              "targets": [
+                {
+                  "ref": "subject_runner_01",
+                  "description": "دوندهٔ 1 · برنده / winner"
+                }
+              ],
+              "allFrames": true,
+              "weight": 0.8
+            },
+            {
+              "targets": [
+                {
+                  "ref": "subject_runner_01",
+                  "description": "دوندهٔ 1 · برنده / winner"
+                }
+              ],
+              "config": {
+                "type": "subjectAware",
+                "shotSize": "fullShot"
+              },
+              "allFrames": false,
+              "easing": {
+                "inDuration": 0.6,
+                "curve": "easeInOut"
+              }
+            }
+          ]
+        },
+        {
+          "id": "stadium-01-winners-run-shot-007",
+          "name": "Suspended victory",
+          "trigger": {
+            "type": "absoluteTime",
+            "time": 38.6
+          },
+          "movement": {
+            "act": "arcRight",
+            "duration": 0.7,
+            "relativeFPS": "frozen",
+            "targets": [
+              {
+                "ref": "subject_runner_01",
+                "description": "دوندهٔ 1 · برنده / winner"
+              }
+            ],
+            "parameters": {
+              "arcAngle": 3,
+              "arcRadius": 11,
+              "constantSpeed": true,
+              "handheld": false
+            }
+          },
+          "constraints": [
+            {
+              "kind": "general",
+              "constraint": "noShake",
+              "allFrames": true
+            },
+            {
+              "kind": "general",
+              "constraint": "keepInFrame",
+              "targets": [
+                {
+                  "ref": "subject_runner_01",
+                  "description": "دوندهٔ 1 · برنده / winner"
+                }
+              ],
+              "allFrames": true
+            },
+            {
+              "kind": "general",
+              "constraint": "avoidOcclusion",
+              "targets": [
+                {
+                  "ref": "subject_runner_01",
+                  "description": "دوندهٔ 1 · برنده / winner"
+                }
+              ],
+              "allFrames": true,
+              "weight": 0.8
+            },
+            {
+              "targets": [
+                {
+                  "ref": "subject_runner_01",
+                  "description": "دوندهٔ 1 · برنده / winner"
+                }
+              ],
+              "config": {
+                "type": "subjectAware",
+                "shotSize": "fullShot"
+              },
+              "allFrames": false,
+              "easing": {
+                "inDuration": 0.28,
+                "curve": "easeInOut"
+              }
+            }
+          ]
+        },
+        {
+          "id": "stadium-01-winners-run-shot-008",
+          "name": "Release the landing",
+          "trigger": {
+            "type": "absoluteTime",
+            "time": 39.3
+          },
+          "movement": {
+            "act": "follow",
+            "duration": 1.0,
+            "relativeFPS": "slow",
+            "targets": [
+              {
+                "ref": "subject_runner_01",
+                "description": "دوندهٔ 1 · برنده / winner"
+              }
+            ],
+            "parameters": {
+              "followDelay": 0,
+              "leadAmount": 0.8,
+              "handheld": false,
+              "path": "linear"
+            }
+          },
+          "constraints": [
+            {
+              "kind": "general",
+              "constraint": "noShake",
+              "allFrames": true
+            },
+            {
+              "kind": "general",
+              "constraint": "keepInFrame",
+              "targets": [
+                {
+                  "ref": "subject_runner_01",
+                  "description": "دوندهٔ 1 · برنده / winner"
+                }
+              ],
+              "allFrames": true
+            },
+            {
+              "kind": "general",
+              "constraint": "avoidOcclusion",
+              "targets": [
+                {
+                  "ref": "subject_runner_01",
+                  "description": "دوندهٔ 1 · برنده / winner"
+                }
+              ],
+              "allFrames": true,
+              "weight": 0.8
+            },
+            {
+              "targets": [
+                {
+                  "ref": "subject_runner_01",
+                  "description": "دوندهٔ 1 · برنده / winner"
+                }
+              ],
+              "config": {
+                "type": "subjectAware",
+                "shotSize": "fullShot"
+              },
+              "allFrames": false,
+              "easing": {
+                "inDuration": 0.4,
+                "curve": "easeInOut"
+              }
+            }
+          ]
+        },
+        {
+          "id": "stadium-01-winners-run-shot-009",
+          "name": "Lift into the flower shower",
+          "trigger": {
+            "type": "absoluteTime",
+            "time": 40.3
+          },
+          "movement": {
+            "act": "craneUp",
+            "duration": 3.7,
+            "relativeFPS": "normal",
+            "targets": [
+              {
+                "ref": "subject_runner_01",
+                "description": "دوندهٔ 1 · برنده / winner"
+              }
+            ],
+            "parameters": {
+              "heightChange": 3,
+              "horizontalDistance": 1.5,
+              "handheld": false,
+              "path": "linear"
+            }
+          },
+          "constraints": [
+            {
+              "kind": "general",
+              "constraint": "noShake",
+              "allFrames": true
+            },
+            {
+              "kind": "general",
+              "constraint": "keepInFrame",
+              "targets": [
+                {
+                  "ref": "subject_runner_01",
+                  "description": "دوندهٔ 1 · برنده / winner"
+                }
+              ],
+              "allFrames": true
+            },
+            {
+              "kind": "general",
+              "constraint": "avoidOcclusion",
+              "targets": [
+                {
+                  "ref": "subject_runner_01",
+                  "description": "دوندهٔ 1 · برنده / winner"
+                }
+              ],
+              "allFrames": true,
+              "weight": 0.8
+            },
+            {
+              "targets": [
+                {
+                  "ref": "subject_runner_01",
+                  "description": "دوندهٔ 1 · برنده / winner"
+                }
+              ],
+              "config": {
+                "type": "subjectAware",
+                "shotSize": "longShot"
+              },
+              "allFrames": false,
+              "easing": {
+                "inDuration": 0.6,
+                "curve": "easeInOut"
+              }
+            }
+          ]
+        },
+        {
+          "id": "stadium-01-winners-run-shot-010",
+          "name": "Earn the final wide",
+          "trigger": {
+            "type": "absoluteTime",
+            "time": 44
+          },
+          "movement": {
+            "act": "dollyOut",
+            "duration": 4,
+            "relativeFPS": "normal",
+            "targets": [
+              {
+                "ref": "subject_runner_01",
+                "description": "دوندهٔ 1 · برنده / winner"
+              }
+            ],
+            "parameters": {
+              "distance": 4,
+              "path": "curved",
+              "curveIntensity": 1,
+              "handheld": false
+            }
+          },
+          "constraints": [
+            {
+              "kind": "general",
+              "constraint": "noShake",
+              "allFrames": true
+            },
+            {
+              "kind": "general",
+              "constraint": "keepInFrame",
+              "targets": [
+                {
+                  "ref": "subject_runner_01",
+                  "description": "دوندهٔ 1 · برنده / winner"
+                }
+              ],
+              "allFrames": true
+            },
+            {
+              "kind": "general",
+              "constraint": "avoidOcclusion",
+              "targets": [
+                {
+                  "ref": "subject_runner_01",
+                  "description": "دوندهٔ 1 · برنده / winner"
+                }
+              ],
+              "allFrames": true,
+              "weight": 0.8
+            },
+            {
+              "targets": [
+                {
+                  "ref": "subject_runner_01",
+                  "description": "دوندهٔ 1 · برنده / winner"
+                }
+              ],
+              "config": {
+                "type": "subjectAware",
+                "shotSize": "longShot"
+              },
+              "allFrames": false,
+              "easing": {
+                "inDuration": 0.6,
+                "curve": "easeInOut"
+              }
+            }
+          ]
+        },
+        {
+          "id": "stadium-01-winners-run-overlay-01",
+          "name": "During the opening follow, lower the camera by 2 m.",
+          "trigger": {
+            "type": "absoluteTime",
+            "time": 0
+          },
+          "movement": {
+            "act": "craneDown",
+            "duration": 6,
+            "parameters": {
+              "heightChange": 2,
+              "handheld": false
+            }
+          }
+        },
+        {
+          "id": "stadium-01-winners-run-overlay-02",
+          "name": "During the approach to the finish, widen the lens by a restrained 1.15x.",
+          "trigger": {
+            "type": "absoluteTime",
+            "time": 28
+          },
+          "movement": {
+            "act": "zoomOut",
+            "duration": 7,
+            "parameters": {
+              "zoomFactor": 1.15,
+              "handheld": false
+            }
+          }
+        }
+      ]
+    }
+  ]
+}

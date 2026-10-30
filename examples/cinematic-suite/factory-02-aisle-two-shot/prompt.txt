@@ -1,0 +1,19 @@
+Film a restrained 48-second, real-time dramatic two-shot of worker_a and worker_b in the factory aisle. Treat movement as a response to their relationship: approach as they converge, shift slightly during the argument, retreat before the shove, and settle after the incident. Preserve screen direction and both bodies during the physical action. This film uses no slow motion, freeze or speed-up; its tension comes from blocking and camera distance.
+
+Playback 0–6 s (scene 0–6 s): Hold both workers inside an elevated aisle composition as they leave their stations and approach one another.
+
+Playback 6–12 s (scene 6–12 s): Dolly inward 1.3 m without crossing the conveyor or losing either participant. Let foreground machinery slide slowly away.
+
+Playback 12–17 s (scene 12–17 s): Make a restrained 8-degree arc at an 8 m radius, remaining on the same aisle side of the action axis.
+
+Playback 17–20 s (scene 17–20 s): Back off 1.4 m before the shove at scene 20 s. Preserve head-to-foot framing and the line edge into which worker_b will recoil.
+
+Playback 20–23 s (scene 20–23 s): Hold the frame through shove, recoil, rail collision, falling cargo and the start of the emergency stop. No sensational camera shake.
+
+Playback 23–29 s (scene 23–29 s): Lower the camera 0.45 m without changing sides; retain both workers and let the settled parts occupy the lower foreground.
+
+Playback 29–38 s (scene 29–38 s): Retreat 2 m into the wider crew response, allowing the emotional distance between the two workers to read.
+
+Playback 38–48 s (scene 38–48 s): Hold a quiet final two-shot with the stopped line behind them. Do not invent resumed production.
+
+All intervals above are playback time; scene-time ranges explicitly identify the authored events. The time treatment applies to the entire environment, including props and performances, while the camera continues on playback time. Complete the full scene exactly once, from scene 0 to 48 s, in a 48-second film. Use non-overlapping relativeFPS intervals, a continuous camera pose, smooth camera acceleration and a level horizon. Use no cuts, teleports, unmotivated roll, random shake, new actors or invented events. Keep a collision-safe route and do not pass through subjects.

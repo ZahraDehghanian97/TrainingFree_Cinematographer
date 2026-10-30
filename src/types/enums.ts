@@ -44,7 +44,7 @@ export enum CameraMovementType {
   ZoomIn = "zoomIn",
   ZoomOut = "zoomOut",
 
-  // Full orbit (360° around subject)
+  // Orbit around a subject; an explicit full turn uses arcAngle: 360.
   Orbit = "orbit",
 }
 
